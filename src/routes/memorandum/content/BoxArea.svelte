@@ -51,7 +51,6 @@
 {/await}
 
 <style type="scss">
-  @import "./_fonts";
   @import "./_variables";
 
   section {

@@ -6,25 +6,34 @@
   <title>Tilloh.dev</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<div class="home">
+  <h1>Great success!</h1>
 
-<figure>
-  <img alt="Success Kid" src={successkid} />
-  <figcaption>Have fun with Sapper!</figcaption>
-</figure>
+  <figure>
+    <img alt="Success Kid" src={successkid} />
+    <figcaption>Have fun with Sapper!</figcaption>
+  </figure>
 
-<p>
-  <strong
-    >Try editing this file (src/routes/index.svelte) to test live reloading.</strong
-  >
-</p>
+  <p>
+    <strong
+      >Try editing this file (src/routes/index.svelte) to test live reloading.</strong
+    >
+  </p>
+</div>
 
 <style>
+  .home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+  }
+
   h1,
   figure,
   p {
     text-align: center;
-    margin: 0 auto;
+    margin: 0;
   }
 
   h1 {

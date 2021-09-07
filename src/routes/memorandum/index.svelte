@@ -1,5 +1,4 @@
 <script>
-  import Header from "./content/Header.svelte";
   import Menu from "./content/Menu.svelte";
   import BoxArea from "./content/BoxArea.svelte";
   import Footer from "./content/Footer.svelte";
@@ -16,12 +15,17 @@
   });
 </script>
 
-  <main class={menuActive ? "menuActive" : "menuInactive"}>
-    <Header on:menuActive={(event) => (menuActive = event.detail)} />
+  <div class="memorandum_content">
+    <button
+      class={menuActive ? "active" : "inactive"}
+      on:click={() => {
+        menuActive = !menuActive;
+      }}
+    />
     <Menu isActive={menuActive} />
     <BoxArea />
     <Footer />
-  </main>
+  </div>
   {#if $linkOverlayOptions.showOverlay}
     <LinkOverlay
       newLinkName={$linkOverlayOptions.currLinkName}
@@ -30,41 +34,52 @@
   {/if}
 
 <style type="scss">
-  @import "./content/_fonts";
   @import "./content/_variables";
 
-  :global(html, body) {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    // font-family: "Audiowide";
-    overflow: hidden;
-  }
-  main {
+  div {
     width: 100%;
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url("../images/modernwork.jpg");
+    background-color: white;
     scroll-behavior: unset;
   }
 
-  .menuActive {
-    grid-template-rows: 10% 5% 80% 5%;
+  .memorandum_content {
+    grid-template-rows: 95% 5%;
+  }
 
-    @media #{$phone} {
-      grid-template-rows: 10% 10% 7% 5%;
-    }
+  button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    float: right;
+    background-image: url("../images/menu.png");
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: center;
+    padding: 0;
+    margin: 0;
+    color: white;
+    border: none;
+    box-shadow: $sharpen;
 
-    @media #{$tablet} {
-      grid-template-rows: 10% 6% 79% 5%;
+    &:hover {
+      background-color: $red;
     }
   }
 
-  .menuInactive {
-    grid-template-rows: 10% 85% 5%;
+  .active {
+    background-color: $red;
+
+    &:hover {
+      background-color: $red70;
+    }
+  }
+
+  .inactive {
+    background-color: $red70;
   }
 </style>

@@ -17,10 +17,15 @@
 {/if}
 
 <style type="scss">
-  @import "./_fonts";
   @import "./_variables";
 
   nav {
+    right: 0;
+    top: 50px;
+    float: right;
+    position: absolute;
+    width: 300px;
+    height: 50px;
     background-color: $darkgrey80;
     border-bottom: solid 1px black;
     box-shadow: 0 2px 10px $black80;

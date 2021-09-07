@@ -9,7 +9,6 @@
 </footer>
 
 <style type="scss">
-  @import "./_fonts";
   @import "./_variables";
 
   footer {

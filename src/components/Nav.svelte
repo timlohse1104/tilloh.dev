@@ -28,11 +28,14 @@
   </ul>
 </nav>
 
-<style>
+<style lang="scss">
+  @import "../routes/memorandum/content/_variables";
+
   nav {
     border-bottom: 1px solid rgba(255, 62, 0, 0.1);
     font-weight: 300;
     padding: 0 1em;
+    background-color: $lightgrey80;
   }
 
   ul {
