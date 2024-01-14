@@ -1,26 +1,80 @@
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+  <title>About me</title>
+  <meta name="description" content="About me" />
 </svelte:head>
 
 <div class="text-column">
-	<h1>About this app</h1>
+  <h1>About me</h1>
 
-	<p>
-		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
-		following into your command line and following the prompts:
-	</p>
+  <p>
+    Hey i am Tim Köster a software developer from Germany. I started working in
+    a tax office, broke up dual studies as a sales man and found true passion in
+    programming and especially web / infrastructure development @otto and
+    @stadtwerk.
+  </p>
 
-	<pre>npm create svelte@latest</pre>
+  <p>
+    I like to try out new and weird things <a
+      href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
+      >like this</a
+    >:
+  </p>
 
-	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
-	</p>
+  <pre>
+	<code>
+function genNumber&lpar;number&rpar; &lcub;
+  sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
+  return Array.from&lpar;&lcub; length: number &rcub;, &lpar;&rpar; =&gt; this.numbers&lsqb;'1'&rsqb;&rpar;.join&lpar;' + '&rpar;;
+&rcub;
 
-	<p>
-		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
-		using it with JavaScript disabled!
-	</p>
+alphabet = [];
+alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;`;
+	</code>
+  </pre>
+
+  <p>
+    or <a
+      href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
+      >like this</a
+    >:
+  </p>
+
+  <pre>
+	<code>
+const f = input
+  .split(&apos;\n&apos;)
+  .map((l, i, a) =&gt; &lcub;
+    const &#xCA0;_&#xCA0; = &lcub; name: &apos;&apos;, size: 0, dirs: [], files: [] &rcub;;
+    if (/^\$\s(cd)\s(\w+)|\//.test(l)) &lcub;
+      let j = i + 2;
+      &#xCA0;_&#xCA0;.name = l.replace(&apos;$ cd &apos;, &apos;&apos;);
+      while (!/^\$.+/.test(a[j]) &amp;&amp; a[j]) &lcub;
+        const e = &lcub;
+          type: /^\d+/.test(a[j]) ? &apos;file&apos; : &apos;dir&apos;,
+          name: a[j].replace(/^dir\s+/, &apos;&apos;),
+          size: /^\d+/.test(a[j]) ? Number(a[j].replace(/\s\w+.\w+/, &apos;&apos;)) : 0,
+		&rcub;;
+        /^\d+/.test(a[j]) ? &#xCA0;_&#xCA0;.files.push(e) : &#xCA0;_&#xCA0;.dirs.push(e);
+        j++;
+	  &rcub;
+	&rcub;
+    &#xCA0;_&#xCA0;.size = &#xCA0;_&#xCA0;.files.reduce((a, c) =&gt; a + c.size, 0);
+    return &#xCA0;_&#xCA0;;
+  &rcub;)
+  .filter((l) =&gt; l.name !== &apos;&apos;)
+  .reverse()
+  .map((d, i, a) =&gt; &lcub;
+    d.dirs.forEach((c) =&gt; &lcub;
+      d.size += a.find((e) =&gt; e.name === c.name)?.size;
+	&rcub;);
+    return d;
+  &rcub;);
+console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
+	</code>
+  </pre>
+
+  <p>
+    I also do useful things for <a href="https://deskbox-office.de">desk.box</a>
+    at work. I promise! 🤡
+  </p>
 </div>
