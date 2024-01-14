@@ -5,6 +5,12 @@
 	"/about": [
 		"src/routes/about/+page.ts"
 	],
+	"/catch-em-all": [
+		"src/routes/catch-em-all/+page.ts"
+	],
+	"/memorandum": [
+		"src/routes/memorandum/+page.ts"
+	],
 	"/sverdle": [
 		"src/routes/sverdle/+page.server.ts"
 	],
