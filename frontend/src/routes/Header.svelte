@@ -18,7 +18,7 @@
       </svg>
       <ul>
         <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-          <a href="/">Start</a>
+          <a href="/">Home</a>
         </li>
         <li
           aria-current={$page.url.pathname.startsWith('/sverdle')
