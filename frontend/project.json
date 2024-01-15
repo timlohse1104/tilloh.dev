@@ -5,13 +5,14 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/frontend",
-        "main": "./src/index.ts",
-        "tsConfig": "./tsconfig.lib.json",
-        "assets": ["*.md"]
+        "root": "frontend",
+        "entryPoints": {
+          "index": "frontend/src/main.tsx"
+        },
+        "outputPath": "dist/frontend"
       }
     },
     "lint": {
@@ -29,5 +30,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["type:frontend", "scope:frontend"]
 }
