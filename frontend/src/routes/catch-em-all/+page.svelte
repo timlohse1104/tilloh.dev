@@ -59,6 +59,7 @@
   #gameScreen {
     border: 1px solid grey;
     box-shadow: 1px 5px 10px;
+    height: 100%;
     margin: 0 auto;
   }
 </style>
