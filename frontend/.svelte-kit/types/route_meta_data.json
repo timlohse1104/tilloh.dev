@@ -10,11 +10,5 @@
 	],
 	"/memorandum": [
 		"src/routes/memorandum/+page.ts"
-	],
-	"/sverdle": [
-		"src/routes/sverdle/+page.server.ts"
-	],
-	"/sverdle/how-to-play": [
-		"src/routes/sverdle/how-to-play/+page.ts"
 	]
 }

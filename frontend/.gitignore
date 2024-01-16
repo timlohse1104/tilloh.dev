@@ -5,6 +5,9 @@ dist
 tmp
 /out-tsc
 
+# sveltekit
+.svelte-kit/
+
 # dependencies
 node_modules
 

@@ -13,38 +13,14 @@
       "_ssr.js"
     ]
   },
-  "_client.js": {
-    "file": "chunks/client.js",
-    "imports": [
-      "_exports.js"
-    ]
-  },
-  "_environment.js": {
-    "file": "chunks/environment.js",
-    "imports": [
-      "_prod-ssr.js"
-    ]
-  },
   "_exports.js": {
     "file": "chunks/exports.js"
-  },
-  "_index.js": {
-    "file": "chunks/index.js"
-  },
-  "_index2.js": {
-    "file": "chunks/index2.js",
-    "imports": [
-      "_ssr.js"
-    ]
   },
   "_internal.js": {
     "file": "chunks/internal.js",
     "imports": [
       "_ssr.js"
     ]
-  },
-  "_prod-ssr.js": {
-    "file": "chunks/prod-ssr.js"
   },
   "_ssr.js": {
     "file": "chunks/ssr.js"
@@ -53,7 +29,7 @@
     "file": "chunks/stores.js",
     "imports": [
       "_ssr.js",
-      "_client.js"
+      "_exports.js"
     ]
   },
   "node_modules/@fontsource/fira-mono/files/fira-mono-cyrillic-400-normal.woff": {
@@ -116,11 +92,9 @@
   "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
     "file": "index.js",
     "imports": [
-      "_prod-ssr.js",
       "_internal.js",
-      "_index.js",
       "_exports.js",
-      "_index2.js"
+      "_ssr.js"
     ],
     "isEntry": true,
     "src": "node_modules/@sveltejs/kit/src/runtime/server/index.js"
@@ -185,13 +159,13 @@
   },
   "src/routes/about/+page.ts": {
     "file": "entries/pages/about/_page.ts.js",
-    "imports": [
-      "_environment.js"
-    ],
     "isEntry": true,
     "src": "src/routes/about/+page.ts"
   },
   "src/routes/catch-em-all/+page.svelte": {
+    "css": [
+      "_app/immutable/assets/_page.U9CsSMvX.css"
+    ],
     "file": "entries/pages/catch-em-all/_page.svelte.js",
     "imports": [
       "_ssr.js"
@@ -201,9 +175,6 @@
   },
   "src/routes/catch-em-all/+page.ts": {
     "file": "entries/pages/catch-em-all/_page.ts.js",
-    "imports": [
-      "_environment.js"
-    ],
     "isEntry": true,
     "src": "src/routes/catch-em-all/+page.ts"
   },
@@ -217,50 +188,7 @@
   },
   "src/routes/memorandum/+page.ts": {
     "file": "entries/pages/memorandum/_page.ts.js",
-    "imports": [
-      "_environment.js"
-    ],
     "isEntry": true,
     "src": "src/routes/memorandum/+page.ts"
-  },
-  "src/routes/sverdle/+page.server.ts": {
-    "file": "entries/pages/sverdle/_page.server.ts.js",
-    "imports": [
-      "_index.js"
-    ],
-    "isEntry": true,
-    "src": "src/routes/sverdle/+page.server.ts"
-  },
-  "src/routes/sverdle/+page.svelte": {
-    "css": [
-      "_app/immutable/assets/_page.zpJKtCAG.css"
-    ],
-    "file": "entries/pages/sverdle/_page.svelte.js",
-    "imports": [
-      "_ssr.js",
-      "_client.js",
-      "_index2.js"
-    ],
-    "isEntry": true,
-    "src": "src/routes/sverdle/+page.svelte"
-  },
-  "src/routes/sverdle/how-to-play/+page.svelte": {
-    "css": [
-      "_app/immutable/assets/_page.lOqbKfPA.css"
-    ],
-    "file": "entries/pages/sverdle/how-to-play/_page.svelte.js",
-    "imports": [
-      "_ssr.js"
-    ],
-    "isEntry": true,
-    "src": "src/routes/sverdle/how-to-play/+page.svelte"
-  },
-  "src/routes/sverdle/how-to-play/+page.ts": {
-    "file": "entries/pages/sverdle/how-to-play/_page.ts.js",
-    "imports": [
-      "_environment.js"
-    ],
-    "isEntry": true,
-    "src": "src/routes/sverdle/how-to-play/+page.ts"
   }
 }

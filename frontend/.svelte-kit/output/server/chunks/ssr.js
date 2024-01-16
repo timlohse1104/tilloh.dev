@@ -52,9 +52,6 @@ function setContext(key, context) {
 function getContext(key) {
   return get_current_component().$$.context.get(key);
 }
-function ensure_array_like(array_like_or_iterator) {
-  return array_like_or_iterator?.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
-}
 const _boolean_attributes = (
   /** @type {const} */
   [
@@ -172,14 +169,6 @@ function escape_object(obj) {
   }
   return result;
 }
-function each(items, fn) {
-  items = ensure_array_like(items);
-  let str = "";
-  for (let i = 0; i < items.length; i += 1) {
-    str += fn(items[i], i);
-  }
-  return str;
-}
 const missing_component = {
   $$render: () => ""
 };
@@ -240,22 +229,21 @@ function style_object_to_string(style_object) {
   return Object.keys(style_object).filter((key) => style_object[key]).map((key) => `${key}: ${escape_attribute_value(style_object[key])};`).join(" ");
 }
 export {
-  compute_rest_props as a,
-  get_current_component as b,
+  setContext as a,
+  compute_rest_props as b,
   create_ssr_component as c,
-  subscribe as d,
-  escape as e,
-  add_attribute as f,
+  get_current_component as d,
+  subscribe as e,
+  escape as f,
   getContext as g,
-  spread as h,
-  escape_attribute_value as i,
-  escape_object as j,
-  each as k,
-  noop as l,
+  null_to_empty as h,
+  add_attribute as i,
+  spread as j,
+  escape_attribute_value as k,
+  escape_object as l,
   missing_component as m,
-  null_to_empty as n,
+  noop as n,
   onDestroy as o,
-  safe_not_equal as p,
-  setContext as s,
+  safe_not_equal as s,
   validate_component as v
 };
