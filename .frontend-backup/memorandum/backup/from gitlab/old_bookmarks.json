@@ -1,0 +1,196 @@
+{
+  "Categories": [
+    {
+      "catName": "Immer wichtig",
+      "links": [
+        {
+          "linkName": "YouTube",
+          "linkUrl": "http://youtube.de/"
+        },
+        {
+          "linkName": "Pixabay",
+          "linkUrl": "https://pixabay.com/de/"
+        },
+        {
+          "linkName": "WeTransfer",
+          "linkUrl": "https://wetransfer.com/"
+        },
+        {
+          "linkName": "SGSeth",
+          "linkUrl": "http://sgseth.de/"
+        },
+        {
+          "linkName": "TTLive",
+          "linkUrl": "https://segeberg.tischtennislive.de/default.aspx?L1=Ergebnisse&L2=TTStaffeln&L2P=12710"
+        },
+        {
+          "linkName": "Whatsapp Web",
+          "linkUrl": "https://web.whatsapp.com/"
+        }
+      ]
+    },
+    {
+      "catName": "NAK",
+      "links": [
+        {
+          "linkName": "NAK Moodle",
+          "linkUrl": "https://moodle2.nordakademie.de/login/"
+        },
+        {
+          "linkName": "NAK Mail",
+          "linkUrl": "https://owa.nordakademie.de/owa/#path=/mail"
+        },
+        {
+          "linkName": "NAK CIS",
+          "linkUrl": "https://cis.nordakademie.de/"
+        }
+      ]
+    },
+    {
+      "catName": "Coding",
+      "links": [
+        {
+          "linkName": "W3Schools",
+          "linkUrl": "https://www.w3schools.com/"
+        },
+        {
+          "linkName": "MDN web docs",
+          "linkUrl": "https://developer.mozilla.org/de/docs/Web/JavaScript"
+        },
+        {
+          "linkName": "AWS terraform guide",
+          "linkUrl": "http://blog.simontaranto.com/post/2016-10-31-configuring-a-static-website-on-aws-with-terraform.html/"
+        },
+        {
+          "linkName": "REST Quickstart",
+          "linkUrl": "https://developers.google.com/drive/api/v3/quickstart/js"
+        }
+      ]
+    },
+    {
+      "catName": "Bookmarklet Service",
+      "links": [
+        {
+          "linkName": "Trello Board",
+          "linkUrl": "https://trello.com/b/aY4BNsV5/mymemorandum"
+        },
+        {
+          "linkName": "Repository",
+          "linkUrl": "https://gitlab.com/Tilloh/timlohse.life"
+        },
+        {
+          "linkName": "Pipeline",
+          "linkUrl": "https://gitlab.com/Tilloh/timlohse.life/pipelines"
+        },
+        {
+          "linkName": "Uberspace",
+          "linkUrl": "https://dashboard.uberspace.de/login"
+        }
+      ]
+    },
+    {
+      "catName": "Svelte",
+      "links": [
+        {
+          "linkName": "Github",
+          "linkUrl": "https://github.com/sveltejs/svelte"
+        },
+        {
+          "linkName": "Website",
+          "linkUrl": "https://svelte.dev/"
+        },
+        {
+          "linkName": "Harris First svelte intro",
+          "linkUrl": "https://www.youtube.com/watch?v=AdNJ3fydeao"
+        },
+        {
+          "linkName": "Tic Tac Toe",
+          "linkUrl": "https://www.youtube.com/watch?v=S_6ApOagzzM"
+        },
+        {
+          "linkName": "Svelte vs Solid",
+          "linkUrl": "https://medium.com/@ryansolid/javascript-ui-compilers-comparing-svelte-and-solid-cbcba2120cea"
+        },
+        {
+          "linkName": "Blog Rethinking Reactivity",
+          "linkUrl": "https://svelte.dev/blog/svelte-3-rethinking-reactivity"
+        },
+        {
+          "linkName": "Svelte most beautiful Framework",
+          "linkUrl": "https://dev.to/jesseskinner/svelte-is-the-most-beautiful-web-framework-i-ve-ever-seen-325f"
+        },
+        {
+          "linkName": "Harris Why i dont use web components",
+          "linkUrl": "https://dev.to/richharris/why-i-don-t-use-web-components-2cia"
+        }
+      ]
+    },
+    {
+      "catName": "Linux Tutorials",
+      "links": [
+        {
+          "linkName": "OneDrive",
+          "linkUrl": "https://www.linuxuprising.com/2018/07/how-to-mount-onedrive-in-linux-using.html"
+        },
+        {
+          "linkName": "Sudo with paswword",
+          "linkUrl": "https://superuser.com/questions/67765/sudo-with-password-in-one-command-line"
+        },
+        {
+          "linkName": "DD to burn os images",
+          "linkUrl": "https://medium.com/@tbeach/use-unix-dd-command-to-os-bootable-on-usb-drive-6671945d95a6"
+        }
+      ]
+    },
+    {
+      "catName": "OTTO",
+      "links": [
+        {
+          "linkName": "OTTO Mail",
+          "linkUrl": "https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000002-0000-0ff1-ce00-000000000000&redirect_uri=https%3a%2f%2foutlook.office.com%2fmail%2f&resource=00000002-0000-0ff1-ce00-000000000000&response_mode=form_post&response_type=code+id_token&scope=openid&msafed=0&client-request-id=423489aa-094b-482b-85e1-22dfc7885c5e&protectedtoken=true&nonce=636999955476315197.038596de-76c8-4f3d-b760-2ff8523d7d7a&state=nY1LUoNAGIRBz4MMEGZgQVk_oiTKQyAwwg4zIE-rEiEBzutBnDPYVV93b7paFAThnnPHERE3gWANm1y6vuNV0RWTPCDN0E3MKongkyHtao1JnwQjSa1rQ1c1RhgpRb79FeWxbAcZIr8Hh_W-GzcB9RePvoyFk06Bm_XBivTASTfveNByGnchjbZ8AzWMYAYAJ-mXFRZzdFGYnffdMNvq0bg9g5cwOJvFPkO0BOqwd_npZ7nxxUeo4C-eYFlyy2SA6D_fERzW9G245uNrYTde8x3YSd5dfOuxnKcmrlh7qU6TNV3m6g8"
+        },
+        {
+          "linkName": "OttoGroupNet",
+          "linkUrl": "https://people.ottogroupnet.com/start.aspx"
+        },
+        {
+          "linkName": "OttoNet",
+          "linkUrl": "https://www.ottonet.de/new/default.aspx"
+        },
+        {
+          "linkName": "Pattern Library",
+          "linkUrl": "https://www.otto.de/pattern-library/"
+        },
+        {
+          "linkName": "Kochwerk",
+          "linkUrl": "https://buildmon.develop.ft3.cloud.otto.de/essen.html"
+        }
+      ]
+    },
+    {
+      "catName": "Shopping",
+      "links": [
+        {
+          "linkName": "Otto",
+          "linkUrl": "https://otto.de/"
+        },
+        {
+          "linkName": "Amazon",
+          "linkUrl": "https://www.amazon.de/"
+        },
+        {
+          "linkName": "eBay Kleinanzeigen",
+          "linkUrl": "https://www.ebay-kleinanzeigen.de/"
+        },
+        {
+          "linkName": "PSD Bank",
+          "linkUrl": "https://www.onlinebanking-psd-nord.de/banking-private/entry"
+        },
+        {
+          "linkName": "Paypal",
+          "linkUrl": "https://www.paypal.com/de/signin"
+        }
+      ]
+    }
+  ]
+}
