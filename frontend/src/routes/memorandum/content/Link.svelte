@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-nocheck
 
@@ -8,6 +8,12 @@
   export let linkId;
   export let linkName;
   export let linkUrl;
+
+  const url = new URL(linkUrl);
+  const baseUrl = url.hostname;
+  let domain = baseUrl.split('.').slice(-2).join('.');
+  let mainUrl = `https://${domain}`;
+  let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
 </script>
 
 <div
@@ -22,10 +28,7 @@
     })}
   role="presentation"
 >
-  <img
-    alt="Website logo of {linkName}"
-    src="https://www.google.com/s2/favicons?domain={linkUrl}"
-  />
+  <img alt="Website logo of {linkName}" src={faviconLink} />
 
   <a href={linkUrl}>
     {linkName}
