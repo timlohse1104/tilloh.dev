@@ -62,9 +62,11 @@
     {#if type === 'new'}
       <h1>Erstelle einen Link</h1>
     {:else}
-      <h1>Bearbeite ''{newLinkName}'' Link</h1>
+      <h2 id="editLinkText">Bearbeite den Link</h2>
+      <h1 id="linkName">{newLinkName}</h1>
     {/if}
-    <h2>Im Ordner ''{$linkOverlayOptions.currentFolder}''</h2>
+    <h3 id="editLinkFolder">Im Ordner</h3>
+    <h2 id="folderName">{$linkOverlayOptions.currentFolder}</h2>
   </div>
   <div id="insertContent">
     <input
@@ -193,18 +195,35 @@
     justify-content: center;
     width: 300px;
     height: 100px;
+    transition: all 0.3s ease 0s;
+  }
+
+  #editLinkText {
+    color: $light80;
+  }
+
+  #linkName {
+    font-weight: 600;
+  }
+
+  #editLinkFolder {
+    color: $light80;
+  }
+
+  #folderName {
+    font-weight: 600;
   }
 
   .disabled {
-    background-color: $white30;
+    background-color: $lightgrey80;
   }
 
   .enabled {
-    background-color: $red70;
-    box-shadow: 2px 2px $red70;
+    background-color: $green70;
 
     &:hover {
-      background-color: $red;
+      box-shadow: 2px 2px $green;
+      background-color: $green;
     }
   }
 </style>

@@ -19,7 +19,7 @@
         <Icon class="material-icons">info</Icon>
       </IconButton>
       <Tooltip xPos="end" yPos="above"
-        >Willst du was bearbeiten? Versuchs mal mit einem Doppelklick.</Tooltip
+        >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
       >
     </Wrapper>
   </div>
@@ -45,7 +45,6 @@
     bottom: 20px;
     right: -18rem;
     margin: 1rem;
-    z-index: 100;
 
     @media #{$phone} {
       right: -15rem;

@@ -117,5 +117,4 @@ button:focus:not(:focus-visible) {
   background-color: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid rgba(34, 34, 34, 0.8);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  z-index: 100;
 }
