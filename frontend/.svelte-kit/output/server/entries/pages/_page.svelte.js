@@ -1,5 +1,6 @@
-import { c as create_ssr_component, b as compute_rest_props, d as get_current_component, j as spread, k as escape_attribute_value, l as escape_object, i as add_attribute, g as getContext, a as setContext, o as onDestroy, v as validate_component, m as missing_component, e as subscribe } from "../../chunks/ssr.js";
-import { f as forwardEventsBuilder, c as classMap, S as SmuiElement, g as globals, C as CommonIcon } from "../../chunks/Svg.js";
+import { c as create_ssr_component, d as compute_rest_props, g as get_current_component, f as spread, h as escape_attribute_value, i as escape_object, b as add_attribute, a as subscribe, v as validate_component } from "../../chunks/ssr.js";
+import { f as forwardEventsBuilder, c as classMap, C as CommonIcon } from "../../chunks/Svg.js";
+import { c as classAdderBuilder } from "../../chunks/classAdderBuilder.js";
 import { p as page } from "../../chunks/stores.js";
 const Paper = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$restProps = compute_rest_props($$props, ["use", "class", "variant", "square", "color", "elevation", "transition", "getElement"]);
@@ -51,110 +52,6 @@ const Paper = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {}
   )}${add_attribute("this", element, 0)}>${slots.default ? slots.default({}) : ``} </div>`;
 });
-const { Object: Object_1 } = globals;
-const internals = {
-  component: SmuiElement,
-  tag: "div",
-  class: "",
-  classMap: {},
-  contexts: {},
-  props: {}
-};
-const ClassAdder = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $$restProps = compute_rest_props($$props, ["use", "class", "component", "tag", "getElement"]);
-  let { use = [] } = $$props;
-  let { class: className = "" } = $$props;
-  let element;
-  const smuiClass = internals.class;
-  const smuiClassMap = {};
-  const smuiClassUnsubscribes = [];
-  const contexts = internals.contexts;
-  const props = internals.props;
-  let { component = internals.component } = $$props;
-  let { tag = component === SmuiElement ? internals.tag : void 0 } = $$props;
-  Object.entries(internals.classMap).forEach(([name, context]) => {
-    const store = getContext(context);
-    if (store && "subscribe" in store) {
-      smuiClassUnsubscribes.push(store.subscribe((value) => {
-        smuiClassMap[name] = value;
-      }));
-    }
-  });
-  const forwardEvents = forwardEventsBuilder(get_current_component());
-  for (let context in contexts) {
-    if (contexts.hasOwnProperty(context)) {
-      setContext(context, contexts[context]);
-    }
-  }
-  onDestroy(() => {
-    for (const unsubscribe of smuiClassUnsubscribes) {
-      unsubscribe();
-    }
-  });
-  function getElement() {
-    return element.getElement();
-  }
-  if ($$props.use === void 0 && $$bindings.use && use !== void 0)
-    $$bindings.use(use);
-  if ($$props.class === void 0 && $$bindings.class && className !== void 0)
-    $$bindings.class(className);
-  if ($$props.component === void 0 && $$bindings.component && component !== void 0)
-    $$bindings.component(component);
-  if ($$props.tag === void 0 && $$bindings.tag && tag !== void 0)
-    $$bindings.tag(tag);
-  if ($$props.getElement === void 0 && $$bindings.getElement && getElement !== void 0)
-    $$bindings.getElement(getElement);
-  let $$settled;
-  let $$rendered;
-  let previous_head = $$result.head;
-  do {
-    $$settled = true;
-    $$result.head = previous_head;
-    $$rendered = `${validate_component(component || missing_component, "svelte:component").$$render(
-      $$result,
-      Object_1.assign(
-        {},
-        { tag },
-        { use: [forwardEvents, ...use] },
-        {
-          class: classMap({
-            [className]: true,
-            [smuiClass]: true,
-            ...smuiClassMap
-          })
-        },
-        props,
-        $$restProps,
-        { this: element }
-      ),
-      {
-        this: ($$value) => {
-          element = $$value;
-          $$settled = false;
-        }
-      },
-      {
-        default: () => {
-          return `${slots.default ? slots.default({}) : ``}`;
-        }
-      }
-    )}`;
-  } while (!$$settled);
-  return $$rendered;
-});
-const defaults = Object.assign({}, internals);
-function classAdderBuilder(props) {
-  return new Proxy(ClassAdder, {
-    construct: function(target, args) {
-      Object.assign(internals, defaults, props);
-      return new target(...args);
-    },
-    get: function(target, prop) {
-      Object.assign(internals, defaults, props);
-      return target[prop];
-    }
-  });
-}
 classAdderBuilder({
   class: "smui-paper__content",
   tag: "div"
@@ -359,6 +256,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
             class: "solo-input",
             type: "text",
             name: "q",
+            autofocus: true,
             value
           },
           {

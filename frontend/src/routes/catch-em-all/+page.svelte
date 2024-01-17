@@ -49,7 +49,7 @@
   <meta name="ssr" content="false" />
 </svelte:head>
 
-<div class="text-column">
+<div class="headline">
   <h1>Catch-em-all</h1>
 </div>
 

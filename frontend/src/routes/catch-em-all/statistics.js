@@ -5,7 +5,7 @@ import { browser } from '$app/environment';
 
 export function isLocalHighscorePresent() {
   const highscore = browser
-    ? window.localStorage.getItem('localHighscore') ?? ''
+    ? window.localStorage.getItem('localHighscore')
     : '';
   return highscore ? true : false;
 }

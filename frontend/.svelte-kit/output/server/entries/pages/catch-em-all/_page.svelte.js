@@ -5,7 +5,7 @@ const css = {
 };
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
-  return `${$$result.head += `<!-- HEAD_svelte-oi96ow_START -->${$$result.title = `<title>Catch-em-all</title>`, ""}<meta name="description" content="Catch-em-all"><meta name="ssr" content="false"><!-- HEAD_svelte-oi96ow_END -->`, ""} <div class="text-column" data-svelte-h="svelte-4g3m7y"><h1>Catch-em-all</h1></div> <canvas id="gameScreen" class="svelte-nixbjo"></canvas>`;
+  return `${$$result.head += `<!-- HEAD_svelte-oi96ow_START -->${$$result.title = `<title>Catch-em-all</title>`, ""}<meta name="description" content="Catch-em-all"><meta name="ssr" content="false"><!-- HEAD_svelte-oi96ow_END -->`, ""} <div class="headline" data-svelte-h="svelte-1q3eupa"><h1>Catch-em-all</h1></div> <canvas id="gameScreen" class="svelte-nixbjo"></canvas>`;
 });
 export {
   Page as default

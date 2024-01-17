@@ -1,5 +1,9 @@
 function noop() {
 }
+function is_promise(value) {
+  return !!value && (typeof value === "object" || typeof value === "function") && typeof /** @type {any} */
+  value.then === "function";
+}
 function run(fn) {
   return fn();
 }
@@ -33,6 +37,13 @@ function compute_rest_props(props, keys) {
 function null_to_empty(value) {
   return value == null ? "" : value;
 }
+function set_store_value(store, ret, value) {
+  store.set(value);
+  return ret;
+}
+function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
+  return new CustomEvent(type, { detail, bubbles, cancelable });
+}
 let current_component;
 function set_current_component(component) {
   current_component = component;
@@ -45,12 +56,34 @@ function get_current_component() {
 function onDestroy(fn) {
   get_current_component().$$.on_destroy.push(fn);
 }
+function createEventDispatcher() {
+  const component = get_current_component();
+  return (type, detail, { cancelable = false } = {}) => {
+    const callbacks = component.$$.callbacks[type];
+    if (callbacks) {
+      const event = custom_event(
+        /** @type {string} */
+        type,
+        detail,
+        { cancelable }
+      );
+      callbacks.slice().forEach((fn) => {
+        fn.call(component, event);
+      });
+      return !event.defaultPrevented;
+    }
+    return true;
+  };
+}
 function setContext(key, context) {
   get_current_component().$$.context.set(key, context);
   return context;
 }
 function getContext(key) {
   return get_current_component().$$.context.get(key);
+}
+function ensure_array_like(array_like_or_iterator) {
+  return array_like_or_iterator?.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
 }
 const _boolean_attributes = (
   /** @type {const} */
@@ -169,6 +202,14 @@ function escape_object(obj) {
   }
   return result;
 }
+function each(items, fn) {
+  items = ensure_array_like(items);
+  let str = "";
+  for (let i = 0; i < items.length; i += 1) {
+    str += fn(items[i], i);
+  }
+  return str;
+}
 const missing_component = {
   $$render: () => ""
 };
@@ -229,21 +270,25 @@ function style_object_to_string(style_object) {
   return Object.keys(style_object).filter((key) => style_object[key]).map((key) => `${key}: ${escape_attribute_value(style_object[key])};`).join(" ");
 }
 export {
-  setContext as a,
-  compute_rest_props as b,
+  subscribe as a,
+  add_attribute as b,
   create_ssr_component as c,
-  get_current_component as d,
-  subscribe as e,
-  escape as f,
-  getContext as g,
-  null_to_empty as h,
-  add_attribute as i,
-  spread as j,
-  escape_attribute_value as k,
-  escape_object as l,
+  compute_rest_props as d,
+  escape as e,
+  spread as f,
+  get_current_component as g,
+  escape_attribute_value as h,
+  escape_object as i,
+  getContext as j,
+  set_store_value as k,
+  createEventDispatcher as l,
   missing_component as m,
-  noop as n,
+  null_to_empty as n,
   onDestroy as o,
-  safe_not_equal as s,
+  is_promise as p,
+  noop as q,
+  each as r,
+  setContext as s,
+  safe_not_equal as t,
   validate_component as v
 };

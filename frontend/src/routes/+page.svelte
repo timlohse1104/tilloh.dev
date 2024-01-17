@@ -28,6 +28,7 @@
           class="solo-input"
           type="text"
           name="q"
+          autofocus
         />
       </Paper>
     </form>
