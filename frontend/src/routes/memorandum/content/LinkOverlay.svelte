@@ -77,7 +77,8 @@
       placeholder="Link Name"
       on:keyup={(event) => {
         if (event.code === 'Enter') {
-          type === 'new' ? addLink : editLink;
+          console.log('Link Name', event.code);
+          type === 'new' ? addLink() : editLink();
         }
       }}
     />
@@ -87,9 +88,9 @@
       bind:value={newLinkUrl}
       placeholder="Link URL"
       on:keyup={(event) => {
-        console.log('key pressed', event.code);
         if (event.code === 'Enter') {
-          type === 'new' ? addLink : editLink;
+          console.log('Link Name', event.code);
+          type === 'new' ? addLink() : editLink();
         }
       }}
     />
