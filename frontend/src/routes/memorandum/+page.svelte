@@ -12,6 +12,7 @@
   <meta name="description" content="Memorandum" />
 </svelte:head>
 
+<!-- Durch TopAppBar ablösen? -->
 <div class="editTooltip">
   <Wrapper>
     <IconButton size="mini">

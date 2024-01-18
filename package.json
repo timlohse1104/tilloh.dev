@@ -6,6 +6,7 @@
   "private": true,
   "devDependencies": {
     "@nx/js": "17.2.8",
+    "@smui/top-app-bar": "^7.0.0-beta.16",
     "npm": "^10.3.0",
     "nx": "17.2.8"
   },

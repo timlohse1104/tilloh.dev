@@ -33,7 +33,9 @@
   </div>
 </section>
 
-<style>
+<style lang="scss">
+  @import '$lib/styles/_variables';
+
   section {
     display: flex;
     flex-direction: column;
@@ -57,7 +59,6 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    max-width: 600px;
     width: 80vw;
     margin: 0 12px;
     padding: 0 12px;
