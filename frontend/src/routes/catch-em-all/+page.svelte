@@ -49,17 +49,51 @@
   <meta name="ssr" content="false" />
 </svelte:head>
 
-<div class="headline">
-  <h1>Catch-em-all</h1>
-</div>
-
 <canvas id="gameScreen"></canvas>
 
-<style>
+<div class="mobileMessage">
+  <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
+  <h1>Oh nein...</h1>
+  <h2>
+    Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen
+    optimiert.
+  </h2>
+</div>
+
+<style lang="scss">
+  @import '$lib/styles/_variables';
+
   #gameScreen {
     border: 1px solid grey;
     box-shadow: 1px 5px 10px;
     height: 100%;
-    margin: 0 auto;
+    margin: 3rem auto 0 auto;
+
+    @media #{$phone} {
+      display: none;
+    }
+
+    @media #{$tablet} {
+      display: none;
+    }
+  }
+
+  .mobileMessage {
+    display: none;
+    text-align: center;
+
+    img {
+      width: 50vw;
+      height: auto;
+      margin-top: 8em;
+    }
+
+    @media #{$phone} {
+      display: block;
+    }
+
+    @media #{$tablet} {
+      display: block;
+    }
   }
 </style>

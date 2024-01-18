@@ -12,18 +12,15 @@
   <meta name="description" content="Memorandum" />
 </svelte:head>
 
-<div class="headline">
-  <div class="editTooltip">
-    <Wrapper>
-      <IconButton size="mini">
-        <Icon class="material-icons">info</Icon>
-      </IconButton>
-      <Tooltip xPos="end" yPos="above"
-        >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
-      >
-    </Wrapper>
-  </div>
-  <h1>Memorandum</h1>
+<div class="editTooltip">
+  <Wrapper>
+    <IconButton size="mini">
+      <Icon class="material-icons">info</Icon>
+    </IconButton>
+    <Tooltip xPos="end" yPos="above"
+      >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
+    >
+  </Wrapper>
 </div>
 
 <div class="boxArea">
@@ -41,14 +38,9 @@
   @import '$lib/styles/_variables';
 
   .editTooltip {
-    position: relative;
-    bottom: 20px;
-    right: -18rem;
-    margin: 1rem;
-
-    @media #{$phone} {
-      right: -15rem;
-    }
+    position: absolute;
+    left: 0.25rem;
+    top: 5.5rem;
   }
 
   .boxArea {

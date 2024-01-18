@@ -13,8 +13,6 @@
 </svelte:head>
 
 <section>
-  <h1>tilloh.dev</h1>
-
   <Navigation />
 
   <div class="search-container">
@@ -44,12 +42,6 @@
     flex: 0.8;
   }
 
-  h1 {
-    width: 100%;
-    color: var(--mdc-theme-on-surface, #fff);
-  }
-
-  /* Search styling */
   .search-container {
     display: flex;
     justify-content: center;
@@ -66,6 +58,7 @@
     align-items: center;
     flex-grow: 1;
     max-width: 600px;
+    width: 80vw;
     margin: 0 12px;
     padding: 0 12px;
     height: 48px;

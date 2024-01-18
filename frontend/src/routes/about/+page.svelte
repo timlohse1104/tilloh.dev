@@ -3,10 +3,6 @@
   <meta name="description" content="About me" />
 </svelte:head>
 
-<div class="headline">
-  <h1>About me</h1>
-</div>
-
 <div class="main">
   <p>
     Hey i am Tim Köster a software developer from Germany. I started working in
@@ -83,7 +79,7 @@
 
 <style lang="scss">
   .main {
-    max-width: 64rem;
+    max-width: 80vw;
     margin: 0 auto;
   }
 </style>
