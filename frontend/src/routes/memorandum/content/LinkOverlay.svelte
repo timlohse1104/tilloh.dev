@@ -76,8 +76,8 @@
       bind:value={newLinkName}
       placeholder="Link Name"
       on:keyup={(event) => {
-        if (event.keyCode === 13) {
-          type === 'new' ? addLink() : editLink();
+        if (event.code === 'Enter') {
+          type === 'new' ? addLink : editLink;
         }
       }}
     />
@@ -87,7 +87,8 @@
       bind:value={newLinkUrl}
       placeholder="Link URL"
       on:keyup={(event) => {
-        if (event.keyCode === 13) {
+        console.log('key pressed', event.code);
+        if (event.code === 'Enter') {
           type === 'new' ? addLink : editLink;
         }
       }}
@@ -103,7 +104,7 @@
   </button>
 </section>
 <svelte:window
-  on:keyup={(event) => (event.keyCode === 27 ? closeOverlay() : 'foo')}
+  on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
 
 <style lang="scss">

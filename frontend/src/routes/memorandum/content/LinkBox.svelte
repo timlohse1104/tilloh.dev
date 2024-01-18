@@ -56,7 +56,7 @@
   }
 
   function submitNewName(event) {
-    if (event.keyCode === 13 || event.keyCode === 27) {
+    if (event.code === 'Enter' || event.code === 'Escape') {
       toggleRename();
     }
   }
