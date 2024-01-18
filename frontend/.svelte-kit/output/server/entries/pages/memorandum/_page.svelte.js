@@ -277,6 +277,11 @@ const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { linkId } = $$props;
   let { linkName } = $$props;
   let { linkUrl } = $$props;
+  const url = new URL(linkUrl);
+  const baseUrl = url.hostname;
+  let domain = baseUrl.split(".").slice(-2).join(".");
+  let mainUrl = `https://${domain}`;
+  let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
   if ($$props.linkId === void 0 && $$bindings.linkId && linkId !== void 0)
     $$bindings.linkId(linkId);
   if ($$props.linkName === void 0 && $$bindings.linkName && linkName !== void 0)
@@ -284,7 +289,7 @@ const Link = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.linkUrl === void 0 && $$bindings.linkUrl && linkUrl !== void 0)
     $$bindings.linkUrl(linkUrl);
   $$result.css.add(css$6);
-  return `<div id="link"${add_attribute("draggable", true, 0)} role="presentation" class="svelte-1oip9lg"><img alt="${"Website logo of " + escape(linkName, true)}" src="${"https://www.google.com/s2/favicons?domain=" + escape(linkUrl, true)}" class="svelte-1oip9lg"> <a${add_attribute("href", linkUrl, 0)} class="svelte-1oip9lg">${escape(linkName)}</a> <button class="svelte-1oip9lg" data-svelte-h="svelte-1c8h5bc">-</button> </div>`;
+  return `<div id="link"${add_attribute("draggable", true, 0)} role="presentation" class="svelte-1oip9lg"><img alt="${"Website logo of " + escape(linkName, true)}"${add_attribute("src", faviconLink, 0)} class="svelte-1oip9lg"> <a${add_attribute("href", linkUrl, 0)} class="svelte-1oip9lg">${escape(linkName)}</a> <button class="svelte-1oip9lg" data-svelte-h="svelte-1c8h5bc">-</button> </div>`;
 });
 const css$5 = {
   code: 'section.svelte-d4v1t6{display:grid;height:calc(100% - 40px);margin:20px;grid-template-columns:calc(100% - 50px) 50px;grid-template-rows:50px calc(90% - 50px) 10%;grid-template-areas:"header delBtn" "content content" "addLinkBtn addLinkBtn";border:solid 3px rgba(34, 34, 34, 0.8)}section.svelte-d4v1t6:hover{box-shadow:0 0 20px rgba(255, 255, 255, 0.3)}.boxHeader.svelte-d4v1t6{grid-area:header;display:flex;align-items:center;font-weight:bolder;padding-left:20px;background-color:rgba(34, 34, 34, 0.8);text-shadow:2px 2px rgba(0, 0, 0, 0.8);font-size:18px}.boxHeaderEdit.svelte-d4v1t6{display:none;grid-area:header;align-items:center;padding-left:20px;font-size:18px;height:100%}.boxDelBtn.svelte-d4v1t6{grid-area:delBtn;margin:0;padding:0;width:100%;height:100%;border:none;color:rgba(250, 250, 250, 0.8);text-align:center;font-weight:bolder;background-color:rgba(34, 34, 34, 0.8);border-left:1px solid rgba(255, 255, 255, 0.3);text-shadow:2px 2px rgba(0, 0, 0, 0.8)}.boxDelBtn.svelte-d4v1t6:hover{background-color:rgb(210, 0, 30)}.boxContent.svelte-d4v1t6{grid-area:content;box-sizing:border-box;overflow:auto;background-color:rgba(0, 0, 0, 0.3)}.svelte-d4v1t6::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.3);border-radius:10px;background-color:rgba(34, 34, 34, 0.8)}.svelte-d4v1t6::-webkit-scrollbar{width:0px;background-color:rgba(34, 34, 34, 0.8)}.svelte-d4v1t6::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.3);background-color:rgba(210, 0, 30, 0.7)}.svelte-d4v1t6::-webkit-scrollbar-thumb:hover{background-color:rgb(210, 0, 30)}.linkAddBtn.svelte-d4v1t6{grid-area:addLinkBtn;margin:0;padding:0;width:100%;height:100%;border:none;color:rgba(250, 250, 250, 0.8);text-align:left;padding-left:20px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background-color:rgba(34, 34, 34, 0.8);text-shadow:2px 2px rgba(0, 0, 0, 0.8)}.linkAddBtn.svelte-d4v1t6:hover{background-color:rgb(0, 210, 53)}',
@@ -359,7 +364,7 @@ const BoxArea = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   }($localPreset)}`;
 });
 const css$1 = {
-  code: 'section.svelte-mh0zno.svelte-mh0zno{position:fixed;display:grid;width:100%;height:100%;background-color:rgba(34, 34, 34, 0.9);z-index:1;left:0;top:0;right:0;bottom:0;grid-template-columns:1fr;grid-template-rows:45% 35% 20%;grid-template-areas:"header" "input" "submit";justify-items:center}#exitOverlay.svelte-mh0zno.svelte-mh0zno{background-color:rgba(210, 0, 30, 0.7);padding:12px 18px;color:white;font-size:18px;border:solid 0px;box-shadow:2px 2px rgba(0, 0, 0, 0.8);position:absolute;top:0;right:0}#exitOverlay.svelte-mh0zno.svelte-mh0zno:hover{background-color:rgb(210, 0, 30)}#insertHead.svelte-mh0zno.svelte-mh0zno{grid-area:header;color:white;text-align:center;padding-top:100px}#insertHead.svelte-mh0zno h1.svelte-mh0zno{font-size:48px}#insertHead.svelte-mh0zno h2.svelte-mh0zno{font-size:34px}#insertContent.svelte-mh0zno.svelte-mh0zno{grid-area:input;width:100%;padding-top:50px;text-align:center}input.svelte-mh0zno.svelte-mh0zno{position:relative;width:75%;height:50px;font-size:18px;text-align:center;margin:20px 0 20px 0;outline:none}input.svelte-mh0zno.svelte-mh0zno:focus{background-color:rgba(150, 150, 150, 0.8);color:rgba(250, 250, 250, 0.8);border:solid 1px white}input.svelte-mh0zno.svelte-mh0zno:focus::placeholder{color:rgba(250, 250, 250, 0.8)}#submitOverlay.svelte-mh0zno.svelte-mh0zno{grid-area:submit;padding:12px 18px;color:white;font-size:32px;border:none;position:relative;align-items:center;justify-content:center;width:300px;height:100px}.disabled.svelte-mh0zno.svelte-mh0zno{background-color:rgba(255, 255, 255, 0.3)}.enabled.svelte-mh0zno.svelte-mh0zno{background-color:rgba(210, 0, 30, 0.7);box-shadow:2px 2px rgba(210, 0, 30, 0.7)}.enabled.svelte-mh0zno.svelte-mh0zno:hover{background-color:rgb(210, 0, 30)}',
+  code: 'section.svelte-1oce6o1.svelte-1oce6o1{position:fixed;display:grid;width:100%;height:100%;background-color:rgba(34, 34, 34, 0.9);z-index:1;left:0;top:0;right:0;bottom:0;grid-template-columns:1fr;grid-template-rows:45% 35% 20%;grid-template-areas:"header" "input" "submit";justify-items:center}#exitOverlay.svelte-1oce6o1.svelte-1oce6o1{background-color:rgba(210, 0, 30, 0.7);padding:12px 18px;color:white;font-size:18px;border:solid 0px;box-shadow:2px 2px rgba(0, 0, 0, 0.8);position:absolute;top:0;right:0}#exitOverlay.svelte-1oce6o1.svelte-1oce6o1:hover{background-color:rgb(210, 0, 30)}#insertHead.svelte-1oce6o1.svelte-1oce6o1{grid-area:header;color:white;text-align:center;padding-top:100px}#insertHead.svelte-1oce6o1 h1.svelte-1oce6o1{font-size:48px}#insertHead.svelte-1oce6o1 h2.svelte-1oce6o1{font-size:34px}#insertContent.svelte-1oce6o1.svelte-1oce6o1{grid-area:input;width:100%;padding-top:50px;text-align:center}input.svelte-1oce6o1.svelte-1oce6o1{position:relative;width:75%;height:50px;font-size:18px;text-align:center;margin:20px 0 20px 0;outline:none}input.svelte-1oce6o1.svelte-1oce6o1:focus{background-color:rgba(150, 150, 150, 0.8);color:rgba(250, 250, 250, 0.8);border:solid 1px white}input.svelte-1oce6o1.svelte-1oce6o1:focus::placeholder{color:rgba(250, 250, 250, 0.8)}#submitOverlay.svelte-1oce6o1.svelte-1oce6o1{grid-area:submit;padding:12px 18px;color:white;font-size:32px;border:none;position:relative;align-items:center;justify-content:center;width:300px;height:100px;transition:all 0.3s ease 0s}#editLinkText.svelte-1oce6o1.svelte-1oce6o1{color:rgba(250, 250, 250, 0.8)}#linkName.svelte-1oce6o1.svelte-1oce6o1{font-weight:600}#editLinkFolder.svelte-1oce6o1.svelte-1oce6o1{color:rgba(250, 250, 250, 0.8)}#folderName.svelte-1oce6o1.svelte-1oce6o1{font-weight:600}.disabled.svelte-1oce6o1.svelte-1oce6o1{background-color:rgba(150, 150, 150, 0.8)}.enabled.svelte-1oce6o1.svelte-1oce6o1{background-color:rgba(0, 210, 53, 0.7)}.enabled.svelte-1oce6o1.svelte-1oce6o1:hover{box-shadow:2px 2px rgb(0, 210, 53);background-color:rgb(0, 210, 53)}',
   map: null
 };
 const LinkOverlay = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -380,10 +385,10 @@ const LinkOverlay = create_ssr_component(($$result, $$props, $$bindings, slots) 
   submittable = newLinkName && newLinkUrl;
   $$unsubscribe_localPreset();
   $$unsubscribe_linkOverlayOptions();
-  return `<section class="svelte-mh0zno"><button id="exitOverlay" class="svelte-mh0zno" data-svelte-h="svelte-1gtd4w4">X</button> <div id="insertHead" class="svelte-mh0zno">${type === "new" ? `<h1 class="svelte-mh0zno" data-svelte-h="svelte-1hqoe8f">Erstelle einen Link</h1>` : `<h1 class="svelte-mh0zno">Bearbeite &#39;&#39;${escape(newLinkName)}&#39;&#39; Link</h1>`} <h2 class="svelte-mh0zno">Im Ordner &#39;&#39;${escape($linkOverlayOptions.currentFolder)}&#39;&#39;</h2></div> <div id="insertContent" class="svelte-mh0zno"><input maxlength="40" type="text" placeholder="Link Name" class="svelte-mh0zno"${add_attribute("this", nameInput, 0)}${add_attribute("value", newLinkName, 0)}> <input type="text" placeholder="Link URL" class="svelte-mh0zno"${add_attribute("value", newLinkUrl, 0)}></div> <button id="submitOverlay" class="${escape(null_to_empty(!submittable ? "disabled" : "enabled"), true) + " svelte-mh0zno"}" ${!submittable ? "disabled" : ""}>Speichern</button></section> `;
+  return `<section class="svelte-1oce6o1"><button id="exitOverlay" class="svelte-1oce6o1" data-svelte-h="svelte-1gtd4w4">X</button> <div id="insertHead" class="svelte-1oce6o1">${type === "new" ? `<h1 class="svelte-1oce6o1" data-svelte-h="svelte-1hqoe8f">Erstelle einen Link</h1>` : `<h2 id="editLinkText" class="svelte-1oce6o1" data-svelte-h="svelte-1dp7p9v">Bearbeite den Link</h2> <h1 id="linkName" class="svelte-1oce6o1">${escape(newLinkName)}</h1>`} <h3 id="editLinkFolder" class="svelte-1oce6o1" data-svelte-h="svelte-xuvzv0">Im Ordner</h3> <h2 id="folderName" class="svelte-1oce6o1">${escape($linkOverlayOptions.currentFolder)}</h2></div> <div id="insertContent" class="svelte-1oce6o1"><input maxlength="40" type="text" placeholder="Link Name" class="svelte-1oce6o1"${add_attribute("this", nameInput, 0)}${add_attribute("value", newLinkName, 0)}> <input type="text" placeholder="Link URL" class="svelte-1oce6o1"${add_attribute("value", newLinkUrl, 0)}></div> <button id="submitOverlay" class="${escape(null_to_empty(!submittable ? "disabled" : "enabled"), true) + " svelte-1oce6o1"}" ${!submittable ? "disabled" : ""}>Speichern</button></section> `;
 });
 const css = {
-  code: ".editTooltip.svelte-1pa7di1{position:relative;bottom:20px;right:-18rem;margin:1rem;z-index:100}@media only screen and (max-width : 767px){.editTooltip.svelte-1pa7di1{right:-15rem}}.boxArea.svelte-1pa7di1{height:75vh;display:grid;grid-template-columns:100%;background-size:cover;background-repeat:no-repeat;scroll-behavior:unset}",
+  code: ".editTooltip.svelte-bvag50{position:relative;bottom:20px;right:-18rem;margin:1rem}@media only screen and (max-width : 767px){.editTooltip.svelte-bvag50{right:-15rem}}.boxArea.svelte-bvag50{height:75vh;display:grid;grid-template-columns:100%;background-size:cover;background-repeat:no-repeat;scroll-behavior:unset}",
   map: null
 };
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -391,7 +396,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$unsubscribe_linkOverlayOptions = subscribe(linkOverlayOptions, (value) => $linkOverlayOptions = value);
   $$result.css.add(css);
   $$unsubscribe_linkOverlayOptions();
-  return `${$$result.head += `<!-- HEAD_svelte-1f5caq5_START -->${$$result.title = `<title>Memorandum</title>`, ""}<meta name="description" content="Memorandum"><!-- HEAD_svelte-1f5caq5_END -->`, ""} <div class="headline"><div class="editTooltip svelte-1pa7di1">${validate_component(Wrapper, "Wrapper").$$render($$result, {}, {}, {
+  return `${$$result.head += `<!-- HEAD_svelte-1f5caq5_START -->${$$result.title = `<title>Memorandum</title>`, ""}<meta name="description" content="Memorandum"><!-- HEAD_svelte-1f5caq5_END -->`, ""} <div class="headline"><div class="editTooltip svelte-bvag50">${validate_component(Wrapper, "Wrapper").$$render($$result, {}, {}, {
     default: () => {
       return `${validate_component(IconButton, "IconButton").$$render($$result, { size: "mini" }, {}, {
         default: () => {
@@ -403,11 +408,11 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
         }
       })} ${validate_component(Tooltip, "Tooltip").$$render($$result, { xPos: "end", yPos: "above" }, {}, {
         default: () => {
-          return `Willst du was bearbeiten? Versuchs mal mit einem Doppelklick.`;
+          return `Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.`;
         }
       })}`;
     }
-  })}</div> <h1 data-svelte-h="svelte-j2j4r">Memorandum</h1></div> <div class="boxArea svelte-1pa7di1">${validate_component(BoxArea, "BoxArea").$$render($$result, {}, {}, {})}</div> ${$linkOverlayOptions.showOverlay ? `${validate_component(LinkOverlay, "LinkOverlay").$$render(
+  })}</div> <h1 data-svelte-h="svelte-j2j4r">Memorandum</h1></div> <div class="boxArea svelte-bvag50">${validate_component(BoxArea, "BoxArea").$$render($$result, {}, {}, {})}</div> ${$linkOverlayOptions.showOverlay ? `${validate_component(LinkOverlay, "LinkOverlay").$$render(
     $$result,
     {
       newLinkName: $linkOverlayOptions.currLinkName,

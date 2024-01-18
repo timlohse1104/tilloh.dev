@@ -5,6 +5,6 @@ let component_cache;
 export const component = async () => component_cache ??= (await import('../entries/pages/memorandum/_page.svelte.js')).default;
 export { universal };
 export const universal_id = "src/routes/memorandum/+page.ts";
-export const imports = ["_app/immutable/nodes/5.X6v3brRP.js","_app/immutable/chunks/scheduler.L3ee0gTq.js","_app/immutable/chunks/index.6n1W-5BD.js","_app/immutable/chunks/Svg.VkJ7zRc_.js","_app/immutable/chunks/IconButton.a0JQl0R_.js","_app/immutable/chunks/index.YyQYkOuZ.js","_app/immutable/chunks/classAdderBuilder.eU7pa9cK.js"];
-export const stylesheets = ["_app/immutable/assets/5.LWmNAJkW.css"];
+export const imports = ["_app/immutable/nodes/5.reRzh9Ux.js","_app/immutable/chunks/scheduler.7fJTJATM.js","_app/immutable/chunks/index.ESpeO4IN.js","_app/immutable/chunks/Svg.VExdKD0h.js","_app/immutable/chunks/IconButton.kbYpcAUG.js","_app/immutable/chunks/index.UshG1r0L.js","_app/immutable/chunks/classAdderBuilder.qFeSpoFo.js"];
+export const stylesheets = ["_app/immutable/assets/5.gBk-hWzX.css"];
 export const fonts = [];

@@ -19,7 +19,9 @@ const config = {
     adapter: adapter({
       pages: 'dist',
       assets: 'dist',
-      fallback: null,
+      fallback: undefined,
+      precompress: false,
+      strict: true,
     }),
   },
 };
