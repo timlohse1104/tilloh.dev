@@ -62,10 +62,10 @@
     overflow-x: hidden;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 50%;
+    grid-auto-rows: 35%;
 
     @media #{$wide} {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     @media #{$tablet} {

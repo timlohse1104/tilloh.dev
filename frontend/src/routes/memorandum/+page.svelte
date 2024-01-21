@@ -57,11 +57,19 @@
   }
 
   .boxArea {
-    height: 75vh;
+    height: 85vh;
     display: grid;
     grid-template-columns: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     scroll-behavior: unset;
+
+    @media #{$tablet} {
+      height: 82vh;
+    }
+
+    @media #{$phone} {
+      height: 80vh;
+    }
   }
 </style>
