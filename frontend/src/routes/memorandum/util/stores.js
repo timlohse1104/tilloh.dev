@@ -30,3 +30,7 @@ export const linkOverlayOptions = writable({
   currLinkName: undefined,
   currLinkUrl: undefined,
 });
+
+export const presetOverlayOptions = writable({
+  showOverlay: false,
+});

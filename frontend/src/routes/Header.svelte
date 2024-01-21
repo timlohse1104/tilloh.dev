@@ -10,7 +10,7 @@
 </script>
 
 <section>
-  <div class="header-box">
+  <div class="headerBox">
     <div class={$page.url.pathname !== '/' ? 'hide' : 'corner'}>
       <IconButton href="https://stadtwerk.org" target="_blank">
         <img src={logo} alt="stadtwerk" />
@@ -22,7 +22,10 @@
       >
     </div>
 
-    <h2>{$page.url.pathname !== '/' ? pageName : 'Home'}</h2>
+    <div class="headlineBox">
+      <h2>{$page.url.pathname !== '/' ? pageName : 'Home'}</h2>
+      <p>made by Tilloh with 💙</p>
+    </div>
 
     <div class="corner">
       <IconButton href="https://github.com/timlohse1104" target="_blank">
@@ -35,13 +38,30 @@
 <style lang="scss">
   @import '$lib/styles/_variables.scss';
 
-  .header-box {
+  .headerBox {
     display: flex;
     justify-content: space-between;
     background-color: $darkgrey80;
     padding: 0.5em 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: $white30 1px solid;
+  }
+
+  .headlineBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    p {
+      font-size: 0.8em;
+      margin: 0;
+    }
   }
 
   .hide {

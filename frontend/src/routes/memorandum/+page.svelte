@@ -4,7 +4,12 @@
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import BoxArea from './content/BoxArea.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';
-  import { linkOverlayOptions } from './util/stores.js';
+  import PresetOverlay from './content/PresetOverlay.svelte';
+  import { linkOverlayOptions, presetOverlayOptions } from './util/stores.js';
+
+  function showPresetOverlay() {
+    $presetOverlayOptions.showOverlay = true;
+  }
 </script>
 
 <svelte:head>
@@ -12,8 +17,11 @@
   <meta name="description" content="Memorandum" />
 </svelte:head>
 
-<!-- Durch TopAppBar ablösen? -->
-<div class="editTooltip">
+<div class="menuLine">
+  <IconButton on:click={showPresetOverlay} class="material-icons"
+    >build</IconButton
+  >
+
   <Wrapper>
     <IconButton size="mini">
       <Icon class="material-icons">info</Icon>
@@ -35,13 +43,17 @@
   />
 {/if}
 
+{#if $presetOverlayOptions.showOverlay}
+  <PresetOverlay />
+{/if}
+
 <style lang="scss">
   @import '$lib/styles/_variables';
 
-  .editTooltip {
-    position: absolute;
-    left: 0.25rem;
-    top: 5.5rem;
+  .menuLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .boxArea {
