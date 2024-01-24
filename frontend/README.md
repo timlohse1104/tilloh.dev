@@ -1,11 +1,13 @@
-# frontend
+# Backend
 
-This library was generated with [Nx](https://nx.dev).
+### Deployment
 
-## Building
+1. Build the frontend
 
-Run `nx build frontend` to build the library.
+```
+nx run frontend:build
+```
 
-## Running unit tests
+2. Deploy the frontend by coping the `dist` folder content to the server in /home/tilloh/html
 
-Run `nx test frontend` to execute the unit tests via [Vitest](https://vitest.dev/).
+3. Reload website with strg + f5

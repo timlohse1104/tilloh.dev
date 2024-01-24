@@ -18,12 +18,14 @@
 </svelte:head>
 
 <div class="menuLine">
-  <IconButton on:click={showPresetOverlay} class="material-icons"
-    >build</IconButton
+  <IconButton
+    style="color: white"
+    on:click={showPresetOverlay}
+    class="material-icons">build</IconButton
   >
 
   <Wrapper>
-    <IconButton size="mini">
+    <IconButton style="color: white" size="mini">
       <Icon class="material-icons">info</Icon>
     </IconButton>
     <Tooltip xPos="end" yPos="above"

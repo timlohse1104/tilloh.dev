@@ -78,8 +78,11 @@
 </div>
 
 <style lang="scss">
+  @import '$lib/styles/_variables.scss';
+
   .main {
     max-width: 80vw;
     margin: 0 auto;
+    color: $light80;
   }
 </style>

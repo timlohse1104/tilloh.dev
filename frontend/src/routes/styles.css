@@ -12,6 +12,7 @@
   --color-text: rgba(255, 255, 255, 0.7);
   --column-width: 42rem;
   --column-margin-top: 4rem;
+  --pre-background: rgba(50, 50, 50, 0.5);
   font-family: var(--font-body);
   color: var(--color-text);
 }
@@ -61,7 +62,7 @@ h2 {
 pre {
   font-size: 16px;
   font-family: var(--font-mono);
-  background-color: rgba(50, 50, 50, 0.5);
+  background-color: var(--pre-background);
   border-radius: 3px;
   padding: 0.5em;
   overflow-x: auto;

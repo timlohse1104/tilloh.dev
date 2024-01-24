@@ -81,6 +81,7 @@
   .mobileMessage {
     display: none;
     text-align: center;
+    color: $light80;
 
     img {
       width: 50vw;

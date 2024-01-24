@@ -1,12 +1,17 @@
 <script>
   import { page } from '$app/stores';
-  import github from '$lib/images/github.svg';
+  import github from '$lib/images/github-light.svg';
   import logo from '$lib/images/stadtwerk-logo.svg';
   import IconButton, { Icon } from '@smui/icon-button';
 
   $: pageName =
     $page.url.pathname.replace('/', '').charAt(0).toUpperCase() +
     $page.url.pathname.slice(2);
+
+  // How to scan for dark mode
+  // let prefersDarkScheme =
+  //   window.matchMedia &&
+  //   window.matchMedia('(prefers-color-scheme: dark)').matches;
 </script>
 
 <section>
@@ -17,7 +22,7 @@
       </IconButton>
     </div>
     <div class={$page.url.pathname === '/' ? 'hide' : 'corner'}>
-      <IconButton style="color: var(--mdc-theme-on-surface, #fff);" href="/"
+      <IconButton style="color: white" href="/"
         ><Icon class="material-icons">home</Icon></IconButton
       >
     </div>
@@ -52,6 +57,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: $light80;
 
     h2 {
       margin: 0;
