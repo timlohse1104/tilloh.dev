@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@backend/catch-em-all": ["libs/catch-em-all/src/index.ts"],
       "@backend/memorandum": ["libs/memorandum/src/index.ts"],
       "@backend/persistence": ["libs/persistence/src/index.ts"]
     }
