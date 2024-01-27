@@ -1,12 +1,20 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
+import { ensureEnvValue } from '@backend/util';
+import { Logger, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AppController } from './app/app.controller';
+import { AppService } from './app/app.service';
 
-import { AppModule } from './app/app.module';
+@Module({
+  imports: [
+    MongooseModule.forRoot(
+      ensureEnvValue('MONGO_DB_URL', 'mongodb://localhost/tilloh-dev')
+    ),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
