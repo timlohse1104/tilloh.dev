@@ -2,8 +2,7 @@ import { ensureEnvValue } from '@backend/util';
 import { Logger, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app/app.controller';
-import { AppService } from './app/app.service';
+import { AppController } from './controller/controller';
 
 @Module({
   imports: [
@@ -12,7 +11,7 @@ import { AppService } from './app/app.service';
     ),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
 
