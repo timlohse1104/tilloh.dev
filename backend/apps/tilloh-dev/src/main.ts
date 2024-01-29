@@ -3,7 +3,7 @@ import { Logger, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppController } from './controller/controller';
+import { AppController } from './controller/identifier-controller';
 
 @Module({
   imports: [
@@ -26,10 +26,9 @@ async function bootstrap() {
     .setTitle('tilloh.dev')
     .setDescription('The official tilloh.dev API documentation 📖')
     .setVersion('1.0')
-    .addTag('tilloh')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup(globalPrefix, app, document);
 
   await app.listen(port);
   Logger.log(
