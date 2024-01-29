@@ -49,11 +49,10 @@
     padding-left: $defPadding;
     box-sizing: border-box;
     align-items: center;
-    background-color: $lightgrey80;
     border-bottom: 1px solid $darkgrey80;
 
     &:hover {
-      background-color: $light80;
+      background-color: $white30;
     }
   }
 

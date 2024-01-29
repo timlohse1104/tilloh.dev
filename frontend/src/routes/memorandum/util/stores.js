@@ -4,6 +4,10 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
+// Localstorage stores
+
+// Link preset
+
 let linkPresetDefault = '{"Folders": []}';
 
 if (browser) {
@@ -22,6 +26,29 @@ if (browser) {
   );
 }
 
+// Folder order
+let folderOrderDefault = 'fixed';
+
+if (browser) {
+  if (!localStorage.getItem('folderOrder')) {
+    localStorage.setItem('folderOrder', folderOrderDefault);
+  }
+
+  folderOrderDefault =
+    localStorage.getItem('folderOrder') || folderOrderDefault;
+}
+
+export const folderOrder = writable(folderOrderDefault);
+
+if (browser) {
+  folderOrder.subscribe((val) => localStorage.setItem('folderOrder', val));
+}
+
+// Normal stores
+export const presetOverlayOptions = writable({
+  showOverlay: false,
+});
+
 export const linkOverlayOptions = writable({
   showOverlay: false,
   currentFolderId: undefined,
@@ -29,8 +56,4 @@ export const linkOverlayOptions = writable({
   currLinkId: undefined,
   currLinkName: undefined,
   currLinkUrl: undefined,
-});
-
-export const presetOverlayOptions = writable({
-  showOverlay: false,
 });

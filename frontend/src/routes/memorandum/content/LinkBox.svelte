@@ -3,7 +3,11 @@
   // @ts-nocheck
 
   import { createEventDispatcher } from 'svelte';
-  import { linkOverlayOptions, localPreset } from '../util/stores.js';
+  import {
+    folderOrder,
+    linkOverlayOptions,
+    localPreset,
+  } from '../util/stores.js';
   import Link from './Link.svelte';
 
   export let id;
@@ -160,6 +164,7 @@
 </script>
 
 <section
+  class={$folderOrder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
   draggable={true}
   on:dragstart={(event) => dragStartFolder(event)}
   on:drop|preventDefault={(event) => {
@@ -170,7 +175,6 @@
     }
   }}
   ondragover="return false"
-  id="linkBox"
   role="presentation"
 >
   <div
@@ -228,12 +232,11 @@
   @import '$lib/styles/_mixins.scss';
   @import '$lib/styles/_variables.scss';
 
-  section {
+  .linkBoxFixed {
     display: grid;
-    height: calc(100% - 40px);
-    margin: $defPadding;
+    margin: 0 calc($defPadding/2) $defPadding calc($defPadding/2);
     grid-template-columns: calc(100% - 50px) 50px;
-    grid-template-rows: 50px calc(90% - 50px) 10%;
+    grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
@@ -242,6 +245,34 @@
 
     &:hover {
       box-shadow: 0 0 20px $white30;
+    }
+  }
+  .linkBoxFlexible {
+    display: grid;
+    width: calc(100% / 3);
+    // margin: 0 calc($defPadding/2) $defPadding calc($defPadding/2);
+    grid-template-columns: calc(100% - 50px) 50px;
+    grid-template-rows: 2.5rem auto 2rem;
+    grid-template-areas:
+      'header delBtn'
+      'content content'
+      'addLinkBtn addLinkBtn';
+    border: solid 3px $darkgrey80;
+
+    &:hover {
+      box-shadow: 0 0 20px $white30;
+    }
+
+    @media #{$wide} {
+      width: calc(100% / 5);
+    }
+
+    @media #{$tablet} {
+      width: calc(80% / 2);
+    }
+
+    @media #{$phone} {
+      width: calc(90% / 1);
     }
   }
 
@@ -279,6 +310,23 @@
     }
   }
 
+  .linkAddBtn {
+    grid-area: addLinkBtn;
+    @include mem-button;
+    text-align: left;
+    padding-left: $defPadding;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: $darkgrey80;
+    text-shadow: $sharpen;
+
+    &:hover {
+      background-color: $green;
+    }
+  }
+
   .boxContent {
     grid-area: content;
     box-sizing: border-box;
@@ -304,23 +352,6 @@
 
     &:hover {
       background-color: $red;
-    }
-  }
-
-  .linkAddBtn {
-    grid-area: addLinkBtn;
-    @include mem-button;
-    text-align: left;
-    padding-left: $defPadding;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    background-color: $darkgrey80;
-    text-shadow: $sharpen;
-
-    &:hover {
-      background-color: $green;
     }
   }
 </style>

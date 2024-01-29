@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-nocheck
 
+  import Fab, { Icon } from '@smui/fab';
+  import MagicGrid from 'magic-grid';
   import { fetchJson } from '../util/async.js';
   import { Folder } from '../util/folder.js';
-  import { localPreset } from '../util/stores.js';
+  import { folderOrder, localPreset } from '../util/stores.js';
   import LinkBox from './LinkBox.svelte';
-  import NewFolder from './NewFolder.svelte';
   import Startup from './Startup.svelte';
 
   function createFolder() {
@@ -32,17 +33,34 @@
     currentPreset.Folders.splice(event.detail, 1);
     $localPreset = currentPreset;
   }
+
+  let contentAreaElement;
+  let magicGrid;
+  $: if ($folderOrder === 'flexible' && contentAreaElement) {
+    const magicGridOptions = {
+      container: contentAreaElement as HTMLElement,
+      static: true,
+      animate: true,
+      center: false,
+    };
+    magicGrid = new MagicGrid(magicGridOptions);
+    magicGrid.listen();
+  }
 </script>
 
 {#await $localPreset}
   <p>Waiting for the promise to resolve...</p>
 {:then value}
   {#if value.Folders.length > 0}
-    <section id="contentArea">
+    <section
+      bind:this={contentAreaElement}
+      class={$folderOrder === 'fixed'
+        ? 'contentAreaFixed'
+        : 'contentAreaFlexible'}
+    >
       {#each $localPreset.Folders as { folderName, links }, i}
         <LinkBox id={i} folderHeader={folderName} on:delFolder={deleteFolder} />
       {/each}
-      <NewFolder on:click={createFolder} />
     </section>
   {:else}
     <Startup on:new={createFolder} on:default={loadPreset} />
@@ -51,13 +69,20 @@
   <p>Something went wrong: {error.message}</p>
 {/await}
 
+<Fab
+  style="position:fixed;bottom: 20px;right: 20px;z-index: 100;"
+  color="primary"
+  on:click={createFolder}
+>
+  <Icon style="font-size:2rem;" class="material-icons">add</Icon>
+</Fab>
+
 <style lang="scss">
   @import '$lib/styles/_variables';
 
-  section {
+  .contentAreaFixed {
     color: white;
     margin: 0;
-    padding: calc($defPadding / 2);
     overflow-y: auto;
     overflow-x: hidden;
     display: grid;
@@ -75,6 +100,18 @@
     @media #{$phone} {
       grid-template-columns: 1fr;
     }
+  }
+
+  .contentAreaFlexible {
+    color: white;
+    margin: 0;
+    padding: calc($defPadding / 2);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  * :global(svg:focus) {
+    outline: 0;
   }
 
   ::-webkit-scrollbar {
