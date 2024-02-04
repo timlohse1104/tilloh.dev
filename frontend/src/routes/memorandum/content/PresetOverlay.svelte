@@ -6,11 +6,16 @@
   import Fab, { Icon, Label } from '@smui/fab';
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
+  import Snackbar, { Actions } from '@smui/snackbar';
   import { onMount } from 'svelte';
   import { localPreset, presetOverlayOptions } from '../util/stores.js';
 
   let codeElement;
   let files: FileList;
+  let presetUploadSnackbar: Snackbar;
+  let presetDownloadSnackbar: Snackbar;
+  let detailOpen = false;
+
   $: if (files) {
     const file = files[0];
 
@@ -23,6 +28,7 @@
         codeElement.innerHTML = JSON.stringify(json, null, 2);
       };
       reader.readAsText(file);
+      presetUploadSnackbar.open();
     }
   }
 
@@ -30,8 +36,6 @@
   $: linkAmount = [
     ...$localPreset.Folders.map((folder) => folder.links.length),
   ].reduce((a, b) => a + b, 0);
-
-  let detailOpen = false;
 
   function closeOverlay() {
     $presetOverlayOptions.showOverlay = false;
@@ -55,6 +59,7 @@
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+    presetDownloadSnackbar.open();
   }
 
   onMount(() => {
@@ -87,12 +92,12 @@
 
     <h2>Das ist deine aktuelle Konfiguration</h2>
 
-    <List class="configStatistics" dense>
-      <Item on:SMUI:action={() => (clicked = 'Edit')}>
+    <List dense>
+      <Item>
         <Graphic class="material-icons">folder</Graphic>
         <Text>{folderAmount} Ordner</Text>
       </Item>
-      <Item on:SMUI:action={() => (clicked = 'Send')}>
+      <Item>
         <Graphic class="material-icons">link</Graphic>
         <Text>{linkAmount} Links</Text>
       </Item>
@@ -119,7 +124,22 @@
       </Accordion>
     </div>
   </div>
+
+  <Snackbar bind:this={presetUploadSnackbar}>
+    <Label>Konfiguration erfolgreich importiert</Label>
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
+
+  <Snackbar bind:this={presetDownloadSnackbar}>
+    <Label>Download der Konfiguration gestartet.</Label>
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
 </section>
+
 <svelte:window
   on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
@@ -178,12 +198,6 @@
       margin-top: 2rem;
       margin-bottom: 1rem;
     }
-  }
-
-  .configStatistics {
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
   }
 
   .code-container {
