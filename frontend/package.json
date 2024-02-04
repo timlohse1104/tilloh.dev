@@ -20,6 +20,7 @@
     "@nx/workspace": "17.2.8",
     "@smui-extra/accordion": "^7.0.0-beta.16",
     "@smui/common": "^7.0.0-beta.16",
+    "@smui/dialog": "^7.0.0-beta.16",
     "@smui/fab": "^7.0.0-beta.16",
     "@smui/icon-button": "^7.0.0-beta.16",
     "@smui/list": "^7.0.0-beta.16",
@@ -59,6 +60,7 @@
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "dependencies": {
-    "magic-grid": "^3.2.4"
+    "magic-grid": "^3.2.4",
+    "svelte-material-ui": "^7.0.0-beta.16"
   }
 }
