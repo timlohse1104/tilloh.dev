@@ -17,8 +17,6 @@
   export let folderBackground;
   export let folderBackgroundColor = '';
 
-  console.log('folderBackgroundColor', folderBackground);
-
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }

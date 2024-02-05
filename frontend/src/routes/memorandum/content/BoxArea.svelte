@@ -6,6 +6,7 @@
   import MagicGrid from 'magic-grid';
   import { fetchJson } from '../util/async.js';
   import { FolderClass } from '../util/classes.js';
+  import { defaultColor } from '../util/constants.js';
   import { folderOrder, localPreset } from '../util/stores.js';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
@@ -17,7 +18,7 @@
     let currentPreset = $localPreset;
 
     currentPreset.Folders.push(
-      new FolderClass(currentPreset.Folders.length, `Neu`),
+      new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
     );
     $localPreset = currentPreset;
   }

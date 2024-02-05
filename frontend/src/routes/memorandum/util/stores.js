@@ -3,6 +3,21 @@
 
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
+import { defaultColor } from './constants';
+
+// Helper functions
+function ensureFolderBackgroundColor(linkPreset) {
+  const preset = JSON.parse(linkPreset);
+  const folders = preset.Folders;
+
+  for (let i = 0; i < folders.length; i++) {
+    if (!folders[i].customBackgroundColor) {
+      folders[i].customBackgroundColor = defaultColor;
+    }
+  }
+
+  return JSON.stringify(preset);
+}
 
 // Localstorage stores
 
@@ -15,7 +30,9 @@ if (browser) {
     localStorage.setItem('linkPreset', linkPresetDefault);
   }
 
-  linkPresetDefault = localStorage.getItem('linkPreset') || linkPresetDefault;
+  const linkPreset = localStorage.getItem('linkPreset') || linkPresetDefault;
+
+  linkPresetDefault = ensureFolderBackgroundColor(linkPreset);
 }
 
 export const localPreset = writable(JSON.parse(linkPresetDefault));
