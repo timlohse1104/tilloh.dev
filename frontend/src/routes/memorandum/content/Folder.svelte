@@ -3,6 +3,7 @@
   // @ts-nocheck
 
   import { createEventDispatcher } from 'svelte';
+  import { RGBBackgroundClass } from '../util/classes.js';
   import {
     folderOrder,
     folderOverlayOptions,
@@ -13,6 +14,15 @@
 
   export let id;
   export let folderHeader;
+  export let folderBackground;
+  export let folderBackgroundColor = '';
+
+  console.log('folderBackgroundColor', folderBackground);
+
+  $: if (folderBackground) {
+    folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
+  }
+
   const dispatch = createEventDispatcher();
 
   function showOverlay(event) {
@@ -40,6 +50,8 @@
     $folderOverlayOptions.showOverlay = !$folderOverlayOptions.showOverlay;
     $folderOverlayOptions.currentFolderId = id;
     $folderOverlayOptions.currentFolderName = folderHeader;
+    $folderOverlayOptions.currentFolderBackgroundColor =
+      $localPreset.Folders[id].customBackgroundColor;
   }
 
   function dragStartFolder(event) {
@@ -156,13 +168,26 @@
   ondragover="return false"
   role="presentation"
 >
-  <div class="boxHeader" on:dblclick={showFolderOverlay} role="presentation">
+  <div
+    class="boxHeader"
+    style={folderBackgroundColor
+      ? `background-color: ${folderBackgroundColor}`
+      : ''}
+    on:dblclick={showFolderOverlay}
+    role="presentation"
+  >
     <p>
       {folderHeader}
     </p>
   </div>
 
-  <button class="boxDelBtn" on:click={() => dispatch('delFolder', id)}>
+  <button
+    class="boxDelBtn"
+    style={folderBackgroundColor
+      ? `background-color: ${folderBackgroundColor}`
+      : ''}
+    on:click={() => dispatch('delFolder', id)}
+  >
     -
   </button>
 
@@ -185,7 +210,13 @@
     {/await}
   </div>
 
-  <button class="linkAddBtn" on:click={showOverlay}>
+  <button
+    class="linkAddBtn"
+    style={folderBackgroundColor
+      ? `background-color: ${folderBackgroundColor}`
+      : ''}
+    on:click={showOverlay}
+  >
     <span>Neuer Link</span>
     <span>+</span>
   </button>
@@ -247,15 +278,6 @@
     background-color: var(--darkgrey80);
     text-shadow: var(--sharpen);
     font-size: 18px;
-  }
-
-  .boxHeaderEdit {
-    display: none;
-    grid-area: header;
-    align-items: center;
-    padding-left: var(--default-padding);
-    font-size: 18px;
-    height: 100%;
   }
 
   .boxDelBtn {

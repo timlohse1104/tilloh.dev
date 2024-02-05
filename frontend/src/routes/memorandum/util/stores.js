@@ -53,6 +53,7 @@ export const folderOverlayOptions = writable({
   showOverlay: false,
   currentFolderId: undefined,
   currentFolderName: undefined,
+  currentFolderBackgroundColor: undefined,
 });
 
 export const linkOverlayOptions = writable({

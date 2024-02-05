@@ -60,8 +60,13 @@
         ? 'contentAreaFixed'
         : 'contentAreaFlexible'}
     >
-      {#each $localPreset.Folders as { folderName, links }, i}
-        <Folder id={i} folderHeader={folderName} on:delFolder={deleteFolder} />
+      {#each $localPreset.Folders as { folderName, customBackgroundColor }, i}
+        <Folder
+          id={i}
+          folderHeader={folderName}
+          folderBackground={customBackgroundColor}
+          on:delFolder={deleteFolder}
+        />
       {/each}
     </section>
   {:else}
