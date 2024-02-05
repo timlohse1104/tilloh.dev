@@ -8,7 +8,7 @@
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
-  import { Hyperlink } from '../util/hyperlink.js';
+  import { HyperlinkClass } from '../util/classes.js';
   import { linkOverlayOptions, localPreset } from '../util/stores.js';
 
   export let newLinkName = '';
@@ -37,7 +37,9 @@
       let currLinks =
         currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
 
-      currLinks.push(new Hyperlink(currLinks.length, newLinkName, newLinkUrl));
+      currLinks.push(
+        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+      );
 
       $localPreset = currPreset;
       closeOverlay();
@@ -66,7 +68,9 @@
       let currLinks =
         currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
 
-      currLinks.push(new Hyperlink(currLinks.length, newLinkName, newLinkUrl));
+      currLinks.push(
+        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+      );
 
       $localPreset = currPreset;
       closeOverlay();
@@ -90,7 +94,7 @@
     </Title>
   {:else}
     <Title id="simple-title">
-      Bearbeite den Link {newLinkName}
+      Bearbeite den Link: {newLinkName}
       <p class="subtitle">
         Bearbeite hier den Link <b>{newLinkName}</b> im Ordner
         <b>{$linkOverlayOptions.currentFolder}</b>.
@@ -102,7 +106,7 @@
       variant="outlined"
       bind:this={nameInput}
       bind:value={newLinkName}
-      label="Bezeichnung"
+      label="Name"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
         if (event.code === 'Enter') {

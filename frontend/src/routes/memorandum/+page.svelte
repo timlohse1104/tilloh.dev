@@ -4,10 +4,12 @@
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import BoxArea from './content/BoxArea.svelte';
+  import FolderOverlay from './content/FolderOverlay.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';
   import PresetOverlay from './content/PresetOverlay.svelte';
   import {
     folderOrder,
+    folderOverlayOptions,
     linkOverlayOptions,
     localPreset,
     presetOverlayOptions,
@@ -85,6 +87,10 @@
     <BoxArea />
   {/if}
 </div>
+
+{#if $folderOverlayOptions.showOverlay}
+  <FolderOverlay folderName={$folderOverlayOptions.currentFolderName} />
+{/if}
 
 {#if $linkOverlayOptions.showOverlay}
   <LinkOverlay

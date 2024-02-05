@@ -5,9 +5,9 @@
   import Fab, { Icon } from '@smui/fab';
   import MagicGrid from 'magic-grid';
   import { fetchJson } from '../util/async.js';
-  import { Folder } from '../util/folder.js';
+  import { FolderClass } from '../util/classes.js';
   import { folderOrder, localPreset } from '../util/stores.js';
-  import LinkBox from './LinkBox.svelte';
+  import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
   function createFolder() {
@@ -16,7 +16,9 @@
     // that happens because there is no localstorage update function, only get, set, remove and clear
     let currentPreset = $localPreset;
 
-    currentPreset.Folders.push(new Folder(currentPreset.Folders.length, `Neu`));
+    currentPreset.Folders.push(
+      new FolderClass(currentPreset.Folders.length, `Neu`),
+    );
     $localPreset = currentPreset;
   }
 
@@ -59,7 +61,7 @@
         : 'contentAreaFlexible'}
     >
       {#each $localPreset.Folders as { folderName, links }, i}
-        <LinkBox id={i} folderHeader={folderName} on:delFolder={deleteFolder} />
+        <Folder id={i} folderHeader={folderName} on:delFolder={deleteFolder} />
       {/each}
     </section>
   {:else}

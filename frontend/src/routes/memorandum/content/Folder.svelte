@@ -5,6 +5,7 @@
   import { createEventDispatcher } from 'svelte';
   import {
     folderOrder,
+    folderOverlayOptions,
     linkOverlayOptions,
     localPreset,
   } from '../util/stores.js';
@@ -13,9 +14,6 @@
   export let id;
   export let folderHeader;
   const dispatch = createEventDispatcher();
-  let links = $localPreset.Folders[id].links;
-  let headerText;
-  let headerInput;
 
   function showOverlay(event) {
     $linkOverlayOptions.showOverlay = !$linkOverlayOptions.showOverlay;
@@ -29,27 +27,6 @@
     }
   }
 
-  function toggleRename() {
-    if (headerText.style.display !== 'none') {
-      headerText.style.display = 'none';
-      headerInput.style.display = 'flex';
-      headerInput.focus();
-    } else {
-      headerInput.blur();
-      headerInput.style.display = 'none';
-      headerText.style.display = 'flex';
-      changeFolderName();
-    }
-  }
-
-  function changeFolderName() {
-    let currPreset = $localPreset;
-
-    currPreset.Folders[id].folderName = folderHeader;
-
-    $localPreset = currPreset;
-  }
-
   function deleteLink(event) {
     let currentPreset = $localPreset;
 
@@ -59,10 +36,10 @@
     $localPreset = currentPreset;
   }
 
-  function submitNewName(event) {
-    if (event.code === 'Enter' || event.code === 'Escape') {
-      toggleRename();
-    }
+  function showFolderOverlay() {
+    $folderOverlayOptions.showOverlay = !$folderOverlayOptions.showOverlay;
+    $folderOverlayOptions.currentFolderId = id;
+    $folderOverlayOptions.currentFolderName = folderHeader;
   }
 
   function dragStartFolder(event) {
@@ -179,27 +156,11 @@
   ondragover="return false"
   role="presentation"
 >
-  <div
-    class="boxHeader"
-    bind:this={headerText}
-    on:dblclick={toggleRename}
-    role="presentation"
-  >
+  <div class="boxHeader" on:dblclick={showFolderOverlay} role="presentation">
     <p>
       {folderHeader}
     </p>
   </div>
-
-  <input
-    class="boxHeaderEdit"
-    maxlength="40"
-    bind:this={headerInput}
-    placeholder={folderHeader}
-    on:blur={toggleRename}
-    bind:value={folderHeader}
-    on:keyup={(event) => submitNewName(event)}
-    onfocus="this.select();"
-  />
 
   <button class="boxDelBtn" on:click={() => dispatch('delFolder', id)}>
     -

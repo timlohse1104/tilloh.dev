@@ -49,6 +49,12 @@ export const presetOverlayOptions = writable({
   showOverlay: false,
 });
 
+export const folderOverlayOptions = writable({
+  showOverlay: false,
+  currentFolderId: undefined,
+  currentFolderName: undefined,
+});
+
 export const linkOverlayOptions = writable({
   showOverlay: false,
   currentFolderId: undefined,
