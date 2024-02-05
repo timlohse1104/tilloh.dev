@@ -74,6 +74,7 @@
     event.dataTransfer.setData('type', 'folder');
     event.dataTransfer.setData('originIndex', originIndex);
   }
+
   function dropFolder(event) {
     let originIndex = event.dataTransfer.getData('originIndex');
     let targetIndex = _getTargetIndex(event);
@@ -116,6 +117,7 @@
     event.dataTransfer.setData('originFolderIndex', originFolderIndex);
     event.dataTransfer.setData('originLinkIndex', originLinkIndex);
   }
+
   function dropLink(event) {
     let originFolderIndex = event.dataTransfer.getData('originFolderIndex');
     let originLinkIndex = event.dataTransfer.getData('originLinkIndex');

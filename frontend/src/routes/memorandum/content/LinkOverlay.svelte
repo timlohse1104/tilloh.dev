@@ -59,6 +59,19 @@
       closeOverlay();
     }
   }
+
+  function duplicateLink() {
+    if (submittable) {
+      let currPreset = $localPreset;
+      let currLinks =
+        currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
+
+      currLinks.push(new Hyperlink(currLinks.length, newLinkName, newLinkUrl));
+
+      $localPreset = currPreset;
+      closeOverlay();
+    }
+  }
 </script>
 
 <Dialog
@@ -85,7 +98,6 @@
     </Title>
   {/if}
   <Content id="simple-content">
-    <!-- <div id="insertContent"> -->
     <Textfield
       variant="outlined"
       bind:this={nameInput}
@@ -117,6 +129,12 @@
     </Textfield>
   </Content>
   <Actions>
+    {#if type === 'edit'}
+      <Button on:click={duplicateLink}>
+        <Icon class="material-icons">content_copy</Icon>
+        <Label>Duplizieren</Label>
+      </Button>
+    {/if}
     <Button on:click={closeOverlay}>
       <Label>Abbruch</Label>
     </Button>
