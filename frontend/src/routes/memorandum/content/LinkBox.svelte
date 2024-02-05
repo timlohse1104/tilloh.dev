@@ -229,38 +229,37 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/_mixins.scss';
-  @import '$lib/styles/_variables.scss';
+  @import '../../../lib/styles/global.scss';
 
   .linkBoxFixed {
     display: grid;
-    margin: 0 calc($defPadding/2) $defPadding calc($defPadding/2);
+    margin: 0 calc(var(--default-padding) / 2) var(--default-padding)
+      calc(var(--default-padding) / 2);
     grid-template-columns: calc(100% - 50px) 50px;
     grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
       'addLinkBtn addLinkBtn';
-    border: solid 3px $darkgrey80;
+    border: solid 3px var(--darkgrey80);
 
     &:hover {
-      box-shadow: 0 0 20px $white30;
+      box-shadow: 0 0 20px var(--white30);
     }
   }
   .linkBoxFlexible {
     display: grid;
     width: calc(100% / 3);
-    // margin: 0 calc($defPadding/2) $defPadding calc($defPadding/2);
     grid-template-columns: calc(100% - 50px) 50px;
     grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
       'addLinkBtn addLinkBtn';
-    border: solid 3px $darkgrey80;
+    border: solid 3px var(--darkgrey80);
 
     &:hover {
-      box-shadow: 0 0 20px $white30;
+      box-shadow: 0 0 20px var(--white30);
     }
 
     @media #{$wide} {
@@ -281,9 +280,9 @@
     display: flex;
     align-items: center;
     font-weight: bolder;
-    padding-left: $defPadding;
-    background-color: $darkgrey80;
-    text-shadow: $sharpen;
+    padding-left: var(--default-padding);
+    background-color: var(--darkgrey80);
+    text-shadow: var(--sharpen);
     font-size: 18px;
   }
 
@@ -291,7 +290,7 @@
     display: none;
     grid-area: header;
     align-items: center;
-    padding-left: $defPadding;
+    padding-left: var(--default-padding);
     font-size: 18px;
     height: 100%;
   }
@@ -301,12 +300,12 @@
     @include mem-button;
     text-align: center;
     font-weight: bolder;
-    background-color: $darkgrey80;
-    border-left: 1px solid $white30;
-    text-shadow: $sharpen;
+    background-color: var(--darkgrey80);
+    border-left: 1px solid var(--white30);
+    text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: $red;
+      background-color: var(--red);
     }
   }
 
@@ -314,16 +313,16 @@
     grid-area: addLinkBtn;
     @include mem-button;
     text-align: left;
-    padding-left: $defPadding;
+    padding-left: var(--default-padding);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background-color: $darkgrey80;
-    text-shadow: $sharpen;
+    background-color: var(--darkgrey80);
+    text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: $green;
+      background-color: var(--green);
     }
   }
 
@@ -331,27 +330,27 @@
     grid-area: content;
     box-sizing: border-box;
     overflow: auto;
-    background-color: $black30;
+    background-color: var(--black30);
   }
 
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    background-color: $darkgrey80;
+    background-color: var(--darkgrey80);
   }
 
   ::-webkit-scrollbar {
     width: 0px;
-    background-color: $darkgrey80;
+    background-color: var(--darkgrey80);
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: $red70;
+    background-color: var(--red70);
 
     &:hover {
-      background-color: $red;
+      background-color: var(--red);
     }
   }
 </style>

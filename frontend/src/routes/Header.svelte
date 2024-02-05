@@ -41,15 +41,13 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/_variables.scss';
-
   .headerBox {
     display: flex;
     justify-content: space-between;
-    background-color: $darkgrey80;
+    background-color: var(--darkgrey80);
     padding: 0.5em 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-    border-bottom: $white30 1px solid;
+    border-bottom: var(--white30) 1px solid;
   }
 
   .headlineBox {
@@ -57,7 +55,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $light80;
+    color: var(--light80);
 
     h2 {
       margin: 0;

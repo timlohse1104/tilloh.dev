@@ -150,13 +150,11 @@
 />
 
 <style lang="scss">
-  @import '$lib/styles/_variables.scss';
-
   .code-container {
     width: 100%;
     margin: 0;
     padding: 0;
-    background-color: $trans;
+    background-color: var(--trans);
 
     code {
       line-height: 1.5;

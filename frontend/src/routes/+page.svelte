@@ -9,7 +9,7 @@
 
 <svelte:head>
   <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="tilloh.dev" />
 </svelte:head>
 
 <section>
@@ -34,8 +34,6 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
-
   section {
     display: flex;
     flex-direction: column;

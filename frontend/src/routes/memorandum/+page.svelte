@@ -98,7 +98,7 @@
 {/if}
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
+  @import '../../lib/styles/global.scss';
 
   .menuLine {
     display: flex;

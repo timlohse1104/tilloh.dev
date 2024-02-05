@@ -78,7 +78,7 @@
 </Fab>
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
+  @import '../../../lib/styles/global.scss';
 
   .contentAreaFixed {
     color: white;
@@ -105,7 +105,7 @@
   .contentAreaFlexible {
     color: white;
     margin: 0;
-    padding: calc($defPadding / 2);
+    padding: calc(var(--default-padding) / 2);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -116,22 +116,22 @@
 
   ::-webkit-scrollbar {
     width: 12px;
-    background-color: $darkgrey80;
+    background-color: var(--darkgrey80);
   }
 
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    background-color: $darkgrey80;
+    background-color: var(--darkgrey80);
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: $red70;
+    background-color: var(--red70);
 
     &:hover {
-      background-color: $red;
+      background-color: var(--red);
     }
   }
 </style>
