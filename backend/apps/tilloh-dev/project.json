@@ -1,0 +1,53 @@
+{
+  "name": "tilloh-dev",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tilloh-dev/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/tilloh-dev",
+        "main": "apps/tilloh-dev/src/main.ts",
+        "tsConfig": "apps/tilloh-dev/tsconfig.app.json",
+        "assets": ["apps/tilloh-dev/src/assets"],
+        "webpackConfig": "apps/tilloh-dev/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "tilloh-dev:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "tilloh-dev:build:development"
+        },
+        "production": {
+          "buildTarget": "tilloh-dev:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/tilloh-dev/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
