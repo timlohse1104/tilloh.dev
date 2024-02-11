@@ -38,30 +38,28 @@
 </div>
 
 <style lang="scss">
-  @import '$lib/styles/_variables.scss';
-  @import '$lib/styles/_mixins.scss';
+  @import '../../../lib/styles/global.scss';
 
   div {
     display: grid;
     grid-template-columns: 20px calc(100% - 70px) 50px;
     height: auto;
     grid-template-areas: 'icon link delBtn';
-    padding-left: $defPadding;
+    padding-left: var(--default-padding);
     box-sizing: border-box;
     align-items: center;
-    background-color: $lightgrey80;
-    border-bottom: 1px solid $darkgrey80;
+    border-bottom: 1px solid var(--darkgrey80);
 
     &:hover {
-      background-color: $light80;
+      background-color: var(--white30);
     }
   }
 
   #link {
-    border-bottom: 1px solid $white30;
+    border-bottom: 1px solid var(--white30);
 
     button {
-      border-left: 1px solid $white30;
+      border-left: 1px solid var(--white30);
     }
   }
 
@@ -71,28 +69,29 @@
     padding: 0;
     width: 25px;
     height: 25px;
-    padding: calc($defPadding / 4) 0 calc($defPadding / 4) 0;
+    padding: calc(var(--default-padding) / 4) 0 calc(var(--default-padding) / 4)
+      0;
   }
 
   a {
     grid-area: link;
     display: block;
-    padding-left: $defPadding;
-    color: $light80;
-    text-shadow: $sharpen;
+    padding-left: var(--default-padding);
+    color: var(--light80);
+    text-shadow: var(--sharpen);
     font-size: 14px;
   }
 
   button {
     grid-area: delBtn;
     @include mem-button;
-    background-color: $trans;
-    border-left: 1px solid $darkgrey80;
-    text-shadow: $sharpen;
+    background-color: var(--trans);
+    border-left: 1px solid var(--darkgrey80);
+    text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: $light80;
-      color: $red;
+      background-color: var(--light80);
+      color: var(--red);
       text-shadow: none;
     }
   }

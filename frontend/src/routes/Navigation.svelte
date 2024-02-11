@@ -32,7 +32,7 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
+  @import '../lib/styles/global.scss';
 
   .navigation-box {
     display: flex;
@@ -61,7 +61,7 @@
   }
 
   li + li {
-    border-left: $lightgrey80 1px solid;
+    border-left: var(--lightgrey80) 1px solid;
   }
 
   li[aria-current='page']::before {

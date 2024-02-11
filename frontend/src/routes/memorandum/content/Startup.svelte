@@ -25,7 +25,7 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
+  @import '../../../lib/styles/global.scss';
 
   section {
     display: flex;
@@ -43,16 +43,16 @@
     cursor: pointer;
     margin: 0;
     flex-grow: 2;
-    padding: $defPadding;
+    padding: var(--default-padding);
     border: none;
-    background-color: $trans;
+    background-color: var(--trans);
     color: white;
     font-size: 30px;
     display: inline-block;
     transition: all 0.3s ease 0s;
 
     &:hover {
-      background-color: $darkgrey80;
+      background-color: var(--darkgrey80);
     }
 
     img {

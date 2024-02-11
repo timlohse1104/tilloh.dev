@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@fontsource/fira-mono": "^5.0.8",
+    "@mdi/js": "^7.4.47",
     "@neoconfetti/svelte": "^2.2.1",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
@@ -18,11 +19,16 @@
     "@nx/vite": "^17.2.8",
     "@nx/workspace": "17.2.8",
     "@smui-extra/accordion": "^7.0.0-beta.16",
+    "@smui/checkbox": "^7.0.0-beta.16",
     "@smui/common": "^7.0.0-beta.16",
+    "@smui/dialog": "^7.0.0-beta.16",
     "@smui/fab": "^7.0.0-beta.16",
     "@smui/icon-button": "^7.0.0-beta.16",
     "@smui/list": "^7.0.0-beta.16",
     "@smui/paper": "^7.0.0-beta.16",
+    "@smui/segmented-button": "^7.0.0-beta.16",
+    "@smui/slider": "^7.0.0-beta.16",
+    "@smui/snackbar": "^7.0.0-beta.16",
     "@smui/textfield": "^7.0.0-beta.16",
     "@smui/tooltip": "^7.0.0-beta.16",
     "@smui/top-app-bar": "^7.0.0-beta.16",
@@ -40,7 +46,7 @@
     "@vitest/ui": "~0.34.6",
     "eslint": "~8.48.0",
     "eslint-config-prettier": "^9.0.0",
-    "npm": "^10.3.0",
+    "npm": "^10.4.0",
     "nx": "17.2.8",
     "prettier": "^2.6.2",
     "sass": "^1.69.7",
@@ -54,5 +60,9 @@
   },
   "type": "module",
   "main": "./src/index.js",
-  "typings": "./src/index.d.ts"
+  "typings": "./src/index.d.ts",
+  "dependencies": {
+    "magic-grid": "^3.2.4",
+    "svelte-material-ui": "^7.0.0-beta.16"
+  }
 }

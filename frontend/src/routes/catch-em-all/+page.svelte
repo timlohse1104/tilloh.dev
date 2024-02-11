@@ -61,7 +61,7 @@
 </div>
 
 <style lang="scss">
-  @import '$lib/styles/_variables';
+  @import '../../lib/styles/global.scss';
 
   #gameScreen {
     border: 1px solid grey;
@@ -69,11 +69,11 @@
     height: 100%;
     margin: 3rem auto 0 auto;
 
-    @media #{$phone} {
+    @media #{$tablet} {
       display: none;
     }
 
-    @media #{$tablet} {
+    @media #{$phone} {
       display: none;
     }
   }
@@ -81,7 +81,7 @@
   .mobileMessage {
     display: none;
     text-align: center;
-    color: $light80;
+    color: var(--light80);
 
     img {
       width: 50vw;
@@ -89,11 +89,11 @@
       margin-top: 8em;
     }
 
-    @media #{$phone} {
+    @media #{$tablet} {
       display: block;
     }
 
-    @media #{$tablet} {
+    @media #{$phone} {
       display: block;
     }
   }

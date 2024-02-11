@@ -2,12 +2,17 @@
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-nocheck
 
+  import Button, { Label } from '@smui/button';
+  import Dialog, { Actions, Content, Title } from '@smui/dialog';
+  import Textfield from '@smui/textfield';
+  import HelperText from '@smui/textfield/helper-text';
+  import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
-  import { Hyperlink } from '../util/hyperlink.js';
+  import { HyperlinkClass } from '../util/classes.js';
   import { linkOverlayOptions, localPreset } from '../util/stores.js';
 
-  export let newLinkName = undefined;
-  export let newLinkUrl = undefined;
+  export let newLinkName = '';
+  export let newLinkUrl = '';
 
   $: submittable = newLinkName && newLinkUrl;
   let type = $linkOverlayOptions.currLinkName ? 'edit' : 'new';
@@ -32,7 +37,9 @@
       let currLinks =
         currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
 
-      currLinks.push(new Hyperlink(currLinks.length, newLinkName, newLinkUrl));
+      currLinks.push(
+        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+      );
 
       $localPreset = currPreset;
       closeOverlay();
@@ -54,178 +61,102 @@
       closeOverlay();
     }
   }
+
+  function duplicateLink() {
+    if (submittable) {
+      let currPreset = $localPreset;
+      let currLinks =
+        currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
+
+      currLinks.push(
+        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+      );
+
+      $localPreset = currPreset;
+      closeOverlay();
+    }
+  }
 </script>
 
-<section>
-  <button id="exitOverlay" on:click={closeOverlay}> X </button>
-  <div id="insertHead">
-    {#if type === 'new'}
-      <h1>Erstelle einen Link</h1>
-    {:else}
-      <h2 id="editLinkText">Bearbeite den Link</h2>
-      <h1 id="linkName">{newLinkName}</h1>
-    {/if}
-    <h3 id="editLinkFolder">Im Ordner</h3>
-    <h2 id="folderName">{$linkOverlayOptions.currentFolder}</h2>
-  </div>
-  <div id="insertContent">
-    <input
+<Dialog
+  bind:open={$linkOverlayOptions.showOverlay}
+  aria-labelledby="simple-title"
+  aria-describedby="simple-content"
+>
+  {#if type === 'new'}
+    <Title id="simple-title">
+      Erstelle einen Link
+      <p class="subtitle">
+        Lege hier einen neuen Link im Ordner <b
+          >{$linkOverlayOptions.currentFolder}</b
+        > an. Füge hierzu den Namen und die URL des Links ein.
+      </p>
+    </Title>
+  {:else}
+    <Title id="simple-title">
+      Bearbeite den Link: {newLinkName}
+      <p class="subtitle">
+        Bearbeite hier den Link <b>{newLinkName}</b> im Ordner
+        <b>{$linkOverlayOptions.currentFolder}</b>.
+      </p>
+    </Title>
+  {/if}
+  <Content id="simple-content">
+    <Textfield
+      variant="outlined"
       bind:this={nameInput}
-      maxlength="40"
-      type="text"
       bind:value={newLinkName}
-      placeholder="Link Name"
+      label="Name"
+      style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
         if (event.code === 'Enter') {
-          console.log('Link Name', event.code);
           type === 'new' ? addLink() : editLink();
         }
       }}
-    />
-
-    <input
-      type="text"
+    >
+      <Icon class="material-icons" slot="leadingIcon">tag</Icon>
+      <HelperText slot="helper">Name des Links</HelperText>
+    </Textfield>
+    <Textfield
+      variant="outlined"
       bind:value={newLinkUrl}
-      placeholder="Link URL"
+      label="URL"
+      style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
         if (event.code === 'Enter') {
-          console.log('Link Name', event.code);
           type === 'new' ? addLink() : editLink();
         }
       }}
-    />
-  </div>
-  <button
-    id="submitOverlay"
-    class={!submittable ? 'disabled' : 'enabled'}
-    on:click={type === 'new' ? addLink : editLink}
-    disabled={!submittable}
-  >
-    Speichern
-  </button>
-</section>
+    >
+      <Icon class="material-icons" slot="leadingIcon">link</Icon>
+      <HelperText slot="helper">URL des Links</HelperText>
+    </Textfield>
+  </Content>
+  <Actions>
+    {#if type === 'edit'}
+      <Button on:click={duplicateLink}>
+        <Icon class="material-icons">content_copy</Icon>
+        <Label>Duplizieren</Label>
+      </Button>
+    {/if}
+    <Button on:click={closeOverlay}>
+      <Label>Abbruch</Label>
+    </Button>
+    <Button
+      on:click={type === 'new' ? addLink : editLink}
+      disabled={!submittable}
+    >
+      <Label>Speichern</Label>
+    </Button>
+  </Actions>
+</Dialog>
+
 <svelte:window
   on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
 
 <style lang="scss">
-  @import '$lib/styles/_variables.scss';
-  @import '$lib/styles/mixins.scss';
-
-  section {
-    position: fixed;
-    display: grid;
-    width: 100%;
-    height: 100%;
-    background-color: $darkgrey90;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    grid-template-columns: 1fr;
-    grid-template-rows: 45% 35% 20%;
-    grid-template-areas: 'header' 'input' 'submit';
-    justify-items: center;
-  }
-
-  #exitOverlay {
-    background-color: $red70;
-    padding: 12px 18px;
-    color: white;
-    font-size: 18px;
-    border: solid 0px;
-    box-shadow: $sharpen;
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    &:hover {
-      background-color: $red;
-    }
-  }
-
-  #insertHead {
-    grid-area: header;
-    color: white;
-    text-align: center;
-    padding-top: 100px;
-
-    h1 {
-      font-size: 48px;
-    }
-
-    h2 {
-      font-size: 34px;
-    }
-  }
-
-  #insertContent {
-    grid-area: input;
-    width: 100%;
-    padding-top: 50px;
-    text-align: center;
-  }
-
-  input {
-    position: relative;
-    width: 75%;
-    height: 50px;
-    font-size: 18px;
-    text-align: center;
-    margin: 20px 0 20px 0;
-    outline: none;
-
-    &:focus {
-      background-color: $lightgrey80;
-      color: $light80;
-      border: solid 1px white;
-      &::placeholder {
-        color: $light80;
-      }
-    }
-  }
-
-  #submitOverlay {
-    grid-area: submit;
-    padding: 12px 18px;
-    color: white;
-    font-size: 32px;
-    border: none;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    height: 100px;
-    transition: all 0.3s ease 0s;
-  }
-
-  #editLinkText {
-    color: $light80;
-  }
-
-  #linkName {
-    font-weight: 600;
-  }
-
-  #editLinkFolder {
-    color: $light80;
-  }
-
-  #folderName {
-    font-weight: 600;
-  }
-
-  .disabled {
-    background-color: $lightgrey80;
-  }
-
-  .enabled {
-    background-color: $green70;
-
-    &:hover {
-      box-shadow: 2px 2px $green;
-      background-color: $green;
-    }
+  .subtitle {
+    font-size: 1rem;
   }
 </style>
