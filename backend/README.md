@@ -32,11 +32,25 @@ npm run dev
 npm run build
 ```
 
-2. Deploy the backend by coping the `dist/apps/backend` folder content to the server in /home/tilloh/api
+2. Deploy the backend by coping the `dist/apps/tilloh-dev` folder content to the server in /home/tilloh/api
 
-3. Restart supervisor
+3. Install the dependencies in /home/tilloh/api
+
+```
+npm install --production
+```
+
+4. (optional) Create a `.env` file in /home/tilloh/api with the environment variables
+
+5. Restart supervisor
 
 ```
 supervisorctl stop tilloh-api-daemon
 supervisorctl start tilloh-api-daemon
+```
+
+6. Check the logs
+
+```
+supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 ```
