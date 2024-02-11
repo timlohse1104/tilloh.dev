@@ -1,0 +1,8 @@
+{
+  "ignore": "pid,hostname,time",
+  "translateTime": false,
+  "singleLine": false,
+  "colorize": true,
+  "hideObject": true,
+  "messageFormat": "[Nest] {pid} - {if req.id} ({req.id}) - {end}{time} {level} {if context}[{context}] {end} {msg}"
+}
