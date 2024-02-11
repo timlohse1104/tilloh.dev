@@ -1,8 +1,12 @@
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
-import { ensureEnvValue } from '@backend/util';
-import { Logger, Module } from '@nestjs/common';
+import {
+  GlobalExceptionFilter,
+  LoggerMiddleware,
+  ensureEnvValue,
+} from '@backend/util';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   FastifyAdapter,
@@ -37,13 +41,26 @@ import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
             return { level: label.toUpperCase() };
           },
         },
+        customSuccessMessage: function (req, res) {
+          if (res.statusCode !== 200) {
+            return `❌ ${req.method} Request errored`;
+          }
+          return `⬆️  ${req.method} Request completed`;
+        },
       },
     }),
     MemorandumControllerModule,
   ],
   providers: [Logger],
 })
-export class AppModule {}
+export class AppModule {
+  /**
+   * Bind middleware to the application.
+   */
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -53,6 +70,10 @@ async function bootstrap() {
   const globalPrefix = ensureEnvValue('GLOBAL_PREFIX', 'api');
   app.setGlobalPrefix(globalPrefix);
   app.useLogger(app.get(PinoLogger));
+  app.enableCors();
+  app.useGlobalFilters(
+    new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger))
+  );
   const port = ensureEnvValue('PORT', '61154');
 
   const config = new DocumentBuilder()

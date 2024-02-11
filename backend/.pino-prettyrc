@@ -4,5 +4,5 @@
   "singleLine": false,
   "colorize": true,
   "hideObject": true,
-  "messageFormat": "[Nest] {pid} - {if req.id} ({req.id}) - {end}{time} {level} {if context}[{context}] {end} {msg}"
+  "messageFormat": "[Nest] {pid} - {if req.id} ({req.id}) - {end}{time} {if context}[{context}] {end} {msg}"
 }

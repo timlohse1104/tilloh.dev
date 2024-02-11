@@ -1,9 +1,9 @@
-import { MemorandumMemorandumProviderModule } from '@backend/memorandum/memorandum-provider';
+import { MemorandumProviderModule } from '@backend/memorandum/memorandum-provider';
 import { Module } from '@nestjs/common';
 import { IdentifiersController } from './identifiers.controller';
 
 @Module({
-  imports: [MemorandumMemorandumProviderModule],
+  imports: [MemorandumProviderModule],
   controllers: [IdentifiersController],
   providers: [],
   exports: [],

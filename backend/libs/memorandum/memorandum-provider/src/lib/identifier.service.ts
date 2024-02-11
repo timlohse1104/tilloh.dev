@@ -1,4 +1,6 @@
+import { IdentifiersMongoDbService } from '@backend/memorandum/memorandum-persistence';
 import {
+  CreateIdentifierInputDto,
   CreateIdentifierOutputDto,
   GetIdentifierInputDto,
   GetIdentifierOutputDto,
@@ -7,33 +9,30 @@ import {
   RemoveIdentifierOutputDto,
   UpdateIdentifierOutputDto,
 } from '@backend/shared/types';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
+@Injectable()
 export class IdentifiersService {
   private readonly logger = new Logger(IdentifiersService.name);
-  constructor() {}
+  constructor(private identifiersMongoDbService: IdentifiersMongoDbService) {}
 
   async getIdentifiers(): Promise<GetIdentifiersOutputDto[]> {
     this.logger.log('returned list of all identifiers');
-    return await [
-      { id: '1', name: 'identifier1' },
-      { id: '2', name: 'identifier2' },
-    ];
+    return await this.identifiersMongoDbService.findAll();
   }
 
   async getIdentifier(
     getIdentifierInput: GetIdentifierInputDto
   ): Promise<GetIdentifierOutputDto> {
     this.logger.log('returns one identifier');
-    return await {
-      id: getIdentifierInput.id,
-      name: 'identifier' + getIdentifierInput.id,
-    };
+    return await this.identifiersMongoDbService.findOne(getIdentifierInput.id);
   }
 
-  async createIdentifier(): Promise<CreateIdentifierOutputDto> {
+  async createIdentifier(
+    createIdentifierInputDto: CreateIdentifierInputDto
+  ): Promise<CreateIdentifierOutputDto> {
     this.logger.log('creates an identifier');
-    return { id: '1', name: 'identifier1' };
+    return this.identifiersMongoDbService.create(createIdentifierInputDto.name);
   }
 
   async updateIdentifier(
@@ -41,11 +40,11 @@ export class IdentifiersService {
     identifierDto: IdentifierDto
   ): Promise<UpdateIdentifierOutputDto> {
     this.logger.log('updates identifier with id:' + id);
-    return await identifierDto;
+    return await this.identifiersMongoDbService.update(id, identifierDto);
   }
 
   async deleteIdentifier(id: string): Promise<RemoveIdentifierOutputDto> {
     this.logger.log('deleted identifier with id:' + id);
-    return { id: id, name: 'identifier' + id };
+    return this.identifiersMongoDbService.remove(id);
   }
 }

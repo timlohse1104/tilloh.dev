@@ -1,5 +1,6 @@
 import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
 import {
+  CreateIdentifierInputDto,
   CreateIdentifierOutputDto,
   GetIdentifierInputDto,
   GetIdentifierOutputDto,
@@ -62,8 +63,8 @@ export class IdentifiersController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post()
-  createIdentifier() {
-    return this.identifiersService.createIdentifier();
+  createIdentifier(@Body() createIdentifierInputDto: CreateIdentifierInputDto) {
+    return this.identifiersService.createIdentifier(createIdentifierInputDto);
   }
 
   @ApiOkResponse({
