@@ -40,3 +40,7 @@ npm run build
 supervisorctl stop tilloh-api-daemon
 supervisorctl start tilloh-api-daemon
 ```
+
+## API documentation
+
+The API documentation is available at `https://api.tilloh.dev/v1`

@@ -1,9 +1,5 @@
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
-import {
-  GlobalExceptionFilter,
-  LoggerMiddleware,
-  ensureEnvValue,
-} from '@backend/util';
+import { GlobalExceptionFilter, LoggerMiddleware } from '@backend/util';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
@@ -24,11 +20,10 @@ import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
         GLOBAL_PREFIX: Joi.string().required(),
         PORT: Joi.number().required(),
         MONGO_DB_URL: Joi.string().required(),
+        SERVER_ADDRESS: Joi.string().required(),
       }),
     }),
-    MongooseModule.forRoot(
-      ensureEnvValue('MONGO_DB_URL', 'mongodb://localhost/tilloh-dev')
-    ),
+    MongooseModule.forRoot(process.env.MONGO_DB_URL),
     LoggerModule.forRoot({
       pinoHttp: {
         timestamp: () =>
@@ -67,27 +62,31 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   );
-  const globalPrefix = ensureEnvValue('GLOBAL_PREFIX', 'api');
+  const globalPrefix = process.env.GLOBAL_PREFIX;
+  const port = process.env.PORT;
+  const address = process.env.SERVER_ADDRESS;
+
   app.setGlobalPrefix(globalPrefix);
   app.useLogger(app.get(PinoLogger));
   app.enableCors();
   app.useGlobalFilters(
     new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger))
   );
-  const port = ensureEnvValue('PORT', '61154');
 
   const config = new DocumentBuilder()
     .setTitle('tilloh.dev')
     .setDescription('The official tilloh.dev API documentation 📖')
     .setVersion('1.0')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(globalPrefix, app, document);
 
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+  await app.listen(port, address, () => {
+    Logger.log(
+      `🚀 Application is running on: http://${address}:${port}/${globalPrefix}`
+    );
+  });
 }
 
 bootstrap();
