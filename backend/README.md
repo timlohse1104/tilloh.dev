@@ -41,6 +41,12 @@ supervisorctl stop tilloh-api-daemon
 supervisorctl start tilloh-api-daemon
 ```
 
+4. Check the logs
+
+```
+supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
+```
+
 ## API documentation
 
 The API documentation is available at `https://api.tilloh.dev/v1`

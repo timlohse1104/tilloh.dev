@@ -37,10 +37,10 @@ import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
           },
         },
         customSuccessMessage: function (req, res) {
-          if (res.statusCode !== 200) {
-            return `❌ ${req.method} Request errored`;
+          if (res.statusCode >= 200 && res.statusCode <= 400) {
+            return `⬆️  ${req.method} Request completed`;
           }
-          return `⬆️  ${req.method} Request completed`;
+          return `❌ ${req.method} Request errored`;
         },
       },
     }),

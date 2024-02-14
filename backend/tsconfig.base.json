@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
@@ -32,6 +33,9 @@
       ],
       "@backend/memorandum/memorandum-provider": [
         "libs/memorandum/memorandum-provider/src/index.ts"
+      ],
+      "@backend/shared/keystore-persistence": [
+        "libs/shared/keystore-persistence/src/index.ts"
       ],
       "@backend/shared/texts": ["libs/shared/texts/src/index.ts"],
       "@backend/shared/types": ["libs/shared/types/src/index.ts"],
