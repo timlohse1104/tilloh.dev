@@ -45,6 +45,8 @@
       static: true,
       animate: true,
       center: false,
+      gutter: 25,
+      items: $localPreset.Folders.length,
     };
     magicGrid = new MagicGrid(magicGridOptions);
     magicGrid.listen();
@@ -114,8 +116,9 @@
     color: white;
     margin: 0;
     padding: calc(var(--default-padding) / 2);
-    overflow-y: auto;
+    // overflow-y: auto;
     overflow-x: hidden;
+    height: unset;
   }
 
   * :global(svg:focus) {
