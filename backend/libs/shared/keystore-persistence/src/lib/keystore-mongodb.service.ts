@@ -25,63 +25,81 @@ export class KeystoreMongoDbService {
     return keys;
   }
 
-  async findOne(id: string): Promise<KeystoreDto> {
-    this.logger.debug({ input: { id } }, KeystoreTexts.ATTEMPT_FIND_ONE);
-    const identifier = await this.keystoreModel.findOne({ _id: id }).exec();
+  async findOne(identifier: string, key: string): Promise<KeystoreDto> {
+    this.logger.debug(
+      { input: { identifier, key } },
+      KeystoreTexts.ATTEMPT_FIND_ONE
+    );
+    const keyEntry = await this.keystoreModel
+      .findOne({ identifier, key })
+      .exec();
 
-    if (!identifier) {
+    if (!keyEntry) {
       throw new NotFoundException(KeystoreTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, KeystoreTexts.FOUND_ONE);
-    return identifier;
+    this.logger.debug({ output: keyEntry }, KeystoreTexts.FOUND_ONE);
+    return keyEntry;
   }
 
-  async create(name: string): Promise<KeystoreDto> {
-    this.logger.debug({ input: {} }, KeystoreTexts.ATTEMPT_CREATE);
-    const identifier = await this.keystoreModel.create({
+  async create(
+    identifier: string,
+    key: string,
+    value: string
+  ): Promise<KeystoreDto> {
+    this.logger.debug(
+      { input: { identifier, key, value } },
+      KeystoreTexts.ATTEMPT_CREATE
+    );
+    const keyEntry = await this.keystoreModel.create({
       _id: randomUUID(),
-      name,
+      identifier,
+      key,
+      value,
     });
     this.logger.debug(
-      { output: identifier?.toObject() },
+      { output: keyEntry?.toObject() },
       KeystoreTexts.CREATED_ONE
     );
-    return identifier;
+    return keyEntry;
   }
 
   async update(
-    id: string,
-    identifierDto: Partial<KeystoreDto>
+    identifier: string,
+    key: string,
+    keystoreDto: Partial<KeystoreDto>
   ): Promise<KeystoreDto> {
     this.logger.debug(
-      { input: { id, identifierDto } },
+      { input: { identifier, key, keystoreDto } },
       KeystoreTexts.ATTEMPT_UPDATE
     );
-    const identifier = await this.keystoreModel
+    const keyEntry = await this.keystoreModel
       .findOneAndUpdate(
-        { _id: id },
-        { ...identifierDto, updated: new Date() },
+        { identifier, key },
+        { ...keystoreDto, updated: new Date() },
         { new: true }
       )
       .exec();
 
-    if (!identifier) {
+    if (!keyEntry) {
       throw new NotFoundException(KeystoreTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, KeystoreTexts.UPDATED_ONE);
-    return identifier;
+    this.logger.debug({ output: keyEntry }, KeystoreTexts.UPDATED_ONE);
+    return keyEntry;
   }
 
-  async remove(id: string) {
-    this.logger.debug({ input: { id } }, KeystoreTexts.ATTEMPT_DELETE);
-    const identifier = await this.keystoreModel
-      .findOneAndDelete({ _id: id })
+  async remove(identifier: string, key: string) {
+    this.logger.debug(
+      { input: { identifier, key } },
+      KeystoreTexts.ATTEMPT_DELETE
+    );
+    const keyEntry = await this.keystoreModel
+      .findOneAndDelete({ identifier, key })
       .exec();
 
-    if (!identifier) {
+    if (!keyEntry) {
       throw new NotFoundException(KeystoreTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, KeystoreTexts.DELETE_ONE);
-    return identifier;
+    this.logger.debug({ output: keyEntry }, KeystoreTexts.DELETE_ONE);
+    return keyEntry;
   }
 }

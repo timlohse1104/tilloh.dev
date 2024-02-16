@@ -2,10 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class KeystoreDto {
-  @ApiProperty({ description: 'Keystore ID' })
-  @IsNotEmpty()
-  _id: string;
-
   @ApiProperty({ description: 'Identifier ID' })
   @IsNotEmpty()
   identifier: string;
@@ -69,8 +65,12 @@ export class UpdateKeystoreInputDto {
 export class UpdateKeystoreOutputDto extends KeystoreDto {}
 
 export class RemoveKeystoreInputDto {
-  @ApiProperty({ description: 'Keystore ID' })
+  @ApiProperty({ description: 'Identifier ID' })
   @IsNotEmpty()
-  id: string;
+  identifier: string;
+
+  @ApiProperty({ description: 'Keystore key' })
+  @IsNotEmpty()
+  key: string;
 }
 export class RemoveKeystoreOutputDto extends KeystoreDto {}
