@@ -5,10 +5,10 @@
   import { createEventDispatcher } from 'svelte';
   import { RGBBackgroundClass } from '../util/classes.js';
   import {
-    folderOrder,
-    folderOverlayOptions,
-    linkOverlayOptions,
-    localPreset,
+    folderOrderFolder,
+    folderOverlayOptionsStore,
+    linkOverlayOptionsStore,
+    localPresetStore,
   } from '../util/stores.js';
   import Link from './Link.svelte';
 
@@ -24,32 +24,34 @@
   const dispatch = createEventDispatcher();
 
   function showOverlay(event) {
-    $linkOverlayOptions.showOverlay = !$linkOverlayOptions.showOverlay;
-    $linkOverlayOptions.currentFolderId = id;
-    $linkOverlayOptions.currentFolder = folderHeader;
+    $linkOverlayOptionsStore.showOverlay =
+      !$linkOverlayOptionsStore.showOverlay;
+    $linkOverlayOptionsStore.currentFolderId = id;
+    $linkOverlayOptionsStore.currentFolder = folderHeader;
 
     if (event.detail) {
-      $linkOverlayOptions.currLinkId = event.detail.linkId;
-      $linkOverlayOptions.currLinkName = event.detail.linkName;
-      $linkOverlayOptions.currLinkUrl = event.detail.linkUrl;
+      $linkOverlayOptionsStore.currLinkId = event.detail.linkId;
+      $linkOverlayOptionsStore.currLinkName = event.detail.linkName;
+      $linkOverlayOptionsStore.currLinkUrl = event.detail.linkUrl;
     }
   }
 
   function deleteLink(event) {
-    let currentPreset = $localPreset;
+    let currentPreset = $localPresetStore;
 
     currentPreset.Folders[id].links.splice(event.detail, 1);
     _updateLinkIds(currentPreset.Folders[id].links);
 
-    $localPreset = currentPreset;
+    $localPresetStore = currentPreset;
   }
 
   function showFolderOverlay() {
-    $folderOverlayOptions.showOverlay = !$folderOverlayOptions.showOverlay;
-    $folderOverlayOptions.currentFolderId = id;
-    $folderOverlayOptions.currentFolderName = folderHeader;
-    $folderOverlayOptions.currentFolderBackgroundColor =
-      $localPreset.Folders[id].customBackgroundColor;
+    $folderOverlayOptionsStore.showOverlay =
+      !$folderOverlayOptionsStore.showOverlay;
+    $folderOverlayOptionsStore.currentFolderId = id;
+    $folderOverlayOptionsStore.currentFolderName = folderHeader;
+    $folderOverlayOptionsStore.currentFolderBackgroundColor =
+      $localPresetStore.Folders[id].customBackgroundColor;
   }
 
   function dragStartFolder(event) {
@@ -67,7 +69,7 @@
     let targetIndex = _getTargetIndex(event);
 
     if (originIndex !== targetIndex) {
-      let currPreset = $localPreset;
+      let currPreset = $localPresetStore;
 
       currPreset.Folders.splice(
         targetIndex,
@@ -75,7 +77,7 @@
         currPreset.Folders.splice(originIndex, 1)[0],
       );
 
-      $localPreset = currPreset;
+      $localPresetStore = currPreset;
     }
   }
 
@@ -109,7 +111,7 @@
     let originFolderIndex = event.dataTransfer.getData('originFolderIndex');
     let originLinkIndex = event.dataTransfer.getData('originLinkIndex');
     let targetFolderIndex = _getTargetIndex(event);
-    let currPreset = $localPreset;
+    let currPreset = $localPresetStore;
 
     currPreset.Folders[targetFolderIndex].links.push(
       currPreset.Folders[originFolderIndex].links.splice(originLinkIndex, 1)[0],
@@ -123,7 +125,7 @@
     let targetLinks = currPreset.Folders[targetFolderIndex].links;
     _updateLinkIds(targetLinks);
 
-    $localPreset = currPreset;
+    $localPresetStore = currPreset;
   }
 
   function _updateLinkIds(links) {
@@ -153,7 +155,7 @@
 </script>
 
 <section
-  class={$folderOrder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
+  class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
   draggable={true}
   on:dragstart={(event) => dragStartFolder(event)}
   on:drop|preventDefault={(event) => {
@@ -190,10 +192,10 @@
   </button>
 
   <div class="boxContent">
-    {#await $localPreset}
+    {#await $localPresetStore}
       <p>Loading links</p>
     {:then value}
-      {#each $localPreset.Folders[id].links as { id, linkName, linkUrl }, i}
+      {#each $localPresetStore.Folders[id].links as { id, linkName, linkUrl }, i}
         <Link
           on:delLink={deleteLink}
           on:editLink={showOverlay}

@@ -29,6 +29,7 @@
     "@smui/segmented-button": "^7.0.0-beta.16",
     "@smui/slider": "^7.0.0-beta.16",
     "@smui/snackbar": "^7.0.0-beta.16",
+    "@smui/switch": "^7.0.0-beta.16",
     "@smui/textfield": "^7.0.0-beta.16",
     "@smui/tooltip": "^7.0.0-beta.16",
     "@smui/top-app-bar": "^7.0.0-beta.16",

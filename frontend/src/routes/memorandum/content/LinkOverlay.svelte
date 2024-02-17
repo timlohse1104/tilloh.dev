@@ -9,13 +9,13 @@
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
   import { HyperlinkClass } from '../util/classes.js';
-  import { linkOverlayOptions, localPreset } from '../util/stores.js';
+  import { linkOverlayOptionsStore, localPresetStore } from '../util/stores.js';
 
   export let newLinkName = '';
   export let newLinkUrl = '';
 
   $: submittable = newLinkName && newLinkUrl;
-  let type = $linkOverlayOptions.currLinkName ? 'edit' : 'new';
+  let type = $linkOverlayOptionsStore.currLinkName ? 'edit' : 'new';
   let nameInput;
 
   onMount(() => {
@@ -23,63 +23,63 @@
   });
 
   function closeOverlay() {
-    $linkOverlayOptions.showOverlay = false;
-    $linkOverlayOptions.currentFolderId = undefined;
-    $linkOverlayOptions.currentFolder = undefined;
-    $linkOverlayOptions.currLinkId = undefined;
-    $linkOverlayOptions.currLinkName = undefined;
-    $linkOverlayOptions.currLinkUrl = undefined;
+    $linkOverlayOptionsStore.showOverlay = false;
+    $linkOverlayOptionsStore.currentFolderId = undefined;
+    $linkOverlayOptionsStore.currentFolder = undefined;
+    $linkOverlayOptionsStore.currLinkId = undefined;
+    $linkOverlayOptionsStore.currLinkName = undefined;
+    $linkOverlayOptionsStore.currLinkUrl = undefined;
   }
 
   function addLink() {
     if (submittable) {
-      let currPreset = $localPreset;
+      let currPreset = $localPresetStore;
       let currLinks =
-        currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
+        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links;
 
       currLinks.push(
         new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
       );
 
-      $localPreset = currPreset;
+      $localPresetStore = currPreset;
       closeOverlay();
     }
   }
 
   function editLink() {
     if (submittable) {
-      let currPreset = $localPreset;
+      let currPreset = $localPresetStore;
       let currLink =
-        currPreset.Folders[$linkOverlayOptions.currentFolderId].links[
-          $linkOverlayOptions.currLinkId
+        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links[
+          $linkOverlayOptionsStore.currLinkId
         ];
 
       currLink.linkName = newLinkName;
       currLink.linkUrl = newLinkUrl;
 
-      $localPreset = currPreset;
+      $localPresetStore = currPreset;
       closeOverlay();
     }
   }
 
   function duplicateLink() {
     if (submittable) {
-      let currPreset = $localPreset;
+      let currPreset = $localPresetStore;
       let currLinks =
-        currPreset.Folders[$linkOverlayOptions.currentFolderId].links;
+        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links;
 
       currLinks.push(
         new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
       );
 
-      $localPreset = currPreset;
+      $localPresetStore = currPreset;
       closeOverlay();
     }
   }
 </script>
 
 <Dialog
-  bind:open={$linkOverlayOptions.showOverlay}
+  bind:open={$linkOverlayOptionsStore.showOverlay}
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >
@@ -88,7 +88,7 @@
       Erstelle einen Link
       <p class="subtitle">
         Lege hier einen neuen Link im Ordner <b
-          >{$linkOverlayOptions.currentFolder}</b
+          >{$linkOverlayOptionsStore.currentFolder}</b
         > an. Füge hierzu den Namen und die URL des Links ein.
       </p>
     </Title>
@@ -97,7 +97,7 @@
       Bearbeite den Link: {newLinkName}
       <p class="subtitle">
         Bearbeite hier den Link <b>{newLinkName}</b> im Ordner
-        <b>{$linkOverlayOptions.currentFolder}</b>.
+        <b>{$linkOverlayOptionsStore.currentFolder}</b>.
       </p>
     </Title>
   {/if}

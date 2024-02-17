@@ -8,11 +8,11 @@
   import LinkOverlay from './content/LinkOverlay.svelte';
   import PresetOverlay from './content/PresetOverlay.svelte';
   import {
-    folderOrder,
-    folderOverlayOptions,
-    linkOverlayOptions,
-    localPreset,
-    presetOverlayOptions,
+    folderOrderFolder,
+    folderOverlayOptionsStore,
+    linkOverlayOptionsStore,
+    localPresetStore,
+    presetOverlayOptionsStore,
   } from './util/stores';
   import type { Order } from './util/types';
 
@@ -28,16 +28,16 @@
       icon: 'expand',
     },
   ];
-  let order = $folderOrder
-    ? orders.find((o) => o.id === $folderOrder)
+  let order = $folderOrderFolder
+    ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
 
   function showPresetOverlay() {
-    $presetOverlayOptions.showOverlay = true;
+    $presetOverlayOptionsStore.showOverlay = true;
   }
 
   function updateOrder(order: Order) {
-    $folderOrder = order.id;
+    $folderOrderFolder = order.id;
   }
 </script>
 
@@ -79,8 +79,8 @@
 </div>
 
 <div class="boxArea">
-  {#if $folderOrder === 'flexible'}
-    {#key $localPreset}
+  {#if $folderOrderFolder === 'flexible'}
+    {#key $localPresetStore}
       <BoxArea />
     {/key}
   {:else}
@@ -88,18 +88,18 @@
   {/if}
 </div>
 
-{#if $folderOverlayOptions.showOverlay}
-  <FolderOverlay folderName={$folderOverlayOptions.currentFolderName} />
+{#if $folderOverlayOptionsStore.showOverlay}
+  <FolderOverlay folderName={$folderOverlayOptionsStore.currentFolderName} />
 {/if}
 
-{#if $linkOverlayOptions.showOverlay}
+{#if $linkOverlayOptionsStore.showOverlay}
   <LinkOverlay
-    newLinkName={$linkOverlayOptions.currLinkName}
-    newLinkUrl={$linkOverlayOptions.currLinkUrl}
+    newLinkName={$linkOverlayOptionsStore.currLinkName}
+    newLinkUrl={$linkOverlayOptionsStore.currLinkUrl}
   />
 {/if}
 
-{#if $presetOverlayOptions.showOverlay}
+{#if $presetOverlayOptionsStore.showOverlay}
   <PresetOverlay />
 {/if}
 

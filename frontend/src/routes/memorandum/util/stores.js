@@ -35,10 +35,10 @@ if (browser) {
   linkPresetDefault = ensureFolderBackgroundColor(linkPreset);
 }
 
-export const localPreset = writable(JSON.parse(linkPresetDefault));
+export const localPresetStore = writable(JSON.parse(linkPresetDefault));
 
 if (browser) {
-  localPreset.subscribe((val) =>
+  localPresetStore.subscribe((val) =>
     localStorage.setItem('linkPreset', JSON.stringify(val))
   );
 }
@@ -55,25 +55,27 @@ if (browser) {
     localStorage.getItem('folderOrder') || folderOrderDefault;
 }
 
-export const folderOrder = writable(folderOrderDefault);
+export const folderOrderFolder = writable(folderOrderDefault);
 
 if (browser) {
-  folderOrder.subscribe((val) => localStorage.setItem('folderOrder', val));
+  folderOrderFolder.subscribe((val) =>
+    localStorage.setItem('folderOrder', val)
+  );
 }
 
 // Normal stores
-export const presetOverlayOptions = writable({
+export const presetOverlayOptionsStore = writable({
   showOverlay: false,
 });
 
-export const folderOverlayOptions = writable({
+export const folderOverlayOptionsStore = writable({
   showOverlay: false,
   currentFolderId: undefined,
   currentFolderName: undefined,
   currentFolderBackgroundColor: undefined,
 });
 
-export const linkOverlayOptions = writable({
+export const linkOverlayOptionsStore = writable({
   showOverlay: false,
   currentFolderId: undefined,
   currentFolder: undefined,

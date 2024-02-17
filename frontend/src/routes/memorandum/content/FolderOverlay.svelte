@@ -15,7 +15,10 @@
   import { onMount } from 'svelte';
   import { RGBBackgroundClass } from '../util/classes.js';
   import { defaultColor } from '../util/constants.js';
-  import { folderOverlayOptions, localPreset } from '../util/stores.js';
+  import {
+    folderOverlayOptionsStore,
+    localPresetStore,
+  } from '../util/stores.js';
 
   export let folderName = '';
 
@@ -33,11 +36,12 @@
 
   onMount(() => {
     nameInput.focus();
-    if ($folderOverlayOptions.currentFolderBackgroundColor) {
+    if ($folderOverlayOptionsStore.currentFolderBackgroundColor) {
       customColor = new RGBBackgroundClass(
-        $folderOverlayOptions.currentFolderBackgroundColor,
+        $folderOverlayOptionsStore.currentFolderBackgroundColor,
       );
-      const persistedColor = $folderOverlayOptions.currentFolderBackgroundColor;
+      const persistedColor =
+        $folderOverlayOptionsStore.currentFolderBackgroundColor;
       customColorActive =
         persistedColor.r !== defaultColor.r ||
         persistedColor.g !== defaultColor.g ||
@@ -47,29 +51,30 @@
   });
 
   function closeOverlay() {
-    $folderOverlayOptions.showOverlay = false;
-    $folderOverlayOptions.currentFolderId = undefined;
+    $folderOverlayOptionsStore.showOverlay = false;
+    $folderOverlayOptionsStore.currentFolderId = undefined;
   }
 
   function editFolder() {
     if (submittable) {
-      let currentPreset = $localPreset;
-      currentPreset.Folders[$folderOverlayOptions.currentFolderId].folderName =
-        folderName;
+      let currentPreset = $localPresetStore;
       currentPreset.Folders[
-        $folderOverlayOptions.currentFolderId
+        $folderOverlayOptionsStore.currentFolderId
+      ].folderName = folderName;
+      currentPreset.Folders[
+        $folderOverlayOptionsStore.currentFolderId
       ].customBackgroundColor = { ...customColor };
 
-      $localPreset = currentPreset;
+      $localPresetStore = currentPreset;
       closeOverlay();
     }
   }
 
   function duplicateFolder() {
     if (submittable) {
-      let currentPreset = $localPreset;
+      let currentPreset = $localPresetStore;
       let currentFolder = {
-        ...currentPreset.Folders[$folderOverlayOptions.currentFolderId],
+        ...currentPreset.Folders[$folderOverlayOptionsStore.currentFolderId],
       };
 
       currentFolder.id = currentPreset.Folders.length;
@@ -77,7 +82,7 @@
 
       currentPreset.Folders.push(currentFolder);
 
-      $localPreset = currentPreset;
+      $localPresetStore = currentPreset;
       closeOverlay();
     }
   }
@@ -104,7 +109,7 @@
 </script>
 
 <Dialog
-  bind:open={$folderOverlayOptions.showOverlay}
+  bind:open={$folderOverlayOptionsStore.showOverlay}
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >

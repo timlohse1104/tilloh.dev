@@ -9,7 +9,10 @@
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
   import { onMount } from 'svelte';
-  import { localPreset, presetOverlayOptions } from '../util/stores.js';
+  import {
+    localPresetStore,
+    presetOverlayOptionsStore,
+  } from '../util/stores.js';
 
   let codeElement;
   let files: FileList;
@@ -25,7 +28,7 @@
       reader.onload = (event) => {
         const result = event.target.result;
         const json = JSON.parse(result);
-        localPreset.set(json);
+        localPresetStore.set(json);
         codeElement.innerHTML = JSON.stringify(json, null, 2);
       };
       reader.readAsText(file);
@@ -33,13 +36,13 @@
     }
   }
 
-  $: folderAmount = $localPreset.Folders.length;
+  $: folderAmount = $localPresetStore.Folders.length;
   $: linkAmount = [
-    ...$localPreset.Folders.map((folder) => folder.links.length),
+    ...$localPresetStore.Folders.map((folder) => folder.links.length),
   ].reduce((a, b) => a + b, 0);
 
   function closeOverlay() {
-    $presetOverlayOptions.showOverlay = false;
+    $presetOverlayOptionsStore.showOverlay = false;
   }
 
   function triggerFileSelect() {
@@ -49,7 +52,7 @@
   function triggerFileDownload() {
     const dataStr =
       'data:text/json;charset=utf-8,' +
-      encodeURIComponent(JSON.stringify($localPreset, null, 2));
+      encodeURIComponent(JSON.stringify($localPresetStore, null, 2));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
     const date = new Date();
@@ -69,7 +72,7 @@
 </script>
 
 <Dialog
-  bind:open={$presetOverlayOptions.showOverlay}
+  bind:open={$presetOverlayOptionsStore.showOverlay}
   aria-labelledby="large-scroll-title"
   aria-describedby="large-scroll-content"
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
@@ -121,7 +124,7 @@
           <Content
             ><pre class="code-container">
             <code class="language-json" bind:this={codeElement}
-                >{JSON.stringify($localPreset, null, 2)}</code
+                >{JSON.stringify($localPresetStore, null, 2)}</code
               >
           </pre></Content
           >

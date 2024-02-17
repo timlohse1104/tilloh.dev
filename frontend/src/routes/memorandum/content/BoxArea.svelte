@@ -7,7 +7,7 @@
   import { fetchJson } from '../util/async.js';
   import { FolderClass } from '../util/classes.js';
   import { defaultColor } from '../util/constants.js';
-  import { folderOrder, localPreset } from '../util/stores.js';
+  import { folderOrderFolder, localPresetStore } from '../util/stores.js';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
@@ -15,12 +15,12 @@
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
     // we need to create a copy and set the store again, so that the stores set method gets called
     // that happens because there is no localstorage update function, only get, set, remove and clear
-    let currentPreset = $localPreset;
+    let currentPreset = $localPresetStore;
 
     currentPreset.Folders.push(
       new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
     );
-    $localPreset = currentPreset;
+    $localPresetStore = currentPreset;
   }
 
   async function loadPreset() {
@@ -28,42 +28,42 @@
 
     let defaultPreset = await fetchJson(DEFAUL_PRESET_URL);
 
-    $localPreset = defaultPreset;
+    $localPresetStore = defaultPreset;
   }
 
   function deleteFolder(event) {
-    let currentPreset = $localPreset;
+    let currentPreset = $localPresetStore;
     currentPreset.Folders.splice(event.detail, 1);
-    $localPreset = currentPreset;
+    $localPresetStore = currentPreset;
   }
 
   let contentAreaElement;
   let magicGrid;
-  $: if ($folderOrder === 'flexible' && contentAreaElement) {
+  $: if ($folderOrderFolder === 'flexible' && contentAreaElement) {
     const magicGridOptions = {
       container: contentAreaElement as HTMLElement,
       static: true,
       animate: true,
       center: false,
       gutter: 25,
-      items: $localPreset.Folders.length,
+      items: $localPresetStore.Folders.length,
     };
     magicGrid = new MagicGrid(magicGridOptions);
     magicGrid.listen();
   }
 </script>
 
-{#await $localPreset}
+{#await $localPresetStore}
   <p>Waiting for the promise to resolve...</p>
 {:then value}
   {#if value.Folders.length > 0}
     <section
       bind:this={contentAreaElement}
-      class={$folderOrder === 'fixed'
+      class={$folderOrderFolder === 'fixed'
         ? 'contentAreaFixed'
         : 'contentAreaFlexible'}
     >
-      {#each $localPreset.Folders as { folderName, customBackgroundColor }, i}
+      {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
         <Folder
           id={i}
           folderHeader={folderName}
