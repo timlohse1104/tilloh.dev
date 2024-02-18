@@ -7,25 +7,34 @@
   $: pageName =
     $page.url.pathname.replace('/', '').charAt(0).toUpperCase() +
     $page.url.pathname.slice(2);
-
-  // How to scan for dark mode
-  // let prefersDarkScheme =
-  //   window.matchMedia &&
-  //   window.matchMedia('(prefers-color-scheme: dark)').matches;
 </script>
 
 <section>
   <div class="headerBox">
-    <div class={$page.url.pathname !== '/' ? 'hide' : 'corner'}>
-      <IconButton href="https://stadtwerk.org" target="_blank">
-        <img src={logo} alt="stadtwerk" />
-      </IconButton>
-    </div>
-    <div class={$page.url.pathname === '/' ? 'hide' : 'corner'}>
-      <IconButton style="color: white" href="/"
-        ><Icon class="material-icons">home</Icon></IconButton
-      >
-    </div>
+    {#if $page.url.pathname === '/'}
+      <div class="corner">
+        <IconButton href="https://stadtwerk.org" target="_blank">
+          <img src={logo} alt="stadtwerk" />
+        </IconButton>
+      </div>
+    {:else if $page.url.pathname === '/settings'}
+      <div class="corner">
+        <IconButton style="color: white; text-decoration: none;" href="/"
+          ><Icon class="material-icons">home</Icon></IconButton
+        >
+      </div>
+    {:else}
+      <div class="corner">
+        <IconButton style="color: white; text-decoration: none;" href="/"
+          ><Icon class="material-icons">home</Icon></IconButton
+        >
+        <IconButton
+          style="color: white;  text-decoration: none;"
+          href="/settings"
+          ><Icon class="material-icons">settings</Icon></IconButton
+        >
+      </div>
+    {/if}
 
     <div class="headlineBox">
       <h2>{$page.url.pathname !== '/' ? pageName : 'Home'}</h2>
@@ -68,14 +77,15 @@
     }
   }
 
-  .hide {
-    display: none;
-  }
+  // .hide {
+  //   display: none;
+  // }
 
   .corner {
     width: 3em;
     height: 3em;
     margin: 0.25em 0.5em;
+    display: flex;
   }
 
   .corner img {
