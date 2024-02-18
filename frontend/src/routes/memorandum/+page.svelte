@@ -3,6 +3,7 @@
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
+  import { onMount } from 'svelte';
   import BoxArea from './content/BoxArea.svelte';
   import FolderOverlay from './content/FolderOverlay.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';
@@ -13,6 +14,7 @@
     linkOverlayOptionsStore,
     localPresetStore,
     presetOverlayOptionsStore,
+    refreshPresetStore,
   } from './util/stores';
   import type { Order } from './util/types';
 
@@ -39,6 +41,10 @@
   function updateOrder(order: Order) {
     $folderOrderFolder = order.id;
   }
+
+  onMount(() => {
+    refreshPresetStore();
+  });
 </script>
 
 <svelte:head>

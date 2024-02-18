@@ -3,12 +3,6 @@
   import IconButton from '@smui/icon-button';
   import Textfield from '@smui/textfield';
   import Icon from '@smui/textfield/icon';
-  import { onDestroy } from 'svelte';
-
-  onDestroy(() => {
-    console.log('destroyed');
-    console.log($sharedIdentifierStore);
-  });
 </script>
 
 <section>

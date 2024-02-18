@@ -2,6 +2,8 @@
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-nocheck
 
+  import { dev } from '$app/environment';
+  import { environment } from '$lib/util/environment';
   import {
     resetSharedIdentifier,
     sharedIdentifierStore,
@@ -18,6 +20,10 @@
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
+
+  const apiURL = dev
+    ? environment.localApiBaseUrl
+    : environment.productionApiBaseUrl;
 
   let shareDataOnline;
   let name = '';
@@ -36,12 +42,9 @@
       $sharedIdentifierStore.id &&
       $sharedIdentifierStore.name
     ) {
-      await fetch(
-        `http://localhost:61154/v1/identifiers/${$sharedIdentifierStore.id}`,
-        {
-          method: 'DELETE',
-        },
-      );
+      await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
+        method: 'DELETE',
+      });
       resetSharedIdentifier();
       name = '';
     }
@@ -49,16 +52,13 @@
 
   async function saveOnlineIdentifier() {
     if ($sharedIdentifierStore.id) {
-      await fetch(
-        `http://localhost:61154/v1/identifiers/${$sharedIdentifierStore.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name }),
+      await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({ name }),
+      })
         .then((response) => response.json())
         .then((data) => {
           const identifier: Identifier = {
@@ -70,7 +70,7 @@
           name = data.name;
         });
     } else {
-      await fetch('http://localhost:61154/v1/identifiers', {
+      await fetch(`${apiURL}/identifiers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@
   }
 
   async function connectOnlineIdentifier() {
-    await fetch(`http://localhost:61154/v1/identifiers/${idInput}`)
+    await fetch(`${apiURL}/identifiers/${idInput}`)
       .then((response) => response.json())
       .then((data) => {
         const identifier: Identifier = {
@@ -115,8 +115,6 @@
       shareDataOnline = false;
     }
   });
-
-  // TODO: Einen Weg finden wie Nutzer die ID eingeben und damit ihre Daten auf einem anderen Gerät wiederherstellen können
 </script>
 
 <section>
