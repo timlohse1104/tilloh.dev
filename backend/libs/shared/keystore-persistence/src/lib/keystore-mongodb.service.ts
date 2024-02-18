@@ -1,5 +1,5 @@
 import { KeystoreTexts } from '@backend/shared/texts';
-import { KeystoreDto } from '@backend/shared/types';
+import { KeystoreDto, UpdateKeystoreInputBodyDto } from '@backend/shared/types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
@@ -66,16 +66,16 @@ export class KeystoreMongoDbService {
   async update(
     identifier: string,
     key: string,
-    keystoreDto: Partial<KeystoreDto>
+    updateKeystoreInputBodyDto: Partial<UpdateKeystoreInputBodyDto>
   ): Promise<KeystoreDto> {
     this.logger.debug(
-      { input: { identifier, key, keystoreDto } },
+      { input: { identifier, key, updateKeystoreInputBodyDto } },
       KeystoreTexts.ATTEMPT_UPDATE
     );
     const keyEntry = await this.keystoreModel
       .findOneAndUpdate(
         { identifier, key },
-        { ...keystoreDto, updated: new Date() },
+        { ...updateKeystoreInputBodyDto, updated: new Date() },
         { new: true }
       )
       .exec();

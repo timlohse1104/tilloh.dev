@@ -49,7 +49,7 @@ export class CreateKeystoreInputDto {
 }
 export class CreateKeystoreOutputDto extends KeystoreDto {}
 
-export class UpdateKeystoreInputDto {
+export class UpdateKeystoreInputParamDto {
   @ApiProperty({ description: 'Identifier ID' })
   @IsNotEmpty()
   identifier: string;
@@ -57,8 +57,9 @@ export class UpdateKeystoreInputDto {
   @ApiProperty({ description: 'Keystore key' })
   @IsNotEmpty()
   key: string;
-
-  @ApiProperty({ description: 'Keystore value' })
+}
+export class UpdateKeystoreInputBodyDto {
+  @ApiProperty({ description: 'Key value' })
   @IsNotEmpty()
   value: string;
 }

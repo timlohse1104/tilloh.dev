@@ -5,10 +5,10 @@ import {
   CreateKeystoreOutputDto,
   GetKeystoreInputDto,
   GetKeystoreOutputDto,
-  KeystoreDto,
   RemoveKeystoreInputDto,
   RemoveKeystoreOutputDto,
-  UpdateKeystoreInputDto,
+  UpdateKeystoreInputBodyDto,
+  UpdateKeystoreInputParamDto,
   UpdateKeystoreOutputDto,
 } from '@backend/shared/types';
 import {
@@ -83,8 +83,8 @@ export class KeystoreController {
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
   @Put('/:identifier/:key')
   updateIdentifier(
-    @Param() updateIdentifierInputDto: UpdateKeystoreInputDto,
-    @Body() keystoreDto: KeystoreDto
+    @Param() updateIdentifierInputDto: UpdateKeystoreInputParamDto,
+    @Body() keystoreDto: UpdateKeystoreInputBodyDto
   ) {
     return this.keystoreService.update(
       updateIdentifierInputDto.identifier,
