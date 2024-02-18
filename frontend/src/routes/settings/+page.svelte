@@ -9,12 +9,7 @@
 
 <section>
   <OnlinePersistenceCheck />
-  <hr />
 </section>
 
 <style lang="scss">
-  hr {
-    width: 75%;
-    margin-top: 4rem;
-  }
 </style>

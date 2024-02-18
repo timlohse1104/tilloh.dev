@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import github from '$lib/images/github-light.svg';
   import logo from '$lib/images/stadtwerk-logo.svg';
+  import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
 
   $: pageName =
@@ -11,34 +12,47 @@
 
 <section>
   <div class="headerBox">
-    {#if $page.url.pathname === '/'}
+    <div class="meInfo">
       <div class="corner">
-        <IconButton href="https://stadtwerk.org" target="_blank">
-          <img src={logo} alt="stadtwerk" />
-        </IconButton>
+        {#if $page.url.pathname === '/'}
+          <IconButton href="https://stadtwerk.org" target="_blank">
+            <img src={logo} alt="stadtwerk" />
+          </IconButton>
+        {:else if $page.url.pathname === '/settings'}
+          <IconButton style="color: white; text-decoration: none;" href="/"
+            ><Icon class="material-icons">home</Icon></IconButton
+          >
+        {:else}
+          <IconButton style="color: white; text-decoration: none;" href="/"
+            ><Icon class="material-icons">home</Icon></IconButton
+          >
+          <IconButton
+            style="color: white;  text-decoration: none;"
+            href="/settings"
+            ><Icon class="material-icons">settings</Icon></IconButton
+          >
+        {/if}
       </div>
-    {:else if $page.url.pathname === '/settings'}
-      <div class="corner">
-        <IconButton style="color: white; text-decoration: none;" href="/"
-          ><Icon class="material-icons">home</Icon></IconButton
-        >
-      </div>
-    {:else}
-      <div class="corner">
-        <IconButton style="color: white; text-decoration: none;" href="/"
-          ><Icon class="material-icons">home</Icon></IconButton
-        >
-        <IconButton
-          style="color: white;  text-decoration: none;"
-          href="/settings"
-          ><Icon class="material-icons">settings</Icon></IconButton
-        >
-      </div>
-    {/if}
+      <p>made by Tilloh with 💙</p>
+    </div>
 
     <div class="headlineBox">
-      <h2>{$page.url.pathname !== '/' ? pageName : 'Home'}</h2>
-      <p>made by Tilloh with 💙</p>
+      {#if $page.url.pathname === '/'}
+        <h2>Startseite</h2>
+      {:else if $page.url.pathname === '/settings'}
+        <h2>Einstellungen</h2>
+      {:else}
+        <h2>{pageName}</h2>
+      {/if}
+
+      <p>
+        Verbindungsstatus:
+        {#if $sharedIdentifierStore.id}
+          <span style="color: var(--green)"> Online 🌐</span>
+        {:else}
+          <span style="color: var(--red)">Offline 📴</span>
+        {/if}
+      </p>
     </div>
 
     <div class="corner">
@@ -70,16 +84,7 @@
       margin: 0;
       font-size: 2em;
     }
-
-    p {
-      font-size: 0.8em;
-      margin: 0;
-    }
   }
-
-  // .hide {
-  //   display: none;
-  // }
 
   .corner {
     width: 3em;
@@ -92,5 +97,15 @@
     width: 2em;
     height: 2em;
     object-fit: contain;
+  }
+
+  .meInfo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  p {
+    font-size: 0.8em;
+    margin: 0 0 0 1rem;
   }
 </style>

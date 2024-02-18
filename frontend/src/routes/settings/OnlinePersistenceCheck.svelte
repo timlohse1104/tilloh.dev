@@ -11,30 +11,28 @@
   import Dialog, { Content } from '@smui/dialog';
   import FormField from '@smui/form-field';
   import IconButton from '@smui/icon-button';
+  import Snackbar, { Actions } from '@smui/snackbar';
   import Switch from '@smui/switch';
   import Textfield from '@smui/textfield';
+  import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
-  let editOnlinePersistence;
+  let shareDataOnline;
   let name = '';
   let saveButton;
   let openIdentifierInfo = false;
+  let idInput = '';
+
+  let manualConnectionSnackbar: Snackbar;
+  let idConnectionSnackbar: Snackbar;
+
+  $: sameName = $sharedIdentifierStore.name === name;
 
   async function checkIdentifierReset() {
-    console.log('change detected!');
-
-    console.log('editOnlinePersistence', editOnlinePersistence);
-    console.log('sharedIdentifierStore', $sharedIdentifierStore);
-    console.log(
-      'check',
-      !editOnlinePersistence &&
-        $sharedIdentifierStore.id &&
-        $sharedIdentifierStore.name,
-    );
     if (
-      editOnlinePersistence &&
+      shareDataOnline &&
       $sharedIdentifierStore.id &&
       $sharedIdentifierStore.name
     ) {
@@ -45,6 +43,7 @@
         },
       );
       resetSharedIdentifier();
+      name = '';
     }
   }
 
@@ -87,16 +86,33 @@
 
           $sharedIdentifierStore = identifier;
           name = data.name;
+          manualConnectionSnackbar.open();
         });
     }
+  }
+
+  async function connectOnlineIdentifier() {
+    await fetch(`http://localhost:61154/v1/identifiers/${idInput}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const identifier: Identifier = {
+          id: data._id,
+          name: data.name,
+        };
+
+        $sharedIdentifierStore = identifier;
+        name = data.name;
+        idConnectionSnackbar.open();
+        idInput = '';
+      });
   }
 
   onMount(() => {
     if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
       name = $sharedIdentifierStore.name || '';
-      editOnlinePersistence = true;
+      shareDataOnline = true;
     } else {
-      editOnlinePersistence = false;
+      shareDataOnline = false;
     }
   });
 
@@ -104,8 +120,8 @@
 </script>
 
 <section>
-  <h2>Offline / Online Speicherung</h2>
-  <p>
+  <h2>Offline / Online Sicherung</h2>
+  <p class="onlinePersistenceInfoText">
     Diese Website enthält einige Seiten, die es dir erlauben, Zwischenstände zu
     speichern. Im Memorandum gibt es deine benutzerdefinierten Ordner und Links
     und in Catch-Em-All gibt es deinen Highscore. Sollen diese Informationen
@@ -115,48 +131,103 @@
 
   <FormField>
     <Switch
-      bind:checked={editOnlinePersistence}
+      bind:checked={shareDataOnline}
       on:click={checkIdentifierReset}
       icons={false}
+      color="secondary"
     />
     <span slot="label">Daten zwischen Geräten teilen?</span>
   </FormField>
 
-  {#if editOnlinePersistence}
-    <Textfield bind:value={name} label="Wie lautet dein Name?">
+  {#if $sharedIdentifierStore.id}
+    <Button
+      on:click={() => (openIdentifierInfo = true)}
+      style="margin-top: 2rem;color: var(--color-theme-1);"
+    >
+      <Icon class="material-icons">info</Icon>
+      <Label>Deine Verbindungsdaten</Label>
+    </Button>
+
+    <Dialog
+      bind:open={openIdentifierInfo}
+      sheet
+      aria-describedby="sheet-content"
+    >
+      <Content id="sheet-content">
+        <IconButton action="close" class="material-icons">close</IconButton>
+        <IdentifierInformation />
+      </Content>
+    </Dialog>
+  {/if}
+
+  {#if shareDataOnline}
+    <hr />
+    {#if !$sharedIdentifierStore.id}
+      <h3>Neue Verbindung einrichten</h3>
+    {:else}
+      <h3>Verbindung bearbeiten</h3>
+    {/if}
+    <Textfield
+      bind:value={name}
+      label={!$sharedIdentifierStore.id ? 'Dein Name' : 'Dein aktueller Name'}
+    >
       <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+      <HelperText slot="helper"
+        >{!$sharedIdentifierStore.id
+          ? 'Wie lautet dein Name?'
+          : 'Wie lautet dein neuer Name?'}</HelperText
+      >
     </Textfield>
 
     <Button
       on:click={saveOnlineIdentifier}
-      style="margin-top: 3rem;"
+      style={'margin-top: 3rem;' +
+        (name && !sameName ? 'color:var(--green);' : '')}
       bind:this={saveButton}
-      disabled={!name}
+      disabled={!name || sameName}
+      color="secondary"
     >
       <Icon class="material-icons">save</Icon>
-      <Label>Speichern</Label>
+      {#if !$sharedIdentifierStore.id}
+        <Label>Einrichten</Label>
+      {:else}
+        <Label>Aktualisieren</Label>
+      {/if}
     </Button>
-    {#if $sharedIdentifierStore.id}
-      <Button
-        on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;"
-      >
-        <Icon class="material-icons">info</Icon>
-        <Label>Deine Informationen</Label>
-      </Button>
 
-      <Dialog
-        bind:open={openIdentifierInfo}
-        sheet
-        aria-describedby="sheet-content"
-      >
-        <Content id="sheet-content">
-          <IconButton action="close" class="material-icons">close</IconButton>
-          <IdentifierInformation />
-        </Content>
-      </Dialog>
-    {/if}
+    <hr />
+    <h3>Schnelle Einrichtung mit ID</h3>
+
+    <Textfield bind:value={idInput} label="Deine ID">
+      <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+      <HelperText slot="helper">Wie lautet deine persönliche ID?</HelperText>
+    </Textfield>
+
+    <Button
+      on:click={connectOnlineIdentifier}
+      style="margin-top: 3rem;"
+      bind:this={saveButton}
+      disabled={!idInput}
+    >
+      <Icon class="material-icons">cloud_download</Icon>
+      <Label>Verbinden</Label>
+    </Button>
   {/if}
+
+  <Snackbar bind:this={manualConnectionSnackbar}>
+    <Label>Neue Verbindung für den Namen <b>{name}</b> erzeugt.</Label>
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
+  <Snackbar bind:this={idConnectionSnackbar}>
+    <Label
+      >Verbindung mit der ID: <b>{$sharedIdentifierStore.id}</b> geladen.</Label
+    >
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
 </section>
 
 <style lang="scss">
@@ -171,5 +242,15 @@
     span {
       color: var(--color-text);
     }
+  }
+
+  .onlinePersistenceInfoText {
+    width: 50%;
+    text-align: center;
+  }
+
+  hr {
+    width: 75%;
+    margin: 4rem 0;
   }
 </style>
