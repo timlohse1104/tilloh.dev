@@ -7,8 +7,6 @@ import { sharedIdentifierStore } from '$lib/util/stores';
 import { writable } from 'svelte/store';
 import { defaultColor } from './constants';
 
-console.log('dev', dev);
-
 const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
@@ -20,11 +18,7 @@ export let localPresetStore = writable(JSON.parse(linkPresetDefault));
 
 // Helper functions
 function ensureFolderBackgroundColor(linkPreset) {
-  console.log('linkPreset', linkPreset, typeof linkPreset);
-  // const preset = JSON.parse(linkPreset);
-  // console.log('preset', preset, typeof preset);
   const folders = linkPreset.Folders;
-  console.log('folders', folders);
 
   for (let i = 0; i < folders.length; i++) {
     if (!folders[i].customBackgroundColor) {
@@ -32,23 +26,18 @@ function ensureFolderBackgroundColor(linkPreset) {
     }
   }
 
-  console.log('color ensured linkPreset', JSON.stringify(linkPreset));
-
   return linkPreset;
 }
 
 export async function refreshPresetStore() {
-  console.log('refreshing...');
   let linkPreset;
 
   // If user activated a shared preset, get it from the server
   if (sharedIdentifier.id && sharedIdentifier.name) {
-    console.log('sharedIdentifier', sharedIdentifier);
     const remotePresetResponse = await getRemotePreset(
       sharedIdentifier.id,
       linkPresetKey
     );
-    console.log('existingRemotePreset', remotePresetResponse);
 
     let remotePreset;
     if (remotePresetResponse.statusCode === 404) {
@@ -58,13 +47,10 @@ export async function refreshPresetStore() {
         linkPresetKey,
         linkPresetDefault
       );
-      console.log('newRemotePreset', newRemotePresetResponse);
       remotePreset = JSON.parse(newRemotePresetResponse.value);
     } else {
       remotePreset = JSON.parse(remotePresetResponse.value);
     }
-
-    console.log('remotePreset', remotePreset);
 
     linkPreset = remotePreset;
   } else {
@@ -76,9 +62,7 @@ export async function refreshPresetStore() {
     linkPreset = JSON.parse(localStorage.getItem(linkPresetKey));
   }
 
-  console.log('linkPreset', linkPreset);
   localPresetStore.set(ensureFolderBackgroundColor(linkPreset));
-  console.log('refreshed');
 }
 
 // Online preset
@@ -128,9 +112,7 @@ if (browser) {
 
 if (browser) {
   localPresetStore.subscribe(async (val) => {
-    console.log('localPresetStore update', val);
     if (sharedIdentifier.id && sharedIdentifier.name) {
-      console.log();
       await updateRemotePreset(
         sharedIdentifier.id,
         linkPresetKey,

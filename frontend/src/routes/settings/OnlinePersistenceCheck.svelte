@@ -108,6 +108,7 @@
   }
 
   onMount(() => {
+    console.log($sharedIdentifierStore);
     if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
       name = $sharedIdentifierStore.name || '';
       shareDataOnline = true;

@@ -9,15 +9,26 @@ import { writable } from 'svelte/store';
 
 // Online persistence - Identifier
 const sharedIdentifierKey = 'shared.identifier';
+let sharedIdentifierDefault = '"{}"';
+
+if (browser) {
+  if (!localStorage.getItem(sharedIdentifierKey)) {
+    localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
+  }
+  sharedIdentifierDefault = JSON.parse(
+    localStorage.getItem(sharedIdentifierKey)
+  );
+}
 
 export const sharedIdentifierStore = writable<Identifier>(JSON.parse('{}'));
 
 if (browser) {
   sharedIdentifierStore.subscribe((val) => {
+    console.log('updated sharedIdentifierStore', val);
     localStorage.setItem(sharedIdentifierKey, JSON.stringify(val));
   });
 }
 
 export function resetSharedIdentifier() {
-  sharedIdentifierStore.set(JSON.parse('{}'));
+  sharedIdentifierStore.set('{}');
 }

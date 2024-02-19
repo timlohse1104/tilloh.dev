@@ -11,7 +11,7 @@ export class Keystore {
   @Prop({ required: true, index: true })
   identifier: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   key: string;
 
   @Prop({ required: true })
