@@ -29,6 +29,7 @@
 
   section {
     display: flex;
+    align-items: center;
 
     @media #{$phone} {
       flex-direction: column;
