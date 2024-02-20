@@ -105,6 +105,7 @@
       .then((data) => {
         if (data.statusCode === 404) {
           triggerSnackbar(`Keine Verbindung mit der ID '${idInput}' gefunden.`);
+          idInput = '';
           return;
         }
 
