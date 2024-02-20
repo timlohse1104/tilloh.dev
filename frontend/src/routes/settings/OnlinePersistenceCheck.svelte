@@ -31,8 +31,8 @@
   let openIdentifierInfo = false;
   let idInput = '';
 
-  let manualConnectionSnackbar: Snackbar;
-  let idConnectionSnackbar: Snackbar;
+  let snackbar: Snackbar;
+  let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
 
@@ -48,6 +48,11 @@
       resetSharedIdentifier();
       name = '';
     }
+  }
+
+  function triggerSnackbar(message: string) {
+    snackbarMessage = message;
+    snackbar.open();
   }
 
   async function saveOnlineIdentifier() {
@@ -86,7 +91,10 @@
 
           $sharedIdentifierStore = identifier;
           name = data.name;
-          manualConnectionSnackbar.open();
+          triggerSnackbar(`Neue Verbindung für den Namen '${name}' erzeugt.`);
+        })
+        .catch((error) => {
+          triggerSnackbar(error);
         });
     }
   }
@@ -95,6 +103,11 @@
     await fetch(`${apiURL}/identifiers/${idInput}`)
       .then((response) => response.json())
       .then((data) => {
+        if (data.statusCode === 404) {
+          triggerSnackbar(`Keine Verbindung mit der ID '${idInput}' gefunden.`);
+          return;
+        }
+
         const identifier: Identifier = {
           id: data._id,
           name: data.name,
@@ -102,8 +115,13 @@
 
         $sharedIdentifierStore = identifier;
         name = data.name;
-        idConnectionSnackbar.open();
+        triggerSnackbar(
+          `Verbindung mit der ID: <b>${sharedIdentifierStore.id}</b> geladen.`,
+        );
         idInput = '';
+      })
+      .catch((error) => {
+        triggerSnackbar(error);
       });
   }
 
@@ -213,16 +231,8 @@
     </Button>
   {/if}
 
-  <Snackbar bind:this={manualConnectionSnackbar}>
-    <Label>Neue Verbindung für den Namen <b>{name}</b> erzeugt.</Label>
-    <Actions>
-      <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </Actions>
-  </Snackbar>
-  <Snackbar bind:this={idConnectionSnackbar}>
-    <Label
-      >Verbindung mit der ID: <b>{$sharedIdentifierStore.id}</b> geladen.</Label
-    >
+  <Snackbar bind:this={snackbar}>
+    <Label>{snackbarMessage}</Label>
     <Actions>
       <IconButton class="material-icons" title="Dismiss">close</IconButton>
     </Actions>
