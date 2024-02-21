@@ -66,9 +66,9 @@
     bind:selected={order}
   >
     <Segment {segment}>
-      <IconButton class="material-icons" on:click={() => updateOrder(segment)}>
-        {segment.icon}
-      </IconButton>
+      <Icon class="material-icons" on:click={() => updateOrder(segment)}
+        >{segment.icon}</Icon
+      >
     </Segment>
   </SegmentedButton>
 
