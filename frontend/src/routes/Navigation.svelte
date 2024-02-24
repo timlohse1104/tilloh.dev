@@ -23,6 +23,11 @@
         >
           <a href="/catch-em-all">Catch-em-all</a>
         </li>
+        <li
+          aria-current={$page.url.pathname === '/uno-sort' ? 'page' : undefined}
+        >
+          <a href="/uno-sort">Uno Sort</a>
+        </li>
         <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
           <a href="/about">About</a>
         </li>
