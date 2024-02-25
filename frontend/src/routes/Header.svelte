@@ -41,6 +41,8 @@
         <h2>Startseite</h2>
       {:else if $page.url.pathname === '/settings'}
         <h2>Einstellungen</h2>
+      {:else if $page.url.pathname === '/uno-sort'}
+        <h2>UNO Sortierung</h2>
       {:else}
         <h2>{pageName}</h2>
       {/if}

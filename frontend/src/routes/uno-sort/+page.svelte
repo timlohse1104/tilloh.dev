@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Button, { Label } from '@smui/button';
+  import { Icon } from '@smui/fab';
+  import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
   import { UnoSort } from './classes/uno-sort';
 
@@ -28,6 +31,14 @@
     unoSort.printStackSize();
   }
 
+  function reset() {
+    handSizeElement.innerHTML = '0';
+    stackSizeElement.innerHTML = '';
+    handDivElement.innerHTML = '';
+    unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
+    unoSort.start(7);
+  }
+
   onMount(() => {
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
@@ -41,12 +52,34 @@
 
 <section>
   <h1>UNO</h1>
-  <p class="label" id="section1">Aktionen</p>
-  <br />
-  <button id="pickCard" on:click={pickCard}>Karte ziehen</button>
-  <button id="pickTwoCards" on:click={pickTwoCards}>Zwei Karten ziehen</button>
-  <button id="pickFourCards" on:click={pickFourCards}>Vier Karten ziehen</button
-  >
+
+  <br /><br />
+  <Button on:click={pickCard} variant="raised">
+    <Label>Karte ziehen</Label>
+  </Button>
+  <Button on:click={pickTwoCards} variant="raised">
+    <Label>Zwei Karten ziehen</Label>
+  </Button>
+  <Button on:click={pickFourCards} variant="raised">
+    <Label>Vier Karten ziehen</Label>
+  </Button>
+  <Button on:click={reset} variant="outlined">
+    <Label>Zurücksetzen</Label>
+  </Button>
+  <Wrapper>
+    <Button color="secondary" variant="outlined">
+      <Icon class="material-icons">info</Icon>
+      <Label>Info</Label>
+      <Tooltip xPos="start" yPos="below">
+        Sortierungsregeln: <br />
+        1. Farbkarten werden nach ihrer Anzahl auf der Hand sortier, die Farbe mit
+        den geringsten Karten beginnt. <br />
+        2.Zahlenkarten werden nach ihrer Zahl aufsteigend sortiert. <br />
+        3. Sonderkarten werden aufgrund ihrer Wertigkeit immer ans Ende der Farbe
+        sortiert.
+      </Tooltip>
+    </Button>
+  </Wrapper>
   <hr />
 
   <div class="uno-cardArea">
@@ -86,7 +119,7 @@
     width: 25%;
     text-align: center;
     color: yellow;
-    font-size: 8em;
+    font-size: 6em;
     transition: 0.5s;
     text-shadow: 0 0 15px black;
     transform-origin: bottom;
@@ -105,23 +138,23 @@
   }
 
   :global(.uno-card) {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    border: 1px solid #2d2d2d;
-    padding: 1rem;
+    box-shadow: var(--sharpen);
+    border: 1px solid var(--white30);
+    padding: 0.5rem;
     display: grid;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 150px;
+    width: 80px;
+    height: 120px;
     font-size: xx-large;
     margin: 0 0 12px 12px;
   }
 
   :global(.uno-cardTitle) {
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
     text-align: center;
-    text-shadow: var(--darkgrey80) 0 0 5px;
+    text-shadow: var(--black80) 2px 2px 5px;
   }
 
   .uno-card:hover {
@@ -140,11 +173,6 @@
     margin: 1rem;
     font-size: 24px;
     font-weight: bold;
-  }
-
-  button {
-    padding: 1rem;
-    margin: 1rem;
   }
 
   #stack {
