@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import Brick from './brick.js';
 
 export function buildLevel(game, level) {

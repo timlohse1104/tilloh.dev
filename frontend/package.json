@@ -63,6 +63,8 @@
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "dependencies": {
+    "highlight.js": "^11.9.0",
+    "i": "^0.3.7",
     "magic-grid": "^3.2.4",
     "svelte-material-ui": "^7.0.0-beta.16"
   }

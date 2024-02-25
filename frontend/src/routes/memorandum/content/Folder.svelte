@@ -1,7 +1,4 @@
 <script>
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-
   import { createEventDispatcher } from 'svelte';
   import { RGBBackgroundClass } from '../util/classes.js';
   import {
@@ -165,7 +162,7 @@
       dropLink(event);
     }
   }}
-  ondragover="return false"
+  on:dragover={() => false}
   role="presentation"
 >
   <div
@@ -195,11 +192,11 @@
     {#await $localPresetStore}
       <p>Loading links</p>
     {:then value}
-      {#each $localPresetStore.Folders[id].links as { id, linkName, linkUrl }, i}
+      {#each $localPresetStore.Folders[id].links as { index, linkName, linkUrl }, i}
         <Link
           on:delLink={deleteLink}
           on:editLink={showOverlay}
-          linkId={id}
+          linkId={index}
           {linkName}
           {linkUrl}
           on:dragstart={(event) => dragStartLink(event)}

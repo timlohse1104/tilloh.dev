@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 export class RGBBackgroundClass {
   constructor(input) {
     this.r = input.r;
@@ -14,16 +11,16 @@ export class RGBBackgroundClass {
   }
 
   getRGBAValues() {
-    return [this.r, this.g, this.b, this.a];
+    return [this.r, this.g, this.b, this.a].toString();
   }
 }
 
 export class FolderClass {
-  constructor(id, name) {
+  constructor(id, name, links, backgroundColor) {
     this.id = id;
     this.folderName = name;
-    this.links = [];
-    this.backgroundColor = {};
+    this.links = links || [];
+    this.backgroundColor = backgroundColor || {};
   }
 }
 

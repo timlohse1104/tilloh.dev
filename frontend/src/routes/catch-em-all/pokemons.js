@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { getRandomNumberBetween } from './util.js';
 
 export const pokemons = [

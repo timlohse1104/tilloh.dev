@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 export function detectCollision(ball, gameObject) {
   let topOfBall = ball.position.y;
   let bottomOfBall = ball.position.y + ball.size;

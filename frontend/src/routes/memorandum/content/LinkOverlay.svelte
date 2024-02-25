@@ -1,7 +1,4 @@
 <script>
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import Textfield from '@smui/textfield';
@@ -109,7 +106,7 @@
       label="Name"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event.code === 'Enter') {
+        if (event['code'] === 'Enter') {
           type === 'new' ? addLink() : editLink();
         }
       }}
@@ -123,7 +120,7 @@
       label="URL"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event.code === 'Enter') {
+        if (event['code'] === 'Enter') {
           type === 'new' ? addLink() : editLink();
         }
       }}

@@ -1,13 +1,11 @@
 <script lang="ts">
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
   import Dialog, { Content as DialogContent, Title } from '@smui/dialog';
   import Fab, { Icon, Label } from '@smui/fab';
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
+  import hljs from 'highlight.js';
   import { onMount } from 'svelte';
   import {
     localPresetStore,
@@ -19,6 +17,7 @@
   let presetUploadSnackbar: Snackbar;
   let presetDownloadSnackbar: Snackbar;
   let detailOpen = false;
+  let configFileInput: HTMLInputElement;
 
   $: if (files) {
     const file = files[0];
@@ -26,7 +25,7 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        const result = event.target.result;
+        const result = event.target.result.toString();
         const json = JSON.parse(result);
         localPresetStore.set(json);
         codeElement.innerHTML = JSON.stringify(json, null, 2);
@@ -46,7 +45,7 @@
   }
 
   function triggerFileSelect() {
-    configInput.click();
+    configFileInput.click();
   }
 
   function triggerFileDownload() {
@@ -86,7 +85,12 @@
   </Title>
 
   <div class="buttons">
-    <input id="configInput" type="file" bind:files style="display: none" />
+    <input
+      bind:this={configFileInput}
+      type="file"
+      bind:files
+      style="display: none"
+    />
     <Fab color="primary" on:click={triggerFileSelect} extended>
       <Icon class="material-icons">file_upload</Icon>
       <Label>Import</Label>

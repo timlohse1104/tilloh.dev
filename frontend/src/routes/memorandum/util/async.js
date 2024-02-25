@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 async function fetchJson(url) {
   try {
     let responseObj = await fetch(url, {

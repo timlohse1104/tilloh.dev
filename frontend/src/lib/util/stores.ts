@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { browser } from '$app/environment';
 import { Identifier } from '$lib/util/types';
 import { writable } from 'svelte/store';
@@ -29,5 +26,5 @@ if (browser) {
 }
 
 export function resetSharedIdentifier() {
-  sharedIdentifierStore.set('{}');
+  sharedIdentifierStore.set({} as Identifier);
 }

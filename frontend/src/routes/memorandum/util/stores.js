@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { browser, dev } from '$app/environment';
 import { environment } from '$lib/util/environment';
 import { sharedIdentifierStore } from '$lib/util/stores';

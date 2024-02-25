@@ -1,7 +1,4 @@
 <script lang="ts">
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-
   import Fab, { Icon } from '@smui/fab';
   import MagicGrid from 'magic-grid';
   import { fetchJson } from '../util/async.js';

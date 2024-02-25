@@ -1,7 +1,4 @@
 <script lang="ts">
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -125,7 +122,7 @@
       label="Name"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event.code === 'Enter') {
+        if (event['code'] === 'Enter') {
           editFolder();
         }
       }}
@@ -143,8 +140,8 @@
       <FormField align="end" style="display: flex;">
         <Slider
           style="flex-grow: 1;"
-          min="0"
-          max="255"
+          min={0}
+          max={255}
           bind:value={customColor.r}
         />
         <span
@@ -157,8 +154,8 @@
       <FormField align="end" style="display: flex;">
         <Slider
           style="flex-grow: 1;"
-          min="0"
-          max="255"
+          min={0}
+          max={255}
           bind:value={customColor.g}
         />
         <span
@@ -171,8 +168,8 @@
       <FormField align="end" style="display: flex;">
         <Slider
           style="flex-grow: 1;"
-          min="0"
-          max="255"
+          min={0}
+          max={255}
           bind:value={customColor.b}
         />
         <span
@@ -185,8 +182,8 @@
       <FormField align="end" style="display: flex;">
         <Slider
           style="flex-grow: 1;"
-          min="0"
-          max="1"
+          min={0}
+          max={1}
           step={0.01}
           bind:value={customColor.a}
         />

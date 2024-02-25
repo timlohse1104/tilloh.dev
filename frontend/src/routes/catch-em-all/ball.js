@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { detectCollision } from './collisionDetection.js';
 import { getRandomPokeball } from './pokeballs.js';
 import { getRandomNumberBetween } from './util.js';
