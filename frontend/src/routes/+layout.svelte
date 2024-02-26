@@ -13,6 +13,8 @@
     <link rel="icon" href="/favicons/catch-em-all.favicon.svg" />
   {:else if $page.url.pathname === '/uno-sort'}
     <link rel="icon" href="/favicons/uno-sort.favicon.svg" />
+  {:else if $page.url.pathname === '/todo'}
+    <link rel="icon" href="/favicons/todo.favicon.svg" />
   {:else if $page.url.pathname === '/about'}
     <link rel="icon" href="/favicons/about.favicon.svg" />
   {:else if $page.url.pathname === '/settings'}

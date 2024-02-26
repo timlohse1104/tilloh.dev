@@ -28,6 +28,9 @@
         >
           <a href="/uno-sort">Uno Sort</a>
         </li>
+        <li aria-current={$page.url.pathname === '/todo' ? 'page' : undefined}>
+          <a href="/todo">ToDo</a>
+        </li>
         <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
           <a href="/about">About</a>
         </li>
