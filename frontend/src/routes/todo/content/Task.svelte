@@ -1,11 +1,12 @@
 <script>
+  import Button from '@smui/button';
   export let task;
   export let deleteTask;
 </script>
 
 <div class="task">
   <p class="task-text">{task}</p>
-  <button class="delete-task" on:click={deleteTask}>Delete</button>
+  <Button class="delete-task" on:click={deleteTask} raised>DELETE</Button>
 </div>
 
 <style>
@@ -13,18 +14,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 15px;
-  }
-
-  .delete-task {
-    padding: 5px 10px;
-    border: none;
-    background: red;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    margin-top: 20px;
   }
 </style>

@@ -1,6 +1,8 @@
 <script>
+  import Fab, { Icon } from '@smui/fab';
+  import TextField from '@smui/textfield';
+  import localStore from './/util/localStore.js';
   import Task from './content/Task.svelte';
-  import localStore from './util/localStore';
 
   let newTask = '';
   let tasks = localStore('tasks', []);
@@ -14,9 +16,9 @@
     }
   }
 
-  function deleteTask(i) {
+  function deleteTask(index) {
     tasks.update((n) => {
-      n.splice(i, 1);
+      n.splice(index, 1);
       return n;
     });
   }
@@ -28,27 +30,28 @@
 </svelte:head>
 
 <main>
-  <h1>Todo List</h1>
-  <input
-    bind:value={newTask}
-    on:keyup={(e) => e.key === 'Enter' && saveTask()}
-  />
-  <button on:click={saveTask}>Add Task</button>
-  <ul>
-    {#each $tasks as task, i (i)}
-      <Task {task} deleteTask={() => deleteTask(i)} />
-    {/each}
-  </ul>
+  <div style="display:flex;">
+    <TextField
+      bind:value={newTask}
+      label="Aufgabe hinzufügen"
+      variant="outlined"
+      style="flex-grow: 1; margin-right: 1em;"
+    />
+    <Fab on:click={saveTask}>
+      <Icon class="material-icons">add</Icon>
+    </Fab>
+  </div>
+  <h2>Liste</h2>
+  <hr />
+  {#each $tasks as task, i (i)}
+    <Task {task} deleteTask={() => deleteTask(i)} />
+  {/each}
 </main>
 
 <style>
   main {
-    text-align: center;
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
-  }
-  button {
-    margin-left: 10px;
   }
 </style>
