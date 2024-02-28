@@ -164,6 +164,7 @@
     if (
       event.target.nodeName === 'A' ||
       event.target.nodeName === 'IMG' ||
+      event.target.nodeName === 'DIV' ||
       (event.target.previousElementSibling &&
         event.target.previousElementSibling.nodeName === 'A')
     ) {
@@ -177,7 +178,7 @@
     }
 
     console.log('target folder index', targetIndex);
-    return targetIndex;
+    return targetIndex || 0;
   }
 
   function provideLinkFaviconUrl(linkUrl) {
