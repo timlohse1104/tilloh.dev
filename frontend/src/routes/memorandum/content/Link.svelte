@@ -12,6 +12,12 @@
   id="link"
   draggable={true}
   on:dragstart
+  on:dragover|preventDefault
+  on:drag|preventDefault={(event) => {
+    if (event.dataTransfer.getData('type') === 'link') {
+      dispatch('dropLink', linkId);
+    }
+  }}
   on:dblclick={() =>
     dispatch('editLink', {
       linkId: linkId,

@@ -63,7 +63,7 @@
 
   function dropFolder(event) {
     let originIndex = event.dataTransfer.getData('originIndex');
-    let targetIndex = _getTargetIndex(event);
+    let targetIndex = _getTargetFolderIndex(event);
 
     if (originIndex !== targetIndex) {
       let currPreset = $localPresetStore;
@@ -107,11 +107,19 @@
   function dropLink(event) {
     let originFolderIndex = event.dataTransfer.getData('originFolderIndex');
     let originLinkIndex = event.dataTransfer.getData('originLinkIndex');
-    let targetFolderIndex = _getTargetIndex(event);
+    let targetFolderIndex = _getTargetFolderIndex(event);
+    let targetLinkIndex = _getTargetLinkIndex(event);
     let currPreset = $localPresetStore;
 
-    currPreset.Folders[targetFolderIndex].links.push(
-      currPreset.Folders[originFolderIndex].links.splice(originLinkIndex, 1)[0],
+    // push link to target folder on position of target link
+    currPreset.Folders[targetFolderIndex].links.splice(
+      targetLinkIndex,
+      0,
+      // get the link from the origin folder and remove it
+      currPreset.Folders[originFolderIndex]?.links.splice(
+        originLinkIndex,
+        1,
+      )[0],
     );
 
     // updates links ids in array to be reactively updated
@@ -129,8 +137,29 @@
     links.map((link) => (link.id = links.indexOf(link)));
   }
 
-  function _getTargetIndex(event) {
+  function _getTargetLinkIndex(event) {
     let targetIndex;
+
+    if (
+      event.target.nodeName === 'A' ||
+      event.target.nodeName === 'IMG' ||
+      event.target.nodeName === 'BUTTON' ||
+      (event.target.previousElementSibling &&
+        event.target.previousElementSibling.nodeName === 'A')
+    ) {
+      targetIndex = [].slice
+        .call(event.target.parentNode.parentNode.children)
+        .indexOf(event.target.parentNode);
+    }
+
+    console.log('target link index', targetIndex);
+    return targetIndex;
+  }
+
+  function _getTargetFolderIndex(event) {
+    let targetIndex;
+
+    console.log('event', event);
 
     if (
       event.target.nodeName === 'A' ||
@@ -147,6 +176,7 @@
         .indexOf(event.target.parentNode);
     }
 
+    console.log('target folder index', targetIndex);
     return targetIndex;
   }
 
@@ -171,7 +201,7 @@
       dropLink(event);
     }
   }}
-  on:dragover={() => false}
+  on:dragover|preventDefault
   role="presentation"
 >
   <div
@@ -208,7 +238,7 @@
           linkId={index}
           {linkName}
           {linkUrl}
-          faviconLink={provideLinkFaviconUrl(linkUrl)}
+          faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
           on:dragstart={(event) => dragStartLink(event)}
         />
       {/each}
