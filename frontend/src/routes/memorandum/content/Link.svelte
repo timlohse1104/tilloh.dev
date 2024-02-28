@@ -5,12 +5,7 @@
   export let linkId;
   export let linkName;
   export let linkUrl;
-
-  const url = new URL(linkUrl);
-  const baseUrl = url.hostname;
-  let domain = baseUrl.split('.').slice(-2).join('.');
-  let mainUrl = `https://${domain}`;
-  let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
+  export let faviconLink;
 </script>
 
 <div

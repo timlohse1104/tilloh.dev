@@ -149,6 +149,15 @@
 
     return targetIndex;
   }
+
+  function provideLinkFaviconUrl(linkUrl) {
+    const url = new URL(linkUrl);
+    const baseUrl = url.hostname;
+    let domain = baseUrl.split('.').slice(-2).join('.');
+    let mainUrl = `https://${domain}`;
+    let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
+    return faviconLink;
+  }
 </script>
 
 <section
@@ -192,13 +201,14 @@
     {#await $localPresetStore}
       <p>Loading links</p>
     {:then value}
-      {#each $localPresetStore.Folders[id].links as { index, linkName, linkUrl }, i}
+      {#each $localPresetStore.Folders[id].links as { id: index, linkName, linkUrl, faviconLink }}
         <Link
           on:delLink={deleteLink}
           on:editLink={showOverlay}
           linkId={index}
           {linkName}
           {linkUrl}
+          faviconLink={provideLinkFaviconUrl(linkUrl)}
           on:dragstart={(event) => dragStartLink(event)}
         />
       {/each}
