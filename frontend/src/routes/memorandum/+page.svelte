@@ -53,12 +53,6 @@
 </svelte:head>
 
 <div class="menuLine">
-  <IconButton
-    style="color: white"
-    on:click={showPresetOverlay}
-    class="material-icons">build</IconButton
-  >
-
   <SegmentedButton
     segments={orders}
     let:segment
@@ -71,6 +65,12 @@
       >
     </Segment>
   </SegmentedButton>
+
+  <IconButton
+    style="color: white"
+    on:click={showPresetOverlay}
+    class="material-icons">swap_vert</IconButton
+  >
 
   <div class="infoButtons">
     <Wrapper>
@@ -116,6 +116,8 @@
     display: flex;
     align-items: center;
     justify-content: start;
+    padding-left: calc(var(--default-padding) / 2);
+    gap: calc(var(--default-padding) / 2);
   }
 
   .infoButtons {

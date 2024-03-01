@@ -127,13 +127,14 @@
         }
       }}
     >
-      <Icon class="material-icons" slot="leadingIcon">tag</Icon>
+      <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
       <HelperText slot="helper">Name des Ordners</HelperText>
     </Textfield>
 
     <FormField>
       <Checkbox bind:checked={customColorActive} />
-      <span slot="label">Hintergrundfarbe selbst bestimmen?</span>
+      <Icon class="material-icons">brush</Icon>
+      <span slot="label">Hintergrundfarbe selbst bestimmen? </span>
     </FormField>
 
     {#if customColorActive}
@@ -236,9 +237,11 @@
       <Label>Duplizieren</Label>
     </Button>
     <Button on:click={closeOverlay}>
+      <Icon class="material-icons">folder_off</Icon>
       <Label>Abbruch</Label>
     </Button>
     <Button on:click={editFolder} disabled={!submittable}>
+      <Icon class="material-icons">save</Icon>
       <Label>Speichern</Label>
     </Button>
   </Actions>

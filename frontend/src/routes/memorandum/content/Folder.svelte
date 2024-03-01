@@ -152,14 +152,11 @@
         .indexOf(event.target.parentNode);
     }
 
-    console.log('target link index', targetIndex);
     return targetIndex;
   }
 
   function _getTargetFolderIndex(event) {
     let targetIndex;
-
-    console.log('event', event);
 
     if (
       event.target.nodeName === 'A' ||
@@ -177,7 +174,6 @@
         .indexOf(event.target.parentNode);
     }
 
-    console.log('target folder index', targetIndex);
     return targetIndex || 0;
   }
 

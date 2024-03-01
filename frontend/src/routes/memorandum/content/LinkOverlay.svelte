@@ -111,7 +111,7 @@
         }
       }}
     >
-      <Icon class="material-icons" slot="leadingIcon">tag</Icon>
+      <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
       <HelperText slot="helper">Name des Links</HelperText>
     </Textfield>
     <Textfield
@@ -137,12 +137,16 @@
       </Button>
     {/if}
     <Button on:click={closeOverlay}>
+      <Icon class="material-icons">link_off</Icon>
       <Label>Abbruch</Label>
     </Button>
     <Button
       on:click={type === 'new' ? addLink : editLink}
       disabled={!submittable}
     >
+      <Icon class="material-icons"
+        >{type === 'new' ? 'bookmark_add' : 'save'}</Icon
+      >
       <Label>Speichern</Label>
     </Button>
   </Actions>

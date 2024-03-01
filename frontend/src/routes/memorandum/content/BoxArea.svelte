@@ -77,8 +77,8 @@
 {/await}
 
 <Fab
-  style="position:fixed;bottom: 20px;right: 20px;z-index: 100;"
-  color="primary"
+  style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+  color="secondary"
   on:click={createFolder}
 >
   <Icon style="font-size:2rem;" class="material-icons">add</Icon>

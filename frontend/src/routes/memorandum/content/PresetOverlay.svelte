@@ -1,7 +1,12 @@
 <script lang="ts">
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
-  import Dialog, { Content as DialogContent, Title } from '@smui/dialog';
-  import Fab, { Icon, Label } from '@smui/fab';
+  import Button, { Label } from '@smui/button';
+  import Dialog, {
+    Actions as DialogActions,
+    Content as DialogContent,
+    Title,
+  } from '@smui/dialog';
+  import { Icon } from '@smui/fab';
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
@@ -84,31 +89,14 @@
     </p>
   </Title>
 
-  <div class="buttons">
-    <input
-      bind:this={configFileInput}
-      type="file"
-      bind:files
-      style="display: none"
-    />
-    <Fab color="primary" on:click={triggerFileSelect} extended>
-      <Icon class="material-icons">file_upload</Icon>
-      <Label>Import</Label>
-    </Fab>
-    <Fab on:click={triggerFileDownload} extended>
-      <Icon class="material-icons">file_download</Icon>
-      <Label>Export</Label>
-    </Fab>
-  </div>
-
   <Title>Das ist deine aktuelle Konfiguration</Title>
 
   <List dense>
-    <Item>
+    <Item style="margin-left:calc(var(--default-padding)/2);">
       <Graphic class="material-icons">folder</Graphic>
       <Text>{folderAmount} Ordner</Text>
     </Item>
-    <Item>
+    <Item style="margin-left:calc(var(--default-padding)/2);">
       <Graphic class="material-icons">link</Graphic>
       <Text>{linkAmount} Links</Text>
     </Item>
@@ -150,7 +138,25 @@
       </Actions>
     </Snackbar>
   </DialogContent>
+
+  <DialogActions>
+    <Button on:click={triggerFileSelect} variant="outlined">
+      <Icon class="material-icons">file_upload</Icon>
+      <Label>Import</Label>
+    </Button>
+    <Button on:click={triggerFileDownload} color="secondary" variant="outlined">
+      <Icon class="material-icons">file_download</Icon>
+      <Label>Export</Label>
+    </Button>
+  </DialogActions>
 </Dialog>
+
+<input
+  bind:this={configFileInput}
+  type="file"
+  bind:files
+  style="display: none"
+/>
 
 <svelte:window
   on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
@@ -175,10 +181,11 @@
     }
   }
 
-  .buttons {
-    display: flex;
-    justify-content: space-evenly;
-  }
+  // .buttons {
+  //   display: flex;
+  //   padding-left: var(--default-padding);
+  //   gap: calc(var(--default-padding) / 2);
+  // }
 
   .large-scroll-subtitle {
     font-size: 1rem;
