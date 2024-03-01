@@ -49,15 +49,15 @@
     border-bottom: 1px solid var(--darkgrey80);
 
     &:hover {
-      background-color: var(--white30);
+      background-color: var(--darkgrey80);
     }
   }
 
   #link {
-    border-bottom: 1px solid var(--white30);
+    border-bottom: 1px solid var(--darkgrey80);
 
     button {
-      border-left: 1px solid var(--white30);
+      border-left: 1px solid var(--darkgrey80);
     }
   }
 
@@ -88,7 +88,7 @@
     text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: var(--light80);
+      background-color: var(--black30);
       color: var(--red);
       text-shadow: none;
     }

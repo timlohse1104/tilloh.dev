@@ -272,7 +272,7 @@
     border: solid 3px var(--darkgrey80);
 
     &:hover {
-      box-shadow: 0 0 20px var(--white30);
+      box-shadow: 0 0 12px var(--darkgrey80);
     }
   }
   .linkBoxFlexible {
@@ -320,7 +320,7 @@
     text-align: center;
     font-weight: bolder;
     background-color: var(--darkgrey80);
-    border-left: 1px solid var(--white30);
+    border-left: 1px solid var(--darkgrey80);
     text-shadow: var(--sharpen);
 
     &:hover {
@@ -339,10 +339,6 @@
     padding: 0 20px;
     background-color: var(--darkgrey80);
     text-shadow: var(--sharpen);
-
-    &:hover {
-      background-color: var(--green);
-    }
   }
 
   .boxContent {
