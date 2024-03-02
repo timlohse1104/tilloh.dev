@@ -6,7 +6,9 @@
 
 <div class="task">
   <p class="task-text">{task}</p>
-  <Button class="delete-task" on:click={deleteTask} raised>DELETE</Button>
+  <Button class="delete-task" on:click={deleteTask} variant="raised"
+    >Löschen</Button
+  >
 </div>
 
 <style>
