@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Button, { Icon, Label } from '@smui/button';
+  import Button from '@smui/button';
+  import { Icon, Label } from '@smui/common';
   import Drawer, {
     AppContent,
     Content,
@@ -7,40 +8,23 @@
     Subtitle,
     Title,
   } from '@smui/drawer';
-  import List, { Graphic, Item, Text } from '@smui/list';
-  import Textfield from '@smui/textfield';
+  import List, { Item, Text } from '@smui/list';
   import TodoListComponent from './content/TodoList.svelte';
-  import type { TodoList } from './types/list.ts';
-  import { isEmoji } from './util/helpers.ts';
-  import { todoStore } from './util/store.ts';
+  import TodoListOverlay from './content/TodoListOverlay.svelte';
+  import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
 
-  let newListName = '';
-  let newListEmojiInput: Textfield;
-  let newListEmoji = '';
   let currentListIndex = 0;
 
-  $: if (newListEmojiInput) {
-    if (!isEmoji(newListEmojiInput)) {
-      newListEmojiInput.$$set({ invalid: true });
+  function showListOverlay(type: 'new' | 'edit') {
+    if (type === 'new') {
+      $listOverlayOptionsStore.showOverlay = true;
+      $listOverlayOptionsStore.currentListIndex = -1;
+      $listOverlayOptionsStore.type = type;
     } else {
-      newListEmojiInput.$$set({ invalid: false });
+      $listOverlayOptionsStore.showOverlay = true;
+      $listOverlayOptionsStore.currentListIndex = currentListIndex;
+      $listOverlayOptionsStore.type = type;
     }
-  }
-
-  function createList() {
-    if (!newListName) {
-      return;
-    }
-
-    const list: TodoList = {
-      name: newListName,
-      emoji: newListEmoji || '📝',
-      history: [],
-      todos: [],
-    };
-    todoStore.update((n) => {
-      return [...n, list];
-    });
   }
 </script>
 
@@ -52,28 +36,47 @@
 <section>
   <Drawer style="width:25%;min-width:max-content;">
     <Header>
-      <Title style="text-align:left;">Deine Listen</Title>
-      <Subtitle>Einkaufen, Aufgaben und vieles mehr...</Subtitle>
+      <Title
+        style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
+        >Deine Listen</Title
+      >
+      <Subtitle
+        style="text-align:left;margin:0 0 var(--default-padding) 0;padding-left: calc(var(--default-padding)/2)"
+        >Einkaufen, Aufgaben und vieles mehr...</Subtitle
+      >
+      <hr style="margin-left:calc(var(--default-padding)/2);" />
     </Header>
     <Content>
       <List>
         <!-- Fallback if no todos could be found -->
         {#if $todoStore.length === 0}
-          <Item disabled activated>
-            <Graphic class="material-icons">search_off</Graphic>
+          <div
+            style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
+          >
+            <Icon class="material-icons">search_off</Icon>
             <Text>Keine Listen vorhanden</Text>
-          </Item>
+          </div>
         {:else}
           <!-- List all todos -->
           {#each $todoStore as list, i (i)}
             <Item
               href="javascript:void(0)"
+              style="padding-left: var(--default-padding);"
               on:click={() => (currentListIndex = i)}
             >
-              <Text>{list.name}</Text>
+              <Text>{list.emoji} | {list.name}</Text>
             </Item>
           {/each}
         {/if}
+        <Button
+          color={$todoStore.length === 0 ? 'primary' : 'secondary'}
+          variant="outlined"
+          style="margin: var(--default-padding) 0 calc(var(--default-padding) / 2) calc(var(--default-padding) + 0.5rem);"
+          on:click={() => showListOverlay('new')}
+        >
+          <Icon class="material-icons">playlist_add</Icon>
+          <Label>Neue Liste anlegen</Label>
+        </Button>
       </List>
     </Content>
   </Drawer>
@@ -81,32 +84,14 @@
   <AppContent class="app-content">
     <main class="main-content">
       {#if $todoStore.length === 0}
-        <div class="createListSection">
-          <h2>Deine erste Liste</h2>
-          <Textfield
-            variant="outlined"
-            bind:value={newListName}
-            label="Name der Liste"
-            required
-            style="width: 25vw;"
-          />
-          <Textfield
-            variant="outlined"
-            bind:this={newListEmojiInput}
-            bind:value={newListEmoji}
-            label="Emoji der Liste"
-            style="width: 25vw;"
-          />
-          <Button on:click={createList} variant="raised">
-            <Icon class="material-icons">add_circle</Icon>
-            <Label>Erstellen</Label>
-          </Button>
-        </div>
+        <p>Bisher keine Listen</p>
+        <p>Anlegen</p>
       {:else}
         <TodoListComponent listIndex={currentListIndex} />
       {/if}
     </main>
   </AppContent>
+  <TodoListOverlay />
 </section>
 
 <style lang="scss">
@@ -130,11 +115,11 @@
     box-sizing: border-box;
   }
 
-  .createListSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--default-padding);
-    min-width: 5rem;
-  }
+  // .createListSection {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   gap: var(--default-padding);
+  //   min-width: 5rem;
+  // }
 </style>

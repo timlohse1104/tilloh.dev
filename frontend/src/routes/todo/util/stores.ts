@@ -21,3 +21,9 @@ if (browser) {
     localStorage.setItem(todoStoreKey, JSON.stringify(value))
   );
 }
+
+export const listOverlayOptionsStore = writable({
+  showOverlay: false,
+  currentListIndex: undefined,
+  type: undefined,
+});

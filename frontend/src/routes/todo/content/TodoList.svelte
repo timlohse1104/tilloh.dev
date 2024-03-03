@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { todoStore } from '../util/store.ts';
+  import { todoStore } from '../util/stores.ts';
   import Task from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 

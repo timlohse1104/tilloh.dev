@@ -1,6 +1,6 @@
 <script lang="ts">
   import Textfield from '@smui/textfield';
-  import { todoStore } from '../util/store.ts';
+  import { todoStore } from '../util/stores.ts';
 
   export let listIndex;
 
