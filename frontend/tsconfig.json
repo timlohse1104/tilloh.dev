@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": false,
+    "allowImportingTsExtensions": true,
     "moduleResolution": "bundler"
   }
 }

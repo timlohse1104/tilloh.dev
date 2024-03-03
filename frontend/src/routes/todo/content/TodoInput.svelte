@@ -1,28 +1,38 @@
 <script lang="ts">
   import Textfield from '@smui/textfield';
+  import { todoStore } from '../util/store.ts';
 
-  export let localTaskStore;
+  export let listIndex;
 
-  let newTask = '';
+  let newTodoName = '';
 
-  function saveTask() {
-    if (newTask) {
-      localTaskStore.update((n) => {
-        return [...n, newTask];
+  function saveTodo() {
+    if (newTodoName) {
+      todoStore.update((n) => {
+        n[listIndex].todos.push({ title: newTodoName });
+        return [...n];
       });
-      newTask = '';
+      addToHistory(newTodoName);
+      newTodoName = '';
     }
+  }
+
+  function addToHistory(todoName) {
+    todoStore.update((n) => {
+      n[listIndex].history.push(todoName);
+      return n;
+    });
   }
 </script>
 
 <Textfield
   variant="outlined"
-  bind:value={newTask}
+  bind:value={newTodoName}
   label="Neue Aufgabe"
   style="margin-top: 1rem; width: 100%"
   on:keyup={(event) => {
     if (event['code'] === 'Enter') {
-      saveTask();
+      saveTodo();
     }
   }}
 />

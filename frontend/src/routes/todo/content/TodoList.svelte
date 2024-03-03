@@ -1,34 +1,43 @@
 <script lang="ts">
-  import Task from './Task.svelte';
+  import { todoStore } from '../util/store.ts';
+  import Task from './Todo.svelte';
+  import TodoInput from './TodoInput.svelte';
 
-  export let localTaskStore;
-  let listName = 'Aufgabenliste';
-  $: if (localTaskStore) {
-    console.log('localTaskStore', localTaskStore);
-    listName = 'Aufgabenliste';
-  }
+  export let listIndex;
 
-  function deleteTask(index) {
-    localTaskStore.update((n) => {
-      n.splice(index, 1);
-      return n;
+  $: currentList = $todoStore[listIndex];
+
+  function deleteTodo(index) {
+    todoStore.update((list) => {
+      list[listIndex].todos.splice(index, 1);
+      return list;
     });
   }
 </script>
 
 <section class="todo-list">
-  <h2>{listName}</h2>
+  <h2>{currentList?.emoji} | {currentList?.name || 'Kein Name'}</h2>
   <hr />
-  {#each $localTaskStore as task, i (i)}
-    <Task {task} deleteTask={() => deleteTask(i)} />
-  {/each}
+  <br />
+  <pre class="status">History: {currentList?.history || 'Kein Verlauf'}</pre>
+  <TodoInput {listIndex} />
+  {#if currentList?.todos.length === 0}
+    <pre class="status">Todos: Keine Todos</pre>
+  {:else}
+    {#each currentList?.todos as todo, i (i)}
+      <Task {todo} deleteTodo={() => deleteTodo(i)} />
+    {/each}
+  {/if}
 </section>
 
 <style lang="scss">
   .todo-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-top: 20px;
+  }
+
+  hr {
+    width: 100%;
   }
 </style>
