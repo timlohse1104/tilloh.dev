@@ -16,13 +16,13 @@
 </script>
 
 <section class="todo-list">
-  <h2>{currentList?.emoji} | {currentList?.name || 'Kein Name'}</h2>
+  <h2>{currentList?.emoji} {currentList?.name || 'Kein Name'}</h2>
   <hr />
   <br />
   <pre class="status">History: {currentList?.history || 'Kein Verlauf'}</pre>
   <TodoInput {listIndex} />
   {#if currentList?.todos.length === 0}
-    <pre class="status">Todos: Keine Todos</pre>
+    <p style="margin-top:2rem;">Bisher ziemlich leer hier...</p>
   {:else}
     {#each currentList?.todos as todo, i (i)}
       <Task {todo} deleteTodo={() => deleteTodo(i)} />

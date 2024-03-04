@@ -28,6 +28,9 @@
   }
 
   onMount(() => {
+    console.log('todoStore', $todoStore);
+    console.log('listOverlayOptionsStore', $listOverlayOptionsStore);
+
     newListName = $todoStore[$listOverlayOptionsStore.currentListIndex]?.name;
     newListEmoji = $todoStore[$listOverlayOptionsStore.currentListIndex]?.emoji;
   });
@@ -43,6 +46,14 @@
       return [...n, list];
     });
 
+    closeOverlay();
+  }
+
+  function deleteList() {
+    todoStore.update((n) => {
+      n.splice($listOverlayOptionsStore.currentListIndex, 1);
+      return n;
+    });
     closeOverlay();
   }
 
@@ -108,6 +119,10 @@
   </Content>
 
   <Actions>
+    <Button on:click={deleteList}>
+      <Icon class="material-icons">delete</Icon>
+      <Label>Löschen</Label>
+    </Button>
     <Button on:click={closeOverlay}>
       <Icon class="material-icons">playlist_remove</Icon>
       <Label>Abbruch</Label>

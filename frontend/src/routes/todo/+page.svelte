@@ -8,6 +8,7 @@
     Subtitle,
     Title,
   } from '@smui/drawer';
+  import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
   import TodoListComponent from './content/TodoList.svelte';
   import TodoListOverlay from './content/TodoListOverlay.svelte';
@@ -15,14 +16,15 @@
 
   let currentListIndex = 0;
 
-  function showListOverlay(type: 'new' | 'edit') {
+  function showListOverlay(type: 'new' | 'edit', index?: number) {
+    console.log('showListOverlay input', { type, index });
     if (type === 'new') {
       $listOverlayOptionsStore.showOverlay = true;
-      $listOverlayOptionsStore.currentListIndex = -1;
+      $listOverlayOptionsStore.currentListIndex = index || -1;
       $listOverlayOptionsStore.type = type;
     } else {
       $listOverlayOptionsStore.showOverlay = true;
-      $listOverlayOptionsStore.currentListIndex = currentListIndex;
+      $listOverlayOptionsStore.currentListIndex = index || currentListIndex;
       $listOverlayOptionsStore.type = type;
     }
   }
@@ -44,7 +46,6 @@
         style="text-align:left;margin:0 0 var(--default-padding) 0;padding-left: calc(var(--default-padding)/2)"
         >Einkaufen, Aufgaben und vieles mehr...</Subtitle
       >
-      <hr style="margin-left:calc(var(--default-padding)/2);" />
     </Header>
     <Content>
       <List>
@@ -61,22 +62,33 @@
           {#each $todoStore as list, i (i)}
             <Item
               href="javascript:void(0)"
-              style="padding-left: var(--default-padding);"
+              style="padding-left: calc(var(--default-padding) / 1.5);"
               on:click={() => (currentListIndex = i)}
             >
-              <Text>{list.emoji} | {list.name}</Text>
+              <Text>{list.emoji} {list.name}</Text>
+              <IconButton
+                color="secondary"
+                style="margin-left: auto;"
+                size="button"
+                on:click={() => showListOverlay('edit', i)}
+              >
+                <Icon class="material-icons">edit</Icon>
+              </IconButton>
             </Item>
+            <hr style="border-color:var(--darkgrey80);width:95%" />
           {/each}
         {/if}
-        <Button
-          color={$todoStore.length === 0 ? 'primary' : 'secondary'}
-          variant="outlined"
-          style="margin: var(--default-padding) 0 calc(var(--default-padding) / 2) calc(var(--default-padding) + 0.5rem);"
-          on:click={() => showListOverlay('new')}
-        >
-          <Icon class="material-icons">playlist_add</Icon>
-          <Label>Neue Liste anlegen</Label>
-        </Button>
+        <div style="display:flex;justify-content:center;">
+          <Button
+            color={$todoStore.length === 0 ? 'primary' : 'secondary'}
+            variant="outlined"
+            on:click={() => showListOverlay('new')}
+            style="margin: var(--default-padding);"
+          >
+            <Icon class="material-icons">playlist_add</Icon>
+            <Label>Neue Liste anlegen</Label>
+          </Button>
+        </div>
       </List>
     </Content>
   </Drawer>

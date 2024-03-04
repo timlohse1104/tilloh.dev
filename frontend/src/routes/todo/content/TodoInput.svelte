@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Textfield from '@smui/textfield';
+  import Autocomplete from '@smui-extra/autocomplete';
   import { todoStore } from '../util/stores.ts';
 
   export let listIndex;
@@ -19,17 +19,21 @@
 
   function addToHistory(todoName) {
     todoStore.update((n) => {
-      n[listIndex].history.push(todoName);
+      n[listIndex].history = Array.from(
+        new Set(n[listIndex].history).add(todoName),
+      );
       return n;
     });
   }
 </script>
 
-<Textfield
-  variant="outlined"
+<Autocomplete
+  options={$todoStore[listIndex].history}
   bind:value={newTodoName}
-  label="Neue Aufgabe"
+  label="Neuer Eintrag"
   style="margin-top: 1rem; width: 100%"
+  on:SMUIAutocomplete:selected={saveTodo}
+  on:SMUIAutocomplete:noMatchesAction={saveTodo}
   on:keyup={(event) => {
     if (event['code'] === 'Enter') {
       saveTodo();
