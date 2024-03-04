@@ -17,14 +17,13 @@
   let currentListIndex = 0;
 
   function showListOverlay(type: 'new' | 'edit', index?: number) {
-    console.log('showListOverlay input', { type, index });
     if (type === 'new') {
+      currentListIndex = index || -1;
       $listOverlayOptionsStore.showOverlay = true;
-      $listOverlayOptionsStore.currentListIndex = index || -1;
       $listOverlayOptionsStore.type = type;
     } else {
+      currentListIndex = index;
       $listOverlayOptionsStore.showOverlay = true;
-      $listOverlayOptionsStore.currentListIndex = index || currentListIndex;
       $listOverlayOptionsStore.type = type;
     }
   }
@@ -95,15 +94,17 @@
 
   <AppContent class="app-content">
     <main class="main-content">
-      {#if $todoStore.length === 0}
-        <p>Bisher keine Listen</p>
-        <p>Anlegen</p>
-      {:else}
-        <TodoListComponent listIndex={currentListIndex} />
-      {/if}
+      <TodoListComponent listIndex={currentListIndex} />
     </main>
   </AppContent>
-  <TodoListOverlay />
+
+  {#if $listOverlayOptionsStore.showOverlay}
+    <TodoListOverlay
+      listIndex={currentListIndex}
+      newListName={$todoStore[currentListIndex]?.name}
+      newListEmoji={$todoStore[currentListIndex]?.emoji}
+    />
+  {/if}
 </section>
 
 <style lang="scss">

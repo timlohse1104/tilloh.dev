@@ -24,6 +24,5 @@ if (browser) {
 
 export const listOverlayOptionsStore = writable({
   showOverlay: false,
-  currentListIndex: undefined,
   type: undefined,
 });

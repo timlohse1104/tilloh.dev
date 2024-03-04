@@ -1,22 +1,25 @@
 <script lang="ts">
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
+  import IconButton from '@smui/icon-button';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
-  import { onMount } from 'svelte';
+  import Tooltip, { Wrapper } from '@smui/tooltip';
   import type { TodoList } from '../types/list.ts';
   import { isEmoji } from '../util/helpers.ts';
   import { listOverlayOptionsStore, todoStore } from '../util/stores.ts';
 
-  let newListName = '';
+  export let listIndex: number;
+  export let newListName = '';
+  export let newListEmoji = '';
+
   let newListEmojiInput: Textfield;
-  let newListEmoji = '';
   let saveButton: Button;
 
   $: if (saveButton) {
     saveButton.$$set({
-      disabled: !newListName && !(isEmoji(newListEmoji) || newListEmoji === ''),
+      disabled: !newListName || (!isEmoji(newListEmoji) && newListEmoji !== ''),
     });
   }
   $: if (newListEmojiInput) {
@@ -27,15 +30,7 @@
     }
   }
 
-  onMount(() => {
-    console.log('todoStore', $todoStore);
-    console.log('listOverlayOptionsStore', $listOverlayOptionsStore);
-
-    newListName = $todoStore[$listOverlayOptionsStore.currentListIndex]?.name;
-    newListEmoji = $todoStore[$listOverlayOptionsStore.currentListIndex]?.emoji;
-  });
-
-  function updateList() {
+  function createList() {
     const list: TodoList = {
       name: newListName,
       emoji: newListEmoji || '📝',
@@ -49,26 +44,38 @@
     closeOverlay();
   }
 
+  function updateList() {
+    todoStore.update((n) => {
+      console.log(listIndex);
+      console.log(n);
+      n[listIndex].name = newListName;
+      n[listIndex].emoji = newListEmoji || '📝';
+      return n;
+    });
+
+    closeOverlay();
+  }
+
   function deleteList() {
     todoStore.update((n) => {
-      n.splice($listOverlayOptionsStore.currentListIndex, 1);
+      n.splice(listIndex, 1);
       return n;
     });
     closeOverlay();
   }
 
-  function updateOnEnter(event) {
+  function proceedOnEnter(event) {
     if (event['code'] === 'Enter') {
       if (newListName && (isEmoji(newListEmoji) || newListEmoji === '')) {
-        updateList();
+        $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }
     }
   }
 
   function closeOverlay() {
     $listOverlayOptionsStore.showOverlay = false;
-    $listOverlayOptionsStore.currentListIndex = undefined;
     $listOverlayOptionsStore.type = undefined;
+    listIndex = undefined;
     newListName = '';
     newListEmoji = '';
   }
@@ -81,12 +88,12 @@
 >
   {#if $listOverlayOptionsStore.type === 'new'}
     <Title id="simple-title">
-      Erstelle eine Liste
+      Liste erstellen
       <p class="subtitle">Lege hier eine neue Aufgabenliste an.</p>
     </Title>
   {:else}
     <Title id="simple-title">
-      Bearbeite die Liste: {newListName}
+      Liste bearbeiten
       <p class="subtitle">
         Bearbeite hier die Liste <b>{newListName}</b>.
       </p>
@@ -99,8 +106,7 @@
         bind:value={newListName}
         label="Name der Liste"
         required
-        style="width: 25vw;"
-        on:keyup={(event) => updateOnEnter(event)}
+        on:keyup={(event) => proceedOnEnter(event)}
       />
       <div>
         <Textfield
@@ -108,12 +114,24 @@
           bind:this={newListEmojiInput}
           bind:value={newListEmoji}
           label="Emoji der Liste"
-          style="width: 25vw;"
-          on:keyup={(event) => updateOnEnter(event)}
-          ><HelperText persistent slot="helper"
-            >Vergibst du kein Emoji erhältst du 📝</HelperText
-          ></Textfield
+          on:keyup={(event) => proceedOnEnter(event)}
         >
+          <HelperText persistent slot="helper"
+            >Vergibst du kein Emoji erhältst du 📝</HelperText
+          >
+          <Wrapper>
+            <IconButton
+              style="position:absolute;color: white;right:0;top:0"
+              size="mini"
+            >
+              <Icon class="material-icons">info</Icon>
+            </IconButton>
+            <Tooltip xPos="center" yPos="above"
+              >Emojis kann man z.B. hier https://emojipedia.org/ und hier
+              https://emojifinder.com/ finden.</Tooltip
+            >
+          </Wrapper>
+        </Textfield>
       </div>
     </div>
   </Content>
@@ -127,7 +145,12 @@
       <Icon class="material-icons">playlist_remove</Icon>
       <Label>Abbruch</Label>
     </Button>
-    <Button on:click={updateList} bind:this={saveButton}>
+    <Button
+      on:click={$listOverlayOptionsStore.type === 'new'
+        ? createList
+        : updateList}
+      bind:this={saveButton}
+    >
       <Icon class="material-icons"
         >{$listOverlayOptionsStore.type === 'new'
           ? 'playlist_add'

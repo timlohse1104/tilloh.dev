@@ -28,7 +28,7 @@
 </script>
 
 <Autocomplete
-  options={$todoStore[listIndex].history}
+  options={$todoStore[listIndex]?.history || []}
   bind:value={newTodoName}
   label="Neuer Eintrag"
   style="margin-top: 1rem; width: 100%"
