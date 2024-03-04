@@ -9,7 +9,7 @@
   function saveTodo() {
     if (newTodoName) {
       todoStore.update((n) => {
-        n[listIndex].todos.push({ title: newTodoName });
+        n[listIndex].todos.push({ title: newTodoName, done: false });
         return [...n];
       });
       addToHistory(newTodoName);
@@ -30,9 +30,14 @@
 <Autocomplete
   options={$todoStore[listIndex]?.history || []}
   bind:value={newTodoName}
+  bind:text={newTodoName}
   label="Neuer Eintrag"
-  style="margin-top: 1rem; width: 100%"
-  on:SMUIAutocomplete:selected={saveTodo}
+  style="margin-top: 1rem; width: 100%; z-index: 100;"
+  textfield$style="width: 100%;"
+  on:SMUIAutocomplete:selected={(event) => {
+    newTodoName = event.detail;
+    saveTodo();
+  }}
   on:SMUIAutocomplete:noMatchesAction={saveTodo}
   on:keyup={(event) => {
     if (event['code'] === 'Enter') {
