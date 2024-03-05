@@ -15,6 +15,7 @@
   import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
 
   let currentListIndex = 0;
+  let openMenu = false;
 
   function showListOverlay(type: 'new' | 'edit', index?: number) {
     if (type === 'new') {
@@ -27,6 +28,11 @@
       $listOverlayOptionsStore.type = type;
     }
   }
+
+  function setActiveList(index: number) {
+    currentListIndex = index;
+    openMenu = false;
+  }
 </script>
 
 <svelte:head>
@@ -35,7 +41,21 @@
 </svelte:head>
 
 <section>
-  <Drawer style="width:25%;min-width:max-content;">
+  <IconButton
+    color="secondary"
+    style="position: absolute;left: 0;top: 0;margin: var(--default-padding);z-index:1;"
+    size="button"
+    on:click={() => (openMenu = !openMenu)}
+  >
+    <Icon class="material-icons">menu</Icon>
+  </IconButton>
+
+  <Drawer
+    variant="modal"
+    fixed={false}
+    bind:open={openMenu}
+    style="width:25%;min-width:max-content;"
+  >
     <Header>
       <Title
         style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
@@ -62,7 +82,7 @@
             <Item
               href="javascript:void(0)"
               style="padding-left: calc(var(--default-padding) / 1.5);"
-              on:click={() => (currentListIndex = i)}
+              on:click={() => setActiveList(i)}
             >
               <Text>{list.emoji} {list.name}</Text>
               <IconButton
@@ -127,12 +147,4 @@
     height: 100%;
     box-sizing: border-box;
   }
-
-  // .createListSection {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   gap: var(--default-padding);
-  //   min-width: 5rem;
-  // }
 </style>
