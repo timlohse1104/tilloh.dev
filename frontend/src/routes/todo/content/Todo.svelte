@@ -2,21 +2,18 @@
   import Checkbox from '@smui/checkbox';
   import FormField from '@smui/form-field';
   import IconButton, { Icon } from '@smui/icon-button';
-  import { todoStore } from '../util/stores.ts';
+  import type { Todo } from '../types/todo.ts';
 
-  export let listIndex: number;
-  export let todoIndex: number;
+  export let todo: Todo;
   export let deleteTodo;
-
-  $: currentTodo = $todoStore[listIndex].todos[todoIndex];
+  export let todoChecked;
 </script>
 
 <section>
   <div class="todo">
     <FormField>
-      <Checkbox bind:checked={currentTodo['done']} />
-      <span slot="label" class={currentTodo?.done ? 'striked' : ''}
-        >{currentTodo?.title}</span
+      <Checkbox bind:checked={todo['done']} on:click={todoChecked} />
+      <span slot="label" class={todo?.done ? 'striked' : ''}>{todo?.title}</span
       >
     </FormField>
     <IconButton

@@ -5,6 +5,7 @@
     AppContent,
     Content,
     Header,
+    Scrim,
     Subtitle,
     Title,
   } from '@smui/drawer';
@@ -15,11 +16,12 @@
   import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
 
   let currentListIndex = 0;
+  let newListIndex = 0;
   let openMenu = false;
 
   function showListOverlay(type: 'new' | 'edit', index?: number) {
     if (type === 'new') {
-      currentListIndex = index || -1;
+      newListIndex = $todoStore.length;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     } else {
@@ -41,20 +43,10 @@
 </svelte:head>
 
 <section>
-  <IconButton
-    color="secondary"
-    style="position: absolute;left: 0;top: 0;margin: var(--default-padding);z-index:1;"
-    size="button"
-    on:click={() => (openMenu = !openMenu)}
-  >
-    <Icon class="material-icons">menu</Icon>
-  </IconButton>
-
   <Drawer
     variant="modal"
-    fixed={false}
     bind:open={openMenu}
-    style="width:25%;min-width:max-content;"
+    style="width:25%;min-width:max-content;height:max-content;overflow:auto;"
   >
     <Header>
       <Title
@@ -112,22 +104,33 @@
     </Content>
   </Drawer>
 
+  <Scrim />
   <AppContent class="app-content">
     <main class="main-content">
+      <IconButton
+        color="secondary"
+        style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
+        size="button"
+        on:click={() => (openMenu = !openMenu)}
+      >
+        <Icon class="material-icons">menu</Icon>
+      </IconButton>
       <TodoListComponent listIndex={currentListIndex} />
     </main>
   </AppContent>
 
   {#if $listOverlayOptionsStore.showOverlay}
     <TodoListOverlay
-      listIndex={currentListIndex}
-      newListName={$todoStore[currentListIndex]?.name}
-      newListEmoji={$todoStore[currentListIndex]?.emoji}
+      listIndex={newListIndex}
+      newListName={$todoStore[newListIndex]?.name}
+      newListEmoji={$todoStore[newListIndex]?.emoji}
     />
   {/if}
 </section>
 
 <style lang="scss">
+  @import '../../lib/styles/global.scss';
+
   section {
     position: relative;
     display: flex;
@@ -143,7 +146,6 @@
 
   .main-content {
     overflow: auto;
-    padding: 16px;
     height: 100%;
     box-sizing: border-box;
   }

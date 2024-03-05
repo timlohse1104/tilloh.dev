@@ -32,7 +32,7 @@
   bind:value={newTodoName}
   bind:text={newTodoName}
   label="Neuer Eintrag"
-  style="margin-top: 1rem; width: 100%; z-index: 100;"
+  style="margin-top: 1rem; width: 100%;"
   textfield$style="width: 100%;"
   on:SMUIAutocomplete:selected={(event) => {
     newTodoName = event.detail;
