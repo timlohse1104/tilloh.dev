@@ -7,16 +7,16 @@
   export let listIndex: number;
   export let todoIndex: number;
   export let deleteTodo;
+
+  $: currentTodo = $todoStore[listIndex].todos[todoIndex];
 </script>
 
 <section>
   <div class="todo">
     <FormField>
-      <Checkbox bind:checked={$todoStore[listIndex].todos[todoIndex].done} />
-      <span
-        slot="label"
-        class={$todoStore[listIndex].todos[todoIndex].done ? 'striked' : ''}
-        >{$todoStore[listIndex].todos[todoIndex].title}</span
+      <Checkbox bind:checked={currentTodo['done']} />
+      <span slot="label" class={currentTodo?.done ? 'striked' : ''}
+        >{currentTodo?.title}</span
       >
     </FormField>
     <IconButton
