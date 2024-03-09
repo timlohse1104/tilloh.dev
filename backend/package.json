@@ -21,6 +21,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/platform-fastify": "^10.3.2",
     "@nestjs/swagger": "^7.2.0",
+    "@nestjs/websockets": "^10.3.3",
     "axios": "^1.0.0",
     "class-validator": "^0.14.1",
     "joi": "^17.12.1",
@@ -28,6 +29,7 @@
     "nestjs-pino": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "socket.io": "^4.7.4",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

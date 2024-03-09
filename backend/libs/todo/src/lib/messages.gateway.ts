@@ -7,10 +7,10 @@ import {
 } from '@nestjs/websockets';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { Server, Socket } from 'socket.io';
-import { CreateMessageDto } from './dto/create-message.dto';
-import { JoinRoomDto } from './dto/join-room.dto';
-import { TypingDto } from './dto/typing.dto';
 import { MessagesService } from './messages.service';
+import { CreateMessageDto } from './types/create-message.dto';
+import { JoinRoomDto } from './types/join-room.dto';
+import { TypingDto } from './types/typing.dto';
 
 @WebSocketGateway({
   cors: {

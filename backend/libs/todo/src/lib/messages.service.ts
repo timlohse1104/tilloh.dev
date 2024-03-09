@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-import { CreateMessageDto } from './dto/create-message.dto';
 import { Message } from './entities/message.entity';
+import { CreateMessageDto } from './types/create-message.dto';
 
 @Injectable()
 export class MessagesService {
