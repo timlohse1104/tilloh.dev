@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isEnter } from '$lib/util/helper.js';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -122,9 +123,7 @@
       label="Name"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event['code'] === 'Enter') {
-          editFolder();
-        }
+        if (isEnter(event)) editFolder();
       }}
     >
       <Icon class="material-icons" slot="leadingIcon">text_format</Icon>

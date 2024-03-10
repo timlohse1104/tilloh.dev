@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isEnter } from '$lib/util/helper';
   import Card from '@smui/card';
   import IconButton from '@smui/icon-button';
   import Paper from '@smui/paper';
@@ -154,7 +155,7 @@
           <Input
             bind:value={username}
             on:keyup={(event) => {
-              if (event['code'] === 'Enter') {
+              if (isEnter(event)) {
                 if (username) join();
               }
             }}
@@ -216,7 +217,7 @@
           bind:value={newMessage}
           on:input={emitTyping}
           on:keyup={(event) => {
-            if (event['code'] === 'Enter') {
+            if (isEnter(event)) {
               if (username) sendMessage();
             }
           }}

@@ -1,4 +1,5 @@
 <script>
+  import { isEnter } from '$lib/util/helper.js';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import Textfield from '@smui/textfield';
@@ -106,7 +107,7 @@
       label="Name"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event['code'] === 'Enter') {
+        if (isEnter(event)) {
           type === 'new' ? addLink() : editLink();
         }
       }}
@@ -120,7 +121,7 @@
       label="URL"
       style="margin-top: 1rem; width: 100%"
       on:keyup={(event) => {
-        if (event['code'] === 'Enter') {
+        if (isEnter(event)) {
           type === 'new' ? addLink() : editLink();
         }
       }}

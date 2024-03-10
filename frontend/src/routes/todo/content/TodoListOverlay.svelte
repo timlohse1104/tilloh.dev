@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isEnter } from '$lib/util/helper.ts';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
@@ -65,7 +66,7 @@
   }
 
   function proceedOnEnter(event) {
-    if (event['code'] === 'Enter') {
+    if (isEnter(event)) {
       if (newListName && (isEmoji(newListEmoji) || newListEmoji === '')) {
         $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }

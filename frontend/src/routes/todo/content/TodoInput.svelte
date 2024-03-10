@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isEnter } from '$lib/util/helper.ts';
   import Autocomplete from '@smui-extra/autocomplete';
   import { todoStore } from '../util/stores.ts';
 
@@ -40,7 +41,7 @@
   }}
   on:SMUIAutocomplete:noMatchesAction={saveTodo}
   on:keyup={(event) => {
-    if (event['code'] === 'Enter') {
+    if (isEnter(event)) {
       saveTodo();
     }
   }}
