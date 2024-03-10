@@ -1,5 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { bounceInOut } from 'svelte/easing';
+  import { blur } from 'svelte/transition';
 
   const dispatch = createEventDispatcher();
   export let linkId;
@@ -25,6 +27,7 @@
       linkUrl: linkUrl,
     })}
   role="presentation"
+  transition:blur={{ duration: 1000, easing: bounceInOut }}
 >
   <img alt="Website logo of {linkName}" src={faviconLink} />
 

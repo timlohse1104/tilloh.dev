@@ -228,17 +228,19 @@
     {#await $localPresetStore}
       <p>Loading links</p>
     {:then value}
-      {#each $localPresetStore.Folders[id].links as { id: index, linkName, linkUrl, faviconLink }}
-        <Link
-          on:delLink={deleteLink}
-          on:editLink={showOverlay}
-          linkId={index}
-          {linkName}
-          {linkUrl}
-          faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
-          on:dragstart={(event) => dragStartLink(event)}
-        />
-      {/each}
+      {#if $localPresetStore?.Folders[id]?.links.length > 0}
+        {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
+          <Link
+            on:delLink={deleteLink}
+            on:editLink={showOverlay}
+            linkId={index}
+            {linkName}
+            {linkUrl}
+            faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
+            on:dragstart={(event) => dragStartLink(event)}
+          />
+        {/each}
+      {/if}
     {:catch error}
       <p>Something went wrong: {error.message}</p>
     {/await}

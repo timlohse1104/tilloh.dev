@@ -4,7 +4,7 @@
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
-  import BoxArea from './content/BoxArea.svelte';
+  import BoxArea from './content/FolderArea.svelte';
   import FolderOverlay from './content/FolderOverlay.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';
   import PresetOverlay from './content/PresetOverlay.svelte';
