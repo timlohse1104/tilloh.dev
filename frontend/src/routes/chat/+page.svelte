@@ -7,16 +7,8 @@
   <meta name="Chat" content="Chat" />
 </svelte:head>
 
-<section>
-  <Chat />
-</section>
+<Chat />
 
 <style lang="scss">
   @import '../../lib/styles/global.scss';
-
-  section {
-    position: relative;
-    display: flex;
-    z-index: 0;
-  }
 </style>

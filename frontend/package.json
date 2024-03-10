@@ -20,6 +20,7 @@
     "@nx/workspace": "17.2.8",
     "@smui-extra/accordion": "^7.0.0-beta.16",
     "@smui-extra/autocomplete": "^7.0.0-beta.16",
+    "@smui/card": "^7.0.0-beta.16",
     "@smui/checkbox": "^7.0.0-beta.16",
     "@smui/common": "^7.0.0-beta.16",
     "@smui/dialog": "^7.0.0-beta.16",

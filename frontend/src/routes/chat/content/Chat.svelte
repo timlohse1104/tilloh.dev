@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Card from '@smui/card';
   import Fab from '@smui/fab';
   import IconButton from '@smui/icon-button';
   import Paper from '@smui/paper';
@@ -7,6 +8,7 @@
   import Icon from '@smui/textfield/icon';
   import { io } from 'socket.io-client';
   import { afterUpdate, onMount } from 'svelte';
+
   const socket = io(
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:61154'
@@ -129,39 +131,40 @@
   };
 </script>
 
-<main class="main-container">
-  <section class="hero is-link is-bold hero-head">
-    <div class="hero-body">
-      <div class="container"></div>
-    </div>
-  </section>
-
+<section class="main-container">
   {#if !joined}
-    <div class="solo-demo-container solo-container">
-      <Paper class="solo-paper" elevation={6}>
-        <Icon class="material-icons" style="color:var(--lightgrey80)"
-          >text_format</Icon
+    <div class="join-container">
+      <h2>
+        <span class="material-icons">chat</span>
+        Willkommen im Chat!
+      </h2>
+      <h3 class="join-header">Bitte gib deinen Namen ein, um beizutreten.</h3>
+      <div class="join-input-container">
+        <Paper class="join-paper" elevation={6}>
+          <Icon class="material-icons" style="color:var(--lightgrey80)"
+            >text_format</Icon
+          >
+          <Input
+            bind:value={username}
+            on:keyup={(event) => {
+              if (event['code'] === 'Enter') {
+                if (username) join();
+              }
+            }}
+            placeholder="Dein Name"
+            class="join-input"
+          />
+        </Paper>
+        <Fab
+          on:click={join}
+          bind:this={joinButton}
+          color="primary"
+          mini
+          class="solo-fab"
         >
-        <Input
-          bind:value={username}
-          on:keyup={(event) => {
-            if (event['code'] === 'Enter') {
-              if (username) join();
-            }
-          }}
-          placeholder="Dein Name"
-          class="solo-input"
-        />
-      </Paper>
-      <Fab
-        on:click={join}
-        bind:this={joinButton}
-        color="primary"
-        mini
-        class="solo-fab"
-      >
-        <Icon class="material-icons">arrow_forward</Icon>
-      </Fab>
+          <Icon class="material-icons">arrow_forward</Icon>
+        </Fab>
+      </div>
     </div>
   {:else}
     <section class="chat-section" bind:this={chatSection}>
@@ -169,17 +172,15 @@
         <div class="message-container">
           <article
             class="message {message?.name === username
-              ? 'is-info'
-              : 'is-success'} {message?.name === username
               ? 'message-left'
               : 'message-right'}"
           >
-            <div class="message-header">
-              <p>{message?.name} | {message?.timestamp}</p>
-            </div>
-            <div class="message-body">
-              {message?.text}
-            </div>
+            <Card padded>
+              <p class="mdc-typography--caption">
+                {message?.name} | {message?.timestamp}
+              </p>
+              <p class="message-body">{message?.text}</p>
+            </Card>
           </article>
         </div>
       {/each}
@@ -218,7 +219,7 @@
       <IconButton class="material-icons" title="Dismiss">close</IconButton>
     </Actions>
   </Snackbar>
-</main>
+</section>
 
 <style>
   /* Head styles */
@@ -232,33 +233,33 @@
   .main-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
     width: 100%;
     overflow: hidden;
   }
 
-  .hero-head {
-    flex: 0 0 auto;
-  }
-
-  .hero-foot {
-    flex: 0 0 auto;
-  }
-
-  .solo-demo-container {
+  .join-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     padding: var(--default-padding);
     border: 1px solid
       var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
   }
 
+  .join-header {
+    padding-bottom: calc(var(--default-padding) * 2);
+  }
+
   /* Join styles */
-  .solo-container {
+  .join-input-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
   }
-  * :global(.solo-paper) {
+  * :global(.join-paper) {
     display: flex;
     align-items: center;
     flex-grow: 1;
@@ -267,15 +268,15 @@
     padding: 0 12px;
     height: 48px;
   }
-  * :global(.solo-paper > *) {
+  * :global(.join-paper > *) {
     display: inline-block;
     margin: 0 12px;
   }
-  * :global(.solo-input) {
+  * :global(.join-input) {
     flex-grow: 1;
     color: var(--mdc-theme-on-surface);
   }
-  * :global(.solo-input::placeholder) {
+  * :global(.join-input::placeholder) {
     color: var(--mdc-theme-on-surface);
     opacity: 0.6;
   }
@@ -296,6 +297,10 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 1em;
+  }
+
+  .message-body {
+    padding-top: var(--default-padding);
   }
 
   .message-left {
