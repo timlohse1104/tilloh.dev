@@ -39,7 +39,7 @@
       ],
       "@backend/shared/texts": ["libs/shared/texts/src/index.ts"],
       "@backend/shared/types": ["libs/shared/types/src/index.ts"],
-      "@backend/todo": ["libs/todo/src/index.ts"],
+      "@backend/chat": ["libs/chat/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"]
     }
   },

@@ -1,3 +1,4 @@
+import { ChatModule } from '@backend/chat';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { GlobalExceptionFilter, LoggerMiddleware } from '@backend/util';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
@@ -44,6 +45,7 @@ import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
         },
       },
     }),
+    ChatModule,
     MemorandumControllerModule,
   ],
   providers: [Logger],
