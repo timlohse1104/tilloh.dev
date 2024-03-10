@@ -1,8 +1,11 @@
 <script lang="ts">
   import { io } from 'socket.io-client';
   import { afterUpdate, onMount } from 'svelte';
-  // const socket = io('https://api.tilloh.dev/api/chat');
-  const socket = io('http://localhost:61154/v1');
+  const socket = io(
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:61154'
+      : 'https://api.tilloh.dev/api/chat',
+  );
 
   let messages = [];
   let joined = false;
