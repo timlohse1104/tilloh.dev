@@ -7,9 +7,9 @@ import { CreateMessageDto } from './types/create-message.dto';
 export class MessagesService {
   // In-memory database
   messages: Message[] = [
-    { name: 'Tim', text: 'Moin', timestamp: new Date() },
+    { name: 'Alice', text: 'Moin', timestamp: new Date() },
     {
-      name: 'Laura',
+      name: 'Bob',
       text: "Na, wie geht's?",
       timestamp: new Date(Date.now() + 5000),
     },
