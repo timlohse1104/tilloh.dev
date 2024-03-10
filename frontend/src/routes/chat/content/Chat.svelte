@@ -34,6 +34,8 @@
     if (joined) joinSnackbar.open();
   }
 
+  $: isOwnMessage = (message) => message?.name === username;
+
   // Svelte lifecycle hooks
   onMount(() => {
     // Establish websocket connection
@@ -160,7 +162,7 @@
           bind:this={joinButton}
           color="primary"
           mini
-          class="solo-fab"
+          class="join-fab"
         >
           <Icon class="material-icons">arrow_forward</Icon>
         </Fab>
@@ -171,49 +173,64 @@
       {#each messages as message}
         <div class="message-container">
           <article
-            class="message {message?.name === username
+            class="message {isOwnMessage(message)
               ? 'message-left'
               : 'message-right'}"
           >
-            <Card padded>
-              <p class="mdc-typography--caption">
-                {message?.name} | {message?.timestamp}
+            <Card
+              padded
+              class="message {isOwnMessage(message)
+                ? 'message-left'
+                : 'message-right'}"
+              style={`background-color: var(${
+                isOwnMessage(message) ? '--color-theme-1' : '--color-theme-2'
+              })`}
+            >
+              <p class="message-header">
+                <b>{message?.name}</b> | {message?.timestamp}
               </p>
-              <p class="message-body">{message?.text}</p>
+              <p
+                class="message-body"
+                style={`color: var(${isOwnMessage(message) ? '--darkgrey80' : '--light80'})`}
+              >
+                {message?.text}
+              </p>
             </Card>
           </article>
         </div>
       {/each}
     </section>
 
-    <section class="hero-foot">
-      <footer class="section is-small">
-        {#if typingDisplay}
-          <p class="is-size-7">{typingDisplay}</p>
-        {/if}
-        <form on:submit|preventDefault={sendMessage}>
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <input
-                on:input={emitTyping}
-                bind:value={newMessage}
-                class="input"
-                name="userInput"
-                type="text"
-                placeholder="Schreibe deine Nachricht"
-              />
-            </div>
-            <div class="control">
-              <button class="button is-info"> Senden </button>
-            </div>
+    <!-- Footer -->
+    <footer class="chat-footer">
+      {#if typingDisplay}
+        <p class="is-size-7">{typingDisplay}</p>
+      {/if}
+      <form on:submit|preventDefault={sendMessage}>
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input
+              on:input={emitTyping}
+              bind:value={newMessage}
+              class="input"
+              name="userInput"
+              type="text"
+              placeholder="Schreibe deine Nachricht"
+            />
           </div>
-        </form>
-      </footer>
-    </section>
+          <div class="control">
+            <button class="button is-info"> Senden </button>
+          </div>
+        </div>
+      </form>
+    </footer>
   {/if}
 
   <!-- Info Area -->
-  <Snackbar bind:this={joinSnackbar}>
+  <Snackbar
+    bind:this={joinSnackbar}
+    style="margin-bottom:var(--default-padding);"
+  >
     <Label>Erfolgreich dem Chat als {username} beigetreten.</Label>
     <Actions>
       <IconButton class="material-icons" title="Dismiss">close</IconButton>
@@ -223,20 +240,12 @@
 
 <style>
   /* Head styles */
-  :global(html, body) {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
   .main-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     overflow: hidden;
   }
-
   .join-container {
     display: flex;
     flex-direction: column;
@@ -248,11 +257,10 @@
       var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
   }
 
+  /* Join styles */
   .join-header {
     padding-bottom: calc(var(--default-padding) * 2);
   }
-
-  /* Join styles */
   .join-input-container {
     display: flex;
     justify-content: center;
@@ -280,34 +288,45 @@
     color: var(--mdc-theme-on-surface);
     opacity: 0.6;
   }
-  * :global(.solo-fab) {
+  * :global(.join-fab) {
     flex-shrink: 0;
   }
 
   /* Chat styles */
   .chat-section {
     overflow-y: auto;
-    flex: 1 1 auto;
     padding: 1em;
   }
-
+  .message {
+    max-width: 75%;
+  }
   .message-container {
-    width: 100%;
     display: flex;
+    width: 100%;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 1em;
+    padding-bottom: var(--default-padding);
   }
-
+  .message-header {
+    font-size: 0.8em;
+    color: var(--lightgrey80);
+    margin: 0 0 16px 0;
+    width: max-content;
+  }
   .message-body {
-    padding-top: var(--default-padding);
+    text-wrap: wrap;
+    margin: 0;
   }
-
   .message-left {
     align-self: flex-start;
   }
-
   .message-right {
     align-self: flex-end;
+  }
+
+  /* Footer styles */
+  .chat-footer {
+    position: absolute;
+    bottom: 0;
+    padding: 1em;
   }
 </style>
