@@ -1,6 +1,5 @@
 <script lang="ts">
   import Card from '@smui/card';
-  import Fab from '@smui/fab';
   import IconButton from '@smui/icon-button';
   import Paper from '@smui/paper';
   import Snackbar, { Actions, Label } from '@smui/snackbar';
@@ -23,10 +22,17 @@
   let typingDisplay = '';
   let joinButton;
   let joinSnackbar;
+  let sendMessageButton;
 
   $: if (joinButton) {
     joinButton.$$set({
       disabled: !username,
+    });
+  }
+
+  $: if (sendMessageButton) {
+    sendMessageButton.$$set({
+      disabled: !newMessage,
     });
   }
 
@@ -88,7 +94,6 @@
   });
 
   // Custom functions
-
   const join = () => {
     // Join chat room
     socket.emit(
@@ -157,15 +162,13 @@
             class="join-input"
           />
         </Paper>
-        <Fab
+        <IconButton
           on:click={join}
           bind:this={joinButton}
-          color="primary"
-          mini
-          class="join-fab"
-        >
-          <Icon class="material-icons">arrow_forward</Icon>
-        </Fab>
+          size="mini"
+          class="material-icons"
+          >arrow_forward
+        </IconButton>
       </div>
     </div>
   {:else}
@@ -206,39 +209,43 @@
       {#if typingDisplay}
         <p class="is-size-7">{typingDisplay}</p>
       {/if}
-      <form on:submit|preventDefault={sendMessage}>
-        <div class="field has-addons">
-          <div class="control is-expanded">
-            <input
-              on:input={emitTyping}
-              bind:value={newMessage}
-              class="input"
-              name="userInput"
-              type="text"
-              placeholder="Schreibe deine Nachricht"
-            />
-          </div>
-          <div class="control">
-            <button class="button is-info"> Senden </button>
-          </div>
-        </div>
-      </form>
+      <Paper class="join-paper" elevation={6}>
+        <Icon class="material-icons" style="color:var(--lightgrey80)">edit</Icon
+        >
+        <Input
+          bind:value={newMessage}
+          on:input={emitTyping}
+          on:keyup={(event) => {
+            if (event['code'] === 'Enter') {
+              if (username) sendMessage();
+            }
+          }}
+          placeholder="Schreibe deine Nachricht"
+          class="join-input"
+        />
+      </Paper>
+      <IconButton
+        on:click={sendMessage}
+        bind:this={sendMessageButton}
+        size="mini"
+        class="material-icons"
+        >send
+      </IconButton>
     </footer>
   {/if}
-
-  <!-- Info Area -->
-  <Snackbar
-    bind:this={joinSnackbar}
-    style="margin-bottom:var(--default-padding);"
-  >
-    <Label>Erfolgreich dem Chat als {username} beigetreten.</Label>
-    <Actions>
-      <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </Actions>
-  </Snackbar>
 </section>
 
-<style>
+<!-- Info Area -->
+<Snackbar bind:this={joinSnackbar}>
+  <Label>Erfolgreich dem Chat als {username} beigetreten.</Label>
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
+
+<style lang="scss">
+  @import '../../../lib/styles/global.scss';
+
   /* Head styles */
   .main-container {
     display: flex;
@@ -288,14 +295,20 @@
     color: var(--mdc-theme-on-surface);
     opacity: 0.6;
   }
-  * :global(.join-fab) {
-    flex-shrink: 0;
-  }
 
   /* Chat styles */
   .chat-section {
     overflow-y: auto;
     padding: 1em;
+    height: 85vh;
+
+    @media #{$tablet} {
+      height: 78vh;
+    }
+
+    @media #{$phone} {
+      height: 70vh;
+    }
   }
   .message {
     max-width: 75%;
@@ -327,6 +340,12 @@
   .chat-footer {
     position: absolute;
     bottom: 0;
-    padding: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    padding: var(--default-padding) 0;
+    border: 1px solid
+      var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
   }
 </style>

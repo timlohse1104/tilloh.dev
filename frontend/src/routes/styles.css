@@ -37,6 +37,7 @@
 
 body {
   margin: 0;
+  overflow: hidden;
   background-color: var(--color-bg-1);
   background-size: 100vw 100vh;
   background-image: linear-gradient(
