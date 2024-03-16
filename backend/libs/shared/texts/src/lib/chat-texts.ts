@@ -1,4 +1,4 @@
-export class IdentifiersTexts {
+export class ChatTexts {
   static readonly ATTEMPT_FIND_ALL = 'Attempt to list all chats.';
   static readonly ATTEMPT_FIND_ONE = 'Attempt to get an chat.';
   static readonly ATTEMPT_CREATE = 'Attempt to create an chat.';

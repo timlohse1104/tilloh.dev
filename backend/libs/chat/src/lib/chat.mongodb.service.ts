@@ -1,3 +1,4 @@
+import { ChatTexts } from '@backend/shared/texts';
 import { IdentifierDto } from '@backend/shared/types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
