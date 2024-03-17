@@ -25,8 +25,14 @@
       "@backend/catch-em-all/catch-em-all-provider": [
         "libs/catch-em-all/catch-em-all-provider/src/index.ts"
       ],
+      "@backend/chat/chat-persistence": [
+        "libs/chat/chat-persistence/src/index.ts"
+      ],
       "@backend/chat/messages-gateway": [
         "libs/chat/messages-gateway/src/index.ts"
+      ],
+      "@backend/chat/messages-service": [
+        "libs/chat/messages-service/src/index.ts"
       ],
       "@backend/memorandum/memorandum-controller": [
         "libs/memorandum/memorandum-controller/src/index.ts"
