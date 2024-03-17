@@ -31,8 +31,8 @@
       "@backend/chat/messages-gateway": [
         "libs/chat/messages-gateway/src/index.ts"
       ],
-      "@backend/chat/messages-service": [
-        "libs/chat/messages-service/src/index.ts"
+      "@backend/chat/messages-provider": [
+        "libs/chat/messages-provider/src/index.ts"
       ],
       "@backend/memorandum/memorandum-controller": [
         "libs/memorandum/memorandum-controller/src/index.ts"

@@ -1,3 +1,4 @@
+import { MessagesService } from '@backend/chat/messages-provider';
 import {
   ConnectedSocket,
   MessageBody,
@@ -7,10 +8,9 @@ import {
 } from '@nestjs/websockets';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { Server, Socket } from 'socket.io';
-import { MessagesService } from './messages.service';
-import { CreateMessageDto } from './types/create-message.dto';
-import { JoinRoomDto } from './types/join-room.dto';
-import { TypingDto } from './types/typing.dto';
+import { CreateMessageDto } from '../../../../tahc/src/lib/types/create-message.dto';
+import { JoinRoomDto } from '../../../../tahc/src/lib/types/join-room.dto';
+import { TypingDto } from '../../../../tahc/src/lib/types/typing.dto';
 
 @WebSocketGateway({
   cors: {

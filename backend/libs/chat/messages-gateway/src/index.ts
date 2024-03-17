@@ -1,1 +1,2 @@
-export * from './lib/chat-messages-gateway.module';
+export * from './lib/messages-gateway.module';
+export * from './lib/messages.gateway';
