@@ -36,7 +36,10 @@ export class MessagesService {
   }
 
   findAll() {
-    return this.messages;
+    this.logger.trace(`Finding all messages from database.`);
+    const messages = this.messages;
+    this.logger.trace(`Found ${messages.length} messages in database.`);
+    return messages;
   }
 
   findOne(id: number) {
@@ -68,11 +71,23 @@ export class MessagesService {
 
   identify(name: string, clientId: string) {
     // Use in-memory dictionary to store the reference for client and user
+    this.logger.trace(
+      { input: { name, clientId } },
+      `Identifing client in database.`
+    );
     this.clientToUser[clientId] = name;
-    return Object.values(this.clientToUser);
+    const client = Object.values(this.clientToUser);
+    this.logger.trace({ output: { client } }, `Identified client in database.`);
+    return client;
   }
 
   getClientName(clientId: string) {
-    return this.clientToUser[clientId];
+    this.logger.trace(
+      { input: { clientId } },
+      `Retrieving client from database.`
+    );
+    const client = this.clientToUser[clientId];
+    this.logger.trace({ output: { client } }, `Found client in database.`);
+    return client;
   }
 }
