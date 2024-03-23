@@ -1,4 +1,8 @@
-import { CreateMessageDto, Message } from '@backend/shared/types';
+import {
+  CreateMessageDto,
+  Message,
+  UpdateMessageDto,
+} from '@backend/shared/types';
 import { Injectable } from '@nestjs/common';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
@@ -49,12 +53,16 @@ export class MessagesService {
     return message;
   }
 
-  // update(id: number, updateMessageDto: UpdateMessageDto) {
-  //   this.logger.trace(`Retrieving message with id ${id} from database.`);
-  //   const message = this.messages[id];
-  //   this.logger.trace(`Adding new message from ${name} to database.`);
-  //   return message;
-  // }
+  update(id: number, updateMessageDto: UpdateMessageDto) {
+    this.logger.trace({ input: { id } }, `Updating message in database.`);
+    this.messages[id] = { ...this.messages[id], ...updateMessageDto };
+    const message = this.messages[id];
+    this.logger.trace(
+      { output: { message } },
+      `Updated message from database.`
+    );
+    return message;
+  }
 
   remove(id: number) {
     this.logger.trace(
@@ -64,7 +72,7 @@ export class MessagesService {
     const message = this.messages.splice(id, 1)[0];
     this.logger.trace(
       { output: { message } },
-      `Removed message with id ${id} from database.`
+      `Removed message from database.`
     );
     return message;
   }
