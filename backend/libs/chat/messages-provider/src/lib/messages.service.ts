@@ -33,17 +33,20 @@ export class MessagesService {
     return this.messages;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} message`;
-  // }
+  findOne(id: number) {
+    this.logger.trace(`Retrieving message with id ${id} from database.`);
+    const message = this.messages[id];
+    this.logger.trace(`Adding new message from ${name} to database.`);
+    return message;
+  }
 
   // update(id: number, updateMessageDto: UpdateMessageDto) {
   //   return `This action updates a #${id} message`;
   // }
 
-  remove(id: number) {
-    return `This action removes a #${id} message`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} message`;
+  // }
 
   identify(name: string, clientId: string) {
     // Use in-memory dictionary to store the reference for client and user

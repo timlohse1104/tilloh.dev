@@ -3,6 +3,7 @@ import {
   CreateMessageDto,
   JoinRoomDto,
   TypingDto,
+  UpdateMessageDto,
 } from '@backend/shared/types';
 import {
   ConnectedSocket,
@@ -51,15 +52,15 @@ export class MessagesGateway {
     return this.messagesService.findAll();
   }
 
-  // @SubscribeMessage('findOneMessage')
-  // findOne(@MessageBody() id: number) {
-  //   return this.messagesService.findOne(id);
-  // }
+  @SubscribeMessage('findOneMessage')
+  findOne(@MessageBody() id: number) {
+    return this.messagesService.findOne(id);
+  }
 
-  // @SubscribeMessage('updateMessage')
-  // update(@MessageBody() updateMessageDto: UpdateMessageDto) {
-  //   return this.messagesService.update(updateMessageDto.id, updateMessageDto);
-  // }
+  @SubscribeMessage('updateMessage')
+  update(@MessageBody() updateMessageDto: UpdateMessageDto) {
+    return this.messagesService.update(updateMessageDto.id, updateMessageDto);
+  }
 
   @SubscribeMessage('removeMessage')
   remove(@MessageBody() id: number) {
