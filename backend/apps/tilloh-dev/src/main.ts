@@ -10,19 +10,15 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as Joi from 'joi';
 import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
+import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid('development', 'production').required(),
-        GLOBAL_PREFIX: Joi.string().required(),
-        PORT: Joi.number().required(),
-        MONGO_DB_URL: Joi.string().required(),
-        SERVER_ADDRESS: Joi.string().required(),
-      }),
+      validate(config) {
+        return validate(EnvironmentVariables, config);
+      },
     }),
     MongooseModule.forRoot(process.env.MONGO_DB_URL),
     LoggerModule.forRoot({
