@@ -6,4 +6,4 @@ import { ChatMongoDbService } from './chat.mongodb.service';
   providers: [ChatMongoDbService],
   exports: [ChatMongoDbService],
 })
-export class ChatChatPersistenceModule {}
+export class ChatPersistenceModule {}
