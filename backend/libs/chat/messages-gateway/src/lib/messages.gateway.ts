@@ -5,6 +5,7 @@ import {
   TypingDto,
   UpdateMessageDto,
 } from '@backend/shared/types';
+import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -12,7 +13,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
@@ -21,25 +21,23 @@ import { Server, Socket } from 'socket.io';
   },
 })
 export class MessagesGateway {
+  private readonly logger = new Logger(MessagesGateway.name);
+
   @WebSocketServer()
   server: Server;
 
-  constructor(
-    private readonly messagesService: MessagesService,
-    @InjectPinoLogger(MessagesGateway.name)
-    private readonly logger: PinoLogger
-  ) {}
+  constructor(private readonly messagesService: MessagesService) {}
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
     const { name, timestamp } = createMessageDto;
 
-    this.logger.trace(
+    this.logger.verbose(
       `Creating a new message for ${name} with timestamp ${timestamp}.`
     );
     const message = await this.messagesService.create(createMessageDto);
 
-    this.logger.trace(
+    this.logger.verbose(
       `Emit the new message from ${name} to all connected clients.`
     );
     this.server.emit('message', message);
@@ -48,7 +46,7 @@ export class MessagesGateway {
 
   @SubscribeMessage('findAllMessages')
   findAll() {
-    this.logger.trace(`Returning all messages from the database.`);
+    this.logger.verbose(`Returning all messages from the database.`);
     return this.messagesService.findAll();
   }
 
@@ -64,7 +62,7 @@ export class MessagesGateway {
 
   @SubscribeMessage('removeMessage')
   remove(@MessageBody() id: number) {
-    this.logger.trace(`Removing message with id ${id} from database.`);
+    this.logger.verbose(`Removing message with id ${id} from database.`);
     return this.messagesService.remove(id);
   }
 
@@ -74,7 +72,7 @@ export class MessagesGateway {
     @ConnectedSocket() client: Socket
   ) {
     const { name } = joinRoomDto;
-    this.logger.trace(`Client ${client.id} joined as ${name}.`);
+    this.logger.verbose(`Client ${client.id} joined as ${name}.`);
     return this.messagesService.identify(name, client.id);
   }
 
@@ -85,7 +83,7 @@ export class MessagesGateway {
   ) {
     const { isTyping } = typingDto;
     const name = await this.messagesService.getClientName(client.id);
-    this.logger.trace(
+    this.logger.verbose(
       `Emitting typing event from ${name} to all connected clients.`
     );
     client.broadcast.emit('typing', { name, isTyping });
