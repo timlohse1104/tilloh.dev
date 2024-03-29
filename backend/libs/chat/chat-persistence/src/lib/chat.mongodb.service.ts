@@ -17,12 +17,12 @@ export class ChatMongoDbService {
 
   async findAll(): Promise<IdentifierDto[]> {
     this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_FIND_ALL);
-    const chat = await this.identifierModel.find();
+    const chats = await this.identifierModel.find();
     this.logger.debug(
-      { output: chat },
-      `MongoDb responded, found ${chat.length} chat.`
+      { output: { chats } },
+      `MongoDb responded, found ${chats.length} chat.`
     );
-    return chat;
+    return chats;
   }
 
   async findOne(id: string): Promise<IdentifierDto> {
@@ -32,7 +32,7 @@ export class ChatMongoDbService {
     if (!identifier) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, ChatTexts.FOUND_ONE);
+    this.logger.debug({ output: { identifier } }, ChatTexts.FOUND_ONE);
     return identifier;
   }
 
@@ -43,7 +43,7 @@ export class ChatMongoDbService {
       name,
     });
     this.logger.debug(
-      { output: identifier?.toObject() },
+      { output: { identifier: identifier?.toObject() } },
       ChatTexts.CREATED_ONE
     );
     return identifier;
@@ -68,7 +68,7 @@ export class ChatMongoDbService {
     if (!identifier) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, ChatTexts.UPDATED_ONE);
+    this.logger.debug({ output: { identifier } }, ChatTexts.UPDATED_ONE);
     return identifier;
   }
 
@@ -81,7 +81,7 @@ export class ChatMongoDbService {
     if (!identifier) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: identifier }, ChatTexts.DELETE_ONE);
+    this.logger.debug({ output: { identifier } }, ChatTexts.DELETE_ONE);
     return identifier;
   }
 }
