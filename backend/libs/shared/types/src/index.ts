@@ -1,3 +1,4 @@
+export * from './lib/chat.entity';
 export * from './lib/create-message.dto';
 export * from './lib/identifiers.dto';
 export * from './lib/join-room.dto';
