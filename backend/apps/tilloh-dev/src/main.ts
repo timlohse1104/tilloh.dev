@@ -1,4 +1,4 @@
-import { ChatMessagesGatewayModule } from '@backend/chat/messages-gateway';
+import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { GlobalExceptionFilter, LoggerMiddleware } from '@backend/util';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
@@ -41,7 +41,7 @@ import { EnvironmentVariables, validate } from './env.validation';
         },
       },
     }),
-    ChatMessagesGatewayModule,
+    ChatGatewayModule,
     MemorandumControllerModule,
   ],
   providers: [Logger],

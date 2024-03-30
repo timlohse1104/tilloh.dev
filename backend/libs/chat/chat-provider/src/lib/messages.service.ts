@@ -1,3 +1,4 @@
+import { ChatMongoDbService } from '@backend/chat/chat-persistence';
 import {
   CreateMessageDto,
   Message,
@@ -20,7 +21,7 @@ export class MessagesService {
   ];
   clientToUser: Record<string, string> = {};
 
-  constructor() {}
+  constructor(private chatMongoDbService: ChatMongoDbService) {}
 
   create(createMessageDto: CreateMessageDto) {
     const { name } = createMessageDto;

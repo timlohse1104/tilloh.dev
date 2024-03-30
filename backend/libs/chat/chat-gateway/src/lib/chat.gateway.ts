@@ -1,4 +1,3 @@
-import { MessagesService } from '@backend/chat/messages-provider';
 import {
   CreateMessageDto,
   JoinRoomDto,
@@ -13,6 +12,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { MessagesService } from 'libs/chat/chat-provider/src';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
@@ -20,8 +20,8 @@ import { Server, Socket } from 'socket.io';
     origin: '*',
   },
 })
-export class MessagesGateway {
-  private readonly logger = new Logger(MessagesGateway.name);
+export class ChatGateway {
+  private readonly logger = new Logger(ChatGateway.name);
 
   @WebSocketServer()
   server: Server;

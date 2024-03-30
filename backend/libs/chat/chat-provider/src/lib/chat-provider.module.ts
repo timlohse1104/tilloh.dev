@@ -8,4 +8,4 @@ import { MessagesService } from './messages.service';
   providers: [MessagesService],
   exports: [MessagesService],
 })
-export class ChatMessagesServiceModule {}
+export class ChatServiceModule {}
