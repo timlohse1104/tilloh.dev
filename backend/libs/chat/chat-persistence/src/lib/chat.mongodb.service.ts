@@ -12,12 +12,12 @@ export class ChatMongoDbService {
 
   constructor(
     @InjectModel(Chat.name)
-    private identifierModel: Model<ChatDocument>
+    private chatModel: Model<ChatDocument>
   ) {}
 
   async findAll(): Promise<Chatdto[]> {
     this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_FIND_ALL);
-    const chats = await this.identifierModel.find();
+    const chats = await this.chatModel.find();
     this.logger.debug(
       { output: { chats } },
       `MongoDb responded, found ${chats.length} chat.`
@@ -27,31 +27,31 @@ export class ChatMongoDbService {
 
   async findOne(id: string): Promise<Chatdto> {
     this.logger.debug({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
-    const identifier = await this.identifierModel.findOne({ _id: id }).exec();
+    const chat = await this.chatModel.findOne({ _id: id }).exec();
 
-    if (!identifier) {
+    if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { identifier } }, ChatTexts.FOUND_ONE);
-    return identifier;
+    this.logger.debug({ output: { chat } }, ChatTexts.FOUND_ONE);
+    return chat;
   }
 
   async create(name: string): Promise<Chatdto> {
     this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_CREATE);
-    const identifier = await this.identifierModel.create({
+    const chat = await this.chatModel.create({
       _id: randomUUID(),
       name,
     });
     this.logger.debug(
-      { output: { identifier: identifier?.toObject() } },
+      { output: { chat: chat?.toObject() } },
       ChatTexts.CREATED_ONE
     );
-    return identifier;
+    return chat;
   }
 
   async update(id: string, chatDto: Partial<Chatdto>): Promise<Chatdto> {
     this.logger.debug({ input: { id, chatDto } }, ChatTexts.ATTEMPT_UPDATE);
-    const identifier = await this.identifierModel
+    const chat = await this.chatModel
       .findOneAndUpdate(
         { _id: id },
         { ...chatDto, updated: new Date() },
@@ -59,23 +59,21 @@ export class ChatMongoDbService {
       )
       .exec();
 
-    if (!identifier) {
+    if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { identifier } }, ChatTexts.UPDATED_ONE);
-    return identifier;
+    this.logger.debug({ output: { chat } }, ChatTexts.UPDATED_ONE);
+    return chat;
   }
 
   async remove(id: string) {
     this.logger.debug({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
-    const identifier = await this.identifierModel
-      .findOneAndDelete({ _id: id })
-      .exec();
+    const chat = await this.chatModel.findOneAndDelete({ _id: id }).exec();
 
-    if (!identifier) {
+    if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { identifier } }, ChatTexts.DELETE_ONE);
-    return identifier;
+    this.logger.debug({ output: { chat } }, ChatTexts.DELETE_ONE);
+    return chat;
   }
 }
