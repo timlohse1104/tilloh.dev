@@ -62,7 +62,7 @@ export class ChatGateway {
 
   @SubscribeMessage('removeMessage')
   remove(@MessageBody() id: number) {
-    this.logger.verbose(`Removing message with id ${id} from database.`);
+    this.logger.verbose(`Removing message with id ${id}.`);
     return this.messagesService.remove(id);
   }
 

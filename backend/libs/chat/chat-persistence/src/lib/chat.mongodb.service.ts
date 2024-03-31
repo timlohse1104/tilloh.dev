@@ -16,41 +16,41 @@ export class ChatMongoDbService {
   ) {}
 
   async findAll(): Promise<Chatdto[]> {
-    this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_FIND_ALL);
+    this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_FIND_ALL);
     const chats = await this.chatModel.find();
     this.logger.debug(
       { output: { chats } },
-      `MongoDb responded, found ${chats.length} chat.`
+      `Found ${chats.length} chats in mongodb.`
     );
     return chats;
   }
 
   async findOne(id: string): Promise<Chatdto> {
-    this.logger.debug({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
+    this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_FIND_ONE);
     const chat = await this.chatModel.findOne({ _id: id }).exec();
 
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.FOUND_ONE);
+    this.logger.debug({ output: { chat } }, ChatTexts.DB_FOUND_ONE);
     return chat;
   }
 
   async create(name: string): Promise<Chatdto> {
-    this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_CREATE);
+    this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_CREATE);
     const chat = await this.chatModel.create({
       _id: randomUUID(),
       name,
     });
     this.logger.debug(
       { output: { chat: chat?.toObject() } },
-      ChatTexts.CREATED_ONE
+      ChatTexts.DB_CREATED_ONE
     );
     return chat;
   }
 
   async update(id: string, chatDto: Partial<Chatdto>): Promise<Chatdto> {
-    this.logger.debug({ input: { id, chatDto } }, ChatTexts.ATTEMPT_UPDATE);
+    this.logger.debug({ input: { id, chatDto } }, ChatTexts.DB_ATTEMPT_UPDATE);
     const chat = await this.chatModel
       .findOneAndUpdate(
         { _id: id },
@@ -62,18 +62,18 @@ export class ChatMongoDbService {
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.UPDATED_ONE);
+    this.logger.debug({ output: { chat } }, ChatTexts.DB_UPDATED_ONE);
     return chat;
   }
 
   async remove(id: string) {
-    this.logger.debug({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
+    this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_DELETE);
     const chat = await this.chatModel.findOneAndDelete({ _id: id }).exec();
 
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.DELETE_ONE);
+    this.logger.debug({ output: { chat } }, ChatTexts.DB_DELETE_ONE);
     return chat;
   }
 }
