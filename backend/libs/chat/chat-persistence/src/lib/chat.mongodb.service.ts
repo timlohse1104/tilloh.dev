@@ -1,5 +1,5 @@
 import { ChatTexts } from '@backend/shared/texts';
-import { IdentifierDto } from '@backend/shared/types';
+import { Chatdto } from '@backend/shared/types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
@@ -15,7 +15,7 @@ export class ChatMongoDbService {
     private identifierModel: Model<ChatDocument>
   ) {}
 
-  async findAll(): Promise<IdentifierDto[]> {
+  async findAll(): Promise<Chatdto[]> {
     this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_FIND_ALL);
     const chats = await this.identifierModel.find();
     this.logger.debug(
@@ -25,7 +25,7 @@ export class ChatMongoDbService {
     return chats;
   }
 
-  async findOne(id: string): Promise<IdentifierDto> {
+  async findOne(id: string): Promise<Chatdto> {
     this.logger.debug({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
     const identifier = await this.identifierModel.findOne({ _id: id }).exec();
 
@@ -36,7 +36,7 @@ export class ChatMongoDbService {
     return identifier;
   }
 
-  async create(name: string): Promise<IdentifierDto> {
+  async create(name: string): Promise<Chatdto> {
     this.logger.debug({ input: {} }, ChatTexts.ATTEMPT_CREATE);
     const identifier = await this.identifierModel.create({
       _id: randomUUID(),
@@ -49,18 +49,12 @@ export class ChatMongoDbService {
     return identifier;
   }
 
-  async update(
-    id: string,
-    identifierDto: Partial<IdentifierDto>
-  ): Promise<IdentifierDto> {
-    this.logger.debug(
-      { input: { id, identifierDto } },
-      ChatTexts.ATTEMPT_UPDATE
-    );
+  async update(id: string, chatDto: Partial<Chatdto>): Promise<Chatdto> {
+    this.logger.debug({ input: { id, chatDto } }, ChatTexts.ATTEMPT_UPDATE);
     const identifier = await this.identifierModel
       .findOneAndUpdate(
         { _id: id },
-        { ...identifierDto, updated: new Date() },
+        { ...chatDto, updated: new Date() },
         { new: true }
       )
       .exec();

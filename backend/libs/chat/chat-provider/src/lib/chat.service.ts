@@ -1,28 +1,26 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
-import { CreateMessageDto, UpdateMessageDto } from '@backend/shared/types';
+import { Chatdto, UpdateMessageDto } from '@backend/shared/types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
-export class MessagesService {
-  private readonly logger = new Logger(MessagesService.name);
-
-  clientToUser: Record<string, string> = {};
+export class ChatService {
+  private readonly logger = new Logger(ChatService.name);
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  create(createMessageDto: CreateMessageDto) {
-    const { name } = createMessageDto;
+  async create(createChatDto: Chatdto) {
+    const { name } = createChatDto;
     this.logger.verbose(
-      { input: { createMessageDto } },
-      `Adding new message into database.`
+      { input: { createChatDto } },
+      `Creating new chat into database.`
     );
-    const newMessage = { ...createMessageDto, timestamp: new Date() };
-    this.messages.push(newMessage);
+    const newChat = await this.chatMongoDbService.create(name);
+    newChat.messages.push(newChat);
     this.logger.verbose(
-      { output: { newMessage } },
+      { output: { newMessage: newChat } },
       `Added new message into database.`
     );
-    return newMessage;
+    return newChat;
   }
 
   findAll() {
