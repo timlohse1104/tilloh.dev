@@ -1,5 +1,15 @@
 # Backend
 
+## Components
+
+### Memorandum API
+
+The API that powers tilloh.dev Memorandum.
+
+### API documentation
+
+The API documentation is available at `https://api.tilloh.dev/v1`
+
 ## Requirements
 
 ### Environment variables
@@ -46,7 +56,3 @@ supervisorctl start tilloh-api-daemon
 ```
 supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 ```
-
-## API documentation
-
-The API documentation is available at `https://api.tilloh.dev/v1`
