@@ -4,9 +4,17 @@
 
 ### Memorandum API
 
-The API that powers tilloh.dev Memorandum.
+The API that powers tilloh.dev Memorandum. Consists of generated identifiers for user sessions and a key-value store to store link information.
 
-### API documentation
+### (future) Chat API
+
+The API that powers tilloh.dev Chat.
+
+### (future) Todo API
+
+The API that powers tilloh.dev Todo list.
+
+## API documentation
 
 The API documentation is available at `https://api.tilloh.dev/v1`
 
