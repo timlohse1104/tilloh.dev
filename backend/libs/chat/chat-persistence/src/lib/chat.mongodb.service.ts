@@ -1,5 +1,5 @@
 import { ChatTexts } from '@backend/shared/texts';
-import { Chatdto } from '@backend/shared/types';
+import { ChatDto } from '@backend/shared/types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
@@ -15,7 +15,7 @@ export class ChatMongoDbService {
     private chatModel: Model<ChatDocument>
   ) {}
 
-  async findAll(): Promise<Chatdto[]> {
+  async findAll(): Promise<ChatDto[]> {
     this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_FIND_ALL);
     const chats = await this.chatModel.find();
     this.logger.debug(
@@ -25,7 +25,7 @@ export class ChatMongoDbService {
     return chats;
   }
 
-  async findOne(id: string): Promise<Chatdto> {
+  async findOne(id: string): Promise<ChatDto> {
     this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_FIND_ONE);
     const chat = await this.chatModel.findOne({ _id: id }).exec();
 
@@ -36,7 +36,7 @@ export class ChatMongoDbService {
     return chat;
   }
 
-  async create(name: string): Promise<Chatdto> {
+  async create(name: string): Promise<ChatDto> {
     this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_CREATE);
     const chat = await this.chatModel.create({
       _id: randomUUID(),
@@ -49,7 +49,7 @@ export class ChatMongoDbService {
     return chat;
   }
 
-  async update(id: string, chatDto: Partial<Chatdto>): Promise<Chatdto> {
+  async update(id: string, chatDto: Partial<ChatDto>): Promise<ChatDto> {
     this.logger.debug({ input: { id, chatDto } }, ChatTexts.DB_ATTEMPT_UPDATE);
     const chat = await this.chatModel
       .findOneAndUpdate(

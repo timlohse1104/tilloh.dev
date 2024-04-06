@@ -1,6 +1,6 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
 import { ChatTexts } from '@backend/shared/texts';
-import { Chatdto, UpdateMessageDto } from '@backend/shared/types';
+import { ChatDto } from '@backend/shared/types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ChatService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  async create(createChatDto: Chatdto): Promise<Chatdto> {
+  async create(createChatDto: ChatDto): Promise<ChatDto> {
     const { name } = createChatDto;
     this.logger.verbose({ input: { createChatDto } }, ChatTexts.ATTEMPT_CREATE);
     const newChat = await this.chatMongoDbService.create(name);
@@ -31,15 +31,17 @@ export class ChatService {
     return chat;
   }
 
-  async update(id: number, updateMessageDto: UpdateMessageDto) {
-    this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_UPDATE);
-    this.messages[id] = { ...this.messages[id], ...updateMessageDto };
-    const message = this.messages[id];
-    this.logger.verbose({ output: { message } }, ChatTexts.UPDATED_ONE);
-    return message;
+  async update(id: string, updateChatDto: ChatDto) {
+    this.logger.verbose(
+      { input: { id, updateMessageDto: updateChatDto } },
+      ChatTexts.ATTEMPT_UPDATE
+    );
+    const chat = await this.chatMongoDbService.update(id, updateChatDto);
+    this.logger.verbose({ output: { chat } }, ChatTexts.UPDATED_ONE);
+    return chat;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
     const message = this.messages.splice(id, 1)[0];
     this.logger.verbose({ output: { message } }, ChatTexts.DELETE_ONE);
