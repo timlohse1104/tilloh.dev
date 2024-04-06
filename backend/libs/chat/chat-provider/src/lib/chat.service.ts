@@ -24,11 +24,11 @@ export class ChatService {
     return chats;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
-    const message = this.messages[id];
-    this.logger.verbose({ output: { message } }, ChatTexts.FOUND_ONE);
-    return message;
+    const chat = await this.chatMongoDbService.findOne(id);
+    this.logger.verbose({ output: { chat } }, ChatTexts.FOUND_ONE);
+    return chat;
   }
 
   async update(id: number, updateMessageDto: UpdateMessageDto) {
