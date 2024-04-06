@@ -43,24 +43,8 @@ export class ChatService {
 
   async remove(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
-    const message = this.messages.splice(id, 1)[0];
-    this.logger.verbose({ output: { message } }, ChatTexts.DELETE_ONE);
-    return message;
-  }
-
-  async identify(name: string, clientId: string) {
-    // Use in-memory dictionary to store the reference for client and user
-    this.logger.verbose({ input: { name, clientId } }, `Identifing client .`);
-    this.clientToUser[clientId] = name;
-    const client = Object.values(this.clientToUser);
-    this.logger.verbose({ output: { client } }, `Identified client .`);
-    return client;
-  }
-
-  async getClientName(clientId: string) {
-    this.logger.verbose({ input: { clientId } }, `Retrieving client.`);
-    const client = this.clientToUser[clientId];
-    this.logger.verbose({ output: { client } }, `Found client .`);
-    return client;
+    const chat = await this.chatMongoDbService.remove(id);
+    this.logger.verbose({ output: { chat } }, ChatTexts.DELETE_ONE);
+    return chat;
   }
 }
