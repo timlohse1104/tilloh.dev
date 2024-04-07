@@ -25,6 +25,9 @@
       "@backend/catch-em-all/catch-em-all-provider": [
         "libs/catch-em-all/catch-em-all-provider/src/index.ts"
       ],
+      "@backend/chat/chat-controller": [
+        "libs/chat/chat-controller/src/index.ts"
+      ],
       "@backend/chat/chat-gateway": ["libs/chat/chat-gateway/src/index.ts"],
       "@backend/chat/chat-persistence": [
         "libs/chat/chat-persistence/src/index.ts"

@@ -1,42 +1,9 @@
 {
-  "name": "chat-chat-controller",
+  "name": "chat-controller",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/chat/chat-controller/src",
-  "projectType": "application",
+  "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/webpack:webpack",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "target": "node",
-        "compiler": "tsc",
-        "outputPath": "dist/libs/chat/chat-controller",
-        "main": "libs/chat/chat-controller/src/main.ts",
-        "tsConfig": "libs/chat/chat-controller/tsconfig.app.json",
-        "assets": ["libs/chat/chat-controller/src/assets"],
-        "webpackConfig": "libs/chat/chat-controller/webpack.config.js"
-      },
-      "configurations": {
-        "development": {},
-        "production": {}
-      }
-    },
-    "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "chat-chat-controller:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "chat-chat-controller:build:development"
-        },
-        "production": {
-          "buildTarget": "chat-chat-controller:build:production"
-        }
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

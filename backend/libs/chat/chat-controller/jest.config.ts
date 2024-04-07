@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'chat-chat-controller',
+  displayName: 'chat-controller',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
