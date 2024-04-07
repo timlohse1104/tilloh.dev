@@ -1,5 +1,17 @@
 import { ChatService } from '@backend/chat/chat-provider';
 import {
+  ChatDto,
+  CreateChatInputDto,
+  CreateChatOutputDto,
+  GetChatInputDto,
+  GetChatOutputDto,
+  GetChatsOutputDto,
+  RemoveChatInputDto,
+  RemoveChatOutputDto,
+  UpdateChatInputDto,
+  UpdateChatOutputDto,
+} from '@backend/shared/types';
+import {
   Body,
   Controller,
   Delete,
@@ -16,76 +28,71 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-@ApiTags('identifiers')
-@Controller('/identifiers')
-export class IdentifiersController {
-  constructor(private identifiersService: ChatService) {}
+@ApiTags('chats')
+@Controller('/chats')
+export class ChatController {
+  constructor(private chatService: ChatService) {}
 
   @ApiOkResponse({
     description: 'List of all identifiers successfully returned.',
-    type: [GetIdentifiersOutputDto],
+    type: [GetChatsOutputDto],
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getIdentifiers() {
-    return this.identifiersService.getIdentifiers();
+  getChats() {
+    return this.chatService.findAll();
   }
 
   @ApiOkResponse({
-    description: 'Identifier successfully returned.',
-    type: GetIdentifierOutputDto,
+    description: 'Chat successfully returned.',
+    type: GetChatOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiNotFoundResponse({ description: 'Identifier not found.' })
+  @ApiNotFoundResponse({ description: 'Chat not found.' })
   @Get('/:id')
-  getIdentifier(@Param() getIdentifierInput: GetIdentifierInputDto) {
-    return this.identifiersService.getIdentifier(getIdentifierInput);
+  getChat(@Param() getChatInput: GetChatInputDto) {
+    const { id } = getChatInput;
+    return this.chatService.findOne(id);
   }
 
   @ApiOkResponse({
-    description: 'Identifier successfully created.',
-    type: CreateIdentifierOutputDto,
+    description: 'Chat successfully created.',
+    type: CreateChatOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post()
-  createIdentifier(@Body() createIdentifierInputDto: CreateIdentifierInputDto) {
-    return this.identifiersService.createIdentifier(createIdentifierInputDto);
+  createChat(@Body() createChatInputDto: CreateChatInputDto) {
+    const { name } = createChatInputDto;
+    return this.chatService.create(name);
   }
 
   @ApiOkResponse({
-    description: 'Identifier successfully updated.',
-    type: UpdateIdentifierOutputDto,
+    description: 'Chat successfully updated.',
+    type: UpdateChatOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiNotFoundResponse({ description: 'Identifier not found.' })
+  @ApiNotFoundResponse({ description: 'Chat not found.' })
   @Put('/:id')
-  updateIdentifier(
-    @Param() updateIdentifierInputDto: UpdateIdentifierInputDto,
-    @Body() identifierDto: IdentifierDto
+  updateChat(
+    @Param() updateChatInputDto: UpdateChatInputDto,
+    @Body() identifierDto: ChatDto
   ) {
-    return this.identifiersService.updateIdentifier(
-      updateIdentifierInputDto.id,
-      identifierDto
-    );
+    return this.chatService.update(updateChatInputDto.id, identifierDto);
   }
 
   @ApiOkResponse({
-    description: 'Identifiers successfully deleted.',
-    type: RemoveIdentifierOutputDto,
+    description: 'Chat successfully deleted.',
+    type: RemoveChatOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiNotFoundResponse({ description: 'Identifier not found.' })
+  @ApiNotFoundResponse({ description: 'Chat not found.' })
   @Delete('/:id')
-  deleteIdentifier(
-    @Param() removeIdentifierInputDto: RemoveIdentifierInputDto
-  ) {
-    return this.identifiersService.deleteIdentifier(
-      removeIdentifierInputDto.id
-    );
+  deleteChat(@Param() removeChatInputDto: RemoveChatInputDto) {
+    return this.chatService.remove(removeChatInputDto.id);
   }
 }

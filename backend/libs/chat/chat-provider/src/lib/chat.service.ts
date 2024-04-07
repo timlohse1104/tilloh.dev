@@ -9,9 +9,8 @@ export class ChatService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  async create(createChatDto: ChatDto): Promise<ChatDto> {
-    const { name } = createChatDto;
-    this.logger.verbose({ input: { createChatDto } }, ChatTexts.ATTEMPT_CREATE);
+  async create(name: string): Promise<ChatDto> {
+    this.logger.verbose({ input: { name } }, ChatTexts.ATTEMPT_CREATE);
     const newChat = await this.chatMongoDbService.create(name);
     this.logger.verbose({ output: { newChat } }, ChatTexts.CREATED_ONE);
     return newChat;

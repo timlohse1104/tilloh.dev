@@ -1,42 +1,42 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class IdentifierDto {
-  @ApiProperty({ description: 'Identifier ID' })
+export class ChatDto {
+  @ApiProperty({ description: 'Chat ID' })
   @IsNotEmpty()
   _id: string;
 
-  @ApiProperty({ description: 'Identifier name' })
+  @ApiProperty({ description: 'Chat name' })
   @IsNotEmpty()
   name: string;
 }
 
-export class GetIdentifiersOutputDto extends IdentifierDto {}
+export class GetChatsOutputDto extends ChatDto {}
 
-export class GetIdentifierInputDto {
-  @ApiProperty({ description: 'Identifier ID' })
+export class GetChatInputDto {
+  @ApiProperty({ description: 'Chat ID' })
   @IsNotEmpty()
   id: string;
 }
-export class GetIdentifierOutputDto extends IdentifierDto {}
+export class GetChatOutputDto extends ChatDto {}
 
-export class CreateIdentifierInputDto {
-  @ApiProperty({ description: 'Identifier name' })
+export class CreateChatInputDto {
+  @ApiProperty({ description: 'Chat name' })
   @IsNotEmpty()
   name: string;
 }
-export class CreateIdentifierOutputDto extends IdentifierDto {}
+export class CreateChatOutputDto extends ChatDto {}
 
-export class UpdateIdentifierInputDto {
-  @ApiProperty({ description: 'Identifier ID' })
+export class UpdateChatInputDto {
+  @ApiProperty({ description: 'Chat ID' })
   @IsNotEmpty()
   id: string;
 }
-export class UpdateIdentifierOutputDto extends IdentifierDto {}
+export class UpdateChatOutputDto extends ChatDto {}
 
-export class RemoveIdentifierInputDto {
-  @ApiProperty({ description: 'Identifier ID' })
+export class RemoveChatInputDto {
+  @ApiProperty({ description: 'Chat ID' })
   @IsNotEmpty()
   id: string;
 }
-export class RemoveIdentifierOutputDto extends IdentifierDto {}
+export class RemoveChatOutputDto extends ChatDto {}
