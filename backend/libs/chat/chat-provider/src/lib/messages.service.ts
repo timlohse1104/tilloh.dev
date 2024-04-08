@@ -10,30 +10,31 @@ export class MessagesService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  create(createMessageDto: CreateMessageDto) {
+  async create(chatId: string, createMessageDto: CreateMessageDto) {
     const { name } = createMessageDto;
     this.logger.verbose({ input: { createMessageDto } }, `Adding new message.`);
     const newMessage = { ...createMessageDto, timestamp: new Date() };
-    this.messages.push(newMessage);
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    chat.messages.push(newMessage);
     this.logger.verbose({ output: { newMessage } }, `Added new message.`);
     return newMessage;
   }
 
-  findAll() {
+  async findAll(chatId: string) {
     this.logger.verbose(`Finding all messages.`);
     const messages = this.messages;
     this.logger.verbose(`Found ${messages.length} messages .`);
     return messages;
   }
 
-  findOne(id: number) {
+  async findOne(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Retrieving message.`);
     const message = this.messages[id];
     this.logger.verbose({ output: { message } }, `Found message .`);
     return message;
   }
 
-  update(id: number, updateMessageDto: UpdateMessageDto) {
+  async update(id: number, updateMessageDto: UpdateMessageDto) {
     this.logger.verbose({ input: { id } }, `Updating message .`);
     this.messages[id] = { ...this.messages[id], ...updateMessageDto };
     const message = this.messages[id];
@@ -41,14 +42,14 @@ export class MessagesService {
     return message;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     this.logger.verbose({ input: { id } }, `Removing message with.`);
     const message = this.messages.splice(id, 1)[0];
     this.logger.verbose({ output: { message } }, `Removed message.`);
     return message;
   }
 
-  identify(name: string, clientId: string) {
+  async identify(name: string, clientId: string) {
     // Use in-memory dictionary to store the reference for client and user
     this.logger.verbose({ input: { name, clientId } }, `Identifing client .`);
     this.clientToUser[clientId] = name;
