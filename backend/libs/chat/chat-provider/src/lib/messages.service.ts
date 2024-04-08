@@ -36,9 +36,10 @@ export class MessagesService {
   }
 
   async findAll(chatId: string) {
-    this.logger.verbose(`Finding all messages.`);
-    const messages = this.messages;
-    this.logger.verbose(`Found ${messages.length} messages .`);
+    this.logger.verbose({ input: { chatId } }, `Finding all messages.`);
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    const { messages } = chat;
+    this.logger.verbose(`Found ${messages.length} messages.`);
     return messages;
   }
 
