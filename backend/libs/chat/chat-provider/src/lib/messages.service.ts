@@ -1,5 +1,9 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
-import { CreateMessageDto, UpdateMessageDto } from '@backend/shared/types';
+import {
+  CreateMessageDto,
+  MessageDto,
+  UpdateMessageDto,
+} from '@backend/shared/types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
@@ -10,14 +14,25 @@ export class MessagesService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  async create(chatId: string, createMessageDto: CreateMessageDto) {
-    const { name } = createMessageDto;
-    this.logger.verbose({ input: { createMessageDto } }, `Adding new message.`);
+  async create(
+    chatId: string,
+    createMessageDto: CreateMessageDto
+  ): Promise<MessageDto> {
+    this.logger.verbose(
+      { input: { chatId, createMessageDto } },
+      `Adding new message to chat.`
+    );
     const newMessage = { ...createMessageDto, timestamp: new Date() };
     const chat = await this.chatMongoDbService.findOne(chatId);
     chat.messages.push(newMessage);
-    this.logger.verbose({ output: { newMessage } }, `Added new message.`);
-    return newMessage;
+    const updatedChat = await this.chatMongoDbService.update(chatId, chat);
+    const updatedMessage =
+      updatedChat.messages[updatedChat.messages.length - 1];
+    this.logger.verbose(
+      { output: { updatedMessage } },
+      `Added new message to chat.`
+    );
+    return updatedMessage;
   }
 
   async findAll(chatId: string) {
