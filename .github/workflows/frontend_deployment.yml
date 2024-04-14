@@ -7,17 +7,19 @@ on:
       - 'frontend/**'
 jobs:
   test:
-    name: Build backend
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Testing Frontend
-        run: echo "tbd"      
+        run: echo "Testing..."      
 
   build:
-    name: Build frontend
+    name: Build
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Building Frontend
+        run: echo "Building..."
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -38,4 +40,12 @@ jobs:
           npx nx --version
       - name: Build frontend
         run: |
+          cd frontend
           npx nx run frontend:build
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying Frontend
+        run: echo "Deploying..."    
