@@ -1,5 +1,5 @@
-<script>
-  import { isEnter } from '$lib/util/helper.js';
+<script lang="ts">
+  import { isEnter } from '$lib/util/helper.ts';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import Textfield from '@smui/textfield';

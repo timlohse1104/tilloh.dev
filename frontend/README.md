@@ -5,7 +5,7 @@
 1. Build the frontend
 
 ```
-nx run frontend:build
+npm run build
 ```
 
 2. Deploy the frontend by coping the `dist` folder content to the server in /home/tilloh/html
