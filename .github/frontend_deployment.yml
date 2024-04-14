@@ -1,11 +1,41 @@
 name: Frontend  Deployment to uberspace
 on:
   push:
-    branches: [main]
+    branches:
+      - 'main'
+    path:
+      - 'frontend/**'
 jobs:
-  build:
+  test:
     name: Build backend
     runs-on: ubuntu-latest
     steps:
-      - name: Test command
-        run: echo "Test"
+      - name: Testing Frontend
+        run: echo "tbd"      
+
+  build:
+    name: Build frontend
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 20.11.1 LTS version
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.11.1
+      - name: Cache node_modules
+        id: node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules
+      - name: Npm clean install
+        run: |
+          npm ci
+          npx nx --version
+      - name: Build frontend
+        run: |
+          npx nx run frontend:build
