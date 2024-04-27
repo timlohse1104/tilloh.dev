@@ -2,7 +2,9 @@
   "name": "here",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "install:linting-hook": "bash ./tools/install-lint-hook.sh"
+  },
   "private": true,
   "devDependencies": {
     "@nx/js": "17.2.8",

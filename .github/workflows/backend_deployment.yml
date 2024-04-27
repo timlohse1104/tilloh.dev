@@ -3,14 +3,28 @@ on:
   push:
     branches:
       - 'main'
-    path:
+    paths:
       - 'backend/**'
 jobs:
-  build:
-    name: Build backend
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Testing Frontend
+        run: echo "Testing..."      
+
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building Frontend
+        run: echo "Building..."
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying Frontend
+        run: echo "Deploying..."    

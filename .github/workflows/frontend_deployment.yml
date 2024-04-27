@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - 'main'
-    path:
-      - 'frontend/**'
+    paths:
+    - 'frontend/**'
 jobs:
   test:
     name: Test
@@ -37,14 +37,15 @@ jobs:
       - name: Npm clean install
         run: |
           npm ci
-          npx nx --version
+          nx --version
       - name: Build frontend
         run: |
           cd frontend
-          npx nx run frontend:build
+          npm run build
 
   deploy:
     name: Deploy
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Frontend
