@@ -359,7 +359,7 @@ export class UnoSort {
       }
     });
     // Stapel mischen
-    this.stack.sort((a, b) => {
+    this.stack.sort(() => {
       return 0.5 - Math.random();
     });
   }
@@ -391,7 +391,7 @@ export class UnoSort {
     for (const colorKey in sortedHand) {
       sortedHand[colorKey].sort((a, b) => a.value - b.value);
     }
-    let sortedHandArray = Object.values(sortedHand);
+    const sortedHandArray = Object.values(sortedHand);
     // Sortiere Farben nach Gesamtwert
     sortedHandArray.sort((a, b) => {
       let aValue = 0;

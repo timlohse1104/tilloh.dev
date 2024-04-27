@@ -1,3 +1,4 @@
+import { MessagesService } from '@backend/chat/chat-provider';
 import {
   CreateMessageDto,
   JoinRoomDto,
@@ -12,7 +13,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { MessagesService } from 'libs/chat/chat-provider/src';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({

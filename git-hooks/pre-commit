@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "Running linting hook"
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Run the linter on the frontend code
+cd frontend
+nx run-many -t lint --all
+
+# If there is an error, abort the commit
+if [ $? -ne 0 ]; then
+ echo "\nFrontend linting failed, commit aborted."
+ exit 1
+fi
+
+# Run the linter on the frontend code
+cd ../backend
+nx run-many -t lint --all
+
+# If there is an error, abort the commit
+if [ $? -ne 0 ]; then
+ echo "\nBackend linting failed, commit aborted."
+ exit 1
+fi

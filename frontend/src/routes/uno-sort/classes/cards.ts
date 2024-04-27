@@ -44,7 +44,7 @@ export class NumberCard extends Card {
 
   showInHand() {
     // let cardDiv = document.createElement('div');
-    let cardDiv = document.createElement('div');
+    const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
     cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
     cardDiv.setAttribute('style', `background: ${this.color};`);
@@ -68,7 +68,7 @@ export class ActionCard extends Card {
   }
 
   showInHand() {
-    let cardDiv = document.createElement('div');
+    const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
     cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
     cardDiv.setAttribute('style', `background: ${this.color}`);
@@ -92,7 +92,7 @@ export class SpecialActionCard extends Card {
   }
 
   showInHand() {
-    let cardDiv = document.createElement('div');
+    const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
     cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
     cardDiv.setAttribute('style', `background: ${this.color}; color: white`);

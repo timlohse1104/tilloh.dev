@@ -23,7 +23,7 @@ export function validate(
   EnvironmentVariablesClass,
   config?: Record<string, unknown>
 ) {
-  const validatedConfig: any = plainToInstance(
+  const validatedConfig: never = plainToInstance(
     EnvironmentVariablesClass,
     config,
     { enableImplicitConversion: true }

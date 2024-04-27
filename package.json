@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "install:linting-hook": "bash ./tools/install-lint-hook.sh"
+    "postinstall": "cp git-hooks/* .git/hooks/ && chmod -R +x .git/hooks/"
   },
   "private": true,
   "devDependencies": {
