@@ -12,6 +12,8 @@ fi
 # Create the linting hooks file and write the script into it
 echo '#!/bin/sh
 
+echo "Running linting hook"
+
 # Run the linter on the frontend code
 cd frontend
 npm run lint
