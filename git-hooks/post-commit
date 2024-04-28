@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$GITMOJI_COMMIT" = "1" ]; then
+    exit 0
+fi
+
 echo "Running gitmoji hook."
 
 # Get most recent commit
@@ -48,6 +52,6 @@ else
 fi
 
 # Amend the latest commit with the new message
-git commit --amend -m "$GITMOJI $COMMIT_MSG" > /dev/null
+GITMOJI_COMMIT=1 git commit --amend -m "$GITMOJI $COMMIT_MSG" > /dev/null
 
 echo "Added gitmoji to commit message."
