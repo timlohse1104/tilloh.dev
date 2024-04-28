@@ -1,0 +1,25 @@
+#!/bin/sh
+
+echo "Running gitmoji hook."
+
+# Get most recent commit
+LATEST_COMMIT=$(git rev-parse --short HEAD)
+
+# Get the commit message of the latest commit
+COMMIT_MSG=$(git log -1 --pretty=%B)
+
+# checks for keywords and adds appropriate gitmoji
+if echo "${COMMIT_MSG}" | grep -q "fix"; then
+    GITMOJI=":bug:"
+elif echo "${COMMIT_MSG}" | grep -q "add"; then
+    GITMOJI=":sparkles:"
+elif echo "${COMMIT_MSG}" | grep -q "remove"; then
+    GITMOJI=":fire:"
+else
+    GITMOJI=":rocket:"
+fi
+
+# Amend the latest commit with the new message
+git commit --amend -m "$GITMOJI $COMMIT_MSG" > /dev/null
+
+echo "Added gitmoji to commit message."

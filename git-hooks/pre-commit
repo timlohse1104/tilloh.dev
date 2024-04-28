@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Running linting hook"
+echo "Running linting hook."
 
 # Redirect output to stderr.
 exec 1>&2
@@ -15,7 +15,7 @@ if [ $? -ne 0 ]; then
  exit 1
 fi
 
-# Run the linter on the frontend code
+# Run the linter on the backend code
 cd ../backend
 nx run-many -t lint --all
 
@@ -25,28 +25,4 @@ if [ $? -ne 0 ]; then
  exit 1
 fi
 
-# -----------------------------------------------------
-
-echo "Running pre commit message hook."
-
-# Get most recent commit
-LATEST_COMMIT=$(git rev-parse --short HEAD)
-
-# Get the commit message of the latest commit
-COMMIT_MSG=$(git log -1 --pretty=%B)
-
-# checks for keywords and adds appropriate gitmoji
-if [[ $COMMIT_MSG == *"fix"* ]]; then
-    GITMOJI=":bug:"
-elif [[ $COMMIT_MSG == *"add"* ]]; then
-    GITMOJI=":sparkles:"
-elif [[ $COMMIT_MSG == *"remove"* ]]; then
-    GITMOJI=":fire:"
-else
-    GITMOJI=":rocket:"
-fi
-
-# Amend the latest commit with the new message
-git commit --amend -m "$GITMOJI $COMMIT_MSG" > /dev/null
-
-echo "Edited commit message."
+exit 0
