@@ -1,19 +1,17 @@
-#!/usr/bin/env python
+#!/bin/sh
 
-import sys
+COMMIT_MSG_FILE=$1
 
-# load the commit message from the file specified by git
-commit_msg_filepath = sys.argv[1]
+# loads the current commit message
+COMMIT_MSG=$(cat $COMMIT_MSG_FILE)
 
-with open(commit_msg_filepath, 'r+') as f:
-    content = f.read()
-    f.seek(0, 0)
-    
-    if 'fix' in content:
-        f.write(":bug: " + content)
-    elif 'add' in content:
-        f.write(":sparkles: " + content)
-    elif 'remove' in content:
-        f.write(":fire: " + content)
-    else:
-        f.write(":rocket: " + content)
+# checks for keywords and adds appropriate gitmoji
+if [[ $COMMIT_MSG == *"fix"* ]]; then
+    echo ":bug: $COMMIT_MSG" > $COMMIT_MSG_FILE
+elif [[ $COMMIT_MSG == *"add"* ]]; then
+    echo ":sparkles: $COMMIT_MSG" > $COMMIT_MSG_FILE
+elif [[ $COMMIT_MSG == *"remove"* ]]; then
+    echo ":fire: $COMMIT_MSG" > $COMMIT_MSG_FILE
+else
+    echo ":rocket: $COMMIT_MSG" > $COMMIT_MSG_FILE
+fi
