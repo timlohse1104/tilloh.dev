@@ -18,7 +18,7 @@ The backend is built with NestJS.
 
 ## Development
 
-Before committing changes it is necessary to fix all linting errors. Cloning this repository will automatically install a pre-commit hook that will run the linter before committing changes!
+Before committing changes it is necessary to fix all linting errors. After cloning this repository, `npm install` will automatically install a pre-commit hook that will run the linter before committing changes!
 
 ### Gitmoji
 
