@@ -45,28 +45,33 @@ export class MessagesService {
 
   async findOne(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Retrieving message.`);
-    const message = this.messages[id];
+    const message = (await this.chatMongoDbService.findOne(chatId))?.messages[
+      id
+    ];
     this.logger.verbose({ output: { message } }, `Found message .`);
     return message;
   }
 
-  async update(id: number, updateMessageDto: UpdateMessageDto) {
+  async update(chatId: string, id: number, updateMessageDto: UpdateMessageDto) {
     this.logger.verbose({ input: { id } }, `Updating message .`);
-    this.messages[id] = { ...this.messages[id], ...updateMessageDto };
-    const message = this.messages[id];
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    chat.messages[id] = { ...chat.messages[id], ...updateMessageDto };
+    const message = chat.messages[id];
     this.logger.verbose({ output: { message } }, `Updated message.`);
     return message;
   }
 
-  async remove(id: number) {
+  async remove(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Removing message with.`);
-    const message = this.messages.splice(id, 1)[0];
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    const message = chat.messages.splice(id, 1)[0];
     this.logger.verbose({ output: { message } }, `Removed message.`);
     return message;
   }
 
   async identify(name: string, clientId: string) {
     // Use in-memory dictionary to store the reference for client and user
+    // TODO: Probably change to in-chat dictionary?
     this.logger.verbose({ input: { name, clientId } }, `Identifing client .`);
     this.clientToUser[clientId] = name;
     const client = Object.values(this.clientToUser);

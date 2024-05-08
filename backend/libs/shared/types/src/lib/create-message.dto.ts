@@ -1,3 +1,5 @@
 import { Message } from './message.entity';
 
-export class CreateMessageDto extends Message {}
+export class CreateMessageDto extends Message {
+  chatId: string;
+}

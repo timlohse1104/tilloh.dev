@@ -1,6 +1,7 @@
 import { MessagesService } from '@backend/chat/chat-provider';
 import {
   CreateMessageDto,
+  IdentifyMessageDto,
   JoinRoomDto,
   TypingDto,
   UpdateMessageDto,
@@ -30,12 +31,12 @@ export class ChatGateway {
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
-    const { name, timestamp } = createMessageDto;
+    const { chatId, name, timestamp } = createMessageDto;
 
     this.logger.verbose(
       `Creating a new message for ${name} with timestamp ${timestamp}.`
     );
-    const message = await this.messagesService.create(createMessageDto);
+    const message = await this.messagesService.create(chatId, createMessageDto);
 
     this.logger.verbose(
       `Emit the new message from ${name} to all connected clients.`
@@ -45,25 +46,27 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('findAllMessages')
-  findAll() {
+  findAll(@MessageBody() chatId: string) {
     this.logger.verbose(`Returning all messages from the database.`);
-    return this.messagesService.findAll();
+    return this.messagesService.findAll(chatId);
   }
 
   @SubscribeMessage('findOneMessage')
-  findOne(@MessageBody() id: number) {
-    return this.messagesService.findOne(id);
+  findOne(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
+    const { chatId, id } = identifyMessageDto;
+    return this.messagesService.findOne(chatId, id);
   }
 
   @SubscribeMessage('updateMessage')
   update(@MessageBody() updateMessageDto: UpdateMessageDto) {
-    return this.messagesService.update(updateMessageDto.id, updateMessageDto);
+    const { chatId, id } = updateMessageDto;
+    return this.messagesService.update(chatId, id, updateMessageDto);
   }
 
   @SubscribeMessage('removeMessage')
-  remove(@MessageBody() id: number) {
-    this.logger.verbose(`Removing message with id ${id}.`);
-    return this.messagesService.remove(id);
+  remove(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
+    const { chatId, id } = identifyMessageDto;
+    return this.messagesService.remove(chatId, id);
   }
 
   @SubscribeMessage('join')

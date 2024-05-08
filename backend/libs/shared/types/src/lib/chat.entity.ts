@@ -1,6 +1,6 @@
 import { Message } from './message.entity';
 
-export class ChatDto {
+export class ChatEntityDto {
   _id: string;
   name: string;
   messages: Message[];

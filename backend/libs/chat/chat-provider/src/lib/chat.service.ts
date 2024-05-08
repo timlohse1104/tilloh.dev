@@ -1,6 +1,6 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
 import { ChatTexts } from '@backend/shared/texts';
-import { ChatDto } from '@backend/shared/types';
+import { ChatEntityDto } from '@backend/shared/types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ChatService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
-  async create(name: string): Promise<ChatDto> {
+  async create(name: string): Promise<ChatEntityDto> {
     this.logger.verbose({ input: { name } }, ChatTexts.ATTEMPT_CREATE);
     const newChat = await this.chatMongoDbService.create(name);
     this.logger.verbose({ output: { newChat } }, ChatTexts.CREATED_ONE);
@@ -30,7 +30,7 @@ export class ChatService {
     return chat;
   }
 
-  async update(id: string, updateChatDto: ChatDto) {
+  async update(id: string, updateChatDto: ChatEntityDto) {
     this.logger.verbose(
       { input: { id, updateMessageDto: updateChatDto } },
       ChatTexts.ATTEMPT_UPDATE
