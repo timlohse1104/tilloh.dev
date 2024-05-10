@@ -36,7 +36,7 @@ export class MessagesService {
   }
 
   async findAll(chatId: string) {
-    this.logger.verbose({ input: { chatId } }, `Finding all messages.`);
+    this.logger.verbose({ input: { chatId } }, `Retrieving all messages.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     const { messages } = chat;
     this.logger.verbose(`Found ${messages.length} messages.`);
@@ -48,7 +48,7 @@ export class MessagesService {
     const message = (await this.chatMongoDbService.findOne(chatId))?.messages[
       id
     ];
-    this.logger.verbose({ output: { message } }, `Found message .`);
+    this.logger.verbose({ output: { message } }, `Found message.`);
     return message;
   }
 
@@ -62,7 +62,7 @@ export class MessagesService {
   }
 
   async remove(chatId: string, id: number) {
-    this.logger.verbose({ input: { id } }, `Removing message with.`);
+    this.logger.verbose({ input: { id } }, `Removing message.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     const message = chat.messages.splice(id, 1)[0];
     this.logger.verbose({ output: { message } }, `Removed message.`);
@@ -72,17 +72,17 @@ export class MessagesService {
   async identify(name: string, clientId: string) {
     // Use in-memory dictionary to store the reference for client and user
     // TODO: Probably change to in-chat dictionary?
-    this.logger.verbose({ input: { name, clientId } }, `Identifing client .`);
+    this.logger.verbose({ input: { name, clientId } }, `Identifing client.`);
     this.clientToUser[clientId] = name;
     const client = Object.values(this.clientToUser);
-    this.logger.verbose({ output: { client } }, `Identified client .`);
+    this.logger.verbose({ output: { client } }, `Identified client.`);
     return client;
   }
 
   getClientName(clientId: string) {
     this.logger.verbose({ input: { clientId } }, `Retrieving client.`);
     const client = this.clientToUser[clientId];
-    this.logger.verbose({ output: { client } }, `Found client .`);
+    this.logger.verbose({ output: { client } }, `Found client.`);
     return client;
   }
 }
