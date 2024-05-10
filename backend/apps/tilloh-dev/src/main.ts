@@ -1,3 +1,4 @@
+import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { GlobalExceptionFilter, LoggerMiddleware } from '@backend/util';
@@ -42,6 +43,7 @@ import { EnvironmentVariables, validate } from './env.validation';
       },
     }),
     ChatGatewayModule,
+    ChatControllerModule,
     MemorandumControllerModule,
   ],
   providers: [Logger],

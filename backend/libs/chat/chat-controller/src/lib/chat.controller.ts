@@ -34,7 +34,7 @@ export class ChatController {
   constructor(private chatService: ChatService) {}
 
   @ApiOkResponse({
-    description: 'List of all identifiers successfully returned.',
+    description: 'List of all chats successfully returned.',
     type: [GetChatsOutputDto],
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
