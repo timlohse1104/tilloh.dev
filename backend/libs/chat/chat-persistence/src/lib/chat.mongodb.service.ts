@@ -38,14 +38,13 @@ export class ChatMongoDbService {
 
   async create(name: string): Promise<ChatEntityDto> {
     this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_CREATE);
-    const chat = await this.chatModel.create({
-      _id: randomUUID(),
-      name,
-    });
-    this.logger.debug(
-      { output: { chat: chat?.toObject() } },
-      ChatTexts.DB_CREATED_ONE
-    );
+    const chat = (
+      await this.chatModel.create({
+        _id: randomUUID(),
+        name,
+      })
+    ).save();
+    this.logger.debug({ output: { chat: chat } }, ChatTexts.DB_CREATED_ONE);
     return chat;
   }
 

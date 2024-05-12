@@ -1,7 +1,7 @@
 {
-  "name": "chat-messages-gateway",
+  "name": "chat-chat-gateway",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/chat/messages-gateway/src",
+  "sourceRoot": "libs/chat/chat-gateway/src",
   "projectType": "library",
   "targets": {
     "lint": {
@@ -12,7 +12,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/chat/messages-gateway/jest.config.ts"
+        "jestConfig": "libs/chat/chat-gateway/jest.config.ts"
       }
     }
   },

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'chat-chat-persistence',
+  displayName: 'chat-persistence',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

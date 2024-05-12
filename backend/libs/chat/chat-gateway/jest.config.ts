@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'chat-messages-gateway',
+  displayName: 'chat-gateway',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/libs/chat/messages-gateway',
+  coverageDirectory: '../../../coverage/libs/chat/chat-gateway',
 };
