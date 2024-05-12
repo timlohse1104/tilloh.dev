@@ -29,6 +29,9 @@ export class Chat {
   @Prop({ type: [ChatMessage], required: true, default: () => [] })
   messages: ChatMessage[];
 
+  @Prop({ type: Map, of: String, default: () => {} })
+  clients: Record<string, string>;
+
   @Prop({ type: Date, required: true, default: () => new Date() })
   created: Date;
 }

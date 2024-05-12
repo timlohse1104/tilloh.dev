@@ -10,8 +10,6 @@ import { Injectable, Logger } from '@nestjs/common';
 export class MessagesService {
   private readonly logger = new Logger(MessagesService.name);
 
-  clientToUser: Record<string, string> = {};
-
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
   async create(
@@ -57,6 +55,7 @@ export class MessagesService {
     const chat = await this.chatMongoDbService.findOne(chatId);
     chat.messages[id] = { ...chat.messages[id], ...updateMessageDto };
     const message = chat.messages[id];
+    await this.chatMongoDbService.update(chatId, chat);
     this.logger.verbose({ output: { message } }, `Updated message.`);
     return message;
   }
@@ -65,23 +64,31 @@ export class MessagesService {
     this.logger.verbose({ input: { id } }, `Removing message.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     const message = chat.messages.splice(id, 1)[0];
+    await this.chatMongoDbService.update(chatId, chat);
     this.logger.verbose({ output: { message } }, `Removed message.`);
     return message;
   }
 
-  async identify(name: string, clientId: string) {
-    // Use in-memory dictionary to store the reference for client and user
-    // TODO: Probably change to in-chat dictionary?
-    this.logger.verbose({ input: { name, clientId } }, `Identifing client.`);
-    this.clientToUser[clientId] = name;
-    const client = Object.values(this.clientToUser);
+  async identify(chatId: string, name: string, clientId: string) {
+    this.logger.verbose(
+      { input: { name, clientId } },
+      `Identifing client in chat.`
+    );
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    chat.clients[clientId] = name;
+    const client = Object.values(chat.clients);
+    await this.chatMongoDbService.update(chatId, chat);
     this.logger.verbose({ output: { client } }, `Identified client.`);
     return client;
   }
 
-  getClientName(clientId: string) {
-    this.logger.verbose({ input: { clientId } }, `Retrieving client.`);
-    const client = this.clientToUser[clientId];
+  async getClientName(chatId: string, clientId: string) {
+    this.logger.verbose(
+      { input: { clientId } },
+      `Retrieving client from chat.`
+    );
+    const chat = await this.chatMongoDbService.findOne(chatId);
+    const client = chat.clients[clientId];
     this.logger.verbose({ output: { client } }, `Found client.`);
     return client;
   }
