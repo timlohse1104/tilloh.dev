@@ -74,9 +74,9 @@ export class ChatGateway {
     @MessageBody() joinRoomDto: JoinRoomDto,
     @ConnectedSocket() client: Socket
   ) {
-    const { name } = joinRoomDto;
+    const { name, chatId } = joinRoomDto;
     this.logger.verbose(`Client ${client.id} joined as ${name}.`);
-    return this.messagesService.identify(name, client.id);
+    return this.messagesService.identify(chatId, name, client.id);
   }
 
   @SubscribeMessage('typing')
@@ -84,8 +84,8 @@ export class ChatGateway {
     @MessageBody() typingDto: TypingDto,
     @ConnectedSocket() client: Socket
   ) {
-    const { isTyping } = typingDto;
-    const name = await this.messagesService.getClientName(client.id);
+    const { isTyping, chatId } = typingDto;
+    const name = await this.messagesService.getClientName(chatId, client.id);
     this.logger.verbose(
       `Emitting typing event from ${name} to all connected clients.`
     );
