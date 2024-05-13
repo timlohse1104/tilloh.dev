@@ -62,3 +62,7 @@ export class RemoveChatInputDto {
   id: string;
 }
 export class RemoveChatOutputDto extends ChatDto {}
+
+export class FindAllChatsOptions {
+  clientId?: string;
+}

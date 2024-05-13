@@ -1,6 +1,6 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
 import { ChatTexts } from '@backend/shared/texts';
-import { ChatEntityDto } from '@backend/shared/types';
+import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared/types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
@@ -16,9 +16,9 @@ export class ChatService {
     return newChat;
   }
 
-  async findAll() {
+  async findAll(options?: FindAllChatsOptions) {
     this.logger.verbose(ChatTexts.ATTEMPT_FIND_ALL);
-    const chats = await this.chatMongoDbService.findAll();
+    const chats = await this.chatMongoDbService.findAll(options);
     this.logger.verbose(`Found ${chats.length} messages.`);
     return chats;
   }

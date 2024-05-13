@@ -1,5 +1,5 @@
 import { ChatTexts } from '@backend/shared/texts';
-import { ChatEntityDto } from '@backend/shared/types';
+import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared/types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
@@ -15,9 +15,13 @@ export class ChatMongoDbService {
     private chatModel: Model<ChatDocument>
   ) {}
 
-  async findAll(): Promise<ChatEntityDto[]> {
-    this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_FIND_ALL);
-    const chats = await this.chatModel.find();
+  async findAll(options?: FindAllChatsOptions): Promise<ChatEntityDto[]> {
+    this.logger.debug({ input: { options } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
+    const query: { [key: string]: { $exists: true } } = {}; // Add type annotation to query object
+    if (query?.['clientId']) {
+      query[`clients.${query?.['clientId']}`] = { $exists: true };
+    }
+    const chats = await this.chatModel.find(query).exec();
     this.logger.debug(
       { output: { chats } },
       `Found ${chats.length} chats in mongodb.`
