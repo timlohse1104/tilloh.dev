@@ -1,6 +1,6 @@
 import { ChatService } from '@backend/chat/chat-provider';
 import {
-  ChatDto,
+  ChatEntityDto,
   CreateChatInputDto,
   CreateChatOutputDto,
   GetChatInputDto,
@@ -79,7 +79,7 @@ export class ChatController {
   @Put('/:id')
   updateChat(
     @Param() updateChatInputDto: UpdateChatInputDto,
-    @Body() identifierDto: ChatDto
+    @Body() identifierDto: ChatEntityDto
   ) {
     return this.chatService.update(updateChatInputDto.id, identifierDto);
   }
