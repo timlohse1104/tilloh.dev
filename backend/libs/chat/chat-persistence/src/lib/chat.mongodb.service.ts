@@ -17,7 +17,7 @@ export class ChatMongoDbService {
 
   async findAll(options?: FindAllChatsOptions): Promise<ChatEntityDto[]> {
     this.logger.debug({ input: { options } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
-    const query: { [key: string]: { $exists: true } } = {}; // Add type annotation to query object
+    const query: { [key: string]: { $exists: true } } = {};
     if (query?.['clientId']) {
       query[`clients.${query?.['clientId']}`] = { $exists: true };
     }
