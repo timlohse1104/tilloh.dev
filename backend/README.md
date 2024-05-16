@@ -64,3 +64,17 @@ supervisorctl start tilloh-api-daemon
 ```
 supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 ```
+
+## Documentation
+
+As for now there is no possibility to get automated swagger documentation for websocket gateways.
+
+The following events are available:
+
+- `createMessage`: Creates a new message
+- `findAllMessages`: Gets all the messages
+- `findOneMessage`: Gets a single a message
+- `updateMessage`: Updates a message
+- `removeMessage`: Removes a message
+- `join`: Let a user join a chat
+- `typing`: Let a user know that another user is typing
