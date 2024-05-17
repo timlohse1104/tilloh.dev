@@ -36,41 +36,43 @@
   style="overflow:hidden;display:flex;align-items:center;"
 >
   <div class="list-area">
-    <div class="list-header">
-      <h2>
-        {currentList?.emoji || '📝'}
-        {currentList?.name || 'Hier würde der Listenname stehen...'}
-      </h2>
-      <hr />
-      <div class="history-area">
-        {#if currentList?.history?.length > 0}
-          <div class="history-list">
-            <Wrapper>
-              <Button color="secondary" variant="outlined">
-                <Icon class="material-icons">info</Icon>
-                <Label>Verlauf</Label>
-                <Tooltip xPos="end" yPos="detected">
-                  {currentList?.history}
-                </Tooltip>
-              </Button>
-            </Wrapper>
-            <IconButton
-              color="secondary"
-              style="margin-left: auto;"
-              size="button"
-              on:click={clearHistory}
-            >
-              <Icon class="material-icons">delete</Icon>
-            </IconButton>
-          </div>
-        {:else if !currentList?.history}
-          <pre class="status">Hier würde der Verlauf stehen...</pre>
-        {:else}
-          <pre class="status">Kein Verlauf vorhanden...</pre>
-        {/if}
+    {#if currentList || currentList?.todos?.length > 0}
+      <div class="list-header">
+        <h2>
+          {currentList?.emoji || '📝'}
+          {currentList?.name || 'Hier würde der Listenname stehen...'}
+        </h2>
+        <hr />
+        <div class="history-area">
+          {#if currentList?.history?.length > 0}
+            <div class="history-list">
+              <Wrapper>
+                <Button color="secondary" variant="outlined">
+                  <Icon class="material-icons">info</Icon>
+                  <Label>Verlauf</Label>
+                  <Tooltip xPos="end" yPos="detected">
+                    {currentList?.history}
+                  </Tooltip>
+                </Button>
+              </Wrapper>
+              <IconButton
+                color="secondary"
+                style="margin-left: auto;"
+                size="button"
+                on:click={clearHistory}
+              >
+                <Icon class="material-icons">delete</Icon>
+              </IconButton>
+            </div>
+          {:else if !currentList?.history}
+            <pre class="status">Hier würde der Verlauf stehen...</pre>
+          {:else}
+            <pre class="status">Kein Verlauf vorhanden...</pre>
+          {/if}
+        </div>
+        <TodoInput {listIndex} />
       </div>
-      <TodoInput {listIndex} />
-    </div>
+    {/if}
 
     <div class="list-content">
       {#if !currentList || currentList?.todos?.length === 0}
