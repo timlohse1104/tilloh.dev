@@ -2,29 +2,29 @@
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import { todoStore } from '../util/stores.ts';
-  import Todo from './Todo.svelte';
-  import TodoInput from './TodoInput.svelte';
+  import { chatStore } from '../util/stores.ts';
+  import Chat from './Chat.svelte';
+  import ChatInput from './ChatInput.svelte';
 
   export let listIndex;
 
-  $: currentList = $todoStore[listIndex] || $todoStore[0];
+  $: currentList = $chatStore[listIndex] || $chatStore[0];
 
-  function deleteTodo(index) {
-    todoStore.update((list) => {
-      list[listIndex].todos.splice(index, 1);
+  function deleteChat(index) {
+    chatStore.update((list) => {
+      list[listIndex].chats.splice(index, 1);
       return list;
     });
   }
-  function checkTodo(index) {
-    todoStore.update((list) => {
-      list[listIndex].todos[index].done = !list[listIndex].todos[index].done;
+  function checkChat(index) {
+    chatStore.update((list) => {
+      list[listIndex].chats[index].done = !list[listIndex].chats[index].done;
       return list;
     });
   }
 
   function clearHistory() {
-    todoStore.update((list) => {
+    chatStore.update((list) => {
       list[listIndex].history = [];
       return list;
     });
@@ -32,14 +32,14 @@
 </script>
 
 <section
-  class="todo-list"
+  class="chat-list"
   style="overflow:hidden;display:flex;align-items:center;"
 >
   <div class="list-area">
     <div class="list-header">
       <h2>
         {currentList?.emoji || '📝'}
-        {currentList?.name || 'Hier würde der Listenname stehen...'}
+        {currentList?.name || 'Hier würde der Chatname stehen...'}
       </h2>
       <hr />
       <div class="history-area">
@@ -69,12 +69,12 @@
           <pre class="status">Kein Verlauf vorhanden...</pre>
         {/if}
       </div>
-      <TodoInput {listIndex} />
+      <ChatInput {listIndex} />
     </div>
 
     <div class="list-content">
-      {#if !currentList || currentList?.todos?.length === 0}
-        <h1 style="margin-top:2rem;">Wähle eine Liste aus.</h1>
+      {#if !currentList || currentList?.chats?.length === 0}
+        <h1 style="margin-top:2rem;">Wähle einen Chat aus.</h1>
         <div style="display:flex;flex-direction:column;align-items:center;">
           <p style="margin-top:2rem;">
             Klicke oben rechts auf den Menü-Button.
@@ -82,12 +82,12 @@
           </p>
         </div>
       {:else}
-        {#each currentList?.todos as todo, i (i)}
-          {#if todo}
-            <Todo
-              {todo}
-              deleteTodo={() => deleteTodo(i)}
-              todoChecked={() => checkTodo(i)}
+        {#each currentList?.chats as chat, i (i)}
+          {#if chat}
+            <Chat
+              {chat}
+              deleteChat={() => deleteChat(i)}
+              chatChecked={() => checkChat(i)}
             />
           {/if}
         {/each}
@@ -103,7 +103,7 @@
     padding: 0;
   }
 
-  .todo-list {
+  .chat-list {
     display: flex;
     flex-direction: column;
   }
