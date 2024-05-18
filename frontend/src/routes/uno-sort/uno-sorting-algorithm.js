@@ -39,6 +39,26 @@ const unsortedHand = [
     type: 'skip',
     value: 20,
   },
+  {
+    color: 'blue',
+    type: 'one',
+    value: 1,
+  },
+  {
+    color: 'blue',
+    type: 'four',
+    value: 4,
+  },
+  {
+    color: 'black',
+    type: 'plusFour',
+    value: 50,
+  },
+  {
+    color: 'red',
+    type: 'reverse',
+    value: 20,
+  },
 ];
 
 console.log('Starting with unsorted hand:');
