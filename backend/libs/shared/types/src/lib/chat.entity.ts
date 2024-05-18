@@ -6,4 +6,8 @@ export class ChatEntityDto {
   messages: Message[];
   clients: Record<string, string>;
   created: Date;
+  emoji: string;
+  owner: string;
+  securityQuestion: string;
+  securityAnswer: string;
 }

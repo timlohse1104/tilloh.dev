@@ -31,6 +31,22 @@ export class ChatDto {
   @ApiProperty({ description: 'Chat name' })
   @IsOptional()
   created: Date;
+
+  @ApiProperty({ description: 'Chat emoji' })
+  @IsOptional()
+  emoji: string;
+
+  @ApiProperty({ description: 'Chat owner id' })
+  @IsNotEmpty()
+  owner: string;
+
+  @ApiProperty({ description: 'Chat security question' })
+  @IsNotEmpty()
+  securityQuestion: string;
+
+  @ApiProperty({ description: 'Chat security answer' })
+  @IsNotEmpty()
+  securityAnswer: string;
 }
 
 export class GetChatsOutputDto extends ChatDto {}

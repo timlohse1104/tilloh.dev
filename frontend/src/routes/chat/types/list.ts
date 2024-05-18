@@ -5,4 +5,7 @@ export type ChatList = {
   emoji: string;
   chats: Chat[];
   history: string[];
+  owner: string;
+  securityQuestion: string;
+  securityAnswer: string;
 };
