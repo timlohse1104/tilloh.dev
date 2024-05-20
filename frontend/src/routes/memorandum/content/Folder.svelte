@@ -220,9 +220,9 @@
     on:dblclick={showFolderOverlay}
     role="presentation"
   >
-    <div on:click={openFolderLinks}>
+    <button on:click={openFolderLinks} class="folderHeaderButton">
       {folderHeader}
-    </div>
+    </button>
   </div>
 
   <button
@@ -314,6 +314,15 @@
     @media #{$phone} {
       width: calc(90% / 1);
     }
+  }
+
+  .folderHeaderButton {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: var(--white);
+    text-shadow: var(--sharpen);
+    padding: 0;
   }
 
   .boxHeader {
