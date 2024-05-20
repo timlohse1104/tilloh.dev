@@ -39,8 +39,8 @@
     {#if currentList || currentList?.todos?.length > 0}
       <div class="list-header">
         <h2>
-          {currentList?.emoji || '📝'}
-          {currentList?.name || 'Hier würde der Listenname stehen...'}
+          {currentList?.emoji || 'Kein Emoji vorhanden...'}
+          {currentList?.name || 'Kein Listentitel vorhanden...'}
         </h2>
         <hr />
         <div class="history-area">
@@ -75,7 +75,7 @@
     {/if}
 
     <div class="list-content">
-      {#if !currentList || currentList?.todos?.length === 0}
+      {#if !currentList}
         <h1 style="margin-top:2rem;">
           Wähle eine <Icon class="material-icons">list</Icon> Liste aus.
         </h1>
