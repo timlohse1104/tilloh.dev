@@ -76,7 +76,9 @@
 
     <div class="list-content">
       {#if !currentList || currentList?.chats?.length === 0}
-        <h1 style="margin-top:2rem;">Wähle einen Chat aus.</h1>
+        <h1 style="margin-top:2rem;">
+          Wähle einen <Icon class="material-icons">chat</Icon> Chat aus.
+        </h1>
         <div style="display:flex;flex-direction:column;align-items:center;">
           <p style="margin-top:2rem;">
             Klicke oben rechts auf den Menü-Button.
