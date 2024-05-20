@@ -51,6 +51,17 @@
       $localPresetStore.Folders[id].customBackgroundColor;
   }
 
+  function openFolderLinks() {
+    let currentPreset = $localPresetStore;
+    let folder = currentPreset.Folders[id];
+
+    if (folder.links.length > 0) {
+      folder.links.map((link) => {
+        window.open(link.linkUrl, '_blank');
+      });
+    }
+  }
+
   function dragStartFolder(event) {
     event.stopPropagation();
     let originIndex = [].slice
@@ -209,9 +220,9 @@
     on:dblclick={showFolderOverlay}
     role="presentation"
   >
-    <p>
+    <div on:click={openFolderLinks}>
       {folderHeader}
-    </p>
+    </div>
   </div>
 
   <button
