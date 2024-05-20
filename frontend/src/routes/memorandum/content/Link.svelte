@@ -52,7 +52,7 @@
     border-bottom: 1px solid var(--darkgrey80);
 
     &:hover {
-      background-color: var(--darkgrey80);
+      background-color: var(--black30);
     }
   }
 
