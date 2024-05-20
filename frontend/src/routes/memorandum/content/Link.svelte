@@ -49,18 +49,9 @@
     padding-left: var(--default-padding);
     box-sizing: border-box;
     align-items: center;
-    border-bottom: 1px solid var(--darkgrey80);
 
     &:hover {
       background-color: var(--black30);
-    }
-  }
-
-  #link {
-    border-bottom: 1px solid var(--darkgrey80);
-
-    button {
-      border-left: 1px solid var(--darkgrey80);
     }
   }
 
@@ -87,7 +78,6 @@
     grid-area: delBtn;
     @include mem-button;
     background-color: var(--trans);
-    border-left: 1px solid var(--darkgrey80);
     text-shadow: var(--sharpen);
 
     &:hover {

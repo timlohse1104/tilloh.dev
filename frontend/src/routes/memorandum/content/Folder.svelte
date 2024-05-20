@@ -19,6 +19,7 @@
   }
 
   const dispatch = createEventDispatcher();
+  let linkAreaHoverStyle = '';
 
   function showOverlay(event) {
     $linkOverlayOptionsStore.showOverlay =
@@ -196,10 +197,21 @@
     let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
     return faviconLink;
   }
+
+  function handleLinkAreaMouseOverOrFocus() {
+    linkAreaHoverStyle = `0 0 10px ${folderBackgroundColor}`;
+  }
+
+  function handleLinkAreaMouseOutOrBlur() {
+    linkAreaHoverStyle = '';
+  }
 </script>
 
 <section
   class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
+  style={folderBackgroundColor
+    ? `border: solid 0.1em ${folderBackgroundColor}; box-shadow: ${linkAreaHoverStyle}`
+    : `box-shadow: ${linkAreaHoverStyle}`}
   draggable={true}
   on:dragstart={(event) => dragStartFolder(event)}
   on:drop|preventDefault={(event) => {
@@ -211,12 +223,16 @@
   }}
   on:dragover|preventDefault
   role="presentation"
+  on:mouseover={handleLinkAreaMouseOverOrFocus}
+  on:mouseout={handleLinkAreaMouseOutOrBlur}
+  on:focus={handleLinkAreaMouseOverOrFocus}
+  on:blur={handleLinkAreaMouseOutOrBlur}
 >
   <div
     class="boxHeader"
     style={folderBackgroundColor
       ? `background-color: ${folderBackgroundColor}`
-      : ''}
+      : 'var(--darkgrey80)'}
     on:dblclick={showFolderOverlay}
     role="presentation"
   >
@@ -229,7 +245,7 @@
     class="boxDelBtn"
     style={folderBackgroundColor
       ? `background-color: ${folderBackgroundColor}`
-      : ''}
+      : 'var(--darkgrey80)'}
     on:click={() => dispatch('delFolder', id)}
   >
     -
@@ -261,7 +277,7 @@
     class="linkAddBtn"
     style={folderBackgroundColor
       ? `background-color: ${folderBackgroundColor}`
-      : ''}
+      : 'var(--darkgrey80)'}
     on:click={showOverlay}
   >
     <span>Neuer Link</span>
@@ -282,11 +298,6 @@
       'header delBtn'
       'content content'
       'addLinkBtn addLinkBtn';
-    border: solid 3px var(--darkgrey80);
-
-    &:hover {
-      box-shadow: 0 0 12px var(--darkgrey80);
-    }
   }
   .linkBoxFlexible {
     display: grid;
@@ -297,7 +308,6 @@
       'header delBtn'
       'content content'
       'addLinkBtn addLinkBtn';
-    border: solid 3px var(--darkgrey80);
 
     &:hover {
       box-shadow: 0 0 20px var(--white30);
@@ -331,7 +341,6 @@
     align-items: center;
     font-weight: bolder;
     padding-left: var(--default-padding);
-    background-color: var(--darkgrey80);
     text-shadow: var(--sharpen);
     font-size: 18px;
   }
@@ -341,8 +350,6 @@
     @include mem-button;
     text-align: center;
     font-weight: bolder;
-    background-color: var(--darkgrey80);
-    border-left: 1px solid var(--darkgrey80);
     text-shadow: var(--sharpen);
 
     &:hover {
@@ -359,7 +366,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background-color: var(--darkgrey80);
     text-shadow: var(--sharpen);
   }
 
