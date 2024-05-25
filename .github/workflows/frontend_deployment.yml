@@ -93,3 +93,14 @@ jobs:
           source: "frontend_target/*"
           target: /var/www/virtual/${{ secrets.SSHUSER }}/html
           overwrite: true
+
+      - name: SSH into the remote server and move files
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ vars.SSHPORT }}
+          script: |
+            mv /var/www/virtual/${{ secrets.SSHUSER }}/frontend_target/* /var/www/virtual/${{ secrets.SSHUSER }}/html/
+            rm -rf /var/www/virtual/${{ secrets.SSHUSER }}/frontend_target

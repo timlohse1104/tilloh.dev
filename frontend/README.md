@@ -26,13 +26,13 @@ npm run dev
 
 # Deployment
 
-## Automatic Deployment
+## Automatically
 
 1. Make changes to the frontend code under `/frontend`
 2. Push the changes to the repository `main` branch
 3. The changes will be automatically deployed to the server
 
-## Manual Deployment
+## Manually
 
 1. Build the frontend
 
