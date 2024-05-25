@@ -19,6 +19,10 @@ npm run dev
 4. Make changes to the code and see the changes in the browser
 5. Press `strg + c` to stop the server
 
+# Deployment
+
+## Automatic Deployment
+
 ## Manual Deployment
 
 1. Build the frontend
