@@ -45,7 +45,6 @@
       {/if}
 
       <p>
-        Verbindungsstatus:
         {#if $sharedIdentifierStore.id}
           <span style="color: var(--green)"> Online 🌐</span>
         {:else}
