@@ -102,5 +102,5 @@ jobs:
           password: ${{ secrets.SSHPASS }}
           port: ${{ vars.SSHPORT }}
           script: |
-            mv html/frontend_target/* html/
+            cp -rf html/frontend_target/. html/
             rm -rf html/frontend_target
