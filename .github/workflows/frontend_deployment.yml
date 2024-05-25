@@ -48,11 +48,16 @@ jobs:
           cd frontend
           npm run build
 
-      - name: Upload built frontend
+      - name: Zip frontend
+        run: |
+          cd frontend
+          zip -r dist.zip dist
+
+      - name: Upload zipped frontend artifact
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: frontend/dist
+          path: frontend/dist.zip
 
   deploy:
     name: Deploy
@@ -66,7 +71,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact
-          path: frontend/dist
+          path: frontend
+
+      - name: Unzip frontend to dist folder
+        run: |
+          cd frontend
+          unzip dist.zip -d dist
 
       - name: Recursivly upload built frontend files to uberspace
         uses: appleboy/scp-action@master
