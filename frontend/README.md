@@ -21,7 +21,7 @@ npm run dev
 ```
 
 3. Open the browser at `http://localhost:5173`
-4. Make changes to the code and see the changes in the browser
+4. Make changes to the frontend code and see the changes in the browser
 5. Press `strg + c` to stop the server
 
 # Deployment
