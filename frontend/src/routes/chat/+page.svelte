@@ -134,6 +134,17 @@
     >
       <Icon class="material-icons" style="font-size: 5rem;">construction</Icon>
       <h1 style="margin:0;">Diese Funktion ist bald verfügbar!</h1>
+      <div class="back-button">
+        <Button
+          color="secondary"
+          variant="outlined"
+          href="/"
+          style="text-decoration: none;"
+        >
+          <Icon class="material-icons">home</Icon>
+          <Label>Zurück zur Startseite</Label>
+        </Button>
+      </div>
     </div>
   </div>
 {/if}
@@ -158,5 +169,9 @@
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
+  }
+
+  .back-button {
+    margin-top: 3rem;
   }
 </style>
