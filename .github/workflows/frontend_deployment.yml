@@ -9,7 +9,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Testing Frontend
         run: echo "Testing not implemented yet..."
@@ -18,7 +17,6 @@ jobs:
     name: Build
     needs: test
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Building Frontend
         run: echo "Building svelte application..."

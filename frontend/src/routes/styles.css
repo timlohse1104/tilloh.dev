@@ -27,8 +27,6 @@
   --sharpen: 2px 2px var(--black80);
   --trans: rgba(0, 0, 0, 0);
   --default-padding: 1.2rem;
-
-  --folder-color: #f0f0f0;
 }
 
 /* General styling */

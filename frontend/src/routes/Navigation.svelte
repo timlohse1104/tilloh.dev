@@ -19,9 +19,9 @@
         <li aria-current={$page.url.pathname === '/todo' ? 'page' : undefined}>
           <a href="/todo">ToDo</a>
         </li>
-        <!-- <li aria-current={$page.url.pathname === '/chat' ? 'page' : undefined}>
-          <a href="/chat">Chat</a>
-        </li> -->
+        <li aria-current={$page.url.pathname === '/chat' ? 'page' : undefined}>
+          <a href="/chat">Klönschnack</a>
+        </li>
         <li
           aria-current={$page.url.pathname === '/catch-em-all'
             ? 'page'
