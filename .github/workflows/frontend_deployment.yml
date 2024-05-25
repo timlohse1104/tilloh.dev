@@ -102,5 +102,5 @@ jobs:
           password: ${{ secrets.SSHPASS }}
           port: ${{ vars.SSHPORT }}
           script: |
-            mv /var/www/virtual/${{ secrets.SSHUSER }}/frontend_target/* /var/www/virtual/${{ secrets.SSHUSER }}/html/
-            rm -rf /var/www/virtual/${{ secrets.SSHUSER }}/frontend_target
+            mv html/frontend_target/* html/
+            rm -rf html/frontend_target
