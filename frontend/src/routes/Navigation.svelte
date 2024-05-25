@@ -7,7 +7,7 @@
     <nav>
       <ul>
         <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-          <a href="/">Home</a>
+          <a href="/">Startseite</a>
         </li>
         <li
           aria-current={$page.url.pathname === '/memorandum'
@@ -22,6 +22,12 @@
         <li aria-current={$page.url.pathname === '/chat' ? 'page' : undefined}>
           <a href="/chat">Klönschnack</a>
         </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="navigation-box">
+    <nav>
+      <ul>
         <li
           aria-current={$page.url.pathname === '/catch-em-all'
             ? 'page'
@@ -35,7 +41,7 @@
           <a href="/uno-sort">Uno Sort</a>
         </li>
         <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-          <a href="/about">About</a>
+          <a href="/about">Über</a>
         </li>
       </ul>
     </nav>
@@ -45,9 +51,18 @@
 <style lang="scss">
   @import '../lib/styles/global.scss';
 
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin-top: 0;
+  }
+
   .navigation-box {
     display: flex;
     justify-content: space-between;
+    padding: 0.5rem;
   }
 
   nav {
@@ -72,7 +87,8 @@
   }
 
   li + li {
-    border-left: var(--lightgrey80) 1px solid;
+    border-left: var(--lightgrey80) 2px solid;
+    height: 50%;
   }
 
   li[aria-current='page']::before {
