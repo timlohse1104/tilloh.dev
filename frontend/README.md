@@ -16,6 +16,7 @@ npm install
 2. Start the development server
 
 ```
+cd frontend
 npm run dev
 ```
 

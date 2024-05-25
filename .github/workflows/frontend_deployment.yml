@@ -79,7 +79,9 @@ jobs:
       - name: Unzip frontend to target directory
         run: |
           mkdir -p frontend_target
-          unzip -d frontend_target frontend/dist.zip
+          unzip frontend/dist.zip -d frontend_target
+          mv frontend_target/dist/* frontend_target/
+          rm -rf frontend_target/dist
 
       - name: Recursivly upload built frontend files to uberspace
         uses: appleboy/scp-action@master
