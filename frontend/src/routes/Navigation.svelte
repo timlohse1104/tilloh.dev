@@ -117,13 +117,14 @@
     transition: color 0.2s linear;
 
     @media #{$tablet} {
-      font-size: 0.8rem;
-      padding: 0 0.5rem;
+      font-size: 1rem;
+      padding: 0 0.8rem;
     }
 
     @media #{$phone} {
       font-size: 0.6rem;
-      padding: 0 0.5rem;
+      padding: 0 0.3rem;
+      font-weight: 800;
     }
   }
 

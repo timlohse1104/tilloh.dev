@@ -55,9 +55,13 @@
         </IconButton>
       </div>
     {:else}
-      <IconButton style="color: white;  text-decoration: none;" href="/settings"
-        ><Icon class="material-icons">settings</Icon></IconButton
-      >
+      <div class="corner">
+        <IconButton
+          style="color: white;  text-decoration: none;"
+          href="/settings"
+          ><Icon class="material-icons">settings</Icon></IconButton
+        >
+      </div>
     {/if}
   </div>
 </section>
