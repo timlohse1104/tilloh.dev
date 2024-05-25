@@ -22,11 +22,6 @@
           <IconButton style="color: white; text-decoration: none;" href="/"
             ><Icon class="material-icons">home</Icon></IconButton
           >
-          <IconButton
-            style="color: white;  text-decoration: none;"
-            href="/settings"
-            ><Icon class="material-icons">settings</Icon></IconButton
-          >
         {/if}
       </div>
     </div>
@@ -53,11 +48,17 @@
       </p>
     </div>
 
-    <div class="corner">
-      <IconButton href="https://github.com/timlohse1104" target="_blank">
-        <img src={github} alt="GitHub" />
-      </IconButton>
-    </div>
+    {#if $page.url.pathname === '/'}
+      <div class="corner">
+        <IconButton href="https://github.com/timlohse1104" target="_blank">
+          <img src={github} alt="GitHub" />
+        </IconButton>
+      </div>
+    {:else}
+      <IconButton style="color: white;  text-decoration: none;" href="/settings"
+        ><Icon class="material-icons">settings</Icon></IconButton
+      >
+    {/if}
   </div>
 </section>
 
