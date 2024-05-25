@@ -33,7 +33,6 @@
           >
         {/if}
       </div>
-      <p>made by Tilloh with 💙</p>
     </div>
 
     <div class="headlineBox">

@@ -75,6 +75,8 @@
     I also do useful things for <a href="https://deskbox-office.de">desk.box</a>
     at work. I promise! 🤡
   </p>
+
+  <p>Made by Tilloh with 💙</p>
 </div>
 
 <style lang="scss">
@@ -82,5 +84,8 @@
     max-width: 80vw;
     margin: 0 auto;
     color: var(--light80);
+    height: 88vh;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 </style>
