@@ -1,6 +1,6 @@
 # Backend
 
-## Deployment
+## Manual Deployment
 
 1. Build the frontend
 

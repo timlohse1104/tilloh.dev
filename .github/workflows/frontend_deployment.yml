@@ -2,16 +2,16 @@ name: Frontend  Deployment to uberspace
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-    - 'frontend/**'
+      - "frontend/**"
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Testing Frontend
-        run: echo "Testing..."      
+        run: echo "Testing not implemented yet..."
 
   build:
     name: Build
@@ -19,29 +19,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Building Frontend
-        run: echo "Building..."
+        run: echo "Building svelte application..."
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Use Node.js 20.11.1 LTS version
         uses: actions/setup-node@v2
         with:
           node-version: 20.11.1
+
       - name: Cache node_modules
         id: node_modules
         uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules
+
       - name: Npm clean install
         run: |
           npm ci
-          nx --version
+
       - name: Build frontend
         run: |
           cd frontend
           npm run build
+
+      - name: Upload built frontend
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: frontend/dist
 
   deploy:
     name: Deploy
@@ -49,4 +59,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Frontend
-        run: echo "Deploying..."    
+        run: echo "Deploying frontend artifact..."
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: frontend/dist
+
+      - name: Recursivly upload built frontend files to uberspace
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          source: frontend/dist
+          target: /var/www/virtual/${{ secrets.UBERSPACE_USER }}/html
+          overwrite: true
