@@ -18,10 +18,6 @@
           <IconButton href="https://stadtwerk.org" target="_blank">
             <img src={logo} alt="stadtwerk" />
           </IconButton>
-        {:else if $page.url.pathname === '/settings'}
-          <IconButton style="color: white; text-decoration: none;" href="/"
-            ><Icon class="material-icons">home</Icon></IconButton
-          >
         {:else}
           <IconButton style="color: white; text-decoration: none;" href="/"
             ><Icon class="material-icons">home</Icon></IconButton
@@ -40,6 +36,8 @@
         <h2>Startseite</h2>
       {:else if $page.url.pathname === '/settings'}
         <h2>Einstellungen</h2>
+      {:else if $page.url.pathname === '/chat'}
+        <h2>Klönschnack</h2>
       {:else if $page.url.pathname === '/uno-sort'}
         <h2>UNO Sortierung</h2>
       {:else}
