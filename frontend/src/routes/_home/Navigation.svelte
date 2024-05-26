@@ -1,26 +1,32 @@
 <script>
-  import { page } from '$app/stores';
+  import { routes } from '../../lib/config/applications';
+
+  const {
+    home,
+    memorandum,
+    about,
+    'catch-em-all': catchEmAll,
+    chat,
+    todo,
+    'uno-sort': unoSort,
+  } = routes;
 </script>
 
 <section>
   <div class="navigation-box">
     <nav>
       <ul>
-        <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-          <a href="/">Startseite</a>
+        <li aria-current="page">
+          <a href={home.path}>{home.name}</a>
         </li>
-        <li
-          aria-current={$page.url.pathname === '/memorandum'
-            ? 'page'
-            : undefined}
-        >
-          <a href="/memorandum">Memorandum</a>
+        <li>
+          <a href={memorandum.path}>{memorandum.name}</a>
         </li>
-        <li aria-current={$page.url.pathname === '/todo' ? 'page' : undefined}>
-          <a href="/todo">ToDo</a>
+        <li>
+          <a href={todo.path}>{todo.name}</a>
         </li>
-        <li aria-current={$page.url.pathname === '/chat' ? 'page' : undefined}>
-          <a href="/chat">Klönschnack</a>
+        <li>
+          <a href={chat.path}>{chat.name}</a>
         </li>
       </ul>
     </nav>
@@ -28,20 +34,14 @@
   <div class="navigation-box">
     <nav>
       <ul>
-        <li
-          aria-current={$page.url.pathname === '/catch-em-all'
-            ? 'page'
-            : undefined}
-        >
-          <a href="/catch-em-all">Catch-em-all</a>
+        <li>
+          <a href={catchEmAll.path}>{catchEmAll.name}</a>
         </li>
-        <li
-          aria-current={$page.url.pathname === '/uno-sort' ? 'page' : undefined}
-        >
-          <a href="/uno-sort">Uno Sort</a>
+        <li>
+          <a href={unoSort.path}>{unoSort.name}</a>
         </li>
-        <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-          <a href="/about">Über</a>
+        <li>
+          <a href={about.path}>{about.name}</a>
         </li>
       </ul>
     </nav>

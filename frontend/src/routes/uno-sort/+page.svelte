@@ -3,7 +3,10 @@
   import { Icon } from '@smui/fab';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
+  import { routes } from '../../lib/config/applications';
   import { UnoSort } from './classes/uno-sort';
+
+  const { 'uno-sort': unoSortRoute } = routes;
 
   let handSizeElement;
   let stackSizeElement;
@@ -46,8 +49,8 @@
 </script>
 
 <svelte:head>
-  <title>Uno Sort</title>
-  <meta name="uno-sort" content="Uno Sort" />
+  <title>{unoSortRoute.name}</title>
+  <meta name={unoSortRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 <section>
@@ -181,7 +184,8 @@
   }
 
   .uno-cardArea {
-    overflow: auto;
+    overflow-y: auto;
     display: flex;
+    height: 65vh;
   }
 </style>

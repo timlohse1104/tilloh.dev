@@ -11,9 +11,12 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { routes } from '../../lib/config/applications';
   import TodoListComponent from './content/TodoList.svelte';
   import TodoListOverlay from './content/TodoListOverlay.svelte';
   import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
+
+  const { todo: todoRoute } = routes;
 
   let currentListIndex = 0;
   let newListIndex = 0;
@@ -38,8 +41,8 @@
 </script>
 
 <svelte:head>
-  <title>Todo</title>
-  <meta name="Todo" content="Todo" />
+  <title>{todoRoute.name}</title>
+  <meta name={todoRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 <section>

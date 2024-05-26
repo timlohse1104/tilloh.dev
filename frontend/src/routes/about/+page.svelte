@@ -1,6 +1,11 @@
+<script lang="ts">
+  import { routes } from '../../lib/config/applications';
+  const { about: aboutRoute } = routes;
+</script>
+
 <svelte:head>
-  <title>About me</title>
-  <meta name="description" content="About me" />
+  <title>{aboutRoute.name}</title>
+  <meta name={aboutRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 <div class="main">

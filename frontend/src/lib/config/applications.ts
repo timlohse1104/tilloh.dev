@@ -10,7 +10,7 @@ export const routes = {
     icon: 'bookmarks',
   },
   todo: {
-    name: 'todo',
+    name: 'Listen',
     path: '/todo',
     icon: 'list',
   },
@@ -19,18 +19,18 @@ export const routes = {
     path: '/chat',
     icon: 'chat',
   },
-  catchEmAll: {
+  'catch-em-all': {
     name: 'Catch-Em-All',
     path: '/catch-em-all',
-    icon: 'videogame_asset',
+    icon: 'sports_esports',
   },
-  unoSort: {
+  'uno-sort': {
     name: 'UNO Sortierung',
     path: '/uno-sort',
-    icon: 'playing_cards',
+    icon: 'style',
   },
   about: {
-    name: 'Über',
+    name: 'Über mich',
     path: '/about',
     icon: 'info',
   },

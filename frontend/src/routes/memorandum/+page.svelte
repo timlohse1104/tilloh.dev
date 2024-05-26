@@ -4,6 +4,7 @@
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
+  import { routes } from '../../lib/config/applications';
   import BoxArea from './content/FolderArea.svelte';
   import FolderOverlay from './content/FolderOverlay.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';
@@ -17,6 +18,8 @@
     refreshPresetStore,
   } from './util/stores';
   import type { Order } from './util/types';
+
+  const { memorandum: memorandumRoute } = routes;
 
   const orders: Order[] = [
     {
@@ -48,8 +51,8 @@
 </script>
 
 <svelte:head>
-  <title>Memorandum</title>
-  <meta name="description" content="Memorandum" />
+  <title>{memorandumRoute.name}</title>
+  <meta name={memorandumRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 <div class="menuLine">

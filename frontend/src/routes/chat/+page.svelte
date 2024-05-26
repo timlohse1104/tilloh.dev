@@ -10,10 +10,12 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { routes } from '../../lib/config/applications';
   import ChatListComponent from './content/ChatList.svelte';
   import ChatListOverlay from './content/ChatListOverlay.svelte';
   import { chatStore, listOverlayOptionsStore } from './util/stores.ts';
 
+  const { chat: chatRoute } = routes;
   const FEATURE_TOGGLE = false;
 
   let currentListIndex = 0;
@@ -39,8 +41,8 @@
 </script>
 
 <svelte:head>
-  <title>Chat</title>
-  <meta name="Klönschnack" content="Klönschnack" />
+  <title>{chatRoute.name}</title>
+  <meta name={chatRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 {#if FEATURE_TOGGLE}

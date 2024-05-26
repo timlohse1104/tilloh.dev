@@ -1,12 +1,15 @@
 <script lang="ts">
   import Button, { Icon, Label } from '@smui/button';
+  import { routes } from '../lib/config/applications';
   import Navigation from './_home/Navigation.svelte';
   import SearchBar from './_home/SearchBar.svelte';
+
+  const { home: homeRoute, settings } = routes;
 </script>
 
 <svelte:head>
-  <title>Home</title>
-  <meta name="Home" content="tilloh.dev" />
+  <title>{homeRoute.name}</title>
+  <meta name={homeRoute.name} content="tilloh.dev" />
 </svelte:head>
 
 <section>
@@ -17,11 +20,11 @@
     <Button
       color="secondary"
       variant="outlined"
-      href="/settings"
+      href={settings.path}
       style="text-decoration: none;"
     >
-      <Icon class="material-icons">settings</Icon>
-      <Label>Einstellungen</Label>
+      <Icon class="material-icons">{settings.icon}</Icon>
+      <Label>{settings.name}</Label>
     </Button>
   </div>
 </section>

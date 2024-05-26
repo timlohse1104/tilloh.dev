@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { routes } from '../../lib/config/applications';
   import Game from './game.js';
+
+  const { 'catch-em-all': catchEmAllRoute } = routes;
 
   let gameCanvas;
   let ctx;
@@ -41,8 +44,8 @@
 </script>
 
 <svelte:head>
-  <title>Catch-em-all</title>
-  <meta name="description" content="Catch-em-all" />
+  <title>{catchEmAllRoute.name}</title>
+  <meta name={catchEmAllRoute.name} content="tilloh.dev" />
   <meta name="ssr" content="false" />
 </svelte:head>
 
