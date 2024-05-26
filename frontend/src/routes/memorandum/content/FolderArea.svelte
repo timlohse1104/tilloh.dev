@@ -1,12 +1,14 @@
 <script lang="ts">
   import Fab, { Icon } from '@smui/fab';
-  import MagicGrid from 'magic-grid';
+  import Masonry from '../../../lib/components/Masonry.svelte';
   import { fetchJson } from '../util/async.js';
   import { FolderClass } from '../util/classes.js';
   import { defaultColor } from '../util/constants.js';
   import { folderOrderFolder, localPresetStore } from '../util/stores.js';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
+
+  let refreshLayout;
 
   function createFolder() {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
@@ -33,42 +35,42 @@
     currentPreset.Folders.splice(event.detail, 1);
     $localPresetStore = currentPreset;
   }
-
-  let contentAreaElement;
-  let magicGrid;
-  $: if ($folderOrderFolder === 'flexible' && contentAreaElement) {
-    const magicGridOptions = {
-      container: contentAreaElement as HTMLElement,
-      static: true,
-      animate: true,
-      center: false,
-      gutter: 25,
-      items: $localPresetStore.Folders.length,
-    };
-    magicGrid = new MagicGrid(magicGridOptions);
-    magicGrid.listen();
-  }
 </script>
 
 {#await $localPresetStore}
   <p>Waiting for the promise to resolve...</p>
 {:then value}
   {#if value.Folders.length > 0}
-    <section
-      bind:this={contentAreaElement}
-      class={$folderOrderFolder === 'fixed'
-        ? 'contentAreaFixed'
-        : 'contentAreaFlexible'}
-    >
-      {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
-        <Folder
-          id={i}
-          folderHeader={folderName}
-          folderBackground={customBackgroundColor}
-          on:delFolder={deleteFolder}
-        />
-      {/each}
-    </section>
+    {#if $folderOrderFolder === 'fixed'}
+      <section class="contentAreaFixed">
+        {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+          <Folder
+            id={i}
+            folderHeader={folderName}
+            folderBackground={customBackgroundColor}
+            on:delFolder={deleteFolder}
+          />
+        {/each}
+      </section>
+    {:else}
+      <section class="contentAreaFlexible">
+        <Masonry
+          reset
+          gridGap={'0.75rem'}
+          items={$localPresetStore.Folders}
+          bind:refreshLayout
+        >
+          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+            <Folder
+              id={i}
+              folderHeader={folderName}
+              folderBackground={customBackgroundColor}
+              on:delFolder={deleteFolder}
+            />
+          {/each}
+        </Masonry>
+      </section>
+    {/if}
   {:else}
     <Startup on:new={createFolder} on:default={loadPreset} />
   {/if}
@@ -110,12 +112,8 @@
   }
 
   .contentAreaFlexible {
-    color: white;
-    margin: 0;
-    padding: calc(var(--default-padding) / 2);
     overflow-y: auto;
     overflow-x: hidden;
-    height: unset;
   }
 
   * :global(svg:focus) {
@@ -136,10 +134,10 @@
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--red70);
+    background-color: var(--color-theme-2-50);
 
     &:hover {
-      background-color: var(--red);
+      background-color: var(--color-theme-2);
     }
   }
 </style>

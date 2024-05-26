@@ -127,7 +127,6 @@
   }
 
   .boxArea {
-    height: 85vh;
     display: grid;
     grid-template-columns: 100%;
     background-size: cover;

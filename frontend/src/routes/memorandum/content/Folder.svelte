@@ -19,7 +19,6 @@
   }
 
   const dispatch = createEventDispatcher();
-  let linkAreaHoverStyle = '';
 
   function showOverlay(event) {
     $linkOverlayOptionsStore.showOverlay =
@@ -197,21 +196,11 @@
     let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
     return faviconLink;
   }
-
-  function handleLinkAreaMouseOverOrFocus() {
-    linkAreaHoverStyle = `0 0 10px ${folderBackgroundColor}`;
-  }
-
-  function handleLinkAreaMouseOutOrBlur() {
-    linkAreaHoverStyle = '';
-  }
 </script>
 
 <section
   class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
-  style={folderBackgroundColor
-    ? `border: solid 0.1em ${folderBackgroundColor}; box-shadow: ${linkAreaHoverStyle}`
-    : `box-shadow: ${linkAreaHoverStyle}`}
+  style={`border: solid 0.1em ${folderBackgroundColor};`}
   draggable={true}
   on:dragstart={(event) => dragStartFolder(event)}
   on:drop|preventDefault={(event) => {
@@ -223,10 +212,6 @@
   }}
   on:dragover|preventDefault
   role="presentation"
-  on:mouseover={handleLinkAreaMouseOverOrFocus}
-  on:mouseout={handleLinkAreaMouseOutOrBlur}
-  on:focus={handleLinkAreaMouseOverOrFocus}
-  on:blur={handleLinkAreaMouseOutOrBlur}
 >
   <div
     class="boxHeader"
@@ -301,28 +286,17 @@
   }
   .linkBoxFlexible {
     display: grid;
-    width: calc(100% / 3);
+    width: 100%;
     grid-template-columns: calc(100% - 50px) 50px;
     grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
       'addLinkBtn addLinkBtn';
+    box-shadow: unset;
 
     &:hover {
       box-shadow: 0 0 20px var(--white30);
-    }
-
-    @media #{$wide} {
-      width: calc(100% / 5);
-    }
-
-    @media #{$tablet} {
-      width: calc(80% / 2);
-    }
-
-    @media #{$phone} {
-      width: calc(90% / 1);
     }
   }
 
@@ -376,24 +350,24 @@
     background-color: var(--black30);
   }
 
+  ::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--darkgrey80);
+  }
+
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     background-color: var(--darkgrey80);
   }
 
-  ::-webkit-scrollbar {
-    width: 0px;
-    background-color: var(--darkgrey80);
-  }
-
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--red70);
+    background-color: var(--color-theme-2-50);
 
     &:hover {
-      background-color: var(--red);
+      background-color: var(--color-theme-2);
     }
   }
 </style>

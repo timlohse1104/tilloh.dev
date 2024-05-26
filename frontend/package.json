@@ -69,8 +69,8 @@
   "typings": "./src/index.d.ts",
   "dependencies": {
     "highlight.js": "^11.9.0",
-    "magic-grid": "^3.2.4",
     "socket.io-client": "^4.7.4",
+    "svelte-masonry": "^0.1.1",
     "svelte-material-ui": "^7.0.0-beta.16"
   }
 }
