@@ -113,7 +113,7 @@
     color: white;
     margin: 0;
     padding: calc(var(--default-padding) / 2);
-    // overflow-y: auto;
+    overflow-y: auto;
     overflow-x: hidden;
     height: unset;
   }
