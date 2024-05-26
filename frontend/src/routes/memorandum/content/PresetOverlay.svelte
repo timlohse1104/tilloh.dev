@@ -10,6 +10,7 @@
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
+  import Tooltip, { Wrapper } from '@smui/tooltip';
   import hljs from 'highlight.js';
   import { onMount } from 'svelte';
   import {
@@ -77,6 +78,7 @@
 
 <Dialog
   bind:open={$presetOverlayOptionsStore.showOverlay}
+  scrimClickAction=""
   aria-labelledby="large-scroll-title"
   aria-describedby="large-scroll-content"
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
@@ -86,6 +88,12 @@
     <p class="large-scroll-subtitle">
       Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf
       einem beliebigen Gerät weiter zu verwenden.
+      <Wrapper>
+        <Icon class="material-icons">info</Icon>
+        <Tooltip xPos="start" yPos="detected"
+          >Drücke die 'Esc'-Taste um diese Übersicht zu schließen.</Tooltip
+        >
+      </Wrapper>
     </p>
   </Title>
 
@@ -140,7 +148,13 @@
   </DialogContent>
 
   <DialogActions>
-    <Button on:click={triggerFileSelect} variant="outlined">
+    <Button
+      on:click={() => {
+        triggerFileSelect();
+        event.stopPropagation();
+      }}
+      variant="outlined"
+    >
       <Icon class="material-icons">file_upload</Icon>
       <Label>Import</Label>
     </Button>
@@ -181,11 +195,11 @@
     }
   }
 
-  // .buttons {
-  //   display: flex;
-  //   padding-left: var(--default-padding);
-  //   gap: calc(var(--default-padding) / 2);
-  // }
+  .buttons {
+    display: flex;
+    padding-left: var(--default-padding);
+    gap: calc(var(--default-padding) / 2);
+  }
 
   .large-scroll-subtitle {
     font-size: 1rem;
