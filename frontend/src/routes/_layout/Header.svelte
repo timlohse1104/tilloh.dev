@@ -4,51 +4,50 @@
   import logo from '$lib/images/stadtwerk-logo.svg';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
+  import { routes } from '../../lib/config/applications';
+  const { home, settings } = routes;
 
-  $: pageName =
-    $page.url.pathname.replace('/', '').charAt(0).toUpperCase() +
-    $page.url.pathname.slice(2);
+  $: pageName = $page.url.pathname.replace('/', '')
+    ? $page.url.pathname.replace('/', '')
+    : 'home';
+  $: currentPage = routes[pageName];
 </script>
 
 <section>
   <div class="headerBox">
     <div class="meInfo">
       <div class="corner">
-        {#if $page.url.pathname === '/'}
+        {#if $page.url.pathname === home.path}
           <IconButton href="https://stadtwerk.org" target="_blank">
             <img src={logo} alt="stadtwerk" />
           </IconButton>
         {:else}
-          <IconButton style="color: white; text-decoration: none;" href="/"
-            ><Icon class="material-icons">home</Icon></IconButton
+          <IconButton
+            style="color: white; text-decoration: none;"
+            href={home.path}
           >
+            <Icon class="material-icons">{home.icon}</Icon>
+          </IconButton>
         {/if}
       </div>
     </div>
 
     <div class="headlineBox">
-      {#if $page.url.pathname === '/'}
-        <h2>Startseite</h2>
-      {:else if $page.url.pathname === '/settings'}
-        <h2>Einstellungen</h2>
-      {:else if $page.url.pathname === '/chat'}
-        <h2>Klönschnack</h2>
-      {:else if $page.url.pathname === '/uno-sort'}
-        <h2>UNO Sortierung</h2>
-      {:else}
-        <h2>{pageName}</h2>
-      {/if}
+      <h2>
+        <Icon class="material-icons">{currentPage.icon}</Icon>
+        {currentPage.name}
+      </h2>
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green)"> Online 🌐</span>
+          <span style="color: var(--green)">online 🌐</span>
         {:else}
-          <span style="color: var(--red)">Offline 📴</span>
+          <span style="color: var(--red)">offline 📴</span>
         {/if}
       </p>
     </div>
 
-    {#if $page.url.pathname === '/'}
+    {#if $page.url.pathname === home.path}
       <div class="corner">
         <IconButton href="https://github.com/timlohse1104" target="_blank">
           <img src={github} alt="GitHub" />
@@ -58,8 +57,8 @@
       <div class="corner">
         <IconButton
           style="color: white;  text-decoration: none;"
-          href="/settings"
-          ><Icon class="material-icons">settings</Icon></IconButton
+          href={settings.path}
+          ><Icon class="material-icons">{settings.icon}</Icon></IconButton
         >
       </div>
     {/if}

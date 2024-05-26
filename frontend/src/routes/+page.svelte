@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button, { Icon, Label } from '@smui/button';
-  import Navigation from './Navigation.svelte';
-  import SearchBar from './SearchBar.svelte';
+  import Navigation from './_home/Navigation.svelte';
+  import SearchBar from './_home/SearchBar.svelte';
 </script>
 
 <svelte:head>

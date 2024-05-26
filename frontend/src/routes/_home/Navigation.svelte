@@ -49,7 +49,7 @@
 </section>
 
 <style lang="scss">
-  @import '../lib/styles/global.scss';
+  @import '../../lib/styles/global.scss';
 
   section {
     display: flex;

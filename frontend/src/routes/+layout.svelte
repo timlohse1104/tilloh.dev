@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/stores';
-  import Header from './Header.svelte';
+  import Header from './_layout/Header.svelte';
   import './styles.css';
 </script>
 
