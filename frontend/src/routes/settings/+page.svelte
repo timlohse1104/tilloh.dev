@@ -15,4 +15,13 @@
 </section>
 
 <style lang="scss">
+  @import '../../lib/styles/global.scss';
+
+  section {
+    margin: 0;
+    color: var(--light80);
+    height: 88vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 </style>

@@ -114,7 +114,7 @@
         $sharedIdentifierStore = identifier;
         name = data.name;
         triggerSnackbar(
-          `Verbindung mit der ID: <b>${sharedIdentifierStore.id}</b> geladen.`,
+          `Verbindung mit der ID: <b>${$sharedIdentifierStore.id}</b> geladen.`,
         );
         idInput = '';
       })
@@ -136,11 +136,17 @@
 <section>
   <h2>Offline / Online Sicherung</h2>
   <p class="onlinePersistenceInfoText">
-    Diese Website enthält einige Seiten, die es dir erlauben, Zwischenstände zu
-    speichern. Im Memorandum gibt es deine benutzerdefinierten Ordner und Links
-    und in Catch-Em-All gibt es deinen Highscore. Sollen diese Informationen
-    online gespeichert werden, sodass du von jedem anderen Gerät darauf
-    zugreifen kannst?
+    Diese Website enthält einige Funktionen, die es dir erlauben, Zwischenstände
+    zu speichern. Im Memorandum kannst du deine angelegten Ordner und Links und
+    in Catch-Em-All deinen Highscore sichern. Aktivierst du die
+    Online-Speicherung, kannst du von jedem anderen Gerät darauf zugreifen.
+  </p>
+  <p class="onlinePersistenceInfoText">
+    Kopiere hierzu einfach deine persönliche ID aus dem Bereich <b
+      >Deine Verbindungsdaten</b
+    >
+    und füge sie im Bereich <b>Schnelle Einrichtung mit ID</b> auf einem anderen
+    Gerät ein. Deine Daten werden dann synchronisiert.
   </p>
 
   <FormField>
@@ -175,57 +181,68 @@
   {/if}
 
   {#if shareDataOnline}
+    <!-- <Card padded>A simple padded card.</Card>  -->
     <hr />
     {#if !$sharedIdentifierStore.id}
       <h3>Neue Verbindung einrichten</h3>
     {:else}
       <h3>Verbindung bearbeiten</h3>
     {/if}
-    <Textfield
-      bind:value={name}
-      label={!$sharedIdentifierStore.id ? 'Dein Name' : 'Dein aktueller Name'}
-    >
-      <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-      <HelperText slot="helper"
-        >{!$sharedIdentifierStore.id
-          ? 'Wie lautet dein Name?'
-          : 'Wie lautet dein neuer Name?'}</HelperText
-      >
-    </Textfield>
 
-    <Button
-      on:click={saveOnlineIdentifier}
-      style={'margin-top: 3rem;' +
-        (name && !sameName ? 'color:var(--green);' : '')}
-      bind:this={saveButton}
-      disabled={!name || sameName}
-      color="secondary"
-    >
-      <Icon class="material-icons">save</Icon>
-      {#if !$sharedIdentifierStore.id}
-        <Label>Einrichten</Label>
-      {:else}
-        <Label>Aktualisieren</Label>
-      {/if}
-    </Button>
+    <div class="buttonGroup">
+      <div>
+        <Textfield
+          bind:value={name}
+          label={!$sharedIdentifierStore.id
+            ? 'Dein Name'
+            : 'Dein aktueller Name'}
+        >
+          <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+          <HelperText slot="helper"
+            >{!$sharedIdentifierStore.id
+              ? 'Wie lautet dein Name?'
+              : 'Wie lautet dein neuer Name?'}</HelperText
+          >
+        </Textfield>
+      </div>
+
+      <Button
+        on:click={saveOnlineIdentifier}
+        style={name && !sameName ? 'color:var(--green);' : ''}
+        bind:this={saveButton}
+        disabled={!name || sameName}
+        color="secondary"
+      >
+        <Icon class="material-icons">save</Icon>
+        {#if !$sharedIdentifierStore.id}
+          <Label>Einrichten</Label>
+        {:else}
+          <Label>Aktualisieren</Label>
+        {/if}
+      </Button>
+    </div>
 
     <hr />
     <h3>Schnelle Einrichtung mit ID</h3>
 
-    <Textfield bind:value={idInput} label="Deine ID">
-      <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-      <HelperText slot="helper">Wie lautet deine persönliche ID?</HelperText>
-    </Textfield>
+    <div class="buttonGroup">
+      <div>
+        <Textfield bind:value={idInput} label="Deine ID">
+          <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+          <HelperText slot="helper">Wie lautet deine persönliche ID?</HelperText
+          >
+        </Textfield>
+      </div>
 
-    <Button
-      on:click={connectOnlineIdentifier}
-      style="margin-top: 3rem;"
-      bind:this={saveButton}
-      disabled={!idInput}
-    >
-      <Icon class="material-icons">cloud_download</Icon>
-      <Label>Verbinden</Label>
-    </Button>
+      <Button
+        on:click={connectOnlineIdentifier}
+        bind:this={saveButton}
+        disabled={!idInput}
+      >
+        <Icon class="material-icons">cloud_download</Icon>
+        <Label>Verbinden</Label>
+      </Button>
+    </div>
   {/if}
 
   <Snackbar bind:this={snackbar}>
@@ -237,12 +254,15 @@
 </section>
 
 <style lang="scss">
+  @import '../../lib/styles/global.scss';
+
   section {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
+    margin-top: 1rem;
     color: var(--color-text);
 
     span {
@@ -251,12 +271,20 @@
   }
 
   .onlinePersistenceInfoText {
-    width: 50%;
+    width: 90%;
     text-align: center;
   }
 
   hr {
-    width: 75%;
-    margin: 4rem 0;
+    width: 10%;
+    margin: 1rem 0;
+  }
+
+  .buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 </style>

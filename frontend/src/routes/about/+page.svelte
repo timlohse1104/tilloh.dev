@@ -8,7 +8,7 @@
   <meta name={aboutRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-<div class="main">
+<section>
   <p>
     Hey i am Tim Köster a software developer from Germany. I started working in
     a tax office, broke up dual studies as a sales man and found true passion in
@@ -82,10 +82,10 @@
   </p>
 
   <p>Made by Tilloh with 💙</p>
-</div>
+</section>
 
 <style lang="scss">
-  .main {
+  section {
     max-width: 80vw;
     margin: 0 auto;
     color: var(--light80);
