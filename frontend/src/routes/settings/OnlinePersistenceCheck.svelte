@@ -7,6 +7,7 @@
   } from '$lib/util/stores';
   import type { Identifier } from '$lib/util/types';
   import Button, { Label } from '@smui/button';
+  import Card from '@smui/card';
   import Dialog, { Content } from '@smui/dialog';
   import FormField from '@smui/form-field';
   import IconButton from '@smui/icon-button';
@@ -181,67 +182,80 @@
   {/if}
 
   {#if shareDataOnline}
-    <!-- <Card padded>A simple padded card.</Card>  -->
-    <hr />
-    {#if !$sharedIdentifierStore.id}
-      <h3>Neue Verbindung einrichten</h3>
-    {:else}
-      <h3>Verbindung bearbeiten</h3>
-    {/if}
-
-    <div class="buttonGroup">
-      <div>
-        <Textfield
-          bind:value={name}
-          label={!$sharedIdentifierStore.id
-            ? 'Dein Name'
-            : 'Dein aktueller Name'}
-        >
-          <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-          <HelperText slot="helper"
-            >{!$sharedIdentifierStore.id
-              ? 'Wie lautet dein Name?'
-              : 'Wie lautet dein neuer Name?'}</HelperText
-          >
-        </Textfield>
-      </div>
-
-      <Button
-        on:click={saveOnlineIdentifier}
-        style={name && !sameName ? 'color:var(--green);' : ''}
-        bind:this={saveButton}
-        disabled={!name || sameName}
-        color="secondary"
-      >
-        <Icon class="material-icons">save</Icon>
+    <div class="inputArea">
+      <Card padded>
         {#if !$sharedIdentifierStore.id}
-          <Label>Einrichten</Label>
+          <h3>Neue Verbindung einrichten</h3>
         {:else}
-          <Label>Aktualisieren</Label>
+          <h3>Verbindung bearbeiten</h3>
         {/if}
-      </Button>
-    </div>
 
-    <hr />
-    <h3>Schnelle Einrichtung mit ID</h3>
+        <p>
+          Hier kannst du deinen Namen für die Online-Speicherung festlegen oder
+          ändern.
+        </p>
 
-    <div class="buttonGroup">
-      <div>
-        <Textfield bind:value={idInput} label="Deine ID">
-          <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-          <HelperText slot="helper">Wie lautet deine persönliche ID?</HelperText
+        <div class="buttonGroup">
+          <div>
+            <Textfield
+              bind:value={name}
+              label={!$sharedIdentifierStore.id
+                ? 'Dein Name'
+                : 'Dein aktueller Name'}
+            >
+              <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+              <HelperText slot="helper"
+                >{!$sharedIdentifierStore.id
+                  ? 'Wie lautet dein Name?'
+                  : 'Wie lautet dein neuer Name?'}</HelperText
+              >
+            </Textfield>
+          </div>
+
+          <Button
+            on:click={saveOnlineIdentifier}
+            style={name && !sameName ? 'color:var(--green);' : ''}
+            bind:this={saveButton}
+            disabled={!name || sameName}
+            color="secondary"
           >
-        </Textfield>
-      </div>
+            <Icon class="material-icons">save</Icon>
+            {#if !$sharedIdentifierStore.id}
+              <Label>Einrichten</Label>
+            {:else}
+              <Label>Aktualisieren</Label>
+            {/if}
+          </Button>
+        </div>
+      </Card>
 
-      <Button
-        on:click={connectOnlineIdentifier}
-        bind:this={saveButton}
-        disabled={!idInput}
-      >
-        <Icon class="material-icons">cloud_download</Icon>
-        <Label>Verbinden</Label>
-      </Button>
+      <Card padded>
+        <h3>Schnelle Einrichtung mit ID</h3>
+        <p>
+          Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine
+          Daten zu synchronisieren.
+        </p>
+
+        <div class="buttonGroup">
+          <div>
+            <Textfield bind:value={idInput} label="Deine ID">
+              <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+              <HelperText slot="helper"
+                >Wie lautet deine persönliche ID?</HelperText
+              >
+            </Textfield>
+          </div>
+
+          <Button
+            on:click={connectOnlineIdentifier}
+            bind:this={saveButton}
+            disabled={!idInput}
+          >
+            <Icon class="material-icons">cloud_download</Icon>
+            <Label>Verbinden</Label>
+          </Button>
+        </div>
+      </Card>
     </div>
   {/if}
 
@@ -270,20 +284,24 @@
     }
   }
 
+  .inputArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 80vw;
+    margin-top: 1rem;
+  }
+
   .onlinePersistenceInfoText {
     width: 90%;
     text-align: center;
   }
 
-  hr {
-    width: 10%;
-    margin: 1rem 0;
-  }
-
   .buttonGroup {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 1rem;
   }
