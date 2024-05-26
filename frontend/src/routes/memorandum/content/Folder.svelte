@@ -349,25 +349,4 @@
     overflow: auto;
     background-color: var(--black30);
   }
-
-  ::-webkit-scrollbar {
-    width: 12px;
-    background-color: var(--darkgrey80);
-  }
-
-  ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: var(--darkgrey80);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--color-theme-2-50);
-
-    &:hover {
-      background-color: var(--color-theme-2);
-    }
-  }
 </style>
