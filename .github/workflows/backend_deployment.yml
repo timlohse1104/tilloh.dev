@@ -78,7 +78,7 @@ jobs:
       - name: Unzip backend to target directory
         run: |
           mkdir -p backend_target
-          unzip backend/dist.zip -d backend_temp
+          unzip backend/dist/apps/dist.zip -d backend_temp
           mv backend_temp/dist/* backend_target/
           rm -rf backend_temp
 

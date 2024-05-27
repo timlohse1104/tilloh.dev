@@ -48,7 +48,7 @@ npm run dev
 
 1. Make changes to the backend code under `/backend`.
 2. Push the changes to the repository `main` branch.
-3. The changes will be automatically deployed to the server.
+3. The changes will be automatically deployed to the server after manually confirming the deployment.
 
 ## Manually
 
