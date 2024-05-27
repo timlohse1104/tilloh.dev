@@ -52,7 +52,7 @@ jobs:
       - name: Zip backend artifact
         run: |
           cd backend/dist/apps
-          zip -r dist.zip backend
+          zip -r dist.zip tilloh-dev
 
       - name: Upload zipped backend artifact
         uses: actions/upload-artifact@v2
@@ -103,3 +103,7 @@ jobs:
           script: |
             cp -rf api/backend_target/. api/
             rm -rf api/backend_target
+
+      # TODO: - name: Install dependencies in server
+
+      # TODO: - name: Restart backend service

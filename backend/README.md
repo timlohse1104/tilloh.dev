@@ -47,6 +47,7 @@ npm run dev
 ## Automatically
 
 1. Make changes to the backend code under `/backend`.
+2. Push the changes to the repository `main` branch.
 
 ## Manually
 
