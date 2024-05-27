@@ -32,7 +32,7 @@ export const routes = {
   about: {
     name: 'Über mich',
     path: '/about',
-    icon: 'info',
+    icon: 'badge',
   },
   settings: {
     name: 'Einstellungen',

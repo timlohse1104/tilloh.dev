@@ -12,7 +12,6 @@
 
   function updateWidth() {
     currentWidth = window.innerWidth;
-    console.log('Updated width:', currentWidth);
   }
 
   onMount(() => {
