@@ -246,6 +246,7 @@
             </Textfield>
           </div>
 
+          <!-- TODO: fix disabled issue -->
           <Button
             on:click={connectOnlineIdentifier}
             bind:this={saveButton}
