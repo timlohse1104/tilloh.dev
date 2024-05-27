@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: backend/dist.zip
+          path: backend/dist/apps/dist.zip
 
   deploy:
     name: Deploy
@@ -73,7 +73,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact
-          path: backend
+          path: backend/dist/apps
 
       - name: Unzip backend to target directory
         run: |
