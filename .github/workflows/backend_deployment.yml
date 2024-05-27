@@ -51,8 +51,8 @@ jobs:
 
       - name: Zip backend artifact
         run: |
-          cd backend
-          zip -r dist.zip dist/apps/backend
+          cd backend/dist/apps
+          zip -r dist.zip backend
 
       - name: Upload zipped backend artifact
         uses: actions/upload-artifact@v2

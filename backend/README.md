@@ -46,6 +46,8 @@ npm run dev
 
 ## Automatically
 
+1. Make changes to the backend code under `/backend`.
+
 ## Manually
 
 1. Build the backend
