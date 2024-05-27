@@ -22,11 +22,12 @@ export class ChatMongoDbService {
       query[`clients.${query?.['clientId']}`] = { $exists: true };
     }
     const chats = await this.chatModel.find(query).exec();
+    const chatEntities = chats.map((chat) => chat.toObject() as ChatEntityDto);
     this.logger.debug(
       { output: { chats } },
       `Found ${chats.length} chats in mongodb.`
     );
-    return chats;
+    return chatEntities;
   }
 
   async findOne(id: string): Promise<ChatEntityDto> {
@@ -36,8 +37,9 @@ export class ChatMongoDbService {
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.DB_FOUND_ONE);
-    return chat;
+    const chatEntity = chat.toObject() as ChatEntityDto;
+    this.logger.debug({ output: { chat: chatEntity } }, ChatTexts.DB_FOUND_ONE);
+    return chatEntity;
   }
 
   async create(name: string): Promise<ChatEntityDto> {
@@ -48,8 +50,12 @@ export class ChatMongoDbService {
         name,
       })
     ).save();
-    this.logger.debug({ output: { chat: chat } }, ChatTexts.DB_CREATED_ONE);
-    return chat;
+    const chatEntity = (await chat).toObject() as ChatEntityDto;
+    this.logger.debug(
+      { output: { chat: chatEntity } },
+      ChatTexts.DB_CREATED_ONE
+    );
+    return chatEntity;
   }
 
   async update(
@@ -68,8 +74,12 @@ export class ChatMongoDbService {
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.DB_UPDATED_ONE);
-    return chat;
+    const chatEntity = chat.toObject() as ChatEntityDto; // Convert chat to ChatEntityDto
+    this.logger.debug(
+      { output: { chat: chatEntity } },
+      ChatTexts.DB_UPDATED_ONE
+    );
+    return chatEntity; // Return chatEntity instead of chat
   }
 
   async remove(id: string) {
