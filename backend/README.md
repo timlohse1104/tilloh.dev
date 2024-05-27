@@ -42,7 +42,11 @@ npm run start:db
 npm run dev
 ```
 
-## Deployment
+# Deployment
+
+## Automatically
+
+## Manually
 
 1. Build the backend
 
@@ -50,7 +54,7 @@ npm run dev
 npm run build
 ```
 
-2. Deploy the backend by coping the `dist/apps/backend` folder content to the server in /home/tilloh/api
+2. Deploy the backend by coping the `dist/apps/backend` folder content to the server in `/home/tilloh/api`
 
 3. Restart supervisor
 
