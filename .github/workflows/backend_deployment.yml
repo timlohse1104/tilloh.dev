@@ -95,7 +95,7 @@ jobs:
           password: ${{ secrets.SSHPASS }}
           port: ${{ vars.SSHPORT }}
           source: "backend_target/*"
-          target: /var/www/virtual/${{ secrets.SSHUSER }}/api
+          target: /home/${{ secrets.SSHUSER }}/api
           overwrite: true
 
       - name: SSH into the remote server and move files
@@ -131,3 +131,4 @@ jobs:
             cd api
             supervisorctl stop tilloh-api-daemon
             supervisorctl start tilloh-api-daemon
+            supervisorctl tail tilloh-api-daemon | npx pino-pretty
