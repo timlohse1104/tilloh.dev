@@ -56,9 +56,17 @@ npm run dev
 npm run build
 ```
 
-2. Deploy the backend by coping the `dist/apps/backend` folder content to the server in `/home/tilloh/api`
+2. Deploy the backend by coping the `dist/apps/tilloh-dev` folder content to the server in `/home/tilloh/api`
+3. Copy the `package.json` file to the server in `/home/tilloh/api`
+4. Install the dependencies in the server
 
-3. Restart supervisor
+```
+ssh <username>@<uberspace-host>
+cd /home/tilloh/api
+npm install --production
+```
+
+5. Restart supervisor
 
 ```
 supervisorctl stop tilloh-api-daemon
