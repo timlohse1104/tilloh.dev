@@ -83,7 +83,7 @@ supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 
 ## Websocket Documentation
 
-As for now there is sadly no easy possibility to get automated swagger documentation for websocket gateways.
+As for now there is no easy possibility to get automated swagger documentation for websocket gateways.
 
 The following events are available:
 

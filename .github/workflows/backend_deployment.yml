@@ -118,7 +118,8 @@ jobs:
           port: ${{ vars.SSHPORT }}
           script: |
             cd api
-            npm ci
+            rm -rf node_modules
+            npm i
 
       - name: Restart backend service
         uses: appleboy/ssh-action@master
