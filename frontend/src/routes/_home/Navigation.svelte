@@ -1,4 +1,5 @@
 <script>
+  import { Icon } from '@smui/common';
   import { routes } from '../../lib/config/applications';
 
   const {
@@ -17,16 +18,35 @@
     <nav>
       <ul>
         <li aria-current="page">
-          <a href={home.path}>{home.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(home.path, '_self')}>{home.icon}</Icon
+            >
+            <a href={home.path}>{home.name}</a>
+          </span>
         </li>
         <li>
-          <a href={memorandum.path}>{memorandum.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(memorandum.path, '_self')}
+              >{memorandum.icon}</Icon
+            >
+            <a href={memorandum.path}>{memorandum.name}</a>
+          </span>
         </li>
         <li>
-          <a href={todo.path}>{todo.name}</a>
-        </li>
-        <li>
-          <a href={chat.path}>{chat.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(todo.path, '_self')}>{todo.icon}</Icon
+            >
+            <a href={todo.path}>{todo.name}</a>
+          </span>
         </li>
       </ul>
     </nav>
@@ -35,13 +55,53 @@
     <nav>
       <ul>
         <li>
-          <a href={catchEmAll.path}>{catchEmAll.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(catchEmAll.path, '_self')}
+              >{catchEmAll.icon}</Icon
+            >
+            <a href={catchEmAll.path}>{catchEmAll.name}</a>
+          </span>
         </li>
         <li>
-          <a href={unoSort.path}>{unoSort.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(unoSort.path, '_self')}
+              >{unoSort.icon}</Icon
+            >
+            <a href={unoSort.path}>{unoSort.name}</a>
+          </span>
         </li>
         <li>
-          <a href={about.path}>{about.name}</a>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(chat.path, '_self')}>{chat.icon}</Icon
+            >
+            <a href={chat.path}>{chat.name}</a>
+          </span>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="navigation-box">
+    <nav>
+      <ul>
+        <li>
+          <span class="navRow">
+            <Icon
+              class="material-icons"
+              style="cursor: pointer;font-size: 1.2rem;"
+              on:click={() => window.open(about.path, '_self')}
+              >{about.icon}</Icon
+            >
+            <a href={about.path}>{about.name}</a>
+          </span>
         </li>
       </ul>
     </nav>
@@ -84,6 +144,15 @@
   li {
     position: relative;
     height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    .navRow {
+      display: flex;
+      align-items: end;
+      padding-left: 1rem;
+    }
   }
 
   li + li {
