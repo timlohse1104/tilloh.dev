@@ -49,6 +49,11 @@ jobs:
           cd backend
           npm run build
 
+      - name: Copy package.json to dist
+        run: |
+          cd backend
+          cp package.json dist/apps/tilloh-dev
+
       - name: Zip backend artifact
         run: |
           cd backend/dist/apps
@@ -79,7 +84,7 @@ jobs:
         run: |
           mkdir -p backend_target
           unzip backend/dist/apps/dist.zip -d backend_temp
-          mv backend_temp/dist/* backend_target/
+          mv backend_temp/tilloh-dev/* backend_target/
           rm -rf backend_temp
 
       - name: Recursivly upload built backend files to uberspace
@@ -104,6 +109,25 @@ jobs:
             cp -rf api/backend_target/. api/
             rm -rf api/backend_target
 
-      # TODO: - name: Install dependencies in server
+      - name: Install dependencies in server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ vars.SSHPORT }}
+          script: |
+            cd api
+            npm ci
 
-      # TODO: - name: Restart backend service
+      - name: Restart backend service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ vars.SSHPORT }}
+          script: |
+            cd api
+            supervisorctl stop tilloh-api-daemon
+            supervisorctl start tilloh-api-daemon
