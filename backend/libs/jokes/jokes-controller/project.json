@@ -1,5 +1,5 @@
 {
-  "name": "jokes-jokes-controller",
+  "name": "jokes-controller",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/jokes/jokes-controller/src",
   "projectType": "library",

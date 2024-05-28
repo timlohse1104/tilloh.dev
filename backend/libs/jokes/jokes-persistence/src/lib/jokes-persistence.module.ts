@@ -5,4 +5,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class JokesJokesControllerModule {}
+export class JokesPersistenceModule {}

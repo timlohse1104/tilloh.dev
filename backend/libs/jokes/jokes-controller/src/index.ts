@@ -1,1 +1,1 @@
-export * from './lib/jokes-jokes-controller.module';
+export * from './lib/jokes-controller.module';
