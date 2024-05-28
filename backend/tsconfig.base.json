@@ -33,6 +33,7 @@
         "libs/chat/chat-persistence/src/index.ts"
       ],
       "@backend/chat/chat-provider": ["libs/chat/chat-provider/src/index.ts"],
+      "@backend/jokes": ["libs/jokes/src/index.ts"],
       "@backend/memorandum/memorandum-controller": [
         "libs/memorandum/memorandum-controller/src/index.ts"
       ],
