@@ -1,7 +1,7 @@
 {
-  "name": "jokes",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jokes/src",
+  "name": "jokes-jokes-provider",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jokes/jokes-provider/src",
   "projectType": "library",
   "targets": {
     "lint": {
@@ -12,7 +12,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/jokes/jest.config.ts"
+        "jestConfig": "libs/jokes/jokes-provider/jest.config.ts"
       }
     }
   },
