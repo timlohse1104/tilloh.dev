@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { getJokeOfTheDay } from '$lib/api/jokes';
-  import type { Joke } from '$lib/types/jokes';
+  import { getJokeOfTheDay } from '$lib/api/jokes.api';
+  import type { JokeDto } from '$lib/types/jokes.dto';
+  import Card from '@smui/card';
   import { onMount } from 'svelte';
 
-  let joke: Joke | null = null;
+  let joke: JokeDto | null = null;
 
   onMount(async () => {
     joke = await getJokeOfTheDay();
@@ -12,7 +13,11 @@
 
 <section>
   {#if joke}
-    <p>{joke.joke}</p>
+    <Card style="padding:1.5rem;">
+      <i>
+        "{joke.text}"
+      </i>
+    </Card>
   {:else}
     <p>Loading...</p>
   {/if}
@@ -23,6 +28,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    margin-top: 4rem;
   }
 </style>
