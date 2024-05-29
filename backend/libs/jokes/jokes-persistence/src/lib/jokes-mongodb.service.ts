@@ -16,11 +16,20 @@ export class JokesMongoDbService {
 
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
-    const today = new Date().setHours(0, 0, 0, 0);
+    const startOfToday = new Date();
+    console.log('startOfToday', startOfToday);
+    startOfToday.setUTCHours(0, 0, 0, 0);
+    console.log('startOfToday', startOfToday);
+
+    const startOfTomorrow = new Date(startOfToday);
+    startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
+    console.log('startOfTomorrow', startOfTomorrow);
+
     const joke = await this.jokeModel
       .findOne({
-        createdAt: {
-          $gte: today,
+        created: {
+          $gte: startOfToday,
+          $lt: startOfTomorrow,
         },
       })
       .exec();
@@ -29,7 +38,7 @@ export class JokesMongoDbService {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
     }
     this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
-    return joke.toObject();
+    return joke.toObject(); // Ensure you're properly handling document conversion
   }
 
   async findOne(id: string): Promise<JokeDto> {
@@ -46,8 +55,8 @@ export class JokesMongoDbService {
   async create(createJokeDto: Partial<ModifyJokeDto>): Promise<JokeDto> {
     this.logger.debug({ input: { createJokeDto } }, JokeTexts.ATTEMPT_CREATE);
     const joke = await this.jokeModel.create(createJokeDto);
-    this.logger.debug({ output: joke?.toObject() }, JokeTexts.CREATED_ONE);
-    return joke.toObject();
+    this.logger.debug({ output: joke }, JokeTexts.CREATED_ONE);
+    return joke;
   }
 
   async update(

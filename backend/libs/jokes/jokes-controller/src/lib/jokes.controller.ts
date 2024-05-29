@@ -39,7 +39,7 @@ export class JokesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/:id')
-  getJokeById(@Param() id: string) {
+  getJokeById(@Param('id') id: string) {
     return this.jokesService.getJokeById(id);
   }
 
@@ -61,7 +61,7 @@ export class JokesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Put('/:id')
-  updateJoke(@Param() id: string, @Body() modifyJokeDto: ModifyJokeDto) {
+  updateJoke(@Param('id') id: string, @Body() modifyJokeDto: ModifyJokeDto) {
     return this.jokesService.updateJoke(id, modifyJokeDto);
   }
 
@@ -72,7 +72,7 @@ export class JokesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Delete('/:id')
-  deleteJoke(@Param() id: string) {
+  deleteJoke(@Param('id') id: string) {
     return this.jokesService.deleteJoke(id);
   }
 }

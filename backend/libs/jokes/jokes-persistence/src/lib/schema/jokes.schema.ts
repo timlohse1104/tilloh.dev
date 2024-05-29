@@ -3,11 +3,8 @@ import { Document } from 'mongoose';
 
 export type JokeDocument = Joke & Document;
 
-@Schema({ _id: false, collection: 'jokes' })
+@Schema({ collection: 'jokes' })
 export class Joke {
-  @Prop({ required: true })
-  _id!: string;
-
   @Prop({ required: true })
   text!: string;
 

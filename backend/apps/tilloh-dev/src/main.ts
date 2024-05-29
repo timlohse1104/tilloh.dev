@@ -11,12 +11,14 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { ScheduleModule } from '@nestjs/schedule';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
 import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validate(config) {
         return validate(EnvironmentVariables, config);

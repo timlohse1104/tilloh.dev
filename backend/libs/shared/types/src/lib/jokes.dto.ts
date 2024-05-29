@@ -8,7 +8,7 @@ export class JokeDto {
 
   @ApiProperty({ description: 'Language abbreviation' })
   @IsNotEmpty()
-  languague: string;
+  language: string;
 }
 
 export class JokesDto {
@@ -34,5 +34,5 @@ export class CategoriesDto {
 export class ModifyJokeDto extends JokeDto {
   @ApiProperty({ description: 'Joke categories' })
   @IsNotEmpty()
-  categories: CategoriesDto;
+  categories: CategoryDto[];
 }
