@@ -36,6 +36,9 @@
       "@backend/jokes/jokes-controller": [
         "libs/jokes/jokes-controller/src/index.ts"
       ],
+      "@backend/jokes/jokes-persistence": [
+        "libs/jokes/jokes-persistence/src/index.ts"
+      ],
       "@backend/jokes/jokes-provider": [
         "libs/jokes/jokes-provider/src/index.ts"
       ],

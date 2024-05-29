@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'jokes-controller',
+  displayName: 'jokes-persistence',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/libs/jokes/jokes-controller',
+  coverageDirectory: '../../../coverage/libs/jokes/jokes-persistence',
 };
