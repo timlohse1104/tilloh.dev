@@ -30,3 +30,9 @@ export class CategoriesDto {
   @ApiProperty({ description: 'Categories list' })
   categories: CategoryDto[];
 }
+
+export class ModifyJokeDto extends JokeDto {
+  @ApiProperty({ description: 'Joke categories' })
+  @IsNotEmpty()
+  categories: CategoriesDto;
+}
