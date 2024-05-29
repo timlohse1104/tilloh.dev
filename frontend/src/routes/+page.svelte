@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button, { Icon, Label } from '@smui/button';
   import { routes } from '../lib/config/applications';
+  import JokeOfTheDay from './_home/JokeOfTheDay.svelte';
   import Navigation from './_home/Navigation.svelte';
   import SearchBar from './_home/SearchBar.svelte';
 
@@ -27,6 +28,8 @@
       <Label>{settings.name}</Label>
     </Button>
   </div>
+
+  <JokeOfTheDay />
 </section>
 
 <style lang="scss">
@@ -38,7 +41,7 @@
     flex: 0.8;
 
     div {
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
   }
 </style>
