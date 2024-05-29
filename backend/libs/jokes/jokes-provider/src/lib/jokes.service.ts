@@ -14,4 +14,6 @@ export class JokesService {
 
   // TODO: cron job to get a new joke every day -> new file
   // TODO: jokes api service for connection to jokes api -> new file
+  // TODO: Add jokes crud endpoints to controller
+  // TODO: Add controller to main.ts
 }
