@@ -13,7 +13,7 @@ export class JokesService {
     private httpService: HttpService
   ) {}
 
-  @Cron('30 0 * * *', { timeZone: 'Europe/Berlin' })
+  @Cron('0 3 * * *', { timeZone: 'Europe/Berlin' })
   async persistDailyJoke() {
     this.logger.log('Getting new joke of the day from jokes-api.');
     const jokeUrl = 'https://witzapi.de/api/joke/?limit=1&language=de';
