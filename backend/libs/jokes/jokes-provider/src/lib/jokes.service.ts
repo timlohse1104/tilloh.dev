@@ -13,6 +13,10 @@ export class JokesService {
     private httpService: HttpService
   ) {}
 
+  /**
+   * Fetches a joke from the jokes-api and persists it in the database.
+   * This method is scheduled to run every day at 3:00 AM.
+   */
   @Cron('0 3 * * *', { timeZone: 'Europe/Berlin' })
   async persistDailyJoke() {
     this.logger.log('Getting new joke of the day from jokes-api.');
@@ -31,21 +35,45 @@ export class JokesService {
     await this.jokesMongoDbService.create(joke);
   }
 
+  /**
+   * Fetches a random joke from the database.
+   *
+   * @returns A single joke.
+   */
   async getRandomJoke(): Promise<JokeDto> {
     this.logger.log('Getting the random joke of the day.');
     return await this.jokesMongoDbService.findRandomOne();
   }
 
+  /**
+   * Fetches a joke by its id.
+   *
+   * @param id The id of the joke.
+   * @returns A single joke.
+   */
   async getJokeById(id: string): Promise<JokeDto> {
     this.logger.log('Getting a joke by id.');
     return await this.jokesMongoDbService.findOne(id);
   }
 
+  /**
+   * Creates a new joke.
+   *
+   * @param createJokeDto The joke to create.
+   * @returns The created joke.
+   */
   async createJoke(createJokeDto: ModifyJokeDto): Promise<JokeDto> {
     this.logger.log('Creating a joke.');
     return await this.jokesMongoDbService.create(createJokeDto);
   }
 
+  /**
+   * Updates a joke by its id.
+   *
+   * @param id The id of the joke.
+   * @param modifyJokeDto The joke to update.
+   * @returns The updated joke.
+   */
   async updateJoke(
     id: string,
     modifyJokeDto: Partial<ModifyJokeDto>
@@ -54,6 +82,12 @@ export class JokesService {
     return await this.jokesMongoDbService.update(id, modifyJokeDto);
   }
 
+  /**
+   * Deletes a joke by its id.
+   *
+   * @param id The id of the joke.
+   * @returns The deleted joke.
+   */
   async deleteJoke(id: string): Promise<JokeDto> {
     this.logger.log('Deleting a joke.');
     return await this.jokesMongoDbService.remove(id);
