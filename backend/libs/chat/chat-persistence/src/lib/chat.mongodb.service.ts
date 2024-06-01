@@ -15,6 +15,12 @@ export class ChatMongoDbService {
     private chatModel: Model<ChatDocument>
   ) {}
 
+  /**
+   * Fetches all chats from the mongodb collection 'chats'.
+   *
+   * @param options Optional filter for a specific client.
+   * @returns An array of chat objects.
+   */
   async findAll(options?: FindAllChatsOptions): Promise<ChatEntityDto[]> {
     this.logger.debug({ input: { options } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
     const query: { [key: string]: { $exists: true } } = {};
@@ -30,6 +36,12 @@ export class ChatMongoDbService {
     return chatEntities;
   }
 
+  /**
+   * Fetches a chat by its id from the mongodb collection 'chats'.
+   *
+   * @param id The id of the chat.
+   * @returns A single chat object.
+   */
   async findOne(id: string): Promise<ChatEntityDto> {
     this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_FIND_ONE);
     const chat = await this.chatModel.findOne({ _id: id }).exec();
@@ -42,6 +54,12 @@ export class ChatMongoDbService {
     return chatEntity;
   }
 
+  /**
+   * Creates a chat in the mongodb collection 'chats'.
+   *
+   * @param name The name of the chat.
+   * @returns The created chat object.
+   */
   async create(name: string): Promise<ChatEntityDto> {
     this.logger.debug({ input: {} }, ChatTexts.DB_ATTEMPT_CREATE);
     const chat = (
@@ -58,6 +76,13 @@ export class ChatMongoDbService {
     return chatEntity;
   }
 
+  /**
+   * Updates a chat by its id in the mongodb collection 'chats'.
+   *
+   * @param id The id of the chat.
+   * @param chatDto The chat information to be updated.
+   * @returns The updated chat object.
+   */
   async update(
     id: string,
     chatDto: Partial<ChatEntityDto>
@@ -82,6 +107,12 @@ export class ChatMongoDbService {
     return chatEntity; // Return chatEntity instead of chat
   }
 
+  /**
+   * Removes a chat by its id from the mongodb collection 'chats'.
+   *
+   * @param id The id of the chat.
+   * @returns The deleted chat object.
+   */
   async remove(id: string) {
     this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_DELETE);
     const chat = await this.chatModel.findOneAndDelete({ _id: id }).exec();

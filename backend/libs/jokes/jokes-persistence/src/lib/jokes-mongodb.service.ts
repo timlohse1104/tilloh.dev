@@ -14,6 +14,11 @@ export class JokesMongoDbService {
     private jokeModel: Model<JokeDocument>
   ) {}
 
+  /**
+   * Fetches a random joke from the mongodb collection 'jokes'.
+   *
+   * @returns A single joke object.
+   */
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
     const startOfToday = new Date();
@@ -41,6 +46,12 @@ export class JokesMongoDbService {
     return joke.toObject(); // Ensure you're properly handling document conversion
   }
 
+  /**
+   * Fetches a joke by its id from the mongodb collection 'jokes'.
+   *
+   * @param id The id of the joke.
+   * @returns A single joke object.
+   */
   async findOne(id: string): Promise<JokeDto> {
     this.logger.debug({ input: { id } }, JokeTexts.ATTEMPT_FIND_ONE);
     const joke = await this.jokeModel.findOne({ _id: id }).exec();
@@ -52,6 +63,12 @@ export class JokesMongoDbService {
     return joke.toObject();
   }
 
+  /**
+   * Creates a new joke in the mongodb collection 'jokes'.
+   *
+   * @param createJokeDto The joke to create.
+   * @returns The created joke object.
+   */
   async create(createJokeDto: Partial<ModifyJokeDto>): Promise<JokeDto> {
     this.logger.debug({ input: { createJokeDto } }, JokeTexts.ATTEMPT_CREATE);
     const joke = await this.jokeModel.create(createJokeDto);
@@ -59,6 +76,13 @@ export class JokesMongoDbService {
     return joke;
   }
 
+  /**
+   * Updates a joke by its id in the mongodb collection 'jokes'.
+   *
+   * @param id The id of the joke.
+   * @param modifyJokeDto The joke information to be updated.
+   * @returns The updated joke object.
+   */
   async update(
     id: string,
     modifyJokeDto: Partial<ModifyJokeDto>
@@ -79,6 +103,12 @@ export class JokesMongoDbService {
     return joke.toObject();
   }
 
+  /**
+   * Deletes a joke by its id from the mongodb collection 'jokes'.
+   *
+   * @param id The id of the joke.
+   * @returns The deleted joke object.
+   */
   async remove(id: string): Promise<JokeDto> {
     this.logger.debug({ input: { id } }, JokeTexts.ATTEMPT_DELETE);
     const joke = await this.jokeModel.findOneAndDelete({ _id: id }).exec();

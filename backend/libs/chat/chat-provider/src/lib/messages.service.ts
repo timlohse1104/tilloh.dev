@@ -12,6 +12,13 @@ export class MessagesService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
+  /**
+   * Creates a new message in a chat.
+   *
+   * @param chatId The id of the chat in which the message should be created.
+   * @param createMessageDto The message to be created.
+   * @returns The created message.
+   */
   async create(
     chatId: string,
     createMessageDto: CreateMessageDto
@@ -33,6 +40,12 @@ export class MessagesService {
     return updatedMessage;
   }
 
+  /**
+   * Fetches all messages in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @returns An array of message objects.
+   */
   async findAll(chatId: string) {
     this.logger.verbose({ input: { chatId } }, `Retrieving all messages.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
@@ -41,6 +54,13 @@ export class MessagesService {
     return messages;
   }
 
+  /**
+   * Fetches a message by its id in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @param id The id of the message.
+   * @returns A single message.
+   */
   async findOne(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Retrieving message.`);
     const message = (await this.chatMongoDbService.findOne(chatId))?.messages[
@@ -50,6 +70,14 @@ export class MessagesService {
     return message;
   }
 
+  /**
+   * Updates a message in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @param id The id of the message.
+   * @param updateMessageDto The message information to be updated.
+   * @returns The updated message.
+   */
   async update(chatId: string, id: number, updateMessageDto: UpdateMessageDto) {
     this.logger.verbose({ input: { id } }, `Updating message .`);
     const chat = await this.chatMongoDbService.findOne(chatId);
@@ -60,6 +88,13 @@ export class MessagesService {
     return message;
   }
 
+  /**
+   * Deletes a message in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @param id The id of the message.
+   * @returns The deleted message.
+   */
   async remove(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Removing message.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
@@ -69,6 +104,14 @@ export class MessagesService {
     return message;
   }
 
+  /**
+   * Identifies a client in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @param name The name of the client.
+   * @param clientId The id of the client.
+   * @returns An array of client names.
+   */
   async identify(chatId: string, name: string, clientId: string) {
     this.logger.verbose(
       { input: { name, clientId } },
@@ -82,6 +125,13 @@ export class MessagesService {
     return client;
   }
 
+  /**
+   * Fetches the name of a client in a chat.
+   *
+   * @param chatId The id of the chat.
+   * @param clientId The id of the client.
+   * @returns A single client name.
+   */
   async getClientName(chatId: string, clientId: string) {
     this.logger.verbose(
       { input: { clientId } },
