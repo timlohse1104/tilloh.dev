@@ -9,6 +9,12 @@ export class ChatService {
 
   constructor(private chatMongoDbService: ChatMongoDbService) {}
 
+  /**
+   * Creates a chat.
+   *
+   * @param name The name of the chat.
+   * @returns The created chat.
+   */
   async create(name: string): Promise<ChatEntityDto> {
     this.logger.verbose({ input: { name } }, ChatTexts.ATTEMPT_CREATE);
     const newChat = await this.chatMongoDbService.create(name);
@@ -16,6 +22,12 @@ export class ChatService {
     return newChat;
   }
 
+  /**
+   * Fetches all chats.
+   *
+   * @param options Optional filter for a specific client.
+   * @returns An array of chat objects.
+   */
   async findAll(options?: FindAllChatsOptions) {
     this.logger.verbose(ChatTexts.ATTEMPT_FIND_ALL);
     const chats = await this.chatMongoDbService.findAll(options);
@@ -23,6 +35,12 @@ export class ChatService {
     return chats;
   }
 
+  /**
+   * Fetches a chat by its id.
+   *
+   * @param id The id of the chat.
+   * @returns A single chat.
+   */
   async findOne(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
     const chat = await this.chatMongoDbService.findOne(id);
@@ -30,6 +48,13 @@ export class ChatService {
     return chat;
   }
 
+  /**
+   * Updates a chat.
+   *
+   * @param id The id of the chat.
+   * @param updateChatDto The chat information to be updated.
+   * @returns The updated chat.
+   */
   async update(id: string, updateChatDto: ChatEntityDto) {
     this.logger.verbose(
       { input: { id, updateMessageDto: updateChatDto } },
@@ -40,6 +65,12 @@ export class ChatService {
     return chat;
   }
 
+  /**
+   * Deletes a chat.
+   *
+   * @param id The id of the chat.
+   * @returns The deleted chat.
+   */
   async remove(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
     const chat = await this.chatMongoDbService.remove(id);
