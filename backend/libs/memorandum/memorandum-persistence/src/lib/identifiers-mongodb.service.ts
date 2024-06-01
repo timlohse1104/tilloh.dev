@@ -15,6 +15,11 @@ export class IdentifiersMongoDbService {
     private identifierModel: Model<IdentifierDocument>
   ) {}
 
+  /**
+   * Fetches all identifiers from the mongodb collection 'identifiers'.
+   *
+   * @returns An array of identifier objects.
+   */
   async findAll(): Promise<IdentifierDto[]> {
     this.logger.debug({ input: {} }, IdentifiersTexts.ATTEMPT_FIND_ALL);
     const identifiers = await this.identifierModel.find();
@@ -25,6 +30,12 @@ export class IdentifiersMongoDbService {
     return identifiers;
   }
 
+  /**
+   * Fetches an identifier by its id from the mongodb collection 'identifiers'.
+   *
+   * @param id The id of the identifier.
+   * @returns A single identifier object.
+   */
   async findOne(id: string): Promise<IdentifierDto> {
     this.logger.debug({ input: { id } }, IdentifiersTexts.ATTEMPT_FIND_ONE);
     const identifier = await this.identifierModel.findOne({ _id: id }).exec();
@@ -36,6 +47,12 @@ export class IdentifiersMongoDbService {
     return identifier;
   }
 
+  /**
+   * Creates an identifier in the mongodb collection 'identifiers'.
+   *
+   * @param name The name of the identifier.
+   * @returns The created identifier.
+   */
   async create(name: string): Promise<IdentifierDto> {
     this.logger.debug({ input: {} }, IdentifiersTexts.ATTEMPT_CREATE);
     const identifier = await this.identifierModel.create({
@@ -49,6 +66,13 @@ export class IdentifiersMongoDbService {
     return identifier;
   }
 
+  /**
+   * Updates an identifier.
+   *
+   * @param id The id of the identifier.
+   * @param identifierDto The identifier information to be updated.
+   * @returns The updated identifier.
+   */
   async update(
     id: string,
     identifierDto: Partial<IdentifierDto>
@@ -72,6 +96,12 @@ export class IdentifiersMongoDbService {
     return identifier;
   }
 
+  /**
+   * Deletes an identifier.
+   *
+   * @param id The id of the identifier.
+   * @returns The deleted identifier.
+   */
   async remove(id: string) {
     this.logger.debug({ input: { id } }, IdentifiersTexts.ATTEMPT_DELETE);
     const identifier = await this.identifierModel
