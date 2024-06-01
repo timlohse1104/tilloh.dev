@@ -17,7 +17,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private readonly logger: PinoLogger
   ) {}
 
-  catch(exception: unknown, host: ArgumentsHost): void {
+  /**
+   * Method to implement a custom exception filter.
+   *
+   * @param exception The exception to be caught.
+   * @param host The host of the application.
+   */
+  catch(exception: HttpException, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     const request = ctx.getRequest();
