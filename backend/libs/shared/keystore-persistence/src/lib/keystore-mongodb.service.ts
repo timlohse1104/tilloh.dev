@@ -15,6 +15,11 @@ export class KeystoreMongoDbService {
     private keystoreModel: Model<KeystoreDocument>
   ) {}
 
+  /**
+   * Fetches all keys.
+   *
+   * @returns An array of key objects.
+   */
   async findAll(): Promise<KeystoreDto[]> {
     this.logger.debug({ input: {} }, KeystoreTexts.ATTEMPT_FIND_ALL);
     const keys = await this.keystoreModel.find();
@@ -25,6 +30,13 @@ export class KeystoreMongoDbService {
     return keys;
   }
 
+  /**
+   * Fetches a key by its identifier and key.
+   *
+   * @param identifier The identifier of the key.
+   * @param key The key to be fetched.
+   * @returns A single key object.
+   */
   async findOne(identifier: string, key: string): Promise<KeystoreDto> {
     this.logger.debug(
       { input: { identifier, key } },
@@ -41,6 +53,14 @@ export class KeystoreMongoDbService {
     return keyEntry;
   }
 
+  /**
+   * Creates a key.
+   *
+   * @param identifier The identifier of the key.
+   * @param key The key to be created.
+   * @param value The value of the key.
+   * @returns The created key.
+   */
   async create(
     identifier: string,
     key: string,
@@ -63,6 +83,14 @@ export class KeystoreMongoDbService {
     return keyEntry;
   }
 
+  /**
+   * Updates a key.
+   *
+   * @param identifier The identifier of the key.
+   * @param key The key to be updated.
+   * @param updateKeystoreInputBodyDto The key information to be updated.
+   * @returns The updated key.
+   */
   async update(
     identifier: string,
     key: string,
@@ -87,6 +115,13 @@ export class KeystoreMongoDbService {
     return keyEntry;
   }
 
+  /**
+   * Deletes a key.
+   *
+   * @param identifier The identifier of the key.
+   * @param key The key to be deleted.
+   * @returns The deleted key.
+   */
   async remove(identifier: string, key: string) {
     this.logger.debug(
       { input: { identifier, key } },
