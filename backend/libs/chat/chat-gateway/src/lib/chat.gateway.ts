@@ -36,7 +36,10 @@ export class ChatGateway {
     this.logger.verbose(
       `Creating a new message for ${name} with timestamp ${timestamp}.`
     );
-    const message = await this.messagesService.create(chatId, createMessageDto);
+    const message = await this.messagesService.createMessage(
+      chatId,
+      createMessageDto
+    );
 
     this.logger.verbose(
       `Emit the new message from ${name} to all connected clients.`
@@ -48,25 +51,25 @@ export class ChatGateway {
   @SubscribeMessage('findAllMessages')
   findAll(@MessageBody() chatId: string) {
     this.logger.verbose(`Returning all messages from the database.`);
-    return this.messagesService.findAll(chatId);
+    return this.messagesService.listMessages(chatId);
   }
 
   @SubscribeMessage('findOneMessage')
   findOne(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
     const { chatId, id } = identifyMessageDto;
-    return this.messagesService.findOne(chatId, id);
+    return this.messagesService.findMessage(chatId, id);
   }
 
   @SubscribeMessage('updateMessage')
   update(@MessageBody() updateMessageDto: UpdateMessageDto) {
     const { chatId, id } = updateMessageDto;
-    return this.messagesService.update(chatId, id, updateMessageDto);
+    return this.messagesService.updateMessage(chatId, id, updateMessageDto);
   }
 
   @SubscribeMessage('removeMessage')
   remove(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
     const { chatId, id } = identifyMessageDto;
-    return this.messagesService.remove(chatId, id);
+    return this.messagesService.removeMessage(chatId, id);
   }
 
   @SubscribeMessage('join')

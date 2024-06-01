@@ -19,7 +19,7 @@ export class MessagesService {
    * @param createMessageDto The message to be created.
    * @returns The created message.
    */
-  async create(
+  async createMessage(
     chatId: string,
     createMessageDto: CreateMessageDto
   ): Promise<MessageDto> {
@@ -46,7 +46,7 @@ export class MessagesService {
    * @param chatId The id of the chat.
    * @returns An array of message objects.
    */
-  async findAll(chatId: string) {
+  async listMessages(chatId: string) {
     this.logger.verbose({ input: { chatId } }, `Retrieving all messages.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     const { messages } = chat;
@@ -61,7 +61,7 @@ export class MessagesService {
    * @param id The id of the message.
    * @returns A single message.
    */
-  async findOne(chatId: string, id: number) {
+  async findMessage(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Retrieving message.`);
     const message = (await this.chatMongoDbService.findOne(chatId))?.messages[
       id
@@ -78,7 +78,11 @@ export class MessagesService {
    * @param updateMessageDto The message information to be updated.
    * @returns The updated message.
    */
-  async update(chatId: string, id: number, updateMessageDto: UpdateMessageDto) {
+  async updateMessage(
+    chatId: string,
+    id: number,
+    updateMessageDto: UpdateMessageDto
+  ) {
     this.logger.verbose({ input: { id } }, `Updating message .`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     chat.messages[id] = { ...chat.messages[id], ...updateMessageDto };
@@ -95,7 +99,7 @@ export class MessagesService {
    * @param id The id of the message.
    * @returns The deleted message.
    */
-  async remove(chatId: string, id: number) {
+  async removeMessage(chatId: string, id: number) {
     this.logger.verbose({ input: { id } }, `Removing message.`);
     const chat = await this.chatMongoDbService.findOne(chatId);
     const message = chat.messages.splice(id, 1)[0];

@@ -51,7 +51,7 @@ export class JokesService {
    * @param id The id of the joke.
    * @returns A single joke.
    */
-  async getJokeById(id: string): Promise<JokeDto> {
+  async getJoke(id: string): Promise<JokeDto> {
     this.logger.log('Getting a joke by id.');
     return await this.jokesMongoDbService.findOne(id);
   }

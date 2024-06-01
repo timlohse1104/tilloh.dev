@@ -15,7 +15,7 @@ export class ChatService {
    * @param name The name of the chat.
    * @returns The created chat.
    */
-  async create(name: string): Promise<ChatEntityDto> {
+  async createChat(name: string): Promise<ChatEntityDto> {
     this.logger.verbose({ input: { name } }, ChatTexts.ATTEMPT_CREATE);
     const newChat = await this.chatMongoDbService.create(name);
     this.logger.verbose({ output: { newChat } }, ChatTexts.CREATED_ONE);
@@ -28,7 +28,7 @@ export class ChatService {
    * @param options Optional filter for a specific client.
    * @returns An array of chat objects.
    */
-  async findAll(options?: FindAllChatsOptions) {
+  async listChats(options?: FindAllChatsOptions) {
     this.logger.verbose(ChatTexts.ATTEMPT_FIND_ALL);
     const chats = await this.chatMongoDbService.findAll(options);
     this.logger.verbose(`Found ${chats.length} messages.`);
@@ -41,7 +41,7 @@ export class ChatService {
    * @param id The id of the chat.
    * @returns A single chat.
    */
-  async findOne(id: string) {
+  async findChat(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_FIND_ONE);
     const chat = await this.chatMongoDbService.findOne(id);
     this.logger.verbose({ output: { chat } }, ChatTexts.FOUND_ONE);
@@ -55,7 +55,7 @@ export class ChatService {
    * @param updateChatDto The chat information to be updated.
    * @returns The updated chat.
    */
-  async update(id: string, updateChatDto: ChatEntityDto) {
+  async updateChat(id: string, updateChatDto: ChatEntityDto) {
     this.logger.verbose(
       { input: { id, updateMessageDto: updateChatDto } },
       ChatTexts.ATTEMPT_UPDATE
@@ -71,7 +71,7 @@ export class ChatService {
    * @param id The id of the chat.
    * @returns The deleted chat.
    */
-  async remove(id: string) {
+  async removeChat(id: string) {
     this.logger.verbose({ input: { id } }, ChatTexts.ATTEMPT_DELETE);
     const chat = await this.chatMongoDbService.remove(id);
     this.logger.verbose({ output: { chat } }, ChatTexts.DELETE_ONE);

@@ -41,7 +41,7 @@ export class IdentifiersController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
   getIdentifiers() {
-    return this.identifiersService.getIdentifiers();
+    return this.identifiersService.listIdentifiers();
   }
 
   @ApiOkResponse({

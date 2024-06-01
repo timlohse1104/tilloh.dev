@@ -41,7 +41,7 @@ export class ChatController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
   getChats() {
-    return this.chatService.findAll();
+    return this.chatService.listChats();
   }
 
   @ApiOkResponse({
@@ -54,7 +54,7 @@ export class ChatController {
   @Get('/:id')
   getChat(@Param() getChatInput: GetChatInputDto) {
     const { id } = getChatInput;
-    return this.chatService.findOne(id);
+    return this.chatService.findChat(id);
   }
 
   @ApiOkResponse({
@@ -66,7 +66,7 @@ export class ChatController {
   @Post()
   createChat(@Body() createChatInputDto: CreateChatInputDto) {
     const { name } = createChatInputDto;
-    return this.chatService.create(name);
+    return this.chatService.createChat(name);
   }
 
   @ApiOkResponse({
@@ -81,7 +81,7 @@ export class ChatController {
     @Param() updateChatInputDto: UpdateChatInputDto,
     @Body() identifierDto: ChatEntityDto
   ) {
-    return this.chatService.update(updateChatInputDto.id, identifierDto);
+    return this.chatService.updateChat(updateChatInputDto.id, identifierDto);
   }
 
   @ApiOkResponse({
@@ -93,6 +93,6 @@ export class ChatController {
   @ApiNotFoundResponse({ description: 'Chat not found.' })
   @Delete('/:id')
   deleteChat(@Param() removeChatInputDto: RemoveChatInputDto) {
-    return this.chatService.remove(removeChatInputDto.id);
+    return this.chatService.removeChat(removeChatInputDto.id);
   }
 }

@@ -21,7 +21,7 @@ export class IdentifiersService {
    *
    * @returns An array of identifier objects.
    */
-  async getIdentifiers(): Promise<GetIdentifiersOutputDto[]> {
+  async listIdentifiers(): Promise<GetIdentifiersOutputDto[]> {
     this.logger.log('returned list of all identifiers');
     return await this.identifiersMongoDbService.findAll();
   }

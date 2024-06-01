@@ -39,8 +39,8 @@ export class JokesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/:id')
-  getJokeById(@Param('id') id: string) {
-    return this.jokesService.getJokeById(id);
+  getJoke(@Param('id') id: string) {
+    return this.jokesService.getJoke(id);
   }
 
   @ApiOkResponse({
