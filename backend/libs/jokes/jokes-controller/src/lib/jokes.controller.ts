@@ -23,13 +23,24 @@ export class JokesController {
 
   @ApiOkResponse({
     description: 'Random joke rotated daily.',
-    type: [JokeDto],
+    type: JokeDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/random')
   getRandomJoke() {
     return this.jokesService.getRandomJoke();
+  }
+
+  @ApiOkResponse({
+    description: 'Jokes.',
+    type: [JokeDto],
+  })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
+  @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Get('/')
+  listJokes() {
+    return this.jokesService.listJokes();
   }
 
   @ApiOkResponse({

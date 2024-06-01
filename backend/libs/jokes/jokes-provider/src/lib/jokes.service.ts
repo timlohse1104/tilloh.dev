@@ -46,6 +46,16 @@ export class JokesService {
   }
 
   /**
+   * Fetches all jokes.
+   *
+   * @returns An array of jokes.
+   */
+  async listJokes(): Promise<JokeDto[]> {
+    this.logger.log('Getting all jokes.');
+    return await this.jokesMongoDbService.findAll();
+  }
+
+  /**
    * Fetches a joke by its id.
    *
    * @param id The id of the joke.

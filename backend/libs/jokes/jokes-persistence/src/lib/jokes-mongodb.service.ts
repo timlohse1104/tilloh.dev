@@ -47,6 +47,18 @@ export class JokesMongoDbService {
   }
 
   /**
+   * Fetches all jokes from the mongodb collection 'jokes'.
+   *
+   * @returns An array of joke objects.
+   */
+  async findAll(): Promise<JokeDto[]> {
+    this.logger.debug(JokeTexts.ATTEMPT_FIND_ALL);
+    const jokes = await this.jokeModel.find().exec();
+    this.logger.debug({ output: jokes }, JokeTexts.FOUND_ALL);
+    return jokes.map((joke) => joke.toObject());
+  }
+
+  /**
    * Fetches a joke by its id from the mongodb collection 'jokes'.
    *
    * @param id The id of the joke.
