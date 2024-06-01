@@ -36,7 +36,7 @@ export class JokesService {
   }
 
   /**
-   * Fetches a random joke from the database.
+   * Fetches a random joke.
    *
    * @returns A single joke.
    */
