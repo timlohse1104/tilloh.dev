@@ -209,12 +209,13 @@
     height: 120px;
     font-size: x-large;
     margin: 0 0 12px 12px;
+    position: relative;
   }
 
   :global(.card-title-background) {
     position: relative;
-    width: 70px;
-    height: 110px;
+    width: 90px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -232,6 +233,27 @@
     font-weight: bold;
     text-align: center;
     text-shadow: 0 0 5px black;
+  }
+
+  :global(.uno-card-digit-top-left) {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-shadow: 0 0 5px black;
+    width: min-content;
+  }
+
+  :global(.uno-card-digit-bottom-right) {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-shadow: 0 0 5px black;
+    width: min-content;
+    transform: rotate(180deg);
   }
 
   #player-hand {
