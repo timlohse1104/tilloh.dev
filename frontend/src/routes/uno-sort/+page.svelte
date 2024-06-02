@@ -1,8 +1,6 @@
 <script lang="ts">
   import Button, { Label } from '@smui/button';
-  import { Icon } from '@smui/fab';
   import Textfield from '@smui/textfield';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
   import { routes } from '../../lib/config/applications';
   import { UnoSort } from './classes/uno-sort';
@@ -44,38 +42,39 @@
 </svelte:head>
 
 <section>
-  <h1>UNO</h1>
+  <div class="uno-header">
+    <h1>UNO</h1>
 
-  <br /><br />
-  <Textfield
-    bind:value={pickAmount}
-    type="number"
-    input$max={stackSize}
-    input$min="0"
-  />
-  <Button on:click={() => pickCards(pickAmount)} variant="raised">
-    <Label>Karte ziehen</Label>
-  </Button>
-  <Button on:click={reset} variant="outlined">
-    <Label>Zurücksetzen</Label>
-  </Button>
-  <Wrapper>
-    <Button color="secondary" variant="outlined">
-      <Icon class="material-icons">info</Icon>
-      <Label>Info</Label>
-      <Tooltip xPos="start" yPos="below">
-        Sortierungsregeln: <br />
-        1. Farbkarten werden nach ihrer Anzahl auf der Hand sortier, die Farbe mit
-        den geringsten Karten beginnt. <br />
-        2.Zahlenkarten werden nach ihrer Zahl aufsteigend sortiert. <br />
-        3. Sonderkarten werden aufgrund ihrer Wertigkeit immer ans Ende der Farbe
-        sortiert.
-      </Tooltip>
-    </Button>
-  </Wrapper>
+    <h2>Sortierungsregeln</h2>
+    <p class="rule-info">
+      1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe
+      mit den geringsten Karten ist ganz links. <br />
+      2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend
+      sortiert. <br />
+      3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit
+      sortiert. <br />
+      4. Schwarze Karten werden immer ganz rechts gehalten. <br />
+    </p>
+    <div class="uno-menu">
+      <Textfield
+        bind:value={pickAmount}
+        type="number"
+        input$max={stackSize}
+        input$min="0"
+        suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
+      />
+      <Button on:click={() => pickCards(pickAmount)} variant="raised">
+        <Label>ziehen</Label>
+      </Button>
+      <Button on:click={reset} variant="outlined">
+        <Label>Zurücksetzen</Label>
+      </Button>
+    </div>
+  </div>
+
   <hr />
 
-  <div class="uno-cardArea">
+  <div class="uno-card-area">
     <div>
       <p class="label">
         Stapel <span id="stackSize" bind:this={stackSizeElement}></span>
@@ -83,7 +82,9 @@
 
       <br />
       <div class="uno-card" id="stack">
-        <p class="uno-cardTitle">UNO</p>
+        <div class="card-title-background">
+          <p class="uno-card-title">UNO</p>
+        </div>
       </div>
     </div>
 
@@ -95,7 +96,7 @@
 
       <br />
 
-      <div id="playerHand" bind:this={handDivElement}></div>
+      <div id="player-hand" bind:this={handDivElement}></div>
     </div>
   </div>
 </section>
@@ -107,10 +108,26 @@
     padding: 1rem;
   }
 
+  .uno-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .uno-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    gap: 1rem;
+  }
+
   h1 {
     margin: auto;
     width: 25%;
     text-align: center;
+    margin-bottom: 3rem;
     color: yellow;
     font-size: 6em;
     transition: 0.5s;
@@ -126,35 +143,70 @@
       -7px -6px black;
 
     @media #{$phone} {
-      display: none;
+      // display: none;
+      width: 50%;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .rule-info {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem;
+  }
+
+  hr {
+    border: 1px solid var(--white30);
+    width: 75%;
+
+    @media #{$tablet} {
+      width: 85%;
+    }
+
+    @media #{$phone} {
+      width: 95%;
     }
   }
 
   :global(.uno-card) {
     box-shadow: var(--sharpen);
-    border: 1px solid var(--white30);
+    border: 5px solid white;
+    border-radius: 10px;
     padding: 0.5rem;
     display: grid;
     justify-content: center;
     align-items: center;
     width: 80px;
     height: 120px;
-    font-size: xx-large;
+    font-size: x-large;
     margin: 0 0 12px 12px;
   }
 
-  :global(.uno-cardTitle) {
+  :global(.card-title-background) {
+    position: relative;
+    width: 70px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(
+      circle at top left,
+      white 100%,
+      transparent 100%
+    );
+    border-radius: 50px;
+    transform: skewX(-25deg);
+  }
+
+  :global(.uno-card-title) {
     font-size: 1em;
     font-weight: bold;
     text-align: center;
-    text-shadow: var(--black80) 2px 2px 5px;
+    text-shadow: 0 0 5px black;
   }
 
-  .uno-card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  #playerHand {
+  #player-hand {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -173,9 +225,9 @@
     color: white;
   }
 
-  .uno-cardArea {
+  .uno-card-area {
     overflow-y: auto;
     display: flex;
-    height: 65vh;
+    height: 53vh;
   }
 </style>

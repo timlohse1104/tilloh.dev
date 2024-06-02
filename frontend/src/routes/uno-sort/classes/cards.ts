@@ -43,10 +43,9 @@ export class NumberCard extends Card {
   }
 
   showInHand() {
-    // let cardDiv = document.createElement('div');
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
-    cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
+    cardDiv.innerHTML = `<div class="card-title-background"><p class="uno-card-title">${this.title}</p></div>`;
     cardDiv.setAttribute('style', `background: ${this.color};`);
     this.handDivElement.appendChild(cardDiv);
   }
@@ -70,20 +69,20 @@ export class ActionCard extends Card {
   showInHand() {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
-    cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
+    cardDiv.innerHTML = `<div class="card-title-background"><p class="uno-card-title">${this.title}</p></div>`;
     cardDiv.setAttribute('style', `background: ${this.color}`);
     this.handDivElement.appendChild(cardDiv);
   }
 }
 
-type SpecialActionCardRange = '➕4' | '🎨';
+type SpecialActionCardRange = '+4' | '🎨';
 export class SpecialActionCard extends Card {
   private action: SpecialActionCardRange;
 
   constructor(action, handDiv) {
     super('black', handDiv);
     this.action = action;
-    this.title = action === 'quad' ? '➕4' : '🎨';
+    this.title = action === 'quad' ? '+4' : '🎨';
     this.value = 50;
   }
 
@@ -94,7 +93,7 @@ export class SpecialActionCard extends Card {
   showInHand() {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
-    cardDiv.innerHTML = `<p class="uno-cardTitle">${this.title}</p>`;
+    cardDiv.innerHTML = `<div class="card-title-background"><p class="uno-card-title">${this.title}</p></div>`;
     cardDiv.setAttribute('style', `background: ${this.color}; color: white`);
     this.handDivElement.appendChild(cardDiv);
   }
