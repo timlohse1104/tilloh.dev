@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/fab';
+  import Textfield from '@smui/textfield';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
   import { routes } from '../../lib/config/applications';
@@ -12,6 +13,9 @@
   let stackSizeElement;
   let handDivElement;
   let unoSort;
+  let pickAmount = 1;
+
+  $: stackSize = unoSort?.getStackSize();
 
   function pickCards(amount: number) {
     unoSort.pickCards(amount);
@@ -43,14 +47,14 @@
   <h1>UNO</h1>
 
   <br /><br />
-  <Button on:click={() => pickCards(1)} variant="raised">
+  <Textfield
+    bind:value={pickAmount}
+    type="number"
+    input$max={stackSize}
+    input$min="0"
+  />
+  <Button on:click={() => pickCards(pickAmount)} variant="raised">
     <Label>Karte ziehen</Label>
-  </Button>
-  <Button on:click={() => pickCards(2)} variant="raised">
-    <Label>Zwei Karten ziehen</Label>
-  </Button>
-  <Button on:click={() => pickCards(4)} variant="raised">
-    <Label>Vier Karten ziehen</Label>
   </Button>
   <Button on:click={reset} variant="outlined">
     <Label>Zurücksetzen</Label>

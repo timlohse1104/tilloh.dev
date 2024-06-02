@@ -416,4 +416,8 @@ export class UnoSort {
   printStackSize() {
     this.stackSizeElement.innerText = `(${this.stack.length.toString()})`;
   }
+
+  getStackSize() {
+    return this.stack.length;
+  }
 }
