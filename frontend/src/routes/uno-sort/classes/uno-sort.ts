@@ -48,7 +48,7 @@ export class UnoSort {
     this.printStackSize();
   }
 
-  generateStack() {
+  private generateStack() {
     // Stapelkonfiguration
     const config = {
       numberCards: [
@@ -364,7 +364,7 @@ export class UnoSort {
     });
   }
 
-  pickCards(cardAmount: number) {
+  private pickCards(cardAmount: number) {
     // Ziehe Anzahl der Karten vom Stapel und lege sie in die Hand des Spielers
     for (let i = 1; i <= cardAmount; i++) {
       // Unnötig, da man bei Uni die Karten auch nicht zufällig aus der Mitte nimmt!
@@ -374,37 +374,41 @@ export class UnoSort {
     }
   }
 
+  // Helper function to count the number of cards of each color
+  countColor = (arr, color) =>
+    arr.filter((card) => card.color === color).length;
+
+  // Helper function to calculate the sum of values of each color
+  sumColorValue = (arr, color) =>
+    arr
+      .filter((card) => card.color === color)
+      .reduce((sum, card) => sum + card.value, 0);
+
   sortHand() {
-    // Die Karten in der Spielerhand sollen jetzt sortiert werden, um Papa zu zeigen wie man es richtig macht.
-    const sortedHand = {
-      red: [],
-      yellow: [],
-      green: [],
-      blue: [],
-      black: [],
-    };
-    // Sortiere Karten anhand ihrer Farbe
-    this.hand.forEach((card) => {
-      sortedHand[card.getColor()].push(card);
+    const sortedHand = [...this.hand];
+
+    sortedHand.sort((a, b) => {
+      if (a.getColor() === 'black' || b.getColor() === 'black') {
+        return a.getColor() === 'black' ? 1 : -1;
+      }
+
+      if (a.getColor() === b.getColor()) {
+        return a.getValue() - b.getValue();
+      }
+
+      const countA = this.countColor(sortedHand, a.getColor());
+      const countB = this.countColor(sortedHand, b.getColor());
+
+      if (countA === countB) {
+        const sumA = this.sumColorValue(sortedHand, a.getColor());
+        const sumB = this.sumColorValue(sortedHand, b.getColor());
+        return sumA - sumB;
+      }
+
+      return countA - countB;
     });
-    // Sortiere Karten in Farbe nach Wert
-    for (const colorKey in sortedHand) {
-      sortedHand[colorKey].sort((a, b) => a.value - b.value);
-    }
-    const sortedHandArray = Object.values(sortedHand);
-    // Sortiere Farben nach Gesamtwert
-    sortedHandArray.sort((a, b) => {
-      let aValue = 0;
-      let bValue = 0;
-      a.forEach((card) => (aValue += card.getValue()));
-      b.forEach((card) => (bValue += card.getValue()));
-      return aValue - bValue;
-    });
-    // Sortiere Farben nach Anzahl der Karten
-    sortedHandArray.sort((a, b) => a.length - b.length);
-    // Füge sortierte Karten zur ursprünglichen Hand hinzu
-    this.hand = [];
-    sortedHandArray.forEach((colorCard) => this.hand.push(...colorCard));
+
+    this.hand = sortedHand;
   }
 
   printHand() {
@@ -415,5 +419,9 @@ export class UnoSort {
 
   printStackSize() {
     this.stackSizeElement.innerText = `(${this.stack.length.toString()})`;
+  }
+
+  getStackSize() {
+    return this.stack.length;
   }
 }
