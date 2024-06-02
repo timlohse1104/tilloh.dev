@@ -89,7 +89,8 @@
   <div class="uno-card-area">
     <div class="stack-area">
       <p class="label">
-        Stapel <span id="stackSize" bind:this={stackSizeElement}></span>
+        Stapel <span class="card-amount-info" bind:this={stackSizeElement}
+        ></span>
       </p>
 
       <br />
@@ -102,7 +103,9 @@
 
     <div>
       <p class="label">
-        Hand des Spielers <span id="handSize" bind:this={handSizeElement}
+        Hand des Spielers <span
+          class="card-amount-info"
+          bind:this={handSizeElement}
         ></span>
       </p>
 
@@ -240,9 +243,9 @@
 
   .label,
   span {
-    margin: 1rem;
     font-size: 24px;
     font-weight: bold;
+    vertical-align: middle;
   }
 
   #stack {
@@ -254,6 +257,7 @@
     overflow-y: auto;
     display: flex;
     height: 53vh;
+    gap: 2rem;
 
     @media #{$phone} {
       flex-direction: column;
@@ -263,5 +267,10 @@
     @media #{$tablet} {
       height: 45vh;
     }
+  }
+
+  .card-amount-info {
+    font-size: 0.5em;
+    font-weight: normal;
   }
 </style>
