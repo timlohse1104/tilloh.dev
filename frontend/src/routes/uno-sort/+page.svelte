@@ -1,11 +1,20 @@
 <script lang="ts">
   import Button, { Label } from '@smui/button';
+  import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
+  import Tooltip from '@smui/tooltip/src/Tooltip.svelte';
+  import Wrapper from '@smui/tooltip/src/Wrapper.svelte';
   import { onMount } from 'svelte';
   import { routes } from '../../lib/config/applications';
   import { UnoSort } from './classes/uno-sort';
 
   const { 'uno-sort': unoSortRoute } = routes;
+  const sortInfotext = `
+    1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe mit den geringsten Karten ist ganz links.<br/>
+    2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend sortiert.<br/>
+    3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit sortiert.<br/>
+    4. Schwarze Karten werden immer ganz rechts gehalten.<br/>
+  `;
 
   let handSizeElement;
   let stackSizeElement;
@@ -45,15 +54,20 @@
   <div class="uno-header">
     <h1>UNO</h1>
 
-    <h2>Sortierungsregeln</h2>
+    <div class="sort-header">
+      <h2>Sortierungsregeln</h2>
+      <div class="sort-info-icon">
+        <Wrapper>
+          <Icon class="material-icons">info</Icon>
+          <Tooltip xPos="start" yPos="below">
+            {@html sortInfotext}
+          </Tooltip>
+        </Wrapper>
+      </div>
+    </div>
+
     <p class="rule-info">
-      1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe
-      mit den geringsten Karten ist ganz links. <br />
-      2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend
-      sortiert. <br />
-      3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit
-      sortiert. <br />
-      4. Schwarze Karten werden immer ganz rechts gehalten. <br />
+      {@html sortInfotext}
     </p>
     <div class="uno-menu">
       <Textfield
@@ -72,10 +86,8 @@
     </div>
   </div>
 
-  <hr />
-
   <div class="uno-card-area">
-    <div>
+    <div class="stack-area">
       <p class="label">
         Stapel <span id="stackSize" bind:this={stackSizeElement}></span>
       </p>
@@ -115,6 +127,23 @@
     align-items: center;
   }
 
+  .sort-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sort-info-icon {
+    display: none;
+    cursor: pointer;
+    color: var(--light80);
+
+    @media #{$phone} {
+      display: block;
+    }
+  }
+
   .uno-menu {
     display: flex;
     justify-content: space-between;
@@ -143,7 +172,6 @@
       -7px -6px black;
 
     @media #{$phone} {
-      // display: none;
       width: 50%;
       margin-bottom: 1rem;
     }
@@ -154,18 +182,15 @@
     font-weight: bold;
     text-align: center;
     margin: 1rem;
-  }
-
-  hr {
-    border: 1px solid var(--white30);
-    width: 75%;
-
-    @media #{$tablet} {
-      width: 85%;
-    }
 
     @media #{$phone} {
-      width: 95%;
+      display: none;
+    }
+  }
+
+  .stack-area {
+    @media #{$phone} {
+      display: none;
     }
   }
 
@@ -229,5 +254,14 @@
     overflow-y: auto;
     display: flex;
     height: 53vh;
+
+    @media #{$phone} {
+      flex-direction: column;
+      height: 45vh;
+    }
+
+    @media #{$tablet} {
+      height: 45vh;
+    }
   }
 </style>
