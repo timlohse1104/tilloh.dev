@@ -13,22 +13,8 @@
   let handDivElement;
   let unoSort;
 
-  function pickCard() {
-    unoSort.pickCards(1);
-    unoSort.sortHand();
-    unoSort.printHand();
-    unoSort.printStackSize();
-  }
-
-  function pickTwoCards() {
-    unoSort.pickCards(2);
-    unoSort.sortHand();
-    unoSort.printHand();
-    unoSort.printStackSize();
-  }
-
-  function pickFourCards() {
-    unoSort.pickCards(4);
+  function pickCards(amount: number) {
+    unoSort.pickCards(amount);
     unoSort.sortHand();
     unoSort.printHand();
     unoSort.printStackSize();
@@ -57,13 +43,13 @@
   <h1>UNO</h1>
 
   <br /><br />
-  <Button on:click={pickCard} variant="raised">
+  <Button on:click={() => pickCards(1)} variant="raised">
     <Label>Karte ziehen</Label>
   </Button>
-  <Button on:click={pickTwoCards} variant="raised">
+  <Button on:click={() => pickCards(2)} variant="raised">
     <Label>Zwei Karten ziehen</Label>
   </Button>
-  <Button on:click={pickFourCards} variant="raised">
+  <Button on:click={() => pickCards(4)} variant="raised">
     <Label>Vier Karten ziehen</Label>
   </Button>
   <Button on:click={reset} variant="outlined">
