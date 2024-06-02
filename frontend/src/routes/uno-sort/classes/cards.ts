@@ -56,14 +56,14 @@ export class NumberCard extends Card {
   }
 }
 
-type ActionCardRange = '⏩' | '↩️' | '➕2';
+type ActionCardRange = '⏩' | '↩️' | '+2';
 export class ActionCard extends Card {
   private action: ActionCardRange;
 
   constructor(color, action, handDiv) {
     super(color, handDiv);
     this.action = action;
-    this.title = action === 'reverse' ? '↩️' : action === 'plus' ? '➕2' : '⏩';
+    this.title = action === 'reverse' ? '↩️' : action === 'plus' ? '+2' : '⏩';
     this.value = 20;
   }
 
@@ -75,9 +75,11 @@ export class ActionCard extends Card {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
     cardDiv.innerHTML = `
+    <div class="uno-card-digit-top-left">${this.title}</div>
     <div class="card-title-background">
       <p class="uno-card-title">${this.title}</p>
-    </div>`;
+    </div>
+    <div class="uno-card-digit-bottom-right">${this.title}</div>`;
     cardDiv.setAttribute('style', `background: ${this.color}`);
     this.handDivElement.appendChild(cardDiv);
   }
@@ -102,9 +104,11 @@ export class SpecialActionCard extends Card {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno-card');
     cardDiv.innerHTML = `
+    <div class="uno-card-digit-top-left">${this.title}</div>
     <div class="card-title-background">
       <p class="uno-card-title">${this.title}</p>
-    </div>`;
+    </div>
+    <div class="uno-card-digit-bottom-right">${this.title}</div>`;
     cardDiv.setAttribute('style', `background: ${this.color}; color: white`);
     this.handDivElement.appendChild(cardDiv);
   }
