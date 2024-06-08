@@ -1,5 +1,5 @@
 import { JokesMongoDbService } from '@backend/jokes/jokes-persistence';
-import { JokeDto, ModifyJokeDto } from '@backend/shared/types';
+import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';

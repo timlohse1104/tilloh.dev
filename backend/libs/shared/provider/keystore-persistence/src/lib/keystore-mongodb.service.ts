@@ -1,5 +1,5 @@
-import { KeystoreTexts } from '@backend/shared/texts';
-import { KeystoreDto, UpdateKeystoreInputBodyDto } from '@backend/shared/types';
+import { KeystoreTexts } from '@backend/shared-texts';
+import { KeystoreDto, UpdateKeystoreInputBodyDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';

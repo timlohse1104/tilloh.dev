@@ -1,5 +1,5 @@
-import { JokeTexts } from '@backend/shared/texts';
-import { JokeDto, ModifyJokeDto } from '@backend/shared/types';
+import { JokeTexts } from '@backend/shared-texts';
+import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';

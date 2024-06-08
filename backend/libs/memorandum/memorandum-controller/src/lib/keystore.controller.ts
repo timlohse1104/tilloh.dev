@@ -1,5 +1,5 @@
-import { KeystoreMongoDbService } from '@backend/shared/keystore-persistence';
-import { KeystoreTexts } from '@backend/shared/texts';
+import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
+import { KeystoreTexts } from '@backend/shared-texts';
 import {
   CreateKeystoreInputDto,
   CreateKeystoreOutputDto,
@@ -10,7 +10,7 @@ import {
   UpdateKeystoreInputBodyDto,
   UpdateKeystoreInputParamDto,
   UpdateKeystoreOutputDto,
-} from '@backend/shared/types';
+} from '@backend/shared-types';
 import {
   Body,
   Controller,

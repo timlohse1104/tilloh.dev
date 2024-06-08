@@ -5,7 +5,7 @@ import {
   JoinRoomDto,
   TypingDto,
   UpdateMessageDto,
-} from '@backend/shared/types';
+} from '@backend/shared-types';
 import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,

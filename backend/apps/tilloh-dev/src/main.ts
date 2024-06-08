@@ -2,10 +2,14 @@ import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
-import { GlobalExceptionFilter, LoggerMiddleware } from '@backend/util';
+import {
+  AdminAuthGuard,
+  GlobalExceptionFilter,
+  LoggerMiddleware,
+} from '@backend/util';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   FastifyAdapter,
@@ -50,7 +54,13 @@ import { EnvironmentVariables, validate } from './env.validation';
     MemorandumControllerModule,
     JokesControllerModule,
   ],
-  providers: [Logger],
+  providers: [
+    Logger,
+    {
+      provide: APP_GUARD,
+      useClass: AdminAuthGuard,
+    },
+  ],
 })
 export class AppModule {
   /**
@@ -78,6 +88,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('tilloh.dev')
     .setDescription('The official tilloh.dev API documentation 📖')
     .setVersion('1.0')

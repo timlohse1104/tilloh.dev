@@ -1,5 +1,5 @@
 import { JokesService } from '@backend/jokes/jokes-provider';
-import { JokeDto, ModifyJokeDto } from '@backend/shared/types';
+import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import {
   Body,
   Controller,

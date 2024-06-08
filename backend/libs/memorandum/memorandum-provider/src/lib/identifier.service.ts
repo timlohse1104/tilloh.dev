@@ -8,7 +8,7 @@ import {
   IdentifierDto,
   RemoveIdentifierOutputDto,
   UpdateIdentifierOutputDto,
-} from '@backend/shared/types';
+} from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()

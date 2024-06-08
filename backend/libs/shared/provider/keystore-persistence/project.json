@@ -1,6 +1,6 @@
 {
   "name": "shared-keystore-persistence",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/keystore-persistence/src",
   "projectType": "library",
   "targets": {

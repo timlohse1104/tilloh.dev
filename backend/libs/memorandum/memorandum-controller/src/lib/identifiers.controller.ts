@@ -10,7 +10,7 @@ import {
   RemoveIdentifierOutputDto,
   UpdateIdentifierInputDto,
   UpdateIdentifierOutputDto,
-} from '@backend/shared/types';
+} from '@backend/shared-types';
 import {
   Body,
   Controller,

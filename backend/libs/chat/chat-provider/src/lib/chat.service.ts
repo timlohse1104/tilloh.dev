@@ -1,6 +1,6 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
-import { ChatTexts } from '@backend/shared/texts';
-import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared/types';
+import { ChatTexts } from '@backend/shared-texts';
+import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()

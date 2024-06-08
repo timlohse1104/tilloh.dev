@@ -51,11 +51,11 @@
       "@backend/memorandum/memorandum-provider": [
         "libs/memorandum/memorandum-provider/src/index.ts"
       ],
-      "@backend/shared/keystore-persistence": [
-        "libs/shared/keystore-persistence/src/index.ts"
+      "@backend/shared-keystore-persistence": [
+        "libs/shared/provider/keystore-persistence/src/index.ts"
       ],
-      "@backend/shared/texts": ["libs/shared/texts/src/index.ts"],
-      "@backend/shared/types": ["libs/shared/types/src/index.ts"],
+      "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
+      "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
       "@backend/todo": ["libs/todo/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"]
     }

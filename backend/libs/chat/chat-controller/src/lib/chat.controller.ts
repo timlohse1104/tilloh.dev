@@ -10,7 +10,7 @@ import {
   RemoveChatOutputDto,
   UpdateChatInputDto,
   UpdateChatOutputDto,
-} from '@backend/shared/types';
+} from '@backend/shared-types';
 import {
   Body,
   Controller,
