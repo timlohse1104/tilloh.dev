@@ -11,6 +11,7 @@ import {
   UpdateKeystoreInputParamDto,
   UpdateKeystoreOutputDto,
 } from '@backend/shared-types';
+import { Public } from '@backend/util';
 import {
   Body,
   Controller,
@@ -51,6 +52,7 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
+  @Public()
   @Get('/:identifier/:key')
   getKey(@Param() getKeystoreInput: GetKeystoreInputDto) {
     return this.keystoreService.findOne(
@@ -65,6 +67,7 @@ export class KeystoreController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Public()
   @Post()
   createKey(@Body() createKeystoreInputDto: CreateKeystoreInputDto) {
     return this.keystoreService.create(
@@ -81,6 +84,7 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
+  @Public()
   @Put('/:identifier/:key')
   updateIdentifier(
     @Param() updateIdentifierInputDto: UpdateKeystoreInputParamDto,

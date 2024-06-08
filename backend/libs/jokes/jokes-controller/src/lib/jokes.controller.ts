@@ -1,5 +1,6 @@
 import { JokesService } from '@backend/jokes/jokes-provider';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
+import { Public } from '@backend/util';
 import {
   Body,
   Controller,
@@ -27,6 +28,7 @@ export class JokesController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Public()
   @Get('/random')
   getRandomJoke() {
     return this.jokesService.getRandomJoke();

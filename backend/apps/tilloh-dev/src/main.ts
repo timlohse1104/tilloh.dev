@@ -3,7 +3,7 @@ import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import {
-  AdminAuthGuard,
+  AuthGuard,
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
@@ -58,7 +58,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     Logger,
     {
       provide: APP_GUARD,
-      useClass: AdminAuthGuard,
+      useClass: AuthGuard,
     },
   ],
 })

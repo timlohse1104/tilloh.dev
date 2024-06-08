@@ -11,6 +11,7 @@ import {
   UpdateIdentifierInputDto,
   UpdateIdentifierOutputDto,
 } from '@backend/shared-types';
+import { Public } from '@backend/util';
 import {
   Body,
   Controller,
@@ -62,6 +63,7 @@ export class IdentifiersController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Public()
   @Post()
   createIdentifier(@Body() createIdentifierInputDto: CreateIdentifierInputDto) {
     return this.identifiersService.createIdentifier(createIdentifierInputDto);
