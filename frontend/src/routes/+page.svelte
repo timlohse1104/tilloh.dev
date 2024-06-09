@@ -1,11 +1,12 @@
 <script lang="ts">
   import Button, { Icon, Label } from '@smui/button';
-  import { routes } from '../lib/config/applications';
+  import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
   import JokeOfTheDay from './_home/JokeOfTheDay.svelte';
   import Navigation from './_home/Navigation.svelte';
   import SearchBar from './_home/SearchBar.svelte';
 
-  const { home: homeRoute, settings } = routes;
+  const { home: homeRoute } = applicationRoutes;
+  const { settings } = utilityRoutes;
 </script>
 
 <svelte:head>

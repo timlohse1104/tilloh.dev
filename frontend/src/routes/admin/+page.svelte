@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { routes } from '$lib/config/applications';
+  import { utilityRoutes } from '$lib/config/applications';
 
-  const { admin: adminRoute, home: homeRoute } = routes;
+  const { admin: adminRoute } = utilityRoutes;
 </script>
 
 <svelte:head>

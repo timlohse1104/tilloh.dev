@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { routes } from '../../lib/config/applications';
+  import { utilityRoutes } from '../../lib/config/applications';
   import OnlinePersistenceCheck from './OnlinePersistenceCheck.svelte';
 
-  const { settings: settingsRoute } = routes;
+  const { settings: settingsRoute } = utilityRoutes;
 </script>
 
 <svelte:head>

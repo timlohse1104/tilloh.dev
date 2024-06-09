@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { routes } from '../../lib/config/applications';
+  import { applicationRoutes } from '../../lib/config/applications';
   import Game from './game.js';
 
-  const { 'catch-em-all': catchEmAllRoute } = routes;
+  const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
 
   let gameCanvas;
   let ctx;

@@ -11,12 +11,12 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
-  import { routes } from '../../lib/config/applications';
+  import { applicationRoutes } from '../../lib/config/applications';
   import TodoListComponent from './content/TodoList.svelte';
   import TodoListOverlay from './content/TodoListOverlay.svelte';
   import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
 
-  const { todo: todoRoute } = routes;
+  const { todo: todoRoute } = applicationRoutes;
 
   let currentListIndex = 0;
   let newListIndex = 0;

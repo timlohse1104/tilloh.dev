@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { routes } from '../../lib/config/applications';
-  const { about: aboutRoute } = routes;
+  import { applicationRoutes } from '../../lib/config/applications';
+  const { about: aboutRoute } = applicationRoutes;
 </script>
 
 <svelte:head>

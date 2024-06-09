@@ -10,12 +10,12 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
-  import { routes } from '../../lib/config/applications';
+  import { applicationRoutes } from '../../lib/config/applications';
   import ChatListComponent from './content/ChatList.svelte';
   import ChatListOverlay from './content/ChatListOverlay.svelte';
   import { chatStore, listOverlayOptionsStore } from './util/stores.ts';
 
-  const { chat: chatRoute } = routes;
+  const { chat: chatRoute } = applicationRoutes;
   const FEATURE_TOGGLE = false;
 
   let currentListIndex = 0;

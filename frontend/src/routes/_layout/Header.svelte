@@ -4,13 +4,17 @@
   import logo from '$lib/images/stadtwerk-logo.svg';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
-  import { routes } from '../../lib/config/applications';
-  const { home, settings } = routes;
+  import {
+    applicationRoutes,
+    utilityRoutes,
+  } from '../../lib/config/applications';
+  const { home } = applicationRoutes;
+  const { settings } = utilityRoutes;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
     : 'home';
-  $: currentPage = routes[pageName];
+  $: currentPage = applicationRoutes[pageName];
 </script>
 
 <section>

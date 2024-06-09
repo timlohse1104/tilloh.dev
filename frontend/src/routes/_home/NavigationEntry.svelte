@@ -1,10 +1,10 @@
 <script>
   import { Icon } from '@smui/common';
-  import { routes } from '../../lib/config/applications';
+  import { applicationRoutes } from '../../lib/config/applications';
 
   export let appKey;
 
-  const app = routes[appKey];
+  const app = applicationRoutes[appKey];
 </script>
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
