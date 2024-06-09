@@ -5,6 +5,7 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import Identifiers from './content/Identifiers.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let tempAdminId = '';
@@ -59,10 +60,8 @@
       </Textfield>
     {:else}
       <h1>Admin Panel</h1>
-      <p>
-        Hier finden sich bald Infos zum System, dem Nutzerverhalten und Metriken
-        aller Art.
-      </p>
+
+      <Identifiers adminId={tempAdminId} />
     {/if}
   </div>
 </section>
