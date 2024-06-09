@@ -9,12 +9,12 @@
     utilityRoutes,
   } from '../../lib/config/applications';
   const { home } = applicationRoutes;
-  const { settings } = utilityRoutes;
+  const { settings, admin } = utilityRoutes;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
     : 'home';
-  $: currentPage = applicationRoutes[pageName];
+  $: currentPage = applicationRoutes[pageName] || utilityRoutes[pageName];
 </script>
 
 <section>
