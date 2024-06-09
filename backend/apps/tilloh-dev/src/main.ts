@@ -17,11 +17,18 @@ import {
 } from '@nestjs/platform-fastify';
 import { ScheduleModule } from '@nestjs/schedule';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
 import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 300000,
+        limit: 50,
+      },
+    ]),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       validate(config) {
@@ -59,6 +66,10 @@ import { EnvironmentVariables, validate } from './env.validation';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
