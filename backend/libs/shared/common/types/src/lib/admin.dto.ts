@@ -6,3 +6,8 @@ export class InputVerifyAdmin {
   @IsString()
   id: string;
 }
+
+export class OutputVerifyAdmin {
+  @ApiProperty()
+  isAdmin: boolean;
+}
