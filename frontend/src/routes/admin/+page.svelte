@@ -1,14 +1,32 @@
 <script lang="ts">
+  import { verifyAdminId } from '$lib/api/admin.api';
   import { utilityRoutes } from '$lib/config/applications';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
+  import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
 
   const { admin: adminRoute } = utilityRoutes;
   let tempAdminId = '';
+  let isVerified = false;
+  let verificationError = '';
 
-  function verifyId() {
-    console.log('verifyId: ', tempAdminId);
+  async function verifyId() {
+    const verifyResponse = await verifyAdminId(tempAdminId);
+
+    if (!verifyResponse && verifyResponse?.statusCode !== 200) {
+      console.error('Error verifying admin ID');
+      isVerified = false;
+      return;
+    }
+
+    const { isAdmin } = verifyResponse;
+    if (!isAdmin) {
+      verificationError = 'Admin ID konnte nicht verifiziert werden.';
+      isVerified = false;
+      return;
+    }
+    isVerified = verifyResponse.isAdmin;
   }
 </script>
 
@@ -19,20 +37,33 @@
 
 <section>
   <div class="main-content">
-    <p>Admin ID: {tempAdminId}</p>
-
-    <Textfield
-      variant="outlined"
-      bind:value={tempAdminId}
-      label="Admin ID"
-      style="margin-top: 1rem; width: 100%"
-      on:keyup={(event) => {
-        if (isEnter(event)) verifyId();
-      }}
-    >
-      <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
-      <Icon class="material-icons" slot="trailingIcon">arrow_circle_right</Icon>
-    </Textfield>
+    {#if !isVerified}
+      <Textfield
+        variant="outlined"
+        bind:value={tempAdminId}
+        label="Admin ID"
+        style="margin-top: 1rem; width: 100%; max-width: 300px;"
+        on:keyup={(event) => {
+          if (isEnter(event)) verifyId();
+        }}
+      >
+        <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
+        <Icon class="material-icons" slot="trailingIcon"
+          >arrow_circle_right</Icon
+        >
+        <HelperText
+          persistent
+          slot="helper"
+          style="color: red; font-size: 0.8rem;">{verificationError}</HelperText
+        >
+      </Textfield>
+    {:else}
+      <h1>Admin Panel</h1>
+      <p>
+        Hier finden sich bald Infos zum System, dem Nutzerverhalten und Metriken
+        aller Art.
+      </p>
+    {/if}
   </div>
 </section>
 
@@ -52,6 +83,7 @@
       align-items: center;
       flex-direction: column;
       margin-top: 2rem;
+      text-align: center;
     }
   }
 </style>
