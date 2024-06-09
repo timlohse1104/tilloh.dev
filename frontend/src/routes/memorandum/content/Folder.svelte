@@ -238,7 +238,7 @@
 
   <div class="boxContent">
     {#await $localPresetStore}
-      <p>Loading links</p>
+      <p>Lädt gespeicherte Hyperlinks...</p>
     {:then value}
       {#if $localPresetStore?.Folders[id]?.links.length > 0}
         {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}

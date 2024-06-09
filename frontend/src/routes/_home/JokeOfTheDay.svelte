@@ -19,7 +19,7 @@
       </i>
     </Card>
   {:else}
-    <p>Loading...</p>
+    <p>Lädt Witz des Tages...</p>
   {/if}
 </section>
 
