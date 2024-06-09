@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -22,18 +23,19 @@ import {
 export class JokesController {
   constructor(private jokesService: JokesService) {}
 
+  @Public()
   @ApiOkResponse({
     description: 'Random joke rotated daily.',
     type: JokeDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @Public()
   @Get('/random')
   getRandomJoke() {
     return this.jokesService.getRandomJoke();
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Jokes.',
     type: [JokeDto],
@@ -45,6 +47,7 @@ export class JokesController {
     return this.jokesService.listJokes();
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Joke by id.',
     type: JokeDto,
@@ -56,6 +59,7 @@ export class JokesController {
     return this.jokesService.getJoke(id);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Joke created.',
     type: JokeDto,
@@ -67,6 +71,7 @@ export class JokesController {
     return this.jokesService.createJoke(modifyJokeDto);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Joke updated.',
     type: JokeDto,
@@ -78,6 +83,7 @@ export class JokesController {
     return this.jokesService.updateJoke(id, modifyJokeDto);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Joke deleted.',
     type: JokeDto,

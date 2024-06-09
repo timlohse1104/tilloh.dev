@@ -23,6 +23,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -34,6 +35,7 @@ import {
 export class KeystoreController {
   constructor(private keystoreService: KeystoreMongoDbService) {}
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'List of all keys successfully returned.',
     type: [GetKeystoreOutputDto],
@@ -45,6 +47,7 @@ export class KeystoreController {
     return this.keystoreService.findAll();
   }
 
+  @Public()
   @ApiOkResponse({
     description: 'Key successfully returned.',
     type: GetKeystoreOutputDto,
@@ -52,7 +55,6 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
-  @Public()
   @Get('/:identifier/:key')
   getKey(@Param() getKeystoreInput: GetKeystoreInputDto) {
     return this.keystoreService.findOne(
@@ -61,13 +63,13 @@ export class KeystoreController {
     );
   }
 
+  @Public()
   @ApiOkResponse({
     description: 'Key successfully created.',
     type: CreateKeystoreOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @Public()
   @Post()
   createKey(@Body() createKeystoreInputDto: CreateKeystoreInputDto) {
     return this.keystoreService.create(
@@ -77,6 +79,7 @@ export class KeystoreController {
     );
   }
 
+  @Public()
   @ApiOkResponse({
     description: 'Key successfully updated.',
     type: UpdateKeystoreOutputDto,
@@ -84,7 +87,6 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
-  @Public()
   @Put('/:identifier/:key')
   updateIdentifier(
     @Param() updateIdentifierInputDto: UpdateKeystoreInputParamDto,
@@ -97,6 +99,7 @@ export class KeystoreController {
     );
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Identifiers successfully deleted.',
     type: RemoveKeystoreOutputDto,

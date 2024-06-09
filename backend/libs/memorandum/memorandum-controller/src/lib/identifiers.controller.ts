@@ -23,6 +23,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -34,6 +35,7 @@ import {
 export class IdentifiersController {
   constructor(private identifiersService: IdentifiersService) {}
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'List of all identifiers successfully returned.',
     type: [GetIdentifiersOutputDto],
@@ -45,6 +47,7 @@ export class IdentifiersController {
     return this.identifiersService.listIdentifiers();
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Identifier successfully returned.',
     type: GetIdentifierOutputDto,
@@ -57,18 +60,19 @@ export class IdentifiersController {
     return this.identifiersService.getIdentifier(getIdentifierInput);
   }
 
+  @Public()
   @ApiOkResponse({
     description: 'Identifier successfully created.',
     type: CreateIdentifierOutputDto,
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @Public()
   @Post()
   createIdentifier(@Body() createIdentifierInputDto: CreateIdentifierInputDto) {
     return this.identifiersService.createIdentifier(createIdentifierInputDto);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Identifier successfully updated.',
     type: UpdateIdentifierOutputDto,
@@ -87,6 +91,7 @@ export class IdentifiersController {
     );
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Identifiers successfully deleted.',
     type: RemoveIdentifierOutputDto,

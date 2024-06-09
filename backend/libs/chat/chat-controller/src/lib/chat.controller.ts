@@ -22,6 +22,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -33,6 +34,7 @@ import {
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'List of all chats successfully returned.',
     type: [GetChatsOutputDto],
@@ -44,6 +46,7 @@ export class ChatController {
     return this.chatService.listChats();
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Chat successfully returned.',
     type: GetChatOutputDto,
@@ -57,6 +60,7 @@ export class ChatController {
     return this.chatService.findChat(id);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Chat successfully created.',
     type: CreateChatOutputDto,
@@ -69,6 +73,7 @@ export class ChatController {
     return this.chatService.createChat(name);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Chat successfully updated.',
     type: UpdateChatOutputDto,
@@ -84,6 +89,7 @@ export class ChatController {
     return this.chatService.updateChat(updateChatInputDto.id, identifierDto);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Chat successfully deleted.',
     type: RemoveChatOutputDto,
