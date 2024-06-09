@@ -4,7 +4,9 @@
   import NavigationEntry from './NavigationEntry.svelte';
 
   const routeKeys = Object.keys(routes);
-  const filteredRouteKeys = routeKeys.filter((key) => key !== 'settings');
+  const filteredRouteKeys = routeKeys.filter(
+    (key) => key !== 'settings' && key !== 'admin',
+  );
   const filteredRouteKeysHalf = Math.floor(filteredRouteKeys.length / 2);
   const filteredRouteKeysThird = Math.floor(filteredRouteKeys.length / 3);
 

@@ -39,4 +39,9 @@ export const routes = {
     path: '/settings',
     icon: 'settings',
   },
+  admin: {
+    name: 'Admin',
+    path: '/admin',
+    icon: 'admin_panel_settings',
+  },
 };
