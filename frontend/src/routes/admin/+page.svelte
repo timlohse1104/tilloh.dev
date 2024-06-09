@@ -31,6 +31,7 @@
       }}
     >
       <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
+      <Icon class="material-icons" slot="trailingIcon">arrow_circle_right</Icon>
     </Textfield>
   </div>
 </section>
