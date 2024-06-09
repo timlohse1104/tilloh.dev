@@ -38,7 +38,7 @@
 </script>
 
 {#await $localPresetStore}
-  <p>Waiting for the promise to resolve...</p>
+  <p>Lädt lokalen Speicher...</p>
 {:then value}
   {#if value.Folders.length > 0}
     {#if $folderOrderFolder === 'fixed'}
@@ -75,7 +75,7 @@
     <Startup on:new={createFolder} on:default={loadPreset} />
   {/if}
 {:catch error}
-  <p>Something went wrong: {error.message}</p>
+  <p>Etwas ist schieß gelaufen: {error.message}</p>
 {/await}
 
 <Fab

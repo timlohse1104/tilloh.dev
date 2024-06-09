@@ -254,7 +254,9 @@
         {/each}
       {/if}
     {:catch error}
-      <p>Something went wrong: {error.message}</p>
+      <p>
+        Beim laden der Hyperlinks ist etwas schief gelaufen: {error.message}
+      </p>
     {/await}
   </div>
 
