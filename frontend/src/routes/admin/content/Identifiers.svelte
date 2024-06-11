@@ -11,6 +11,11 @@
   let identifiers: IdentifierDto[] = [];
   let selectionIndex = 3;
 
+  const reloadIdentifiers = async () => {
+    identifiers = await getIdentifiers(adminToken);
+    console.log({ identifiers }, 'Identifiers reloaded.');
+  };
+
   const removeIdentifier = async (identifierId: string) => {
     try {
       await deleteIdentifier(adminToken, identifierId);
@@ -35,7 +40,12 @@
 </script>
 
 <section>
-  <h2>Identifiers</h2>
+  <div class="identifiers-headline">
+    <h2>Identifiers</h2>
+    <IconButton class="material-icons" on:click={reloadIdentifiers}
+      >refresh</IconButton
+    >
+  </div>
   <List
     class="identifiers-list"
     threeLine
@@ -70,6 +80,12 @@
 </section>
 
 <style lang="scss">
+  .identifiers-headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   * :global(.identifiers-list) {
     max-width: 600px;
   }
