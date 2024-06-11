@@ -15,6 +15,16 @@ export async function getIdentifiers(token: string) {
   }).then((res) => res.json());
 }
 
+export async function getIdentifier(token: string, id: string) {
+  return await fetch(`${apiURL}/identifiers/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+}
+
 export async function createIdentifier(token: string, name: string) {
   return await fetch(`${apiURL}/identifiers`, {
     method: 'POST',
