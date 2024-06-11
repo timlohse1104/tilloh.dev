@@ -1,13 +1,8 @@
 <script lang="ts">
   import { getIdentifiers } from '$lib/api/identifiers.api';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
-  import List, {
-    Item,
-    Meta,
-    PrimaryText,
-    SecondaryText,
-    Text,
-  } from '@smui/list';
+  import IconButton from '@smui/icon-button';
+  import List, { Item, PrimaryText, SecondaryText, Text } from '@smui/list';
   import Graphic from '@smui/list/src/Graphic.svelte';
   import { onMount } from 'svelte';
 
@@ -16,9 +11,13 @@
   let identifiers: IdentifierDto[] = [];
   let selectionIndex = 3;
 
+  const deleteIdentifier = async (identifierId: string) => {
+    console.log('Delete identifier with ID:', identifierId);
+  };
+
   onMount(async () => {
     identifiers = await getIdentifiers(adminId);
-    console.log(identifiers);
+    console.log({ identifiers }, 'Identifiers loaded.');
   });
 </script>
 
@@ -26,7 +25,7 @@
   <h2>Identifiers</h2>
   <List
     class="identifiers-list"
-    twoLine
+    threeLine
     avatarList
     singleSelection
     selectedIndex={selectionIndex}
@@ -37,11 +36,21 @@
         selected={selectionIndex === i}
       >
         <Graphic class="material-icons">fingerprint</Graphic>
-        <Text style="margin-right:1.5rem;">
+        <Text style="margin-right:1rem;">
           <PrimaryText style="text-align:start;">{identifier.name}</PrimaryText>
-          <SecondaryText>{identifier._id}</SecondaryText>
+          <SecondaryText
+            >[🆕{new Date(identifier.created).toLocaleString('de-DE')} - 🔀{new Date(
+              identifier.updated,
+            ).toLocaleString('de-DE')}]</SecondaryText
+          >
+          <SecondaryText style="text-align:start;"
+            >{identifier._id}</SecondaryText
+          >
         </Text>
-        <Meta class="material-icons">info</Meta>
+        <IconButton
+          class="material-icons"
+          on:click={() => deleteIdentifier(identifier._id)}>delete</IconButton
+        >
       </Item>
     {/each}
   </List>
