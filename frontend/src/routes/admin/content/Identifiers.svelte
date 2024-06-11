@@ -12,7 +12,7 @@
   let selectionIndex = 3;
 
   const deleteIdentifier = async (identifierId: string) => {
-    console.log('Delete identifier with ID:', identifierId);
+    await deleteIdentifier(identifierId);
   };
 
   onMount(async () => {
