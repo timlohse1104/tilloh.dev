@@ -1,22 +1,35 @@
 <script lang="ts">
-  import { getIdentifiers } from '$lib/api/identifiers.api';
+  import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import IconButton from '@smui/icon-button';
   import List, { Item, PrimaryText, SecondaryText, Text } from '@smui/list';
   import Graphic from '@smui/list/src/Graphic.svelte';
   import { onMount } from 'svelte';
 
-  export let adminId: string;
+  export let adminToken: string;
 
   let identifiers: IdentifierDto[] = [];
   let selectionIndex = 3;
 
-  const deleteIdentifier = async (identifierId: string) => {
-    await deleteIdentifier(identifierId);
+  const removeIdentifier = async (identifierId: string) => {
+    try {
+      await deleteIdentifier(adminToken, identifierId);
+    } catch (error) {
+      console.error('Error deleting identifier', error);
+      return;
+    }
+
+    const deletedIdentifier = identifiers.find(
+      (identifier) => identifier._id === identifierId,
+    );
+    console.log({ deletedIdentifier }, 'Identifier deleted.');
+    identifiers = identifiers.filter(
+      (identifier) => identifier._id !== identifierId,
+    );
   };
 
   onMount(async () => {
-    identifiers = await getIdentifiers(adminId);
+    identifiers = await getIdentifiers(adminToken);
     console.log({ identifiers }, 'Identifiers loaded.');
   });
 </script>
@@ -38,18 +51,18 @@
         <Graphic class="material-icons">fingerprint</Graphic>
         <Text style="margin-right:1rem;">
           <PrimaryText style="text-align:start;">{identifier.name}</PrimaryText>
-          <SecondaryText
-            >[🆕{new Date(identifier.created).toLocaleString('de-DE')} - 🔀{new Date(
-              identifier.updated,
-            ).toLocaleString('de-DE')}]</SecondaryText
-          >
           <SecondaryText style="text-align:start;"
             >{identifier._id}</SecondaryText
+          >
+          <SecondaryText
+            >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
+              identifier.updated,
+            ).toLocaleString('de-DE')}</SecondaryText
           >
         </Text>
         <IconButton
           class="material-icons"
-          on:click={() => deleteIdentifier(identifier._id)}>delete</IconButton
+          on:click={() => removeIdentifier(identifier._id)}>delete</IconButton
         >
       </Item>
     {/each}

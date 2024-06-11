@@ -61,7 +61,7 @@
     {:else}
       <h1>Admin Panel</h1>
 
-      <Identifiers adminId={tempAdminId} />
+      <Identifiers adminToken={tempAdminId} />
     {/if}
   </div>
 </section>
