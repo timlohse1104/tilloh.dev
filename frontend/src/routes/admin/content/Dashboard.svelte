@@ -7,19 +7,19 @@
 <section>
   <h2>Dashboard</h2>
   <div class="dashboard-content">
-    <Card style="background-color:var(--color-bg-2);">
+    <Card class="admin-dashboard-card">
       <Content>
         <div class="card-headline">
-          <h3>Identifiers</h3>
+          <h2>Identifiers</h2>
           <p>People using online storage</p>
         </div>
         <p class="card-amount">{identifierAmount}</p></Content
       >
     </Card>
-    <Card style="background-color:var(--color-bg-2);">
+    <Card class="admin-dashboard-card">
       <Content>
         <div class="card-headline">
-          <h3>Memorandum</h3>
+          <h2>Memorandum</h2>
           <p>Saved link presets</p>
         </div>
         <p class="card-amount">{presetAmounts}</p></Content
@@ -29,6 +29,12 @@
 </section>
 
 <style lang="scss">
+  :global(.admin-dashboard-card) {
+    width: 100%;
+    min-width: 200px;
+    min-height: 200px;
+    background-color: var(--color-bg-2);
+  }
   .dashboard-content {
     display: flex;
     flex-direction: row;
@@ -37,16 +43,12 @@
   }
 
   .card-headline {
-    h3 {
-      margin-bottom: 0;
-    }
     p {
-      margin-top: 0;
       font-size: 0.8rem;
     }
   }
   .card-amount {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     margin: 0;
   }

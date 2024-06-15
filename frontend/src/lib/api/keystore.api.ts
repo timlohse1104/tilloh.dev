@@ -1,8 +1,8 @@
 import { dev } from '$app/environment';
 import type {
-  CreateKeystoreKeyDto,
   InputKeystoreDto,
   InputKeystoreUpdateDto,
+  KeystoreKeyDto,
 } from '$lib/types/keystore.dto';
 import { environment } from '$lib/util/environment';
 
@@ -22,7 +22,7 @@ export async function getKeystore(token: string) {
   }).then((res) => res.json());
 }
 
-export async function createKey(createKeystoreKeyDto: CreateKeystoreKeyDto) {
+export async function createKey(createKeystoreKeyDto: KeystoreKeyDto) {
   return await fetch(`${apiURL}/keystore`, {
     method: 'POST',
     body: JSON.stringify(createKeystoreKeyDto),
@@ -46,7 +46,7 @@ export async function updateKey(
   }).then((res) => res.json());
 }
 
-export async function deleteIdentifier(
+export async function deleteKey(
   token: string,
   inputKeystoreDto: InputKeystoreDto
 ) {

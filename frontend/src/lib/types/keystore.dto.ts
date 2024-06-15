@@ -1,7 +1,10 @@
-export class CreateKeystoreKeyDto {
+export class KeystoreKeyDto {
   identifier: string;
   key: string;
   value: string;
+  updated?: string;
+  created?: string;
+  _id?: string;
 }
 
 export class InputKeystoreDto {
