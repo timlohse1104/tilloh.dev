@@ -5,10 +5,10 @@
   import Tooltip from '@smui/tooltip/src/Tooltip.svelte';
   import Wrapper from '@smui/tooltip/src/Wrapper.svelte';
   import { onMount } from 'svelte';
-  import { routes } from '../../lib/config/applications';
+  import { applicationRoutes } from '../../lib/config/applications';
   import { UnoSort } from './classes/uno-sort';
 
-  const { 'uno-sort': unoSortRoute } = routes;
+  const { 'uno-sort': unoSortRoute } = applicationRoutes;
   const sortInfotext = `
     1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe mit den geringsten Karten ist ganz links.<br/>
     2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend sortiert.<br/>

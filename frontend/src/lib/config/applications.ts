@@ -1,4 +1,4 @@
-export const routes = {
+export const applicationRoutes = {
   home: {
     name: 'Startseite',
     path: '/',
@@ -34,9 +34,17 @@ export const routes = {
     path: '/about',
     icon: 'badge',
   },
+};
+
+export const utilityRoutes = {
   settings: {
     name: 'Einstellungen',
     path: '/settings',
     icon: 'settings',
+  },
+  admin: {
+    name: 'Admin',
+    path: '/admin',
+    icon: 'admin_panel_settings',
   },
 };

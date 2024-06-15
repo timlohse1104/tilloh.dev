@@ -28,7 +28,6 @@ export class JokesController {
     description: 'Random joke rotated daily.',
     type: JokeDto,
   })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/random')
   getRandomJoke() {

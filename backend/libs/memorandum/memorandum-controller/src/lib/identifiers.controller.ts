@@ -65,7 +65,6 @@ export class IdentifiersController {
     description: 'Identifier successfully created.',
     type: CreateIdentifierOutputDto,
   })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post()
   createIdentifier(@Body() createIdentifierInputDto: CreateIdentifierInputDto) {

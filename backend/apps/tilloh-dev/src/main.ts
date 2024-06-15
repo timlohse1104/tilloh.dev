@@ -1,3 +1,4 @@
+import { AdminControllerModule } from '@backend/admin-controller';
 import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
@@ -56,10 +57,11 @@ import { EnvironmentVariables, validate } from './env.validation';
         },
       },
     }),
-    ChatGatewayModule,
-    ChatControllerModule,
+    AdminControllerModule,
     MemorandumControllerModule,
     JokesControllerModule,
+    ChatControllerModule,
+    ChatGatewayModule,
   ],
   providers: [
     Logger,

@@ -52,7 +52,6 @@ export class KeystoreController {
     description: 'Key successfully returned.',
     type: GetKeystoreOutputDto,
   })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
   @Get('/:identifier/:key')
@@ -68,7 +67,6 @@ export class KeystoreController {
     description: 'Key successfully created.',
     type: CreateKeystoreOutputDto,
   })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post()
   createKey(@Body() createKeystoreInputDto: CreateKeystoreInputDto) {
@@ -84,7 +82,6 @@ export class KeystoreController {
     description: 'Key successfully updated.',
     type: UpdateKeystoreOutputDto,
   })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
   @Put('/:identifier/:key')
