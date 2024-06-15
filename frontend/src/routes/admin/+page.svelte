@@ -1,19 +1,23 @@
 <script lang="ts">
   import { verifyAdminId } from '$lib/api/admin.api';
+  import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
   import { utilityRoutes } from '$lib/config/applications';
+  import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
-  let tempAdminId = '';
+  let adminToken = '';
   let isVerified = false;
   let verificationError = '';
+  let identifiers: IdentifierDto[] = [];
 
   async function verifyId() {
-    const verifyResponse = await verifyAdminId(tempAdminId);
+    const verifyResponse = await verifyAdminId(adminToken);
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
       console.error('Error verifying admin ID');
@@ -28,7 +32,31 @@
       return;
     }
     isVerified = verifyResponse.isAdmin;
+    loadIdentifiers();
   }
+
+  const loadIdentifiers = async () => {
+    identifiers = await getIdentifiers(adminToken);
+    console.log({ identifiers }, 'Identifiers reloaded.');
+  };
+
+  const removeIdentifier = async (event) => {
+    const { identifierId } = event.detail;
+    try {
+      await deleteIdentifier(adminToken, identifierId);
+    } catch (error) {
+      console.error('Error deleting identifier', error);
+      return;
+    }
+
+    const deletedIdentifier = identifiers.find(
+      (identifier) => identifier._id === identifierId,
+    );
+    console.log({ deletedIdentifier }, 'Identifier deleted.');
+    identifiers = identifiers.filter(
+      (identifier) => identifier._id !== identifierId,
+    );
+  };
 </script>
 
 <svelte:head>
@@ -41,7 +69,7 @@
     {#if !isVerified}
       <Textfield
         variant="outlined"
-        bind:value={tempAdminId}
+        bind:value={adminToken}
         label="Admin ID"
         style="margin-top: 1rem; width: 100%; max-width: 300px;"
         on:keyup={(event) => {
@@ -61,7 +89,12 @@
     {:else}
       <h1>Admin Panel</h1>
 
-      <Identifiers adminToken={tempAdminId} />
+      <Dashboard identifierAmount={identifiers.length} />
+      <Identifiers
+        {identifiers}
+        on:reloadIdentifiers={loadIdentifiers}
+        on:removeIdentifier={removeIdentifier}
+      />
     {/if}
   </div>
 </section>
