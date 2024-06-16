@@ -1,10 +1,14 @@
 <script lang="ts">
   import { verifyAdminId } from '$lib/api/admin.api';
+  import { getChats } from '$lib/api/chats.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
+  import { getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
   import { utilityRoutes } from '$lib/config/applications';
   import { ActivityTypeDto } from '$lib/types/admin.dto';
+  import type { ChatDto } from '$lib/types/chats.dto';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
+  import type { JokeDto } from '$lib/types/jokes.dto';
   import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { isEnter } from '$lib/util/helper.js';
@@ -23,6 +27,8 @@
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
   let allPresetFolders: FolderDto[] = [];
+  let allChats: ChatDto[] = [];
+  let allJokes: JokeDto[] = [];
 
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
@@ -33,6 +39,16 @@
     if (allPresetFolders.length === 0) return 0;
     const allLinks = allPresetFolders.map((folder) => folder.links).flat();
     return allLinks.length;
+  };
+
+  $: getJokesAmount = (): number => {
+    if (allJokes.length === 0) return 0;
+    return allJokes.length;
+  };
+
+  $: getChatsAmount = (): number => {
+    if (allChats.length === 0) return 0;
+    return allChats.length;
   };
 
   $: getLatestActivities = () => {
@@ -74,8 +90,7 @@
       return;
     }
     isVerified = verifyResponse.isAdmin;
-    loadIdentifiers();
-    loadLinkPresets();
+    await updateDashboard();
   }
 
   const loadLinkPresets = async () => {
@@ -138,9 +153,21 @@
     await loadIdentifiers();
   };
 
+  const loadJokes = async () => {
+    allJokes = await getJokes(adminToken);
+    console.log({ allJokes }, 'Jokes reloaded.');
+  };
+
+  const loadChats = async () => {
+    allChats = await getChats(adminToken);
+    console.log({ allChats }, 'Chats reloaded.');
+  };
+
   const updateDashboard = async () => {
     await loadLinkPresets();
     await loadIdentifiers();
+    await loadJokes();
+    await loadChats();
     console.log('Dashboard updated.');
   };
 </script>
@@ -182,6 +209,8 @@
         presetAmounts={linkPresets.length}
         presetFolderAmount={getFolderAmount()}
         presetLinksAmount={getLinksAmount()}
+        jokesAmount={getJokesAmount()}
+        chatsAmount={getChatsAmount()}
         on:updateDashboard={updateDashboard}
       />
 

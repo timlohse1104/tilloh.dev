@@ -3,10 +3,12 @@
   import { createEventDispatcher } from 'svelte';
   import DashboardCard from './DashboardCard.svelte';
 
-  export let identifierAmount: number;
-  export let presetAmounts: number;
-  export let presetFolderAmount: number;
-  export let presetLinksAmount: number;
+  export let identifierAmount: number = 0;
+  export let presetAmounts: number = 0;
+  export let presetFolderAmount: number = 0;
+  export let presetLinksAmount: number = 0;
+  export let chatsAmount: number = 0;
+  export let jokesAmount: number = 0;
   const dispatch = createEventDispatcher();
 </script>
 
@@ -36,8 +38,18 @@
     />
     <DashboardCard
       header="Links"
-      description="Saved memorandum folders"
+      description="Saved memorandum links"
       amount={presetLinksAmount}
+    />
+    <DashboardCard
+      header="Jokes"
+      description="Displayed daily jokes"
+      amount={chatsAmount}
+    />
+    <DashboardCard
+      header="Chats"
+      description="Communication channels"
+      amount={chatsAmount}
     />
   </div>
 </section>
