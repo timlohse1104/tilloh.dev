@@ -20,9 +20,11 @@
 </script>
 
 <section class="admin-sections">
-  <h2>Activities</h2>
+  <div class="admin-sections-headline">
+    <h2>Activities</h2>
+  </div>
   <div class="activities-content">
-    <List threeLine avatarList singleSelection>
+    <List twoLine avatarList singleSelection>
       {#each activities as activity}
         <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon"
@@ -30,12 +32,13 @@
           >
           <Text class="admin-list-items-text">
             <PrimaryText>{activity.description}</PrimaryText>
-            <SecondaryText>{activity.id}</SecondaryText>
             <SecondaryText
-              >🔧{new Date(activity.updated).toLocaleString('de-DE')} ✨{new Date(
-                activity.created,
-              ).toLocaleString('de-DE')}
-            </SecondaryText>
+              >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
+                'de-DE',
+              )} ✨{new Date(activity.created).toLocaleString(
+                'de-DE',
+              )}</SecondaryText
+            >
           </Text>
         </Item>
       {/each}

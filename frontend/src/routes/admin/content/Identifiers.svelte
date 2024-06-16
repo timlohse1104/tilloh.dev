@@ -12,10 +12,6 @@
 <section class="admin-sections">
   <div class="admin-sections-headline">
     <h2>Identifiers</h2>
-    <IconButton
-      class="material-icons"
-      on:click={() => dispatch('reloadIdentifiers')}>refresh</IconButton
-    >
   </div>
   <List threeLine avatarList singleSelection>
     {#each identifiers as identifier, i}

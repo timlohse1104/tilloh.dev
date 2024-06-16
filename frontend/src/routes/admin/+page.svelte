@@ -14,7 +14,7 @@
   import Activities from './content/Activities.svelte';
   import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
-  import Memorandum from './content/Memorandum.svelte';
+  import LinkPresets from './content/LinkPresets.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let adminToken = '';
@@ -36,34 +36,22 @@
   };
 
   $: getLatestActivities = () => {
-    const aDayInMs = 1000 * 60 * 60 * 24;
-    const now = new Date().getTime();
-    const todaysPresets = linkPresets.filter((preset) => {
-      const presetDate = new Date(preset.created).getTime();
-      return now - presetDate < aDayInMs;
-    });
-    console.log({ todaysPresets }, 'Todays presets');
-    const todaysIdentifiers = identifiers.filter((identifier) => {
-      const identifierDate = new Date(identifier.created).getTime();
-      return now - identifierDate < aDayInMs;
-    });
-    console.log({ todaysIdentifiers }, 'Todays identifiers');
     const activities = [
-      ...todaysPresets.map((preset) => ({
+      ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: preset.key,
+        description: `Key ${preset.key} got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
         updated: preset.updated,
         created: preset.created,
       })),
-      ...todaysIdentifiers.map((identifier) => ({
+      ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: identifier.name,
+        description: `Identifier ${identifier.name} got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
         updated: identifier.updated,
         created: identifier.created,
       })),
-    ];
+    ].slice(0, 10);
     console.log({ activities }, 'Activities reloaded.');
     return activities.sort(
       (a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime(),
@@ -125,9 +113,7 @@
       (preset) => preset.identifier === identifier && preset.key === key,
     );
     console.log({ deletedLinkPreset }, 'Link preset deleted.');
-    linkPresets = linkPresets.filter(
-      (preset) => preset.identifier !== identifier || preset.key !== key,
-    );
+    await loadLinkPresets();
   };
 
   const loadIdentifiers = async () => {
@@ -149,9 +135,13 @@
       (identifier) => identifier._id === identifierId,
     );
     console.log({ deletedIdentifier }, 'Identifier deleted.');
-    identifiers = identifiers.filter(
-      (identifier) => identifier._id !== identifierId,
-    );
+    await loadIdentifiers();
+  };
+
+  const updateDashboard = async () => {
+    await loadLinkPresets();
+    await loadIdentifiers();
+    console.log('Dashboard updated.');
   };
 </script>
 
@@ -192,22 +182,15 @@
         presetAmounts={linkPresets.length}
         presetFolderAmount={getFolderAmount()}
         presetLinksAmount={getLinksAmount()}
+        on:updateDashboard={updateDashboard}
       />
 
       <Activities activities={getLatestActivities()} />
     </div>
 
     <div class="admin-content">
-      <Identifiers
-        {identifiers}
-        on:reloadIdentifiers={loadIdentifiers}
-        on:removeIdentifier={removeIdentifier}
-      />
-      <Memorandum
-        {linkPresets}
-        on:reloadLinkPresets={loadLinkPresets}
-        on:removeLinkPresets={removeLinkPreset}
-      />
+      <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
     </div>
   {/if}
 </section>
