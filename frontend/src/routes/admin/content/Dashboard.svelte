@@ -44,7 +44,7 @@
     <DashboardCard
       header="Jokes"
       description="Displayed daily jokes"
-      amount={chatsAmount}
+      amount={jokesAmount}
     />
     <DashboardCard
       header="Chats"
@@ -57,7 +57,7 @@
 <style lang="scss">
   .dashboard-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     margin-bottom: 1rem;
   }
