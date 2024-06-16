@@ -181,15 +181,19 @@
     justify-content: center;
     align-items: center;
     flex: 0.8;
+    width: 100%;
+    height: 100%;
 
     .main-content {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      margin-top: 2rem;
       text-align: center;
-      width: 100vw;
+      width: 100%;
+      height: 90dvh;
+      overflow-x: hidden;
+      overflow-y: scroll;
     }
   }
 
@@ -198,6 +202,12 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
+    h1 {
+      margin: 0;
+      padding-top: 2rem;
+      display: fixed;
+    }
   }
 
   .admin-content {
