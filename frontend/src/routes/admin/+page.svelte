@@ -5,6 +5,7 @@
   import { utilityRoutes } from '$lib/config/applications';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
+  import type { FolderDto } from '$lib/types/memorandum.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -19,6 +20,17 @@
   let verificationError = '';
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
+  let allPresetFolders: FolderDto[] = [];
+
+  $: getFolderAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    return allPresetFolders.length;
+  };
+  $: getLinksAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const allLinks = allPresetFolders.map((folder) => folder.links).flat();
+    return allLinks.length;
+  };
 
   async function verifyId() {
     const verifyResponse = await verifyAdminId(adminToken);
@@ -41,8 +53,24 @@
   }
 
   const loadLinkPresets = async () => {
-    linkPresets = await getKeystore(adminToken);
+    const keystoreResponse = await getKeystore(adminToken);
+    const linkPresetKey = 'memorandum.link-preset';
+    linkPresets = keystoreResponse.filter(
+      (preset) => preset.key === linkPresetKey,
+    );
     console.log({ linkPresets }, 'Link presets reloaded.');
+    loadPresetFolders();
+  };
+
+  const loadPresetFolders = () => {
+    if (linkPresets.length === 0) return;
+    allPresetFolders = linkPresets
+      .map((preset) => JSON.parse(preset.value).Folders)
+      .flat();
+    console.log(
+      { presetFolders: allPresetFolders },
+      'Preset folders initialized.',
+    );
   };
 
   const removeLinkPreset = async (event) => {
@@ -123,6 +151,8 @@
         <Dashboard
           identifierAmount={identifiers.length}
           presetAmounts={linkPresets.length}
+          presetFolderAmount={getFolderAmount()}
+          presetLinksAmount={getLinksAmount()}
         />
       </div>
 
