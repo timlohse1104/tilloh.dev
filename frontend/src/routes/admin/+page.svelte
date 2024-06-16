@@ -3,6 +3,7 @@
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
   import { utilityRoutes } from '$lib/config/applications';
+  import { ActivityTypeDto } from '$lib/types/admin.dto';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
@@ -10,6 +11,7 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import Activities from './content/Activities.svelte';
   import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
   import Memorandum from './content/Memorandum.svelte';
@@ -26,10 +28,46 @@
     if (allPresetFolders.length === 0) return 0;
     return allPresetFolders.length;
   };
+
   $: getLinksAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
     const allLinks = allPresetFolders.map((folder) => folder.links).flat();
     return allLinks.length;
+  };
+
+  $: getLatestActivities = () => {
+    const aDayInMs = 1000 * 60 * 60 * 24;
+    const now = new Date().getTime();
+    const todaysPresets = linkPresets.filter((preset) => {
+      const presetDate = new Date(preset.created).getTime();
+      return now - presetDate < aDayInMs;
+    });
+    console.log({ todaysPresets }, 'Todays presets');
+    const todaysIdentifiers = identifiers.filter((identifier) => {
+      const identifierDate = new Date(identifier.created).getTime();
+      return now - identifierDate < aDayInMs;
+    });
+    console.log({ todaysIdentifiers }, 'Todays identifiers');
+    const activities = [
+      ...todaysPresets.map((preset) => ({
+        type: ActivityTypeDto.PRESET,
+        id: preset.identifier,
+        description: preset.key,
+        updated: preset.updated,
+        created: preset.created,
+      })),
+      ...todaysIdentifiers.map((identifier) => ({
+        type: ActivityTypeDto.IDENTIFIER,
+        id: identifier._id,
+        description: identifier.name,
+        updated: identifier.updated,
+        created: identifier.created,
+      })),
+    ];
+    console.log({ activities }, 'Activities reloaded.');
+    return activities.sort(
+      (a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime(),
+    );
   };
 
   async function verifyId() {
@@ -123,8 +161,8 @@
 </svelte:head>
 
 <section>
-  <div class="main-content">
-    {#if !isVerified}
+  {#if !isVerified}
+    <div class="verify-content">
       <Textfield
         variant="outlined"
         bind:value={adminToken}
@@ -144,32 +182,34 @@
           style="color: red; font-size: 0.8rem;">{verificationError}</HelperText
         >
       </Textfield>
-    {:else}
-      <div class="admin-overview">
-        <h1>Admin Panel</h1>
+    </div>
+  {:else}
+    <div class="admin-overview">
+      <h1>Admin Panel</h1>
 
-        <Dashboard
-          identifierAmount={identifiers.length}
-          presetAmounts={linkPresets.length}
-          presetFolderAmount={getFolderAmount()}
-          presetLinksAmount={getLinksAmount()}
-        />
-      </div>
+      <Dashboard
+        identifierAmount={identifiers.length}
+        presetAmounts={linkPresets.length}
+        presetFolderAmount={getFolderAmount()}
+        presetLinksAmount={getLinksAmount()}
+      />
 
-      <div class="admin-content">
-        <Identifiers
-          {identifiers}
-          on:reloadIdentifiers={loadIdentifiers}
-          on:removeIdentifier={removeIdentifier}
-        />
-        <Memorandum
-          {linkPresets}
-          on:reloadLinkPresets={loadLinkPresets}
-          on:removeLinkPresets={removeLinkPreset}
-        />
-      </div>
-    {/if}
-  </div>
+      <Activities activities={getLatestActivities()} />
+    </div>
+
+    <div class="admin-content">
+      <Identifiers
+        {identifiers}
+        on:reloadIdentifiers={loadIdentifiers}
+        on:removeIdentifier={removeIdentifier}
+      />
+      <Memorandum
+        {linkPresets}
+        on:reloadLinkPresets={loadLinkPresets}
+        on:removeLinkPresets={removeLinkPreset}
+      />
+    </div>
+  {/if}
 </section>
 
 <style lang="scss">
@@ -177,24 +217,21 @@
 
   section {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    flex: 0.8;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    height: 90dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .verify-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-
-    .main-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      width: 100%;
-      height: 90dvh;
-      overflow-x: hidden;
-      overflow-y: scroll;
-    }
   }
 
   .admin-overview {

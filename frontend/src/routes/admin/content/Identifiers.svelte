@@ -7,7 +7,6 @@
   const dispatch = createEventDispatcher();
 
   export let identifiers: IdentifierDto[] = [];
-  let selectionIndex = 3;
 </script>
 
 <section class="admin-sections">
@@ -18,13 +17,9 @@
       on:click={() => dispatch('reloadIdentifiers')}>refresh</IconButton
     >
   </div>
-  <List threeLine avatarList singleSelection selectedIndex={selectionIndex}>
+  <List threeLine avatarList singleSelection>
     {#each identifiers as identifier, i}
-      <Item
-        on:SMUI:action={() => (selectionIndex = i)}
-        selected={selectionIndex === i}
-        class="admin-list-items"
-      >
+      <Item class="admin-list-items">
         <Graphic class="material-icons admin-list-items-icon"
           >fingerprint</Graphic
         >
