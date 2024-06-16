@@ -13,10 +13,6 @@
 <section class="admin-sections">
   <div class="admin-sections-headline">
     <h2>Link Presets</h2>
-    <IconButton
-      class="material-icons"
-      on:click={() => dispatch('reloadLinkPresets')}>refresh</IconButton
-    >
   </div>
   <List threeLine avatarList singleSelection selectedIndex={selectionIndex}>
     {#each linkPresets as linkPreset, i}

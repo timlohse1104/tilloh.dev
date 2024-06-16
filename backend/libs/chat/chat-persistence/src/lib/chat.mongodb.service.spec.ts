@@ -9,12 +9,13 @@ describe('ChatMongoDbService', () => {
   let service: ChatMongoDbService;
   let chatModel: Model<ChatDocument>;
 
-  const mockChat = (id: string, name: string): ChatEntityDto => ({
+  const mockChat = (id: string, name: string): Partial<ChatEntityDto> => ({
     _id: id,
     name: name,
     messages: [],
     clients: {},
     created: new Date(),
+    updated: new Date(),
   });
 
   beforeEach(async () => {
@@ -40,8 +41,8 @@ describe('ChatMongoDbService', () => {
 
   it('should find all chats', async () => {
     const result: ChatEntityDto[] = [
-      mockChat('1', 'chat1'),
-      mockChat('2', 'chat2'),
+      mockChat('1', 'chat1') as ChatEntityDto,
+      mockChat('2', 'chat2') as ChatEntityDto,
     ];
     jest
       .spyOn(chatModel, 'find')

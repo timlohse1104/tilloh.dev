@@ -28,9 +28,13 @@ export class ChatDto {
   @IsNotEmpty()
   messages: MessageDto[];
 
-  @ApiProperty({ description: 'Chat name' })
+  @ApiProperty({ description: 'Chat creation date' })
   @IsOptional()
   created: Date;
+
+  @ApiProperty({ description: 'Chat update date' })
+  @IsOptional()
+  updated: Date;
 
   @ApiProperty({ description: 'Chat emoji' })
   @IsOptional()

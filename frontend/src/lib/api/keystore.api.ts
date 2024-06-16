@@ -5,15 +5,11 @@ import type {
   KeystoreKeyDto,
 } from '$lib/types/keystore.dto';
 import { environment } from '$lib/util/environment';
+import { createHeaders } from './helper';
 
 const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
-
-const createHeaders = (token: string) => ({
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${token}`,
-});
 
 export async function getKeystore(token: string) {
   return await fetch(`${apiURL}/keystore`, {

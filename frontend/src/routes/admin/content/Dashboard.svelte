@@ -1,55 +1,73 @@
 <script lang="ts">
-  import Card, { Content } from '@smui/card';
-  export let identifierAmount: number;
-  export let presetAmounts: number;
+  import IconButton from '@smui/icon-button';
+  import { createEventDispatcher } from 'svelte';
+  import DashboardCard from './DashboardCard.svelte';
+
+  export let identifierAmount: number = 0;
+  export let presetAmounts: number = 0;
+  export let presetFolderAmount: number = 0;
+  export let presetLinksAmount: number = 0;
+  export let chatsAmount: number = 0;
+  export let jokesAmount: number = 0;
+  const dispatch = createEventDispatcher();
 </script>
 
 <section>
-  <h2>Dashboard</h2>
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <IconButton
+      class="material-icons"
+      on:click={() => dispatch('updateDashboard')}>refresh</IconButton
+    >
+  </div>
   <div class="dashboard-content">
-    <Card class="admin-dashboard-card">
-      <Content>
-        <div class="card-headline">
-          <h2>Identifiers</h2>
-          <p>People using online storage</p>
-        </div>
-        <p class="card-amount">{identifierAmount}</p></Content
-      >
-    </Card>
-    <Card class="admin-dashboard-card">
-      <Content>
-        <div class="card-headline">
-          <h2>Memorandum</h2>
-          <p>Saved link presets</p>
-        </div>
-        <p class="card-amount">{presetAmounts}</p></Content
-      >
-    </Card>
+    <DashboardCard
+      header="Identifiers"
+      description="People using online storage"
+      amount={identifierAmount}
+    />
+    <DashboardCard
+      header="Presets"
+      description="Saved memorandum presets"
+      amount={presetAmounts}
+    />
+    <DashboardCard
+      header="Folders"
+      description="Saved memorandum folders"
+      amount={presetFolderAmount}
+    />
+    <DashboardCard
+      header="Links"
+      description="Saved memorandum links"
+      amount={presetLinksAmount}
+    />
+    <DashboardCard
+      header="Jokes"
+      description="Displayed daily jokes"
+      amount={chatsAmount}
+    />
+    <DashboardCard
+      header="Chats"
+      description="Communication channels"
+      amount={chatsAmount}
+    />
   </div>
 </section>
 
 <style lang="scss">
-  :global(.admin-dashboard-card) {
-    width: 100%;
-    min-width: 200px;
-    min-height: 200px;
-    background-color: var(--color-bg-2);
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
   }
+
   .dashboard-content {
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    width: 100%;
-  }
-
-  .card-headline {
-    p {
-      font-size: 0.8rem;
-    }
-  }
-  .card-amount {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin: 0;
+    max-width: 90vw;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 </style>

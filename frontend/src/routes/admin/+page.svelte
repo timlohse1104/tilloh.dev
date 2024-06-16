@@ -1,17 +1,24 @@
 <script lang="ts">
   import { verifyAdminId } from '$lib/api/admin.api';
+  import { getChats } from '$lib/api/chats.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
+  import { getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
   import { utilityRoutes } from '$lib/config/applications';
+  import { ActivityTypeDto } from '$lib/types/admin.dto';
+  import type { ChatDto } from '$lib/types/chats.dto';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
+  import type { JokeDto } from '$lib/types/jokes.dto';
   import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
+  import type { FolderDto } from '$lib/types/memorandum.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import Activities from './content/Activities.svelte';
   import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
-  import Memorandum from './content/Memorandum.svelte';
+  import LinkPresets from './content/LinkPresets.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let adminToken = '';
@@ -19,6 +26,53 @@
   let verificationError = '';
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
+  let allPresetFolders: FolderDto[] = [];
+  let allChats: ChatDto[] = [];
+  let allJokes: JokeDto[] = [];
+
+  $: getFolderAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    return allPresetFolders.length;
+  };
+
+  $: getLinksAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const allLinks = allPresetFolders.map((folder) => folder.links).flat();
+    return allLinks.length;
+  };
+
+  $: getJokesAmount = (): number => {
+    if (allJokes.length === 0) return 0;
+    return allJokes.length;
+  };
+
+  $: getChatsAmount = (): number => {
+    if (allChats.length === 0) return 0;
+    return allChats.length;
+  };
+
+  $: getLatestActivities = () => {
+    const activities = [
+      ...linkPresets.map((preset) => ({
+        type: ActivityTypeDto.PRESET,
+        id: preset.identifier,
+        description: `Key ${preset.key} got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
+        updated: preset.updated,
+        created: preset.created,
+      })),
+      ...identifiers.map((identifier) => ({
+        type: ActivityTypeDto.IDENTIFIER,
+        id: identifier._id,
+        description: `Identifier ${identifier.name} got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
+        updated: identifier.updated,
+        created: identifier.created,
+      })),
+    ].slice(0, 10);
+    console.log({ activities }, 'Activities reloaded.');
+    return activities.sort(
+      (a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime(),
+    );
+  };
 
   async function verifyId() {
     const verifyResponse = await verifyAdminId(adminToken);
@@ -36,13 +90,28 @@
       return;
     }
     isVerified = verifyResponse.isAdmin;
-    loadIdentifiers();
-    loadLinkPresets();
+    await updateDashboard();
   }
 
   const loadLinkPresets = async () => {
-    linkPresets = await getKeystore(adminToken);
+    const keystoreResponse = await getKeystore(adminToken);
+    const linkPresetKey = 'memorandum.link-preset';
+    linkPresets = keystoreResponse.filter(
+      (preset) => preset.key === linkPresetKey,
+    );
     console.log({ linkPresets }, 'Link presets reloaded.');
+    loadPresetFolders();
+  };
+
+  const loadPresetFolders = () => {
+    if (linkPresets.length === 0) return;
+    allPresetFolders = linkPresets
+      .map((preset) => JSON.parse(preset.value).Folders)
+      .flat();
+    console.log(
+      { presetFolders: allPresetFolders },
+      'Preset folders initialized.',
+    );
   };
 
   const removeLinkPreset = async (event) => {
@@ -59,9 +128,7 @@
       (preset) => preset.identifier === identifier && preset.key === key,
     );
     console.log({ deletedLinkPreset }, 'Link preset deleted.');
-    linkPresets = linkPresets.filter(
-      (preset) => preset.identifier !== identifier || preset.key !== key,
-    );
+    await loadLinkPresets();
   };
 
   const loadIdentifiers = async () => {
@@ -83,9 +150,25 @@
       (identifier) => identifier._id === identifierId,
     );
     console.log({ deletedIdentifier }, 'Identifier deleted.');
-    identifiers = identifiers.filter(
-      (identifier) => identifier._id !== identifierId,
-    );
+    await loadIdentifiers();
+  };
+
+  const loadJokes = async () => {
+    allJokes = await getJokes(adminToken);
+    console.log({ allJokes }, 'Jokes reloaded.');
+  };
+
+  const loadChats = async () => {
+    allChats = await getChats(adminToken);
+    console.log({ allChats }, 'Chats reloaded.');
+  };
+
+  const updateDashboard = async () => {
+    await loadLinkPresets();
+    await loadIdentifiers();
+    await loadJokes();
+    await loadChats();
+    console.log('Dashboard updated.');
   };
 </script>
 
@@ -95,8 +178,8 @@
 </svelte:head>
 
 <section>
-  <div class="main-content">
-    {#if !isVerified}
+  {#if !isVerified}
+    <div class="verify-content">
       <Textfield
         variant="outlined"
         bind:value={adminToken}
@@ -116,30 +199,29 @@
           style="color: red; font-size: 0.8rem;">{verificationError}</HelperText
         >
       </Textfield>
-    {:else}
-      <div class="admin-overview">
-        <h1>Admin Panel</h1>
+    </div>
+  {:else}
+    <div class="admin-overview">
+      <h1>Admin Panel</h1>
 
-        <Dashboard
-          identifierAmount={identifiers.length}
-          presetAmounts={linkPresets.length}
-        />
-      </div>
+      <Dashboard
+        identifierAmount={identifiers.length}
+        presetAmounts={linkPresets.length}
+        presetFolderAmount={getFolderAmount()}
+        presetLinksAmount={getLinksAmount()}
+        jokesAmount={getJokesAmount()}
+        chatsAmount={getChatsAmount()}
+        on:updateDashboard={updateDashboard}
+      />
 
-      <div class="admin-content">
-        <Identifiers
-          {identifiers}
-          on:reloadIdentifiers={loadIdentifiers}
-          on:removeIdentifier={removeIdentifier}
-        />
-        <Memorandum
-          {linkPresets}
-          on:reloadLinkPresets={loadLinkPresets}
-          on:removeLinkPresets={removeLinkPreset}
-        />
-      </div>
-    {/if}
-  </div>
+      <Activities activities={getLatestActivities()} />
+    </div>
+
+    <div class="admin-content">
+      <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
+    </div>
+  {/if}
 </section>
 
 <style lang="scss">
@@ -147,20 +229,21 @@
 
   section {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    flex: 0.8;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    height: 90dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
-    .main-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-top: 2rem;
-      text-align: center;
-      width: 100vw;
-    }
+  .verify-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
   }
 
   .admin-overview {
@@ -168,6 +251,12 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
+    h1 {
+      margin: 0;
+      padding-top: 2rem;
+      display: fixed;
+    }
   }
 
   .admin-content {

@@ -34,6 +34,9 @@ export class Chat {
 
   @Prop({ type: Date, required: true, default: () => new Date() })
   created: Date;
+
+  @Prop({ type: Date, required: true, default: () => new Date() })
+  updated: Date;
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);

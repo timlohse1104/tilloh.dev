@@ -5,3 +5,9 @@ export class JokeDto {
   created!: Date;
   updated!: Date;
 }
+
+export class JokeEditDto {
+  text: string;
+  language: string;
+  categories: string[];
+}

@@ -1,14 +1,10 @@
 import { dev } from '$app/environment';
 import { environment } from '$lib/util/environment';
+import { createHeaders } from './helper';
 
 const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
-
-const createHeaders = (token: string) => ({
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${token}`,
-});
 
 export async function getIdentifiers(token: string) {
   return await fetch(`${apiURL}/identifiers`, {
