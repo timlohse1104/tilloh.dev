@@ -3,6 +3,7 @@ import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
+import { SharedControllerHealthModule } from '@backend/shared-controller-health';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
   AdminGuard,
@@ -43,6 +44,7 @@ import { EnvironmentVariables, validate } from './env.validation';
       },
     }),
     MongooseModule.forRoot(process.env.MONGO_DB_URL),
+    SharedControllerHealthModule.registerAsync(),
     LoggerModule.forRoot({
       pinoHttp: {
         timestamp: () =>

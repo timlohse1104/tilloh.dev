@@ -4,8 +4,8 @@ import { PrometheusController } from '@willsoto/nestjs-prometheus';
 import { Response } from 'express';
 
 export function metricsControllerFactory() {
-  @ApiBearerAuth()
   @Controller()
+  @ApiBearerAuth()
   @ApiTags('health')
   class MetricsController extends PrometheusController {
     constructor() {

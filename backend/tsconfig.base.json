@@ -56,10 +56,13 @@
       "@backend/shared-keystore-persistence": [
         "libs/shared/provider/keystore-persistence/src/index.ts"
       ],
-      "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
-      "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
       "@backend/shared-metrics-controller": [
         "libs/shared/controller/metrics/src/index.ts"
+      ],
+      "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
+      "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
+      "@backend/shared-controller-health": [
+        "libs/shared/controller/health/src/index.ts"
       ],
       "@backend/todo": ["libs/todo/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"]
