@@ -19,11 +19,13 @@ import {
 import { ScheduleModule } from '@nestjs/schedule';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
 import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
+    PrometheusModule.register(),
     ThrottlerModule.forRoot([
       {
         ttl: 300000,
