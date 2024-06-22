@@ -1,11 +1,10 @@
-import { Public } from '@backend/util';
 import { Controller, Get, Res } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PrometheusController } from '@willsoto/nestjs-prometheus';
 import { Response } from 'express';
 
 export function metricsControllerFactory() {
-  @Public()
+  @ApiBearerAuth()
   @Controller()
   @ApiTags('health')
   class MetricsController extends PrometheusController {

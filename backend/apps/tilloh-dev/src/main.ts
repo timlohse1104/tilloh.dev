@@ -5,7 +5,7 @@ import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
-  AuthGuard,
+  AdminGuard,
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
@@ -73,7 +73,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     Logger,
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: AdminGuard,
     },
     {
       provide: APP_GUARD,
