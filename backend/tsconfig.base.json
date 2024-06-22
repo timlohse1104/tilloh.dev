@@ -58,6 +58,9 @@
       ],
       "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
       "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
+      "@backend/shared-metrics-controller": [
+        "libs/shared/controller/metrics/src/index.ts"
+      ],
       "@backend/todo": ["libs/todo/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"]
     }

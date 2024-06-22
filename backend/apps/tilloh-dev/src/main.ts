@@ -3,6 +3,7 @@ import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
+import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
   AuthGuard,
   GlobalExceptionFilter,
@@ -25,7 +26,10 @@ import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
-    PrometheusModule.register(),
+    PrometheusModule.register({
+      controller: metricsControllerFactory(),
+      path: '',
+    }),
     ThrottlerModule.forRoot([
       {
         ttl: 300000,
