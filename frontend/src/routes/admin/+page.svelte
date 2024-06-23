@@ -15,6 +15,7 @@
     type KeystoreKeyDto,
   } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
+  import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -264,7 +265,7 @@
     </div>
   {:else}
     <div class="admin-overview">
-      {#if getToggleState('TOGGLE_ADMIN_DASHBOARD')}
+      {#if getToggleState(TogglesEnum.adminDashboard)}
         <Dashboard
           metrics={{
             identifierAmount: identifiers.length,
@@ -288,13 +289,13 @@
         on:updateDashboard={updateDashboard}
         on:removeToggle={removeToggle}
       />
-      {#if getToggleState('TOGGLE_ADMIN_ACTIVITIES')}
+      {#if getToggleState(TogglesEnum.adminActivities)}
         <Activities activities={getLatestActivities()} />
       {/if}
-      {#if getToggleState('TOGGLE_ADMIN_IDENTIFIERS')}
+      {#if getToggleState(TogglesEnum.adminIdentifiers)}
         <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       {/if}
-      {#if getToggleState('TOGGLE_ADMIN_LINK_PRESETS')}
+      {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
     </div>

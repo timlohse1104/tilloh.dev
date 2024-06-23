@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { TogglesEnum } from '$lib/types/toggle.dto';
   import { getToggleValue } from '$lib/util/toggle';
   import Button, { Icon, Label } from '@smui/button';
   import { onMount } from 'svelte';
@@ -12,7 +13,7 @@
   let randomJokeToggle = true;
 
   onMount(async () => {
-    randomJokeToggle = await getToggleValue('TOGGLE_RANDOM_JOKE');
+    randomJokeToggle = await getToggleValue(TogglesEnum.randomJoke);
   });
 </script>
 

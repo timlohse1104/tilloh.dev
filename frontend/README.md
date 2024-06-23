@@ -6,7 +6,7 @@ The svelte frontend is available at `https://tilloh.dev`.
 
 ## Toggles
 
-There are a few usable toggles in the frontend. These can be created in the admin panel under `Toggles`. The following toggles are available:
+There are a few usable toggles in the frontend. These can be created in the admin panel under `Toggles`. The following toggles are available (see `TogglesEnum`):
 
 1. **TOGGLE_RANDOM_JOKE**: Show a random joke on the home page.
 2. **TOGGLE_NAV_MEMORANDUM**: Show the memorandum button in the navigation bar and activate route.
