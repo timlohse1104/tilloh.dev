@@ -264,7 +264,7 @@
     </div>
   {:else}
     <div class="admin-overview">
-      {#if getToggleState('TOGGLE_ADMIN-DASHBOARD')}
+      {#if getToggleState('TOGGLE_ADMIN_DASHBOARD')}
         <Dashboard
           metrics={{
             identifierAmount: identifiers.length,
@@ -288,13 +288,13 @@
         on:updateDashboard={updateDashboard}
         on:removeToggle={removeToggle}
       />
-      {#if getToggleState('TOGGLE_ADMIN-ACTIVITIES')}
+      {#if getToggleState('TOGGLE_ADMIN_ACTIVITIES')}
         <Activities activities={getLatestActivities()} />
       {/if}
-      {#if getToggleState('TOGGLE_ADMIN-IDENTIFIERS')}
+      {#if getToggleState('TOGGLE_ADMIN_IDENTIFIERS')}
         <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       {/if}
-      {#if getToggleState('TOGGLE_ADMIN-LINK-PRESETS')}
+      {#if getToggleState('TOGGLE_ADMIN_LINK_PRESETS')}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
     </div>

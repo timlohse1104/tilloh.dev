@@ -28,9 +28,13 @@
     }
     console.log({ newToogleName }, 'Adding new toggle...');
 
+    const toggleName = newToogleName.startsWith('TOGGLE_')
+      ? newToogleName
+      : `TOGGLE_${newToogleName.toUpperCase()}`;
+
     const newToggle = await createKey({
       identifier: TOGGLE_KEY_IDENTIFIER,
-      key: `TOGGLE_${newToogleName.toUpperCase()}`,
+      key: toggleName,
       value: 'false',
     });
     console.log({ newToggle }, 'New toggle added.');

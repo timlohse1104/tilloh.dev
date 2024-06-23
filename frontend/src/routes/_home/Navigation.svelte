@@ -4,10 +4,11 @@
   import NavigationEntry from './NavigationEntry.svelte';
 
   const applicationRouteKeys = Object.keys(applicationRoutes);
-  const applicationRoutesKeysHalf = Math.floor(applicationRouteKeys.length / 2);
-  const applicationRoutesKeysThird = Math.floor(
-    applicationRouteKeys.length / 3,
+  const activeRouteKeys = applicationRouteKeys.filter(
+    (key) => applicationRoutes[key].toggle,
   );
+  const applicationRoutesKeysHalf = Math.floor(activeRouteKeys.length / 2);
+  const applicationRoutesKeysThird = Math.floor(activeRouteKeys.length / 3);
 
   let currentWidth;
 
@@ -27,7 +28,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each applicationRouteKeys as appKey}
+          {#each activeRouteKeys as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>
@@ -37,7 +38,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each [...applicationRouteKeys.slice(0, applicationRoutesKeysHalf)] as appKey}
+          {#each [...activeRouteKeys.slice(0, applicationRoutesKeysHalf)] as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>
@@ -46,7 +47,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each [...applicationRouteKeys.slice(applicationRoutesKeysHalf)] as appKey}
+          {#each [...activeRouteKeys.slice(applicationRoutesKeysHalf)] as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>
@@ -56,7 +57,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each [...applicationRouteKeys.slice(0, applicationRoutesKeysThird)] as appKey}
+          {#each [...activeRouteKeys.slice(0, applicationRoutesKeysThird)] as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>
@@ -65,7 +66,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each [...applicationRouteKeys.slice(applicationRoutesKeysThird, applicationRoutesKeysThird * 2)] as appKey}
+          {#each [...activeRouteKeys.slice(applicationRoutesKeysThird, applicationRoutesKeysThird * 2)] as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>
@@ -74,7 +75,7 @@
     <div class="navigation-box">
       <nav>
         <ul>
-          {#each [...applicationRouteKeys.slice(applicationRoutesKeysThird * 2)] as appKey}
+          {#each [...activeRouteKeys.slice(applicationRoutesKeysThird * 2)] as appKey}
             <NavigationEntry {appKey} />
           {/each}
         </ul>

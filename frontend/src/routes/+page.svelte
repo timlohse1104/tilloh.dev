@@ -12,7 +12,7 @@
   let randomJokeToggle = true;
 
   onMount(async () => {
-    randomJokeToggle = await getToggleValue('TOGGLE_RANDOM-JOKE');
+    randomJokeToggle = await getToggleValue('TOGGLE_RANDOM_JOKE');
   });
 </script>
 

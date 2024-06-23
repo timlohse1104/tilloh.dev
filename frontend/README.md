@@ -8,11 +8,17 @@ The svelte frontend is available at `https://tilloh.dev`.
 
 There are a few usable toggles in the frontend. These can be created in the admin panel under `Toggles`. The following toggles are available:
 
-1. **TOGGLE_RANDOM-JOKE**: Show a random joke on the home page.
-2. **TOGGLE_ADMIN-DASHBOARD**: Show the dashboard in admin panel.
-3. **TOGGLE_ADMIN-ACTIVITIES**: Show the activities in admin panel.
-4. **TOGGLE_ADMIN-IDENTIFIERS**: Show the identifiers in admin panel.
-5. **TOGGLE_ADMIN-LINK-PRESETS**: Show the link presets in admin panel.
+1. **TOGGLE_RANDOM_JOKE**: Show a random joke on the home page.
+2. **TOGGLE_NAV_MEMORANDUM**: Show the memorandum button in the navigation bar and activate route.
+3. **TOGGLE_NAV_TODO**: Show the todo button in the navigation bar and activate route.
+4. **TOGGLE_NAV_CHAT**: Show the chat button in the navigation bar and activate route.
+5. **TOGGLE_NAV_CATCH_EM_ALL**: Show the catch em all button in the navigation bar and activate route.
+6. **TOGGLE_NAV_UNO_SORT**: Show the uno sort button in the navigation bar and activate route.
+7. **TOGGLE_NAV_ABOUT**: Show the about button in the navigation bar and activate route.
+8. **TOGGLE_ADMIN_DASHBOARD**: Show the dashboard in admin panel.
+9. **TOGGLE_ADMIN_ACTIVITIES**: Show the activities in admin panel.
+10. **TOGGLE_ADMIN_IDENTIFIERS**: Show the identifiers in admin panel.
+11. **TOGGLE_ADMIN_LINK_PRESETS**: Show the link presets in admin panel.
 
 ## Development
 
