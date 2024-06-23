@@ -3,6 +3,6 @@
   "translateTime": false,
   "singleLine": false,
   "colorize": true,
-  "hideObject": true,
+  "hideObject": false,
   "messageFormat": "[Nest] {pid} - {if req.id} ({req.id}) - {end}{time} {if context}[{context}] {end} {msg}"
 }

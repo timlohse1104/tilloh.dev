@@ -80,10 +80,10 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    margin: 0;
+    margin-bottom: 1rem;
 
     h1 {
-      margin-top: 0;
+      margin: 0;
     }
   }
 

@@ -10,7 +10,10 @@
   import type { ChatDto } from '$lib/types/chats.dto';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import type { JokeDto } from '$lib/types/jokes.dto';
-  import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
+  import {
+    TOGGLE_KEY_IDENTIFIER,
+    type KeystoreKeyDto,
+  } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
@@ -31,6 +34,7 @@
   let allPresetFolders: FolderDto[] = [];
   let allChats: ChatDto[] = [];
   let allJokes: JokeDto[] = [];
+  let allToggles: KeystoreKeyDto[] = [];
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
@@ -168,6 +172,33 @@
     console.log({ allChats }, 'Chats reloaded.');
   };
 
+  const loadToggles = async () => {
+    const keystoreResponse = await getKeystore(adminToken);
+    console.log({ keystoreResponse }, 'Keystore response.');
+    allToggles = keystoreResponse.filter(
+      (toggle) => toggle.identifier === TOGGLE_KEY_IDENTIFIER,
+    );
+    console.log({ allToggles }, 'Toggles reloaded.');
+  };
+
+  const removeToggle = async (event) => {
+    const { id } = event.detail;
+    const toggle = allToggles.find((t) => t._id === id);
+    console.log({ toggle }, 'Removing toggle...');
+
+    try {
+      await deleteKey(adminToken, {
+        identifier: TOGGLE_KEY_IDENTIFIER,
+        key: toggle.key,
+      });
+    } catch (error) {
+      console.error('Error deleting toggle', error);
+      return;
+    }
+    console.log({ toggle }, 'Toggle deleted.');
+    await updateDashboard();
+  };
+
   const loadHealthChecks = async () => {
     const readyzRes = await readyz(adminToken);
     apiIsHealthy = readyzRes === 'ok';
@@ -189,6 +220,7 @@
     await loadIdentifiers();
     await loadJokes();
     await loadChats();
+    await loadToggles();
     await loadHealthChecks();
     console.log('Dashboard updated.');
   };
@@ -244,7 +276,11 @@
       <Activities activities={getLatestActivities()} />
       <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
-      <Toggles />
+      <Toggles
+        toggles={allToggles}
+        on:updateDashboard={updateDashboard}
+        on:removeToggle={removeToggle}
+      />
     </div>
   {/if}
 </section>

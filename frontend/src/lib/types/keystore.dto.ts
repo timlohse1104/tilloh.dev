@@ -1,3 +1,5 @@
+export const TOGGLE_KEY_IDENTIFIER = 'tilloh-toggles';
+
 export class KeystoreKeyDto {
   identifier: string;
   key: string;
