@@ -44,6 +44,7 @@ export async function updateKey(
   const { identifier, key, value } = inputKeystoreUpdateDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'PUT',
+    headers: { accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ value }),
   }).then((res) => res.json());
 }

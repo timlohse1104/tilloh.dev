@@ -25,7 +25,7 @@ export class KeystoreMongoDbService {
     const keys = await this.keystoreModel.find();
     this.logger.debug(
       { output: keys },
-      `MongoDb responded, found ${keys.length} identifiers.`
+      `MongoDb responded, found ${keys.length} keys.`
     );
     return keys;
   }

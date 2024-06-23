@@ -62,6 +62,8 @@
       dispatch('updateDashboard');
     }
   };
+
+  const isToggleActive = (toggle: KeystoreKeyDto) => toggle.value === 'true';
 </script>
 
 <section class="admin-sections">
@@ -98,7 +100,10 @@
           >
         </Text>
 
-        <Switch on:click={() => switchToggle(toggle._id)} />
+        <Switch
+          on:click={() => switchToggle(toggle._id)}
+          checked={isToggleActive(toggle)}
+        />
         <IconButton
           class="material-icons admin-list-items-button"
           on:click={() => dispatch('removeToggle', { id: toggle._id })}
