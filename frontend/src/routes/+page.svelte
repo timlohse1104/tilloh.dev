@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { TogglesEnum } from '$lib/types/toggle.dto';
+  import { getToggleValue } from '$lib/util/toggle';
   import Button, { Icon, Label } from '@smui/button';
+  import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
   import JokeOfTheDay from './_home/JokeOfTheDay.svelte';
   import Navigation from './_home/Navigation.svelte';
@@ -7,6 +10,11 @@
 
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;
+  let randomJokeToggle = true;
+
+  onMount(async () => {
+    randomJokeToggle = await getToggleValue(TogglesEnum.randomJoke);
+  });
 </script>
 
 <svelte:head>
@@ -30,7 +38,9 @@
     </Button>
   </div>
 
-  <JokeOfTheDay />
+  {#if randomJokeToggle}
+    <JokeOfTheDay />
+  {/if}
 </section>
 
 <style lang="scss">

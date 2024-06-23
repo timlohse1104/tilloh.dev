@@ -19,9 +19,15 @@ export async function getKeystore(token: string) {
 }
 
 export async function createKey(createKeystoreKeyDto: KeystoreKeyDto) {
+  console.log('createKeystoreKeyDto', createKeystoreKeyDto);
   return await fetch(`${apiURL}/keystore`, {
     method: 'POST',
-    body: JSON.stringify(createKeystoreKeyDto),
+    headers: { accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      identifier: createKeystoreKeyDto.identifier,
+      key: createKeystoreKeyDto.key,
+      value: createKeystoreKeyDto.value,
+    }),
   }).then((res) => res.json());
 }
 
@@ -38,6 +44,7 @@ export async function updateKey(
   const { identifier, key, value } = inputKeystoreUpdateDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'PUT',
+    headers: { accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ value }),
   }).then((res) => res.json());
 }

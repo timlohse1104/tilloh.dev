@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -16,7 +17,6 @@
   import { chatStore, listOverlayOptionsStore } from './util/stores.ts';
 
   const { chat: chatRoute } = applicationRoutes;
-  const FEATURE_TOGGLE = false;
 
   let currentListIndex = 0;
   let newListIndex = 0;
@@ -45,7 +45,7 @@
   <meta name={chatRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-{#if FEATURE_TOGGLE}
+{#if chatRoute.toggle}
   <section>
     <Drawer
       variant="modal"
@@ -128,27 +128,7 @@
     {/if}
   </section>
 {:else}
-  <div
-    style="display:flex;justify-content:center;align-items:center;height:80vh;"
-  >
-    <div
-      style="display:flex;flex-direction:column;justify-content:center;align-items:center;"
-    >
-      <Icon class="material-icons" style="font-size: 5rem;">construction</Icon>
-      <h1 style="margin:0;">Diese Funktion ist bald verfügbar!</h1>
-      <div class="back-button">
-        <Button
-          color="secondary"
-          variant="outlined"
-          href="/"
-          style="text-decoration: none;"
-        >
-          <Icon class="material-icons">home</Icon>
-          <Label>Zurück zur Startseite</Label>
-        </Button>
-      </div>
-    </div>
-  </div>
+  <ToggledApplicationInfo />
 {/if}
 
 <style lang="scss">
@@ -171,9 +151,5 @@
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
-  }
-
-  .back-button {
-    margin-top: 3rem;
   }
 </style>

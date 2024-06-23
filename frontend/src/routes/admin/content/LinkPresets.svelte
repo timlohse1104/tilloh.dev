@@ -43,6 +43,3 @@
     {/each}
   </List>
 </section>
-
-<style lang="scss">
-</style>

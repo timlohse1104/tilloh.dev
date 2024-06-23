@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import { onMount } from 'svelte';
   import { applicationRoutes } from '../../lib/config/applications';
   import Game from './game.js';
@@ -49,16 +50,20 @@
   <meta name="ssr" content="false" />
 </svelte:head>
 
-<canvas id="gameScreen"></canvas>
+{#if catchEmAllRoute.toggle}
+  <canvas id="gameScreen"></canvas>
 
-<div class="mobileMessage">
-  <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
-  <h1>Oh nein...</h1>
-  <h2>
-    Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen
-    optimiert.
-  </h2>
-</div>
+  <div class="mobileMessage">
+    <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
+    <h1>Oh nein...</h1>
+    <h2>
+      Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen
+      optimiert.
+    </h2>
+  </div>
+{:else}
+  <ToggledApplicationInfo />
+{/if}
 
 <style lang="scss">
   @import '../../lib/styles/global.scss';

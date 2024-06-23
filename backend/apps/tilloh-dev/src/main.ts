@@ -34,7 +34,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     ThrottlerModule.forRoot([
       {
         ttl: 300000,
-        limit: 50,
+        limit: 100,
       },
     ]),
     ScheduleModule.forRoot(),

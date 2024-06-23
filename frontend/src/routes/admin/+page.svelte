@@ -10,8 +10,12 @@
   import type { ChatDto } from '$lib/types/chats.dto';
   import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import type { JokeDto } from '$lib/types/jokes.dto';
-  import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
+  import {
+    TOGGLE_KEY_IDENTIFIER,
+    type KeystoreKeyDto,
+  } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
+  import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -20,6 +24,7 @@
   import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
   import LinkPresets from './content/LinkPresets.svelte';
+  import Toggles from './content/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let adminToken = '';
@@ -30,6 +35,7 @@
   let allPresetFolders: FolderDto[] = [];
   let allChats: ChatDto[] = [];
   let allJokes: JokeDto[] = [];
+  let allToggles: KeystoreKeyDto[] = [];
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
@@ -167,6 +173,33 @@
     console.log({ allChats }, 'Chats reloaded.');
   };
 
+  const loadToggles = async () => {
+    const keystoreResponse = await getKeystore(adminToken);
+    console.log({ keystoreResponse }, 'Keystore response.');
+    allToggles = keystoreResponse.filter(
+      (toggle) => toggle.identifier === TOGGLE_KEY_IDENTIFIER,
+    );
+    console.log({ allToggles }, 'Toggles reloaded.');
+  };
+
+  const removeToggle = async (event) => {
+    const { id } = event.detail;
+    const toggle = allToggles.find((t) => t._id === id);
+    console.log({ toggle }, 'Removing toggle...');
+
+    try {
+      await deleteKey(adminToken, {
+        identifier: TOGGLE_KEY_IDENTIFIER,
+        key: toggle.key,
+      });
+    } catch (error) {
+      console.error('Error deleting toggle', error);
+      return;
+    }
+    console.log({ toggle }, 'Toggle deleted.');
+    await updateDashboard();
+  };
+
   const loadHealthChecks = async () => {
     const readyzRes = await readyz(adminToken);
     apiIsHealthy = readyzRes === 'ok';
@@ -188,8 +221,17 @@
     await loadIdentifiers();
     await loadJokes();
     await loadChats();
+    await loadToggles();
     await loadHealthChecks();
     console.log('Dashboard updated.');
+  };
+
+  $: getToggleState = (key: string) => {
+    const toggle = allToggles.find(
+      (t) => t.identifier === TOGGLE_KEY_IDENTIFIER && t.key === key,
+    );
+    if (!toggle) return true;
+    return toggle?.value === 'true';
   };
 </script>
 
@@ -223,34 +265,49 @@
     </div>
   {:else}
     <div class="admin-overview">
-      <h1>Admin Panel</h1>
-
-      <Dashboard
-        metrics={{
-          identifierAmount: identifiers.length,
-          presetAmounts: linkPresets.length,
-          presetFolderAmount: getFolderAmount(),
-          presetLinksAmount: getLinksAmount(),
-          jokesAmount: getJokesAmount(),
-          chatsAmount: getChatsAmount(),
-          apiIsHealthy,
-          jokesIsHealthy,
-          mongoIsHealthy,
-        }}
-        on:updateDashboard={updateDashboard}
-      />
+      {#if getToggleState(TogglesEnum.adminDashboard)}
+        <Dashboard
+          metrics={{
+            identifierAmount: identifiers.length,
+            presetAmounts: linkPresets.length,
+            presetFolderAmount: getFolderAmount(),
+            presetLinksAmount: getLinksAmount(),
+            jokesAmount: getJokesAmount(),
+            chatsAmount: getChatsAmount(),
+            apiIsHealthy,
+            jokesIsHealthy,
+            mongoIsHealthy,
+          }}
+          on:updateDashboard={updateDashboard}
+        />
+      {/if}
     </div>
 
     <div class="admin-content">
-      <Activities activities={getLatestActivities()} />
-      <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
-      <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
+      <Toggles
+        toggles={allToggles}
+        on:updateDashboard={updateDashboard}
+        on:removeToggle={removeToggle}
+      />
+      {#if getToggleState(TogglesEnum.adminActivities)}
+        <Activities activities={getLatestActivities()} />
+      {/if}
+      {#if getToggleState(TogglesEnum.adminIdentifiers)}
+        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      {/if}
+      {#if getToggleState(TogglesEnum.adminLinkPreset)}
+        <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
+      {/if}
     </div>
   {/if}
 </section>
 
 <style lang="scss">
   @import '../../lib/styles/global.scss';
+
+  :root {
+    --min-content-width: 550px;
+  }
 
   section {
     display: flex;
@@ -274,31 +331,37 @@
   .admin-overview {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
+    align-items: start;
+    width: 90vw;
+    margin-top: 3rem;
 
-    h1 {
-      margin: 0;
-      padding-top: 2rem;
-      display: fixed;
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$phone} {
+      margin-top: 1rem;
     }
   }
 
   .admin-content {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: start;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(550px, 25%));
     width: 90vw;
-    margin-top: 2rem;
-    flex-wrap: wrap;
+    margin-top: 3rem;
+
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$phone} {
+      margin-top: 1rem;
+    }
   }
 
   :global(.admin-sections) {
     display: flex;
     flex-direction: column;
-    width: 600px;
   }
 
   :global(.admin-sections-headline) {
