@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -50,71 +51,75 @@
   <meta name={unoSortRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-<section>
-  <div class="uno-header">
-    <h1>UNO</h1>
+{#if unoSortRoute.toggle}
+  <section>
+    <div class="uno-header">
+      <h1>UNO</h1>
 
-    <div class="sort-header">
-      <h2>Sortierungsregeln</h2>
-      <div class="sort-info-icon">
-        <Wrapper>
-          <Icon class="material-icons">info</Icon>
-          <Tooltip xPos="start" yPos="below">
-            {@html sortInfotext}
-          </Tooltip>
-        </Wrapper>
-      </div>
-    </div>
-
-    <p class="rule-info">
-      {@html sortInfotext}
-    </p>
-    <div class="uno-menu">
-      <Textfield
-        bind:value={pickAmount}
-        type="number"
-        input$max={stackSize}
-        input$min="0"
-        suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
-      />
-      <Button on:click={() => pickCards(pickAmount)} variant="raised">
-        <Label>ziehen</Label>
-      </Button>
-      <Button on:click={reset} variant="outlined">
-        <Label>Zurücksetzen</Label>
-      </Button>
-    </div>
-  </div>
-
-  <div class="uno-card-area">
-    <div class="stack-area">
-      <p class="label">
-        Stapel <span class="card-amount-info" bind:this={stackSizeElement}
-        ></span>
-      </p>
-
-      <br />
-      <div class="uno-card" id="stack">
-        <div class="card-title-background">
-          <p class="uno-card-title">UNO</p>
+      <div class="sort-header">
+        <h2>Sortierungsregeln</h2>
+        <div class="sort-info-icon">
+          <Wrapper>
+            <Icon class="material-icons">info</Icon>
+            <Tooltip xPos="start" yPos="below">
+              {@html sortInfotext}
+            </Tooltip>
+          </Wrapper>
         </div>
       </div>
-    </div>
 
-    <div>
-      <p class="label">
-        Hand des Spielers <span
-          class="card-amount-info"
-          bind:this={handSizeElement}
-        ></span>
+      <p class="rule-info">
+        {@html sortInfotext}
       </p>
-
-      <br />
-
-      <div id="player-hand" bind:this={handDivElement}></div>
+      <div class="uno-menu">
+        <Textfield
+          bind:value={pickAmount}
+          type="number"
+          input$max={stackSize}
+          input$min="0"
+          suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
+        />
+        <Button on:click={() => pickCards(pickAmount)} variant="raised">
+          <Label>ziehen</Label>
+        </Button>
+        <Button on:click={reset} variant="outlined">
+          <Label>Zurücksetzen</Label>
+        </Button>
+      </div>
     </div>
-  </div>
-</section>
+
+    <div class="uno-card-area">
+      <div class="stack-area">
+        <p class="label">
+          Stapel <span class="card-amount-info" bind:this={stackSizeElement}
+          ></span>
+        </p>
+
+        <br />
+        <div class="uno-card" id="stack">
+          <div class="card-title-background">
+            <p class="uno-card-title">UNO</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">
+          Hand des Spielers <span
+            class="card-amount-info"
+            bind:this={handSizeElement}
+          ></span>
+        </p>
+
+        <br />
+
+        <div id="player-hand" bind:this={handDivElement}></div>
+      </div>
+    </div>
+  </section>
+{:else}
+  <ToggledApplicationInfo />
+{/if}
 
 <style lang="scss">
   @import '../../lib/styles/global.scss';

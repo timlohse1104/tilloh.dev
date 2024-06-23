@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
@@ -55,61 +56,65 @@
   <meta name={memorandumRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-<div class="menuLine">
-  <SegmentedButton
-    segments={orders}
-    let:segment
-    singleSelect
-    bind:selected={order}
-  >
-    <Segment {segment}>
-      <Icon class="material-icons" on:click={() => updateOrder(segment)}
-        >{segment.icon}</Icon
-      >
-    </Segment>
-  </SegmentedButton>
+{#if memorandumRoute.toggle}
+  <div class="menuLine">
+    <SegmentedButton
+      segments={orders}
+      let:segment
+      singleSelect
+      bind:selected={order}
+    >
+      <Segment {segment}>
+        <Icon class="material-icons" on:click={() => updateOrder(segment)}
+          >{segment.icon}</Icon
+        >
+      </Segment>
+    </SegmentedButton>
 
-  <IconButton
-    style="color: white"
-    on:click={showPresetOverlay}
-    class="material-icons">swap_vert</IconButton
-  >
+    <IconButton
+      style="color: white"
+      on:click={showPresetOverlay}
+      class="material-icons">swap_vert</IconButton
+    >
 
-  <div class="infoButtons">
-    <Wrapper>
-      <IconButton style="color: white" size="mini">
-        <Icon class="material-icons">info</Icon>
-      </IconButton>
-      <Tooltip xPos="end" yPos="above"
-        >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
-      >
-    </Wrapper>
+    <div class="infoButtons">
+      <Wrapper>
+        <IconButton style="color: white" size="mini">
+          <Icon class="material-icons">info</Icon>
+        </IconButton>
+        <Tooltip xPos="end" yPos="above"
+          >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
+        >
+      </Wrapper>
+    </div>
   </div>
-</div>
 
-<div class="boxArea">
-  {#if $folderOrderFolder === 'flexible'}
-    {#key $localPresetStore}
+  <div class="boxArea">
+    {#if $folderOrderFolder === 'flexible'}
+      {#key $localPresetStore}
+        <BoxArea />
+      {/key}
+    {:else}
       <BoxArea />
-    {/key}
-  {:else}
-    <BoxArea />
+    {/if}
+  </div>
+
+  {#if $folderOverlayOptionsStore.showOverlay}
+    <FolderOverlay folderName={$folderOverlayOptionsStore.currentFolderName} />
   {/if}
-</div>
 
-{#if $folderOverlayOptionsStore.showOverlay}
-  <FolderOverlay folderName={$folderOverlayOptionsStore.currentFolderName} />
-{/if}
+  {#if $linkOverlayOptionsStore.showOverlay}
+    <LinkOverlay
+      newLinkName={$linkOverlayOptionsStore.currLinkName}
+      newLinkUrl={$linkOverlayOptionsStore.currLinkUrl}
+    />
+  {/if}
 
-{#if $linkOverlayOptionsStore.showOverlay}
-  <LinkOverlay
-    newLinkName={$linkOverlayOptionsStore.currLinkName}
-    newLinkUrl={$linkOverlayOptionsStore.currLinkUrl}
-  />
-{/if}
-
-{#if $presetOverlayOptionsStore.showOverlay}
-  <PresetOverlay />
+  {#if $presetOverlayOptionsStore.showOverlay}
+    <PresetOverlay />
+  {/if}
+{:else}
+  <ToggledApplicationInfo />
 {/if}
 
 <style lang="scss">

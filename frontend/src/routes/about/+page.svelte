@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '../../lib/config/applications';
   const { about: aboutRoute } = applicationRoutes;
 </script>
@@ -8,22 +9,23 @@
   <meta name={aboutRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-<section>
-  <p>
-    Hey i am Tim Köster a software developer from Germany. I started working in
-    a tax office, broke up dual studies as a sales man and found true passion in
-    programming and especially web / infrastructure development @otto and
-    @stadtwerk.
-  </p>
+{#if aboutRoute.toggle}
+  <section>
+    <p>
+      Hey i am Tim Köster a software developer from Germany. I started working
+      in a tax office, broke up dual studies as a sales man and found true
+      passion in programming and especially web / infrastructure development
+      @otto and @stadtwerk.
+    </p>
 
-  <p>
-    I like to try out new and weird things <a
-      href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
-      >like this</a
-    >:
-  </p>
+    <p>
+      I like to try out new and weird things <a
+        href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
+        >like this</a
+      >:
+    </p>
 
-  <pre>
+    <pre>
     <code>
   function genNumber&lpar;number&rpar; &lcub;
     sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
@@ -35,14 +37,14 @@
     </code>
     </pre>
 
-  <p>
-    or <a
-      href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
-      >like this</a
-    >:
-  </p>
+    <p>
+      or <a
+        href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
+        >like this</a
+      >:
+    </p>
 
-  <pre>
+    <pre>
     <code>
   const f = input
     .split(&apos;\n&apos;)
@@ -76,13 +78,18 @@
     </code>
     </pre>
 
-  <p>
-    I also do useful things for <a href="https://deskbox-office.de">desk.box</a>
-    at work. I promise! 🤡
-  </p>
+    <p>
+      I also do useful things for <a href="https://deskbox-office.de"
+        >desk.box</a
+      >
+      at work. I promise! 🤡
+    </p>
 
-  <p>Made by Tilloh with 💙</p>
-</section>
+    <p>Made by Tilloh with 💙</p>
+  </section>
+{:else}
+  <ToggledApplicationInfo />
+{/if}
 
 <style lang="scss">
   section {

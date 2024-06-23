@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -45,91 +46,95 @@
   <meta name={todoRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-<section>
-  <Drawer
-    variant="modal"
-    bind:open={openMenu}
-    style="width:25%;min-width:max-content;height:max-content;overflow:auto;"
-  >
-    <Header>
-      <Title
-        style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
-        >Deine Listen</Title
-      >
-      <Subtitle
-        style="text-align:left;margin:0 0 var(--default-padding) 0;padding-left: calc(var(--default-padding)/2)"
-        >Einkaufen, Aufgaben und vieles mehr...</Subtitle
-      >
-    </Header>
-    <Content>
-      <List>
-        <!-- Fallback if no todos could be found -->
-        {#if $todoStore.length === 0}
-          <div
-            style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
-          >
-            <Icon class="material-icons">search_off</Icon>
-            <Text>Keine Listen vorhanden</Text>
-          </div>
-        {:else}
-          <!-- List all todos -->
-          {#each $todoStore as list, i (i)}
-            <Item
-              href="javascript:void(0)"
-              style="padding-left: calc(var(--default-padding) / 1.5);"
-              on:click={() => setActiveList(i)}
+{#if todoRoute.toggle}
+  <section>
+    <Drawer
+      variant="modal"
+      bind:open={openMenu}
+      style="width:25%;min-width:max-content;height:max-content;overflow:auto;"
+    >
+      <Header>
+        <Title
+          style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
+          >Deine Listen</Title
+        >
+        <Subtitle
+          style="text-align:left;margin:0 0 var(--default-padding) 0;padding-left: calc(var(--default-padding)/2)"
+          >Einkaufen, Aufgaben und vieles mehr...</Subtitle
+        >
+      </Header>
+      <Content>
+        <List>
+          <!-- Fallback if no todos could be found -->
+          {#if $todoStore.length === 0}
+            <div
+              style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
             >
-              <Text>{list.emoji} {list.name}</Text>
-              <IconButton
-                color="secondary"
-                style="margin-left: auto;"
-                size="button"
-                on:click={() => showListOverlay('edit', i)}
+              <Icon class="material-icons">search_off</Icon>
+              <Text>Keine Listen vorhanden</Text>
+            </div>
+          {:else}
+            <!-- List all todos -->
+            {#each $todoStore as list, i (i)}
+              <Item
+                href="javascript:void(0)"
+                style="padding-left: calc(var(--default-padding) / 1.5);"
+                on:click={() => setActiveList(i)}
               >
-                <Icon class="material-icons">edit</Icon>
-              </IconButton>
-            </Item>
-            <hr style="border-color:var(--darkgrey80);width:95%" />
-          {/each}
-        {/if}
-        <div style="display:flex;justify-content:center;">
-          <Button
-            color={$todoStore.length === 0 ? 'primary' : 'secondary'}
-            variant="outlined"
-            on:click={() => showListOverlay('new')}
-            style="margin: var(--default-padding);"
-          >
-            <Icon class="material-icons">playlist_add</Icon>
-            <Label>Neue Liste anlegen</Label>
-          </Button>
-        </div>
-      </List>
-    </Content>
-  </Drawer>
+                <Text>{list.emoji} {list.name}</Text>
+                <IconButton
+                  color="secondary"
+                  style="margin-left: auto;"
+                  size="button"
+                  on:click={() => showListOverlay('edit', i)}
+                >
+                  <Icon class="material-icons">edit</Icon>
+                </IconButton>
+              </Item>
+              <hr style="border-color:var(--darkgrey80);width:95%" />
+            {/each}
+          {/if}
+          <div style="display:flex;justify-content:center;">
+            <Button
+              color={$todoStore.length === 0 ? 'primary' : 'secondary'}
+              variant="outlined"
+              on:click={() => showListOverlay('new')}
+              style="margin: var(--default-padding);"
+            >
+              <Icon class="material-icons">playlist_add</Icon>
+              <Label>Neue Liste anlegen</Label>
+            </Button>
+          </div>
+        </List>
+      </Content>
+    </Drawer>
 
-  <Scrim />
-  <AppContent class="app-content">
-    <main class="main-content">
-      <IconButton
-        color="secondary"
-        style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
-        size="button"
-        on:click={() => (openMenu = !openMenu)}
-      >
-        <Icon class="material-icons">menu</Icon>
-      </IconButton>
-      <TodoListComponent listIndex={currentListIndex} />
-    </main>
-  </AppContent>
+    <Scrim />
+    <AppContent class="app-content">
+      <main class="main-content">
+        <IconButton
+          color="secondary"
+          style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
+          size="button"
+          on:click={() => (openMenu = !openMenu)}
+        >
+          <Icon class="material-icons">menu</Icon>
+        </IconButton>
+        <TodoListComponent listIndex={currentListIndex} />
+      </main>
+    </AppContent>
 
-  {#if $listOverlayOptionsStore.showOverlay}
-    <TodoListOverlay
-      listIndex={newListIndex}
-      newListName={$todoStore[newListIndex]?.name}
-      newListEmoji={$todoStore[newListIndex]?.emoji}
-    />
-  {/if}
-</section>
+    {#if $listOverlayOptionsStore.showOverlay}
+      <TodoListOverlay
+        listIndex={newListIndex}
+        newListName={$todoStore[newListIndex]?.name}
+        newListEmoji={$todoStore[newListIndex]?.emoji}
+      />
+    {/if}
+  </section>
+{:else}
+  <ToggledApplicationInfo />
+{/if}
 
 <style lang="scss">
   @import '../../lib/styles/global.scss';
