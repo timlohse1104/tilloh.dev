@@ -9,5 +9,5 @@ export enum TogglesEnum {
   adminDashboard = 'TOGGLE_ADMIN_DASHBOARD',
   adminActivities = 'TOGGLE_ADMIN_ACTIVITIES',
   adminIdentifiers = 'TOGGLE_ADMIN_IDENTIFIERS',
-  adminLinkPreset = 'TOGGLE_ADMIN_LINK_PRESET',
+  adminLinkPreset = 'TOGGLE_ADMIN_LINK_PRESETS',
 }
