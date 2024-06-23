@@ -224,6 +224,14 @@
     await loadHealthChecks();
     console.log('Dashboard updated.');
   };
+
+  $: getToggleState = (key: string) => {
+    const toggle = allToggles.find(
+      (t) => t.identifier === TOGGLE_KEY_IDENTIFIER && t.key === key,
+    );
+    if (!toggle) return true;
+    return toggle?.value === 'true';
+  };
 </script>
 
 <svelte:head>
@@ -256,31 +264,39 @@
     </div>
   {:else}
     <div class="admin-overview">
-      <Dashboard
-        metrics={{
-          identifierAmount: identifiers.length,
-          presetAmounts: linkPresets.length,
-          presetFolderAmount: getFolderAmount(),
-          presetLinksAmount: getLinksAmount(),
-          jokesAmount: getJokesAmount(),
-          chatsAmount: getChatsAmount(),
-          apiIsHealthy,
-          jokesIsHealthy,
-          mongoIsHealthy,
-        }}
-        on:updateDashboard={updateDashboard}
-      />
+      {#if getToggleState('TOGGLE_ADMIN-DASHBOARD')}
+        <Dashboard
+          metrics={{
+            identifierAmount: identifiers.length,
+            presetAmounts: linkPresets.length,
+            presetFolderAmount: getFolderAmount(),
+            presetLinksAmount: getLinksAmount(),
+            jokesAmount: getJokesAmount(),
+            chatsAmount: getChatsAmount(),
+            apiIsHealthy,
+            jokesIsHealthy,
+            mongoIsHealthy,
+          }}
+          on:updateDashboard={updateDashboard}
+        />
+      {/if}
     </div>
 
     <div class="admin-content">
-      <Activities activities={getLatestActivities()} />
-      <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
-      <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       <Toggles
         toggles={allToggles}
         on:updateDashboard={updateDashboard}
         on:removeToggle={removeToggle}
       />
+      {#if getToggleState('TOGGLE_ADMIN-ACTIVITIES')}
+        <Activities activities={getLatestActivities()} />
+      {/if}
+      {#if getToggleState('TOGGLE_ADMIN-IDENTIFIERS')}
+        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      {/if}
+      {#if getToggleState('TOGGLE_ADMIN-LINK-PRESETS')}
+        <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
+      {/if}
     </div>
   {/if}
 </section>
