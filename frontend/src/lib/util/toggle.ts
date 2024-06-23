@@ -7,6 +7,5 @@ export const getToggleValue = async (key: string) => {
     key,
   });
   if (toggleRes.statusCode && toggleRes.statusCode !== 200) return true;
-  console.log(toggleRes?.value);
   return toggleRes?.value === 'true';
 };

@@ -4,6 +4,16 @@
 
 The svelte frontend is available at `https://tilloh.dev`.
 
+## Toggles
+
+There are a few usable toggles in the frontend. These can be created in the admin panel under `Toggles`. The following toggles are available:
+
+1. **TOGGLE_RANDOM-JOKE**: Show a random joke on the home page.
+2. **TOGGLE_ADMIN-DASHBOARD**: Show the dashboard in admin panel.
+3. **TOGGLE_ADMIN-ACTIVITIES**: Show the activities in admin panel.
+4. **TOGGLE_ADMIN-IDENTIFIERS**: Show the identifiers in admin panel.
+5. **TOGGLE_ADMIN-LINK-PRESETS**: Show the link presets in admin panel.
+
 ## Development
 
 1. Install dependencies.
