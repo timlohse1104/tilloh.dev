@@ -78,7 +78,7 @@
 <style lang="scss">
   .dashboard-header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
     align-items: center;
     margin-bottom: 1rem;
   }
