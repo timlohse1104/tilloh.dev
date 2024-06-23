@@ -20,6 +20,7 @@
   import Dashboard from './content/Dashboard.svelte';
   import Identifiers from './content/Identifiers.svelte';
   import LinkPresets from './content/LinkPresets.svelte';
+  import Toggles from './content/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let adminToken = '';
@@ -245,6 +246,7 @@
       <Activities activities={getLatestActivities()} />
       <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
+      <Toggles />
     </div>
   {/if}
 </section>

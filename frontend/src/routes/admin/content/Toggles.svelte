@@ -1,37 +1,41 @@
 <script lang="ts">
-  import type { IdentifierDto } from '$lib/types/identifiers.dto';
   import IconButton from '@smui/icon-button';
-  import List, { Item, PrimaryText, SecondaryText, Text } from '@smui/list';
-  import Graphic from '@smui/list/src/Graphic.svelte';
+  import List, {
+    Graphic,
+    Item,
+    PrimaryText,
+    SecondaryText,
+    Text,
+  } from '@smui/list';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let identifiers: IdentifierDto[] = [];
+  export let toggles = [];
 </script>
 
 <section class="admin-sections">
   <div class="admin-sections-headline">
-    <h2>Identifiers</h2>
+    <h2>Toggles</h2>
   </div>
   <List threeLine avatarList singleSelection>
-    {#each identifiers as identifier, i}
+    {#each toggles as toggle, i}
       <Item class="admin-list-items">
         <Graphic class="material-icons admin-list-items-icon"
           >fingerprint</Graphic
         >
         <Text class="admin-list-items-text">
-          <PrimaryText>{identifier.name}</PrimaryText>
-          <SecondaryText>{identifier._id}</SecondaryText>
+          <PrimaryText>{toggle.name}</PrimaryText>
+          <SecondaryText>{toggle._id}</SecondaryText>
           <SecondaryText
-            >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
-              identifier.updated,
+            >✨{new Date(toggle.created).toLocaleString('de-DE')} 🔧{new Date(
+              toggle.updated,
             ).toLocaleString('de-DE')}</SecondaryText
           >
         </Text>
         <IconButton
           class="material-icons admin-list-items-button"
           on:click={() =>
-            dispatch('removeIdentifier', { identifierId: identifier._id })}
+            dispatch('removeIdentifier', { identifierId: toggle._id })}
           >delete</IconButton
         >
       </Item>
