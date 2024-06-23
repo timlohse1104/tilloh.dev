@@ -224,8 +224,6 @@
     </div>
   {:else}
     <div class="admin-overview">
-      <h1>Admin Panel</h1>
-
       <Dashboard
         metrics={{
           identifierAmount: identifiers.length,
@@ -254,6 +252,10 @@
 <style lang="scss">
   @import '../../lib/styles/global.scss';
 
+  :root {
+    --min-content-width: 550px;
+  }
+
   section {
     display: flex;
     align-items: center;
@@ -276,31 +278,37 @@
   .admin-overview {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
+    align-items: start;
+    width: 90vw;
+    margin-top: 3rem;
 
-    h1 {
-      margin: 0;
-      padding-top: 2rem;
-      display: fixed;
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$phone} {
+      margin-top: 1rem;
     }
   }
 
   .admin-content {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: start;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(550px, 25%));
     width: 90vw;
-    margin-top: 2rem;
-    flex-wrap: wrap;
+    margin-top: 3rem;
+
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$phone} {
+      margin-top: 1rem;
+    }
   }
 
   :global(.admin-sections) {
     display: flex;
     flex-direction: column;
-    width: 600px;
   }
 
   :global(.admin-sections-headline) {

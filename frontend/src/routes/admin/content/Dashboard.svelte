@@ -20,7 +20,7 @@
 
 <section>
   <div class="dashboard-header">
-    <h2>Dashboard</h2>
+    <h1>Dashboard</h1>
     <IconButton
       class="material-icons"
       on:click={() => dispatch('updateDashboard')}>refresh</IconButton
@@ -80,7 +80,11 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    margin-bottom: 1rem;
+    margin: 0;
+
+    h1 {
+      margin-top: 0;
+    }
   }
 
   .dashboard-content {
@@ -89,6 +93,6 @@
     gap: 1rem;
     max-width: 90vw;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
   }
 </style>

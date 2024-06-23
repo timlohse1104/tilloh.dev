@@ -7,10 +7,21 @@
     SecondaryText,
     Text,
   } from '@smui/list';
+  import Switch from '@smui/switch';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let toggles = [];
+  export let toggles = [
+    {
+      name: 'test',
+      _id: 'sad1sadw12-dasd1321as-defgerfeg12',
+      created: 0,
+      updated: 0,
+      value: true,
+    },
+  ];
+
+  $: console.log(toggles);
 </script>
 
 <section class="admin-sections">
@@ -20,8 +31,7 @@
   <List threeLine avatarList singleSelection>
     {#each toggles as toggle, i}
       <Item class="admin-list-items">
-        <Graphic class="material-icons admin-list-items-icon"
-          >fingerprint</Graphic
+        <Graphic class="material-icons admin-list-items-icon">toggle_on</Graphic
         >
         <Text class="admin-list-items-text">
           <PrimaryText>{toggle.name}</PrimaryText>
@@ -32,6 +42,8 @@
             ).toLocaleString('de-DE')}</SecondaryText
           >
         </Text>
+
+        <Switch bind:checked={toggle.value} />
         <IconButton
           class="material-icons admin-list-items-button"
           on:click={() =>
