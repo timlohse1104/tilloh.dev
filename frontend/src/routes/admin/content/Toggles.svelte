@@ -74,6 +74,7 @@
   <div class="admin-sections-headline">
     <h2>Toggles</h2>
     <Textfield
+      style="margin-left:2rem;width: 100%;"
       bind:value={newToogleName}
       label="Neuer Toggle"
       on:keyup={(event) => {
@@ -96,11 +97,9 @@
         >
         <Text class="admin-list-items-text">
           <PrimaryText>{toggle.key}</PrimaryText>
-          <SecondaryText>{toggle._id}</SecondaryText>
+          <SecondaryText>🆔{toggle._id}</SecondaryText>
           <SecondaryText
-            >✨{new Date(toggle.created).toLocaleString('de-DE')} 🔧{new Date(
-              toggle.updated,
-            ).toLocaleString('de-DE')}</SecondaryText
+            >🔧{new Date(toggle.updated).toLocaleString('de-DE')}</SecondaryText
           >
         </Text>
 
