@@ -16,3 +16,15 @@ export class ActivityDto {
   created: string;
   updated: string;
 }
+
+export class AdminDashboardPropsDto {
+  identifierAmount: number;
+  presetAmounts: number;
+  presetFolderAmount: number;
+  presetLinksAmount: number;
+  jokesAmount: number;
+  chatsAmount: number;
+  apiIsHealthy: boolean;
+  jokesIsHealthy: boolean;
+  mongoIsHealthy: boolean;
+}

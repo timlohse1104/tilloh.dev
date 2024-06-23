@@ -1,14 +1,20 @@
 <script lang="ts">
+  import type { AdminDashboardPropsDto } from '$lib/types/admin.dto';
   import IconButton from '@smui/icon-button';
   import { createEventDispatcher } from 'svelte';
   import DashboardCard from './DashboardCard.svelte';
 
-  export let identifierAmount: number = 0;
-  export let presetAmounts: number = 0;
-  export let presetFolderAmount: number = 0;
-  export let presetLinksAmount: number = 0;
-  export let chatsAmount: number = 0;
-  export let jokesAmount: number = 0;
+  export let metrics: AdminDashboardPropsDto = {
+    identifierAmount: 0,
+    presetAmounts: 0,
+    presetFolderAmount: 0,
+    presetLinksAmount: 0,
+    jokesAmount: 0,
+    chatsAmount: 0,
+    apiIsHealthy: false,
+    jokesIsHealthy: false,
+    mongoIsHealthy: false,
+  };
   const dispatch = createEventDispatcher();
 </script>
 
@@ -22,34 +28,49 @@
   </div>
   <div class="dashboard-content">
     <DashboardCard
+      header="TillohAPI"
+      description="tilloh.dev API status"
+      status={metrics.apiIsHealthy}
+    />
+    <DashboardCard
+      header="MongoDB"
+      description="MongoDB status"
+      status={metrics.mongoIsHealthy}
+    />
+    <DashboardCard
+      header="WitzAPI"
+      description="Jokes API status"
+      status={metrics.jokesIsHealthy}
+    />
+    <DashboardCard
       header="Identifiers"
       description="People using online storage"
-      amount={identifierAmount}
+      amount={metrics.identifierAmount}
     />
     <DashboardCard
       header="Presets"
       description="Saved memorandum presets"
-      amount={presetAmounts}
+      amount={metrics.presetAmounts}
     />
     <DashboardCard
       header="Folders"
       description="Saved memorandum folders"
-      amount={presetFolderAmount}
+      amount={metrics.presetFolderAmount}
     />
     <DashboardCard
       header="Links"
       description="Saved memorandum links"
-      amount={presetLinksAmount}
+      amount={metrics.presetLinksAmount}
     />
     <DashboardCard
       header="Jokes"
       description="Displayed daily jokes"
-      amount={jokesAmount}
+      amount={metrics.jokesAmount}
     />
     <DashboardCard
       header="Chats"
       description="Communication channels"
-      amount={chatsAmount}
+      amount={metrics.chatsAmount}
     />
   </div>
 </section>

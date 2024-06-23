@@ -3,7 +3,8 @@
 
   export let header: string;
   export let description: string;
-  export let amount: number;
+  export let amount: number = undefined;
+  export let status: boolean = undefined;
 </script>
 
 <Card class="admin-dashboard-card">
@@ -12,8 +13,12 @@
       <h2>{header}</h2>
       <p>{description}</p>
     </div>
-    <p class="card-amount">{amount}</p></Content
-  >
+    {#if amount === undefined}
+      <p class="card-value">{!!status ? '🟢' : '🔴'}</p>
+    {:else}
+      <p class="card-value">{amount}</p>
+    {/if}
+  </Content>
 </Card>
 
 <style lang="scss">
@@ -64,7 +69,7 @@
     transform: translateX(-50%);
   }
 
-  .card-amount {
+  .card-value {
     font-size: 2.5rem;
     margin: 1rem;
     flex-grow: 1;

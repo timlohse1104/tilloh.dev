@@ -1,6 +1,7 @@
 <script lang="ts">
   import { verifyAdminId } from '$lib/api/admin.api';
   import { getChats } from '$lib/api/chats.api';
+  import { livez, readyz } from '$lib/api/health.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
   import { getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
@@ -29,6 +30,9 @@
   let allPresetFolders: FolderDto[] = [];
   let allChats: ChatDto[] = [];
   let allJokes: JokeDto[] = [];
+  let apiIsHealthy = false;
+  let jokesIsHealthy = false;
+  let mongoIsHealthy = false;
 
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
@@ -163,11 +167,28 @@
     console.log({ allChats }, 'Chats reloaded.');
   };
 
+  const loadHealthChecks = async () => {
+    const readyzRes = await readyz(adminToken);
+    apiIsHealthy = readyzRes === 'ok';
+
+    const livezRes = await livez(adminToken);
+    const mongoMatch = livezRes.match(/^mongodb (\d+)/m);
+    const jokesMatch = livezRes.match(/^witzapi (\d+)/m);
+    const mongoStatusCode = mongoMatch ? parseInt(mongoMatch[1], 10) : 0;
+    const jokesStatusCode = jokesMatch ? parseInt(jokesMatch[1], 10) : 0;
+
+    mongoIsHealthy = !!mongoStatusCode;
+    jokesIsHealthy = !!jokesStatusCode;
+
+    console.log({ readyzRes, livezRes }, 'Health checks reloaded.');
+  };
+
   const updateDashboard = async () => {
     await loadLinkPresets();
     await loadIdentifiers();
     await loadJokes();
     await loadChats();
+    await loadHealthChecks();
     console.log('Dashboard updated.');
   };
 </script>
@@ -205,19 +226,23 @@
       <h1>Admin Panel</h1>
 
       <Dashboard
-        identifierAmount={identifiers.length}
-        presetAmounts={linkPresets.length}
-        presetFolderAmount={getFolderAmount()}
-        presetLinksAmount={getLinksAmount()}
-        jokesAmount={getJokesAmount()}
-        chatsAmount={getChatsAmount()}
+        metrics={{
+          identifierAmount: identifiers.length,
+          presetAmounts: linkPresets.length,
+          presetFolderAmount: getFolderAmount(),
+          presetLinksAmount: getLinksAmount(),
+          jokesAmount: getJokesAmount(),
+          chatsAmount: getChatsAmount(),
+          apiIsHealthy,
+          jokesIsHealthy,
+          mongoIsHealthy,
+        }}
         on:updateDashboard={updateDashboard}
       />
-
-      <Activities activities={getLatestActivities()} />
     </div>
 
     <div class="admin-content">
+      <Activities activities={getLatestActivities()} />
       <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
     </div>
@@ -263,7 +288,7 @@
     display: flex;
     flex-direction: row;
     align-items: start;
-    justify-content: center;
+    justify-content: start;
     gap: 1rem;
     width: 90vw;
     margin-top: 2rem;

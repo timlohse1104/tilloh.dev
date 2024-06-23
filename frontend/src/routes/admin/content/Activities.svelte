@@ -23,27 +23,23 @@
   <div class="admin-sections-headline">
     <h2>Activities</h2>
   </div>
-  <div class="activities-content">
-    <List twoLine avatarList singleSelection>
-      {#each activities as activity}
-        <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon"
-            >{getActivityTypeIcon(activity.type)}</Graphic
+  <List twoLine avatarList singleSelection>
+    {#each activities as activity}
+      <Item class="admin-list-items">
+        <Graphic class="material-icons admin-list-items-icon"
+          >{getActivityTypeIcon(activity.type)}</Graphic
+        >
+        <Text class="admin-list-items-text">
+          <PrimaryText>{activity.description}</PrimaryText>
+          <SecondaryText
+            >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
+              'de-DE',
+            )}</SecondaryText
           >
-          <Text class="admin-list-items-text">
-            <PrimaryText>{activity.description}</PrimaryText>
-            <SecondaryText
-              >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
-                'de-DE',
-              )} ✨{new Date(activity.created).toLocaleString(
-                'de-DE',
-              )}</SecondaryText
-            >
-          </Text>
-        </Item>
-      {/each}
-    </List>
-  </div>
+        </Text>
+      </Item>
+    {/each}
+  </List>
 </section>
 
 <style lang="scss">
@@ -58,14 +54,5 @@
     h2 {
       margin: 3rem 0 0 0;
     }
-  }
-
-  .activities-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 90vw;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 </style>

@@ -6,26 +6,23 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export async function metrics(adminToken: string, id: string) {
+export async function getMetrics(adminToken: string) {
   return await fetch(`${apiURL}/metrics`, {
     method: 'GET',
     headers: createHeaders(adminToken),
-    body: JSON.stringify({ id }),
-  }).then((res) => res.json());
+  }).then((res) => res.text());
 }
 
-export async function readyz(adminToken: string, id: string) {
+export async function readyz(adminToken: string) {
   return await fetch(`${apiURL}/health/readyz`, {
     method: 'GET',
     headers: createHeaders(adminToken),
-    body: JSON.stringify({ id }),
-  }).then((res) => res.json());
+  }).then((res) => res.text());
 }
 
-export async function livez(adminToken: string, id: string) {
+export async function livez(adminToken: string) {
   return await fetch(`${apiURL}/health/livez`, {
     method: 'GET',
     headers: createHeaders(adminToken),
-    body: JSON.stringify({ id }),
-  }).then((res) => res.json());
+  }).then((res) => res.text());
 }
