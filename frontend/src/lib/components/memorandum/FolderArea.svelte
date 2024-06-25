@@ -1,0 +1,125 @@
+<script lang="ts">
+  import Masonry from '$lib/components/shared/Masonry.svelte';
+  import { fetchJson } from '$lib/util/memorandum/async.js';
+  import { FolderClass } from '$lib/util/memorandum/classes.js';
+  import { defaultColor } from '$lib/util/memorandum/constants.js';
+  import {
+    folderOrderFolder,
+    localPresetStore,
+  } from '$lib/util/memorandum/stores.js';
+  import Fab, { Icon } from '@smui/fab';
+  import Folder from './Folder.svelte';
+  import Startup from './Startup.svelte';
+
+  let refreshLayout;
+
+  function createFolder() {
+    // svelte stores using html5 localstorage with stringified objects cannot be updated directly
+    // we need to create a copy and set the store again, so that the stores set method gets called
+    // that happens because there is no localstorage update function, only get, set, remove and clear
+    let currentPreset = $localPresetStore;
+
+    currentPreset.Folders.push(
+      new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
+    );
+    $localPresetStore = currentPreset;
+  }
+
+  async function loadPreset() {
+    const DEFAUL_PRESET_URL = '/config/default-preset.json';
+
+    let defaultPreset = await fetchJson(DEFAUL_PRESET_URL);
+
+    $localPresetStore = defaultPreset;
+  }
+
+  function deleteFolder(event) {
+    let currentPreset = $localPresetStore;
+    currentPreset.Folders.splice(event.detail, 1);
+    $localPresetStore = currentPreset;
+  }
+</script>
+
+{#await $localPresetStore}
+  <p>Lädt lokalen Speicher...</p>
+{:then value}
+  {#if value.Folders.length > 0}
+    {#if $folderOrderFolder === 'fixed'}
+      <section class="contentAreaFixed">
+        {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+          <Folder
+            id={i}
+            folderHeader={folderName}
+            folderBackground={customBackgroundColor}
+            on:delFolder={deleteFolder}
+          />
+        {/each}
+      </section>
+    {:else}
+      <section class="contentAreaFlexible">
+        <Masonry
+          reset
+          gridGap={'0.75rem'}
+          items={$localPresetStore.Folders}
+          bind:refreshLayout
+        >
+          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+            <Folder
+              id={i}
+              folderHeader={folderName}
+              folderBackground={customBackgroundColor}
+              on:delFolder={deleteFolder}
+            />
+          {/each}
+        </Masonry>
+      </section>
+    {/if}
+  {:else}
+    <Startup on:new={createFolder} on:default={loadPreset} />
+  {/if}
+{:catch error}
+  <p>Etwas ist schieß gelaufen: {error.message}</p>
+{/await}
+
+<Fab
+  style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+  color="secondary"
+  on:click={createFolder}
+>
+  <Icon style="font-size:2rem;" class="material-icons">add</Icon>
+</Fab>
+
+<style lang="scss">
+  @import '../../styles/variables.scss';
+
+  .contentAreaFixed {
+    color: white;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 35%;
+
+    @media #{$wide} {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    @media #{$tablet} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media #{$phone} {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .contentAreaFlexible {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  * :global(svg:focus) {
+    outline: 0;
+  }
+</style>

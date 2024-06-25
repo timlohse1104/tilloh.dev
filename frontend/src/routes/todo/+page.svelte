@@ -1,5 +1,9 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import TodoListComponent from '$lib/components/todo/TodoList.svelte';
+  import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
+  import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -12,10 +16,6 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
-  import { applicationRoutes } from '../../lib/config/applications';
-  import TodoListComponent from './content/TodoList.svelte';
-  import TodoListOverlay from './content/TodoListOverlay.svelte';
-  import { listOverlayOptionsStore, todoStore } from './util/stores.ts';
 
   const { todo: todoRoute } = applicationRoutes;
 
@@ -137,8 +137,6 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
-
   section {
     position: relative;
     display: flex;

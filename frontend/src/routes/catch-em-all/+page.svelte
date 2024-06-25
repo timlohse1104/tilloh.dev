@@ -1,8 +1,8 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
+  import Game from '$lib/util/catch-em-all/game';
   import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
-  import Game from './game.js';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
 
@@ -66,7 +66,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   #gameScreen {
     border: 1px solid grey;

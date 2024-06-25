@@ -1,5 +1,9 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ChatListComponent from '$lib/components/chat/ChatList.svelte';
+  import ChatListOverlay from '$lib/components/chat/ChatListOverlay.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
+  import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -11,10 +15,6 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
-  import { applicationRoutes } from '../../lib/config/applications';
-  import ChatListComponent from './content/ChatList.svelte';
-  import ChatListOverlay from './content/ChatListOverlay.svelte';
-  import { chatStore, listOverlayOptionsStore } from './util/stores.ts';
 
   const { chat: chatRoute } = applicationRoutes;
 
@@ -132,8 +132,6 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
-
   section {
     position: relative;
     display: flex;

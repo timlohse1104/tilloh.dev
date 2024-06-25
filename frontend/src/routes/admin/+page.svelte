@@ -20,11 +20,11 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
-  import Activities from './content/Activities.svelte';
-  import Dashboard from './content/Dashboard.svelte';
-  import Identifiers from './content/Identifiers.svelte';
-  import LinkPresets from './content/LinkPresets.svelte';
-  import Toggles from './content/Toggles.svelte';
+  import Activities from '../../lib/components/admin/Activities.svelte';
+  import Dashboard from '../../lib/components/admin/Dashboard.svelte';
+  import Identifiers from '../../lib/components/admin/Identifiers.svelte';
+  import LinkPresets from '../../lib/components/admin/LinkPresets.svelte';
+  import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
   let adminToken = '';
@@ -303,7 +303,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   :root {
     --min-content-width: 550px;

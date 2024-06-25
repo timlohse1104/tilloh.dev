@@ -1,12 +1,12 @@
 <script lang="ts">
+  import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
+  import Navigation from '$lib/components/home/Navigation.svelte';
+  import SearchBar from '$lib/components/home/SearchBar.svelte';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { getToggleValue } from '$lib/util/toggle';
   import Button, { Icon, Label } from '@smui/button';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
-  import JokeOfTheDay from './_home/JokeOfTheDay.svelte';
-  import Navigation from './_home/Navigation.svelte';
-  import SearchBar from './_home/SearchBar.svelte';
 
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;

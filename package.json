@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "cp git-hooks/* .git/hooks/ && chmod -R +x .git/hooks/"
+    "postinstall": "cp git-hooks/* .git/hooks/ && chmod -R +x .git/hooks/",
+    "dev-frontend": "cd frontend && nx dev",
+    "dev-backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev-frontend\" \"npm run dev-backend\" "
   },
   "private": true,
   "devDependencies": {
     "@nx/js": "17.2.8",
+    "concurrently": "^8.2.2",
     "npm": "^10.3.0",
     "nx": "17.2.8"
   },

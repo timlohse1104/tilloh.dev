@@ -1,13 +1,13 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
+  import { UnoSort } from '$lib/types/uno-sort';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
   import Tooltip from '@smui/tooltip/src/Tooltip.svelte';
   import Wrapper from '@smui/tooltip/src/Wrapper.svelte';
   import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
-  import { UnoSort } from './classes/uno-sort';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
   const sortInfotext = `
@@ -122,7 +122,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   section {
     padding: 1rem;

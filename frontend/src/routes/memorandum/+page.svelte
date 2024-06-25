@@ -1,15 +1,11 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
-  import { Icon } from '@smui/common';
-  import IconButton from '@smui/icon-button';
-  import SegmentedButton, { Segment } from '@smui/segmented-button';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
-  import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
-  import BoxArea from './content/FolderArea.svelte';
-  import FolderOverlay from './content/FolderOverlay.svelte';
-  import LinkOverlay from './content/LinkOverlay.svelte';
-  import PresetOverlay from './content/PresetOverlay.svelte';
+  import BoxArea from '$lib/components/memorandum/FolderArea.svelte';
+  import FolderOverlay from '$lib/components/memorandum/FolderOverlay.svelte';
+  import LinkOverlay from '$lib/components/memorandum/LinkOverlay.svelte';
+  import PresetOverlay from '$lib/components/memorandum/PresetOverlay.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
+  import type { Order } from '$lib/types/memorandum.dto';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
@@ -17,8 +13,12 @@
     localPresetStore,
     presetOverlayOptionsStore,
     refreshPresetStore,
-  } from './util/stores';
-  import type { Order } from './util/types';
+  } from '$lib/util/memorandum/stores';
+  import { Icon } from '@smui/common';
+  import IconButton from '@smui/icon-button';
+  import SegmentedButton, { Segment } from '@smui/segmented-button';
+  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
 
@@ -118,7 +118,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   .menuLine {
     display: flex;
