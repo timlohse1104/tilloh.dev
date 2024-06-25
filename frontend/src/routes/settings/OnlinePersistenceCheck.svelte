@@ -26,6 +26,7 @@
   let shareDataOnline;
   let name = '';
   let saveButton;
+  let connectButton;
   let openIdentifierInfo = false;
   let idInput = '';
 
@@ -33,6 +34,18 @@
   let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
+  $: saveSubmittable = !name || sameName;
+  $: connectSubmittable = !idInput;
+  $: if (saveButton) {
+    saveButton.$$set({
+      disabled: !saveSubmittable,
+    });
+  }
+  $: if (connectButton) {
+    connectButton.$$set({
+      disabled: !connectSubmittable,
+    });
+  }
 
   async function checkIdentifierReset() {
     if (
@@ -216,7 +229,6 @@
             on:click={saveOnlineIdentifier}
             style={name && !sameName ? 'color:var(--green);' : ''}
             bind:this={saveButton}
-            disabled={!name || sameName}
             color="secondary"
           >
             <Icon class="material-icons">save</Icon>
@@ -246,12 +258,7 @@
             </Textfield>
           </div>
 
-          <!-- TODO: fix disabled issue -->
-          <Button
-            on:click={connectOnlineIdentifier}
-            bind:this={saveButton}
-            disabled={!idInput}
-          >
+          <Button on:click={connectOnlineIdentifier} bind:this={connectButton}>
             <Icon class="material-icons">cloud_download</Icon>
             <Label>Verbinden</Label>
           </Button>
