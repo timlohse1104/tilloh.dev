@@ -1,13 +1,10 @@
 <script>
   import { page } from '$app/stores';
+  import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import github from '$lib/images/github-light.svg';
   import logo from '$lib/images/stadtwerk-logo.svg';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
-  import {
-    applicationRoutes,
-    utilityRoutes,
-  } from '../../lib/config/applications';
   const { home } = applicationRoutes;
   const { settings, admin } = utilityRoutes;
 

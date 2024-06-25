@@ -1,6 +1,6 @@
 <script>
+  import { applicationRoutes } from '$lib/config/applications';
   import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
   import NavigationEntry from './NavigationEntry.svelte';
 
   const applicationRouteKeys = Object.keys(applicationRoutes);
@@ -85,7 +85,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '$lib/styles/global.scss';
 
   section {
     display: flex;

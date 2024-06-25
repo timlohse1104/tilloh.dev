@@ -1,6 +1,6 @@
 <script>
+  import { applicationRoutes } from '$lib/config/applications';
   import { Icon } from '@smui/common';
-  import { applicationRoutes } from '../../lib/config/applications';
 
   export let appKey;
 
@@ -19,7 +19,7 @@
 </li>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '$lib/styles/global.scss';
 
   li {
     position: relative;

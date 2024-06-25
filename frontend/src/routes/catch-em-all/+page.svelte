@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
   import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
   import Game from './game.js';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;

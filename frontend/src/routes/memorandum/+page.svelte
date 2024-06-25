@@ -1,11 +1,11 @@
 <script lang="ts">
-  import ToggledApplicationInfo from '$lib/components/ToggledApplicationInfo.svelte';
+  import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
   import BoxArea from './content/FolderArea.svelte';
   import FolderOverlay from './content/FolderOverlay.svelte';
   import LinkOverlay from './content/LinkOverlay.svelte';

@@ -3,7 +3,7 @@
     default as AboutInfo,
     default as ToggledApplicationInfo,
   } from '$lib/components/about/AboutInfo.svelte';
-  import { applicationRoutes } from '../../lib/config/applications';
+  import { applicationRoutes } from '$lib/config/applications';
   const { about: aboutRoute } = applicationRoutes;
 </script>
 
