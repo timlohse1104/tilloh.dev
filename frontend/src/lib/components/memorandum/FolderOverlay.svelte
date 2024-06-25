@@ -1,5 +1,11 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.js';
+  import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
+  import { defaultColor } from '$lib/util/memorandum/constants.js';
+  import {
+    folderOverlayOptionsStore,
+    localPresetStore,
+  } from '$lib/util/memorandum/stores.js';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -11,12 +17,6 @@
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
-  import { RGBBackgroundClass } from '../util/classes.js';
-  import { defaultColor } from '../util/constants.js';
-  import {
-    folderOverlayOptionsStore,
-    localPresetStore,
-  } from '../util/stores.js';
 
   export let folderName = '';
 

@@ -1,4 +1,8 @@
 <script lang="ts">
+  import {
+    localPresetStore,
+    presetOverlayOptionsStore,
+  } from '$lib/util/memorandum/stores.js';
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
   import Button, { Label } from '@smui/button';
   import Dialog, {
@@ -13,10 +17,6 @@
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import hljs from 'highlight.js';
   import { onMount } from 'svelte';
-  import {
-    localPresetStore,
-    presetOverlayOptionsStore,
-  } from '../util/stores.js';
 
   let codeElement;
   let files: FileList;

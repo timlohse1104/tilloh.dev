@@ -1,13 +1,16 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
+  import { HyperlinkClass } from '$lib/util/memorandum/classes.js';
+  import {
+    linkOverlayOptionsStore,
+    localPresetStore,
+  } from '$lib/util/memorandum/stores.js';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
-  import { HyperlinkClass } from '../util/classes.js';
-  import { linkOverlayOptionsStore, localPresetStore } from '../util/stores.js';
 
   export let newLinkName = '';
   export let newLinkUrl = '';

@@ -22,3 +22,9 @@ export class FolderDto {
 export class MemorandumDto {
   Folders: FolderDto[];
 }
+
+export type Order = {
+  id: string;
+  name: string;
+  icon: string;
+};

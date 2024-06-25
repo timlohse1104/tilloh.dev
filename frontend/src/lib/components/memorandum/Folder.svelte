@@ -1,12 +1,12 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { RGBBackgroundClass } from '../util/classes.js';
+  import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
     linkOverlayOptionsStore,
     localPresetStore,
-  } from '../util/stores.js';
+  } from '$lib/util/memorandum/stores.js';
+  import { createEventDispatcher } from 'svelte';
   import Link from './Link.svelte';
 
   export let id;

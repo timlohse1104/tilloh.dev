@@ -1,10 +1,13 @@
 <script lang="ts">
+  import Masonry from '$lib/components/shared/Masonry.svelte';
+  import { fetchJson } from '$lib/util/memorandum/async.js';
+  import { FolderClass } from '$lib/util/memorandum/classes.js';
+  import { defaultColor } from '$lib/util/memorandum/constants.js';
+  import {
+    folderOrderFolder,
+    localPresetStore,
+  } from '$lib/util/memorandum/stores.js';
   import Fab, { Icon } from '@smui/fab';
-  import Masonry from '../../../lib/components/Masonry.svelte';
-  import { fetchJson } from '../util/async.js';
-  import { FolderClass } from '../util/classes.js';
-  import { defaultColor } from '../util/constants.js';
-  import { folderOrderFolder, localPresetStore } from '../util/stores.js';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
