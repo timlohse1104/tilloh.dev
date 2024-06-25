@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { isEnter } from '$lib/util/helper.ts';
+  import type { ChatList } from '$lib/types/chat';
+  import { isEmoji, isEnter } from '$lib/util/helper';
+  import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
@@ -7,9 +9,6 @@
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import type { ChatList } from '../types/list.ts';
-  import { isEmoji } from '../util/helpers.ts';
-  import { chatStore, listOverlayOptionsStore } from '../util/stores.ts';
 
   export let listIndex: number;
   export let newListName = '';
