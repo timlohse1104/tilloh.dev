@@ -25,12 +25,18 @@
   let customColor = defaultColor;
   let colorCopySnackbar: Snackbar;
   let customColorInput = '';
+  let saveButton;
 
   $: submittable = folderName;
   $: if (!customColorActive) {
     customColor = defaultColor;
   }
   $: customColorString = customColor.getRGBAValues();
+  $: if (saveButton) {
+    saveButton.$$set({
+      disabled: !submittable,
+    });
+  }
 
   onMount(() => {
     nameInput.focus();
@@ -239,7 +245,7 @@
       <Icon class="material-icons">folder_off</Icon>
       <Label>Abbruch</Label>
     </Button>
-    <Button on:click={editFolder} disabled={!submittable}>
+    <Button bind:this={saveButton} on:click={editFolder}>
       <Icon class="material-icons">save</Icon>
       <Label>Speichern</Label>
     </Button>

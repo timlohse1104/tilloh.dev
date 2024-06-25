@@ -14,10 +14,16 @@
 
   export let newLinkName = '';
   export let newLinkUrl = '';
-
-  $: submittable = newLinkName && newLinkUrl;
+  let addLinkButton;
   let type = $linkOverlayOptionsStore.currLinkName ? 'edit' : 'new';
   let nameInput;
+
+  $: submittable = newLinkName && newLinkUrl;
+  $: if (addLinkButton) {
+    addLinkButton.$$set({
+      disabled: !submittable,
+    });
+  }
 
   onMount(() => {
     nameInput.focus();
@@ -145,8 +151,8 @@
       <Label>Abbruch</Label>
     </Button>
     <Button
+      bind:this={addLinkButton}
       on:click={type === 'new' ? addLink : editLink}
-      disabled={!submittable}
     >
       <Icon class="material-icons"
         >{type === 'new' ? 'bookmark_add' : 'save'}</Icon
