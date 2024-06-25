@@ -1,12 +1,10 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import github from '$lib/images/github-light.svg';
-  import logo from '$lib/images/stadtwerk-logo.svg';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
   const { home } = applicationRoutes;
-  const { settings, admin } = utilityRoutes;
+  const { settings } = utilityRoutes;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -20,7 +18,7 @@
       <div class="corner">
         {#if $page.url.pathname === home.path}
           <IconButton href="https://stadtwerk.org" target="_blank">
-            <img src={logo} alt="stadtwerk" />
+            <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
           </IconButton>
         {:else}
           <IconButton
@@ -51,7 +49,7 @@
     {#if $page.url.pathname === home.path}
       <div class="corner">
         <IconButton href="https://github.com/timlohse1104" target="_blank">
-          <img src={github} alt="GitHub" />
+          <img src={'/images/header/github-light.svg'} alt="GitHub" />
         </IconButton>
       </div>
     {:else}
