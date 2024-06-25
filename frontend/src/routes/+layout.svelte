@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/stores';
-  import Header from './_layout/Header.svelte';
+  import Header from '$lib/components/shared/Header.svelte';
   import './styles.css';
 
   $: pageName = $page.url.pathname.replace('/', '')
