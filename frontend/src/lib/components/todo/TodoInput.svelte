@@ -1,7 +1,7 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
+  import { todoStore } from '$lib/util/stores.ts';
   import Autocomplete from '@smui-extra/autocomplete';
-  import { todoStore } from '../util/stores.ts';
 
   export let listIndex;
 

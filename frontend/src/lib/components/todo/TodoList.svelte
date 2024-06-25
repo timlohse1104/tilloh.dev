@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { todoStore } from '$lib/util/stores.ts';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import { todoStore } from '../util/stores.ts';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
@@ -101,7 +101,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../../lib/styles/global.scss';
+  @import '../../styles/variables.scss';
 
   section {
     padding: 0;

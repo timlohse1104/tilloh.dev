@@ -39,7 +39,7 @@
 </div>
 
 <style lang="scss">
-  @import '../../../lib/styles/global.scss';
+  @import '../../styles/variables.scss';
 
   div {
     display: grid;

@@ -276,8 +276,6 @@
 </section>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
-
   section {
     position: relative;
     display: flex;

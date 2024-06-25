@@ -85,7 +85,7 @@
 </section>
 
 <style lang="scss">
-  @import '$lib/styles/global.scss';
+  @import '../../styles/variables.scss';
 
   section {
     display: flex;

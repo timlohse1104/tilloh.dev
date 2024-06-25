@@ -118,7 +118,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   .menuLine {
     display: flex;

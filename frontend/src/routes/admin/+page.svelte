@@ -303,7 +303,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   :root {
     --min-content-width: 550px;

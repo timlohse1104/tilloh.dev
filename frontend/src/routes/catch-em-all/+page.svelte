@@ -66,7 +66,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
+  @import '../../lib/styles/variables.scss';
 
   #gameScreen {
     border: 1px solid grey;

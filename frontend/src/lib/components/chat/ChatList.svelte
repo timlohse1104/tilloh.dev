@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { chatStore } from '$lib/util/stores.ts';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import { chatStore } from '../util/stores.ts';
   import Chat from './Chat.svelte';
   import ChatInput from './ChatInput.svelte';
 
@@ -101,7 +101,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../../lib/styles/global.scss';
+  @import '../../styles/variables.scss';
 
   section {
     padding: 0;

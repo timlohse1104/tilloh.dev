@@ -90,7 +90,7 @@
 </Fab>
 
 <style lang="scss">
-  @import '../../../lib/styles/global.scss';
+  @import '../../styles/variables.scss';
 
   .contentAreaFixed {
     color: white;

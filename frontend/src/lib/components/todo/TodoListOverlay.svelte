@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { isEnter } from '$lib/util/helper.ts';
+  import type { TodoList } from '$lib/types/todo.ts';
+  import { isEmoji, isEnter } from '$lib/util/helper.ts';
+  import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
@@ -7,9 +9,6 @@
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import type { TodoList } from '../types/list.ts';
-  import { isEmoji } from '../util/helpers.ts';
-  import { listOverlayOptionsStore, todoStore } from '../util/stores.ts';
 
   export let listIndex: number;
   export let newListName = '';

@@ -245,8 +245,6 @@
 </Snackbar>
 
 <style lang="scss">
-  @import '../../../lib/styles/global.scss';
-
   /* Head styles */
   .main-container {
     display: flex;

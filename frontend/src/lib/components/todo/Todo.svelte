@@ -1,8 +1,8 @@
 <script lang="ts">
+  import type { Todo } from '$lib/types/todo.ts';
   import Checkbox from '@smui/checkbox';
   import FormField from '@smui/form-field';
   import IconButton, { Icon } from '@smui/icon-button';
-  import type { Todo } from '../types/todo.ts';
 
   export let todo: Todo;
   export let deleteTodo;

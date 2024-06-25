@@ -1,6 +1,6 @@
 <script lang="ts">
+  import OnlinePersistenceCheck from '$lib/components/settings/OnlinePersistenceCheck.svelte';
   import { utilityRoutes } from '$lib/config/applications';
-  import OnlinePersistenceCheck from './OnlinePersistenceCheck.svelte';
 
   const { settings: settingsRoute } = utilityRoutes;
 </script>
@@ -15,8 +15,6 @@
 </section>
 
 <style lang="scss">
-  @import '../../lib/styles/global.scss';
-
   section {
     margin: 0;
     color: var(--light80);

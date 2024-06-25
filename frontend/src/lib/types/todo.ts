@@ -1,4 +1,7 @@
-import type { Todo } from './todo';
+export type Todo = {
+  title: string;
+  done?: boolean;
+};
 
 export type TodoList = {
   name: string;
