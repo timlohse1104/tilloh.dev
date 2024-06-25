@@ -40,6 +40,18 @@ npm run dev
 4. Make changes to the frontend code and see the changes in the browser.
 5. Press `strg + c` to stop the server.
 
+### Folder Structure
+
+- `static`: Place your static files like images and favicons in here.
+- `routes`: Contains the routes of the frontend. Each route is a separate `page.svelte` file and uses svelte lib components.
+- `lib`: Contains the source code of the frontend.
+  - `api`: Contains api http requests for the corresponding backend endpoints.
+  - `components`: Contains the reusable svelte components.
+  - `config`: Contains the application configurations.
+  - `styles`: Contains the shared style to be used in all svelte components.
+  - `types`: Contains the shared types to be used in all svelte components.
+  - `util`: Contains the utility functions of the frontend.
+
 # Deployment
 
 ## Automatically
