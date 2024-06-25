@@ -20,6 +20,8 @@ The backend is built with NestJS.
 
 Before committing changes it is necessary to fix all linting errors. After cloning this repository, `npm install` will automatically install a pre-commit hook that will run the linter before committing changes!
 
+Start frontend and backend development server with `npm run dev`.
+
 ### Gitmoji
 
 This repository uses [gitmoji](https://gitmoji.dev/) to categorize commits. By installing npm dependencies in the root of this repository, a post-commit hook will automatically add a gitmoji to your commit message. If you want to disable this feature, you can remove the post-commit hook by running `rm .git/hooks/post-commit`.
