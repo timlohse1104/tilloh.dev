@@ -1,9 +1,12 @@
 <script lang="ts">
   import { ActivityTypeDto, type ActivityDto } from '$lib/types/admin.dto';
-  import { PrimaryText, SecondaryText, Text } from '@smui/list';
-  import Graphic from '@smui/list/src/Graphic.svelte';
-  import Item from '@smui/list/src/Item.svelte';
-  import List from '@smui/list/src/List.svelte';
+  import List, {
+    Graphic,
+    Item,
+    PrimaryText,
+    SecondaryText,
+    Text,
+  } from '@smui/list';
 
   export let activities: ActivityDto[] = [];
 

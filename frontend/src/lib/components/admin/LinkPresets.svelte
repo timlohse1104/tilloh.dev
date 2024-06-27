@@ -1,8 +1,13 @@
 <script lang="ts">
   import type { KeystoreKeyDto } from '$lib/types/keystore.dto';
   import IconButton from '@smui/icon-button';
-  import List, { Item, PrimaryText, SecondaryText, Text } from '@smui/list';
-  import Graphic from '@smui/list/src/Graphic.svelte';
+  import List, {
+    Graphic,
+    Item,
+    PrimaryText,
+    SecondaryText,
+    Text,
+  } from '@smui/list';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 

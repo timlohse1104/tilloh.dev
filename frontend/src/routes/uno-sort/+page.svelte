@@ -5,8 +5,7 @@
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
-  import Tooltip from '@smui/tooltip/src/Tooltip.svelte';
-  import Wrapper from '@smui/tooltip/src/Wrapper.svelte';
+  import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;

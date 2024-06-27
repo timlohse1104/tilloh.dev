@@ -5,7 +5,9 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: __dirname,
   cacheDir: './node_modules/.vite/.',
-
+  build: {
+    target: 'esnext', //browsers can handle the latest ES features
+  },
   plugins: [nxViteTsPaths(), sveltekit()],
 
   // Uncomment this if you are using workers.
