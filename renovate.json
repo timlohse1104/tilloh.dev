@@ -8,7 +8,7 @@
   "platform": "github",
   "includeForks": false,
   "ignoreDeps": ["reflect-metadata"],
-  "repositories": ["stadtwerk/c4_app_backend"],
+  "repositories": ["timlohse1104/tilloh.dev"],
   "prHourlyLimit": 4,
   "packageRules": [
     {
