@@ -195,12 +195,6 @@
     }
   }
 
-  .buttons {
-    display: flex;
-    padding-left: var(--default-padding);
-    gap: calc(var(--default-padding) / 2);
-  }
-
   .large-scroll-subtitle {
     font-size: 1rem;
   }
