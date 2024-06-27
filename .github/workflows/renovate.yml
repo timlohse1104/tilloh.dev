@@ -2,7 +2,7 @@ name: renovate
 
 on:
   push:
-    branches: [issue/renovate-test]
+    branches: [main, issue/renovate-test]
 
 jobs:
   validate:
