@@ -55,7 +55,7 @@ jobs:
           zip -r dist.zip dist
 
       - name: Upload zipped frontend artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifact
           path: frontend/dist.zip
@@ -70,7 +70,7 @@ jobs:
         run: echo "Deploying frontend artifact..."
 
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: artifact
           path: frontend
