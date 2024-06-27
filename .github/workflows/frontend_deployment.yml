@@ -23,18 +23,18 @@ jobs:
         run: echo "Building svelte application..."
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Use Node.js 20.11.1 LTS version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 20.11.1
 
       - name: Cache node_modules
         id: node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules
@@ -55,7 +55,7 @@ jobs:
           zip -r dist.zip dist
 
       - name: Upload zipped frontend artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifact
           path: frontend/dist.zip
@@ -70,7 +70,7 @@ jobs:
         run: echo "Deploying frontend artifact..."
 
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: artifact
           path: frontend
