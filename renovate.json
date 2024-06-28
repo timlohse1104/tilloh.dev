@@ -2,13 +2,8 @@
   "extends": ["config:recommended", ":dependencyDashboard"],
   "branchPrefix": "renovate-update/",
   "baseBranches": ["main"],
-  "dryRun": null,
-  "requireConfig": "ignored",
-  "onboarding": false,
-  "platform": "github",
   "includeForks": false,
   "ignoreDeps": ["reflect-metadata"],
-  "repositories": ["timlohse1104/tilloh.dev"],
   "prHourlyLimit": 4,
   "packageRules": [
     {
