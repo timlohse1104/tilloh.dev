@@ -1,35 +1,5 @@
 {
-  "extends": ["config:recommended", ":dependencyDashboard"],
-  "branchPrefix": "renovate-update/",
-  "baseBranches": ["main"],
-  "includeForks": false,
-  "ignoreDeps": ["reflect-metadata"],
-  "prHourlyLimit": 4,
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["patch"],
-      "major": {
-        "enabled": false
-      },
-      "labels": ["RENOVATE", "patches", "mergable"],
-      "groupName": "Patches"
-    },
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "major": {
-        "enabled": false
-      },
-      "labels": ["RENOVATE", "minors", "mergable"],
-      "groupName": "Minors"
-    },
-    {
-      "major": {
-        "enabled": true
-      },
-      "draftPR": true,
-      "matchUpdateTypes": ["major"],
-      "labels": ["RENOVATE", "majors", "hintonly"],
-      "groupName": "Majors"
-    }
-  ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "prHourlyLimit": 6
 }
