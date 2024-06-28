@@ -1,7 +1,7 @@
 {
   "extends": ["config:recommended", ":dependencyDashboard"],
   "branchPrefix": "renovate-update/",
-  "baseBranches": ["main", "issue/renovate-test"],
+  "baseBranches": ["main"],
   "dryRun": null,
   "requireConfig": "ignored",
   "onboarding": false,
