@@ -7,18 +7,21 @@
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
   import { createEventDispatcher } from 'svelte';
+  import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
+  const dispatch = createEventDispatcher();
 
   export let id;
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
 
+  let confirmDeleteLinkOpenOverlay = false;
+  let confirmDeleteLinkAction;
+
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
-
-  const dispatch = createEventDispatcher();
 
   function showOverlay(event) {
     $linkOverlayOptionsStore.showOverlay =
@@ -34,12 +37,16 @@
   }
 
   function deleteLink(event) {
-    let currentPreset = $localPresetStore;
+    confirmDeleteLinkAction = () => {
+      let currentPreset = $localPresetStore;
 
-    currentPreset.Folders[id].links.splice(event.detail, 1);
-    _updateLinkIds(currentPreset.Folders[id].links);
+      currentPreset.Folders[id].links.splice(event.detail, 1);
+      _updateLinkIds(currentPreset.Folders[id].links);
 
-    $localPresetStore = currentPreset;
+      $localPresetStore = currentPreset;
+    };
+
+    confirmDeleteLinkOpenOverlay = true;
   }
 
   function showFolderOverlay() {
@@ -270,6 +277,17 @@
     <span>Neuer Link</span>
     <span>+</span>
   </button>
+
+  <ConfirmOverlay
+    open={confirmDeleteLinkOpenOverlay}
+    questionHeader="Link löschen"
+    questionContent="Möchtest du diesen Link wirklich löschen?"
+    noActionText="Nein"
+    noAction={() => (confirmDeleteLinkOpenOverlay = false)}
+    yesActionText="Ja"
+    yesAction={confirmDeleteLinkAction}
+    on:close={() => (confirmDeleteLinkOpenOverlay = false)}
+  />
 </section>
 
 <style lang="scss">
