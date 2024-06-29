@@ -294,6 +294,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1rem;
     width: 80vw;
     margin-top: 1rem;
