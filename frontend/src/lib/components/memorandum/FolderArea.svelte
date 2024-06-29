@@ -8,10 +8,13 @@
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
   import Fab, { Icon } from '@smui/fab';
+  import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
   let refreshLayout;
+  let confirmDeleteFolderOpenOverlay = false;
+  let confirmDeleteFolderAction;
 
   function createFolder() {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
@@ -34,9 +37,13 @@
   }
 
   function deleteFolder(event) {
-    let currentPreset = $localPresetStore;
-    currentPreset.Folders.splice(event.detail, 1);
-    $localPresetStore = currentPreset;
+    confirmDeleteFolderAction = () => {
+      let currentPreset = $localPresetStore;
+      currentPreset.Folders.splice(event.detail, 1);
+      $localPresetStore = currentPreset;
+    };
+
+    confirmDeleteFolderOpenOverlay = true;
   }
 </script>
 
@@ -88,6 +95,17 @@
 >
   <Icon style="font-size:2rem;" class="material-icons">add</Icon>
 </Fab>
+
+<ConfirmOverlay
+  open={confirmDeleteFolderOpenOverlay}
+  questionHeader="Link löschen"
+  questionContent="Möchtest du diesen Link wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteFolderOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteFolderAction}
+  on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+/>
 
 <style lang="scss">
   @import '../../styles/variables.scss';
