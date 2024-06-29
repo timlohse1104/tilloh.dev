@@ -196,7 +196,7 @@
 
   {#if shareDataOnline}
     <div class="inputArea">
-      <Card padded>
+      <Card padded class="connection-card">
         {#if !$sharedIdentifierStore.id}
           <h3>Neue Verbindung einrichten</h3>
         {:else}
@@ -235,13 +235,13 @@
             {#if !$sharedIdentifierStore.id}
               <Label>Einrichten</Label>
             {:else}
-              <Label>Aktualisieren</Label>
+              <Label>Speichern</Label>
             {/if}
           </Button>
         </div>
       </Card>
 
-      <Card padded>
+      <Card padded class="connection-card">
         <h3>Schnelle Einrichtung mit ID</h3>
         <p>
           Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine
@@ -293,11 +293,15 @@
   .inputArea {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
-    width: 80vw;
+    width: 85vw;
     margin-top: 1rem;
+  }
+
+  :global(.connection-card) {
+    width: 500px;
   }
 
   .onlinePersistenceInfoText {
