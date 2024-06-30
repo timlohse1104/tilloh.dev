@@ -34,8 +34,8 @@
   let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
-  $: saveSubmittable = !name || sameName;
-  $: connectSubmittable = !idInput;
+  $: saveSubmittable = name && !sameName;
+  $: connectSubmittable = !!idInput;
   $: if (saveButton) {
     saveButton.$$set({
       disabled: !saveSubmittable,
@@ -48,14 +48,7 @@
   }
 
   async function checkIdentifierReset() {
-    if (
-      shareDataOnline &&
-      $sharedIdentifierStore.id &&
-      $sharedIdentifierStore.name
-    ) {
-      await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
-        method: 'DELETE',
-      });
+    if (shareDataOnline) {
       resetSharedIdentifier();
       name = '';
     }
@@ -128,7 +121,7 @@
         $sharedIdentifierStore = identifier;
         name = data.name;
         triggerSnackbar(
-          `Verbindung mit der ID: <b>${$sharedIdentifierStore.id}</b> geladen.`,
+          `Verbindung mit der ID: '${$sharedIdentifierStore.id}' geladen.`,
         );
         idInput = '';
       })
@@ -227,7 +220,7 @@
 
           <Button
             on:click={saveOnlineIdentifier}
-            style={name && !sameName ? 'color:var(--green);' : ''}
+            style={saveSubmittable ? 'color:var(--green);' : ''}
             bind:this={saveButton}
             color="secondary"
           >

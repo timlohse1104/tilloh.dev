@@ -98,8 +98,8 @@
 
 <ConfirmOverlay
   open={confirmDeleteFolderOpenOverlay}
-  questionHeader="Link löschen"
-  questionContent="Möchtest du diesen Link wirklich löschen?"
+  questionHeader="Ordner löschen"
+  questionContent="Möchtest du diesen Ordner wirklich löschen?"
   noActionText="Nein"
   noAction={() => (confirmDeleteFolderOpenOverlay = false)}
   yesActionText="Ja"

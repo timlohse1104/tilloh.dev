@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { getIdentifier } from '$lib/api/identifiers.api';
 import type { ChatList } from '$lib/types/chat';
 import type { TodoList } from '$lib/types/todo';
 import { Identifier } from '$lib/util/types';
@@ -61,7 +62,19 @@ if (browser) {
   if (!localStorage.getItem(sharedIdentifierKey)) {
     localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
   }
-  sharedIdentifierDefault = localStorage.getItem(sharedIdentifierKey);
+  const localIdentifier = localStorage.getItem(sharedIdentifierKey);
+  let remoteIdentifier;
+  try {
+    remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);
+  } catch (error) {
+    console.error('Error while fetching remote identifier.', error);
+  }
+  if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
+    console.log('Remote identifier fetched successfully.');
+    sharedIdentifierDefault = localIdentifier;
+  } else {
+    console.log('Remote identifier not found. Resetting local identifier.');
+  }
 }
 
 export const sharedIdentifierStore = writable<Identifier>(
