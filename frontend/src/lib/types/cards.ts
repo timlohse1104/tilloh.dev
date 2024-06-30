@@ -19,8 +19,6 @@ export class Card {
   getValue() {
     return this.value;
   }
-
-  showInHand() {}
 }
 
 type NumberRange<T extends number> = number extends T ? number : _Range<T, []>;

@@ -1,0 +1,904 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.3.2",
+  "deps": {
+    "highlight.js": "^11.9.0",
+    "socket.io-client": "^4.7.4",
+    "svelte-masonry": "^0.1.1",
+    "svelte-material-ui": "^7.0.0",
+    "@fontsource/fira-mono": "^5.0.8",
+    "@mdi/js": "^7.4.47",
+    "@neoconfetti/svelte": "^2.2.1",
+    "@nx/eslint": "19.3.2",
+    "@nx/eslint-plugin": "19.3.2",
+    "@nx/js": "^19.0.0",
+    "@nx/vite": "^19.0.0",
+    "@nx/workspace": "19.3.2",
+    "@smui-extra/accordion": "^7.0.0",
+    "@smui-extra/autocomplete": "^7.0.0",
+    "@smui/card": "^7.0.0",
+    "@smui/checkbox": "^7.0.0",
+    "@smui/common": "^7.0.0",
+    "@smui/dialog": "^7.0.0",
+    "@smui/drawer": "^7.0.0",
+    "@smui/fab": "^7.0.0",
+    "@smui/form-field": "^7.0.0",
+    "@smui/icon-button": "^7.0.0",
+    "@smui/list": "^7.0.0",
+    "@smui/paper": "^7.0.0",
+    "@smui/segmented-button": "^7.0.0",
+    "@smui/select": "^7.0.0",
+    "@smui/slider": "^7.0.0",
+    "@smui/snackbar": "^7.0.0",
+    "@smui/switch": "^7.0.0",
+    "@smui/textfield": "^7.0.0",
+    "@smui/tooltip": "^7.0.0",
+    "@smui/top-app-bar": "^7.0.0",
+    "@sveltejs/adapter-auto": "^3.1.0",
+    "@sveltejs/adapter-static": "^3.0.1",
+    "@sveltejs/kit": "^2.5.17",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@swc-node/register": "~1.10.0",
+    "@swc/core": "~1.6.0",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/node": "20.14.9",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vitest/coverage-v8": "~1.6.0",
+    "@vitest/ui": "~1.6.0",
+    "eslint": "~8.56.0",
+    "eslint-config-prettier": "^9.0.0",
+    "npm": "^10.4.0",
+    "nx": "19.3.2",
+    "prettier": "^3.0.0",
+    "sass": "^1.69.7",
+    "smui-theme": "^7.0.0",
+    "svelte": "^4.2.8",
+    "svelte-check": "^3.6.3",
+    "svelte-preprocess": "^6.0.0",
+    "typescript": "~5.2.2",
+    "vite": "^5.0.11",
+    "vite-plugin-restart": "^0.4.0",
+    "vitest": "^1.0.0"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "frontend": [
+        {
+          "file": ".eslintignore",
+          "hash": "7663861978715868291"
+        },
+        {
+          "file": ".eslintrc.json",
+          "hash": "14002972443318158111"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "14017957456307659610"
+        },
+        {
+          "file": ".prettierignore",
+          "hash": "16448050467312557263"
+        },
+        {
+          "file": ".prettierrc",
+          "hash": "16267754514737964994"
+        },
+        {
+          "file": "README.md",
+          "hash": "11341901062069069373"
+        },
+        {
+          "file": "nx.json",
+          "hash": "15688098054357792642"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "2881390781344114109"
+        },
+        {
+          "file": "package.json",
+          "hash": "7881303302791065171",
+          "deps": [
+            "npm:@fontsource/fira-mono",
+            "npm:@mdi/js",
+            "npm:@neoconfetti/svelte",
+            "npm:@smui-extra/accordion",
+            "npm:@smui-extra/autocomplete",
+            "npm:@smui/card",
+            "npm:@smui/checkbox",
+            "npm:@smui/common",
+            "npm:@smui/dialog",
+            "npm:@smui/drawer",
+            "npm:@smui/fab",
+            "npm:@smui/form-field",
+            "npm:@smui/icon-button",
+            "npm:@smui/list",
+            "npm:@smui/paper",
+            "npm:@smui/segmented-button",
+            "npm:@smui/select",
+            "npm:@smui/slider",
+            "npm:@smui/snackbar",
+            "npm:@smui/switch",
+            "npm:@smui/textfield",
+            "npm:@smui/tooltip",
+            "npm:@smui/top-app-bar",
+            "npm:@sveltejs/adapter-auto",
+            "npm:@sveltejs/adapter-static",
+            "npm:@sveltejs/kit",
+            "npm:@sveltejs/vite-plugin-svelte",
+            "npm:@swc-node/register",
+            "npm:@swc/core",
+            "npm:@tsconfig/svelte",
+            "npm:@types/node",
+            "npm:eslint-config-prettier",
+            "npm:npm",
+            "npm:sass",
+            "npm:smui-theme",
+            "npm:svelte",
+            "npm:svelte-check",
+            "npm:typescript",
+            "npm:vite",
+            "npm:vite-plugin-restart",
+            "npm:highlight.js",
+            "npm:socket.io-client",
+            "npm:svelte-masonry",
+            "npm:svelte-material-ui"
+          ]
+        },
+        {
+          "file": "project.json",
+          "hash": "865545265784043819"
+        },
+        {
+          "file": "src/app.d.ts",
+          "hash": "17522384083550949823"
+        },
+        {
+          "file": "src/app.html",
+          "hash": "13459749351426021487"
+        },
+        {
+          "file": "src/lib/api/admin.api.ts",
+          "hash": "18365826234203548482"
+        },
+        {
+          "file": "src/lib/api/chats.api.ts",
+          "hash": "17416127094891405215"
+        },
+        {
+          "file": "src/lib/api/health.api.ts",
+          "hash": "16502655616353761731"
+        },
+        {
+          "file": "src/lib/api/helper.ts",
+          "hash": "2716832745086060302"
+        },
+        {
+          "file": "src/lib/api/identifiers.api.ts",
+          "hash": "17727549202013843011"
+        },
+        {
+          "file": "src/lib/api/jokes.api.ts",
+          "hash": "9625653805895205271"
+        },
+        {
+          "file": "src/lib/api/keystore.api.ts",
+          "hash": "6445527087237187791"
+        },
+        {
+          "file": "src/lib/components/about/AboutInfo.svelte",
+          "hash": "15604594424483851090"
+        },
+        {
+          "file": "src/lib/components/admin/Activities.svelte",
+          "hash": "1857752542851719733"
+        },
+        {
+          "file": "src/lib/components/admin/Dashboard.svelte",
+          "hash": "1155791846352816124"
+        },
+        {
+          "file": "src/lib/components/admin/DashboardCard.svelte",
+          "hash": "12794695474228566248"
+        },
+        {
+          "file": "src/lib/components/admin/Identifiers.svelte",
+          "hash": "511916065700702547"
+        },
+        {
+          "file": "src/lib/components/admin/LinkPresets.svelte",
+          "hash": "9316970100988726058"
+        },
+        {
+          "file": "src/lib/components/admin/Toggles.svelte",
+          "hash": "9894969854950035025"
+        },
+        {
+          "file": "src/lib/components/chat/Chat.svelte",
+          "hash": "12107604709696462749"
+        },
+        {
+          "file": "src/lib/components/chat/Chat.svelte-old",
+          "hash": "17615135960923464285"
+        },
+        {
+          "file": "src/lib/components/chat/ChatInput.svelte",
+          "hash": "4954966234121584760"
+        },
+        {
+          "file": "src/lib/components/chat/ChatList.svelte",
+          "hash": "17864859031457332115"
+        },
+        {
+          "file": "src/lib/components/chat/ChatListOverlay.svelte",
+          "hash": "12618747237592656217"
+        },
+        {
+          "file": "src/lib/components/home/JokeOfTheDay.svelte",
+          "hash": "9277112366159581261"
+        },
+        {
+          "file": "src/lib/components/home/Navigation.svelte",
+          "hash": "5632475533207469652"
+        },
+        {
+          "file": "src/lib/components/home/NavigationEntry.svelte",
+          "hash": "7447233253011690430"
+        },
+        {
+          "file": "src/lib/components/home/SearchBar.svelte",
+          "hash": "4370555013970286864"
+        },
+        {
+          "file": "src/lib/components/memorandum/Folder.svelte",
+          "hash": "15428485915366787472"
+        },
+        {
+          "file": "src/lib/components/memorandum/FolderArea.svelte",
+          "hash": "14314135468881524311"
+        },
+        {
+          "file": "src/lib/components/memorandum/FolderOverlay.svelte",
+          "hash": "1348677249561504518"
+        },
+        {
+          "file": "src/lib/components/memorandum/Link.svelte",
+          "hash": "10748239704005482319"
+        },
+        {
+          "file": "src/lib/components/memorandum/LinkOverlay.svelte",
+          "hash": "14723198336968879735"
+        },
+        {
+          "file": "src/lib/components/memorandum/PresetOverlay.svelte",
+          "hash": "11155634253193597843"
+        },
+        {
+          "file": "src/lib/components/memorandum/Startup.svelte",
+          "hash": "439118623877006994"
+        },
+        {
+          "file": "src/lib/components/settings/IdentifierInformation.svelte",
+          "hash": "823862962449442449"
+        },
+        {
+          "file": "src/lib/components/settings/OnlinePersistenceCheck.svelte",
+          "hash": "2781484927415664288"
+        },
+        {
+          "file": "src/lib/components/shared/ConfirmOverlay.svelte",
+          "hash": "15633872200008221057"
+        },
+        {
+          "file": "src/lib/components/shared/Header.svelte",
+          "hash": "11510553919973465566"
+        },
+        {
+          "file": "src/lib/components/shared/Masonry.svelte",
+          "hash": "5903960747191151370"
+        },
+        {
+          "file": "src/lib/components/shared/ToggledApplicationInfo.svelte",
+          "hash": "15703898385279656370"
+        },
+        {
+          "file": "src/lib/components/todo/Todo.svelte",
+          "hash": "9502147384978488274"
+        },
+        {
+          "file": "src/lib/components/todo/TodoInput.svelte",
+          "hash": "5312163896040825348"
+        },
+        {
+          "file": "src/lib/components/todo/TodoList.svelte",
+          "hash": "17149391845055420245"
+        },
+        {
+          "file": "src/lib/components/todo/TodoListOverlay.svelte",
+          "hash": "8666143237712367228"
+        },
+        {
+          "file": "src/lib/config/applications.ts",
+          "hash": "6085480644926114008"
+        },
+        {
+          "file": "src/lib/styles/variables.scss",
+          "hash": "9738544115931756016"
+        },
+        {
+          "file": "src/lib/types/admin.dto.ts",
+          "hash": "1210139030302624143"
+        },
+        {
+          "file": "src/lib/types/cards.ts",
+          "hash": "566862565298470146"
+        },
+        {
+          "file": "src/lib/types/chat.ts",
+          "hash": "13460616683958039762"
+        },
+        {
+          "file": "src/lib/types/chats.dto.ts",
+          "hash": "9044932395769419909"
+        },
+        {
+          "file": "src/lib/types/identifiers.dto.ts",
+          "hash": "3351623183888928642"
+        },
+        {
+          "file": "src/lib/types/jokes.dto.ts",
+          "hash": "5420809464488411873"
+        },
+        {
+          "file": "src/lib/types/keystore.dto.ts",
+          "hash": "152640330697248421"
+        },
+        {
+          "file": "src/lib/types/memorandum-folder.ts",
+          "hash": "5239290888214768651"
+        },
+        {
+          "file": "src/lib/types/memorandum.dto.ts",
+          "hash": "11252228090753057684"
+        },
+        {
+          "file": "src/lib/types/todo.ts",
+          "hash": "2133389733455715945"
+        },
+        {
+          "file": "src/lib/types/toggle.dto.ts",
+          "hash": "4294367700726624010"
+        },
+        {
+          "file": "src/lib/types/uno-sort.ts",
+          "hash": "9296160833585867500"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/ball.js",
+          "hash": "1907167929720895788"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/brick.js",
+          "hash": "13328552265978833267"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/collisionDetection.js",
+          "hash": "13440466124207518558"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/game.js",
+          "hash": "1106045886513979109"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/input.js",
+          "hash": "957198846835739225"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/levels.js",
+          "hash": "4508483580400628973"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/paddle.js",
+          "hash": "17073362358323823456"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/pokeballs.js",
+          "hash": "5163491602266429236"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/pokemons.js",
+          "hash": "17072780377655720970"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/statistics.js",
+          "hash": "7751389586666007479"
+        },
+        {
+          "file": "src/lib/util/catch-em-all/util.js",
+          "hash": "7596991903933621545"
+        },
+        {
+          "file": "src/lib/util/environment.ts",
+          "hash": "4179237100863477033"
+        },
+        {
+          "file": "src/lib/util/helper.ts",
+          "hash": "685496904097958612"
+        },
+        {
+          "file": "src/lib/util/memorandum/async.js",
+          "hash": "9553038101301269119"
+        },
+        {
+          "file": "src/lib/util/memorandum/classes.js",
+          "hash": "271375233919928013"
+        },
+        {
+          "file": "src/lib/util/memorandum/constants.js",
+          "hash": "9254317455064839166"
+        },
+        {
+          "file": "src/lib/util/memorandum/stores.js",
+          "hash": "9494063585147390625",
+          "deps": [
+            "npm:svelte"
+          ]
+        },
+        {
+          "file": "src/lib/util/stores.ts",
+          "hash": "10639766486488008352",
+          "deps": [
+            "npm:svelte"
+          ]
+        },
+        {
+          "file": "src/lib/util/toggle.ts",
+          "hash": "2652626053550252715"
+        },
+        {
+          "file": "src/lib/util/types.ts",
+          "hash": "5755654203428599904"
+        },
+        {
+          "file": "src/routes/+layout.js",
+          "hash": "2536846600940558746"
+        },
+        {
+          "file": "src/routes/+layout.svelte",
+          "hash": "6013504219324107923"
+        },
+        {
+          "file": "src/routes/+page.svelte",
+          "hash": "16343159019957471102"
+        },
+        {
+          "file": "src/routes/+page.ts",
+          "hash": "14652161136502518409"
+        },
+        {
+          "file": "src/routes/about/+page.svelte",
+          "hash": "5196564188112331775"
+        },
+        {
+          "file": "src/routes/about/+page.ts",
+          "hash": "3877799318319669920"
+        },
+        {
+          "file": "src/routes/admin/+page.svelte",
+          "hash": "10067680243784170868"
+        },
+        {
+          "file": "src/routes/admin/+page.ts",
+          "hash": "14652161136502518409"
+        },
+        {
+          "file": "src/routes/catch-em-all/+page.svelte",
+          "hash": "10623360809115915650"
+        },
+        {
+          "file": "src/routes/catch-em-all/+page.ts",
+          "hash": "3877799318319669920"
+        },
+        {
+          "file": "src/routes/catch-em-all/README.md",
+          "hash": "7963052525280828180"
+        },
+        {
+          "file": "src/routes/chat/+page.svelte",
+          "hash": "14583863999594131926"
+        },
+        {
+          "file": "src/routes/chat/+page.ts",
+          "hash": "14652161136502518409"
+        },
+        {
+          "file": "src/routes/memorandum/+page.svelte",
+          "hash": "8900144953352053344"
+        },
+        {
+          "file": "src/routes/memorandum/+page.ts",
+          "hash": "3877799318319669920"
+        },
+        {
+          "file": "src/routes/memorandum/README.md",
+          "hash": "6827670807877527656"
+        },
+        {
+          "file": "src/routes/settings/+page.svelte",
+          "hash": "4063925930535683086"
+        },
+        {
+          "file": "src/routes/settings/+page.ts",
+          "hash": "3877799318319669920"
+        },
+        {
+          "file": "src/routes/styles.css",
+          "hash": "4152302591135013254"
+        },
+        {
+          "file": "src/routes/todo/+page.svelte",
+          "hash": "14274616776608113442"
+        },
+        {
+          "file": "src/routes/todo/+page.ts",
+          "hash": "14652161136502518409"
+        },
+        {
+          "file": "src/routes/uno-sort/+page.svelte",
+          "hash": "8603538010303114086"
+        },
+        {
+          "file": "src/routes/uno-sort/+page.ts",
+          "hash": "3877799318319669920"
+        },
+        {
+          "file": "static/config/default-preset.json",
+          "hash": "1223836010882710836"
+        },
+        {
+          "file": "static/favicons/about.favicon.svg",
+          "hash": "8889838707633605984"
+        },
+        {
+          "file": "static/favicons/admin.favicon.svg",
+          "hash": "8609575086718306275"
+        },
+        {
+          "file": "static/favicons/catch-em-all.favicon.svg",
+          "hash": "3443789771398441845"
+        },
+        {
+          "file": "static/favicons/chat.favicon.svg",
+          "hash": "15711089355224982841"
+        },
+        {
+          "file": "static/favicons/home.favicon.svg",
+          "hash": "4591014713560730574"
+        },
+        {
+          "file": "static/favicons/memorandum.favicon.svg",
+          "hash": "8368071529135415800"
+        },
+        {
+          "file": "static/favicons/settings.favicon.svg",
+          "hash": "8184330192986415941"
+        },
+        {
+          "file": "static/favicons/todo.favicon.svg",
+          "hash": "838965517982852851"
+        },
+        {
+          "file": "static/favicons/uno-sort.favicon.svg",
+          "hash": "15559483202371244471"
+        },
+        {
+          "file": "static/images/catch-em-all/Catch_em_all_demobild.png",
+          "hash": "7634295181678708871"
+        },
+        {
+          "file": "static/images/catch-em-all/Catch_em_all_demobild.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/Gotcha.png",
+          "hash": "8666750241710943434"
+        },
+        {
+          "file": "static/images/catch-em-all/Gotcha.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/LookAway.png",
+          "hash": "9466540001210654977"
+        },
+        {
+          "file": "static/images/catch-em-all/LookAway.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/Pokecoin.png",
+          "hash": "16022815619408026374"
+        },
+        {
+          "file": "static/images/catch-em-all/Pokecoin.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/Welcome.png",
+          "hash": "17143375365815855079"
+        },
+        {
+          "file": "static/images/catch-em-all/Welcome.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/favicon.png",
+          "hash": "17357815521208791470"
+        },
+        {
+          "file": "static/images/catch-em-all/favicon.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/master_ball.png",
+          "hash": "14306005715775291214"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/master_ball.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/pokeball.png",
+          "hash": "18000116908018803677"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/pokeball.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/super_ball.png",
+          "hash": "18142737110047577427"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/super_ball.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/ultra_ball.png",
+          "hash": "6133482440647154154"
+        },
+        {
+          "file": "static/images/catch-em-all/pokeballs/ultra_ball.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/abra.png",
+          "hash": "1778975254130666171"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/abra.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/bellsprout.png",
+          "hash": "823680181863648418"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/bellsprout.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/bulbasaur.png",
+          "hash": "3196663132560458585"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/bulbasaur.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/caterpie.png",
+          "hash": "10010663248463674028"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/caterpie.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/charmander.png",
+          "hash": "11819075167380195826"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/charmander.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/dratini.png",
+          "hash": "15792510083427497185"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/dratini.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/eevee.png",
+          "hash": "6537603458492837030"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/eevee.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/jigglypuff.png",
+          "hash": "2038346722450926191"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/jigglypuff.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/mankey.png",
+          "hash": "9127493155548819614"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/mankey.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/meowth.png",
+          "hash": "14024847105849087000"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/meowth.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/mew.png",
+          "hash": "2387881082419845983"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/mew.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/pidgey.png",
+          "hash": "11909984431410421199"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/pidgey.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/pikachu.png",
+          "hash": "7512700580169602654"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/pikachu.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/psyduck.png",
+          "hash": "8716250925318831853"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/psyduck.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/rattata.png",
+          "hash": "12944346302219448285"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/rattata.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/snorlax.png",
+          "hash": "2700454114823882753"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/snorlax.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/squirtle.png",
+          "hash": "8009486392419225299"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/squirtle.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/venonat.png",
+          "hash": "17828033684661977988"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/venonat.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/weedle.png",
+          "hash": "4050830156121940643"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/weedle.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/zubat.png",
+          "hash": "11105422772723858317"
+        },
+        {
+          "file": "static/images/catch-em-all/pokemons/zubat.png:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/catch-em-all/wallpaper.jpg",
+          "hash": "1533268233416374976"
+        },
+        {
+          "file": "static/images/catch-em-all/wallpaper.jpg:Zone.Identifier",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "static/images/header/github-dark.svg",
+          "hash": "13787482120730406276"
+        },
+        {
+          "file": "static/images/header/github-light.svg",
+          "hash": "9157863579653112794"
+        },
+        {
+          "file": "static/images/header/stadtwerk-logo.svg",
+          "hash": "12937559297256244017"
+        },
+        {
+          "file": "static/images/memorandum/white_download_folder.png",
+          "hash": "11980369837526530485"
+        },
+        {
+          "file": "static/images/memorandum/white_new_folder.png",
+          "hash": "2157553998822480001"
+        },
+        {
+          "file": "static/images/memorandum/white_rl_player_stats.png",
+          "hash": "12890594034521647807"
+        },
+        {
+          "file": "static/robots.txt",
+          "hash": "2790380794362165217"
+        },
+        {
+          "file": "svelte.config.js",
+          "hash": "17981268444831172851",
+          "deps": [
+            "npm:@sveltejs/adapter-static"
+          ]
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "14249574495437304798"
+        },
+        {
+          "file": "tsconfig.lib.json",
+          "hash": "5539987709267389747"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "5924136005829196371"
+        },
+        {
+          "file": "vite.config.ts",
+          "hash": "2409440952167565300",
+          "deps": [
+            "npm:@sveltejs/kit",
+            "npm:vite"
+          ]
+        }
+      ]
+    }
+  }
+}
