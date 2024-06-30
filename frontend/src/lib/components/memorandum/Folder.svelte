@@ -7,20 +7,23 @@
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
   import { createEventDispatcher } from 'svelte';
+  import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
+  const dispatch = createEventDispatcher();
 
   export let id;
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
 
+  let confirmDeleteLinkOpenOverlay = false;
+  let confirmDeleteLinkAction;
+
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
 
-  const dispatch = createEventDispatcher();
-
-  function showOverlay(event) {
+  const showOverlay = (event) => {
     $linkOverlayOptionsStore.showOverlay =
       !$linkOverlayOptionsStore.showOverlay;
     $linkOverlayOptionsStore.currentFolderId = id;
@@ -31,27 +34,31 @@
       $linkOverlayOptionsStore.currLinkName = event.detail.linkName;
       $linkOverlayOptionsStore.currLinkUrl = event.detail.linkUrl;
     }
-  }
+  };
 
-  function deleteLink(event) {
-    let currentPreset = $localPresetStore;
+  const deleteLink = (event) => {
+    confirmDeleteLinkAction = () => {
+      let currentPreset = $localPresetStore;
 
-    currentPreset.Folders[id].links.splice(event.detail, 1);
-    _updateLinkIds(currentPreset.Folders[id].links);
+      currentPreset.Folders[id].links.splice(event.detail, 1);
+      updateLinkIds(currentPreset.Folders[id].links);
 
-    $localPresetStore = currentPreset;
-  }
+      $localPresetStore = currentPreset;
+    };
 
-  function showFolderOverlay() {
+    confirmDeleteLinkOpenOverlay = true;
+  };
+
+  const showFolderOverlay = () => {
     $folderOverlayOptionsStore.showOverlay =
       !$folderOverlayOptionsStore.showOverlay;
     $folderOverlayOptionsStore.currentFolderId = id;
     $folderOverlayOptionsStore.currentFolderName = folderHeader;
     $folderOverlayOptionsStore.currentFolderBackgroundColor =
       $localPresetStore.Folders[id].customBackgroundColor;
-  }
+  };
 
-  function openFolderLinks() {
+  const openFolderLinks = () => {
     let currentPreset = $localPresetStore;
     let folder = currentPreset.Folders[id];
 
@@ -60,9 +67,9 @@
         window.open(link.linkUrl, '_blank');
       });
     }
-  }
+  };
 
-  function dragStartFolder(event) {
+  const dragStartFolder = (event) => {
     event.stopPropagation();
     let originIndex = [].slice
       .call(event.target.parentNode.children)
@@ -70,11 +77,11 @@
 
     event.dataTransfer.setData('type', 'folder');
     event.dataTransfer.setData('originIndex', originIndex);
-  }
+  };
 
-  function dropFolder(event) {
+  const dropFolder = (event) => {
     let originIndex = event.dataTransfer.getData('originIndex');
-    let targetIndex = _getTargetFolderIndex(event);
+    let targetIndex = getTargetFolderIndex(event);
 
     if (originIndex !== targetIndex) {
       let currPreset = $localPresetStore;
@@ -87,9 +94,9 @@
 
       $localPresetStore = currPreset;
     }
-  }
+  };
 
-  function dragStartLink(event) {
+  const dragStartLink = (event) => {
     event.stopPropagation();
     let originFolderIndex;
     let originLinkIndex;
@@ -113,13 +120,13 @@
     event.dataTransfer.setData('type', 'link');
     event.dataTransfer.setData('originFolderIndex', originFolderIndex);
     event.dataTransfer.setData('originLinkIndex', originLinkIndex);
-  }
+  };
 
-  function dropLink(event) {
+  const dropLink = (event) => {
     let originFolderIndex = event.dataTransfer.getData('originFolderIndex');
     let originLinkIndex = event.dataTransfer.getData('originLinkIndex');
-    let targetFolderIndex = _getTargetFolderIndex(event);
-    let targetLinkIndex = _getTargetLinkIndex(event);
+    let targetFolderIndex = getTargetFolderIndex(event);
+    let targetLinkIndex = getTargetLinkIndex(event);
     let currPreset = $localPresetStore;
 
     // push link to target folder on position of target link
@@ -136,19 +143,19 @@
     // updates links ids in array to be reactively updated
     // origin folder
     let originLinks = currPreset.Folders[originFolderIndex].links;
-    _updateLinkIds(originLinks);
+    updateLinkIds(originLinks);
     // target folder
     let targetLinks = currPreset.Folders[targetFolderIndex].links;
-    _updateLinkIds(targetLinks);
+    updateLinkIds(targetLinks);
 
     $localPresetStore = currPreset;
-  }
+  };
 
-  function _updateLinkIds(links) {
+  const updateLinkIds = (links) => {
     links.map((link) => (link.id = links.indexOf(link)));
-  }
+  };
 
-  function _getTargetLinkIndex(event) {
+  const getTargetLinkIndex = (event) => {
     let targetIndex;
 
     if (
@@ -164,9 +171,9 @@
     }
 
     return targetIndex;
-  }
+  };
 
-  function _getTargetFolderIndex(event) {
+  const getTargetFolderIndex = (event) => {
     let targetIndex;
 
     if (
@@ -186,16 +193,16 @@
     }
 
     return targetIndex || 0;
-  }
+  };
 
-  function provideLinkFaviconUrl(linkUrl) {
+  const provideLinkFaviconUrl = (linkUrl) => {
     const url = new URL(linkUrl);
     const baseUrl = url.hostname;
     let domain = baseUrl.split('.').slice(-2).join('.');
     let mainUrl = `https://${domain}`;
     let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
     return faviconLink;
-  }
+  };
 </script>
 
 <section
@@ -270,6 +277,17 @@
     <span>Neuer Link</span>
     <span>+</span>
   </button>
+
+  <ConfirmOverlay
+    open={confirmDeleteLinkOpenOverlay}
+    questionHeader="Link löschen"
+    questionContent="Möchtest du diesen Link wirklich löschen?"
+    noActionText="Nein"
+    noAction={() => (confirmDeleteLinkOpenOverlay = false)}
+    yesActionText="Ja"
+    yesAction={confirmDeleteLinkAction}
+    on:close={() => (confirmDeleteLinkOpenOverlay = false)}
+  />
 </section>
 
 <style lang="scss">

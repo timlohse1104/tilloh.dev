@@ -1,6 +1,6 @@
 import Brick from './brick.js';
 
-export function buildLevel(game, level) {
+export const buildLevel = (game, level) => {
   let bricks = [];
 
   level.forEach((row, rowIndex) => {
@@ -16,7 +16,7 @@ export function buildLevel(game, level) {
   });
 
   return bricks;
-}
+};
 
 export const level1 = [[1, 1, 1, 1, 1, 1, 1, 1]];
 

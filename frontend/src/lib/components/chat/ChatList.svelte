@@ -10,25 +10,25 @@
 
   $: currentList = $chatStore[listIndex] || $chatStore[0];
 
-  function deleteChat(index) {
+  const deleteChat = (index) => {
     chatStore.update((list) => {
       list[listIndex].chats.splice(index, 1);
       return list;
     });
-  }
-  function checkChat(index) {
+  };
+  const checkChat = (index) => {
     chatStore.update((list) => {
       list[listIndex].chats[index].done = !list[listIndex].chats[index].done;
       return list;
     });
-  }
+  };
 
-  function clearHistory() {
+  const clearHistory = () => {
     chatStore.update((list) => {
       list[listIndex].history = [];
       return list;
     });
-  }
+  };
 </script>
 
 <section
