@@ -1,0 +1,285 @@
+{
+  "run": {
+    "command": "nx run-many -t lint --all --parallel=10",
+    "startTime": "2024-06-30T20:12:35.627Z",
+    "endTime": "2024-06-30T20:12:35.809Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "shared-types:lint",
+      "target": "lint",
+      "projectName": "shared-types",
+      "hash": "17002921691825891172",
+      "startTime": "2024-06-30T20:12:35.646Z",
+      "endTime": "2024-06-30T20:12:35.651Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "shared-texts:lint",
+      "target": "lint",
+      "projectName": "shared-texts",
+      "hash": "1751617477963222084",
+      "startTime": "2024-06-30T20:12:35.651Z",
+      "endTime": "2024-06-30T20:12:35.652Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "chat-chat-persistence:lint",
+      "target": "lint",
+      "projectName": "chat-chat-persistence",
+      "hash": "3089577626032649095",
+      "startTime": "2024-06-30T20:12:35.656Z",
+      "endTime": "2024-06-30T20:12:35.656Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "util:lint",
+      "target": "lint",
+      "projectName": "util",
+      "hash": "3935759720806759607",
+      "startTime": "2024-06-30T20:12:35.661Z",
+      "endTime": "2024-06-30T20:12:35.662Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "memorandum-memorandum-persistence:lint",
+      "target": "lint",
+      "projectName": "memorandum-memorandum-persistence",
+      "hash": "3936023692102436054",
+      "startTime": "2024-06-30T20:12:35.666Z",
+      "endTime": "2024-06-30T20:12:35.666Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "jokes-persistence:lint",
+      "target": "lint",
+      "projectName": "jokes-persistence",
+      "hash": "17246788405952775903",
+      "startTime": "2024-06-30T20:12:35.671Z",
+      "endTime": "2024-06-30T20:12:35.672Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "chat-provider:lint",
+      "target": "lint",
+      "projectName": "chat-provider",
+      "hash": "1875333426198018622",
+      "startTime": "2024-06-30T20:12:35.676Z",
+      "endTime": "2024-06-30T20:12:35.677Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "shared-keystore-persistence:lint",
+      "target": "lint",
+      "projectName": "shared-keystore-persistence",
+      "hash": "2065267414710274773",
+      "startTime": "2024-06-30T20:12:35.682Z",
+      "endTime": "2024-06-30T20:12:35.682Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "memorandum-memorandum-provider:lint",
+      "target": "lint",
+      "projectName": "memorandum-memorandum-provider",
+      "hash": "16347716911316323330",
+      "startTime": "2024-06-30T20:12:35.687Z",
+      "endTime": "2024-06-30T20:12:35.688Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "admin-provider:lint",
+      "target": "lint",
+      "projectName": "admin-provider",
+      "hash": "2793843333864473889",
+      "startTime": "2024-06-30T20:12:35.693Z",
+      "endTime": "2024-06-30T20:12:35.693Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "jokes-provider:lint",
+      "target": "lint",
+      "projectName": "jokes-provider",
+      "hash": "6918113516591256018",
+      "startTime": "2024-06-30T20:12:35.794Z",
+      "endTime": "2024-06-30T20:12:35.800Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "memorandum-memorandum-controller:lint",
+      "target": "lint",
+      "projectName": "memorandum-memorandum-controller",
+      "hash": "3303939442213703552",
+      "startTime": "2024-06-30T20:12:35.795Z",
+      "endTime": "2024-06-30T20:12:35.800Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "shared-controller-metrics:lint",
+      "target": "lint",
+      "projectName": "shared-controller-metrics",
+      "hash": "154964305178276801",
+      "startTime": "2024-06-30T20:12:35.795Z",
+      "endTime": "2024-06-30T20:12:35.800Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "shared-controller-health:lint",
+      "target": "lint",
+      "projectName": "shared-controller-health",
+      "hash": "3350824659362065047",
+      "startTime": "2024-06-30T20:12:35.796Z",
+      "endTime": "2024-06-30T20:12:35.800Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "admin-controller:lint",
+      "target": "lint",
+      "projectName": "admin-controller",
+      "hash": "291605872349889803",
+      "startTime": "2024-06-30T20:12:35.797Z",
+      "endTime": "2024-06-30T20:12:35.800Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "jokes-controller:lint",
+      "target": "lint",
+      "projectName": "jokes-controller",
+      "hash": "13661360506763804180",
+      "startTime": "2024-06-30T20:12:35.797Z",
+      "endTime": "2024-06-30T20:12:35.801Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "chat-controller:lint",
+      "target": "lint",
+      "projectName": "chat-controller",
+      "hash": "10034085995566616781",
+      "startTime": "2024-06-30T20:12:35.798Z",
+      "endTime": "2024-06-30T20:12:35.801Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "chat-chat-gateway:lint",
+      "target": "lint",
+      "projectName": "chat-chat-gateway",
+      "hash": "11900103167418251435",
+      "startTime": "2024-06-30T20:12:35.799Z",
+      "endTime": "2024-06-30T20:12:35.802Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "catch-em-all-catch-em-all-persistence:lint",
+      "target": "lint",
+      "projectName": "catch-em-all-catch-em-all-persistence",
+      "hash": "8870404516351022398",
+      "startTime": "2024-06-30T20:12:35.799Z",
+      "endTime": "2024-06-30T20:12:35.802Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "catch-em-all-catch-em-all-controller:lint",
+      "target": "lint",
+      "projectName": "catch-em-all-catch-em-all-controller",
+      "hash": "9685292043738944942",
+      "startTime": "2024-06-30T20:12:35.800Z",
+      "endTime": "2024-06-30T20:12:35.804Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "catch-em-all-catch-em-all-provider:lint",
+      "target": "lint",
+      "projectName": "catch-em-all-catch-em-all-provider",
+      "hash": "15089559187198679864",
+      "startTime": "2024-06-30T20:12:35.801Z",
+      "endTime": "2024-06-30T20:12:35.806Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "todo-todo-persistence:lint",
+      "target": "lint",
+      "projectName": "todo-todo-persistence",
+      "hash": "2904792879676788128",
+      "startTime": "2024-06-30T20:12:35.801Z",
+      "endTime": "2024-06-30T20:12:35.806Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "todo-todo-controller:lint",
+      "target": "lint",
+      "projectName": "todo-todo-controller",
+      "hash": "2691282642528082428",
+      "startTime": "2024-06-30T20:12:35.802Z",
+      "endTime": "2024-06-30T20:12:35.806Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "todo-todo-provider:lint",
+      "target": "lint",
+      "projectName": "todo-todo-provider",
+      "hash": "12422340344709052974",
+      "startTime": "2024-06-30T20:12:35.803Z",
+      "endTime": "2024-06-30T20:12:35.806Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "tilloh-dev:lint",
+      "target": "lint",
+      "projectName": "tilloh-dev",
+      "hash": "13631405328660002736",
+      "startTime": "2024-06-30T20:12:35.803Z",
+      "endTime": "2024-06-30T20:12:35.806Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx run-many -t lint --all --parallel=10",
+    "startTime": "2024-06-30T20:12:35.450Z",
+    "endTime": "2024-06-30T20:12:35.469Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "frontend:lint",
+      "target": "lint",
+      "projectName": "frontend",
+      "hash": "6894263618871308025",
+      "startTime": "2024-06-30T20:12:35.462Z",
+      "endTime": "2024-06-30T20:12:35.467Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    }
+  ]
+}
