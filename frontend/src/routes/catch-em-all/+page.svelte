@@ -5,12 +5,10 @@
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
-
-  let gameCanvas;
-  let ctx;
-
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
+  let gameCanvas;
+  let ctx;
 
   onMount(() => {
     gameCanvas = document.getElementById('gameScreen');

@@ -22,14 +22,12 @@
   const apiURL = dev
     ? environment.localApiBaseUrl
     : environment.productionApiBaseUrl;
-
   let shareDataOnline;
   let name = '';
   let saveButton;
   let connectButton;
   let openIdentifierInfo = false;
   let idInput = '';
-
   let snackbar: Snackbar;
   let snackbarMessage = '';
 

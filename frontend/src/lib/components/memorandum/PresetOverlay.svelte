@@ -46,6 +46,10 @@
     ...$localPresetStore.Folders.map((folder) => folder.links.length),
   ].reduce((a, b) => a + b, 0);
 
+  onMount(() => {
+    hljs.highlightAll();
+  });
+
   const closeOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = false;
   };
@@ -70,10 +74,6 @@
     downloadAnchorNode.remove();
     presetDownloadSnackbar.open();
   };
-
-  onMount(() => {
-    hljs.highlightAll();
-  });
 </script>
 
 <Dialog

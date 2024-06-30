@@ -14,6 +14,7 @@
 
   export let newLinkName = '';
   export let newLinkUrl = '';
+
   let addLinkButton;
   let type = $linkOverlayOptionsStore.currLinkName ? 'edit' : 'new';
   let nameInput;

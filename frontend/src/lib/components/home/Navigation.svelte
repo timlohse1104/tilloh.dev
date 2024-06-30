@@ -9,18 +9,17 @@
   );
   const applicationRoutesKeysHalf = Math.floor(activeRouteKeys.length / 2);
   const applicationRoutesKeysThird = Math.floor(activeRouteKeys.length / 3);
-
   let currentWidth;
-
-  const updateWidth = () => {
-    currentWidth = window.innerWidth;
-  };
 
   onMount(() => {
     updateWidth();
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
   });
+
+  const updateWidth = () => {
+    currentWidth = window.innerWidth;
+  };
 </script>
 
 <section>
