@@ -1,8 +1,9 @@
 import adapter from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
+import path from 'path';
+import { sveltePreprocess } from 'svelte-preprocess';
 
 const config = {
-  preprocess: preprocess(),
+  preprocess: sveltePreprocess(),
   kit: {
     adapter: adapter({
       pages: 'dist',
@@ -11,6 +12,16 @@ const config = {
       precompress: false,
       strict: true,
     }),
+  },
+  prerender: {
+    default: true,
+  },
+  vite: {
+    resolve: {
+      alias: {
+        $lib: path.resolve('./src/lib'),
+      },
+    },
   },
 };
 

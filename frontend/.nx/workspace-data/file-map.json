@@ -427,7 +427,7 @@
         },
         {
           "file": "src/lib/util/helper.ts",
-          "hash": "685496904097958612"
+          "hash": "2406273443437813622"
         },
         {
           "file": "src/lib/util/memorandum/async.js",
@@ -873,14 +873,15 @@
         },
         {
           "file": "svelte.config.js",
-          "hash": "17981268444831172851",
+          "hash": "4404336578408957019",
           "deps": [
-            "npm:@sveltejs/adapter-static"
+            "npm:@sveltejs/adapter-static",
+            "npm:svelte-preprocess"
           ]
         },
         {
           "file": "tsconfig.json",
-          "hash": "14249574495437304798"
+          "hash": "9477127912357220272"
         },
         {
           "file": "tsconfig.lib.json",

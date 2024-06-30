@@ -8643,6 +8643,11 @@
         "source": "frontend",
         "target": "npm:svelte-material-ui",
         "type": "static"
+      },
+      {
+        "source": "frontend",
+        "target": "npm:svelte-preprocess",
+        "type": "static"
       }
     ],
     "npm:@ampproject/remapping": [
