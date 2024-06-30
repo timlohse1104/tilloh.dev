@@ -87,6 +87,6 @@ if (browser) {
   });
 }
 
-export function resetSharedIdentifier() {
+export const resetSharedIdentifier = () => {
   sharedIdentifierStore.set({} as Identifier);
-}
+};

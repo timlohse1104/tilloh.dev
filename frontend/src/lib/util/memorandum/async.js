@@ -1,4 +1,4 @@
-async function fetchJson(url) {
+const fetchJson = async (url) => {
   try {
     let responseObj = await fetch(url, {
       mode: 'cors',
@@ -10,9 +10,9 @@ async function fetchJson(url) {
   } catch (err) {
     alert(err);
   }
-}
+};
 
-async function fetchHtml(url) {
+const fetchHtml = async (url) => {
   try {
     let responseObj = await fetch(url, {
       mode: 'cors',
@@ -24,6 +24,6 @@ async function fetchHtml(url) {
   } catch (err) {
     alert(err);
   }
-}
+};
 
 export { fetchHtml, fetchJson };

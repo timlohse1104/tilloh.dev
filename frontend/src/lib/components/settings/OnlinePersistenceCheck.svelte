@@ -47,19 +47,28 @@
     });
   }
 
-  async function checkIdentifierReset() {
+  onMount(() => {
+    if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
+      name = $sharedIdentifierStore.name || '';
+      shareDataOnline = true;
+    } else {
+      shareDataOnline = false;
+    }
+  });
+
+  const checkIdentifierReset = async () => {
     if (shareDataOnline) {
       resetSharedIdentifier();
       name = '';
     }
-  }
+  };
 
-  function triggerSnackbar(message: string) {
+  const triggerSnackbar = (message: string) => {
     snackbarMessage = message;
     snackbar.open();
-  }
+  };
 
-  async function saveOnlineIdentifier() {
+  const saveOnlineIdentifier = async () => {
     if ($sharedIdentifierStore.id) {
       await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
         method: 'PUT',
@@ -101,9 +110,9 @@
           triggerSnackbar(error);
         });
     }
-  }
+  };
 
-  async function connectOnlineIdentifier() {
+  const connectOnlineIdentifier = async () => {
     await fetch(`${apiURL}/identifiers/${idInput}`)
       .then((response) => response.json())
       .then((data) => {
@@ -128,16 +137,7 @@
       .catch((error) => {
         triggerSnackbar(error);
       });
-  }
-
-  onMount(() => {
-    if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
-      name = $sharedIdentifierStore.name || '';
-      shareDataOnline = true;
-    } else {
-      shareDataOnline = false;
-    }
-  });
+  };
 </script>
 
 <section>

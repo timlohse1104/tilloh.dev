@@ -7,7 +7,7 @@
 
   let newChatName = '';
 
-  function saveChat() {
+  const saveChat = () => {
     if (newChatName) {
       chatStore.update((n) => {
         n[listIndex].chats.push({ title: newChatName, done: false });
@@ -16,16 +16,16 @@
       addToHistory(newChatName);
       newChatName = '';
     }
-  }
+  };
 
-  function addToHistory(chatName) {
+  const addToHistory = (chatName) => {
     chatStore.update((n) => {
       n[listIndex].history = Array.from(
         new Set(n[listIndex].history).add(chatName),
       );
       return n;
     });
-  }
+  };
 </script>
 
 <Autocomplete

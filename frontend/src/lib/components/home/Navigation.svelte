@@ -12,9 +12,9 @@
 
   let currentWidth;
 
-  function updateWidth() {
+  const updateWidth = () => {
     currentWidth = window.innerWidth;
-  }
+  };
 
   onMount(() => {
     updateWidth();

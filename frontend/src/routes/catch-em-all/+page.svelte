@@ -26,7 +26,7 @@
     let lastTime = 0;
 
     // runs every frame
-    function gameLoop(timestamp) {
+    const gameLoop = (timestamp) => {
       let deltaTime = timestamp - lastTime;
       lastTime = timestamp;
 
@@ -37,7 +37,7 @@
       game.draw(ctx);
 
       requestAnimationFrame(gameLoop);
-    }
+    };
 
     // game start
     requestAnimationFrame(gameLoop);

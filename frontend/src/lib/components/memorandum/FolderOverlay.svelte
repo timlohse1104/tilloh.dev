@@ -54,12 +54,12 @@
     }
   });
 
-  function closeOverlay() {
+  const closeOverlay = () => {
     $folderOverlayOptionsStore.showOverlay = false;
     $folderOverlayOptionsStore.currentFolderId = undefined;
-  }
+  };
 
-  function editFolder() {
+  const editFolder = () => {
     if (submittable) {
       let currentPreset = $localPresetStore;
       currentPreset.Folders[
@@ -72,9 +72,9 @@
       $localPresetStore = currentPreset;
       closeOverlay();
     }
-  }
+  };
 
-  function duplicateFolder() {
+  const duplicateFolder = () => {
     if (submittable) {
       let currentPreset = $localPresetStore;
       let currentFolder = {
@@ -89,18 +89,18 @@
       $localPresetStore = currentPreset;
       closeOverlay();
     }
-  }
+  };
 
-  async function copyColorToClipboard() {
+  const copyColorToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(customColor.getRGBAValues());
       colorCopySnackbar.open();
     } catch (err) {
       console.error('Could not copy text: ', err);
     }
-  }
+  };
 
-  function updateCustomColorFromInput() {
+  const updateCustomColorFromInput = () => {
     const splitted = customColorInput.split(',');
     if (splitted.length === 4) {
       const r = parseInt(splitted[0]);
@@ -109,7 +109,7 @@
       const a = parseFloat(splitted[3]);
       customColor = new RGBBackgroundClass({ r, g, b, a });
     }
-  }
+  };
 </script>
 
 <Dialog

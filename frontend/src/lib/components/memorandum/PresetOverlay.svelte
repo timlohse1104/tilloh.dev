@@ -46,15 +46,15 @@
     ...$localPresetStore.Folders.map((folder) => folder.links.length),
   ].reduce((a, b) => a + b, 0);
 
-  function closeOverlay() {
+  const closeOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = false;
-  }
+  };
 
-  function triggerFileSelect() {
+  const triggerFileSelect = () => {
     configFileInput.click();
-  }
+  };
 
-  function triggerFileDownload() {
+  const triggerFileDownload = () => {
     const dataStr =
       'data:text/json;charset=utf-8,' +
       encodeURIComponent(JSON.stringify($localPresetStore, null, 2));
@@ -69,7 +69,7 @@
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
     presetDownloadSnackbar.open();
-  }
+  };
 
   onMount(() => {
     hljs.highlightAll();

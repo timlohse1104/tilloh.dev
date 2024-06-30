@@ -5,7 +5,7 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export async function verifyAdminId(id: string) {
+export const verifyAdminId = async (id: string) => {
   return await fetch(`${apiURL}/admin/verify`, {
     method: 'POST',
     headers: {
@@ -13,4 +13,4 @@ export async function verifyAdminId(id: string) {
     },
     body: JSON.stringify({ id }),
   }).then((res) => res.json());
-}
+};

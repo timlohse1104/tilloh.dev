@@ -14,7 +14,7 @@ const linkPresetKey = 'memorandum.link-preset';
 export let localPresetStore = writable(JSON.parse(linkPresetDefault));
 
 // Helper functions
-function ensureFolderBackgroundColor(linkPreset) {
+const ensureFolderBackgroundColor = (linkPreset) => {
   const folders = linkPreset.Folders;
 
   for (let i = 0; i < folders.length; i++) {
@@ -24,9 +24,9 @@ function ensureFolderBackgroundColor(linkPreset) {
   }
 
   return linkPreset;
-}
+};
 
-export async function refreshPresetStore() {
+export const refreshPresetStore = async () => {
   let linkPreset;
 
   // If user activated a shared preset, get it from the server
@@ -60,18 +60,18 @@ export async function refreshPresetStore() {
   }
 
   localPresetStore.set(ensureFolderBackgroundColor(linkPreset));
-}
+};
 
 // Online preset
-function getRemotePreset(identifier, key) {
+const getRemotePreset = (identifier, key) => {
   return fetch(`${apiURL}/keystore/${identifier}/${key}`)
     .then((res) => res.json())
     .then((data) => {
       return data;
     });
-}
+};
 
-function createRemotePreset(identifier, key, value) {
+const createRemotePreset = (identifier, key, value) => {
   return fetch(`${apiURL}/keystore`, {
     method: 'POST',
     headers: {
@@ -83,9 +83,9 @@ function createRemotePreset(identifier, key, value) {
     .then((data) => {
       return data;
     });
-}
+};
 
-function updateRemotePreset(identifier, key, value) {
+const updateRemotePreset = (identifier, key, value) => {
   return fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'PUT',
     headers: {
@@ -97,7 +97,7 @@ function updateRemotePreset(identifier, key, value) {
     .then((data) => {
       return data;
     });
-}
+};
 
 // Link preset store
 let sharedIdentifier;

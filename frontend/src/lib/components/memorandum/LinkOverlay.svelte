@@ -29,16 +29,16 @@
     nameInput.focus();
   });
 
-  function closeOverlay() {
+  const closeOverlay = () => {
     $linkOverlayOptionsStore.showOverlay = false;
     $linkOverlayOptionsStore.currentFolderId = undefined;
     $linkOverlayOptionsStore.currentFolder = undefined;
     $linkOverlayOptionsStore.currLinkId = undefined;
     $linkOverlayOptionsStore.currLinkName = undefined;
     $linkOverlayOptionsStore.currLinkUrl = undefined;
-  }
+  };
 
-  function addLink() {
+  const addLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
       let currLinks =
@@ -51,9 +51,9 @@
       $localPresetStore = currPreset;
       closeOverlay();
     }
-  }
+  };
 
-  function editLink() {
+  const editLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
       let currLink =
@@ -67,9 +67,9 @@
       $localPresetStore = currPreset;
       closeOverlay();
     }
-  }
+  };
 
-  function duplicateLink() {
+  const duplicateLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
       let currLinks =
@@ -82,7 +82,7 @@
       $localPresetStore = currPreset;
       closeOverlay();
     }
-  }
+  };
 </script>
 
 <Dialog

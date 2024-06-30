@@ -1,4 +1,4 @@
-export function detectCollision(ball, gameObject) {
+export const detectCollision = (ball, gameObject) => {
   let topOfBall = ball.position.y;
   let bottomOfBall = ball.position.y + ball.size;
   let leftSideOfBall = ball.position.x;
@@ -19,4 +19,4 @@ export function detectCollision(ball, gameObject) {
   } else {
     return false;
   }
-}
+};
