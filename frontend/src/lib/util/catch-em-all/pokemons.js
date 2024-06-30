@@ -23,6 +23,6 @@ export const pokemons = [
   '/images/catch-em-all/pokemons/zubat.png',
 ];
 
-export function getRandomPokemon() {
+export const getRandomPokemon = () => {
   return pokemons[getRandomNumberBetween(0, pokemons.length - 1)];
-}
+};

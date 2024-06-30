@@ -11,14 +11,14 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export async function getKeystore(token: string) {
+export const getKeystore = async (token: string) => {
   return await fetch(`${apiURL}/keystore`, {
     method: 'GET',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};
 
-export async function createKey(createKeystoreKeyDto: KeystoreKeyDto) {
+export const createKey = async (createKeystoreKeyDto: KeystoreKeyDto) => {
   console.log('createKeystoreKeyDto', createKeystoreKeyDto);
   return await fetch(`${apiURL}/keystore`, {
     method: 'POST',
@@ -29,33 +29,33 @@ export async function createKey(createKeystoreKeyDto: KeystoreKeyDto) {
       value: createKeystoreKeyDto.value,
     }),
   }).then((res) => res.json());
-}
+};
 
-export async function getKey(inputKeystoreDto: InputKeystoreDto) {
+export const getKey = async (inputKeystoreDto: InputKeystoreDto) => {
   const { identifier, key } = inputKeystoreDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'GET',
   }).then((res) => res.json());
-}
+};
 
-export async function updateKey(
+export const updateKey = async (
   inputKeystoreUpdateDto: InputKeystoreUpdateDto
-) {
+) => {
   const { identifier, key, value } = inputKeystoreUpdateDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'PUT',
     headers: { accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ value }),
   }).then((res) => res.json());
-}
+};
 
-export async function deleteKey(
+export const deleteKey = async (
   token: string,
   inputKeystoreDto: InputKeystoreDto
-) {
+) => {
   const { identifier, key } = inputKeystoreDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'DELETE',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};

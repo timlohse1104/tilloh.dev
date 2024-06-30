@@ -7,6 +7,6 @@ export const pokeballs = [
   '/images/catch-em-all/pokeballs/master_ball.png',
 ];
 
-export function getRandomPokeball() {
+export const getRandomPokeball = () => {
   return pokeballs[getRandomNumberBetween(0, pokeballs.length - 1)];
-}
+};

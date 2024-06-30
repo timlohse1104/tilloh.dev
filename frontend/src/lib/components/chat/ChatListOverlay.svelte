@@ -30,7 +30,7 @@
     }
   }
 
-  function createList() {
+  const createList = () => {
     const list: ChatList = {
       name: newListName,
       emoji: newListEmoji || '📝',
@@ -42,9 +42,9 @@
     });
 
     closeOverlay();
-  }
+  };
 
-  function updateList() {
+  const updateList = () => {
     chatStore.update((n) => {
       console.log(listIndex);
       console.log(n);
@@ -54,31 +54,31 @@
     });
 
     closeOverlay();
-  }
+  };
 
-  function deleteList() {
+  const deleteList = () => {
     chatStore.update((n) => {
       n.splice(listIndex, 1);
       return n;
     });
     closeOverlay();
-  }
+  };
 
-  function proceedOnEnter(event) {
+  const proceedOnEnter = (event) => {
     if (isEnter(event)) {
       if (newListName && (isEmoji(newListEmoji) || newListEmoji === '')) {
         $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }
     }
-  }
+  };
 
-  function closeOverlay() {
+  const closeOverlay = () => {
     $listOverlayOptionsStore.showOverlay = false;
     $listOverlayOptionsStore.type = undefined;
     listIndex = undefined;
     newListName = '';
     newListEmoji = '';
-  }
+  };
 </script>
 
 <Dialog

@@ -8,12 +8,15 @@
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
   import Fab, { Icon } from '@smui/fab';
+  import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
   let refreshLayout;
+  let confirmDeleteFolderOpenOverlay = false;
+  let confirmDeleteFolderAction;
 
-  function createFolder() {
+  const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
     // we need to create a copy and set the store again, so that the stores set method gets called
     // that happens because there is no localstorage update function, only get, set, remove and clear
@@ -23,21 +26,25 @@
       new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
     );
     $localPresetStore = currentPreset;
-  }
+  };
 
-  async function loadPreset() {
+  const loadPreset = async () => {
     const DEFAUL_PRESET_URL = '/config/default-preset.json';
 
     let defaultPreset = await fetchJson(DEFAUL_PRESET_URL);
 
     $localPresetStore = defaultPreset;
-  }
+  };
 
-  function deleteFolder(event) {
-    let currentPreset = $localPresetStore;
-    currentPreset.Folders.splice(event.detail, 1);
-    $localPresetStore = currentPreset;
-  }
+  const deleteFolder = (event) => {
+    confirmDeleteFolderAction = () => {
+      let currentPreset = $localPresetStore;
+      currentPreset.Folders.splice(event.detail, 1);
+      $localPresetStore = currentPreset;
+    };
+
+    confirmDeleteFolderOpenOverlay = true;
+  };
 </script>
 
 {#await $localPresetStore}
@@ -88,6 +95,17 @@
 >
   <Icon style="font-size:2rem;" class="material-icons">add</Icon>
 </Fab>
+
+<ConfirmOverlay
+  open={confirmDeleteFolderOpenOverlay}
+  questionHeader="Ordner löschen"
+  questionContent="Möchtest du diesen Ordner wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteFolderOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteFolderAction}
+  on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+/>
 
 <style lang="scss">
   @import '../../styles/variables.scss';

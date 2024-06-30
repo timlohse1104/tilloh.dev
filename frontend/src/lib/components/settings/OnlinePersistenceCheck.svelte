@@ -22,20 +22,18 @@
   const apiURL = dev
     ? environment.localApiBaseUrl
     : environment.productionApiBaseUrl;
-
   let shareDataOnline;
   let name = '';
   let saveButton;
   let connectButton;
   let openIdentifierInfo = false;
   let idInput = '';
-
   let snackbar: Snackbar;
   let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
-  $: saveSubmittable = !name || sameName;
-  $: connectSubmittable = !idInput;
+  $: saveSubmittable = name && !sameName;
+  $: connectSubmittable = !!idInput;
   $: if (saveButton) {
     saveButton.$$set({
       disabled: !saveSubmittable,
@@ -47,26 +45,28 @@
     });
   }
 
-  async function checkIdentifierReset() {
-    if (
-      shareDataOnline &&
-      $sharedIdentifierStore.id &&
-      $sharedIdentifierStore.name
-    ) {
-      await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
-        method: 'DELETE',
-      });
+  onMount(() => {
+    if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
+      name = $sharedIdentifierStore.name || '';
+      shareDataOnline = true;
+    } else {
+      shareDataOnline = false;
+    }
+  });
+
+  const checkIdentifierReset = async () => {
+    if (shareDataOnline) {
       resetSharedIdentifier();
       name = '';
     }
-  }
+  };
 
-  function triggerSnackbar(message: string) {
+  const triggerSnackbar = (message: string) => {
     snackbarMessage = message;
     snackbar.open();
-  }
+  };
 
-  async function saveOnlineIdentifier() {
+  const saveOnlineIdentifier = async () => {
     if ($sharedIdentifierStore.id) {
       await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
         method: 'PUT',
@@ -108,9 +108,9 @@
           triggerSnackbar(error);
         });
     }
-  }
+  };
 
-  async function connectOnlineIdentifier() {
+  const connectOnlineIdentifier = async () => {
     await fetch(`${apiURL}/identifiers/${idInput}`)
       .then((response) => response.json())
       .then((data) => {
@@ -128,23 +128,14 @@
         $sharedIdentifierStore = identifier;
         name = data.name;
         triggerSnackbar(
-          `Verbindung mit der ID: <b>${$sharedIdentifierStore.id}</b> geladen.`,
+          `Verbindung mit der ID: '${$sharedIdentifierStore.id}' geladen.`,
         );
         idInput = '';
       })
       .catch((error) => {
         triggerSnackbar(error);
       });
-  }
-
-  onMount(() => {
-    if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
-      name = $sharedIdentifierStore.name || '';
-      shareDataOnline = true;
-    } else {
-      shareDataOnline = false;
-    }
-  });
+  };
 </script>
 
 <section>
@@ -196,7 +187,7 @@
 
   {#if shareDataOnline}
     <div class="inputArea">
-      <Card padded>
+      <Card padded class="connection-card">
         {#if !$sharedIdentifierStore.id}
           <h3>Neue Verbindung einrichten</h3>
         {:else}
@@ -227,7 +218,7 @@
 
           <Button
             on:click={saveOnlineIdentifier}
-            style={name && !sameName ? 'color:var(--green);' : ''}
+            style={saveSubmittable ? 'color:var(--green);' : ''}
             bind:this={saveButton}
             color="secondary"
           >
@@ -235,13 +226,13 @@
             {#if !$sharedIdentifierStore.id}
               <Label>Einrichten</Label>
             {:else}
-              <Label>Aktualisieren</Label>
+              <Label>Speichern</Label>
             {/if}
           </Button>
         </div>
       </Card>
 
-      <Card padded>
+      <Card padded class="connection-card">
         <h3>Schnelle Einrichtung mit ID</h3>
         <p>
           Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine
@@ -293,10 +284,15 @@
   .inputArea {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    width: 80vw;
+    width: 85vw;
     margin-top: 1rem;
+  }
+
+  :global(.connection-card) {
+    width: 500px;
   }
 
   .onlinePersistenceInfoText {
