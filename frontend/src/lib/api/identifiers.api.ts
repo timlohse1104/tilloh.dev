@@ -6,43 +6,39 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export async function getIdentifiers(token: string) {
+export const getIdentifiers = async (token: string) => {
   return await fetch(`${apiURL}/identifiers`, {
     method: 'GET',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};
 
-export async function getIdentifier(token: string, id: string) {
+export const getIdentifier = async (id: string) => {
   return await fetch(`${apiURL}/identifiers/${id}`, {
     method: 'GET',
-    headers: createHeaders(token),
+    headers: { 'Content-Type': 'application/json' },
   }).then((res) => res.json());
-}
+};
 
-export async function createIdentifier(token: string, name: string) {
+export const createIdentifier = async (name: string) => {
   return await fetch(`${apiURL}/identifiers`, {
     method: 'POST',
-    headers: createHeaders(token),
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name }),
   }).then((res) => res.json());
-}
+};
 
-export async function updateIdentifier(
-  token: string,
-  id: string,
-  name: string
-) {
+export const updateIdentifier = async (id: string, name: string) => {
   return await fetch(`${apiURL}/identifiers/${id}`, {
     method: 'PUT',
-    headers: createHeaders(token),
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name }),
   }).then((res) => res.json());
-}
+};
 
-export async function deleteIdentifier(token: string, id: string) {
+export const deleteIdentifier = async (token: string, id: string) => {
   return await fetch(`${apiURL}/identifiers/${id}`, {
     method: 'DELETE',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};

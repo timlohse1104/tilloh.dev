@@ -47,7 +47,7 @@ export class IdentifiersController {
     return this.identifiersService.listIdentifiers();
   }
 
-  @ApiBearerAuth()
+  @Public()
   @ApiOkResponse({
     description: 'Identifier successfully returned.',
     type: GetIdentifierOutputDto,
@@ -71,7 +71,7 @@ export class IdentifiersController {
     return this.identifiersService.createIdentifier(createIdentifierInputDto);
   }
 
-  @ApiBearerAuth()
+  @Public()
   @ApiOkResponse({
     description: 'Identifier successfully updated.',
     type: UpdateIdentifierOutputDto,

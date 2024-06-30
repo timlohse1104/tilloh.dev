@@ -23,8 +23,6 @@
 
 <style lang="scss">
   :global(.admin-dashboard-card) {
-    width: 100%;
-    height: 100%;
     width: 200px;
     height: 200px;
     background-color: var(--color-bg-2);

@@ -5,6 +5,7 @@
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
   import { getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
+  import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import { utilityRoutes } from '$lib/config/applications';
   import { ActivityTypeDto } from '$lib/types/admin.dto';
   import type { ChatDto } from '$lib/types/chats.dto';
@@ -39,6 +40,12 @@
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
+  let confirmDeleteToggleOpenOverlay = false;
+  let confirmDeleteToggleAction;
+  let confirmDeleteIdentifierOpenOverlay = false;
+  let confirmDeleteIdentifierAction;
+  let confirmDeletePresetOpenOverlay = false;
+  let confirmDeletePresetAction;
 
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
@@ -84,7 +91,7 @@
     );
   };
 
-  async function verifyId() {
+  const verifyId = async () => {
     const verifyResponse = await verifyAdminId(adminToken);
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
@@ -101,7 +108,7 @@
     }
     isVerified = verifyResponse.isAdmin;
     await updateDashboard();
-  }
+  };
 
   const loadLinkPresets = async () => {
     const keystoreResponse = await getKeystore(adminToken);
@@ -125,20 +132,24 @@
   };
 
   const removeLinkPreset = async (event) => {
-    const { identifier, key } = event.detail;
-    console.log('removing link preset', { identifier, key }, '...');
-    try {
-      await deleteKey(adminToken, { identifier, key });
-    } catch (error) {
-      console.error('Error deleting identifier', error);
-      return;
-    }
+    confirmDeletePresetAction = async () => {
+      const { identifier, key } = event.detail;
+      console.log('removing link preset', { identifier, key }, '...');
+      try {
+        await deleteKey(adminToken, { identifier, key });
+      } catch (error) {
+        console.error('Error deleting identifier', error);
+        return;
+      }
 
-    const deletedLinkPreset = linkPresets.find(
-      (preset) => preset.identifier === identifier && preset.key === key,
-    );
-    console.log({ deletedLinkPreset }, 'Link preset deleted.');
-    await loadLinkPresets();
+      const deletedLinkPreset = linkPresets.find(
+        (preset) => preset.identifier === identifier && preset.key === key,
+      );
+      console.log({ deletedLinkPreset }, 'Link preset deleted.');
+      await loadLinkPresets();
+    };
+
+    confirmDeletePresetOpenOverlay = true;
   };
 
   const loadIdentifiers = async () => {
@@ -147,20 +158,24 @@
   };
 
   const removeIdentifier = async (event) => {
-    const { identifierId } = event.detail;
-    console.log('removing link preset', { identifierId }, '...');
-    try {
-      await deleteIdentifier(adminToken, identifierId);
-    } catch (error) {
-      console.error('Error deleting identifier', error);
-      return;
-    }
+    confirmDeleteIdentifierAction = async () => {
+      const { identifierId } = event.detail;
+      console.log('removing link preset', { identifierId }, '...');
+      try {
+        await deleteIdentifier(adminToken, identifierId);
+      } catch (error) {
+        console.error('Error deleting identifier', error);
+        return;
+      }
 
-    const deletedIdentifier = identifiers.find(
-      (identifier) => identifier._id === identifierId,
-    );
-    console.log({ deletedIdentifier }, 'Identifier deleted.');
-    await loadIdentifiers();
+      const deletedIdentifier = identifiers.find(
+        (identifier) => identifier._id === identifierId,
+      );
+      console.log({ deletedIdentifier }, 'Identifier deleted.');
+      await loadIdentifiers();
+    };
+
+    confirmDeleteIdentifierOpenOverlay = true;
   };
 
   const loadJokes = async () => {
@@ -183,21 +198,25 @@
   };
 
   const removeToggle = async (event) => {
-    const { id } = event.detail;
-    const toggle = allToggles.find((t) => t._id === id);
-    console.log({ toggle }, 'Removing toggle...');
+    confirmDeleteToggleAction = async () => {
+      const { id } = event.detail;
+      const toggle = allToggles.find((t) => t._id === id);
+      console.log({ toggle }, 'Removing toggle...');
 
-    try {
-      await deleteKey(adminToken, {
-        identifier: TOGGLE_KEY_IDENTIFIER,
-        key: toggle.key,
-      });
-    } catch (error) {
-      console.error('Error deleting toggle', error);
-      return;
-    }
-    console.log({ toggle }, 'Toggle deleted.');
-    await updateDashboard();
+      try {
+        await deleteKey(adminToken, {
+          identifier: TOGGLE_KEY_IDENTIFIER,
+          key: toggle.key,
+        });
+      } catch (error) {
+        console.error('Error deleting toggle', error);
+        return;
+      }
+      console.log({ toggle }, 'Toggle deleted.');
+      await updateDashboard();
+    };
+
+    confirmDeleteToggleOpenOverlay = true;
   };
 
   const loadHealthChecks = async () => {
@@ -301,6 +320,37 @@
     </div>
   {/if}
 </section>
+
+<ConfirmOverlay
+  open={confirmDeleteToggleOpenOverlay}
+  questionHeader="Toggle löschen"
+  questionContent="Möchtest du diesen Toggle wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteToggleOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteToggleAction}
+  on:close={() => (confirmDeleteToggleOpenOverlay = false)}
+/>
+<ConfirmOverlay
+  open={confirmDeleteIdentifierOpenOverlay}
+  questionHeader="Identifier löschen"
+  questionContent="Möchtest du diesen Identifier wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteIdentifierOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteIdentifierAction}
+  on:close={() => (confirmDeleteIdentifierOpenOverlay = false)}
+/>
+<ConfirmOverlay
+  open={confirmDeletePresetOpenOverlay}
+  questionHeader="Preset löschen"
+  questionContent="Möchtest du dieses Preset wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeletePresetOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeletePresetAction}
+  on:close={() => (confirmDeletePresetOpenOverlay = false)}
+/>
 
 <style lang="scss">
   @import '../../lib/styles/variables.scss';
