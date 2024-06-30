@@ -5,12 +5,7 @@ export const isEmoji = (text) => {
 };
 
 export const isEnter = (event) => {
-  if (
-    event['code'] === 'Enter' ||
-    event['code'] === 'Go' ||
-    event['code'] === 'Send' ||
-    event['code'] === 'Search'
-  ) {
+  if (event['keyCode'] === 13) {
     return true;
   }
   return false;
