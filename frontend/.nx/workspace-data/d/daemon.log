@@ -84,3 +84,44 @@
 [NX Daemon Server] - 2024-06-30T20:00:32.596Z - Done responding to the client recordOutputsHash
 [NX Daemon Server] - 2024-06-30T20:00:32.596Z - Handled RECORD_OUTPUTS_HASH. Handling time: 0. Response time: 0.
 [NX Daemon Server] - 2024-06-30T20:00:32.607Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-30T20:01:51.701Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-30T20:01:51.703Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-06-30T20:01:51.703Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-30T20:01:51.704Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-06-30T20:01:51.704Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-06-30T20:01:51.704Z - Time taken for 'total for creating and serializing project graph' 0.2099650000454858ms
+[NX Daemon Server] - 2024-06-30T20:01:51.705Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-06-30T20:01:51.705Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-06-30T20:01:51.719Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:51.719Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:51.719Z - Handled HASH_TASKS. Handling time: 2. Response time: 0.
+[NX Daemon Server] - 2024-06-30T20:01:51.729Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:51.729Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:51.729Z - Handled HASH_TASKS. Handling time: 3. Response time: 0.
+[NX Daemon Server] - 2024-06-30T20:01:51.736Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2024-06-30T20:01:51.736Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2024-06-30T20:01:51.736Z - Handled RECORD_OUTPUTS_HASH. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-06-30T20:01:51.741Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-30T20:01:52.758Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-30T20:01:52.759Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-30T20:01:52.759Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-06-30T20:01:52.760Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-06-30T20:01:52.760Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-06-30T20:01:52.761Z - Time taken for 'total for creating and serializing project graph' 0.17664499999955297ms
+[NX Daemon Server] - 2024-06-30T20:01:52.761Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-06-30T20:01:52.761Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-06-30T20:01:52.770Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:52.770Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:52.770Z - Handled HASH_TASKS. Handling time: 2. Response time: 0.
+[NX Daemon Server] - 2024-06-30T20:01:52.780Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:52.780Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2024-06-30T20:01:52.780Z - Handled HASH_TASKS. Handling time: 3. Response time: 0.
+[NX Daemon Server] - 2024-06-30T20:01:52.786Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2024-06-30T20:01:52.787Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2024-06-30T20:01:52.787Z - Handled RECORD_OUTPUTS_HASH. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-06-30T20:01:52.791Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-06-30T20:03:30.917Z - [WATCHER]: .gitignore was modified
+[NX Daemon Server] - 2024-06-30T20:03:30.917Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-06-30T20:03:30.917Z - [WATCHER]: Stopping the watcher for /home/tilloh/programming/tilloh.dev/frontend (sources)
+[NX Daemon Server] - 2024-06-30T20:03:30.918Z - [WATCHER]: Stopping the watcher for /home/tilloh/programming/tilloh.dev/frontend (outputs)
+[NX Daemon Server] - 2024-06-30T20:03:30.918Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"
