@@ -26,16 +26,16 @@ export class Chat {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: [ChatMessage], required: true, default: () => [] })
+  @Prop({ type: [ChatMessage], required: true, default: [] })
   messages: ChatMessage[];
 
-  @Prop({ type: Map, of: String, default: () => {} })
+  @Prop({ type: Map, of: String, default: {} })
   clients: Record<string, string>;
 
-  @Prop({ type: Date, required: true, default: () => new Date() })
+  @Prop({ type: Date, required: true, default: new Date() })
   created: Date;
 
-  @Prop({ type: Date, required: true, default: () => new Date() })
+  @Prop({ type: Date, required: true, default: new Date() })
   updated: Date;
 }
 
