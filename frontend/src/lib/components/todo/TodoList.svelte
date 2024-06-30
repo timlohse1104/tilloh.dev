@@ -10,25 +10,25 @@
 
   $: currentList = $todoStore[listIndex] || $todoStore[0];
 
-  function deleteTodo(index) {
+  const deleteTodo = (index) => {
     todoStore.update((list) => {
       list[listIndex].todos.splice(index, 1);
       return list;
     });
-  }
-  function checkTodo(index) {
+  };
+  const checkTodo = (index) => {
     todoStore.update((list) => {
       list[listIndex].todos[index].done = !list[listIndex].todos[index].done;
       return list;
     });
-  }
+  };
 
-  function clearHistory() {
+  const clearHistory = () => {
     todoStore.update((list) => {
       list[listIndex].history = [];
       return list;
     });
-  }
+  };
 </script>
 
 <section

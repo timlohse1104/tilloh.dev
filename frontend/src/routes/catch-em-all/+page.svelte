@@ -5,12 +5,10 @@
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
-
-  let gameCanvas;
-  let ctx;
-
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
+  let gameCanvas;
+  let ctx;
 
   onMount(() => {
     gameCanvas = document.getElementById('gameScreen');
@@ -26,7 +24,7 @@
     let lastTime = 0;
 
     // runs every frame
-    function gameLoop(timestamp) {
+    const gameLoop = (timestamp) => {
       let deltaTime = timestamp - lastTime;
       lastTime = timestamp;
 
@@ -37,7 +35,7 @@
       game.draw(ctx);
 
       requestAnimationFrame(gameLoop);
-    }
+    };
 
     // game start
     requestAnimationFrame(gameLoop);

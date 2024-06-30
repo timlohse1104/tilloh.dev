@@ -21,7 +21,6 @@
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
-
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -38,17 +37,17 @@
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
 
-  function showPresetOverlay() {
-    $presetOverlayOptionsStore.showOverlay = true;
-  }
-
-  function updateOrder(order: Order) {
-    $folderOrderFolder = order.id;
-  }
-
   onMount(() => {
     refreshPresetStore();
   });
+
+  const showPresetOverlay = () => {
+    $presetOverlayOptionsStore.showOverlay = true;
+  };
+
+  const updateOrder = (order: Order) => {
+    $folderOrderFolder = order.id;
+  };
 </script>
 
 <svelte:head>

@@ -16,7 +16,7 @@
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
 
-  function createFolder() {
+  const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
     // we need to create a copy and set the store again, so that the stores set method gets called
     // that happens because there is no localstorage update function, only get, set, remove and clear
@@ -26,17 +26,17 @@
       new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
     );
     $localPresetStore = currentPreset;
-  }
+  };
 
-  async function loadPreset() {
+  const loadPreset = async () => {
     const DEFAUL_PRESET_URL = '/config/default-preset.json';
 
     let defaultPreset = await fetchJson(DEFAUL_PRESET_URL);
 
     $localPresetStore = defaultPreset;
-  }
+  };
 
-  function deleteFolder(event) {
+  const deleteFolder = (event) => {
     confirmDeleteFolderAction = () => {
       let currentPreset = $localPresetStore;
       currentPreset.Folders.splice(event.detail, 1);
@@ -44,7 +44,7 @@
     };
 
     confirmDeleteFolderOpenOverlay = true;
-  }
+  };
 </script>
 
 {#await $localPresetStore}

@@ -18,12 +18,11 @@
   import List, { Item, Text } from '@smui/list';
 
   const { todo: todoRoute } = applicationRoutes;
-
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
 
-  function showListOverlay(type: 'new' | 'edit', index?: number) {
+  const showListOverlay = (type: 'new' | 'edit', index?: number) => {
     if (type === 'new') {
       newListIndex = $todoStore.length;
       $listOverlayOptionsStore.showOverlay = true;
@@ -33,12 +32,12 @@
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     }
-  }
+  };
 
-  function setActiveList(index: number) {
+  const setActiveList = (index: number) => {
     currentListIndex = index;
     openMenu = false;
-  }
+  };
 </script>
 
 <svelte:head>

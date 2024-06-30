@@ -7,50 +7,53 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export async function getJokeOfTheDay(): Promise<JokeDto> {
+export const getJokeOfTheDay = async (): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/random`).then((res) => res.json());
-}
+};
 
-export async function getJokes(token: string): Promise<JokeDto[]> {
+export const getJokes = async (token: string): Promise<JokeDto[]> => {
   return await fetch(`${apiURL}/jokes`, {
     method: 'GET',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};
 
-export async function createJoke(
+export const createJoke = async (
   token: string,
   jokeEditDto: JokeEditDto
-): Promise<JokeDto> {
+): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes`, {
     method: 'POST',
     headers: createHeaders(token),
     body: JSON.stringify(jokeEditDto),
   }).then((res) => res.json());
-}
+};
 
-export async function getJoke(token: string, id: string): Promise<JokeDto> {
+export const getJoke = async (token: string, id: string): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'GET',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};
 
-export async function updateJoke(
+export const updateJoke = async (
   token: string,
   id: string,
   jokeEditDto: JokeEditDto
-): Promise<JokeDto> {
+): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'PUT',
     headers: createHeaders(token),
     body: JSON.stringify(jokeEditDto),
   }).then((res) => res.json());
-}
+};
 
-export async function deleteJoke(token: string, id: string): Promise<JokeDto> {
+export const deleteJoke = async (
+  token: string,
+  id: string
+): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'DELETE',
     headers: createHeaders(token),
   }).then((res) => res.json());
-}
+};

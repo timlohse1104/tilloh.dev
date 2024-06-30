@@ -15,7 +15,6 @@
     3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit sortiert.<br/>
     4. Schwarze Karten werden immer ganz rechts gehalten.<br/>
   `;
-
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
@@ -24,25 +23,25 @@
 
   $: stackSize = unoSort?.getStackSize();
 
-  function pickCards(amount: number) {
+  onMount(() => {
+    unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
+    unoSort.start(7);
+  });
+
+  const pickCards = (amount: number) => {
     unoSort.pickCards(amount);
     unoSort.sortHand();
     unoSort.printHand();
     unoSort.printStackSize();
-  }
+  };
 
-  function reset() {
+  const reset = () => {
     handSizeElement.innerHTML = '0';
     stackSizeElement.innerHTML = '';
     handDivElement.innerHTML = '';
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
-  }
-
-  onMount(() => {
-    unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
-    unoSort.start(7);
-  });
+  };
 </script>
 
 <svelte:head>

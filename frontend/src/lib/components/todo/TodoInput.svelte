@@ -7,7 +7,7 @@
 
   let newTodoName = '';
 
-  function saveTodo() {
+  const saveTodo = () => {
     if (newTodoName) {
       todoStore.update((n) => {
         n[listIndex].todos.push({ title: newTodoName, done: false });
@@ -16,16 +16,16 @@
       addToHistory(newTodoName);
       newTodoName = '';
     }
-  }
+  };
 
-  function addToHistory(todoName) {
+  const addToHistory = (todoName) => {
     todoStore.update((n) => {
       n[listIndex].history = Array.from(
         new Set(n[listIndex].history).add(todoName),
       );
       return n;
     });
-  }
+  };
 </script>
 
 <Autocomplete

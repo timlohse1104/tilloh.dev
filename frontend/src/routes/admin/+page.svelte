@@ -91,7 +91,7 @@
     );
   };
 
-  async function verifyId() {
+  const verifyId = async () => {
     const verifyResponse = await verifyAdminId(adminToken);
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
@@ -108,7 +108,7 @@
     }
     isVerified = verifyResponse.isAdmin;
     await updateDashboard();
-  }
+  };
 
   const loadLinkPresets = async () => {
     const keystoreResponse = await getKeystore(adminToken);
