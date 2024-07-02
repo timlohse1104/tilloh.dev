@@ -1,3 +1,4 @@
+import { ListService } from '@backend/list/provider';
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 
 @Controller('list')
