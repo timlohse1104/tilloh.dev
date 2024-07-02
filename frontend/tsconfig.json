@@ -11,6 +11,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "moduleResolution": "bundler",
-    "module": "ES6"
+    "module": "esnext",
+    "target": "esnext"
   }
 }

@@ -44,6 +44,12 @@ const loadApplications = async () => ({
     icon: 'badge',
     toggle: await getToggleValue(TogglesEnum.about),
   },
+  burger: {
+    name: 'Burger Test',
+    path: '/burger',
+    icon: 'link',
+    toggle: false,
+  },
 });
 
 export const applicationRoutes = await loadApplications();

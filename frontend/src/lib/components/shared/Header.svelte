@@ -3,8 +3,8 @@
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
+  import BurgerMenu from './BurgerMenu.svelte';
   const { home } = applicationRoutes;
-  const { settings } = utilityRoutes;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -54,11 +54,7 @@
       </div>
     {:else}
       <div class="corner">
-        <IconButton
-          style="color: white;  text-decoration: none;"
-          href={settings.path}
-          ><Icon class="material-icons">{settings.icon}</Icon></IconButton
-        >
+        <BurgerMenu />
       </div>
     {/if}
   </div>
