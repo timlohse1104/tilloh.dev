@@ -76,14 +76,14 @@
 
     <div class="list-content">
       {#if !currentList}
-        <h1 style="margin-top:2rem;">
-          Wähle eine <Icon class="material-icons">list</Icon> Liste aus.
-        </h1>
-        <div style="display:flex;flex-direction:column;align-items:center;">
-          <p style="margin-top:2rem;">
-            Klicke oben rechts auf den Menü-Button.
-            <Icon class="material-icons">menu</Icon>
-          </p>
+        <div class="empty-list-info">
+          <h1>Wähle eine Liste aus.</h1>
+          <span>
+            Klicke oben rechts auf den <Icon
+              style="margin-left:0.2rem;"
+              class="material-icons">format_list_bulleted</Icon
+            >-Button.
+          </span>
         </div>
       {:else}
         {#each currentList?.todos as todo, i (i)}
@@ -157,5 +157,22 @@
 
   hr {
     width: 100%;
+  }
+
+  .empty-list-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+      margin-top: 2rem;
+    }
+
+    span {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 </style>

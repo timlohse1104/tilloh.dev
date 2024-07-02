@@ -17,7 +17,7 @@ const loadApplications = async () => ({
   todo: {
     name: 'Listen',
     path: '/todo',
-    icon: 'list',
+    icon: 'format_list_bulleted',
     toggle: await getToggleValue(TogglesEnum.todo),
   },
   chat: {
@@ -43,12 +43,6 @@ const loadApplications = async () => ({
     path: '/about',
     icon: 'badge',
     toggle: await getToggleValue(TogglesEnum.about),
-  },
-  burger: {
-    name: 'Burger Test',
-    path: '/burger',
-    icon: 'link',
-    toggle: false,
   },
 });
 

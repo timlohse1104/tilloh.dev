@@ -117,7 +117,7 @@
           size="button"
           on:click={() => (openMenu = !openMenu)}
         >
-          <Icon class="material-icons">menu</Icon>
+          <Icon class="material-icons">format_list_bulleted</Icon>
         </IconButton>
         <TodoListComponent listIndex={currentListIndex} />
       </main>
