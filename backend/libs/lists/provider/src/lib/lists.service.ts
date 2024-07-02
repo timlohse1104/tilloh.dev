@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ListService {
+export class ListsService {
   getAllLists(): any[] {
     return [];
   }
