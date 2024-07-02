@@ -21,12 +21,11 @@
             <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
           </IconButton>
         {:else}
-          <IconButton
-            style="color: white; text-decoration: none;"
-            href={home.path}
-          >
-            <Icon class="material-icons">{home.icon}</Icon>
-          </IconButton>
+          <div class="corner">
+            <IconButton href="https://github.com/timlohse1104" target="_blank">
+              <img src={'/images/header/github-light.svg'} alt="GitHub" />
+            </IconButton>
+          </div>
         {/if}
       </div>
     </div>

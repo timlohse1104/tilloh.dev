@@ -68,6 +68,8 @@
 </IconButton>
 
 <style lang="scss">
+  @import '../../styles/variables.scss';
+
   :root {
     --menu-left: 2rem;
   }
@@ -97,6 +99,16 @@
       overlay var(--duration) allow-discrete,
       display var(--duration) allow-discrete;
 
+    @media #{$tablet} {
+      width: 50%;
+      font-size: medium;
+    }
+
+    @media #{$phone} {
+      width: 100%;
+      font-size: small;
+    }
+
     &:popover-open {
       transform: translateX(0);
     }
@@ -114,6 +126,10 @@
       text-align: left;
       margin-left: var(--menu-left);
       color: var(--color-text);
+
+      @media #{$phone} {
+        font-size: large;
+      }
     }
 
     hr {
@@ -129,6 +145,14 @@
       padding: 0;
       margin-top: 3rem;
       margin-bottom: 1rem;
+
+      @media #{$tablet} {
+        margin-top: 2rem;
+      }
+
+      @media #{$phone} {
+        margin-top: 2rem;
+      }
     }
 
     li {
