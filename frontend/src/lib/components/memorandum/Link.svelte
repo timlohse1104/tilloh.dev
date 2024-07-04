@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { draggable } from '$lib/util/drag-and-drop';
   import { createEventDispatcher } from 'svelte';
   import { bounceInOut } from 'svelte/easing';
   import { blur } from 'svelte/transition';
 
   const dispatch = createEventDispatcher();
   export let linkId;
+  export let folderId;
   export let linkName;
   export let linkUrl;
   export let faviconLink;
@@ -12,14 +14,7 @@
 
 <div
   id="link"
-  draggable={true}
-  on:dragstart
-  on:dragover|preventDefault
-  on:drag|preventDefault={(event) => {
-    if (event.dataTransfer.getData('type') === 'link') {
-      dispatch('dropLink', linkId);
-    }
-  }}
+  use:draggable={`{ "type": "link", "linkId": "${linkId}", "folderId": "${folderId}" }`}
   on:dblclick={() =>
     dispatch('editLink', {
       linkId: linkId,
