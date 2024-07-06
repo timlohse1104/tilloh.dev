@@ -1,4 +1,5 @@
 <script>
+  import { draggable, dropzone } from '$lib/util/drag-and-drop';
   import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import {
     folderOrderFolder,
@@ -69,62 +70,25 @@
     }
   };
 
-  const dragStartFolder = (event) => {
-    event.stopPropagation();
-    let originIndex = [].slice
-      .call(event.target.parentNode.children)
-      .indexOf(event.target);
-
-    event.dataTransfer.setData('type', 'folder');
-    event.dataTransfer.setData('originIndex', originIndex);
-  };
-
-  const dropFolder = (event) => {
-    let originIndex = event.dataTransfer.getData('originIndex');
+  const dropFolder = (event, dropInfo) => {
+    const { originFolderIndex } = dropInfo;
     let targetIndex = getTargetFolderIndex(event);
 
-    if (originIndex !== targetIndex) {
+    if (originFolderIndex !== targetIndex) {
       let currPreset = $localPresetStore;
 
       currPreset.Folders.splice(
         targetIndex,
         0,
-        currPreset.Folders.splice(originIndex, 1)[0],
+        currPreset.Folders.splice(originFolderIndex, 1)[0],
       );
 
       $localPresetStore = currPreset;
     }
   };
 
-  const dragStartLink = (event) => {
-    event.stopPropagation();
-    let originFolderIndex;
-    let originLinkIndex;
-
-    if (event.target.nodeName !== 'DIV') {
-      originFolderIndex = [].slice
-        .call(event.target.parentNode.parentNode.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode.parentNode.parentNode);
-      originLinkIndex = [].slice
-        .call(event.target.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode);
-    } else {
-      originFolderIndex = [].slice
-        .call(event.target.parentNode.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode.parentNode);
-      originLinkIndex = [].slice
-        .call(event.target.parentNode.children)
-        .indexOf(event.target);
-    }
-
-    event.dataTransfer.setData('type', 'link');
-    event.dataTransfer.setData('originFolderIndex', originFolderIndex);
-    event.dataTransfer.setData('originLinkIndex', originLinkIndex);
-  };
-
-  const dropLink = (event) => {
-    let originFolderIndex = event.dataTransfer.getData('originFolderIndex');
-    let originLinkIndex = event.dataTransfer.getData('originLinkIndex');
+  const dropLink = (event, dropInfo) => {
+    const { originFolderIndex, originLinkIndex } = dropInfo;
     let targetFolderIndex = getTargetFolderIndex(event);
     let targetLinkIndex = getTargetLinkIndex(event);
     let currPreset = $localPresetStore;
@@ -168,6 +132,10 @@
       targetIndex = [].slice
         .call(event.target.parentNode.parentNode.children)
         .indexOf(event.target.parentNode);
+    } else if (event.target.nodeName === 'DIV' && event.target.id === 'link') {
+      targetIndex = [].slice
+        .call(event.target.parentNode.children)
+        .indexOf(event.target);
     }
 
     return targetIndex;
@@ -179,13 +147,16 @@
     if (
       event.target.nodeName === 'A' ||
       event.target.nodeName === 'IMG' ||
-      event.target.nodeName === 'DIV' ||
       (event.target.previousElementSibling &&
         event.target.previousElementSibling.nodeName === 'A')
     ) {
       targetIndex = [].slice
         .call(event.target.parentNode.parentNode.parentNode.parentNode.children)
         .indexOf(event.target.parentNode.parentNode.parentNode);
+    } else if (event.target.nodeName === 'DIV' && event.target.id === 'link') {
+      targetIndex = [].slice
+        .call(event.target.parentNode.parentNode.parentNode.children)
+        .indexOf(event.target.parentNode.parentNode);
     } else {
       targetIndex = [].slice
         .call(event.target.parentNode.parentNode.children)
@@ -208,16 +179,24 @@
 <section
   class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
   style={`border: solid 0.1em ${folderBackgroundColor};`}
-  draggable={true}
-  on:dragstart={(event) => dragStartFolder(event)}
-  on:drop|preventDefault={(event) => {
-    if (event.dataTransfer.getData('type') === 'folder') {
-      dropFolder(event);
-    } else if (event.dataTransfer.getData('type') === 'link') {
-      dropLink(event);
-    }
+  use:draggable={`{ "type": "folder", "folderId": "${id}" }`}
+  use:dropzone={{
+    onDrop(input, event) {
+      event.stopPropagation();
+      const { type, linkId, folderId } = JSON.parse(input);
+
+      if (type === 'folder') {
+        const dropInfo = { originFolderIndex: folderId };
+        dropFolder(event, dropInfo);
+      } else if (type === 'link') {
+        const dropInfo = {
+          originFolderIndex: folderId,
+          originLinkIndex: linkId,
+        };
+        dropLink(event, dropInfo);
+      }
+    },
   }}
-  on:dragover|preventDefault
   role="presentation"
 >
   <div
@@ -253,10 +232,10 @@
             on:delLink={deleteLink}
             on:editLink={showOverlay}
             linkId={index}
+            folderId={id}
             {linkName}
             {linkUrl}
             faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
-            on:dragstart={(event) => dragStartLink(event)}
           />
         {/each}
       {/if}
