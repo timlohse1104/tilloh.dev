@@ -16,12 +16,10 @@
   import Textfield from '@smui/textfield';
   import Icon from '@smui/textfield/icon';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
-  const dispatch = createEventDispatcher();
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -41,21 +39,25 @@
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
   let linkFilter = '';
-  let filteredPreset = $localPresetStore;
+  $: filteredPreset = $localPresetStore;
 
   $: if (linkFilter) {
-    console.log(linkFilter);
+    console.log('localPresetStore');
+    console.log($localPresetStore.Folders);
+    console.log('old');
+    console.log(filteredPreset.Folders);
     filteredPreset = {
-      ...$localPresetStore,
       Folders: $localPresetStore.Folders.map((folder) => {
         return {
           ...folder,
-          Links: folder.Links.filter((link) =>
-            link.name.toLowerCase().includes(linkFilter.toLowerCase()),
+          links: folder.links.filter((link) =>
+            link.linkName.toLowerCase().includes(linkFilter.toLowerCase()),
           ),
         };
-      }),
+      }).filter((folder) => folder.links.length > 0),
     };
+    console.log('new');
+    console.log(filteredPreset.Folders);
   }
 
   const createFolder = () => {
@@ -136,26 +138,10 @@
 
   <div class="boxArea">
     {#if value.Folders.length > 0}
-      {#if $folderOrderFolder === 'fixed'}
-        <section class="contentAreaFixed">
-          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
-            <Folder
-              id={i}
-              folderHeader={folderName}
-              folderBackground={customBackgroundColor}
-              on:delFolder={deleteFolder}
-            />
-          {/each}
-        </section>
-      {:else}
-        <section class="contentAreaFlexible">
-          <Masonry
-            reset
-            gridGap={'0.75rem'}
-            items={$localPresetStore.Folders}
-            bind:refreshLayout
-          >
-            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+      {#if filteredPreset.Folders.length > 0}
+        {#if $folderOrderFolder === 'fixed'}
+          <section class="contentAreaFixed">
+            {#each filteredPreset.Folders as { folderName, customBackgroundColor }, i}
               <Folder
                 id={i}
                 folderHeader={folderName}
@@ -163,8 +149,28 @@
                 on:delFolder={deleteFolder}
               />
             {/each}
-          </Masonry>
-        </section>
+          </section>
+        {:else}
+          <section class="contentAreaFlexible">
+            <Masonry
+              reset
+              gridGap={'0.75rem'}
+              items={filteredPreset.Folders}
+              bind:refreshLayout
+            >
+              {#each filteredPreset.Folders as { folderName, customBackgroundColor }, i}
+                <Folder
+                  id={i}
+                  folderHeader={folderName}
+                  folderBackground={customBackgroundColor}
+                  on:delFolder={deleteFolder}
+                />
+              {/each}
+            </Masonry>
+          </section>
+        {/if}
+      {:else}
+        <p>Keine Links gefunden</p>
       {/if}
     {:else}
       <Startup on:new={createFolder} on:default={loadPreset} />
