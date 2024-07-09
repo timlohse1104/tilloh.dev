@@ -7,6 +7,7 @@
   import {
     folderOrderFolder,
     localPresetStore,
+    presetOverlayOptionsStore,
   } from '$lib/util/memorandum/stores.js';
   import { Icon as CommonIcon } from '@smui/common';
   import Fab from '@smui/fab';
@@ -90,6 +91,10 @@
   const updateOrder = (order: Order) => {
     $folderOrderFolder = order.id;
   };
+
+  const showPresetOverlay = () => {
+    $presetOverlayOptionsStore.showOverlay = true;
+  };
 </script>
 
 {#await $localPresetStore}
@@ -111,7 +116,7 @@
 
     <IconButton
       style="color: white"
-      on:click={() => dispatch('showPresetOverlay')}
+      on:click={showPresetOverlay}
       class="material-icons">swap_vert</IconButton
     >
 

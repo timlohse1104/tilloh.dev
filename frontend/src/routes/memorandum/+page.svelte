@@ -20,10 +20,6 @@
   onMount(() => {
     refreshPresetStore();
   });
-
-  const showPresetOverlay = () => {
-    $presetOverlayOptionsStore.showOverlay = true;
-  };
 </script>
 
 <svelte:head>
@@ -34,7 +30,7 @@
 {#if memorandumRoute.toggle}
   {#if $folderOrderFolder === 'flexible'}
     {#key $localPresetStore}
-      <ContentArea on:showPresetOverlay={showPresetOverlay} />
+      <ContentArea />
     {/key}
   {:else}
     <ContentArea />
