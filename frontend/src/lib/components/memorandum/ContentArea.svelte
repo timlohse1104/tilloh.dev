@@ -38,6 +38,8 @@
   let refreshLayout;
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
+  let confirmDeleteLinkOpenOverlay = false;
+  let confirmDeleteLinkAction;
   let linkFilter = '';
   $: filteredPreset = $localPresetStore;
 
@@ -88,6 +90,19 @@
     };
 
     confirmDeleteFolderOpenOverlay = true;
+  };
+
+  const deleteLink = (event) => {
+    confirmDeleteLinkAction = () => {
+      let currentPreset = $localPresetStore;
+
+      currentPreset.Folders[id].links.splice(event.detail, 1);
+      updateLinkIds(currentPreset.Folders[id].links);
+
+      $localPresetStore = currentPreset;
+    };
+
+    confirmDeleteLinkOpenOverlay = true;
   };
 
   const updateOrder = (order: Order) => {
@@ -147,6 +162,7 @@
                 folderHeader={folderName}
                 folderBackground={customBackgroundColor}
                 on:delFolder={deleteFolder}
+                on:deleteLink={deleteLink}
               />
             {/each}
           </section>
@@ -164,6 +180,7 @@
                   folderHeader={folderName}
                   folderBackground={customBackgroundColor}
                   on:delFolder={deleteFolder}
+                  on:delLink={deleteLink}
                 />
               {/each}
             </Masonry>
@@ -177,7 +194,7 @@
     {/if}
   </div>
 {:catch error}
-  <p>Etwas ist schieß gelaufen: {error.message}</p>
+  <p>Etwas ist schief gelaufen: {error.message}</p>
 {/await}
 
 <Fab
@@ -197,6 +214,16 @@
   yesActionText="Ja"
   yesAction={confirmDeleteFolderAction}
   on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+/>
+<ConfirmOverlay
+  open={confirmDeleteLinkOpenOverlay}
+  questionHeader="Link löschen"
+  questionContent="Möchtest du diesen Link wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteLinkOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteLinkAction}
+  on:close={() => (confirmDeleteLinkOpenOverlay = false)}
 />
 
 <style lang="scss">

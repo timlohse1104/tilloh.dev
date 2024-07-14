@@ -8,7 +8,6 @@
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
   import { createEventDispatcher } from 'svelte';
-  import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
   const dispatch = createEventDispatcher();
 
@@ -17,8 +16,8 @@
   export let folderBackground;
   export let folderBackgroundColor = '';
 
-  let confirmDeleteLinkOpenOverlay = false;
-  let confirmDeleteLinkAction;
+  // let confirmDeleteLinkOpenOverlay = false;
+  // let confirmDeleteLinkAction;
 
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
@@ -37,18 +36,18 @@
     }
   };
 
-  const deleteLink = (event) => {
-    confirmDeleteLinkAction = () => {
-      let currentPreset = $localPresetStore;
+  // const deleteLink = (event) => {
+  //   confirmDeleteLinkAction = () => {
+  //     let currentPreset = $localPresetStore;
 
-      currentPreset.Folders[id].links.splice(event.detail, 1);
-      updateLinkIds(currentPreset.Folders[id].links);
+  //     currentPreset.Folders[id].links.splice(event.detail, 1);
+  //     updateLinkIds(currentPreset.Folders[id].links);
 
-      $localPresetStore = currentPreset;
-    };
+  //     $localPresetStore = currentPreset;
+  //   };
 
-    confirmDeleteLinkOpenOverlay = true;
-  };
+  //   confirmDeleteLinkOpenOverlay = true;
+  // };
 
   const showFolderOverlay = () => {
     $folderOverlayOptionsStore.showOverlay =
@@ -229,7 +228,7 @@
       {#if $localPresetStore?.Folders[id]?.links.length > 0}
         {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
           <Link
-            on:delLink={deleteLink}
+            on:delLink
             on:editLink={showOverlay}
             linkId={index}
             folderId={id}
@@ -256,17 +255,6 @@
     <span>Neuer Link</span>
     <span>+</span>
   </button>
-
-  <ConfirmOverlay
-    open={confirmDeleteLinkOpenOverlay}
-    questionHeader="Link löschen"
-    questionContent="Möchtest du diesen Link wirklich löschen?"
-    noActionText="Nein"
-    noAction={() => (confirmDeleteLinkOpenOverlay = false)}
-    yesActionText="Ja"
-    yesAction={confirmDeleteLinkAction}
-    on:close={() => (confirmDeleteLinkOpenOverlay = false)}
-  />
 </section>
 
 <style lang="scss">
