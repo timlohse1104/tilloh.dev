@@ -12,7 +12,7 @@ export class ChatMongoDbService {
 
   constructor(
     @InjectModel(Chat.name)
-    private chatModel: Model<ChatDocument>
+    private chatModel: Model<ChatDocument>,
   ) {}
 
   /**
@@ -31,7 +31,7 @@ export class ChatMongoDbService {
     const chatEntities = chats.map((chat) => chat.toObject() as ChatEntityDto);
     this.logger.debug(
       { output: { chats } },
-      `Found ${chats.length} chats in mongodb.`
+      `Found ${chats.length} chats in mongodb.`,
     );
     return chatEntities;
   }
@@ -71,7 +71,7 @@ export class ChatMongoDbService {
     const chatEntity = (await chat).toObject() as ChatEntityDto;
     this.logger.debug(
       { output: { chat: chatEntity } },
-      ChatTexts.DB_CREATED_ONE
+      ChatTexts.DB_CREATED_ONE,
     );
     return chatEntity;
   }
@@ -85,14 +85,14 @@ export class ChatMongoDbService {
    */
   async update(
     id: string,
-    chatDto: Partial<ChatEntityDto>
+    chatDto: Partial<ChatEntityDto>,
   ): Promise<ChatEntityDto> {
     this.logger.debug({ input: { id, chatDto } }, ChatTexts.DB_ATTEMPT_UPDATE);
     const chat = await this.chatModel
       .findOneAndUpdate(
         { _id: id },
         { ...chatDto, updated: new Date() },
-        { new: true }
+        { new: true },
       )
       .exec();
 
@@ -102,7 +102,7 @@ export class ChatMongoDbService {
     const chatEntity = chat.toObject() as ChatEntityDto; // Convert chat to ChatEntityDto
     this.logger.debug(
       { output: { chat: chatEntity } },
-      ChatTexts.DB_UPDATED_ONE
+      ChatTexts.DB_UPDATED_ONE,
     );
     return chatEntity; // Return chatEntity instead of chat
   }
@@ -113,14 +113,15 @@ export class ChatMongoDbService {
    * @param id The id of the chat.
    * @returns The deleted chat object.
    */
-  async remove(id: string) {
+  async remove(id: string): Promise<ChatEntityDto> {
     this.logger.debug({ input: { id } }, ChatTexts.DB_ATTEMPT_DELETE);
     const chat = await this.chatModel.findOneAndDelete({ _id: id }).exec();
 
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: { chat } }, ChatTexts.DB_DELETE_ONE);
-    return chat;
+    const chatEntity = chat.toObject() as ChatEntityDto; // Convert chat to ChatEntityDto
+    this.logger.debug({ output: { chatEntity } }, ChatTexts.DB_DELETE_ONE);
+    return chatEntity;
   }
 }
