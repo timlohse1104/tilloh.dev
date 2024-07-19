@@ -43,7 +43,7 @@
     "@sveltejs/kit": "^2.5.17",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@swc-node/register": "~1.10.0",
-    "@swc/core": "~1.6.0",
+    "@swc/core": "~1.7.0",
     "@tsconfig/svelte": "^5.0.2",
     "@types/node": "20.14.9",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
