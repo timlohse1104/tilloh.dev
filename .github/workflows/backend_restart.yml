@@ -27,7 +27,8 @@ jobs:
             cd api
             rm -rf node_modules
 
-      - name: Remotely install dependencies
+      - name: Remotely install dependencies (normal)
+        if: ${{ github.event.inputs.legacyPeerDeps == 'false' }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ vars.SSHHOST }}
@@ -36,12 +37,19 @@ jobs:
           port: ${{ vars.SSHPORT }}
           script: |
             cd api
+            npm i
 
-            if [[ $legacyPeerDeps == "true" ]]; then
-              npm i --legacy-peer-deps
-            else
-              npm i
-            fi
+      - name: Remotely install dependencies (legacy peer deps)
+        if: ${{ github.event.inputs.legacyPeerDeps == 'true' }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ vars.SSHPORT }}
+          script: |
+            cd api
+            npm i --legacy-peer-deps
 
       - name: Stop backend service
         uses: appleboy/ssh-action@master
