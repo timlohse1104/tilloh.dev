@@ -11,6 +11,7 @@ jobs:
   restart:
     name: Restart backend service
     runs-on: ubuntu-latest
+    environment: remote_debugging
     steps:
       - name: Restarting backend service on uberspace
         run: echo "Restarting backend service..."
