@@ -6,5 +6,5 @@ export class UpdateMessageDto extends PartialType(CreateMessageDto) {
   id: number;
 
   @IsNotEmpty()
-  chatId: string;
+  override chatId: string;
 }
