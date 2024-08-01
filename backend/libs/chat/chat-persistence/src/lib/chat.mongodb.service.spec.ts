@@ -1,7 +1,7 @@
 import { ChatEntityDto } from '@backend/shared-types';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { Chat, ChatDocument } from './schema/chat.schema';
 
@@ -16,6 +16,13 @@ describe('ChatMongoDbService', () => {
     clients: {},
     created: new Date(),
     updated: new Date(),
+  });
+
+  const mockChatDocument = (
+    id: string,
+    name: string,
+  ): Partial<Document<ChatEntityDto>> => ({
+    toObject: jest.fn().mockReturnValue(mockChat(id, name)),
   });
 
   beforeEach(async () => {
@@ -40,14 +47,21 @@ describe('ChatMongoDbService', () => {
   });
 
   it('should find all chats', async () => {
-    const result: ChatEntityDto[] = [
-      mockChat('1', 'chat1') as ChatEntityDto,
-      mockChat('2', 'chat2') as ChatEntityDto,
+    // arrange
+    const expectedChats: Partial<ChatEntityDto>[] = [
+      mockChat('1', 'chat1'),
+      mockChat('2', 'chat2'),
     ];
-    jest
-      .spyOn(chatModel, 'find')
-      .mockResolvedValue(result as Partial<ChatDocument>[]);
-    expect(await service.findAll()).toEqual(result);
+    const result: Document<ChatEntityDto>[] = [
+      mockChatDocument('1', 'chat1') as Document<ChatEntityDto>,
+      mockChatDocument('2', 'chat2') as Document<ChatEntityDto>,
+    ];
+    jest.spyOn(chatModel, 'find').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValueOnce(result),
+    } as never);
+
+    // act & assert
+    expect(await service.findAll()).toEqual(expectedChats);
   });
 
   // it('should find one chat', async () => {
