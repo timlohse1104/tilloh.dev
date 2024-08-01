@@ -7,5 +7,6 @@ export default {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/shared/keystore-persistence',
+  coverageDirectory:
+    '../../../../coverage/libs/shared/provider/keystore-persistence',
 };
