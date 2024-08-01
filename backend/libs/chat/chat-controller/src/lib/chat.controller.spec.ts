@@ -49,6 +49,10 @@ describe('ChatController', () => {
     chatService = module.get<ChatService>(ChatService);
   });
 
+  it('Controller should be defined.', () => {
+    expect(controller).toBeDefined();
+  });
+
   describe('getChats', () => {
     it('should return the output of getting chats', async () => {
       // Arrange

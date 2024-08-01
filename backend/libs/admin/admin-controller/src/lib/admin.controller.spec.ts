@@ -24,6 +24,10 @@ describe('AdminController', () => {
     adminService = module.get<AdminService>(AdminService);
   });
 
+  it('Controller should be defined.', () => {
+    expect(controller).toBeDefined();
+  });
+
   describe('verfiyAdmin', () => {
     it('should return the output of verifing an admin', async () => {
       // Arrange

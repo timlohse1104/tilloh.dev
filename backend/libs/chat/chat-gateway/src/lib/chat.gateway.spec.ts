@@ -1,14 +1,21 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AdminService } from './admin.service';
+import { ChatGateway } from './chat.gateway';
 
-describe('AdminService', () => {
-  let service: AdminService;
+describe('ChatGateway', () => {
+  let gateway: ChatGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AdminService],
       providers: [
+        {
+          provide: ChatGateway,
+          useValue: {
+            handleConnection: jest.fn(),
+            handleDisconnect: jest.fn(),
+            handleMessage: jest.fn(),
+          },
+        },
         {
           provide: ConfigService,
           useValue: {
@@ -18,11 +25,11 @@ describe('AdminService', () => {
       ],
     }).compile();
 
-    service = module.get<AdminService>(AdminService);
+    gateway = module.get<ChatGateway>(ChatGateway);
   });
 
-  it('Service should be defined.', () => {
-    expect(service).toBeDefined();
+  it('Gateway should be defined.', () => {
+    expect(gateway).toBeDefined();
   });
 
   describe('test', () => {
