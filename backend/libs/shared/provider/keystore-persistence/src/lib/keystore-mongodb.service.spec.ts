@@ -26,6 +26,10 @@ describe('KeystoreMongoDbService', () => {
     service = module.get<KeystoreMongoDbService>(KeystoreMongoDbService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service should be defined.', () => {
     expect(service).toBeDefined();
   });

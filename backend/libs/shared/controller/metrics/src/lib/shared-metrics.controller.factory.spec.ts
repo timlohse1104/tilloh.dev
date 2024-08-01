@@ -14,6 +14,10 @@ describe('MetricsControllerFactory', () => {
     controller = module.get(HealthCheckController);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeTruthy();
   });

@@ -27,6 +27,10 @@ describe('IdentifiersController', () => {
     identifiersServiceMock = module.get<IdentifiersService>(IdentifiersService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Controller should be defined.', () => {
     expect(controller).toBeDefined();
   });

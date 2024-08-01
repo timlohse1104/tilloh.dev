@@ -27,6 +27,10 @@ describe('MessagesService', () => {
     chatMongoDbServiceMock = module.get<ChatMongoDbService>(ChatMongoDbService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service should be defined.', () => {
     expect(service).toBeDefined();
   });

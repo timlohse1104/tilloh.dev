@@ -29,6 +29,10 @@ describe('KeystoreController', () => {
     );
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Controller should be defined.', () => {
     expect(controller).toBeDefined();
   });

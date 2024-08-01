@@ -49,6 +49,10 @@ describe('ChatController', () => {
     chatService = module.get<ChatService>(ChatService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Controller should be defined.', () => {
     expect(controller).toBeDefined();
   });

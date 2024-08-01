@@ -26,6 +26,10 @@ describe('JokesMongoDbService', () => {
     service = module.get<JokesMongoDbService>(JokesMongoDbService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service should be defined.', () => {
     expect(service).toBeDefined();
   });

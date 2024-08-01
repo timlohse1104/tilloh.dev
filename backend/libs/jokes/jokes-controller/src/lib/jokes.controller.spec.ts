@@ -26,6 +26,10 @@ describe('JokesController', () => {
     controller = module.get<JokesController>(JokesController);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Controller should be defined.', () => {
     expect(controller).toBeDefined();
   });

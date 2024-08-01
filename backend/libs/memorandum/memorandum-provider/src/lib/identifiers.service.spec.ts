@@ -25,6 +25,10 @@ describe('IdentifiersService', () => {
     service = module.get<IdentifiersService>(IdentifiersService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service should be defined.', () => {
     expect(service).toBeDefined();
   });

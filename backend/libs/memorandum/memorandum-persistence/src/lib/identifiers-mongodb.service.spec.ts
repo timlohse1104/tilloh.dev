@@ -26,6 +26,10 @@ describe('IdentifiersMongoDbService', () => {
     service = module.get<IdentifiersMongoDbService>(IdentifiersMongoDbService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service should be defined.', () => {
     expect(service).toBeDefined();
   });

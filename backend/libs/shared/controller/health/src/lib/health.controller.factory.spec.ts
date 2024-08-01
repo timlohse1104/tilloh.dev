@@ -55,6 +55,10 @@ describe('HealthCheckControllerFactory', () => {
     healthCheckServiceMock = module.get(HealthCheckService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeTruthy();
   });

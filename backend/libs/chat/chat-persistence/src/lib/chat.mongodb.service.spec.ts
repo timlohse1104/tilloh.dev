@@ -46,6 +46,10 @@ describe('ChatMongoDbService', () => {
     chatModel = module.get<Model<ChatDocument>>(getModelToken(Chat.name));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should find all chats', async () => {
     // arrange
     const expectedChats: Partial<ChatEntityDto>[] = [
