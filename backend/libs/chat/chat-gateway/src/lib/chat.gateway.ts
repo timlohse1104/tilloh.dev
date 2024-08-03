@@ -31,15 +31,12 @@ export class ChatGateway {
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
-    const { chatId, name, timestamp } = createMessageDto;
+    const { name, timestamp } = createMessageDto;
 
     this.logger.verbose(
       `Creating a new message for ${name} with timestamp ${timestamp}.`,
     );
-    const message = await this.messagesService.createMessage(
-      chatId,
-      createMessageDto,
-    );
+    const message = await this.messagesService.createMessage(createMessageDto);
 
     this.logger.verbose(
       `Emit the new message from ${name} to all connected clients.`,

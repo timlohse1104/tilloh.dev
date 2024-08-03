@@ -7,15 +7,10 @@ import {
   TypingDto,
   UpdateMessageDto,
 } from '@backend/shared-types';
+import { mockMessageDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Socket } from 'socket.io';
 import { ChatGateway } from './chat.gateway';
-
-const mockMessage = (mock: Partial<CreateMessageDto>): MessageDto => ({
-  name: mock.name || 'name',
-  text: mock.text || 'text',
-  timestamp: mock.timestamp || new Date(),
-});
 
 describe('ChatGateway', () => {
   let gateway: ChatGateway;
@@ -71,7 +66,7 @@ describe('ChatGateway', () => {
       };
 
       const { name, text, timestamp } = createMessageDto;
-      const message = mockMessage({
+      const message = mockMessageDto({
         name,
         text,
         timestamp,
@@ -111,7 +106,7 @@ describe('ChatGateway', () => {
     it('should return all messages', async () => {
       // arrange
       const chatId = 'chatId';
-      const messages = [mockMessage({}), mockMessage({})] as MessageDto[];
+      const messages = [mockMessageDto({}), mockMessageDto({})] as MessageDto[];
       jest
         .spyOn(messagesService, 'listMessages')
         .mockResolvedValueOnce(messages);
@@ -139,7 +134,7 @@ describe('ChatGateway', () => {
       // arrange
       const chatId = 'chatId';
       const id = 1;
-      const message = mockMessage({});
+      const message = mockMessageDto({});
       jest.spyOn(messagesService, 'findMessage').mockResolvedValueOnce(message);
 
       // act & assert
@@ -173,7 +168,7 @@ describe('ChatGateway', () => {
       };
 
       const { name, text, timestamp } = updateMessageDto;
-      const message = mockMessage({
+      const message = mockMessageDto({
         name,
         text,
         timestamp,
@@ -215,7 +210,7 @@ describe('ChatGateway', () => {
         chatId: 'chatId',
         id: 1,
       };
-      const message = mockMessage({});
+      const message = mockMessageDto({});
       jest
         .spyOn(messagesService, 'removeMessage')
         .mockResolvedValueOnce(message);
