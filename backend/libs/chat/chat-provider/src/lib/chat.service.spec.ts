@@ -3,7 +3,7 @@ import { ChatEntityDto } from '@backend/shared-types';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatService } from './chat.service';
 
-const mockChatEntityDto = (mock: Partial<ChatEntityDto>) => ({
+export const mockChatEntityDto = (mock: Partial<ChatEntityDto>) => ({
   _id: mock._id || 'mockId',
   name: mock.name || 'mockName',
   messages: mock.messages || [],
