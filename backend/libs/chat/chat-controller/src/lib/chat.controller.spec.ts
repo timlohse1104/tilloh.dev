@@ -9,7 +9,9 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatController } from './chat.controller';
 
-const mockChatEntityDto = (mock?: Partial<ChatEntityDto>): ChatEntityDto => {
+export const mockChatEntityDto = (
+  mock?: Partial<ChatEntityDto>,
+): ChatEntityDto => {
   return {
     _id: mock?._id || '1',
     name: mock?.name || 'name',
