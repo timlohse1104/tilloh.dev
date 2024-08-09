@@ -6,6 +6,10 @@ describe('AdminService', () => {
   let service: AdminService;
   let configService: ConfigService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminService],
@@ -23,7 +27,7 @@ describe('AdminService', () => {
     configService = module.get<ConfigService>(ConfigService);
   });
 
-  it('Service should be defined.', () => {
+  it('should be defined.', () => {
     expect(service).toBeDefined();
   });
 

@@ -7,6 +7,10 @@ describe('AdminController', () => {
   let controller: AdminController;
   let adminService: AdminService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminController],

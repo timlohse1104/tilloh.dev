@@ -5,6 +5,10 @@ import { IdentifiersService } from './identifier.service';
 describe('IdentifiersService', () => {
   let service: IdentifiersService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -29,7 +33,7 @@ describe('IdentifiersService', () => {
     jest.clearAllMocks();
   });
 
-  it('Service should be defined.', () => {
+  it('should be defined.', () => {
     expect(service).toBeDefined();
   });
 

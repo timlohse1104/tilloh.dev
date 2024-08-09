@@ -27,6 +27,10 @@ describe('HealthCheckControllerFactory', () => {
   let testService2Mock: { healthcheck: jest.Mock };
   const successResponse = { httpStatusCode: 200 };
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const HealthCheckController = healthControllerFactory();
 

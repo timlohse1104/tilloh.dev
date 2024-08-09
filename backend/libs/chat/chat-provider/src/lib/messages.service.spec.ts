@@ -9,6 +9,10 @@ describe('MessagesService', () => {
   let service: MessagesService;
   let chatMongoDbServiceMock: ChatMongoDbService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -34,7 +38,7 @@ describe('MessagesService', () => {
     jest.clearAllMocks();
   });
 
-  it('Service should be defined.', () => {
+  it('should be defined.', () => {
     expect(service).toBeDefined();
   });
 

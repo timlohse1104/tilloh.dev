@@ -6,6 +6,10 @@ describe('KeystoreController', () => {
   let controller: KeystoreController;
   let keystoreMongoDbServiceMock: KeystoreMongoDbService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

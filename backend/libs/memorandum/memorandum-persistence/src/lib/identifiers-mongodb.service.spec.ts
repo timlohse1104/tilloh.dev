@@ -6,6 +6,10 @@ import { Identifier } from './schema/identifiers.schema';
 describe('IdentifiersMongoDbService', () => {
   let service: IdentifiersMongoDbService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,7 +34,7 @@ describe('IdentifiersMongoDbService', () => {
     jest.clearAllMocks();
   });
 
-  it('Service should be defined.', () => {
+  it('should be defined.', () => {
     expect(service).toBeDefined();
   });
 

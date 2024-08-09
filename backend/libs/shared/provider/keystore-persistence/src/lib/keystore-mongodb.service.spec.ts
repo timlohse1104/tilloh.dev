@@ -6,6 +6,10 @@ import { Keystore } from './schema/keystore.schema';
 describe('KeystoreMongoDbService', () => {
   let service: KeystoreMongoDbService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,7 +34,7 @@ describe('KeystoreMongoDbService', () => {
     jest.clearAllMocks();
   });
 
-  it('Service should be defined.', () => {
+  it('should be defined.', () => {
     expect(service).toBeDefined();
   });
 

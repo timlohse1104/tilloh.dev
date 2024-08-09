@@ -12,6 +12,10 @@ describe('JokesController', () => {
   let controller: JokesController;
   let jokesService: JokesService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

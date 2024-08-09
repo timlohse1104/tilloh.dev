@@ -30,6 +30,10 @@ describe('ChatController', () => {
   let controller: ChatController;
   let chatService: ChatService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ChatController],

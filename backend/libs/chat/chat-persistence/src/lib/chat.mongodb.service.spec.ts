@@ -25,6 +25,10 @@ describe('ChatMongoDbService', () => {
     toObject: jest.fn().mockReturnValue(mockChat(id, name)),
   });
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

@@ -6,6 +6,10 @@ describe('IdentifiersController', () => {
   let controller: IdentifiersController;
   let identifiersServiceMock: IdentifiersService;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

@@ -4,6 +4,10 @@ import { metricsControllerFactory } from './shared-metrics.controller.factory';
 describe('MetricsControllerFactory', () => {
   let controller: unknown;
 
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(async () => {
     const HealthCheckController = metricsControllerFactory();
 
