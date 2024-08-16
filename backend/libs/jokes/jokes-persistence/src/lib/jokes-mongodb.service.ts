@@ -22,13 +22,10 @@ export class JokesMongoDbService {
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
     const startOfToday = new Date();
-    console.log('startOfToday', startOfToday);
     startOfToday.setUTCHours(0, 0, 0, 0);
-    console.log('startOfToday', startOfToday);
 
     const startOfTomorrow = new Date(startOfToday);
     startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
-    console.log('startOfTomorrow', startOfTomorrow);
 
     const joke = await this.jokeModel
       .findOne({

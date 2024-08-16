@@ -1,10 +1,24 @@
+import { JokeDto } from '@backend/shared-types';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Document, Model } from 'mongoose';
 import { JokesMongoDbService } from './jokes-mongodb.service';
-import { Joke } from './schema/jokes.schema';
+import { Joke, JokeDocument } from './schema/jokes.schema';
+
+export const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
+  text: mock.text || 'mockText',
+  language: mock.language || 'mockLanguage',
+});
+
+const mockJokeDocument = (
+  mock: Partial<JokeDto>,
+): Partial<Document<JokeDto>> => ({
+  toObject: jest.fn().mockReturnValue(mockJokeDto(mock)),
+});
 
 describe('JokesMongoDbService', () => {
   let service: JokesMongoDbService;
+  let jokeModel: Model<JokeDocument>;
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -28,6 +42,7 @@ describe('JokesMongoDbService', () => {
     }).compile();
 
     service = module.get<JokesMongoDbService>(JokesMongoDbService);
+    jokeModel = module.get<Model<JokeDocument>>(getModelToken(Joke.name));
   });
 
   afterEach(() => {
@@ -38,194 +53,173 @@ describe('JokesMongoDbService', () => {
     expect(service).toBeDefined();
   });
 
+  describe('findRandomOne', () => {
+    it('should find a random joke', async () => {
+      // arrange
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+      } as never);
+
+      // act & assert
+      await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
+    });
+    it('should throw a not found exception when joke is not found', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      // act & assert
+      await expect(service.findRandomOne()).rejects.toThrow('Joke not found');
+    });
+    it('should throw a not found exception when joke is not found', async () => {
+      // arrange
+      jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
+
+      // act & assert
+      await expect(service.findRandomOne()).rejects.toThrow();
+    });
+  });
+
   describe('findAll', () => {
-    it('should find all chats', async () => {
+    it('should find all jokes', async () => {
       // arrange
-      const expectedChats: Partial<ChatEntityDto>[] = [
-        mockChat('1', 'chat1'),
-        mockChat('2', 'chat2'),
-      ];
-      const result: Document<ChatEntityDto>[] = [
-        mockChatDocument('1', 'chat1') as Document<ChatEntityDto>,
-        mockChatDocument('2', 'chat2') as Document<ChatEntityDto>,
-      ];
-      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(result),
+      const expectedJokes = [mockJokeDto({ text: 'joke1' })];
+      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
+        exec: jest
+          .fn()
+          .mockResolvedValueOnce([mockJokeDocument(expectedJokes[0])]),
       } as never);
 
       // act & assert
-      expect(await service.findAll()).toEqual(expectedChats);
+      await expect(service.findAll()).resolves.toEqual(expectedJokes);
     });
-    it('should return empty array when no chats found', async () => {
+    it('should throw an error when jokes find fails', async () => {
       // arrange
-      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce([]),
+      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error()),
       } as never);
 
       // act & assert
-      expect(await service.findAll()).toEqual([]);
-    });
-
-    it('should throw an error when finding all chats fails', async () => {
-      // arrange
-      const findAllChatsErrorMsg = 'Failed to find chats';
-      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockRejectedValueOnce(new Error(findAllChatsErrorMsg)),
-      } as never);
-
-      // act & assert
-      await expect(service.findAll()).rejects.toThrow(findAllChatsErrorMsg);
+      await expect(service.findAll()).rejects.toThrow();
     });
   });
 
   describe('findOne', () => {
-    it('should find a chat by id', async () => {
+    it('should find a joke by id', async () => {
       // arrange
-      const chatId = '1';
-      const expectedChat = mockChat(chatId, 'chat1');
-      const result = mockChatDocument(
-        chatId,
-        'chat1',
-      ) as Document<ChatEntityDto>;
-      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(result),
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
       } as never);
 
       // act & assert
-      expect(await service.findOne(chatId)).toEqual(expectedChat);
+      await expect(service.findOne('id')).resolves.toEqual(expectedJoke);
     });
-    it('should throw a not found exception when chat is not found', async () => {
+    it('should throw a not found exception when joke is not found', async () => {
       // arrange
-      const chatId = '1';
-      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(null),
       } as never);
 
       // act & assert
-      await expect(service.findOne(chatId)).rejects.toThrow('Chat not found');
+      await expect(service.findOne('id')).rejects.toThrow('Joke not found');
     });
-    it('should throw an error when finding a chat by id fails', async () => {
+    it('should throw an error when joke find fails', async () => {
       // arrange
-      const chatId = '1';
-      const findOneChatErrorMsg = 'Failed to find chat';
-      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
-        exec: jest.fn().mockRejectedValueOnce(new Error(findOneChatErrorMsg)),
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error()),
       } as never);
 
       // act & assert
-      await expect(service.findOne(chatId)).rejects.toThrow(
-        findOneChatErrorMsg,
-      );
+      await expect(service.findOne('id')).rejects.toThrow();
     });
   });
 
   describe('create', () => {
-    it('should create a chat', async () => {
+    it('should create a joke', async () => {
       // arrange
-      const chatName = 'chat1';
-      const expectedChat = mockChat('1', chatName);
-      const result = mockChatDocument('1', chatName) as Document<ChatEntityDto>;
-      jest.spyOn(chatModel, 'create').mockReturnValueOnce({
-        save: jest.fn().mockResolvedValueOnce(result),
-      } as never);
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest
+        .spyOn(jokeModel, 'create')
+        .mockResolvedValueOnce(expectedJoke as never);
 
       // act & assert
-      expect(await service.create(chatName)).toEqual(expectedChat);
+      await expect(service.create(expectedJoke)).resolves.toEqual(expectedJoke);
     });
-    it('should throw an error when creating a chat fails', async () => {
+    it('should throw an error when joke create fails', async () => {
       // arrange
-      const createChatErrorMsg = 'Failed to create chat';
-      jest.spyOn(chatModel, 'create').mockReturnValueOnce({
-        save: jest.fn().mockRejectedValueOnce(new Error(createChatErrorMsg)),
-      } as never);
+      jest.spyOn(jokeModel, 'create').mockRejectedValueOnce(new Error());
 
       // act & assert
-      await expect(service.create('chat1')).rejects.toThrow(createChatErrorMsg);
+      await expect(service.create(mockJokeDto({}))).rejects.toThrow();
     });
   });
 
   describe('update', () => {
-    it('should update a chat', async () => {
+    it('should update a joke', async () => {
       // arrange
-      const chatId = '1';
-      const chatName = 'chat1';
-      const expectedChat = mockChat(chatId, chatName);
-      const result = mockChatDocument(
-        chatId,
-        chatName,
-      ) as Document<ChatEntityDto>;
-      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(result),
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOneAndUpdate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
       } as never);
 
       // act & assert
-      expect(await service.update(chatId, { name: chatName })).toEqual(
-        expectedChat,
+      await expect(service.update('id', expectedJoke)).resolves.toEqual(
+        expectedJoke,
       );
     });
-    it('should throw a not found exception when chat is not found', async () => {
+    it('should throw a not found exception when joke is not found', async () => {
       // arrange
-      const chatId = '1';
-      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
+      jest.spyOn(jokeModel, 'findOneAndUpdate').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(null),
       } as never);
 
       // act & assert
-      await expect(service.update(chatId, { name: 'chat1' })).rejects.toThrow(
-        'Chat not found',
+      await expect(service.update('id', mockJokeDto({}))).rejects.toThrow(
+        'Joke not found',
       );
     });
-    it('should throw an error when updating a chat fails', async () => {
+    it('should throw an error when joke update fails', async () => {
       // arrange
-      const chatId = '1';
-      const updateChatErrorMsg = 'Failed to update chat';
-      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
-        exec: jest.fn().mockRejectedValueOnce(new Error(updateChatErrorMsg)),
+      jest.spyOn(jokeModel, 'findOneAndUpdate').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error()),
       } as never);
 
       // act & assert
-      await expect(service.update(chatId, { name: 'chat1' })).rejects.toThrow(
-        updateChatErrorMsg,
-      );
+      await expect(service.update('id', mockJokeDto({}))).rejects.toThrow();
     });
   });
 
   describe('remove', () => {
-    it('should remove a chat', async () => {
+    it('should remove a joke', async () => {
       // arrange
-      const chatId = '1';
-      const expectedChat = mockChat(chatId, 'chat1');
-      const result = mockChatDocument(
-        chatId,
-        'chat1',
-      ) as Document<ChatEntityDto>;
-      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(result),
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOneAndDelete').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
       } as never);
 
       // act & assert
-      expect(await service.remove(chatId)).toEqual(expectedChat);
+      await expect(service.remove('id')).resolves.toEqual(expectedJoke);
     });
-    it('should throw a not found exception when chat is not found', async () => {
+    it('should throw a not found exception when joke is not found', async () => {
       // arrange
-      const chatId = '1';
-      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
+      jest.spyOn(jokeModel, 'findOneAndDelete').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(null),
       } as never);
 
       // act & assert
-      await expect(service.remove(chatId)).rejects.toThrow('Chat not found');
+      await expect(service.remove('id')).rejects.toThrow('Joke not found');
     });
-    it('should throw an error when deleting a chat fails', async () => {
+    it('should throw an error when joke remove fails', async () => {
       // arrange
-      const chatId = '1';
-      const deleteChatErrorMsg = 'Failed to delete chat';
-      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
-        exec: jest.fn().mockRejectedValueOnce(new Error(deleteChatErrorMsg)),
+      jest.spyOn(jokeModel, 'findOneAndDelete').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error()),
       } as never);
 
       // act & assert
-      await expect(service.remove(chatId)).rejects.toThrow(deleteChatErrorMsg);
+      await expect(service.remove('id')).rejects.toThrow();
     });
   });
 });
