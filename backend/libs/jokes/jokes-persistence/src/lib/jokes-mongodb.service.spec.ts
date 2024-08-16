@@ -5,7 +5,7 @@ import { Document, Model } from 'mongoose';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 
-export const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
+const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
   text: mock.text || 'mockText',
   language: mock.language || 'mockLanguage',
 });
