@@ -99,12 +99,12 @@ export class ChatMongoDbService {
     if (!chat) {
       throw new NotFoundException(ChatTexts.NOT_FOUND);
     }
-    const chatEntity = chat.toObject() as ChatEntityDto; // Convert chat to ChatEntityDto
+    const chatEntity = chat.toObject() as ChatEntityDto;
     this.logger.debug(
       { output: { chat: chatEntity } },
       ChatTexts.DB_UPDATED_ONE,
     );
-    return chatEntity; // Return chatEntity instead of chat
+    return chatEntity;
   }
 
   /**

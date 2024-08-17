@@ -40,7 +40,7 @@ export class JokesMongoDbService {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
     }
     this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
-    return joke.toObject(); // Ensure you're properly handling document conversion
+    return joke.toObject();
   }
 
   /**
