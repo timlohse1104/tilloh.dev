@@ -1,14 +1,7 @@
 import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
-import { GetIdentifiersOutputDto } from '@backend/shared-types';
+import { mockIdentifierDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IdentifiersController } from './identifiers.controller';
-
-const mockGetIdentifiersOutputDto = (
-  mock: Partial<GetIdentifiersOutputDto>,
-): GetIdentifiersOutputDto => ({
-  _id: mock?._id || 'mock_id',
-  name: mock?.name || 'mock_name',
-});
 
 describe('IdentifiersController', () => {
   let controller: IdentifiersController;
@@ -49,7 +42,7 @@ describe('IdentifiersController', () => {
 
   describe('getIdentifiers', () => {
     it('should return an array of identifiers', async () => {
-      const mockIdentifiers = [mockGetIdentifiersOutputDto({})];
+      const mockIdentifiers = [mockIdentifierDto({})];
       jest
         .spyOn(identifiersServiceMock, 'listIdentifiers')
         .mockResolvedValue(mockIdentifiers);
@@ -62,7 +55,7 @@ describe('IdentifiersController', () => {
 
   describe('getIdentifier', () => {
     it('should return an identifier', async () => {
-      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      const mockIdentifier = mockIdentifierDto({});
       jest
         .spyOn(identifiersServiceMock, 'getIdentifier')
         .mockResolvedValue(mockIdentifier);
@@ -75,7 +68,7 @@ describe('IdentifiersController', () => {
 
   describe('createIdentifier', () => {
     it('should return an identifier', async () => {
-      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      const mockIdentifier = mockIdentifierDto({});
       jest
         .spyOn(identifiersServiceMock, 'createIdentifier')
         .mockResolvedValue(mockIdentifier);
@@ -88,7 +81,7 @@ describe('IdentifiersController', () => {
 
   describe('updateIdentifier', () => {
     it('should return an identifier', async () => {
-      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      const mockIdentifier = mockIdentifierDto({});
       jest
         .spyOn(identifiersServiceMock, 'updateIdentifier')
         .mockResolvedValue(mockIdentifier);
@@ -109,7 +102,7 @@ describe('IdentifiersController', () => {
 
   describe('deleteIdentifier', () => {
     it('should return an identifier', async () => {
-      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      const mockIdentifier = mockIdentifierDto({});
       jest
         .spyOn(identifiersServiceMock, 'deleteIdentifier')
         .mockResolvedValue(mockIdentifier);

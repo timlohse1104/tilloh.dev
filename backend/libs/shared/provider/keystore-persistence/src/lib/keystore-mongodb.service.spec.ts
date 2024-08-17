@@ -38,12 +38,5 @@ describe('KeystoreMongoDbService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('test', () => {
-    it('should return true', async () => {
-      // arrange
-
-      // act & assert
-      expect(true).toBe(true);
-    });
-  });
+  
 });
