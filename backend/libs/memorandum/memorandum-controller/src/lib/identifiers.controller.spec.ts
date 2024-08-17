@@ -1,6 +1,14 @@
 import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
+import { GetIdentifiersOutputDto } from '@backend/shared-types';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IdentifiersController } from './identifiers.controller';
+
+const mockGetIdentifiersOutputDto = (
+  mock: Partial<GetIdentifiersOutputDto>,
+): GetIdentifiersOutputDto => ({
+  _id: mock?._id || 'mock_id',
+  name: mock?.name || 'mock_name',
+});
 
 describe('IdentifiersController', () => {
   let controller: IdentifiersController;
@@ -39,12 +47,76 @@ describe('IdentifiersController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('test', () => {
-    it('should return true', async () => {
-      // arrange
+  describe('getIdentifiers', () => {
+    it('should return an array of identifiers', async () => {
+      const mockIdentifiers = [mockGetIdentifiersOutputDto({})];
+      jest
+        .spyOn(identifiersServiceMock, 'listIdentifiers')
+        .mockResolvedValue(mockIdentifiers);
 
-      // act & assert
-      expect(true).toBe(true);
+      const result = await controller.getIdentifiers();
+
+      expect(result).toEqual(mockIdentifiers);
+    });
+  });
+
+  describe('getIdentifier', () => {
+    it('should return an identifier', async () => {
+      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      jest
+        .spyOn(identifiersServiceMock, 'getIdentifier')
+        .mockResolvedValue(mockIdentifier);
+
+      const result = await controller.getIdentifier({ id: 'mock_id' });
+
+      expect(result).toEqual(mockIdentifier);
+    });
+  });
+
+  describe('createIdentifier', () => {
+    it('should return an identifier', async () => {
+      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      jest
+        .spyOn(identifiersServiceMock, 'createIdentifier')
+        .mockResolvedValue(mockIdentifier);
+
+      const result = await controller.createIdentifier({ name: 'mock_name' });
+
+      expect(result).toEqual(mockIdentifier);
+    });
+  });
+
+  describe('updateIdentifier', () => {
+    it('should return an identifier', async () => {
+      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      jest
+        .spyOn(identifiersServiceMock, 'updateIdentifier')
+        .mockResolvedValue(mockIdentifier);
+
+      const result = await controller.updateIdentifier(
+        {
+          id: 'mock_id',
+        },
+        {
+          _id: 'mock_id',
+          name: 'mock_name',
+        },
+      );
+
+      expect(result).toEqual(mockIdentifier);
+    });
+  });
+
+  describe('deleteIdentifier', () => {
+    it('should return an identifier', async () => {
+      const mockIdentifier = mockGetIdentifiersOutputDto({});
+      jest
+        .spyOn(identifiersServiceMock, 'deleteIdentifier')
+        .mockResolvedValue(mockIdentifier);
+
+      const result = await controller.deleteIdentifier({ id: 'mock_id' });
+
+      expect(result).toEqual(mockIdentifier);
     });
   });
 });
