@@ -16,7 +16,7 @@ export function healthControllerFactory() {
     constructor(
       public healthCheckService: HealthCheckService,
       public mongooseHealthIndicator: MongooseHealthIndicator,
-      public httpHealthIndicator: HttpHealthIndicator
+      public httpHealthIndicator: HttpHealthIndicator,
     ) {}
 
     @Get('livez')
@@ -33,12 +33,12 @@ export function healthControllerFactory() {
         () =>
           this.httpHealthIndicator.pingCheck(
             'witzapi',
-            'https://witzapi.de/api/language'
-          )
+            'https://witzapi.de/api/language',
+          ),
       );
       try {
         healthInformation = await this.healthCheckService.check(
-          healthCheckIndicators
+          healthCheckIndicators,
         );
       } catch (error: unknown) {
         healthInformation = (error as AxiosError).response;

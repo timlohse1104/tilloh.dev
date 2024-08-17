@@ -11,7 +11,7 @@ export class JokesMongoDbService {
 
   constructor(
     @InjectModel(Joke.name)
-    private jokeModel: Model<JokeDocument>
+    private jokeModel: Model<JokeDocument>,
   ) {}
 
   /**
@@ -22,13 +22,10 @@ export class JokesMongoDbService {
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
     const startOfToday = new Date();
-    console.log('startOfToday', startOfToday);
     startOfToday.setUTCHours(0, 0, 0, 0);
-    console.log('startOfToday', startOfToday);
 
     const startOfTomorrow = new Date(startOfToday);
     startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
-    console.log('startOfTomorrow', startOfTomorrow);
 
     const joke = await this.jokeModel
       .findOne({
@@ -83,9 +80,10 @@ export class JokesMongoDbService {
    */
   async create(createJokeDto: Partial<ModifyJokeDto>): Promise<JokeDto> {
     this.logger.debug({ input: { createJokeDto } }, JokeTexts.ATTEMPT_CREATE);
-    const joke = await this.jokeModel.create(createJokeDto);
-    this.logger.debug({ output: joke }, JokeTexts.CREATED_ONE);
-    return joke;
+    const jokeEntry = (await this.jokeModel.create(createJokeDto)).save();
+    const jokeEntity = (await jokeEntry).toObject();
+    this.logger.debug({ output: jokeEntity }, JokeTexts.CREATED_ONE);
+    return jokeEntity;
   }
 
   /**
@@ -97,14 +95,14 @@ export class JokesMongoDbService {
    */
   async update(
     id: string,
-    modifyJokeDto: Partial<ModifyJokeDto>
+    modifyJokeDto: Partial<ModifyJokeDto>,
   ): Promise<JokeDto> {
     this.logger.debug({ input: { modifyJokeDto } }, JokeTexts.ATTEMPT_UPDATE);
     const joke = await this.jokeModel
       .findOneAndUpdate(
         { _id: id },
         { ...modifyJokeDto, updated: new Date() },
-        { new: true }
+        { new: true },
       )
       .exec();
 

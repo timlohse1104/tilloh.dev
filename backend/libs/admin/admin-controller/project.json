@@ -3,6 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/admin/admin-controller/src",
   "projectType": "library",
+  "tags": ["scope:admin", "type:controller"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
@@ -15,6 +16,5 @@
         "jestConfig": "libs/admin/admin-controller/jest.config.ts"
       }
     }
-  },
-  "tags": ["scope:admin", "type:controller"]
+  }
 }

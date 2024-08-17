@@ -58,7 +58,7 @@ export class KeystoreController {
   getKey(@Param() getKeystoreInput: GetKeystoreInputDto) {
     return this.keystoreService.findOne(
       getKeystoreInput.identifier,
-      getKeystoreInput.key
+      getKeystoreInput.key,
     );
   }
 
@@ -73,7 +73,7 @@ export class KeystoreController {
     return this.keystoreService.create(
       createKeystoreInputDto.identifier,
       createKeystoreInputDto.key,
-      createKeystoreInputDto.value
+      createKeystoreInputDto.value,
     );
   }
 
@@ -85,14 +85,14 @@ export class KeystoreController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @ApiNotFoundResponse({ description: KeystoreTexts.NOT_FOUND })
   @Put('/:identifier/:key')
-  updateIdentifier(
+  updateKey(
     @Param() updateIdentifierInputDto: UpdateKeystoreInputParamDto,
-    @Body() keystoreDto: UpdateKeystoreInputBodyDto
+    @Body() keystoreDto: UpdateKeystoreInputBodyDto,
   ) {
     return this.keystoreService.update(
       updateIdentifierInputDto.identifier,
       updateIdentifierInputDto.key,
-      keystoreDto
+      keystoreDto,
     );
   }
 
@@ -108,7 +108,7 @@ export class KeystoreController {
   deleteIdentifier(@Param() removeKeystoreInputDto: RemoveKeystoreInputDto) {
     return this.keystoreService.remove(
       removeKeystoreInputDto.identifier,
-      removeKeystoreInputDto.key
+      removeKeystoreInputDto.key,
     );
   }
 }
