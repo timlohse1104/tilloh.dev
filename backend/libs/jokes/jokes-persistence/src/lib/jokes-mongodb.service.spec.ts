@@ -141,9 +141,12 @@ describe('JokesMongoDbService', () => {
     it('should create a joke', async () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
+      const result = mockJokeDocument(expectedJoke) as Document<JokeDto>;
       jest
         .spyOn(jokeModel, 'create')
-        .mockResolvedValueOnce(expectedJoke as never);
+        .mockReturnValueOnce({
+          save: jest.fn().mockResolvedValueOnce(result),
+        } as never)
 
       // act & assert
       await expect(service.create(expectedJoke)).resolves.toEqual(expectedJoke);
