@@ -1,24 +1,20 @@
 import { JokeDto } from '@backend/shared-types';
+import { mockJokeDto } from '@backend/util';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Document, Model } from 'mongoose';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 
-const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
-  text: mock.text || 'mockText',
-  language: mock.language || 'mockLanguage',
-});
-
-const mockJokeDocument = (
-  mock: Partial<JokeDto>,
-): Partial<Document<JokeDto>> => ({
-  toObject: jest.fn().mockReturnValue(mockJokeDto(mock)),
-});
-
 describe('JokesMongoDbService', () => {
   let service: JokesMongoDbService;
   let jokeModel: Model<JokeDocument>;
+
+  const mockJokeDocument = (
+    mock: Partial<JokeDto>,
+  ): Partial<Document<JokeDto>> => ({
+    toObject: jest.fn().mockReturnValue(mockJokeDto(mock)),
+  });
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -142,11 +138,9 @@ describe('JokesMongoDbService', () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
       const result = mockJokeDocument(expectedJoke) as Document<JokeDto>;
-      jest
-        .spyOn(jokeModel, 'create')
-        .mockReturnValueOnce({
-          save: jest.fn().mockResolvedValueOnce(result),
-        } as never)
+      jest.spyOn(jokeModel, 'create').mockReturnValueOnce({
+        save: jest.fn().mockResolvedValueOnce(result),
+      } as never);
 
       // act & assert
       await expect(service.create(expectedJoke)).resolves.toEqual(expectedJoke);

@@ -1,22 +1,7 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
-import { ChatEntityDto } from '@backend/shared-types';
+import { mockChatEntityDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatService } from './chat.service';
-
-export const mockChatEntityDto = (
-  mock: Partial<ChatEntityDto>,
-): ChatEntityDto => ({
-  _id: mock._id || 'mockId',
-  name: mock.name || 'mockName',
-  messages: mock.messages || [],
-  clients: mock.clients || {},
-  created: mock.created || new Date(),
-  updated: mock.updated || new Date(),
-  emoji: mock.emoji || 'mockEmoji',
-  owner: mock.owner || 'mockOwner',
-  securityQuestion: mock.securityQuestion || 'mockSecurityQuestion',
-  securityAnswer: mock.securityAnswer || 'mockSecurityAnswer',
-});
 
 describe('ChatService', () => {
   let service: ChatService;

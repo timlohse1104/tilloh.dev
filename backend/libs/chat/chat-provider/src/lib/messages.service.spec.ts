@@ -1,8 +1,7 @@
 import { ChatMongoDbService } from '@backend/chat/chat-persistence';
 import { UpdateMessageDto } from '@backend/shared-types';
-import { mockMessageDto } from '@backend/util';
+import { mockChatEntityDto, mockMessageDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
-import { mockChatEntityDto } from './chat.service.spec';
 import { MessagesService } from './messages.service';
 
 describe('MessagesService', () => {

@@ -1,27 +1,20 @@
 import { KeystoreDto } from '@backend/shared-types';
+import { mockKeystoreDto } from '@backend/util';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Document, Model } from 'mongoose';
 import { KeystoreMongoDbService } from './keystore-mongodb.service';
 import { Keystore } from './schema/keystore.schema';
 
-const mockKeystoreDto = (mock: Partial<KeystoreDto>): KeystoreDto => ({
-  identifier: mock?.identifier || 'mockIdentifier',
-  key: mock?.key || 'mockKey',
-  value: mock?.value || 'mockValue',
-  created: mock?.created || new Date(),
-  updated: mock?.updated || new Date(),
-});
-
-const mockKeystoreDocument = (
-  mock: Partial<KeystoreDto>,
-): Partial<Document<KeystoreDto>> => ({
-  toObject: jest.fn().mockReturnValue(mockKeystoreDto(mock)),
-});
-
 describe('KeystoreMongoDbService', () => {
   let service: KeystoreMongoDbService;
   let keystoreModel: Model<Keystore>;
+
+  const mockKeystoreDocument = (
+    mock: Partial<KeystoreDto>,
+  ): Partial<Document<KeystoreDto>> => ({
+    toObject: jest.fn().mockReturnValue(mockKeystoreDto(mock)),
+  });
 
   beforeAll(() => {
     jest.useFakeTimers();

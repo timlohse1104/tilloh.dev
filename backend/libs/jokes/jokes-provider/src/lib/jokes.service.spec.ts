@@ -1,15 +1,9 @@
 import { JokesMongoDbService } from '@backend/jokes/jokes-persistence';
-import { JokeDto } from '@backend/shared-types';
-import { mockHttpResponse } from '@backend/util';
+import { mockHttpResponse, mockJokeDto } from '@backend/util';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { throwError } from 'rxjs';
 import { JokesService } from './jokes.service';
-
-const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
-  text: mock.text || 'mockText',
-  language: mock.language || 'mockLanguage',
-});
 
 describe('JokesService', () => {
   let service: JokesService;

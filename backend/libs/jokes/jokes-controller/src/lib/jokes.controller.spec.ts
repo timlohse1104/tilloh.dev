@@ -1,12 +1,7 @@
 import { JokesService } from '@backend/jokes/jokes-provider';
-import { JokeDto } from '@backend/shared-types';
+import { mockJokeDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JokesController } from './jokes.controller';
-
-export const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
-  text: mock.text || 'mockText',
-  language: mock.language || 'mockLanguage',
-});
 
 describe('JokesController', () => {
   let controller: JokesController;

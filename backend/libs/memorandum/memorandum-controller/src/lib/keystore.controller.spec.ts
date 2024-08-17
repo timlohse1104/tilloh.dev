@@ -1,15 +1,7 @@
 import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
-import { KeystoreDto } from '@backend/shared-types';
+import { mockKeystoreDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { KeystoreController } from './keystore.controller';
-
-const mockKeystoreDto = (mock: Partial<KeystoreDto>): KeystoreDto => ({
-  identifier: mock?.identifier || 'mock_identifier',
-  key: mock?.key || 'mock_key',
-  value: mock?.value || 'mock_value',
-  created: mock?.created || new Date(),
-  updated: mock?.updated || new Date(),
-});
 
 describe('KeystoreController', () => {
   let controller: KeystoreController;

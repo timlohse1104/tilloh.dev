@@ -7,15 +7,6 @@ import {
 import { Test } from '@nestjs/testing';
 import { healthControllerFactory } from './health.controller.factory';
 
-const mockHealthCheckResponse = (
-  mock?: Partial<HealthCheckResult>,
-): HealthCheckResult => ({
-  status: mock?.status || 'ok',
-  info: mock?.info || {},
-  error: mock?.error || {},
-  details: mock?.details || {},
-});
-
 describe('HealthCheckControllerFactory', () => {
   let controller: {
     metrics: () => Promise<string>;
@@ -26,6 +17,15 @@ describe('HealthCheckControllerFactory', () => {
   let testService1Mock: { healthcheck: jest.Mock };
   let testService2Mock: { healthcheck: jest.Mock };
   const successResponse = { httpStatusCode: 200 };
+
+  const mockHealthCheckResponse = (
+    mock?: Partial<HealthCheckResult>,
+  ): HealthCheckResult => ({
+    status: mock?.status || 'ok',
+    info: mock?.info || {},
+    error: mock?.error || {},
+    details: mock?.details || {},
+  });
 
   beforeAll(() => {
     jest.useFakeTimers();
