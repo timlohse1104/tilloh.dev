@@ -39,7 +39,7 @@ describe('AdminController', () => {
       const outputVerifyAdmin: OutputVerifyAdmin = { isAdmin: true };
       jest
         .spyOn(adminService, 'verifyAdmin')
-        .mockResolvedValue(outputVerifyAdmin);
+        .mockResolvedValue(outputVerifyAdmin as never);
 
       // Act and Assert
       await expect(controller.verifyAdmin(inputVerifyAdmin)).resolves.toEqual(
