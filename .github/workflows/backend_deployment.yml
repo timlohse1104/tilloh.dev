@@ -30,7 +30,9 @@ jobs:
 
       - name: Npm clean install
         if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
-        run: npm ci --legacy-peer-deps
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
@@ -54,16 +56,18 @@ jobs:
       - name: Fetch information about branches and commits
         run: git fetch origin main
 
-      # - name: Cache node_modules
-        # id: node_modules_cache
-        # uses: actions/cache@v3
-        # with:
-        #   path: node_modules
-        #   key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache node_modules
+        id: node_modules_cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
-      # - name: Npm clean install
-      #   if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
-      #   run: npm ci --legacy-peer-deps
+      - name: Npm clean install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
@@ -96,9 +100,6 @@ jobs:
       matrix:
         project: ${{ fromJson(needs.build_matrix.outputs.matrix) }}
     steps:
-      - name: Testing Backend
-        run: echo "Testing nx projects..."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -113,7 +114,9 @@ jobs:
 
       - name: Npm clean install
         if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
-        run: npm ci --legacy-peer-deps
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
@@ -130,9 +133,6 @@ jobs:
     needs: [test, verify]
     runs-on: ubuntu-latest
     steps:
-      - name: Building Backend
-        run: echo "Building nestjs application..."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -182,9 +182,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Deploying Backend
-        run: echo "Deploying backend artifact..."
-
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
