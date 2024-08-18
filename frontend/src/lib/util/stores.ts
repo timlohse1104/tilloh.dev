@@ -24,7 +24,7 @@ export const todoStore = writable(todoStoreDefault);
 
 if (browser) {
   todoStore.subscribe((value: TodoList[]) =>
-    localStorage.setItem(todoStoreKey, JSON.stringify(value))
+    localStorage.setItem(todoStoreKey, JSON.stringify(value)),
   );
 }
 
@@ -45,7 +45,7 @@ export const chatStore = writable(chatStoreDefault);
 
 if (browser) {
   chatStore.subscribe((value: ChatList[]) =>
-    localStorage.setItem(chatStoreKey, JSON.stringify(value))
+    localStorage.setItem(chatStoreKey, JSON.stringify(value)),
   );
 }
 
@@ -64,21 +64,25 @@ if (browser) {
   }
   const localIdentifier = localStorage.getItem(sharedIdentifierKey);
   let remoteIdentifier;
-  try {
-    remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);
-  } catch (error) {
-    console.error('Error while fetching remote identifier.', error);
-  }
-  if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
-    console.log('Remote identifier fetched successfully.');
-    sharedIdentifierDefault = localIdentifier;
-  } else {
-    console.log('Remote identifier not found. Resetting local identifier.');
+  if (remoteIdentifier) {
+    const remoteIdentifier = await getIdentifier(
+      JSON.parse(localIdentifier).id,
+    );
+    if (!remoteIdentifier || !remoteIdentifier.name) {
+      console.error(
+        'Error while fetching remote identifier.',
+        remoteIdentifier,
+      );
+      console.log('Remote identifier not found. Resetting local identifier.');
+    } else if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
+      console.log('Remote identifier fetched successfully.');
+      sharedIdentifierDefault = localIdentifier;
+    }
   }
 }
 
 export const sharedIdentifierStore = writable<Identifier>(
-  JSON.parse(sharedIdentifierDefault)
+  JSON.parse(sharedIdentifierDefault),
 );
 
 if (browser) {
