@@ -31,66 +31,67 @@ export class ChatGateway {
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
-    const { chatId, name, timestamp } = createMessageDto;
+    const { name, timestamp } = createMessageDto;
 
     this.logger.verbose(
-      `Creating a new message for ${name} with timestamp ${timestamp}.`
+      `Creating a new message for ${name} with timestamp ${timestamp}.`,
     );
-    const message = await this.messagesService.createMessage(
-      chatId,
-      createMessageDto
-    );
+    const message = await this.messagesService.createMessage(createMessageDto);
 
     this.logger.verbose(
-      `Emit the new message from ${name} to all connected clients.`
+      `Emit the new message from ${name} to all connected clients.`,
     );
     this.server.emit('message', message);
     return message;
   }
 
   @SubscribeMessage('findAllMessages')
-  findAll(@MessageBody() chatId: string) {
+  async findAll(@MessageBody() chatId: string) {
     this.logger.verbose(`Returning all messages from the database.`);
-    return this.messagesService.listMessages(chatId);
+    return await this.messagesService.listMessages(chatId);
   }
 
   @SubscribeMessage('findOneMessage')
-  findOne(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
+  async findOne(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
     const { chatId, id } = identifyMessageDto;
-    return this.messagesService.findMessage(chatId, id);
+    return await this.messagesService.findMessage(chatId, id);
   }
 
   @SubscribeMessage('updateMessage')
-  update(@MessageBody() updateMessageDto: UpdateMessageDto) {
+  async update(@MessageBody() updateMessageDto: UpdateMessageDto) {
     const { chatId, id } = updateMessageDto;
-    return this.messagesService.updateMessage(chatId, id, updateMessageDto);
+    return await this.messagesService.updateMessage(
+      chatId,
+      id,
+      updateMessageDto,
+    );
   }
 
   @SubscribeMessage('removeMessage')
-  remove(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
+  async remove(@MessageBody() identifyMessageDto: IdentifyMessageDto) {
     const { chatId, id } = identifyMessageDto;
-    return this.messagesService.removeMessage(chatId, id);
+    return await this.messagesService.removeMessage(chatId, id);
   }
 
   @SubscribeMessage('join')
-  joinRoom(
+  async joinRoom(
     @MessageBody() joinRoomDto: JoinRoomDto,
-    @ConnectedSocket() client: Socket
+    @ConnectedSocket() client: Socket,
   ) {
     const { name, chatId } = joinRoomDto;
     this.logger.verbose(`Client ${client.id} joined as ${name}.`);
-    return this.messagesService.identify(chatId, name, client.id);
+    return await this.messagesService.identify(chatId, name, client.id);
   }
 
   @SubscribeMessage('typing')
   async typing(
     @MessageBody() typingDto: TypingDto,
-    @ConnectedSocket() client: Socket
+    @ConnectedSocket() client: Socket,
   ) {
     const { isTyping, chatId } = typingDto;
     const name = await this.messagesService.getClientName(chatId, client.id);
     this.logger.verbose(
-      `Emitting typing event from ${name} to all connected clients.`
+      `Emitting typing event from ${name} to all connected clients.`,
     );
     client.broadcast.emit('typing', { name, isTyping });
   }

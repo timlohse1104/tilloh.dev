@@ -7,21 +7,132 @@ on:
       - "backend/**"
 
 jobs:
-  test:
-    name: Test
+  verify:
+    name: Audit & lint affected projects
     runs-on: ubuntu-latest
     steps:
-      - name: Testing Backend
-        run: echo "Testing not implemented yet..."
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Cache node_modules
+        id: node_modules_cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Npm audit
+        run: |
+          cd backend
+          npm audit --audit-level=critical --omit=dev
+
+      - name: Npm clean install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: ${{ github.base_ref}}
+
+      - name: Lint affected projects
+        run: |
+          cd backend
+          NX_BRANCH=${{ github.head_ref }} npx nx affected:lint --parallel --base=$NX_BASE --head=$NX_HEAD
+
+  build_matrix:
+    name: Export affected projects
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch information about branches and commits
+        run: git fetch origin main
+
+      - name: Cache node_modules
+        id: node_modules_cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Npm clean install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: ${{ github.base_ref}}
+
+      - name: Output affected projects in nx workspace and output array
+        id: set-matrix
+        run: |
+          cd backend
+          MATRIX=(`./node_modules/.bin/nx show projects --base=$NX_BASE --head=$NX_HEAD --affected |
+          tr '\n' ' '`)
+          echo "::set-output name=matrix::$(jq --compact-output --null-input '$ARGS.positional' --args "${MATRIX[@]}")"
+
+      - name: Debug variables
+        run: |
+          echo matrix: ${{ steps.set-matrix.outputs.matrix }}
+          echo nx base tag: $NX_BASE
+          echo nx head tag: $NX_HEAD
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+  test:
+    name: Test affected projects
+    needs: [build_matrix]
+    if: ${{ !contains(needs.build_matrix.outputs.matrix , '[]') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ${{ fromJson(needs.build_matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache node_modules
+        id: node_modules_cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Npm clean install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
+        run: |
+          cd backend
+          npm ci --legacy-peer-deps
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: ${{ github.base_ref}}
+
+      - name: Test affected projects
+        run: |
+          cd backend
+          NX_BRANCH=${{ github.head_ref }} npx nx run ${{ matrix.project }}:test --parallel --silent
 
   build:
     name: Build
-    needs: test
+    needs: [test, verify]
     runs-on: ubuntu-latest
     steps:
-      - name: Building Backend
-        run: echo "Building nestjs application..."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -71,9 +182,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Deploying Backend
-        run: echo "Deploying backend artifact..."
-
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
