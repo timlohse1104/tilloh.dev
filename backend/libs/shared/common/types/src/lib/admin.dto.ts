@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-// TODO: Deployment counter: 2
-
 export class InputVerifyAdmin {
   @ApiProperty()
   @IsString()
