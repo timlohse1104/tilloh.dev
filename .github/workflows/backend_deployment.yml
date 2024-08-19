@@ -35,7 +35,7 @@ jobs:
           npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: ${{ github.base_ref}}
 
@@ -70,7 +70,7 @@ jobs:
           npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: ${{ github.base_ref}}
 
@@ -119,7 +119,7 @@ jobs:
           npm ci --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: ${{ github.base_ref}}
 
