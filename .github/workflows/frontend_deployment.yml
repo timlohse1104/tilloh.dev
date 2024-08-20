@@ -64,7 +64,6 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Deploying Frontend
         run: echo "Deploying frontend artifact..."
