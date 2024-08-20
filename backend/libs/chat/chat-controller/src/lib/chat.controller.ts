@@ -84,7 +84,7 @@ export class ChatController {
   @Put('/:id')
   updateChat(
     @Param() updateChatInputDto: UpdateChatInputDto,
-    @Body() identifierDto: ChatEntityDto
+    @Body() identifierDto: ChatEntityDto,
   ) {
     return this.chatService.updateChat(updateChatInputDto.id, identifierDto);
   }

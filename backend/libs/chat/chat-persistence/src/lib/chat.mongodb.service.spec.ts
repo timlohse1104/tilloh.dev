@@ -1,7 +1,8 @@
 import { ChatEntityDto } from '@backend/shared-types';
+import { mockChatEntityDto } from '@backend/util';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { Chat, ChatDocument } from './schema/chat.schema';
 
@@ -9,13 +10,17 @@ describe('ChatMongoDbService', () => {
   let service: ChatMongoDbService;
   let chatModel: Model<ChatDocument>;
 
-  const mockChat = (id: string, name: string): Partial<ChatEntityDto> => ({
-    _id: id,
-    name: name,
-    messages: [],
-    clients: {},
-    created: new Date(),
-    updated: new Date(),
+  const chat1 = { _id: '1', name: 'chat1' };
+  const chat2 = { _id: '2', name: 'chat2' };
+
+  const mockChatDocument = (
+    mock: Partial<ChatEntityDto>,
+  ): Partial<Document<ChatEntityDto>> => ({
+    toObject: jest.fn().mockReturnValue(mockChatEntityDto(mock)),
+  });
+
+  beforeAll(() => {
+    jest.useFakeTimers();
   });
 
   beforeEach(async () => {
@@ -39,59 +44,191 @@ describe('ChatMongoDbService', () => {
     chatModel = module.get<Model<ChatDocument>>(getModelToken(Chat.name));
   });
 
-  it('should find all chats', async () => {
-    const result: ChatEntityDto[] = [
-      mockChat('1', 'chat1') as ChatEntityDto,
-      mockChat('2', 'chat2') as ChatEntityDto,
-    ];
-    jest
-      .spyOn(chatModel, 'find')
-      .mockResolvedValue(result as Partial<ChatDocument>[]);
-    expect(await service.findAll()).toEqual(result);
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  // it('should find one chat', async () => {
-  //   const result: ChatEntityDto = mockChat('1', 'chat1');
-  //   jest.spyOn(chatModel, 'findOne').mockResolvedValue({
-  //     exec: jest.fn().mockReturnValue(result as Partial<ChatDocument>),
-  //   });
-  //   expect(await service.findOne('1')).toEqual(result);
-  // });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-  // it('should throw NotFoundException when chat not found', async () => {
-  //   jest.spyOn(chatModel, 'findOne').mockResolvedValue(null);
-  //   await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
-  // });
+  describe('findAll', () => {
+    it('should find all chats', async () => {
+      // arrange
+      const expectedChats: Partial<ChatEntityDto>[] = [
+        mockChatEntityDto(chat1),
+        mockChatEntityDto(chat2),
+      ];
+      const result: Document<ChatEntityDto>[] = [
+        mockChatDocument(chat1) as Document<ChatEntityDto>,
+        mockChatDocument(chat2) as Document<ChatEntityDto>,
+      ];
+      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(result),
+      } as never);
 
-  // it('should create a chat', async () => {
-  //   const result: ChatEntityDto = mockChat('1', 'chat1');
-  //   jest.spyOn(chatModel, 'create').mockResolvedValue(result as never);
-  //   expect(await service.create('chat1')).toEqual(result);
-  // });
+      // act & assert
+      expect(await service.findAll()).toEqual(expectedChats);
+    });
+    it('should return empty array when no chats found', async () => {
+      // arrange
+      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as never);
 
-  // it('should update a chat', async () => {
-  //   const result: ChatEntityDto = mockChat('1', 'chat1');
-  //   jest
-  //     .spyOn(chatModel, 'findOneAndUpdate')
-  //     .mockResolvedValue(result as ChatDocument);
-  //   expect(await service.update('1', { name: 'chat1' })).toEqual(result);
-  // });
+      // act & assert
+      expect(await service.findAll()).toEqual([]);
+    });
 
-  // it('should throw NotFoundException when updating a chat that does not exist', async () => {
-  //   jest.spyOn(chatModel, 'findOneAndUpdate').mockResolvedValue(null);
-  //   await expect(service.update('1', { name: 'chat1' })).rejects.toThrow(
-  //     NotFoundException
-  //   );
-  // });
+    it('should throw an error when finding all chats fails', async () => {
+      // arrange
+      const findAllChatsErrorMsg = 'Failed to find chats';
+      jest.spyOn(chatModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error(findAllChatsErrorMsg)),
+      } as never);
 
-  // it('should remove a chat', async () => {
-  //   const result: ChatEntityDto = mockChat('1', 'chat1');
-  //   jest.spyOn(chatModel, 'findOneAndDelete').mockResolvedValue(result);
-  //   expect(await service.remove('1')).toEqual(result);
-  // });
+      // act & assert
+      await expect(service.findAll()).rejects.toThrow(findAllChatsErrorMsg);
+    });
+  });
 
-  // it('should throw NotFoundException when removing a chat that does not exist', async () => {
-  //   jest.spyOn(chatModel, 'findOneAndDelete').mockResolvedValue(null);
-  //   await expect(service.remove('1')).rejects.toThrow(NotFoundException);
-  // });
+  describe('findOne', () => {
+    it('should find a chat by id', async () => {
+      // arrange
+      const expectedChat = mockChatEntityDto(chat1);
+      const result = mockChatDocument(chat1) as Document<ChatEntityDto>;
+      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(result),
+      } as never);
+
+      // act & assert
+      expect(await service.findOne(chat1._id)).toEqual(expectedChat);
+    });
+    it('should throw a not found exception when chat is not found', async () => {
+      // arrange
+      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      // act & assert
+      await expect(service.findOne(chat1._id)).rejects.toThrow(
+        'Chat not found',
+      );
+    });
+    it('should throw an error when finding a chat by id fails', async () => {
+      // arrange
+      const chatId = '1';
+      const findOneChatErrorMsg = 'Failed to find chat';
+      jest.spyOn(chatModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error(findOneChatErrorMsg)),
+      } as never);
+
+      // act & assert
+      await expect(service.findOne(chatId)).rejects.toThrow(
+        findOneChatErrorMsg,
+      );
+    });
+  });
+
+  describe('create', () => {
+    it('should create a chat', async () => {
+      // arrange
+      const expectedChat = mockChatEntityDto(chat1);
+      const result = mockChatDocument(chat1) as Document<ChatEntityDto>;
+      jest.spyOn(chatModel, 'create').mockReturnValueOnce({
+        save: jest.fn().mockResolvedValueOnce(result),
+      } as never);
+
+      // act & assert
+      expect(await service.create(chat1.name)).toEqual(expectedChat);
+    });
+    it('should throw an error when creating a chat fails', async () => {
+      // arrange
+      const createChatErrorMsg = 'Failed to create chat';
+      jest.spyOn(chatModel, 'create').mockReturnValueOnce({
+        save: jest.fn().mockRejectedValueOnce(new Error(createChatErrorMsg)),
+      } as never);
+
+      // act & assert
+      await expect(service.create(chat1.name)).rejects.toThrow(
+        createChatErrorMsg,
+      );
+    });
+  });
+
+  describe('update', () => {
+    it('should update a chat', async () => {
+      // arrange
+      const expectedChat = mockChatEntityDto(chat1);
+      const result = mockChatDocument(chat1) as Document<ChatEntityDto>;
+      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(result),
+      } as never);
+
+      // act & assert
+      expect(await service.update(chat1._id, { name: chat1.name })).toEqual(
+        expectedChat,
+      );
+    });
+    it('should throw a not found exception when chat is not found', async () => {
+      // arrange
+      const chatId = '1';
+      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      // act & assert
+      await expect(service.update(chatId, { name: 'chat1' })).rejects.toThrow(
+        'Chat not found',
+      );
+    });
+    it('should throw an error when updating a chat fails', async () => {
+      // arrange
+      const chatId = '1';
+      const updateChatErrorMsg = 'Failed to update chat';
+      jest.spyOn(chatModel, 'findOneAndUpdate').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error(updateChatErrorMsg)),
+      } as never);
+
+      // act & assert
+      await expect(service.update(chatId, { name: 'chat1' })).rejects.toThrow(
+        updateChatErrorMsg,
+      );
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove a chat', async () => {
+      // arrange
+      const expectedChat = mockChatEntityDto(chat1);
+      const result = mockChatDocument(chat1) as Document<ChatEntityDto>;
+      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(result),
+      } as never);
+
+      // act & assert
+      expect(await service.remove(chat1._id)).toEqual(expectedChat);
+    });
+    it('should throw a not found exception when chat is not found', async () => {
+      // arrange
+      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      // act & assert
+      await expect(service.remove(chat1._id)).rejects.toThrow('Chat not found');
+    });
+    it('should throw an error when deleting a chat fails', async () => {
+      // arrange
+      const deleteChatErrorMsg = 'Failed to delete chat';
+      jest.spyOn(chatModel, 'findOneAndDelete').mockReturnValueOnce({
+        exec: jest.fn().mockRejectedValueOnce(new Error(deleteChatErrorMsg)),
+      } as never);
+
+      // act & assert
+      await expect(service.remove(chat1._id)).rejects.toThrow(
+        deleteChatErrorMsg,
+      );
+    });
+  });
 });
