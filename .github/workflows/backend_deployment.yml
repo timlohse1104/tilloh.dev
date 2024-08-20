@@ -197,10 +197,10 @@ jobs:
       - name: Recursivly upload built backend files to uberspace
         uses: appleboy/scp-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           source: "backend_target/*"
           target: /home/${{ secrets.SSHUSER }}/api
           overwrite: true
@@ -208,10 +208,10 @@ jobs:
       - name: SSH into the remote server and move files
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cp -rf api/backend_target/. api/
             rm -rf api/backend_target
@@ -219,10 +219,10 @@ jobs:
       - name: Install dependencies in server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             rm -rf node_modules
@@ -231,10 +231,10 @@ jobs:
       - name: Restart backend service
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             supervisorctl stop tilloh-api-daemon
