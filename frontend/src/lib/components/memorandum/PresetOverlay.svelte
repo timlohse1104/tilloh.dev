@@ -78,7 +78,6 @@
 
 <Dialog
   bind:open={$presetOverlayOptionsStore.showOverlay}
-  scrimClickAction=""
   aria-labelledby="large-scroll-title"
   aria-describedby="large-scroll-content"
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
