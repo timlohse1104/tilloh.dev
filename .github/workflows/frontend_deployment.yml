@@ -64,7 +64,6 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Deploying Frontend
         run: echo "Deploying frontend artifact..."
@@ -85,10 +84,10 @@ jobs:
       - name: Recursivly upload built frontend files to uberspace
         uses: appleboy/scp-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           source: "frontend_target/*"
           target: /var/www/virtual/${{ secrets.SSHUSER }}/html
           overwrite: true
@@ -96,10 +95,10 @@ jobs:
       - name: SSH into the remote server and move files
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cp -rf html/frontend_target/. html/
             rm -rf html/frontend_target
