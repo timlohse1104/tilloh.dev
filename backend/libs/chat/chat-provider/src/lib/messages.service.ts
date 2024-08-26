@@ -19,13 +19,11 @@ export class MessagesService {
    * @param createMessageDto The message to be created.
    * @returns The created message.
    */
-  async createMessage(
-    chatId: string,
-    createMessageDto: CreateMessageDto
-  ): Promise<MessageDto> {
+  async createMessage(createMessageDto: CreateMessageDto): Promise<MessageDto> {
+    const { chatId } = createMessageDto;
     this.logger.verbose(
       { input: { chatId, createMessageDto } },
-      `Adding new message to chat.`
+      `Adding new message to chat.`,
     );
     const newMessage = { ...createMessageDto, timestamp: new Date() };
     const chat = await this.chatMongoDbService.findOne(chatId);
@@ -35,7 +33,7 @@ export class MessagesService {
       updatedChat.messages[updatedChat.messages.length - 1];
     this.logger.verbose(
       { output: { updatedMessage } },
-      `Added new message to chat.`
+      `Added new message to chat.`,
     );
     return updatedMessage;
   }
@@ -81,7 +79,7 @@ export class MessagesService {
   async updateMessage(
     chatId: string,
     id: number,
-    updateMessageDto: UpdateMessageDto
+    updateMessageDto: UpdateMessageDto,
   ) {
     this.logger.verbose({ input: { id } }, `Updating message .`);
     const chat = await this.chatMongoDbService.findOne(chatId);
@@ -119,7 +117,7 @@ export class MessagesService {
   async identify(chatId: string, name: string, clientId: string) {
     this.logger.verbose(
       { input: { name, clientId } },
-      `Identifing client in chat.`
+      `Identifing client in chat.`,
     );
     const chat = await this.chatMongoDbService.findOne(chatId);
     chat.clients[clientId] = name;
@@ -139,7 +137,7 @@ export class MessagesService {
   async getClientName(chatId: string, clientId: string) {
     this.logger.verbose(
       { input: { clientId } },
-      `Retrieving client from chat.`
+      `Retrieving client from chat.`,
     );
     const chat = await this.chatMongoDbService.findOne(chatId);
     const client = chat.clients[clientId];

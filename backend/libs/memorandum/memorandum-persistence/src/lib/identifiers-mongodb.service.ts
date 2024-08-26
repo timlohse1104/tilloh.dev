@@ -12,7 +12,7 @@ export class IdentifiersMongoDbService {
 
   constructor(
     @InjectModel(Identifier.name)
-    private identifierModel: Model<IdentifierDocument>
+    private identifierModel: Model<IdentifierDocument>,
   ) {}
 
   /**
@@ -22,12 +22,15 @@ export class IdentifiersMongoDbService {
    */
   async findAll(): Promise<IdentifierDto[]> {
     this.logger.debug({ input: {} }, IdentifiersTexts.ATTEMPT_FIND_ALL);
-    const identifiers = await this.identifierModel.find();
+    const identifiers = await this.identifierModel.find().exec();
+    const identifierEntities = identifiers.map(
+      (identifier) => identifier.toObject() as IdentifierDto,
+    );
     this.logger.debug(
       { output: identifiers },
-      `MongoDb responded, found ${identifiers.length} identifiers.`
+      `MongoDb responded, found ${identifiers.length} identifiers.`,
     );
-    return identifiers;
+    return identifierEntities;
   }
 
   /**
@@ -44,7 +47,7 @@ export class IdentifiersMongoDbService {
       throw new NotFoundException(IdentifiersTexts.NOT_FOUND);
     }
     this.logger.debug({ output: identifier }, IdentifiersTexts.FOUND_ONE);
-    return identifier;
+    return identifier.toObject();
   }
 
   /**
@@ -55,15 +58,18 @@ export class IdentifiersMongoDbService {
    */
   async create(name: string): Promise<IdentifierDto> {
     this.logger.debug({ input: {} }, IdentifiersTexts.ATTEMPT_CREATE);
-    const identifier = await this.identifierModel.create({
-      _id: randomUUID(),
-      name,
-    });
+    const identifier = (
+      await this.identifierModel.create({
+        _id: randomUUID(),
+        name,
+      })
+    ).save();
+    const identifierEntity = (await identifier).toObject() as IdentifierDto;
     this.logger.debug(
-      { output: identifier?.toObject() },
-      IdentifiersTexts.CREATED_ONE
+      { output: identifierEntity },
+      IdentifiersTexts.CREATED_ONE,
     );
-    return identifier;
+    return identifierEntity;
   }
 
   /**
@@ -75,17 +81,17 @@ export class IdentifiersMongoDbService {
    */
   async update(
     id: string,
-    identifierDto: Partial<IdentifierDto>
+    identifierDto: Partial<IdentifierDto>,
   ): Promise<IdentifierDto> {
     this.logger.debug(
       { input: { id, identifierDto } },
-      IdentifiersTexts.ATTEMPT_UPDATE
+      IdentifiersTexts.ATTEMPT_UPDATE,
     );
     const identifier = await this.identifierModel
       .findOneAndUpdate(
         { _id: id },
         { ...identifierDto, updated: new Date() },
-        { new: true }
+        { new: true },
       )
       .exec();
 
@@ -93,7 +99,7 @@ export class IdentifiersMongoDbService {
       throw new NotFoundException(IdentifiersTexts.NOT_FOUND);
     }
     this.logger.debug({ output: identifier }, IdentifiersTexts.UPDATED_ONE);
-    return identifier;
+    return identifier.toObject();
   }
 
   /**
@@ -112,6 +118,6 @@ export class IdentifiersMongoDbService {
       throw new NotFoundException(IdentifiersTexts.NOT_FOUND);
     }
     this.logger.debug({ output: identifier }, IdentifiersTexts.DELETE_ONE);
-    return identifier;
+    return identifier.toObject();
   }
 }

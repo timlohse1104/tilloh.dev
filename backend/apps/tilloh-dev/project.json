@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/tilloh-dev/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
@@ -48,6 +49,5 @@
         "jestConfig": "apps/tilloh-dev/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }
