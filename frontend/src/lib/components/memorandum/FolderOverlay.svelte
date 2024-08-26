@@ -81,10 +81,11 @@
         ...currentPreset.Folders[$folderOverlayOptionsStore.currentFolderId],
       };
 
-      currentFolder.id = currentPreset.Folders.length;
-      currentFolder.folderName = `(Kopie) ${folderName}`;
+      const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
+      duplicatedFolder.id = currentPreset.Folders.length;
+      duplicatedFolder.folderName = `(Kopie) ${folderName}`;
 
-      currentPreset.Folders.push(currentFolder);
+      currentPreset.Folders.push(duplicatedFolder);
 
       $localPresetStore = currentPreset;
       closeOverlay();
