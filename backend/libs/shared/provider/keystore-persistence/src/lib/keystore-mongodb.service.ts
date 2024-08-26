@@ -12,7 +12,7 @@ export class KeystoreMongoDbService {
 
   constructor(
     @InjectModel(Keystore.name)
-    private keystoreModel: Model<KeystoreDocument>
+    private keystoreModel: Model<KeystoreDocument>,
   ) {}
 
   /**
@@ -25,7 +25,7 @@ export class KeystoreMongoDbService {
     const keys = await this.keystoreModel.find();
     this.logger.debug(
       { output: keys },
-      `MongoDb responded, found ${keys.length} keys.`
+      `MongoDb responded, found ${keys.length} keys.`,
     );
     return keys;
   }
@@ -40,7 +40,7 @@ export class KeystoreMongoDbService {
   async findOne(identifier: string, key: string): Promise<KeystoreDto> {
     this.logger.debug(
       { input: { identifier, key } },
-      KeystoreTexts.ATTEMPT_FIND_ONE
+      KeystoreTexts.ATTEMPT_FIND_ONE,
     );
     const keyEntry = await this.keystoreModel
       .findOne({ identifier, key })
@@ -64,23 +64,23 @@ export class KeystoreMongoDbService {
   async create(
     identifier: string,
     key: string,
-    value: string
+    value: string,
   ): Promise<KeystoreDto> {
     this.logger.debug(
       { input: { identifier, key, value } },
-      KeystoreTexts.ATTEMPT_CREATE
+      KeystoreTexts.ATTEMPT_CREATE,
     );
-    const keyEntry = await this.keystoreModel.create({
-      _id: randomUUID(),
-      identifier,
-      key,
-      value,
-    });
-    this.logger.debug(
-      { output: keyEntry?.toObject() },
-      KeystoreTexts.CREATED_ONE
-    );
-    return keyEntry;
+    const keyEntry = (
+      await this.keystoreModel.create({
+        _id: randomUUID(),
+        identifier,
+        key,
+        value,
+      })
+    ).save();
+    const keyEntryEntity = (await keyEntry).toObject();
+    this.logger.debug({ output: keyEntryEntity }, KeystoreTexts.CREATED_ONE);
+    return keyEntryEntity;
   }
 
   /**
@@ -94,17 +94,17 @@ export class KeystoreMongoDbService {
   async update(
     identifier: string,
     key: string,
-    updateKeystoreInputBodyDto: Partial<UpdateKeystoreInputBodyDto>
+    updateKeystoreInputBodyDto: Partial<UpdateKeystoreInputBodyDto>,
   ): Promise<KeystoreDto> {
     this.logger.debug(
       { input: { identifier, key, updateKeystoreInputBodyDto } },
-      KeystoreTexts.ATTEMPT_UPDATE
+      KeystoreTexts.ATTEMPT_UPDATE,
     );
     const keyEntry = await this.keystoreModel
       .findOneAndUpdate(
         { identifier, key },
         { ...updateKeystoreInputBodyDto, updated: new Date() },
-        { new: true }
+        { new: true },
       )
       .exec();
 
@@ -112,7 +112,7 @@ export class KeystoreMongoDbService {
       throw new NotFoundException(KeystoreTexts.NOT_FOUND);
     }
     this.logger.debug({ output: keyEntry }, KeystoreTexts.UPDATED_ONE);
-    return keyEntry;
+    return keyEntry.toObject();
   }
 
   /**
@@ -125,7 +125,7 @@ export class KeystoreMongoDbService {
   async remove(identifier: string, key: string) {
     this.logger.debug(
       { input: { identifier, key } },
-      KeystoreTexts.ATTEMPT_DELETE
+      KeystoreTexts.ATTEMPT_DELETE,
     );
     const keyEntry = await this.keystoreModel
       .findOneAndDelete({ identifier, key })

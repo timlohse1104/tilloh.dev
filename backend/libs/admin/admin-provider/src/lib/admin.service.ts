@@ -13,7 +13,7 @@ export class AdminService {
    * @param id The id to verify.
    * @returns True if the id is the admin identifier, false otherwise.
    */
-  async verifyAdmin(id: string): Promise<OutputVerifyAdmin> {
+  verifyAdmin(id: string): OutputVerifyAdmin {
     this.logger.log(`Verifying admin for input id ${id}.`);
     const isAdmin = this.configService.get('ADMIN_IDENTIFIER') === id;
     return { isAdmin };
