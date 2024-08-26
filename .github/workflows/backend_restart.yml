@@ -1,0 +1,74 @@
+name: Restart backend service on uberspace
+on:
+  workflow_dispatch:
+    inputs:
+      legacyPeerDeps:
+        description: "Use legacy peer dependencies [true/false]"
+        required: false
+        default: "false"
+
+jobs:
+  restart:
+    name: Restart backend service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restarting backend service on uberspace
+        run: echo "Restarting backend service..."
+
+      - name: Remove remote node_modules
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          script: |
+            cd api
+            rm -rf node_modules
+
+      - name: Remotely install dependencies (normal)
+        if: ${{ github.event.inputs.legacyPeerDeps == 'false' }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          script: |
+            cd api
+            npm i
+
+      - name: Remotely install dependencies (legacy peer deps)
+        if: ${{ github.event.inputs.legacyPeerDeps == 'true' }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          script: |
+            cd api
+            npm i --legacy-peer-deps
+
+      - name: Stop backend service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          script: |
+            cd api
+            supervisorctl stop tilloh-api-daemon
+
+      - name: Start backend service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSER }}
+          password: ${{ secrets.SSHPASS }}
+          port: ${{ secrets.SSHPORT }}
+          script: |
+            cd api
+            supervisorctl start tilloh-api-daemon
+            supervisorctl tail tilloh-api-daemon | npx pino-pretty
