@@ -11,7 +11,6 @@ jobs:
   restart:
     name: Restart backend service
     runs-on: ubuntu-latest
-    environment: remote_debugging
     steps:
       - name: Restarting backend service on uberspace
         run: echo "Restarting backend service..."
@@ -19,10 +18,10 @@ jobs:
       - name: Remove remote node_modules
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             rm -rf node_modules
@@ -31,10 +30,10 @@ jobs:
         if: ${{ github.event.inputs.legacyPeerDeps == 'false' }}
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             npm i
@@ -43,10 +42,10 @@ jobs:
         if: ${{ github.event.inputs.legacyPeerDeps == 'true' }}
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             npm i --legacy-peer-deps
@@ -54,10 +53,10 @@ jobs:
       - name: Stop backend service
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             supervisorctl stop tilloh-api-daemon
@@ -65,10 +64,10 @@ jobs:
       - name: Start backend service
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSHHOST }}
+          host: ${{ secrets.SSHHOST }}
           username: ${{ secrets.SSHUSER }}
           password: ${{ secrets.SSHPASS }}
-          port: ${{ vars.SSHPORT }}
+          port: ${{ secrets.SSHPORT }}
           script: |
             cd api
             supervisorctl start tilloh-api-daemon
