@@ -230,7 +230,7 @@ jobs:
           script: |
             cd api
             rm -rf node_modules
-            npm ci --legacy-peer-deps
+            npm i --legacy-peer-deps
 
       - name: Restart backend service
         uses: appleboy/ssh-action@master
