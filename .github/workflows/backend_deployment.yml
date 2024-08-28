@@ -23,6 +23,9 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
+      - name: Debug cache hit
+        run: echo ${{ steps.node_modules_cache.outputs.cache-hit }}
+
       - name: Npm audit
         run: |
           cd backend
