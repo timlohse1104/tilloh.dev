@@ -1,3 +1,4 @@
+import { JokeDocument } from '@backend/jokes/jokes-persistence';
 import { JokesService } from '@backend/jokes/jokes-provider';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { Public } from '@backend/util';
@@ -9,14 +10,17 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FilterQuery } from 'mongoose';
 
 @ApiTags('jokes')
 @Controller('/jokes')
@@ -41,9 +45,10 @@ export class JokesController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @ApiQuery({ name: 'filter', required: false, type: JokeDto })
   @Get('/')
-  listJokes() {
-    return this.jokesService.listJokes();
+  listJokes(@Query() filter: FilterQuery<JokeDocument> = {}) {
+    return this.jokesService.listJokes(filter);
   }
 
   @ApiBearerAuth()
