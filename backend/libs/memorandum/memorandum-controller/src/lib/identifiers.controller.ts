@@ -1,4 +1,3 @@
-import { IdentifierDocument } from '@backend/memorandum/memorandum-persistence';
 import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
 import {
   CreateIdentifierInputDto,
@@ -28,7 +27,6 @@ import {
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -46,10 +44,10 @@ export class IdentifiersController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiQuery({ name: 'filter', required: false, type: IdentifierDto })
   @Get()
-  getIdentifiers(@Query() filter: FilterQuery<IdentifierDocument> = {}) {
-    return this.identifiersService.listIdentifiers(filter);
+  getIdentifiers(@Query() filter: IdentifierDto) {
+    const filterQuery: FilterQuery<IdentifierDto> = filter || {};
+    return this.identifiersService.listIdentifiers(filterQuery);
   }
 
   @Public()

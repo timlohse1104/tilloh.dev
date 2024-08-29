@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class IdentifierDto {
-  @ApiProperty({ description: 'Identifier ID' })
+  @ApiProperty({ description: 'Identifier ID', required: false })
   @IsNotEmpty()
   _id: string;
 
-  @ApiProperty({ description: 'Identifier name' })
+  @ApiProperty({ description: 'Identifier name', required: false })
   @IsNotEmpty()
   name: string;
 }

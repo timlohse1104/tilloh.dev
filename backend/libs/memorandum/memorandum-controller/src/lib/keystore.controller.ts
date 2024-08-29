@@ -1,7 +1,4 @@
-import {
-  KeystoreDocument,
-  KeystoreMongoDbService,
-} from '@backend/shared-keystore-persistence';
+import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
 import { KeystoreTexts } from '@backend/shared-texts';
 import {
   CreateKeystoreInputDto,
@@ -31,7 +28,6 @@ import {
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -49,10 +45,10 @@ export class KeystoreController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiQuery({ name: 'filter', required: false, type: KeystoreDto })
   @Get()
-  getKeys(@Query() filter: FilterQuery<KeystoreDocument> = {}) {
-    return this.keystoreService.findAll(filter);
+  getKeys(@Query() filter: KeystoreDto) {
+    const filterQuery: FilterQuery<KeystoreDto> = filter || {};
+    return this.keystoreService.findAll(filterQuery);
   }
 
   @Public()

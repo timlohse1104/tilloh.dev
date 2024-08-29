@@ -1,4 +1,3 @@
-import { ChatDocument } from '@backend/chat/chat-persistence';
 import { ChatService } from '@backend/chat/chat-provider';
 import {
   ChatDto,
@@ -28,7 +27,6 @@ import {
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -46,10 +44,10 @@ export class ChatController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @ApiQuery({ name: 'filter', required: false, type: ChatDto })
   @Get()
-  getChats(@Query() filter: FilterQuery<ChatDocument> = {}) {
-    return this.chatService.listChats(filter);
+  getChats(@Query() filter?: ChatDto) {
+    const filterQuery: FilterQuery<ChatDto> = filter || {};
+    return this.chatService.listChats(filterQuery);
   }
 
   @ApiBearerAuth()

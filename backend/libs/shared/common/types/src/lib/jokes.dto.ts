@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class JokeDto {
-  @ApiProperty({ description: 'Joke text' })
+  @ApiProperty({ description: 'Joke text', required: false })
   @IsNotEmpty()
   text: string;
 
-  @ApiProperty({ description: 'Language abbreviation' })
+  @ApiProperty({ description: 'Language abbreviation', required: false })
   @IsNotEmpty()
   language: string;
 }
