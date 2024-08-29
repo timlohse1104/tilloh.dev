@@ -1,7 +1,11 @@
-import { ChatMongoDbService } from '@backend/chat/chat-persistence';
+import {
+  ChatDocument,
+  ChatMongoDbService,
+} from '@backend/chat/chat-persistence';
 import { ChatTexts } from '@backend/shared-texts';
-import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared-types';
+import { ChatEntityDto } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
+import { FilterQuery } from 'mongoose';
 
 @Injectable()
 export class ChatService {
@@ -28,9 +32,11 @@ export class ChatService {
    * @param options Optional filter for a specific client.
    * @returns An array of chat objects.
    */
-  async listChats(options?: FindAllChatsOptions): Promise<ChatEntityDto[]> {
+  async listChats(
+    filter: FilterQuery<ChatDocument> = {},
+  ): Promise<ChatEntityDto[]> {
     this.logger.verbose(ChatTexts.ATTEMPT_FIND_ALL);
-    const chats = await this.chatMongoDbService.findAll(options);
+    const chats = await this.chatMongoDbService.findAll(filter);
     this.logger.verbose(`Found ${chats.length} messages.`);
     return chats;
   }

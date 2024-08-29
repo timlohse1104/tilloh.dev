@@ -1,9 +1,9 @@
 import { ChatTexts } from '@backend/shared-texts';
-import { ChatEntityDto, FindAllChatsOptions } from '@backend/shared-types';
+import { ChatEntityDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Chat, ChatDocument } from './schema/chat.schema';
 
 @Injectable()
@@ -18,16 +18,14 @@ export class ChatMongoDbService {
   /**
    * Fetches all chats from the mongodb collection 'chats'.
    *
-   * @param options Optional filter for a specific client.
+   * @param filter Optional param to filter .
    * @returns An array of chat objects.
    */
-  async findAll(options?: FindAllChatsOptions): Promise<ChatEntityDto[]> {
-    this.logger.debug({ input: { options } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
-    const query: { [key: string]: { $exists: true } } = {};
-    if (query?.['clientId']) {
-      query[`clients.${query?.['clientId']}`] = { $exists: true };
-    }
-    const chats = await this.chatModel.find(query).exec();
+  async findAll(
+    filter: FilterQuery<ChatDocument> = {},
+  ): Promise<ChatEntityDto[]> {
+    this.logger.debug({ input: { filter } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
+    const chats = await this.chatModel.find(filter).exec();
     const chatEntities = chats.map((chat) => chat.toObject() as ChatEntityDto);
     this.logger.debug(
       { output: { chats } },
