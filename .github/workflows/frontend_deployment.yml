@@ -39,10 +39,14 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules
 
+      - name: Debug cache hit
+        run: echo ${{ steps.node_modules.outputs.cache-hit }}
+
       - name: Npm clean install
+        if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd frontend
-          npm ci
+          npm ci --legacy-peer-deps
 
       - name: Build frontend
         run: |

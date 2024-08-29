@@ -23,6 +23,9 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
+      - name: Debug cache hit
+        run: echo ${{ steps.node_modules_cache.outputs.cache-hit }}
+
       - name: Npm audit
         run: |
           cd backend
@@ -151,9 +154,10 @@ jobs:
           key: ${{ runner.os }}-node_modules
 
       - name: Npm clean install
+        if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd backend
-          npm ci
+          npm ci --legacy-peer-deps
 
       - name: Build backend
         run: |
@@ -226,7 +230,7 @@ jobs:
           script: |
             cd api
             rm -rf node_modules
-            npm i
+            npm i --legacy-peer-deps
 
       - name: Restart backend service
         uses: appleboy/ssh-action@master
