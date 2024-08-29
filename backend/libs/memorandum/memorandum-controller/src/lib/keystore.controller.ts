@@ -1,10 +1,14 @@
-import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
+import {
+  KeystoreDocument,
+  KeystoreMongoDbService,
+} from '@backend/shared-keystore-persistence';
 import { KeystoreTexts } from '@backend/shared-texts';
 import {
   CreateKeystoreInputDto,
   CreateKeystoreOutputDto,
   GetKeystoreInputDto,
   GetKeystoreOutputDto,
+  KeystoreDto,
   RemoveKeystoreInputDto,
   RemoveKeystoreOutputDto,
   UpdateKeystoreInputBodyDto,
@@ -20,15 +24,18 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FilterQuery } from 'mongoose';
 
 @ApiTags('keystore')
 @Controller('/keystore')
@@ -42,9 +49,10 @@ export class KeystoreController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @ApiQuery({ name: 'filter', required: false, type: KeystoreDto })
   @Get()
-  getKeys() {
-    return this.keystoreService.findAll();
+  getKeys(@Query() filter: FilterQuery<KeystoreDocument> = {}) {
+    return this.keystoreService.findAll(filter);
   }
 
   @Public()
