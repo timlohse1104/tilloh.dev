@@ -49,7 +49,7 @@ export class JokesMongoDbService {
    * @returns An array of joke objects.
    */
   async findAll(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
-    this.logger.debug({ input: filter }, JokeTexts.ATTEMPT_FIND_ALL);
+    this.logger.debug({ input: { filter } }, JokeTexts.ATTEMPT_FIND_ALL);
     const jokes = await this.jokeModel.find(filter).exec();
     this.logger.debug({ output: jokes }, JokeTexts.FOUND_ALL);
     return jokes.map((joke) => joke.toObject());

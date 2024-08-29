@@ -1,3 +1,4 @@
+import { IdentifierDocument } from '@backend/memorandum/memorandum-persistence';
 import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
 import {
   CreateIdentifierInputDto,
@@ -20,15 +21,18 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FilterQuery } from 'mongoose';
 
 @ApiTags('identifiers')
 @Controller('/identifiers')
@@ -42,9 +46,10 @@ export class IdentifiersController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @ApiQuery({ name: 'filter', required: false, type: IdentifierDto })
   @Get()
-  getIdentifiers() {
-    return this.identifiersService.listIdentifiers();
+  getIdentifiers(@Query() filter: FilterQuery<IdentifierDocument> = {}) {
+    return this.identifiersService.listIdentifiers(filter);
   }
 
   @Public()
@@ -82,11 +87,11 @@ export class IdentifiersController {
   @Put('/:id')
   updateIdentifier(
     @Param() updateIdentifierInputDto: UpdateIdentifierInputDto,
-    @Body() identifierDto: IdentifierDto
+    @Body() identifierDto: IdentifierDto,
   ) {
     return this.identifiersService.updateIdentifier(
       updateIdentifierInputDto.id,
-      identifierDto
+      identifierDto,
     );
   }
 
@@ -100,10 +105,10 @@ export class IdentifiersController {
   @ApiNotFoundResponse({ description: 'Identifier not found.' })
   @Delete('/:id')
   deleteIdentifier(
-    @Param() removeIdentifierInputDto: RemoveIdentifierInputDto
+    @Param() removeIdentifierInputDto: RemoveIdentifierInputDto,
   ) {
     return this.identifiersService.deleteIdentifier(
-      removeIdentifierInputDto.id
+      removeIdentifierInputDto.id,
     );
   }
 }

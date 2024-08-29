@@ -1,4 +1,7 @@
-import { IdentifiersMongoDbService } from '@backend/memorandum/memorandum-persistence';
+import {
+  IdentifierDocument,
+  IdentifiersMongoDbService,
+} from '@backend/memorandum/memorandum-persistence';
 import {
   CreateIdentifierInputDto,
   CreateIdentifierOutputDto,
@@ -10,6 +13,7 @@ import {
   UpdateIdentifierOutputDto,
 } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
+import { FilterQuery } from 'mongoose';
 
 @Injectable()
 export class IdentifiersService {
@@ -21,9 +25,11 @@ export class IdentifiersService {
    *
    * @returns An array of identifier objects.
    */
-  async listIdentifiers(): Promise<GetIdentifiersOutputDto[]> {
+  async listIdentifiers(
+    filter: FilterQuery<IdentifierDocument> = {},
+  ): Promise<GetIdentifiersOutputDto[]> {
     this.logger.log('returned list of all identifiers');
-    return await this.identifiersMongoDbService.findAll();
+    return await this.identifiersMongoDbService.findAll(filter);
   }
 
   /**
@@ -33,7 +39,7 @@ export class IdentifiersService {
    * @returns A single identifier object.
    */
   async getIdentifier(
-    getIdentifierInput: GetIdentifierInputDto
+    getIdentifierInput: GetIdentifierInputDto,
   ): Promise<GetIdentifierOutputDto> {
     this.logger.log('returns one identifier');
     return await this.identifiersMongoDbService.findOne(getIdentifierInput.id);
@@ -46,7 +52,7 @@ export class IdentifiersService {
    * @returns The created identifier.
    */
   async createIdentifier(
-    createIdentifierInputDto: CreateIdentifierInputDto
+    createIdentifierInputDto: CreateIdentifierInputDto,
   ): Promise<CreateIdentifierOutputDto> {
     this.logger.log('creates an identifier');
     return this.identifiersMongoDbService.create(createIdentifierInputDto.name);
@@ -61,7 +67,7 @@ export class IdentifiersService {
    */
   async updateIdentifier(
     id: string,
-    identifierDto: IdentifierDto
+    identifierDto: IdentifierDto,
   ): Promise<UpdateIdentifierOutputDto> {
     this.logger.log('updates identifier with id:' + id);
     return await this.identifiersMongoDbService.update(id, identifierDto);
