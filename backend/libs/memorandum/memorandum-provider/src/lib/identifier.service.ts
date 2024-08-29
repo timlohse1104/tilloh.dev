@@ -23,6 +23,7 @@ export class IdentifiersService {
   /**
    * Fetches all identifiers.
    *
+   * @param filter Optional param to filter for specific identifier results.
    * @returns An array of identifier objects.
    */
   async listIdentifiers(

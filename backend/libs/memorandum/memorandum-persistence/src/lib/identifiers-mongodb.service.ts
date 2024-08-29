@@ -18,6 +18,7 @@ export class IdentifiersMongoDbService {
   /**
    * Fetches all identifiers from the mongodb collection 'identifiers'.
    *
+   * @param filter Optional param to filter for specific identifier results.
    * @returns An array of identifier objects.
    */
   async findAll(

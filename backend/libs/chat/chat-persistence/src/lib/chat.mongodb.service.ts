@@ -18,7 +18,7 @@ export class ChatMongoDbService {
   /**
    * Fetches all chats from the mongodb collection 'chats'.
    *
-   * @param filter Optional param to filter .
+   * @param filter Optional param to filter for specific chat results.
    * @returns An array of chat objects.
    */
   async findAll(

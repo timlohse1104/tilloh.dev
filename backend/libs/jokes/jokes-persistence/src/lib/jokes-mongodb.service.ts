@@ -46,6 +46,7 @@ export class JokesMongoDbService {
   /**
    * Fetches all jokes from the mongodb collection 'jokes'.
    *
+   * @param filter Optional param to filter for specific joke results.
    * @returns An array of joke objects.
    */
   async findAll(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {

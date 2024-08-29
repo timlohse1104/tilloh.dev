@@ -29,7 +29,7 @@ export class ChatService {
   /**
    * Fetches all chats.
    *
-   * @param options Optional filter for a specific client.
+   * @param filter Optional param to filter for specific chat results.
    * @returns An array of chat objects.
    */
   async listChats(

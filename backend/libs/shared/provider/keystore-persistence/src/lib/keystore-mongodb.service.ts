@@ -18,6 +18,7 @@ export class KeystoreMongoDbService {
   /**
    * Fetches all keys.
    *
+   * @param filter Optional param to filter for specific key results.
    * @returns An array of key objects.
    */
   async findAll(

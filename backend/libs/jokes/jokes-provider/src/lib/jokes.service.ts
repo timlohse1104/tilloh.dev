@@ -52,6 +52,7 @@ export class JokesService {
   /**
    * Fetches all jokes.
    *
+   * @param filter Optional param to filter for specific joke results.
    * @returns An array of jokes.
    */
   async listJokes(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
