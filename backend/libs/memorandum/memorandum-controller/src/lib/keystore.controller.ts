@@ -5,6 +5,7 @@ import {
   CreateKeystoreOutputDto,
   GetKeystoreInputDto,
   GetKeystoreOutputDto,
+  KeystoreDto,
   RemoveKeystoreInputDto,
   RemoveKeystoreOutputDto,
   UpdateKeystoreInputBodyDto,
@@ -20,6 +21,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -29,6 +31,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FilterQuery } from 'mongoose';
 
 @ApiTags('keystore')
 @Controller('/keystore')
@@ -43,8 +46,9 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getKeys() {
-    return this.keystoreService.findAll();
+  getKeys(@Query() filter?: KeystoreDto) {
+    const filterQuery: FilterQuery<KeystoreDto> = filter || {};
+    return this.keystoreService.findAll(filterQuery);
   }
 
   @Public()

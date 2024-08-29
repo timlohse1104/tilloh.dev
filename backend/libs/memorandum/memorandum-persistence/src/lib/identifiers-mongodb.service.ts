@@ -3,7 +3,7 @@ import { IdentifierDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Identifier, IdentifierDocument } from './schema/identifiers.schema';
 
 @Injectable()
@@ -18,11 +18,14 @@ export class IdentifiersMongoDbService {
   /**
    * Fetches all identifiers from the mongodb collection 'identifiers'.
    *
+   * @param filter Optional param to filter for specific identifier results.
    * @returns An array of identifier objects.
    */
-  async findAll(): Promise<IdentifierDto[]> {
-    this.logger.debug({ input: {} }, IdentifiersTexts.ATTEMPT_FIND_ALL);
-    const identifiers = await this.identifierModel.find().exec();
+  async findAll(
+    filter: FilterQuery<IdentifierDocument> = {},
+  ): Promise<IdentifierDto[]> {
+    this.logger.debug({ input: { filter } }, IdentifiersTexts.ATTEMPT_FIND_ALL);
+    const identifiers = await this.identifierModel.find(filter).exec();
     const identifierEntities = identifiers.map(
       (identifier) => identifier.toObject() as IdentifierDto,
     );

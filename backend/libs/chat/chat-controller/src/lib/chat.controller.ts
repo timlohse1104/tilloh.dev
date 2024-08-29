@@ -1,5 +1,6 @@
 import { ChatService } from '@backend/chat/chat-provider';
 import {
+  ChatDto,
   ChatEntityDto,
   CreateChatInputDto,
   CreateChatOutputDto,
@@ -19,6 +20,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -28,6 +30,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FilterQuery } from 'mongoose';
 
 @ApiTags('chats')
 @Controller('/chats')
@@ -42,8 +45,9 @@ export class ChatController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getChats() {
-    return this.chatService.listChats();
+  getChats(@Query() filter?: ChatDto) {
+    const filterQuery: FilterQuery<ChatDto> = filter || {};
+    return this.chatService.listChats(filterQuery);
   }
 
   @ApiBearerAuth()
