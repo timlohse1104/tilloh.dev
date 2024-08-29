@@ -44,7 +44,7 @@ export class JokesController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/')
-  listJokes(@Query() filter: JokeDto) {
+  listJokes(@Query() filter?: JokeDto) {
     const filterQuery: FilterQuery<JokeDto> = filter || {};
     return this.jokesService.listJokes(filterQuery);
   }

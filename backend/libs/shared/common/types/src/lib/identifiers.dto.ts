@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class IdentifierDto {
   @ApiProperty({ description: 'Identifier ID', required: false })
@@ -9,6 +9,14 @@ export class IdentifierDto {
   @ApiProperty({ description: 'Identifier name', required: false })
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({ description: 'Chat creation date', required: false })
+  @IsOptional()
+  created: Date;
+
+  @ApiProperty({ description: 'Chat update date', required: false })
+  @IsOptional()
+  updated: Date;
 }
 
 export class GetIdentifiersOutputDto extends IdentifierDto {}

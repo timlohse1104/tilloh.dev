@@ -46,7 +46,7 @@ export class KeystoreController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getKeys(@Query() filter: KeystoreDto) {
+  getKeys(@Query() filter?: KeystoreDto) {
     const filterQuery: FilterQuery<KeystoreDto> = filter || {};
     return this.keystoreService.findAll(filterQuery);
   }

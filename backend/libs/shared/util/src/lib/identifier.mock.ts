@@ -5,4 +5,6 @@ export const mockIdentifierDto = (
 ): IdentifierDto => ({
   _id: mock?._id || 'mock_id',
   name: mock?.name || 'mock_name',
+  created: mock?.created || new Date(),
+  updated: mock?.updated || new Date(),
 });

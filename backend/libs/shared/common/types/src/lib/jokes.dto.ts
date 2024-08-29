@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class JokeDto {
   @ApiProperty({ description: 'Joke text', required: false })
@@ -9,6 +9,14 @@ export class JokeDto {
   @ApiProperty({ description: 'Language abbreviation', required: false })
   @IsNotEmpty()
   language: string;
+
+  @ApiProperty({ description: 'Chat creation date', required: false })
+  @IsOptional()
+  created: Date;
+
+  @ApiProperty({ description: 'Chat update date', required: false })
+  @IsOptional()
+  updated: Date;
 }
 
 export class JokesDto {

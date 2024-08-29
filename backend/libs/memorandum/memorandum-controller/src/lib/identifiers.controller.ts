@@ -45,7 +45,7 @@ export class IdentifiersController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getIdentifiers(@Query() filter: IdentifierDto) {
+  getIdentifiers(@Query() filter?: IdentifierDto) {
     const filterQuery: FilterQuery<IdentifierDto> = filter || {};
     return this.identifiersService.listIdentifiers(filterQuery);
   }
