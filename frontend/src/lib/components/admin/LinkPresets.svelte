@@ -28,8 +28,8 @@
       >
         <Graphic class="material-icons admin-list-items-icon">link</Graphic>
         <Text class="admin-list-items-text">
-          <PrimaryText>{linkPreset.identifier}</PrimaryText>
-          <SecondaryText>{linkPreset._id}</SecondaryText>
+          <PrimaryText>👤🆔{linkPreset.identifier}</PrimaryText>
+          <SecondaryText>🆔{linkPreset._id}</SecondaryText>
           <SecondaryText
             >✨{new Date(linkPreset.created).toLocaleString('de-DE')} 🔧{new Date(
               linkPreset.updated,

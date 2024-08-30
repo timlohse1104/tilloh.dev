@@ -26,7 +26,7 @@
         >
         <Text class="admin-list-items-text">
           <PrimaryText>{identifier.name}</PrimaryText>
-          <SecondaryText>{identifier._id}</SecondaryText>
+          <SecondaryText>🆔{identifier._id}</SecondaryText>
           <SecondaryText
             >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
               identifier.updated,

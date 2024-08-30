@@ -26,7 +26,7 @@
         >
         <Text class="admin-list-items-text">
           <PrimaryText>{joke.text}</PrimaryText>
-          <SecondaryText>{joke._id}</SecondaryText>
+          <SecondaryText>🆔{joke._id}</SecondaryText>
           <SecondaryText
             >✨{new Date(joke.created).toLocaleString('de-DE')} 🔧{new Date(
               joke.updated,
