@@ -3,8 +3,9 @@
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
-  import { getJokes } from '$lib/api/jokes.api';
+  import { deleteJoke, getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
+  import Jokes from '$lib/components/admin/Jokes.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import { utilityRoutes } from '$lib/config/applications';
   import { ActivityTypeDto } from '$lib/types/admin.dto';
@@ -40,11 +41,12 @@
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
-  let duplicateJokesAmount = 0;
   let confirmDeleteToggleOpenOverlay = false;
   let confirmDeleteToggleAction;
   let confirmDeleteIdentifierOpenOverlay = false;
   let confirmDeleteIdentifierAction;
+  let confirmDeleteJokeOpenOverlay = false;
+  let confirmDeleteJokeAction;
   let confirmDeletePresetOpenOverlay = false;
   let confirmDeletePresetAction;
 
@@ -168,7 +170,7 @@
   const removeIdentifier = async (event) => {
     confirmDeleteIdentifierAction = async () => {
       const { identifierId } = event.detail;
-      console.log('removing link preset', { identifierId }, '...');
+      console.log('removing identifier', { identifierId }, '...');
       try {
         await deleteIdentifier(adminToken, identifierId);
       } catch (error) {
@@ -189,6 +191,25 @@
   const loadJokes = async () => {
     allJokes = await getJokes(adminToken);
     console.log({ allJokes }, 'Jokes reloaded.');
+  };
+
+  const removeJoke = async (event) => {
+    confirmDeleteJokeAction = async () => {
+      const { jokeId } = event.detail;
+      console.log('removing joke', { jokeId }, '...');
+      try {
+        await deleteJoke(adminToken, jokeId);
+      } catch (error) {
+        console.error('Error deleting identifier', error);
+        return;
+      }
+
+      const deletedJoke = allJokes.find((joke) => joke._id === jokeId);
+      console.log({ deletedIdentifier: deletedJoke }, 'Joke deleted.');
+      await loadJokes();
+    };
+
+    confirmDeleteJokeOpenOverlay = true;
   };
 
   const loadChats = async () => {
@@ -326,6 +347,9 @@
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
+      {#if getToggleState(TogglesEnum.adminJokes)}
+        <Jokes jokes={allJokes} on:removeJoke={removeJoke} />
+      {/if}
     </div>
   {/if}
 </section>
@@ -359,6 +383,16 @@
   yesActionText="Ja"
   yesAction={confirmDeletePresetAction}
   on:close={() => (confirmDeletePresetOpenOverlay = false)}
+/>
+<ConfirmOverlay
+  open={confirmDeleteJokeOpenOverlay}
+  questionHeader="Witz löschen"
+  questionContent="Möchtest du diesen Witz wirklich löschen?"
+  noActionText="Nein"
+  noAction={() => (confirmDeleteJokeOpenOverlay = false)}
+  yesActionText="Ja"
+  yesAction={confirmDeleteJokeAction}
+  on:close={() => (confirmDeleteJokeOpenOverlay = false)}
 />
 
 <style lang="scss">
