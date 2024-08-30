@@ -71,8 +71,9 @@
   "dependencies": {
     "highlight.js": "^11.9.0",
     "socket.io-client": "^4.7.4",
-    "svelte-i18n": "^4.0.0",
     "svelte-masonry": "^0.1.1",
-    "svelte-material-ui": "^7.0.0"
+    "svelte-material-ui": "^7.0.0",
+    "sveltekit-i18n": "^2.4.2",
+    "typesafe-i18n": "^5.26.2"
   }
 }
