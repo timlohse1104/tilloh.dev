@@ -14,6 +14,7 @@
     apiIsHealthy: false,
     jokesIsHealthy: false,
     mongoIsHealthy: false,
+    duplicateJokesAmount: 0,
   };
   const dispatch = createEventDispatcher();
 </script>
@@ -66,6 +67,11 @@
       header="Jokes"
       description="Displayed daily jokes"
       amount={metrics.jokesAmount}
+    />
+    <DashboardCard
+      header="Duplicate Jokes"
+      description="Jokes with same content"
+      amount={metrics.duplicateJokesAmount}
     />
     <DashboardCard
       header="Chats"

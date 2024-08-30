@@ -40,6 +40,7 @@
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
+  let duplicateJokesAmount = 0;
   let confirmDeleteToggleOpenOverlay = false;
   let confirmDeleteToggleAction;
   let confirmDeleteIdentifierOpenOverlay = false;
@@ -61,6 +62,13 @@
   $: getJokesAmount = (): number => {
     if (allJokes.length === 0) return 0;
     return allJokes.length;
+  };
+
+  $: getDuplicateJokesAmount = (): number => {
+    if (allJokes.length === 0) return 0;
+    const jokeTexts = allJokes.map((joke) => joke.text);
+    const uniqueJokes = new Set(jokeTexts);
+    return jokeTexts.length - uniqueJokes.size;
   };
 
   $: getChatsAmount = (): number => {
@@ -296,6 +304,7 @@
             apiIsHealthy,
             jokesIsHealthy,
             mongoIsHealthy,
+            duplicateJokesAmount: getDuplicateJokesAmount(),
           }}
           on:updateDashboard={updateDashboard}
         />

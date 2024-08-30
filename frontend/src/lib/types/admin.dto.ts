@@ -27,4 +27,5 @@ export class AdminDashboardPropsDto {
   apiIsHealthy: boolean;
   jokesIsHealthy: boolean;
   mongoIsHealthy: boolean;
+  duplicateJokesAmount: number;
 }
