@@ -6,6 +6,7 @@
 
   let appLinks = [];
   let utilLinks = [];
+  let isPopoverOpen = false;
 
   onMount(() => {
     appLinks = Object.values(applicationRoutes).map((route) => ({
@@ -20,10 +21,21 @@
       icon: route.icon,
     }));
   });
+
+  const closePopover = () => {
+    isPopoverOpen = false;
+  };
+
+  const handleLinkClick = () => {
+    closePopover();
+  };
 </script>
 
 <IconButton>
-  <button popovertarget="hamburger-menu">
+  <button
+    popovertarget="hamburger-menu"
+    on:click={() => (isPopoverOpen = !isPopoverOpen)}
+  >
     <svg
       width="32"
       height="32"
@@ -40,14 +52,14 @@
     >
   </button>
 
-  <aside popover id="hamburger-menu">
+  <aside popover id="hamburger-menu" class:is-open={isPopoverOpen}>
     <h2>Anwendungen</h2>
     <hr />
     <ul>
       {#each appLinks as link}
         <li>
           <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link}>{link.title}</a>
+          <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
         </li>
       {/each}
     </ul>
@@ -58,7 +70,7 @@
       {#each utilLinks as link}
         <li>
           <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link}>{link.title}</a>
+          <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
         </li>
       {/each}
     </ul>
@@ -109,17 +121,16 @@
       font-size: small;
     }
 
-    &:popover-open {
+    &.is-open {
       transform: translateX(0);
-    }
-
-    &::backdrop {
-      background-color: var(--black30);
-      opacity: 1;
-      transition:
-        opacity var(--duration),
-        overlay var(--duration) allow-discrete,
-        display var(--duration) allow-discrete;
+      &::backdrop {
+        background-color: var(--black30);
+        opacity: 1;
+        transition:
+          opacity var(--duration),
+          overlay var(--duration) allow-discrete,
+          display var(--duration) allow-discrete;
+      }
     }
 
     h2 {
@@ -184,11 +195,12 @@
   }
 
   @starting-style {
-    aside:popover-open {
+    aside.is-open {
       transform: translateX(100%);
-    }
-    aside::backdrop {
-      opacity: 0;
+
+      &::backdrop {
+        opacity: 0;
+      }
     }
   }
 
