@@ -35,9 +35,9 @@
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
   let allPresetFolders: FolderDto[] = [];
-  let allChats: ChatDto[] = [];
-  let allJokes: JokeDto[] = [];
-  let allToggles: KeystoreKeyDto[] = [];
+  let chats: ChatDto[] = [];
+  let jokes: JokeDto[] = [];
+  let toggles: KeystoreKeyDto[] = [];
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
@@ -62,20 +62,20 @@
   };
 
   $: getJokesAmount = (): number => {
-    if (allJokes.length === 0) return 0;
-    return allJokes.length;
+    if (jokes.length === 0) return 0;
+    return jokes.length;
   };
 
   $: getDuplicateJokesAmount = (): number => {
-    if (allJokes.length === 0) return 0;
-    const jokeTexts = allJokes.map((joke) => joke.text);
+    if (jokes.length === 0) return 0;
+    const jokeTexts = jokes.map((joke) => joke.text);
     const uniqueJokes = new Set(jokeTexts);
     return jokeTexts.length - uniqueJokes.size;
   };
 
   $: getChatsAmount = (): number => {
-    if (allChats.length === 0) return 0;
-    return allChats.length;
+    if (chats.length === 0) return 0;
+    return chats.length;
   };
 
   $: getLatestActivities = () => {
@@ -83,16 +83,23 @@
       ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: `Key ${preset.key} got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
+        description: `Key '${preset.key}' got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
         updated: preset.updated,
         created: preset.created,
       })),
       ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: `Identifier ${identifier.name} got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
+        description: `Identifier '${identifier.name}' got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
         updated: identifier.updated,
         created: identifier.created,
+      })),
+      ...jokes.map((joke) => ({
+        type: ActivityTypeDto.IDENTIFIER,
+        id: joke._id,
+        description: `Joke '${joke.text}' got ${joke.created === joke.updated ? 'created' : 'updated'}.`,
+        updated: joke.updated,
+        created: joke.created,
       })),
     ].slice(0, 10);
     console.log({ activities }, 'Activities reloaded.');
@@ -189,8 +196,8 @@
   };
 
   const loadJokes = async () => {
-    allJokes = await getJokes(adminToken);
-    console.log({ allJokes }, 'Jokes reloaded.');
+    jokes = await getJokes(adminToken);
+    console.log({ allJokes: jokes }, 'Jokes reloaded.');
   };
 
   const removeJoke = async (event) => {
@@ -204,7 +211,7 @@
         return;
       }
 
-      const deletedJoke = allJokes.find((joke) => joke._id === jokeId);
+      const deletedJoke = jokes.find((joke) => joke._id === jokeId);
       console.log({ deletedIdentifier: deletedJoke }, 'Joke deleted.');
       await loadJokes();
     };
@@ -213,23 +220,23 @@
   };
 
   const loadChats = async () => {
-    allChats = await getChats(adminToken);
-    console.log({ allChats }, 'Chats reloaded.');
+    chats = await getChats(adminToken);
+    console.log({ allChats: chats }, 'Chats reloaded.');
   };
 
   const loadToggles = async () => {
     const keystoreResponse = await getKeystore(adminToken);
     console.log({ keystoreResponse }, 'Keystore response.');
-    allToggles = keystoreResponse.filter(
+    toggles = keystoreResponse.filter(
       (toggle) => toggle.identifier === TOGGLE_KEY_IDENTIFIER,
     );
-    console.log({ allToggles }, 'Toggles reloaded.');
+    console.log({ allToggles: toggles }, 'Toggles reloaded.');
   };
 
   const removeToggle = async (event) => {
     confirmDeleteToggleAction = async () => {
       const { id } = event.detail;
-      const toggle = allToggles.find((t) => t._id === id);
+      const toggle = toggles.find((t) => t._id === id);
       console.log({ toggle }, 'Removing toggle...');
 
       try {
@@ -275,7 +282,7 @@
   };
 
   $: getToggleState = (key: string) => {
-    const toggle = allToggles.find(
+    const toggle = toggles.find(
       (t) => t.identifier === TOGGLE_KEY_IDENTIFIER && t.key === key,
     );
     if (!toggle) return true;
@@ -334,7 +341,7 @@
 
     <div class="admin-content">
       <Toggles
-        toggles={allToggles}
+        {toggles}
         on:updateDashboard={updateDashboard}
         on:removeToggle={removeToggle}
       />
@@ -348,7 +355,7 @@
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
       {#if getToggleState(TogglesEnum.adminJokes)}
-        <Jokes jokes={allJokes} on:removeJoke={removeJoke} />
+        <Jokes {jokes} on:removeJoke={removeJoke} />
       {/if}
     </div>
   {/if}
