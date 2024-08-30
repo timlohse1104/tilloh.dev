@@ -55,10 +55,25 @@
     return allPresetFolders.length;
   };
 
+  $: getDuplicateFoldersAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const folderNames = allPresetFolders.map((folder) => folder.folderName);
+    const uniqueFolders = new Set(folderNames);
+    return folderNames.length - uniqueFolders.size;
+  };
+
   $: getLinksAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
     const allLinks = allPresetFolders.map((folder) => folder.links).flat();
     return allLinks.length;
+  };
+
+  $: getDuplicateLinksAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const allLinks = allPresetFolders.map((folder) => folder.links).flat();
+    const linkUrls = allLinks.map((link) => link.linkUrl);
+    const uniqueLinks = new Set(linkUrls);
+    return linkUrls.length - uniqueLinks.size;
   };
 
   $: getJokesAmount = (): number => {
@@ -333,6 +348,8 @@
             jokesIsHealthy,
             mongoIsHealthy,
             duplicateJokesAmount: getDuplicateJokesAmount(),
+            duplicateLinksAmount: getDuplicateLinksAmount(),
+            duplicateFoldersAmount: getDuplicateFoldersAmount(),
           }}
           on:updateDashboard={updateDashboard}
         />

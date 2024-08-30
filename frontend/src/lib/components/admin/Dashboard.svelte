@@ -15,6 +15,8 @@
     jokesIsHealthy: false,
     mongoIsHealthy: false,
     duplicateJokesAmount: 0,
+    duplicateFoldersAmount: 0,
+    duplicateLinksAmount: 0,
   };
   const dispatch = createEventDispatcher();
 </script>
@@ -59,9 +61,19 @@
       amount={metrics.presetFolderAmount}
     />
     <DashboardCard
+      header="Duplicate folders"
+      description="Folders with same content"
+      amount={metrics.duplicateFoldersAmount}
+    />
+    <DashboardCard
       header="Links"
       description="Saved memorandum links"
       amount={metrics.presetLinksAmount}
+    />
+    <DashboardCard
+      header="Duplicate links"
+      description="Links with same content"
+      amount={metrics.duplicateLinksAmount}
     />
     <DashboardCard
       header="Jokes"
@@ -69,7 +81,7 @@
       amount={metrics.jokesAmount}
     />
     <DashboardCard
-      header="Duplicate Jokes"
+      header="Duplicate jokes"
       description="Jokes with same content"
       amount={metrics.duplicateJokesAmount}
     />

@@ -28,4 +28,6 @@ export class AdminDashboardPropsDto {
   jokesIsHealthy: boolean;
   mongoIsHealthy: boolean;
   duplicateJokesAmount: number;
+  duplicateLinksAmount: number;
+  duplicateFoldersAmount: number;
 }
