@@ -116,7 +116,8 @@
     "todos": {
       "sideMenu": {
         "title": "Deine Listen",
-        "description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier.",
+        "description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier. 📝",
+        "persistenceInfo": "Erstellte Listen werden im Browser auf deinem Gerät gespeichert. Bald wird auch hier eine Möglichkeit vorhanden sein, Listen online zu speichern und mit anderen zu teilen und live zu bearbeiten!",
         "emptyInfo": "Keine Listen vorhanden.",
         "createNewList": "Neue Liste erstellen"
       },
@@ -129,6 +130,15 @@
         "listEmoji": "Emoji für die Liste",
         "listEmojiDescription": "Vergibst du kein Emoji erhältst du 📝",
         "emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden."
+      },
+      "list": {
+        "noEmoji": "Kein Emoji vorhanden...",
+        "noListTitle": "Kein Listentitel vorhanden...",
+        "history": "Verlauf",
+        "historyEmpty": "Kein Verlauf vorhanden...",
+        "emptyTitle1": "Wahle eine",
+        "emptyTitle2": "Liste aus.",
+        "emptySubtitle": "Klicke oben rechts auf den Menü-Button."
       },
       "newTodo": "Neuer Eintrag"
     }

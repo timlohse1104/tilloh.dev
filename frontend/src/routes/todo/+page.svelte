@@ -52,21 +52,22 @@
       <Drawer
         variant="modal"
         bind:open={openMenu}
-        style="width:25%;min-width:max-content;height:max-content;overflow:auto;"
+        style="width:25%;max-width:max-content;height:max-content;overflow:auto;"
       >
         <Header>
           <Title
             style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
             >{$t('page.todos.sideMenu.title')}</Title
           >
-          <Subtitle
-            style="text-align:left;margin:0 0 var(--default-padding) 0;padding-left: calc(var(--default-padding)/2)"
+          <Subtitle class="todos-side-menu-description"
             >{$t('page.todos.sideMenu.description')}</Subtitle
+          >
+          <Subtitle class="todos-side-menu-description"
+            >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
           >
         </Header>
         <Content>
           <List>
-            <!-- Fallback if no todos could be found -->
             {#if $todoStore.length === 0}
               <div
                 style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
@@ -158,5 +159,11 @@
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
+  }
+
+  :global(.todos-side-menu-description) {
+    text-align: left;
+    margin: 0 0 var(--default-padding) 0;
+    padding-left: calc(var(--default-padding) / 2);
   }
 </style>

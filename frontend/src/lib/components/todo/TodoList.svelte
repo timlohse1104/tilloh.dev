@@ -1,5 +1,6 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores.ts';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
@@ -31,74 +32,78 @@
   };
 </script>
 
-<section
-  class="todo-list"
-  style="overflow:hidden;display:flex;align-items:center;"
->
-  <div class="list-area">
-    {#if currentList || currentList?.todos?.length > 0}
-      <div class="list-header">
-        <h2>
-          {currentList?.emoji || 'Kein Emoji vorhanden...'}
-          {currentList?.name || 'Kein Listentitel vorhanden...'}
-        </h2>
-        <hr />
-        <div class="history-area">
-          {#if currentList?.history?.length > 0}
-            <div class="history-list">
-              <Wrapper>
-                <Button color="secondary" variant="outlined">
-                  <Icon class="material-icons">info</Icon>
-                  <Label>Verlauf</Label>
-                  <Tooltip xPos="end" yPos="detected">
-                    {currentList?.history}
-                  </Tooltip>
-                </Button>
-              </Wrapper>
-              <IconButton
-                color="secondary"
-                style="margin-left: auto;"
-                size="button"
-                on:click={clearHistory}
-              >
-                <Icon class="material-icons">delete</Icon>
-              </IconButton>
-            </div>
-          {:else if !currentList?.history}
-            <pre class="status">Hier würde der Verlauf stehen...</pre>
-          {:else}
-            <pre class="status">Kein Verlauf vorhanden...</pre>
-          {/if}
+{#if $initialized}
+  <section
+    class="todo-list"
+    style="overflow:hidden;display:flex;align-items:center;"
+  >
+    <div class="list-area">
+      {#if currentList || currentList?.todos?.length > 0}
+        <div class="list-header">
+          <h2>
+            {currentList?.emoji || $t('page.todos.list.noEmoji')}
+            {currentList?.name || $t('page.todos.list.noEmoji')}
+          </h2>
+          <hr />
+          <div class="history-area">
+            {#if currentList?.history?.length > 0}
+              <div class="history-list">
+                <Wrapper>
+                  <Button color="secondary" variant="outlined">
+                    <Icon class="material-icons">info</Icon>
+                    <Label>{$t('page.todos.list.history')}</Label>
+                    <Tooltip xPos="end" yPos="detected">
+                      {currentList?.history}
+                    </Tooltip>
+                  </Button>
+                </Wrapper>
+                <IconButton
+                  color="secondary"
+                  style="margin-left: auto;"
+                  size="button"
+                  on:click={clearHistory}
+                >
+                  <Icon class="material-icons">delete</Icon>
+                </IconButton>
+              </div>
+            {:else}
+              <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
+            {/if}
+          </div>
+          <TodoInput {listIndex} />
         </div>
-        <TodoInput {listIndex} />
-      </div>
-    {/if}
-
-    <div class="list-content">
-      {#if !currentList}
-        <h1 style="margin-top:2rem;">
-          Wähle eine <Icon class="material-icons">list</Icon> Liste aus.
-        </h1>
-        <div style="display:flex;flex-direction:column;align-items:center;">
-          <p style="margin-top:2rem;">
-            Klicke oben rechts auf den Menü-Button.
-            <Icon class="material-icons">menu</Icon>
-          </p>
-        </div>
-      {:else}
-        {#each currentList?.todos as todo, i (i)}
-          {#if todo}
-            <Todo
-              {todo}
-              deleteTodo={() => deleteTodo(i)}
-              todoChecked={() => checkTodo(i)}
-            />
-          {/if}
-        {/each}
       {/if}
+
+      <div class="list-content">
+        {#if !currentList}
+          <h1 style="margin-top:2rem;">
+            {$t('page.todos.list.emptyTitle1')}
+            <Icon class="material-icons">list</Icon>
+            {$t('page.todos.list.emptyTitle2')}
+          </h1>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <p style="margin-top:2rem;">
+              {$t('page.todos.list.emptySubtitle')}
+              <Icon class="material-icons">menu</Icon>
+            </p>
+          </div>
+        {:else}
+          {#each currentList?.todos as todo, i (i)}
+            {#if todo}
+              <Todo
+                {todo}
+                deleteTodo={() => deleteTodo(i)}
+                todoChecked={() => checkTodo(i)}
+              />
+            {/if}
+          {/each}
+        {/if}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

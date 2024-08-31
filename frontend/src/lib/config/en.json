@@ -116,7 +116,8 @@
     "todos": {
       "sideMenu": {
         "title": "Your lists",
-        "description": "Shopping, tasks and much more. Create your own lists and manage your todos.",
+        "description": "Shopping, tasks and much more. Create your own lists and manage your todos. 📝",
+        "persistenceInfo": "Created lists are saved in the browser on your device. Soon there will also be an option to save lists online and share them with others and edit them live!",
         "emptyInfo": "You have no lists yet.",
         "createNewList": "Create a new list"
       },
@@ -129,6 +130,15 @@
         "listEmoji": "Emoji for the list",
         "listEmojiDescription": "If you don't assign an emoji, you will receive 📝",
         "emojiTooltip": "Emojis can be found here https://emojipedia.org/ and here https://emojifinder.com/."
+      },
+      "list": {
+        "noEmoji": "No emoji set...",
+        "noListTitle": "No list title found...",
+        "history": "History",
+        "historyEmpty": "No history available...",
+        "emptyTitle1": "Choose a",
+        "emptyTitle2": "list to start",
+        "emptySubtitle": "Click the menu button in the top right corner."
       },
       "newTodo": "New entry"
     }
