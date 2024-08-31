@@ -6,7 +6,7 @@
       "searchPlaceholder": "Suche"
     },
     "about": {
-      "introduction": "mein Name ist Tim, Softwareentwickler aus Deutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
+      "introduction": "mein Name ist Tim, Softwareentwickler aus Norddeutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
       "weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus",
       "weirdJsText2": "oder",
       "weirdJsButtonText": "wie das",
@@ -15,7 +15,10 @@
     },
     "shared": {
       "headline": "Anwendungen",
-      "madeByText": "Entwickelt von Tilloh mit 💙"
+      "madeByText": "Entwickelt von Tilloh mit 💙",
+      "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
+      "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
+      "toggledSiteBackButtonText": "Zurück zur Startseite"
     }
   }
 }
