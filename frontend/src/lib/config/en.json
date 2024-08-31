@@ -52,6 +52,10 @@
         "currentValues": "Current values",
         "newValues": "New values",
         "copiedColorValues": "Color values copied."
+      },
+      "link": {
+        "deleteTitle": "Delete link",
+        "deleteQuestion": "Do you really want to delete this link?"
       }
     }
   }

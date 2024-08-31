@@ -273,16 +273,20 @@
     <span>+</span>
   </button>
 
-  <ConfirmOverlay
-    open={confirmDeleteLinkOpenOverlay}
-    questionHeader="Link löschen"
-    questionContent="Möchtest du diesen Link wirklich löschen?"
-    noActionText="Nein"
-    noAction={() => (confirmDeleteLinkOpenOverlay = false)}
-    yesActionText="Ja"
-    yesAction={confirmDeleteLinkAction}
-    on:close={() => (confirmDeleteLinkOpenOverlay = false)}
-  />
+  {#if $initialized}
+    <ConfirmOverlay
+      open={confirmDeleteLinkOpenOverlay}
+      questionHeader={$t('page.memorandum.link.deleteTitle')}
+      questionContent={$t('page.memorandum.link.deleteQuestion')}
+      noActionText={$t('page.shared.no')}
+      noAction={() => (confirmDeleteLinkOpenOverlay = false)}
+      yesActionText={$t('page.shared.yes')}
+      yesAction={confirmDeleteLinkAction}
+      on:close={() => (confirmDeleteLinkOpenOverlay = false)}
+    />
+  {:else}
+    <span>Locale initializing...</span>
+  {/if}
 </section>
 
 <style lang="scss">

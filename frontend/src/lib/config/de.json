@@ -49,6 +49,10 @@
         "currentValues": "Aktuelle Werte",
         "newValues": "Neue Werte",
         "copiedColorValues": "Farbwerte kopiert."
+      },
+      "link": {
+        "deleteTitle": "Link löschen",
+        "deleteQuestion": "Möchtest du diesen Link wirklich löschen?"
       }
     }
   }
