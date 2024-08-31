@@ -13,27 +13,6 @@
       "usefulWorkText1": "Ich entwickle auch nützliche Dinge für",
       "usefulWorkText2": "während der Arbeit. Versprochen! 🤡"
     },
-    "shared": {
-      "headline": "Anwendungen",
-      "madeByText": "Entwickelt von Tilloh mit 💙",
-      "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
-      "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
-      "toggledSiteBackButtonText": "Zurück zur Startseite",
-      "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
-      "yes": "Ja",
-      "no": "Nein",
-      "abort": "Abbruch",
-      "close": "Schließen",
-      "save": "Speichern",
-      "duplicate": "Duplizieren",
-      "delete": "Löschen",
-      "establish": "Einrichten",
-      "connect": "Verbinden",
-      "append": "Hinzufügen",
-      "red": "Rot",
-      "green": "Grün",
-      "blue": "Blau"
-    },
     "memorandum": {
       "orders": {
         "fixed": "Statische Ordnergröße",
@@ -141,6 +120,37 @@
         "emptySubtitle": "Klicke oben rechts auf den Menü-Button."
       },
       "newTodo": "Neuer Eintrag"
+    },
+    "unoSort": {
+      "title": "Sortierungsregeln",
+      "rules": "1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe mit den geringsten Karten ist ganz links.<br/>2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend sortiert.<br/>3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit sortiert.<br/>4. Schwarze Karten werden immer ganz rechts gehalten.",
+      "card": "Karte",
+      "cards": "Karten",
+      "draw": "Ziehen",
+      "stack": "Stapel",
+      "playerHand": "Spielerhand"
+    },
+    "shared": {
+      "headline": "Anwendungen",
+      "madeByText": "Entwickelt von Tilloh mit 💙",
+      "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
+      "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
+      "toggledSiteBackButtonText": "Zurück zur Startseite",
+      "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
+      "yes": "Ja",
+      "no": "Nein",
+      "abort": "Abbruch",
+      "close": "Schließen",
+      "save": "Speichern",
+      "duplicate": "Duplizieren",
+      "delete": "Löschen",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
+      "append": "Hinzufügen",
+      "red": "Rot",
+      "green": "Grün",
+      "blue": "Blau",
+      "reset": "Zurücksetzen"
     }
   }
 }

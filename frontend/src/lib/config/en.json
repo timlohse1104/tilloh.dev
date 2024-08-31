@@ -13,27 +13,6 @@
       "usefulWorkText1": "I also do useful things for",
       "usefulWorkText2": "at work. I promise! 🤡"
     },
-    "shared": {
-      "headline": "Applications",
-      "madeByText": "Made by Tilloh with 💙",
-      "toggledSiteHeadline": "This application has been temporarily disabled.",
-      "toggledSiteTryAgainText": "Please try again later. ¯\\_(ツ)_/¯",
-      "toggledSiteBackButtonText": "Back to home",
-      "somethingWentWrong": "Something went wrong: {{error}}",
-      "yes": "Yes",
-      "no": "No",
-      "abort": "Abort",
-      "close": "Close",
-      "save": "Save",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "establish": "Einrichten",
-      "connect": "Verbinden",
-      "append": "Append",
-      "red": "Red",
-      "green": "Green",
-      "blue": "Blue"
-    },
     "memorandum": {
       "orders": {
         "fixed": "Static folder size",
@@ -141,6 +120,37 @@
         "emptySubtitle": "Click the menu button in the top right corner."
       },
       "newTodo": "New entry"
+    },
+    "unoSort": {
+      "title": "Sorting rules",
+      "rules": "1. color cards are sorted according to the number in your hand, the color with the fewest cards is on the far left.<br/>2. color cards are sorted in ascending order within the color according to their value.<br/>3. colors with the same number of cards are sorted according to their total value.<br/>4. black cards are always held on the far right.",
+      "card": "Card",
+      "cards": "Cards",
+      "draw": "Draw",
+      "stack": "Stack",
+      "playerHand": "Player hand"
+    },
+    "shared": {
+      "headline": "Applications",
+      "madeByText": "Made by Tilloh with 💙",
+      "toggledSiteHeadline": "This application has been temporarily disabled.",
+      "toggledSiteTryAgainText": "Please try again later. ¯\\_(ツ)_/¯",
+      "toggledSiteBackButtonText": "Back to home",
+      "somethingWentWrong": "Something went wrong: {{error}}",
+      "yes": "Yes",
+      "no": "No",
+      "abort": "Abort",
+      "close": "Close",
+      "save": "Save",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
+      "append": "Append",
+      "red": "Red",
+      "green": "Green",
+      "blue": "Blue",
+      "reset": "Reset"
     }
   }
 }
