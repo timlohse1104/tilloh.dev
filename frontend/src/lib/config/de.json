@@ -26,7 +26,12 @@
       "close": "Schließen",
       "save": "Speichern",
       "duplicate": "Duplizieren",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
+      "red": "Rot",
+      "green": "Grün",
+      "blue": "Blau"
     },
     "memorandum": {
       "orders": {
@@ -82,6 +87,29 @@
         "description1": "Hier findest du deine persönliche ID. Um auf deine Zwischenstände von anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem anderen Gerät eintragen.",
         "description2": "Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an andere weitergeben, können diese Personen deine Zwischenstände verändern!",
         "personalId": "Deine persönliche ID"
+      },
+      "onlinePersistence": {
+        "snackbarIdentifierCreated": "Neue Verbindung für den Namen '{{identifierName}}' erzeugt.",
+        "snackbarNoIdentifierFound": "Keine Verbindung mit der ID '{{identifier}}' gefunden.",
+        "snackbarLoadedIdentifier": "Verbindung mit der ID: '{{identifier}}' geladen.",
+        "title": "Online Zwischenstände",
+        "description1": "Diese Website enthält einige Funktionen, die es dir erlauben, Zwischenstände zu speichern. Im Memorandum kannst du deine angelegten Ordner und Links und in Catch-Em-All deinen Highscore sichern. Sobald du dir hier eine Verbindung angelegt hast, kannst du von jedem anderen Gerät darauf zugreifen. Ist die Verbindung aktiv siehst du auf jeder tilloh.dev Seite in der Kopfzeile 'online 🌐' unter dem Namen der Anwendung.",
+        "description2": "Kopiere hierzu einfach deine persönliche ID aus dem Bereich",
+        "description3": "und füge sie im Bereich",
+        "description4": "auf einem anderen Gerät ein. Deine Daten werden dann synchronisiert.",
+        "activateOnlinePersistenceQuestion": "Zwischenstände auf dem Server speichern?",
+        "connectionData": "Deine Verbindungsdaten",
+        "establishNewConection": "Neue Verbindung einrichten",
+        "editConnection": "Verbindung bearbeiten",
+        "editConnectionDescription": "Hier kannst du deinen Namen für die Online-Speicherung festlegen oder ändern.",
+        "yourName": "Dein Name",
+        "yourCurrentName": "Dein aktueller Name",
+        "yourNameQuestion": "Wie lautet dein Name?",
+        "yourNewNameQuestion": "Wie lautet dein neuer Name?",
+        "loadConnection": "Verbindungsdaten laden",
+        "loadConnectionDescription": "Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine Zwischenstände zu synchronisieren.",
+        "yourId": "Deine ID",
+        "personalIdQuestion": "Wie lautet deine persönliche ID?"
       }
     }
   }

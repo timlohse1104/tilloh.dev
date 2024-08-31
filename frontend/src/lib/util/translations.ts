@@ -4,6 +4,8 @@ interface Params {
   folderName: string;
   linkName: string;
   amount: number;
+  identifierName: string;
+  identifier: string;
 }
 
 const config: Config<Partial<Params>> = {

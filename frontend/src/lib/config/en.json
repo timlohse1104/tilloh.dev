@@ -27,6 +27,8 @@
       "save": "Save",
       "duplicate": "Duplicate",
       "delete": "Delete",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
       "red": "Red",
       "green": "Green",
       "blue": "Blue"
@@ -80,10 +82,35 @@
       }
     },
     "settings": {
-      "title": "Your information",
-      "description1": "Here you will find your personal ID. To be able to access your interim results from other devices, you must copy this ID and enter it on the other device.",
-      "description2": "Please note that this ID is only intended for you. If you pass it on to others, they can change your intermediate scores!",
-      "personalId": "Your personal ID"
+      "identifiers": {
+        "title": "Your information",
+        "description1": "Here you will find your personal ID. To be able to access your interim results from other devices, you must copy this ID and enter it on the other device.",
+        "description2": "Please note that this ID is only intended for you. If you pass it on to others, they can change your intermediate scores!",
+        "personalId": "Your personal ID"
+      },
+      "onlinePersistence": {
+        "snackbarIdentifierCreated": "New connection for the name '{{identifierName}}' created.",
+        "snackbarNoIdentifierFound": "No connection found for the name '{{identifierName}}'.",
+        "snackbarLoadedIdentifier": "Connection with the ID: '{{identifier}}' loaded.",
+        "title": "Online persistence",
+        "description1": "This website contains several functions that allow you to save intermediate scores. You can save your created folders and links in Memorandum and your high score in Catch-Em-All. As soon as you have created a connection here, you can access it from any other device. If the connection is active, you will see 'online 🌐' under the name of the application in the header of every tilloh.dev page.",
+        "description2": "Simply copy your personal ID from the",
+        "description3": "and add them to the",
+        "description4": "on another device. Your data will then be synchronized.",
+        "activateOnlinePersistenceQuestion": "Save intermediate scores on the server?",
+        "connectionData": "Your connection data",
+        "establishNewConection": "Set up a new connection",
+        "editConnection": "Edit connection",
+        "editConnectionDescription": "Here you can set or change your name for online persistence of intermediate results.",
+        "yourName": "Your name",
+        "yourCurrentName": "Your current name",
+        "yourNameQuestion": "What is your name?",
+        "yourNewNameQuestion": "What is your new name?",
+        "loadConnection": "Load connection data",
+        "loadConnectionDescription": "Copy your ID and paste it on another device to synchronize your intermediate statuses.",
+        "yourId": "Your personal ID",
+        "personalIdQuestion": "What is your personal ID?"
+      }
     }
   }
 }

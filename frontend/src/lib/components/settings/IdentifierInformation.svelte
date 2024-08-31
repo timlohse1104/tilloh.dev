@@ -9,14 +9,14 @@
 <section>
   <h2>
     {#if $initialized}
-      {$t('page.settings.title')}
+      {$t('page.settings.identifiers.title')}
     {:else}
       Locale initializing...
     {/if}
   </h2>
   <p>
     {#if $initialized}
-      {$t('page.settings.description1')}
+      {$t('page.settings.identifiers.description1')}
     {:else}
       Locale initializing...
     {/if}
@@ -24,7 +24,7 @@
 
   <p>
     {#if $initialized}
-      {$t('page.settings.description2')}
+      {$t('page.settings.identifiers.description2')}
     {:else}
       Locale initializing...
     {/if}
@@ -33,7 +33,7 @@
   <div class="infoBox">
     {#if $initialized}
       <Textfield
-        label={$t('page.settings.personalId')}
+        label={$t('page.settings.identifiers.personalId')}
         value={$sharedIdentifierStore.id}
         style="width: 100%;"
         helperLine$style="width: 100%;"
