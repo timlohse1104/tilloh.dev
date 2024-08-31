@@ -111,6 +111,14 @@
         "yourId": "Deine ID",
         "personalIdQuestion": "Wie lautet deine persönliche ID?"
       }
+    },
+    "todos": {
+      "sideMenu": {
+        "title": "Deine Listen",
+        "description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier.",
+        "emptyInfo": "Keine Listen vorhanden.",
+        "createNewList": "Neue Liste erstellen"
+      }
     }
   }
 }

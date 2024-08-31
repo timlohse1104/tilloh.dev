@@ -111,6 +111,14 @@
         "yourId": "Your personal ID",
         "personalIdQuestion": "What is your personal ID?"
       }
+    },
+    "todos": {
+      "sideMenu": {
+        "title": "Your lists",
+        "description": "Shopping, tasks and much more. Create your own lists and manage your todos.",
+        "emptyInfo": "You have no lists yet.",
+        "createNewList": "Create a new list"
+      }
     }
   }
 }
