@@ -55,7 +55,13 @@
       },
       "link": {
         "deleteTitle": "Delete link",
-        "deleteQuestion": "Do you really want to delete this link?"
+        "deleteQuestion": "Do you really want to delete this link?",
+        "createTitle": "Create a link",
+        "createInfo": "Create a new link in the folder '{{folderName}}'. Enter the name and URL of the link here.",
+        "nameOfLink": "Name of link",
+        "urlOfLink": "URL of link",
+        "editTitle": "Edit link: {{linkName}}",
+        "editInfo": "Edit the link '{{linkName}}' in the folder '{{folderName}}'."
       }
     }
   }

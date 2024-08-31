@@ -52,7 +52,13 @@
       },
       "link": {
         "deleteTitle": "Link löschen",
-        "deleteQuestion": "Möchtest du diesen Link wirklich löschen?"
+        "deleteQuestion": "Möchtest du diesen Link wirklich löschen?",
+        "createTitle": "Erstelle einen Link",
+        "createInfo": "Lege hier einen neuen Link im Ordner '{{folderName}}' an. Füge hierzu den Namen und die URL des Links ein.",
+        "nameOfLink": "Name des Links",
+        "urlOfLink": "URL des Links",
+        "editTitle": "Bearbeite den Link: {{linkName}}",
+        "editInfo": "Bearbeite den Link '{{linkName}}' im Ordner '{{folderName}}'."
       }
     }
   }

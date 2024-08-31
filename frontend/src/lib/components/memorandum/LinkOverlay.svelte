@@ -5,6 +5,7 @@
     linkOverlayOptionsStore,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import Textfield from '@smui/textfield';
@@ -93,19 +94,37 @@
 >
   {#if type === 'new'}
     <Title id="simple-title">
-      Erstelle einen Link
+      {#if $initialized}
+        {$t('page.memorandum.link.createTitle')}
+      {:else}
+        Locale initializing...
+      {/if}
       <p class="subtitle">
-        Lege hier einen neuen Link im Ordner <b
-          >{$linkOverlayOptionsStore.currentFolder}</b
-        > an. Füge hierzu den Namen und die URL des Links ein.
+        {#if $initialized}
+          {$t('page.memorandum.link.createInfo', {
+            folderName: $linkOverlayOptionsStore.currentFolder,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}
       </p>
     </Title>
   {:else}
     <Title id="simple-title">
-      Bearbeite den Link: {newLinkName}
+      {#if $initialized}
+        {$t('page.memorandum.link.editTitle', { linkName: newLinkName })}
+      {:else}
+        Locale initializing...
+      {/if}
       <p class="subtitle">
-        Bearbeite hier den Link <b>{newLinkName}</b> im Ordner
-        <b>{$linkOverlayOptionsStore.currentFolder}</b>.
+        {#if $initialized}
+          {$t('page.memorandum.link.editInfo', {
+            linkName: newLinkName,
+            folderName: $linkOverlayOptionsStore.currentFolder,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}
       </p>
     </Title>
   {/if}
@@ -123,7 +142,13 @@
       }}
     >
       <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
-      <HelperText slot="helper">Name des Links</HelperText>
+      <HelperText slot="helper"
+        >{#if $initialized}
+          {$t('page.memorandum.link.nameOfLink')}
+        {:else}
+          Locale initializing...
+        {/if}</HelperText
+      >
     </Textfield>
     <Textfield
       variant="outlined"
@@ -137,19 +162,37 @@
       }}
     >
       <Icon class="material-icons" slot="leadingIcon">link</Icon>
-      <HelperText slot="helper">URL des Links</HelperText>
+      <HelperText slot="helper"
+        >{#if $initialized}
+          {$t('page.memorandum.link.urlOfLink')}
+        {:else}
+          Locale initializing...
+        {/if}</HelperText
+      >
     </Textfield>
   </Content>
   <Actions>
     {#if type === 'edit'}
       <Button on:click={duplicateLink}>
         <Icon class="material-icons">content_copy</Icon>
-        <Label>Duplizieren</Label>
+        <Label
+          >{#if $initialized}
+            {$t('page.shared.duplicate')}
+          {:else}
+            Locale initializing...
+          {/if}</Label
+        >
       </Button>
     {/if}
     <Button on:click={closeOverlay}>
       <Icon class="material-icons">link_off</Icon>
-      <Label>Abbruch</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.shared.cancel')}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
     </Button>
     <Button
       bind:this={addLinkButton}
@@ -158,7 +201,13 @@
       <Icon class="material-icons"
         >{type === 'new' ? 'bookmark_add' : 'save'}</Icon
       >
-      <Label>Speichern</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.shared.save')}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
     </Button>
   </Actions>
 </Dialog>
