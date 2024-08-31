@@ -75,6 +75,14 @@
         "loadPreset": "Lade eine Voreinstellung",
         "loadPresetAlt": "Klicke um einen Ordner mit vorgefertigten Links zu erstellen"
       }
+    },
+    "settings": {
+      "identifiers": {
+        "title": "Deine Informationen",
+        "description1": "Hier findest du deine persönliche ID. Um auf deine Zwischenstände von anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem anderen Gerät eintragen.",
+        "description2": "Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an andere weitergeben, können diese Personen deine Zwischenstände verändern!",
+        "personalId": "Deine persönliche ID"
+      }
     }
   }
 }

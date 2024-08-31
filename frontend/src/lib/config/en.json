@@ -78,6 +78,12 @@
         "loadPreset": "Load a preset",
         "loadPresetAlt": "Click to create a folder with prefabricated links"
       }
+    },
+    "settings": {
+      "title": "Your information",
+      "description1": "Here you will find your personal ID. To be able to access your interim results from other devices, you must copy this ID and enter it on the other device.",
+      "description2": "Please note that this ID is only intended for you. If you pass it on to others, they can change your intermediate scores!",
+      "personalId": "Your personal ID"
     }
   }
 }

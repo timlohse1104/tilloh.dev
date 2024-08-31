@@ -1,31 +1,48 @@
 <script lang="ts">
   import { sharedIdentifierStore } from '$lib/util/stores';
+  import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import Textfield from '@smui/textfield';
   import Icon from '@smui/textfield/icon';
 </script>
 
 <section>
-  <h2>Deine Informationen</h2>
+  <h2>
+    {#if $initialized}
+      {$t('page.settings.title')}
+    {:else}
+      Locale initializing...
+    {/if}
+  </h2>
   <p>
-    Hier findest du deine persönliche ID. Um auf deine Zwischenstände von
-    anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem
-    anderen Gerät eintragen.
+    {#if $initialized}
+      {$t('page.settings.description1')}
+    {:else}
+      Locale initializing...
+    {/if}
   </p>
 
   <p>
-    Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an
-    andere weitergeben, können diese Personen deine Zwischenstände verändern!
+    {#if $initialized}
+      {$t('page.settings.description2')}
+    {:else}
+      Locale initializing...
+    {/if}
   </p>
 
   <div class="infoBox">
-    <Textfield
-      label="Deine persönliche ID"
-      value={$sharedIdentifierStore.id}
-      style="width: 100%;"
-      helperLine$style="width: 100%;"
-      disabled
-    ></Textfield>
+    {#if $initialized}
+      <Textfield
+        label={$t('page.settings.personalId')}
+        value={$sharedIdentifierStore.id}
+        style="width: 100%;"
+        helperLine$style="width: 100%;"
+        disabled
+      ></Textfield>
+    {:else}
+      Locale initializing...
+    {/if}
+
     <IconButton
       on:click={() => navigator.clipboard.writeText($sharedIdentifierStore.id)}
       ><Icon class="material-icons">content_copy</Icon></IconButton
