@@ -7,6 +7,7 @@
     folderOrderFolder,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Fab, { Icon } from '@smui/fab';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
@@ -23,7 +24,12 @@
     let currentPreset = $localPresetStore;
 
     currentPreset.Folders.push(
-      new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
+      new FolderClass(
+        currentPreset.Folders.length,
+        $t('page.memorandum.newFolderHeader'),
+        [],
+        defaultColor,
+      ),
     );
     $localPresetStore = currentPreset;
   };
@@ -48,7 +54,11 @@
 </script>
 
 {#await $localPresetStore}
-  <p>Lädt lokalen Speicher...</p>
+  {#if $initialized}
+    <p>{$t('page.memorandum.loadingLocalPreset')}</p>
+  {:else}
+    <p>Locale initializing...</p>
+  {/if}
 {:then value}
   {#if value.Folders.length > 0}
     {#if $folderOrderFolder === 'fixed'}
@@ -85,7 +95,15 @@
     <Startup on:new={createFolder} on:default={loadPreset} />
   {/if}
 {:catch error}
-  <p>Etwas ist schieß gelaufen: {error.message}</p>
+  <p>
+    {#if $initialized}
+      {$t('page.shared.somethingWentWrong', {
+        error: error.message,
+      })}
+    {:else}
+      Locale initializing...
+    {/if}
+  </p>
 {/await}
 
 <Fab
@@ -96,16 +114,20 @@
   <Icon style="font-size:2rem;" class="material-icons">add</Icon>
 </Fab>
 
-<ConfirmOverlay
-  open={confirmDeleteFolderOpenOverlay}
-  questionHeader="Ordner löschen"
-  questionContent="Möchtest du diesen Ordner wirklich löschen?"
-  noActionText="Nein"
-  noAction={() => (confirmDeleteFolderOpenOverlay = false)}
-  yesActionText="Ja"
-  yesAction={confirmDeleteFolderAction}
-  on:close={() => (confirmDeleteFolderOpenOverlay = false)}
-/>
+{#if $initialized}
+  <ConfirmOverlay
+    open={confirmDeleteFolderOpenOverlay}
+    questionHeader={$t('page.memorandum.folder.deleteTitle')}
+    questionContent={$t('page.memorandum.folder.deleteQuestion')}
+    noActionText={$t('page.shared.no')}
+    noAction={() => (confirmDeleteFolderOpenOverlay = false)}
+    yesActionText={$t('page.shared.yes')}
+    yesAction={confirmDeleteFolderAction}
+    on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+  />
+{:else}
+  Locale initializing...
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

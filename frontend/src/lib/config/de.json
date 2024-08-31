@@ -18,7 +18,10 @@
       "madeByText": "Entwickelt von Tilloh mit 💙",
       "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
       "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
-      "toggledSiteBackButtonText": "Zurück zur Startseite"
+      "toggledSiteBackButtonText": "Zurück zur Startseite",
+      "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
+      "yes": "Ja",
+      "no": "Nein"
     },
     "memorandum": {
       "orders": {
@@ -28,7 +31,13 @@
       "doubleClickInfo": "Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.",
       "loadHyperlinksInfo": "Lädt gespeicherte Hyperlinks...",
       "errorLoadingHyperlinks": "Beim laden der Hyperlinks ist etwas schief gelaufen: {{error}}",
-      "newLink": "Neuer Link"
+      "newLink": "Neuer Link",
+      "loadingLocalPreset": "Lädt lokale Voreinstellungen...",
+      "newFolderHeader": "Neuer Ordner",
+      "folder": {
+        "deleteTitle": "Ordner löschen",
+        "deleteQuestion": "Möchtest du diesen Ordner wirklich löschen?"
+      }
     }
   }
 }

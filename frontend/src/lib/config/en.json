@@ -18,7 +18,10 @@
       "madeByText": "Made by Tilloh with 💙",
       "toggledSiteHeadline": "This application has been temporarily disabled.",
       "toggledSiteTryAgainText": "Please try again later. ¯\\_(ツ)_/¯",
-      "toggledSiteBackButtonText": "Back to home"
+      "toggledSiteBackButtonText": "Back to home",
+      "somethingWentWrong": "Something went wrong: {{error}}",
+      "yes": "Yes",
+      "no": "No"
     },
     "memorandum": {
       "orders": {
@@ -28,7 +31,13 @@
       "doubleClickInfo": "Want to edit something? Try double-clicking.",
       "loadHyperlinksInfo": "Loading saved hyperlinks...",
       "errorLoadingHyperlinks": "Something went wrong loading saved hyperlinks: {{error}}",
-      "newLink": "New link"
+      "newLink": "New link",
+      "loadingLocalPreset": "Loading local presets...",
+      "newFolderHeader": "New folder",
+      "folder": {
+        "deleteTitle": "Delete folder",
+        "deleteQuestion": "Do you really want to delete this folder?"
+      }
     }
   }
 }

@@ -268,7 +268,7 @@
     >{#if $initialized}
       <span>{$t('page.memorandum.newLink')}</span>
     {:else}
-      Locale initializing...
+      <span>Locale initializing...</span>
     {/if}
     <span>+</span>
   </button>
