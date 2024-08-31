@@ -59,6 +59,15 @@
         "urlOfLink": "URL des Links",
         "editTitle": "Bearbeite den Link: {{linkName}}",
         "editInfo": "Bearbeite den Link '{{linkName}}' im Ordner '{{folderName}}'."
+      },
+      "presetOverlay": {
+        "title": "Einstellung der Link und Ordner Konfiguration",
+        "description": "Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf einem beliebigen Gerät weiter zu verwenden.",
+        "currentConfigTitle": "Das ist deine aktuelle Konfiguration",
+        "folderAmount": "{{amount}} Ordner",
+        "linkAmount": "{{amount}} Links",
+        "technicalInfoTitle": "Technische Daten",
+        "configImportedLabel": "Konfiguration erfolgreich importiert."
       }
     }
   }

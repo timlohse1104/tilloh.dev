@@ -3,6 +3,7 @@
     localPresetStore,
     presetOverlayOptionsStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
   import Button, { Label } from '@smui/button';
   import Dialog, {
@@ -14,14 +15,12 @@
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
   import hljs from 'highlight.js';
   import { onMount } from 'svelte';
 
   let codeElement;
   let files: FileList;
   let presetUploadSnackbar: Snackbar;
-  let presetDownloadSnackbar: Snackbar;
   let detailOpen = false;
   let configFileInput: HTMLInputElement;
 
@@ -72,7 +71,6 @@
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
-    presetDownloadSnackbar.open();
   };
 </script>
 
@@ -83,29 +81,52 @@
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
 >
   <Title id="large-scroll-title">
-    Einstellung der Link und Ordner Konfiguration
+    {#if $initialized}
+      {$t('page.memorandum.presetOverlay.title')}
+    {:else}
+      Locale initializing...
+    {/if}
     <p class="large-scroll-subtitle">
-      Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf
-      einem beliebigen Gerät weiter zu verwenden.
-      <Wrapper>
-        <Icon class="material-icons">info</Icon>
-        <Tooltip xPos="start" yPos="detected"
-          >Drücke die 'Esc'-Taste um diese Übersicht zu schließen.</Tooltip
-        >
-      </Wrapper>
+      {#if $initialized}
+        {$t('page.memorandum.presetOverlay.description')}
+      {:else}
+        Locale initializing...
+      {/if}
     </p>
   </Title>
 
-  <Title>Das ist deine aktuelle Konfiguration</Title>
+  <Title
+    >{#if $initialized}
+      {$t('page.memorandum.presetOverlay.currentConfigTitle')}
+    {:else}
+      Locale initializing...
+    {/if}</Title
+  >
 
   <List dense>
     <Item style="margin-left:calc(var(--default-padding)/2);">
       <Graphic class="material-icons">folder</Graphic>
-      <Text>{folderAmount} Ordner</Text>
+      <Text
+        >{#if $initialized}
+          {$t('page.memorandum.presetOverlay.folderAmount', {
+            amount: folderAmount,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</Text
+      >
     </Item>
     <Item style="margin-left:calc(var(--default-padding)/2);">
       <Graphic class="material-icons">link</Graphic>
-      <Text>{linkAmount} Links</Text>
+      <Text
+        >{#if $initialized}
+          {$t('page.memorandum.presetOverlay.linkAmount', {
+            amount: linkAmount,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</Text
+      >
     </Item>
   </List>
 
@@ -114,7 +135,11 @@
       <Accordion>
         <Panel bind:open={detailOpen}>
           <Header
-            >Technische Daten
+            >{#if $initialized}
+              {$t('page.memorandum.presetOverlay.technicalInfoTitle')}
+            {:else}
+              Locale initializing...
+            {/if}
             <IconButton slot="icon" toggle pressed={detailOpen}>
               <Icon class="material-icons" on>expand_less</Icon>
               <Icon class="material-icons">expand_more</Icon>
@@ -130,20 +155,6 @@
         </Panel>
       </Accordion>
     </div>
-
-    <Snackbar bind:this={presetUploadSnackbar}>
-      <Label>Konfiguration erfolgreich importiert</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
-
-    <Snackbar bind:this={presetDownloadSnackbar}>
-      <Label>Download der Konfiguration gestartet.</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
   </DialogContent>
 
   <DialogActions>
@@ -163,6 +174,19 @@
     </Button>
   </DialogActions>
 </Dialog>
+
+<Snackbar bind:this={presetUploadSnackbar}>
+  <Label
+    >{#if $initialized}
+      {$t('page.memorandum.presetOverlay.configImportedLabel')}
+    {:else}
+      Locale initializing...
+    {/if}</Label
+  >
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
 
 <input
   bind:this={configFileInput}

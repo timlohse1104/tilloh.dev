@@ -3,6 +3,7 @@ interface Params {
   error: any;
   folderName: string;
   linkName: string;
+  amount: number;
 }
 
 const config: Config<Partial<Params>> = {
