@@ -1,7 +1,18 @@
 {
   "page": {
     "home": {
-      "jokeTitle": "Witz des Tages"
+      "jokeTitle": "Witz des Tages",
+      "jokeLoading": "Lädt Witz des Tages...",
+      "searchPlaceholder": "Suche"
+    },
+    "about": {
+      "introduction": "mein Name ist Tim, Softwareentwickler aus Deutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
+      "weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus",
+      "weirdJsText2": "oder",
+      "weirdJsButtonText": "wie das",
+      "usefulWorkText1": "Ich entwickle auch nützliche Dinge für",
+      "usefulWorkText2": "während der Arbeit. Versprochen! 🤡",
+      "madeByText": "Entwickelt von Tilloh mit 💙"
     }
   }
 }

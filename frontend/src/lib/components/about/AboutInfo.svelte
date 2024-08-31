@@ -1,19 +1,23 @@
+<script lang="ts">
+  import { initialized, t } from '$lib/util/translations';
+</script>
+
 <section>
-  <p>
-    <span class="capital-word">Moin</span> my name is Tim. I'm a software developer
-    from Germany. I started working in a tax office, broke up dual studies as a sales
-    man and found true passion in programming and especially web / infrastructure
-    development @otto and @stadtwerk.
-  </p>
+  {#if $initialized}
+    <p>
+      <span class="capital-word">Moin</span>
+      {$t('page.about.introduction')}
+    </p>
 
-  <p>
-    I like to try out new and weird things <a
-      href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
-      >like this</a
-    >:
-  </p>
+    <p>
+      {$t('page.about.weirdJsText1')}
+      <a
+        href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
+        >{$t('page.about.weirdJsButtonText')}</a
+      >:
+    </p>
 
-  <pre>
+    <pre>
   <code>
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
@@ -25,14 +29,15 @@ alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)
   </code>
   </pre>
 
-  <p>
-    or <a
-      href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
-      >like this</a
-    >:
-  </p>
+    <p>
+      {$t('page.about.weirdJsText2')}
+      <a
+        href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
+        >{$t('page.about.weirdJsButtonText')}</a
+      >:
+    </p>
 
-  <pre>
+    <pre>
   <code>
 const f = input
   .split(&apos;\n&apos;)
@@ -66,12 +71,16 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
   </code>
   </pre>
 
-  <p>
-    I also do useful things for <a href="https://deskbox-office.de">desk.box</a>
-    at work. I promise! 🤡
-  </p>
+    <p>
+      {$t('page.about.usefulWorkText1')}
+      <a href="https://deskbox-office.de">desk.box</a>
+      {$t('page.about.usefulWorkText2')}
+    </p>
 
-  <p>Made by Tilloh with 💙</p>
+    <p>{$t('page.about.madeByText')}</p>
+  {:else}
+    <h3>Locale initializing...</h3>
+  {/if}
 </section>
 
 <style lang="scss">

@@ -24,8 +24,10 @@
         "{joke.text}"
       </i>
     </Card>
+  {:else if $initialized}
+    <p>{$t('page.home.jokeLoading')}</p>
   {:else}
-    <p>Lädt Witz des Tages...</p>
+    <p>Locale initializing...</p>
   {/if}
 </section>
 

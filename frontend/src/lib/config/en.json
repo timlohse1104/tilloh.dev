@@ -1,7 +1,18 @@
 {
   "page": {
     "home": {
-      "jokeTitle": "Joke of the day"
+      "jokeTitle": "Joke of the day",
+      "jokeLoading": "Loading joke of the day...",
+      "searchPlaceholder": "Search"
+    },
+    "about": {
+      "introduction": "my name is Tim, a software developer from Germany. I started working in a tax office, broke up dual studies as a sales man and found true passion in programming and especially web / infrastructure development @otto and @stadtwerk gefunden.",
+      "weirdJsText1": "I like to try out new and weird things",
+      "weirdJsText2": "or",
+      "weirdJsButtonText": "like this",
+      "usefulWorkText1": "I also do useful things for",
+      "usefulWorkText2": "at work. I promise! 🤡",
+      "madeByText": "Made by Tilloh with 💙"
     }
   }
 }
