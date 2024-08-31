@@ -270,7 +270,7 @@
       <Button on:click={closeOverlay}>
         <Icon class="material-icons">folder_off</Icon>
         <Label>
-          {$t('page.shared.cancel', {
+          {$t('page.shared.abort', {
             folderName,
           })}
         </Label>

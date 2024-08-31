@@ -6,6 +6,7 @@ interface Params {
   amount: number;
   identifierName: string;
   identifier: string;
+  listName: string;
 }
 
 const config: Config<Partial<Params>> = {

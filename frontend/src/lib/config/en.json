@@ -22,13 +22,14 @@
       "somethingWentWrong": "Something went wrong: {{error}}",
       "yes": "Yes",
       "no": "No",
-      "cancel": "Cancel",
+      "abort": "Abort",
       "close": "Close",
       "save": "Save",
       "duplicate": "Duplicate",
       "delete": "Delete",
       "establish": "Einrichten",
       "connect": "Verbinden",
+      "append": "Append",
       "red": "Red",
       "green": "Green",
       "blue": "Blue"
@@ -118,6 +119,16 @@
         "description": "Shopping, tasks and much more. Create your own lists and manage your todos.",
         "emptyInfo": "You have no lists yet.",
         "createNewList": "Create a new list"
+      },
+      "overlay": {
+        "createTitle": "Create list",
+        "createSubtitle": "Create a new to-do list here.",
+        "editTitle": "Edit list",
+        "editSubtitle": "Edit the to-do list '{{listName}}' here.",
+        "listName": "Name of list",
+        "listEmoji": "Emoji for the list",
+        "listEmojiDescription": "If you don't assign an emoji, you will receive 📝",
+        "emojiTooltip": "Emojis can be found here https://emojipedia.org/ and here https://emojifinder.com/."
       }
     }
   }

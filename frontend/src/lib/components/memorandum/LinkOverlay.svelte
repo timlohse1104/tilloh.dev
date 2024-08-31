@@ -161,7 +161,7 @@
       <Button on:click={closeOverlay}>
         <Icon class="material-icons">link_off</Icon>
         <Label>
-          {$t('page.shared.cancel')}
+          {$t('page.shared.abort')}
         </Label>
       </Button>
       <Button

@@ -22,13 +22,14 @@
       "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
       "yes": "Ja",
       "no": "Nein",
-      "cancel": "Abbruch",
+      "abort": "Abbruch",
       "close": "Schließen",
       "save": "Speichern",
       "duplicate": "Duplizieren",
       "delete": "Löschen",
       "establish": "Einrichten",
       "connect": "Verbinden",
+      "append": "Hinzufügen",
       "red": "Rot",
       "green": "Grün",
       "blue": "Blau"
@@ -118,6 +119,16 @@
         "description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier.",
         "emptyInfo": "Keine Listen vorhanden.",
         "createNewList": "Neue Liste erstellen"
+      },
+      "overlay": {
+        "createTitle": "Liste erstellen",
+        "createSubtitle": "Lege hier eine neue Aufgabenliste an.",
+        "editTitle": "Liste bearbeiten",
+        "editSubtitle": "Bearbeite hier die Liste '{{listName}}'.",
+        "listName": "Name der Liste",
+        "listEmoji": "Emoji für die Liste",
+        "listEmojiDescription": "Vergibst du kein Emoji erhältst du 📝",
+        "emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden."
       }
     }
   }
