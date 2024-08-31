@@ -129,7 +129,8 @@
         "listEmoji": "Emoji für die Liste",
         "listEmojiDescription": "Vergibst du kein Emoji erhältst du 📝",
         "emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden."
-      }
+      },
+      "newTodo": "Neuer Eintrag"
     }
   }
 }

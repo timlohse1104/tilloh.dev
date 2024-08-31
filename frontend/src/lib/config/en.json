@@ -129,7 +129,8 @@
         "listEmoji": "Emoji for the list",
         "listEmojiDescription": "If you don't assign an emoji, you will receive 📝",
         "emojiTooltip": "Emojis can be found here https://emojipedia.org/ and here https://emojifinder.com/."
-      }
+      },
+      "newTodo": "New entry"
     }
   }
 }
