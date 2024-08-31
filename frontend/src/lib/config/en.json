@@ -71,6 +71,12 @@
         "linkAmount": "{{amount}} links",
         "technicalInfoTitle": "Technical data",
         "configImportedLabel": "Configuration successfully imported."
+      },
+      "startup": {
+        "createEmptyFolder": "Create an empty folder",
+        "createEmptyFolderAlt": "Click to create an empty folder",
+        "loadPreset": "Load a preset",
+        "loadPresetAlt": "Click to create a folder with prefabricated links"
       }
     }
   }

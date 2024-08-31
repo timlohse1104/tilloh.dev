@@ -1,4 +1,5 @@
 <script>
+  import { initialized, t } from '$lib/util/translations';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
@@ -8,19 +9,31 @@
   <button on:click={() => dispatch('new')}>
     <img
       id="firstFolderImg"
-      alt="Klicke um einen leeren Ordner zu erstellen"
+      alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
       src="/images/memorandum/white_new_folder.png"
     />
-    <p>Erstelle einen leeren Ordner</p>
+    <p>
+      {#if $initialized}
+        {$t('page.memorandum.startup.createEmptyFolder')}
+      {:else}
+        Locale initializing...
+      {/if}
+    </p>
   </button>
 
   <button on:click={() => dispatch('default')}>
     <img
       id="loadPresetImg"
-      alt="Klicke um einen Ordner mit vorgefertigten Links zu erstellen"
+      alt={$t('page.memorandum.startup.loadPresetAlt')}
       src="/images/memorandum/white_download_folder.png"
     />
-    <p>Lade ein Beispiel</p>
+    <p>
+      {#if $initialized}
+        {$t('page.memorandum.startup.loadPreset')}
+      {:else}
+        Locale initializing...
+      {/if}
+    </p>
   </button>
 </section>
 

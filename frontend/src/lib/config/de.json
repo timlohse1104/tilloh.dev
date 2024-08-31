@@ -68,6 +68,12 @@
         "linkAmount": "{{amount}} Links",
         "technicalInfoTitle": "Technische Daten",
         "configImportedLabel": "Konfiguration erfolgreich importiert."
+      },
+      "startup": {
+        "createEmptyFolder": "Erstelle einen leeren Ordner",
+        "createEmptyFolderAlt": "Klicke um einen leeren Ordner zu erstellen",
+        "loadPreset": "Lade eine Voreinstellung",
+        "loadPresetAlt": "Klicke um einen Ordner mit vorgefertigten Links zu erstellen"
       }
     }
   }
