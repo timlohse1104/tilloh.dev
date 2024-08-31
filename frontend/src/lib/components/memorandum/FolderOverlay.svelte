@@ -6,6 +6,7 @@
     folderOverlayOptionsStore,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -83,7 +84,9 @@
 
       const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
       duplicatedFolder.id = currentPreset.Folders.length;
-      duplicatedFolder.folderName = `(Kopie) ${folderName}`;
+      duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
+        folderName,
+      });
 
       currentPreset.Folders.push(duplicatedFolder);
 
@@ -119,7 +122,11 @@
   aria-describedby="simple-content"
 >
   <Title id="simple-title">
-    Bearbeite den Ordner: {folderName}
+    {#if $initialized}
+      {$t('page.memorandum.folder.editTitle', { folderName })}
+    {:else}
+      Locale initializing...
+    {/if}
   </Title>
 
   <Content id="simple-content" style="background-color:{customColor.getRGBA()}">
@@ -134,13 +141,27 @@
       }}
     >
       <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
-      <HelperText slot="helper">Name des Ordners</HelperText>
+      <HelperText slot="helper"
+        >{#if $initialized}
+          {$t('page.memorandum.folder.nameOfFolderHelptext')}
+        {:else}
+          Locale initializing...
+        {/if}</HelperText
+      >
     </Textfield>
 
     <FormField>
       <Checkbox bind:checked={customColorActive} />
       <Icon class="material-icons">brush</Icon>
-      <span slot="label">Hintergrundfarbe selbst bestimmen? </span>
+      <span slot="label"
+        >{#if $initialized}
+          {$t('page.memorandum.folder.setBackgroundColorQuestion', {
+            folderName,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</span
+      >
     </FormField>
 
     {#if customColorActive}
@@ -155,7 +176,11 @@
           slot="label"
           style="padding-right: 12px; width: 1rem; display: block;"
         >
-          Rot
+          {#if $initialized}
+            {$t('page.shared.red')}
+          {:else}
+            Locale initializing...
+          {/if}
         </span>
       </FormField>
       <FormField align="end" style="display: flex;">
@@ -169,7 +194,11 @@
           slot="label"
           style="padding-right: 12px; width: 1rem; display: block;"
         >
-          Grün
+          {#if $initialized}
+            {$t('page.shared.green')}
+          {:else}
+            Locale initializing...
+          {/if}
         </span>
       </FormField>
       <FormField align="end" style="display: flex;">
@@ -183,7 +212,11 @@
           slot="label"
           style="padding-right: 12px; width: 1rem; display: block;"
         >
-          Blau
+          {#if $initialized}
+            {$t('page.shared.blue')}
+          {:else}
+            Locale initializing...
+          {/if}
         </span>
       </FormField>
       <FormField align="end" style="display: flex;">
@@ -204,34 +237,54 @@
 
       <div style="display: flex;">
         <div style="margin-right: 1rem;">
-          <Textfield bind:value={customColorString} label="Aktuelle Werte">
-            <IconButton
-              class="material-icons"
-              slot="trailingIcon"
-              on:click={copyColorToClipboard}
+          {#if $initialized}
+            <Textfield
+              bind:value={customColorString}
+              label={$t('page.memorandum.folder.currentValues')}
             >
-              content_copy
-            </IconButton>
-            <HelperText slot="helper">Format: "rot,grün,blau,alpha"</HelperText>
-          </Textfield>
+              <IconButton
+                class="material-icons"
+                slot="trailingIcon"
+                on:click={copyColorToClipboard}
+              >
+                content_copy
+              </IconButton>
+              <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
+            </Textfield>
+          {:else}
+            Locale initializing...
+          {/if}
         </div>
         <div>
-          <Textfield bind:value={customColorInput} label="Neue Werte">
-            <IconButton
-              class="material-icons"
-              slot="trailingIcon"
-              on:click={updateCustomColorFromInput}
+          {#if $initialized}
+            <Textfield
+              bind:value={customColorInput}
+              label={$t('page.memorandum.folder.newValues')}
             >
-              change_circle
-            </IconButton>
-            <HelperText slot="helper">Format: "rot,grün,blau,alpha"</HelperText>
-          </Textfield>
+              <IconButton
+                class="material-icons"
+                slot="trailingIcon"
+                on:click={updateCustomColorFromInput}
+              >
+                change_circle
+              </IconButton>
+              <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
+            </Textfield>
+          {:else}
+            Locale initializing...
+          {/if}
         </div>
       </div>
     {/if}
 
     <Snackbar bind:this={colorCopySnackbar}>
-      <Label>Farbwerte kopiert.</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.memorandum.folder.copiedColorValues')}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
       <Actions>
         <IconButton class="material-icons" title="Dismiss">close</IconButton>
       </Actions>
@@ -240,15 +293,39 @@
   <Actions>
     <Button on:click={duplicateFolder}>
       <Icon class="material-icons">content_copy</Icon>
-      <Label>Duplizieren</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.shared.duplicate', {
+            folderName,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
     </Button>
     <Button on:click={closeOverlay}>
       <Icon class="material-icons">folder_off</Icon>
-      <Label>Abbruch</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.shared.cancel', {
+            folderName,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
     </Button>
     <Button bind:this={saveButton} on:click={editFolder}>
       <Icon class="material-icons">save</Icon>
-      <Label>Speichern</Label>
+      <Label
+        >{#if $initialized}
+          {$t('page.shared.save', {
+            folderName,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}</Label
+      >
     </Button>
   </Actions>
 </Dialog>

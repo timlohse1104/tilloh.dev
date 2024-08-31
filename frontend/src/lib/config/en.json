@@ -21,7 +21,15 @@
       "toggledSiteBackButtonText": "Back to home",
       "somethingWentWrong": "Something went wrong: {{error}}",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "red": "Red",
+      "green": "Green",
+      "blue": "Blue"
     },
     "memorandum": {
       "orders": {
@@ -36,7 +44,14 @@
       "newFolderHeader": "New folder",
       "folder": {
         "deleteTitle": "Delete folder",
-        "deleteQuestion": "Do you really want to delete this folder?"
+        "deleteQuestion": "Do you really want to delete this folder?",
+        "copiedName": "(Copy) {{folderName}}",
+        "editTitle": "Edit folder: '{{folderName}}'",
+        "nameOfFolderHelptext": "Name of folder",
+        "setBackgroundColorQuestion": "Want to change the folder background color?",
+        "currentValues": "Current values",
+        "newValues": "New values",
+        "copiedColorValues": "Color values copied."
       }
     }
   }

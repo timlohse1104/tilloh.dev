@@ -1,6 +1,7 @@
 import i18n, { type Config } from 'sveltekit-i18n';
 interface Params {
   error: any;
+  folderName: string;
 }
 
 const config: Config<Partial<Params>> = {

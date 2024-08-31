@@ -21,7 +21,12 @@
       "toggledSiteBackButtonText": "Zurück zur Startseite",
       "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
       "yes": "Ja",
-      "no": "Nein"
+      "no": "Nein",
+      "cancel": "Abbruch",
+      "close": "Schließen",
+      "save": "Speichern",
+      "duplicate": "Duplizieren",
+      "delete": "Löschen"
     },
     "memorandum": {
       "orders": {
@@ -36,7 +41,14 @@
       "newFolderHeader": "Neuer Ordner",
       "folder": {
         "deleteTitle": "Ordner löschen",
-        "deleteQuestion": "Möchtest du diesen Ordner wirklich löschen?"
+        "deleteQuestion": "Möchtest du diesen Ordner wirklich löschen?",
+        "copiedName": "(Kopie) {{folderName}}",
+        "editTitle": "Bearbeite den Ordner: {{folderName}}",
+        "nameOfFolderHelptext": "Name des Ordners",
+        "setBackgroundColorQuestion": "Hintergrundfarbe des Ordners ändern?",
+        "currentValues": "Aktuelle Werte",
+        "newValues": "Neue Werte",
+        "copiedColorValues": "Farbwerte kopiert."
       }
     }
   }
