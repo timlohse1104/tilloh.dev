@@ -79,7 +79,7 @@
 
       <footer>{$t('page.shared.madeByText')}</footer>
     {:else}
-      <h3>Locale initializing...</h3>
+      <h2>Locale initializing...</h2>
     {/if}
   </aside>
 </IconButton>

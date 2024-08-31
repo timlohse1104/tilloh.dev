@@ -7,9 +7,9 @@
   let value = '';
 </script>
 
-<div class="search-container">
-  <form action="https://duckduckgo.com/">
-    {#if $initialized}
+{#if $initialized}
+  <div class="search-container">
+    <form action="https://duckduckgo.com/">
       <Paper class="solo-paper" elevation={6}>
         <Icon class="material-icons">search</Icon>
         <Input
@@ -22,11 +22,11 @@
           autofocus
         />
       </Paper>
-    {:else}
-      <p>Locale initializing...</p>
-    {/if}
-  </form>
-</div>
+    </form>
+  </div>
+{:else}
+  <div class="search-container">Locale initializing...</div>
+{/if}
 
 <style lang="scss">
   .search-container {

@@ -121,123 +121,102 @@
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >
-  <Title id="simple-title">
-    {#if $initialized}
+  {#if $initialized}
+    <Title id="simple-title">
       {$t('page.memorandum.folder.editTitle', { folderName })}
-    {:else}
-      Locale initializing...
-    {/if}
-  </Title>
+    </Title>
 
-  <Content id="simple-content" style="background-color:{customColor.getRGBA()}">
-    <Textfield
-      variant="outlined"
-      bind:this={nameInput}
-      bind:value={folderName}
-      label="Name"
-      style="margin-top: 1rem; width: 100%"
-      on:keyup={(event) => {
-        if (isEnter(event)) editFolder();
-      }}
+    <Content
+      id="simple-content"
+      style="background-color:{customColor.getRGBA()}"
     >
-      <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
-      <HelperText slot="helper"
-        >{#if $initialized}
-          {$t('page.memorandum.folder.nameOfFolderHelptext')}
-        {:else}
-          Locale initializing...
-        {/if}</HelperText
+      <Textfield
+        variant="outlined"
+        bind:this={nameInput}
+        bind:value={folderName}
+        label="Name"
+        style="margin-top: 1rem; width: 100%"
+        on:keyup={(event) => {
+          if (isEnter(event)) editFolder();
+        }}
       >
-    </Textfield>
+        <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
+        <HelperText slot="helper">
+          {$t('page.memorandum.folder.nameOfFolderHelptext')}
+        </HelperText>
+      </Textfield>
 
-    <FormField>
-      <Checkbox bind:checked={customColorActive} />
-      <Icon class="material-icons">brush</Icon>
-      <span slot="label"
-        >{#if $initialized}
+      <FormField>
+        <Checkbox bind:checked={customColorActive} />
+        <Icon class="material-icons">brush</Icon>
+        <span slot="label">
           {$t('page.memorandum.folder.setBackgroundColorQuestion', {
             folderName,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</span
-      >
-    </FormField>
+        </span>
+      </FormField>
 
-    {#if customColorActive}
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.r}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          {#if $initialized}
+      {#if customColorActive}
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.r}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
             {$t('page.shared.red')}
-          {:else}
-            Locale initializing...
-          {/if}
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.g}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          {#if $initialized}
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.g}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
             {$t('page.shared.green')}
-          {:else}
-            Locale initializing...
-          {/if}
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.b}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          {#if $initialized}
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.b}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
             {$t('page.shared.blue')}
-          {:else}
-            Locale initializing...
-          {/if}
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={1}
-          step={0.01}
-          bind:value={customColor.a}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          Alpha
-        </span>
-      </FormField>
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={1}
+            step={0.01}
+            bind:value={customColor.a}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
+            Alpha
+          </span>
+        </FormField>
 
-      <div style="display: flex;">
-        <div style="margin-right: 1rem;">
-          {#if $initialized}
+        <div style="display: flex;">
+          <div style="margin-right: 1rem;">
             <Textfield
               bind:value={customColorString}
               label={$t('page.memorandum.folder.currentValues')}
@@ -251,12 +230,8 @@
               </IconButton>
               <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
             </Textfield>
-          {:else}
-            Locale initializing...
-          {/if}
-        </div>
-        <div>
-          {#if $initialized}
+          </div>
+          <div>
             <Textfield
               bind:value={customColorInput}
               label={$t('page.memorandum.folder.newValues')}
@@ -270,64 +245,48 @@
               </IconButton>
               <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
             </Textfield>
-          {:else}
-            Locale initializing...
-          {/if}
+          </div>
         </div>
-      </div>
-    {/if}
+      {/if}
 
-    <Snackbar bind:this={colorCopySnackbar}>
-      <Label
-        >{#if $initialized}
+      <Snackbar bind:this={colorCopySnackbar}>
+        <Label>
           {$t('page.memorandum.folder.copiedColorValues')}
-        {:else}
-          Locale initializing...
-        {/if}</Label
-      >
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
-  </Content>
-  <Actions>
-    <Button on:click={duplicateFolder}>
-      <Icon class="material-icons">content_copy</Icon>
-      <Label
-        >{#if $initialized}
+        </Label>
+        <Actions>
+          <IconButton class="material-icons" title="Dismiss">close</IconButton>
+        </Actions>
+      </Snackbar>
+    </Content>
+    <Actions>
+      <Button on:click={duplicateFolder}>
+        <Icon class="material-icons">content_copy</Icon>
+        <Label>
           {$t('page.shared.duplicate', {
             folderName,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</Label
-      >
-    </Button>
-    <Button on:click={closeOverlay}>
-      <Icon class="material-icons">folder_off</Icon>
-      <Label
-        >{#if $initialized}
+        </Label>
+      </Button>
+      <Button on:click={closeOverlay}>
+        <Icon class="material-icons">folder_off</Icon>
+        <Label>
           {$t('page.shared.cancel', {
             folderName,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</Label
-      >
-    </Button>
-    <Button bind:this={saveButton} on:click={editFolder}>
-      <Icon class="material-icons">save</Icon>
-      <Label
-        >{#if $initialized}
+        </Label>
+      </Button>
+      <Button bind:this={saveButton} on:click={editFolder}>
+        <Icon class="material-icons">save</Icon>
+        <Label>
           {$t('page.shared.save', {
             folderName,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</Label
-      >
-    </Button>
-  </Actions>
+        </Label>
+      </Button>
+    </Actions>
+  {:else}
+    <Title id="simple-title">Locale initializing...</Title>
+  {/if}
 </Dialog>
 
 <svelte:window

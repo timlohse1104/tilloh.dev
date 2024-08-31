@@ -12,24 +12,22 @@
   });
 </script>
 
-<section>
-  {#if joke}
-    <Card style="padding:1.5rem;">
-      {#if $initialized}
+{#if $initialized}
+  <section>
+    {#if joke}
+      <Card style="padding:1.5rem;">
         <h3>{$t('page.home.jokeTitle')}</h3>
-      {:else}
-        <h3>Locale initializing...</h3>
-      {/if}
-      <i>
-        "{joke.text}"
-      </i>
-    </Card>
-  {:else if $initialized}
-    <p>{$t('page.home.jokeLoading')}</p>
-  {:else}
-    <p>Locale initializing...</p>
-  {/if}
-</section>
+        <i>
+          "{joke.text}"
+        </i>
+      </Card>
+    {:else}
+      <p>{$t('page.home.jokeLoading')}</p>
+    {/if}
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {

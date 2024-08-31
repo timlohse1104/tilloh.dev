@@ -53,33 +53,13 @@
   };
 </script>
 
-{#await $localPresetStore}
-  {#if $initialized}
+{#if $initialized}
+  {#await $localPresetStore}
     <p>{$t('page.memorandum.loadingLocalPreset')}</p>
-  {:else}
-    <p>Locale initializing...</p>
-  {/if}
-{:then value}
-  {#if value.Folders.length > 0}
-    {#if $folderOrderFolder === 'fixed'}
-      <section class="contentAreaFixed">
-        {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
-          <Folder
-            id={i}
-            folderHeader={folderName}
-            folderBackground={customBackgroundColor}
-            on:delFolder={deleteFolder}
-          />
-        {/each}
-      </section>
-    {:else}
-      <section class="contentAreaFlexible">
-        <Masonry
-          reset
-          gridGap={'0.75rem'}
-          items={$localPresetStore.Folders}
-          bind:refreshLayout
-        >
+  {:then value}
+    {#if value.Folders.length > 0}
+      {#if $folderOrderFolder === 'fixed'}
+        <section class="contentAreaFixed">
           {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
             <Folder
               id={i}
@@ -88,33 +68,45 @@
               on:delFolder={deleteFolder}
             />
           {/each}
-        </Masonry>
-      </section>
+        </section>
+      {:else}
+        <section class="contentAreaFlexible">
+          <Masonry
+            reset
+            gridGap={'0.75rem'}
+            items={$localPresetStore.Folders}
+            bind:refreshLayout
+          >
+            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+              <Folder
+                id={i}
+                folderHeader={folderName}
+                folderBackground={customBackgroundColor}
+                on:delFolder={deleteFolder}
+              />
+            {/each}
+          </Masonry>
+        </section>
+      {/if}
+    {:else}
+      <Startup on:new={createFolder} on:default={loadPreset} />
     {/if}
-  {:else}
-    <Startup on:new={createFolder} on:default={loadPreset} />
-  {/if}
-{:catch error}
-  <p>
-    {#if $initialized}
+  {:catch error}
+    <p>
       {$t('page.shared.somethingWentWrong', {
         error: error.message,
       })}
-    {:else}
-      Locale initializing...
-    {/if}
-  </p>
-{/await}
+    </p>
+  {/await}
 
-<Fab
-  style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
-  color="secondary"
-  on:click={createFolder}
->
-  <Icon style="font-size:2rem;" class="material-icons">add</Icon>
-</Fab>
+  <Fab
+    style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+    color="secondary"
+    on:click={createFolder}
+  >
+    <Icon style="font-size:2rem;" class="material-icons">add</Icon>
+  </Fab>
 
-{#if $initialized}
   <ConfirmOverlay
     open={confirmDeleteFolderOpenOverlay}
     questionHeader={$t('page.memorandum.folder.deleteTitle')}
@@ -126,7 +118,7 @@
     on:close={() => (confirmDeleteFolderOpenOverlay = false)}
   />
 {:else}
-  Locale initializing...
+  <section>Locale initializing...</section>
 {/if}
 
 <style lang="scss">

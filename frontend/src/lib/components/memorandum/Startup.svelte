@@ -5,37 +5,33 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<section>
-  <button on:click={() => dispatch('new')}>
-    <img
-      id="firstFolderImg"
-      alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
-      src="/images/memorandum/white_new_folder.png"
-    />
-    <p>
-      {#if $initialized}
+{#if $initialized}
+  <section>
+    <button on:click={() => dispatch('new')}>
+      <img
+        id="firstFolderImg"
+        alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
+        src="/images/memorandum/white_new_folder.png"
+      />
+      <p>
         {$t('page.memorandum.startup.createEmptyFolder')}
-      {:else}
-        Locale initializing...
-      {/if}
-    </p>
-  </button>
+      </p>
+    </button>
 
-  <button on:click={() => dispatch('default')}>
-    <img
-      id="loadPresetImg"
-      alt={$t('page.memorandum.startup.loadPresetAlt')}
-      src="/images/memorandum/white_download_folder.png"
-    />
-    <p>
-      {#if $initialized}
+    <button on:click={() => dispatch('default')}>
+      <img
+        id="loadPresetImg"
+        alt={$t('page.memorandum.startup.loadPresetAlt')}
+        src="/images/memorandum/white_download_folder.png"
+      />
+      <p>
         {$t('page.memorandum.startup.loadPreset')}
-      {:else}
-        Locale initializing...
-      {/if}
-    </p>
-  </button>
-</section>
+      </p>
+    </button>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

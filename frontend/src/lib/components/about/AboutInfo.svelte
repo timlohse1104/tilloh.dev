@@ -2,8 +2,8 @@
   import { initialized, t } from '$lib/util/translations';
 </script>
 
-<section>
-  {#if $initialized}
+{#if $initialized}
+  <section>
     <p>
       <span class="capital-word">Moin</span>
       {$t('page.about.introduction')}
@@ -78,10 +78,10 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
     </p>
 
     <p>{$t('page.shared.madeByText')}</p>
-  {:else}
-    <h3>Locale initializing...</h3>
-  {/if}
-</section>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {

@@ -177,103 +177,93 @@
   };
 </script>
 
-<section
-  class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
-  style={`border: solid 0.1em ${folderBackgroundColor};`}
-  use:draggable={`{ "type": "folder", "folderId": "${id}" }`}
-  use:dropzone={{
-    onDrop(input, event) {
-      event.stopPropagation();
-      const { type, linkId, folderId } = JSON.parse(input);
+{#if $initialized}
+  <section
+    class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
+    style={`border: solid 0.1em ${folderBackgroundColor};`}
+    use:draggable={`{ "type": "folder", "folderId": "${id}" }`}
+    use:dropzone={{
+      onDrop(input, event) {
+        event.stopPropagation();
+        const { type, linkId, folderId } = JSON.parse(input);
 
-      if (type === 'folder') {
-        const dropInfo = { originFolderIndex: folderId };
-        dropFolder(event, dropInfo);
-      } else if (type === 'link') {
-        const dropInfo = {
-          originFolderIndex: folderId,
-          originLinkIndex: linkId,
-        };
-        dropLink(event, dropInfo);
-      }
-    },
-  }}
-  role="presentation"
->
-  <div
-    class="boxHeader"
-    style={folderBackgroundColor
-      ? `background-color: ${folderBackgroundColor}`
-      : 'var(--darkgrey80)'}
-    on:dblclick={showFolderOverlay}
+        if (type === 'folder') {
+          const dropInfo = { originFolderIndex: folderId };
+          dropFolder(event, dropInfo);
+        } else if (type === 'link') {
+          const dropInfo = {
+            originFolderIndex: folderId,
+            originLinkIndex: linkId,
+          };
+          dropLink(event, dropInfo);
+        }
+      },
+    }}
     role="presentation"
   >
-    <button on:click={openFolderLinks} class="folderHeaderButton">
-      {folderHeader}
+    <div
+      class="boxHeader"
+      style={folderBackgroundColor
+        ? `background-color: ${folderBackgroundColor}`
+        : 'var(--darkgrey80)'}
+      on:dblclick={showFolderOverlay}
+      role="presentation"
+    >
+      <button on:click={openFolderLinks} class="folderHeaderButton">
+        {folderHeader}
+      </button>
+    </div>
+
+    <button
+      class="boxDelBtn"
+      style={folderBackgroundColor
+        ? `background-color: ${folderBackgroundColor}`
+        : 'var(--darkgrey80)'}
+      on:click={() => dispatch('delFolder', id)}
+    >
+      -
     </button>
-  </div>
 
-  <button
-    class="boxDelBtn"
-    style={folderBackgroundColor
-      ? `background-color: ${folderBackgroundColor}`
-      : 'var(--darkgrey80)'}
-    on:click={() => dispatch('delFolder', id)}
-  >
-    -
-  </button>
-
-  <div class="boxContent">
-    {#await $localPresetStore}
-      <p>
-        {#if $initialized}
+    <div class="boxContent">
+      {#await $localPresetStore}
+        <p>
           {$t('page.memorandum.loadHyperlinksInfo')}
-        {:else}
-          Locale initializing...
+        </p>
+      {:then value}
+        {#if $localPresetStore?.Folders[id]?.links.length > 0}
+          {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
+            <Link
+              on:delLink={deleteLink}
+              on:editLink={showOverlay}
+              linkId={index}
+              folderId={id}
+              {linkName}
+              {linkUrl}
+              faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
+            />
+          {/each}
         {/if}
-      </p>
-    {:then value}
-      {#if $localPresetStore?.Folders[id]?.links.length > 0}
-        {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
-          <Link
-            on:delLink={deleteLink}
-            on:editLink={showOverlay}
-            linkId={index}
-            folderId={id}
-            {linkName}
-            {linkUrl}
-            faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}
-          />
-        {/each}
-      {/if}
-    {:catch error}
-      <p>
-        {#if $initialized}
+      {:catch error}
+        <p>
           {$t('page.memorandum.errorLoadingHyperlinks', {
             error: error.message,
           })}
-        {:else}
-          Locale initializing...
-        {/if}
-      </p>
-    {/await}
-  </div>
+        </p>
+      {/await}
+    </div>
 
-  <button
-    class="linkAddBtn"
-    style={folderBackgroundColor
-      ? `background-color: ${folderBackgroundColor}`
-      : 'var(--darkgrey80)'}
-    on:click={showOverlay}
-    >{#if $initialized}
+    <button
+      class="linkAddBtn"
+      style={folderBackgroundColor
+        ? `background-color: ${folderBackgroundColor}`
+        : 'var(--darkgrey80)'}
+      on:click={showOverlay}
+    >
       <span>{$t('page.memorandum.newLink')}</span>
-    {:else}
-      <span>Locale initializing...</span>
-    {/if}
-    <span>+</span>
-  </button>
 
-  {#if $initialized}
+      <span>+</span>
+    </button>
+
     <ConfirmOverlay
       open={confirmDeleteLinkOpenOverlay}
       questionHeader={$t('page.memorandum.link.deleteTitle')}
@@ -284,10 +274,10 @@
       yesAction={confirmDeleteLinkAction}
       on:close={() => (confirmDeleteLinkOpenOverlay = false)}
     />
-  {:else}
-    <span>Locale initializing...</span>
-  {/if}
-</section>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

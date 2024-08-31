@@ -80,109 +80,91 @@
   aria-describedby="large-scroll-content"
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
 >
-  <Title id="large-scroll-title">
-    {#if $initialized}
+  {#if $initialized}
+    <Title id="large-scroll-title">
       {$t('page.memorandum.presetOverlay.title')}
-    {:else}
-      Locale initializing...
-    {/if}
-    <p class="large-scroll-subtitle">
-      {#if $initialized}
+
+      <p class="large-scroll-subtitle">
         {$t('page.memorandum.presetOverlay.description')}
-      {:else}
-        Locale initializing...
-      {/if}
-    </p>
-  </Title>
+      </p>
+    </Title>
 
-  <Title
-    >{#if $initialized}
+    <Title>
       {$t('page.memorandum.presetOverlay.currentConfigTitle')}
-    {:else}
-      Locale initializing...
-    {/if}</Title
-  >
+    </Title>
 
-  <List dense>
-    <Item style="margin-left:calc(var(--default-padding)/2);">
-      <Graphic class="material-icons">folder</Graphic>
-      <Text
-        >{#if $initialized}
+    <List dense>
+      <Item style="margin-left:calc(var(--default-padding)/2);">
+        <Graphic class="material-icons">folder</Graphic>
+        <Text>
           {$t('page.memorandum.presetOverlay.folderAmount', {
             amount: folderAmount,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</Text
-      >
-    </Item>
-    <Item style="margin-left:calc(var(--default-padding)/2);">
-      <Graphic class="material-icons">link</Graphic>
-      <Text
-        >{#if $initialized}
+        </Text>
+      </Item>
+      <Item style="margin-left:calc(var(--default-padding)/2);">
+        <Graphic class="material-icons">link</Graphic>
+        <Text>
           {$t('page.memorandum.presetOverlay.linkAmount', {
             amount: linkAmount,
           })}
-        {:else}
-          Locale initializing...
-        {/if}</Text
-      >
-    </Item>
-  </List>
+        </Text>
+      </Item>
+    </List>
 
-  <DialogContent id="large-scroll-content">
-    <div>
-      <Accordion>
-        <Panel bind:open={detailOpen}>
-          <Header
-            >{#if $initialized}
+    <DialogContent id="large-scroll-content">
+      <div>
+        <Accordion>
+          <Panel bind:open={detailOpen}>
+            <Header>
               {$t('page.memorandum.presetOverlay.technicalInfoTitle')}
-            {:else}
-              Locale initializing...
-            {/if}
-            <IconButton slot="icon" toggle pressed={detailOpen}>
-              <Icon class="material-icons" on>expand_less</Icon>
-              <Icon class="material-icons">expand_more</Icon>
-            </IconButton>
-          </Header>
-          <Content
-            ><pre class="code-container">
-            <code class="language-json" bind:this={codeElement}
-                >{JSON.stringify($localPresetStore, null, 2)}</code
-              >
-          </pre></Content
-          >
-        </Panel>
-      </Accordion>
-    </div>
-  </DialogContent>
 
-  <DialogActions>
-    <Button
-      on:click={() => {
-        triggerFileSelect();
-        event.stopPropagation();
-      }}
-      variant="outlined"
-    >
-      <Icon class="material-icons">file_upload</Icon>
-      <Label>Import</Label>
-    </Button>
-    <Button on:click={triggerFileDownload} color="secondary" variant="outlined">
-      <Icon class="material-icons">file_download</Icon>
-      <Label>Export</Label>
-    </Button>
-  </DialogActions>
+              <IconButton slot="icon" toggle pressed={detailOpen}>
+                <Icon class="material-icons" on>expand_less</Icon>
+                <Icon class="material-icons">expand_more</Icon>
+              </IconButton>
+            </Header>
+            <Content
+              ><pre class="code-container">
+            <code class="language-json" bind:this={codeElement}
+                  >{JSON.stringify($localPresetStore, null, 2)}</code
+                >
+          </pre></Content
+            >
+          </Panel>
+        </Accordion>
+      </div>
+    </DialogContent>
+
+    <DialogActions>
+      <Button
+        on:click={() => {
+          triggerFileSelect();
+          event.stopPropagation();
+        }}
+        variant="outlined"
+      >
+        <Icon class="material-icons">file_upload</Icon>
+        <Label>Import</Label>
+      </Button>
+      <Button
+        on:click={triggerFileDownload}
+        color="secondary"
+        variant="outlined"
+      >
+        <Icon class="material-icons">file_download</Icon>
+        <Label>Export</Label>
+      </Button>
+    </DialogActions>
+  {:else}
+    <Title id="large-scroll-title">Locale initializing...</Title>
+  {/if}
 </Dialog>
 
 <Snackbar bind:this={presetUploadSnackbar}>
-  <Label
-    >{#if $initialized}
-      {$t('page.memorandum.presetOverlay.configImportedLabel')}
-    {:else}
-      Locale initializing...
-    {/if}</Label
-  >
+  <Label>
+    {$t('page.memorandum.presetOverlay.configImportedLabel')}
+  </Label>
   <Actions>
     <IconButton class="material-icons" title="Dismiss">close</IconButton>
   </Actions>

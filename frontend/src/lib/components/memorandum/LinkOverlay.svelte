@@ -92,124 +92,93 @@
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >
-  {#if type === 'new'}
-    <Title id="simple-title">
-      {#if $initialized}
+  {#if $initialized}
+    {#if type === 'new'}
+      <Title id="simple-title">
         {$t('page.memorandum.link.createTitle')}
-      {:else}
-        Locale initializing...
-      {/if}
-      <p class="subtitle">
-        {#if $initialized}
+        <p class="subtitle">
           {$t('page.memorandum.link.createInfo', {
             folderName: $linkOverlayOptionsStore.currentFolder,
           })}
-        {:else}
-          Locale initializing...
-        {/if}
-      </p>
-    </Title>
-  {:else}
-    <Title id="simple-title">
-      {#if $initialized}
+        </p>
+      </Title>
+    {:else}
+      <Title id="simple-title">
         {$t('page.memorandum.link.editTitle', { linkName: newLinkName })}
-      {:else}
-        Locale initializing...
-      {/if}
-      <p class="subtitle">
-        {#if $initialized}
+
+        <p class="subtitle">
           {$t('page.memorandum.link.editInfo', {
             linkName: newLinkName,
             folderName: $linkOverlayOptionsStore.currentFolder,
           })}
-        {:else}
-          Locale initializing...
-        {/if}
-      </p>
-    </Title>
-  {/if}
-  <Content id="simple-content">
-    <Textfield
-      variant="outlined"
-      bind:this={nameInput}
-      bind:value={newLinkName}
-      label="Name"
-      style="margin-top: 1rem; width: 100%"
-      on:keyup={(event) => {
-        if (isEnter(event)) {
-          type === 'new' ? addLink() : editLink();
-        }
-      }}
-    >
-      <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
-      <HelperText slot="helper"
-        >{#if $initialized}
-          {$t('page.memorandum.link.nameOfLink')}
-        {:else}
-          Locale initializing...
-        {/if}</HelperText
-      >
-    </Textfield>
-    <Textfield
-      variant="outlined"
-      bind:value={newLinkUrl}
-      label="URL"
-      style="margin-top: 1rem; width: 100%"
-      on:keyup={(event) => {
-        if (isEnter(event)) {
-          type === 'new' ? addLink() : editLink();
-        }
-      }}
-    >
-      <Icon class="material-icons" slot="leadingIcon">link</Icon>
-      <HelperText slot="helper"
-        >{#if $initialized}
-          {$t('page.memorandum.link.urlOfLink')}
-        {:else}
-          Locale initializing...
-        {/if}</HelperText
-      >
-    </Textfield>
-  </Content>
-  <Actions>
-    {#if type === 'edit'}
-      <Button on:click={duplicateLink}>
-        <Icon class="material-icons">content_copy</Icon>
-        <Label
-          >{#if $initialized}
-            {$t('page.shared.duplicate')}
-          {:else}
-            Locale initializing...
-          {/if}</Label
-        >
-      </Button>
+        </p>
+      </Title>
     {/if}
-    <Button on:click={closeOverlay}>
-      <Icon class="material-icons">link_off</Icon>
-      <Label
-        >{#if $initialized}
+    <Content id="simple-content">
+      <Textfield
+        variant="outlined"
+        bind:this={nameInput}
+        bind:value={newLinkName}
+        label="Name"
+        style="margin-top: 1rem; width: 100%"
+        on:keyup={(event) => {
+          if (isEnter(event)) {
+            type === 'new' ? addLink() : editLink();
+          }
+        }}
+      >
+        <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
+        <HelperText slot="helper">
+          {$t('page.memorandum.link.nameOfLink')}
+        </HelperText>
+      </Textfield>
+      <Textfield
+        variant="outlined"
+        bind:value={newLinkUrl}
+        label="URL"
+        style="margin-top: 1rem; width: 100%"
+        on:keyup={(event) => {
+          if (isEnter(event)) {
+            type === 'new' ? addLink() : editLink();
+          }
+        }}
+      >
+        <Icon class="material-icons" slot="leadingIcon">link</Icon>
+        <HelperText slot="helper">
+          {$t('page.memorandum.link.urlOfLink')}
+        </HelperText>
+      </Textfield>
+    </Content>
+    <Actions>
+      {#if type === 'edit'}
+        <Button on:click={duplicateLink}>
+          <Icon class="material-icons">content_copy</Icon>
+          <Label>
+            {$t('page.shared.duplicate')}
+          </Label>
+        </Button>
+      {/if}
+      <Button on:click={closeOverlay}>
+        <Icon class="material-icons">link_off</Icon>
+        <Label>
           {$t('page.shared.cancel')}
-        {:else}
-          Locale initializing...
-        {/if}</Label
+        </Label>
+      </Button>
+      <Button
+        bind:this={addLinkButton}
+        on:click={type === 'new' ? addLink : editLink}
       >
-    </Button>
-    <Button
-      bind:this={addLinkButton}
-      on:click={type === 'new' ? addLink : editLink}
-    >
-      <Icon class="material-icons"
-        >{type === 'new' ? 'bookmark_add' : 'save'}</Icon
-      >
-      <Label
-        >{#if $initialized}
+        <Icon class="material-icons"
+          >{type === 'new' ? 'bookmark_add' : 'save'}</Icon
+        >
+        <Label>
           {$t('page.shared.save')}
-        {:else}
-          Locale initializing...
-        {/if}</Label
-      >
-    </Button>
-  </Actions>
+        </Label>
+      </Button>
+    </Actions>
+  {:else}
+    <Title id="simple-title">>Locale initializing...</Title>
+  {/if}
 </Dialog>
 
 <svelte:window

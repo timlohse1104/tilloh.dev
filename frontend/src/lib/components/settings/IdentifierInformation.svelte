@@ -6,32 +6,20 @@
   import Icon from '@smui/textfield/icon';
 </script>
 
-<section>
-  <h2>
-    {#if $initialized}
+{#if $initialized}
+  <section>
+    <h2>
       {$t('page.settings.identifiers.title')}
-    {:else}
-      Locale initializing...
-    {/if}
-  </h2>
-  <p>
-    {#if $initialized}
+    </h2>
+    <p>
       {$t('page.settings.identifiers.description1')}
-    {:else}
-      Locale initializing...
-    {/if}
-  </p>
+    </p>
 
-  <p>
-    {#if $initialized}
+    <p>
       {$t('page.settings.identifiers.description2')}
-    {:else}
-      Locale initializing...
-    {/if}
-  </p>
+    </p>
 
-  <div class="infoBox">
-    {#if $initialized}
+    <div class="infoBox">
       <Textfield
         label={$t('page.settings.identifiers.personalId')}
         value={$sharedIdentifierStore.id}
@@ -39,16 +27,17 @@
         helperLine$style="width: 100%;"
         disabled
       ></Textfield>
-    {:else}
-      Locale initializing...
-    {/if}
 
-    <IconButton
-      on:click={() => navigator.clipboard.writeText($sharedIdentifierStore.id)}
-      ><Icon class="material-icons">content_copy</Icon></IconButton
-    >
-  </div>
-</section>
+      <IconButton
+        on:click={() =>
+          navigator.clipboard.writeText($sharedIdentifierStore.id)}
+        ><Icon class="material-icons">content_copy</Icon></IconButton
+      >
+    </div>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   .infoBox {

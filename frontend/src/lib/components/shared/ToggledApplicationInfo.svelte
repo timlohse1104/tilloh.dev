@@ -4,10 +4,10 @@
   import Icon from '@smui/textfield/icon';
 </script>
 
-<div class="toggled-application-info-outer">
-  <div class="toggled-application-info-inner">
-    <Icon class="material-icons toggled-application-icon">construction</Icon>
-    {#if $initialized}
+{#if $initialized}
+  <div class="toggled-application-info-outer">
+    <div class="toggled-application-info-inner">
+      <Icon class="material-icons toggled-application-icon">construction</Icon>
       <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
       <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
       <div class="back-button">
@@ -21,11 +21,11 @@
           <Label>{$t('page.shared.toggledSiteBackButtonText')}</Label>
         </Button>
       </div>
-    {:else}
-      <h3>Locale initializing...</h3>
-    {/if}
+    </div>
   </div>
-</div>
+{:else}
+  <div class="toggled-application-info-outer">Locale initializing...</div>
+{/if}
 
 <style lang="scss">
   .toggled-application-info-outer {
