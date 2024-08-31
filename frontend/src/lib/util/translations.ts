@@ -1,10 +1,6 @@
 import i18n, { type Config } from 'sveltekit-i18n';
 interface Params {
-  dateValue: number;
-  value: number;
-  download: number;
-  award: number;
-  val: Date;
+  error: any;
 }
 
 const config: Config<Partial<Params>> = {

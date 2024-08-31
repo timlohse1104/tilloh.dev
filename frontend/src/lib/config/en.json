@@ -19,6 +19,16 @@
       "toggledSiteHeadline": "This application has been temporarily disabled.",
       "toggledSiteTryAgainText": "Please try again later. ¯\\_(ツ)_/¯",
       "toggledSiteBackButtonText": "Back to home"
+    },
+    "memorandum": {
+      "orders": {
+        "fixed": "Static folder size",
+        "dynamic": "Dynamic folder size"
+      },
+      "doubleClickInfo": "Want to edit something? Try double-clicking.",
+      "loadHyperlinksInfo": "Loading saved hyperlinks...",
+      "errorLoadingHyperlinks": "Something went wrong loading saved hyperlinks: {{error}}",
+      "newLink": "New link"
     }
   }
 }

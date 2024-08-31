@@ -19,6 +19,16 @@
       "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
       "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
       "toggledSiteBackButtonText": "Zurück zur Startseite"
+    },
+    "memorandum": {
+      "orders": {
+        "fixed": "Statische Ordnergröße",
+        "dynamic": "Anpassbare Ordnergröße"
+      },
+      "doubleClickInfo": "Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.",
+      "loadHyperlinksInfo": "Lädt gespeicherte Hyperlinks...",
+      "errorLoadingHyperlinks": "Beim laden der Hyperlinks ist etwas schief gelaufen: {{error}}",
+      "newLink": "Neuer Link"
     }
   }
 }

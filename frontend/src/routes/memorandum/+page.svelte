@@ -14,6 +14,7 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
+  import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
@@ -24,15 +25,16 @@
   const orders: Order[] = [
     {
       id: 'fixed',
-      name: 'Feste Ordnergröße',
+      name: $t('page.memorandum.orders.fixed'),
       icon: 'border_all',
     },
     {
       id: 'flexible',
-      name: 'Anpassbare Ordnergröße',
+      name: $t('page.memorandum.orders.dynamic'),
       icon: 'expand',
     },
   ];
+
   let order = $folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
@@ -82,7 +84,11 @@
           <Icon class="material-icons">info</Icon>
         </IconButton>
         <Tooltip xPos="end" yPos="above"
-          >Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.</Tooltip
+          >{#if $initialized}
+            {$t('page.memorandum.doubleClickInfo')}
+          {:else}
+            Locale initializing...
+          {/if}</Tooltip
         >
       </Wrapper>
     </div>

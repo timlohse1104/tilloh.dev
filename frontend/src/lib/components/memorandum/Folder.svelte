@@ -7,6 +7,7 @@
     linkOverlayOptionsStore,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
@@ -224,7 +225,13 @@
 
   <div class="boxContent">
     {#await $localPresetStore}
-      <p>Lädt gespeicherte Hyperlinks...</p>
+      <p>
+        {#if $initialized}
+          {$t('page.memorandum.loadHyperlinksInfo')}
+        {:else}
+          Locale initializing...
+        {/if}
+      </p>
     {:then value}
       {#if $localPresetStore?.Folders[id]?.links.length > 0}
         {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
@@ -241,7 +248,13 @@
       {/if}
     {:catch error}
       <p>
-        Beim laden der Hyperlinks ist etwas schief gelaufen: {error.message}
+        {#if $initialized}
+          {$t('page.memorandum.errorLoadingHyperlinks', {
+            error: error.message,
+          })}
+        {:else}
+          Locale initializing...
+        {/if}
       </p>
     {/await}
   </div>
@@ -252,8 +265,11 @@
       ? `background-color: ${folderBackgroundColor}`
       : 'var(--darkgrey80)'}
     on:click={showOverlay}
-  >
-    <span>Neuer Link</span>
+    >{#if $initialized}
+      <span>{$t('page.memorandum.newLink')}</span>
+    {:else}
+      Locale initializing...
+    {/if}
     <span>+</span>
   </button>
 
