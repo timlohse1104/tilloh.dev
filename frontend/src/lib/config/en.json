@@ -11,7 +11,10 @@
       "weirdJsText2": "or",
       "weirdJsButtonText": "like this",
       "usefulWorkText1": "I also do useful things for",
-      "usefulWorkText2": "at work. I promise! 🤡",
+      "usefulWorkText2": "at work. I promise! 🤡"
+    },
+    "shared": {
+      "headline": "Applications",
       "madeByText": "Made by Tilloh with 💙"
     }
   }

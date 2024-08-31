@@ -77,7 +77,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
       {$t('page.about.usefulWorkText2')}
     </p>
 
-    <p>{$t('page.about.madeByText')}</p>
+    <p>{$t('page.shared.madeByText')}</p>
   {:else}
     <h3>Locale initializing...</h3>
   {/if}
