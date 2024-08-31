@@ -2,6 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
+  import { initialized, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
@@ -49,16 +50,17 @@
 </svelte:head>
 
 {#if catchEmAllRoute.toggle}
-  <canvas id="gameScreen"></canvas>
+  {#if $initialized}
+    <canvas id="gameScreen"></canvas>
 
-  <div class="mobileMessage">
-    <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
-    <h1>Oh nein...</h1>
-    <h2>
-      Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen
-      optimiert.
-    </h2>
-  </div>
+    <div class="mobileMessage">
+      <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
+      <h1>{$t('page.catchEmAll.mobileMessageTitle')}</h1>
+      <h2>{$t('page.catchEmAll.mobileMessage')}</h2>
+    </div>
+  {:else}
+    Locale initializing...
+  {/if}
 {:else}
   <ToggledApplicationInfo />
 {/if}

@@ -130,6 +130,10 @@
       "stack": "Stapel",
       "playerHand": "Spielerhand"
     },
+    "catchEmAll": {
+      "mobileMessageTitle": "Oh nein...",
+      "mobileMessage": "Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen optimiert. Bitte benutze einen Desktop Browser um Catch-Em-All zu spielen."
+    },
     "shared": {
       "headline": "Anwendungen",
       "madeByText": "Entwickelt von Tilloh mit 💙",
