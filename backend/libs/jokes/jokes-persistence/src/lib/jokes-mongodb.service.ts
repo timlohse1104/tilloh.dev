@@ -45,6 +45,8 @@ export class JokesMongoDbService {
       }
 
       joke = jokes.reverse()[0];
+    } else {
+      joke = jokeFromYesterday;
     }
 
     if (!joke) {
