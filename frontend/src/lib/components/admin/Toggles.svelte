@@ -5,6 +5,7 @@
     type KeystoreKeyDto,
   } from '$lib/types/keystore.dto';
   import { isEnter } from '$lib/util/helper';
+  import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
     Graphic,
@@ -70,49 +71,56 @@
   const isToggleActive = (toggle: KeystoreKeyDto) => toggle.value === 'true';
 </script>
 
-<section class="admin-sections">
-  <div class="admin-sections-headline">
-    <h2>Toggles</h2>
-    <Textfield
-      style="margin-left:2rem;width: 100%;"
-      bind:value={newToogleName}
-      label="Neuer Toggle"
-      on:keyup={(event) => {
-        if (isEnter(event)) addToggle();
-      }}
-    >
-      <IconButton
-        class="material-icons"
-        style="position:absolute;right:0;"
-        on:click={() => addToggle()}
+{#if $initialized}
+  <section class="admin-sections">
+    <div class="admin-sections-headline">
+      <h2>Toggles</h2>
+      <Textfield
+        style="margin-left:2rem;width: 100%;"
+        bind:value={newToogleName}
+        label={$t('page.admin.newToggle')}
+        on:keyup={(event) => {
+          if (isEnter(event)) addToggle();
+        }}
       >
-        add
-      </IconButton>
-    </Textfield>
-  </div>
-  <List threeLine avatarList singleSelection>
-    {#each toggles as toggle, i}
-      <Item class="admin-list-items">
-        <Graphic class="material-icons admin-list-items-icon">toggle_on</Graphic
-        >
-        <Text class="admin-list-items-text">
-          <PrimaryText>{toggle.key}</PrimaryText>
-          <SecondaryText>🆔{toggle._id}</SecondaryText>
-          <SecondaryText
-            >🔧{new Date(toggle.updated).toLocaleString('de-DE')}</SecondaryText
-          >
-        </Text>
-
-        <Switch
-          on:click={() => switchToggle(toggle._id)}
-          checked={isToggleActive(toggle)}
-        />
         <IconButton
-          class="material-icons admin-list-items-button"
-          on:click={() => dispatch('removeToggle', { id: toggle._id })}
-          >delete</IconButton
+          class="material-icons"
+          style="position:absolute;right:0;"
+          on:click={() => addToggle()}
         >
-      </Item>
-    {/each}
-  </List>
-</section>
+          add
+        </IconButton>
+      </Textfield>
+    </div>
+    <List threeLine avatarList singleSelection>
+      {#each toggles as toggle, i}
+        <Item class="admin-list-items">
+          <Graphic class="material-icons admin-list-items-icon"
+            >toggle_on</Graphic
+          >
+          <Text class="admin-list-items-text">
+            <PrimaryText>{toggle.key}</PrimaryText>
+            <SecondaryText>🆔{toggle._id}</SecondaryText>
+            <SecondaryText
+              >🔧{new Date(toggle.updated).toLocaleString(
+                'de-DE',
+              )}</SecondaryText
+            >
+          </Text>
+
+          <Switch
+            on:click={() => switchToggle(toggle._id)}
+            checked={isToggleActive(toggle)}
+          />
+          <IconButton
+            class="material-icons admin-list-items-button"
+            on:click={() => dispatch('removeToggle', { id: toggle._id })}
+            >delete</IconButton
+          >
+        </Item>
+      {/each}
+    </List>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}

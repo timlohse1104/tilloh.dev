@@ -159,6 +159,9 @@
         "enter": "Enter - Restart game"
       }
     },
+    "admin": {
+      "newToggle": "New toggle"
+    },
     "shared": {
       "headline": "Applications",
       "madeByText": "Made by Tilloh with 💙",

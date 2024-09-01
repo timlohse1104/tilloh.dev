@@ -159,6 +159,9 @@
         "enter": "Enter - Spiel neustarten"
       }
     },
+    "admin": {
+      "newToggle": "Neuer Toggle"
+    },
     "shared": {
       "headline": "Anwendungen",
       "madeByText": "Entwickelt von Tilloh mit 💙",
