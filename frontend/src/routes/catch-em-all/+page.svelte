@@ -2,6 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
+  import { initialized, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
@@ -19,7 +20,31 @@
     gameCanvas.setAttribute('height', GAME_HEIGHT);
 
     // init game
-    let game = new Game(GAME_WIDTH, GAME_HEIGHT);
+    let game = new Game(GAME_WIDTH, GAME_HEIGHT, {
+      newGameQuestion: $t('page.catchEmAll.newGameQuestion'),
+      pressSpacebar: $t('page.catchEmAll.pressSpacebar'),
+      paused: $t('page.catchEmAll.paused'),
+      stage: $t('page.catchEmAll.stage'),
+      currentRound: $t('page.catchEmAll.currentRound'),
+      caught: $t('page.catchEmAll.caught'),
+      ballsThrown: $t('page.catchEmAll.ballsThrown'),
+      lifesLeft: $t('page.catchEmAll.lifesLeft'),
+      timesThrown: $t('page.catchEmAll.timesThrown'),
+      lost: $t('page.catchEmAll.lost'),
+      pressEnter: $t('page.catchEmAll.pressEnter'),
+      statistics: $t('page.catchEmAll.statistics'),
+      won: $t('page.catchEmAll.won'),
+      localHighscore: $t('page.catchEmAll.localHighscore'),
+      noHighscore: $t('page.catchEmAll.noHighscore'),
+      startFirstGame: $t('page.catchEmAll.startFirstGame'),
+      controlsTitle: $t('page.catchEmAll.controls.title'),
+      controlsSpace: $t('page.catchEmAll.controls.space'),
+      controlsUp: $t('page.catchEmAll.controls.up'),
+      controlsLeft: $t('page.catchEmAll.controls.left'),
+      controlsRight: $t('page.catchEmAll.controls.right'),
+      controlsEsc: $t('page.catchEmAll.controls.esc'),
+      controlsEnter: $t('page.catchEmAll.controls.enter'),
+    });
 
     let lastTime = 0;
 
@@ -49,16 +74,17 @@
 </svelte:head>
 
 {#if catchEmAllRoute.toggle}
-  <canvas id="gameScreen"></canvas>
+  {#if $initialized}
+    <canvas id="gameScreen"></canvas>
 
-  <div class="mobileMessage">
-    <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
-    <h1>Oh nein...</h1>
-    <h2>
-      Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen
-      optimiert.
-    </h2>
-  </div>
+    <div class="mobileMessage">
+      <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
+      <h1>{$t('page.catchEmAll.mobileMessageTitle')}</h1>
+      <h2>{$t('page.catchEmAll.mobileMessage')}</h2>
+    </div>
+  {:else}
+    Locale initializing...
+  {/if}
 {:else}
   <ToggledApplicationInfo />
 {/if}

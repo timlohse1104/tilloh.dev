@@ -1,28 +1,37 @@
 <script>
+  import { initialized, t } from '$lib/util/translations';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 </script>
 
-<section>
-  <button on:click={() => dispatch('new')}>
-    <img
-      id="firstFolderImg"
-      alt="Klicke um einen leeren Ordner zu erstellen"
-      src="/images/memorandum/white_new_folder.png"
-    />
-    <p>Erstelle einen leeren Ordner</p>
-  </button>
+{#if $initialized}
+  <section>
+    <button on:click={() => dispatch('new')}>
+      <img
+        id="firstFolderImg"
+        alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
+        src="/images/memorandum/white_new_folder.png"
+      />
+      <p>
+        {$t('page.memorandum.startup.createEmptyFolder')}
+      </p>
+    </button>
 
-  <button on:click={() => dispatch('default')}>
-    <img
-      id="loadPresetImg"
-      alt="Klicke um einen Ordner mit vorgefertigten Links zu erstellen"
-      src="/images/memorandum/white_download_folder.png"
-    />
-    <p>Lade ein Beispiel</p>
-  </button>
-</section>
+    <button on:click={() => dispatch('default')}>
+      <img
+        id="loadPresetImg"
+        alt={$t('page.memorandum.startup.loadPresetAlt')}
+        src="/images/memorandum/white_download_folder.png"
+      />
+      <p>
+        {$t('page.memorandum.startup.loadPreset')}
+      </p>
+    </button>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

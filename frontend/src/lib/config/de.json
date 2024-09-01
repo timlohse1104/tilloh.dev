@@ -1,0 +1,230 @@
+{
+  "page": {
+    "home": {
+      "jokeTitle": "Witz des Tages",
+      "jokeLoading": "Lädt Witz des Tages...",
+      "searchPlaceholder": "Suche"
+    },
+    "about": {
+      "introduction": "mein Name ist Tim, Softwareentwickler aus Norddeutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
+      "weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus <a href=\"https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js\">wie das</a>",
+      "weirdJsText2": "oder <a href=\"https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js\">wie das</a>",
+      "usefulWorkText": "Ich entwickle auch nützliche Dinge für <a href=\"https://deskbox-office.de\">desk.box</a> während der Arbeit. Versprochen! 🤡"
+    },
+    "memorandum": {
+      "orders": {
+        "fixed": "Statische Ordnergröße",
+        "dynamic": "Anpassbare Ordnergröße"
+      },
+      "doubleClickInfo": "Willst du was bearbeiten? Versuchs doch mal mit einem Doppelklick.",
+      "loadHyperlinksInfo": "Lädt gespeicherte Hyperlinks...",
+      "errorLoadingHyperlinks": "Beim laden der Hyperlinks ist etwas schief gelaufen: {{error}}",
+      "newLink": "Neuer Link",
+      "loadingLocalPreset": "Lädt lokale Voreinstellungen...",
+      "newFolderHeader": "Neuer Ordner",
+      "folder": {
+        "deleteTitle": "Ordner löschen",
+        "deleteQuestion": "Möchtest du diesen Ordner wirklich löschen?",
+        "copiedName": "(Kopie) {{folderName}}",
+        "editTitle": "Bearbeite den Ordner: {{folderName}}",
+        "nameOfFolderHelptext": "Name des Ordners",
+        "setBackgroundColorQuestion": "Hintergrundfarbe des Ordners ändern?",
+        "currentValues": "Aktuelle Werte",
+        "newValues": "Neue Werte",
+        "copiedColorValues": "Farbwerte kopiert."
+      },
+      "link": {
+        "deleteTitle": "Link löschen",
+        "deleteQuestion": "Möchtest du diesen Link wirklich löschen?",
+        "createTitle": "Erstelle einen Link",
+        "createInfo": "Lege hier einen neuen Link im Ordner '{{folderName}}' an. Füge hierzu den Namen und die URL des Links ein.",
+        "nameOfLink": "Name des Links",
+        "urlOfLink": "URL des Links",
+        "editTitle": "Bearbeite den Link: {{linkName}}",
+        "editInfo": "Bearbeite den Link '{{linkName}}' im Ordner '{{folderName}}'."
+      },
+      "presetOverlay": {
+        "title": "Einstellung der Link und Ordner Konfiguration",
+        "description": "Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf einem beliebigen Gerät weiter zu verwenden.",
+        "currentConfigTitle": "Das ist deine aktuelle Konfiguration",
+        "folderAmount": "{{amount}} Ordner",
+        "linkAmount": "{{amount}} Links",
+        "technicalInfoTitle": "Technische Daten",
+        "configImportedLabel": "Konfiguration erfolgreich importiert."
+      },
+      "startup": {
+        "createEmptyFolder": "Erstelle einen leeren Ordner",
+        "createEmptyFolderAlt": "Klicke um einen leeren Ordner zu erstellen",
+        "loadPreset": "Lade eine Voreinstellung",
+        "loadPresetAlt": "Klicke um einen Ordner mit vorgefertigten Links zu erstellen"
+      }
+    },
+    "settings": {
+      "identifiers": {
+        "title": "Deine Informationen",
+        "description1": "Hier findest du deine persönliche ID. Um auf deine Zwischenstände von anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem anderen Gerät eintragen.",
+        "description2": "Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an andere weitergeben, können diese Personen deine Zwischenstände verändern!",
+        "personalId": "Deine persönliche ID"
+      },
+      "onlinePersistence": {
+        "snackbarIdentifierCreated": "Neue Verbindung für den Namen '{{identifierName}}' erzeugt.",
+        "snackbarNoIdentifierFound": "Keine Verbindung mit der ID '{{identifier}}' gefunden.",
+        "snackbarLoadedIdentifier": "Verbindung mit der ID: '{{identifier}}' geladen.",
+        "title": "Online Zwischenstände",
+        "description1": "Diese Website enthält einige Funktionen, die es dir erlauben, Zwischenstände zu speichern. Im Memorandum kannst du deine angelegten Ordner und Links und in Catch-Em-All deinen Highscore sichern. Sobald du dir hier eine Verbindung angelegt hast, kannst du von jedem anderen Gerät darauf zugreifen. Ist die Verbindung aktiv siehst du auf jeder tilloh.dev Seite in der Kopfzeile 'online 🌐' unter dem Namen der Anwendung.",
+        "description2": "Kopiere hierzu einfach deine persönliche ID aus dem Bereich",
+        "description3": "und füge sie im Bereich",
+        "description4": "auf einem anderen Gerät ein. Deine Daten werden dann synchronisiert.",
+        "activateOnlinePersistenceQuestion": "Zwischenstände auf dem Server speichern?",
+        "connectionData": "Deine Verbindungsdaten",
+        "establishNewConection": "Neue Verbindung einrichten",
+        "editConnection": "Verbindung bearbeiten",
+        "editConnectionDescription": "Hier kannst du deinen Namen für die Online-Speicherung festlegen oder ändern.",
+        "yourName": "Dein Name",
+        "yourCurrentName": "Dein aktueller Name",
+        "yourNameQuestion": "Wie lautet dein Name?",
+        "yourNewNameQuestion": "Wie lautet dein neuer Name?",
+        "loadConnection": "Verbindungsdaten laden",
+        "loadConnectionDescription": "Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine Zwischenstände zu synchronisieren.",
+        "yourId": "Deine ID",
+        "personalIdQuestion": "Wie lautet deine persönliche ID?"
+      }
+    },
+    "todos": {
+      "sideMenu": {
+        "title": "Deine Listen",
+        "description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier. 📝",
+        "persistenceInfo": "Erstellte Listen werden im Browser auf deinem Gerät gespeichert. Bald wird auch hier eine Möglichkeit vorhanden sein, Listen online zu speichern und mit anderen zu teilen und live zu bearbeiten!",
+        "emptyInfo": "Keine Listen vorhanden.",
+        "createNewList": "Neue Liste erstellen"
+      },
+      "overlay": {
+        "createTitle": "Liste erstellen",
+        "createSubtitle": "Lege hier eine neue Aufgabenliste an.",
+        "editTitle": "Liste bearbeiten",
+        "editSubtitle": "Bearbeite hier die Liste '{{listName}}'.",
+        "listName": "Name der Liste",
+        "listEmoji": "Emoji für die Liste",
+        "listEmojiDescription": "Vergibst du kein Emoji erhältst du 📝",
+        "emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden."
+      },
+      "list": {
+        "noEmoji": "Kein Emoji vorhanden...",
+        "noListTitle": "Kein Listentitel vorhanden...",
+        "history": "Verlauf",
+        "historyEmpty": "Kein Verlauf vorhanden...",
+        "emptyTitle1": "Wahle eine",
+        "emptyTitle2": "Liste aus.",
+        "emptySubtitle": "Klicke oben rechts auf den Menü-Button."
+      },
+      "newTodo": "Neuer Eintrag"
+    },
+    "unoSort": {
+      "title": "Sortierungsregeln",
+      "rules": "1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe mit den geringsten Karten ist ganz links.<br/>2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend sortiert.<br/>3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit sortiert.<br/>4. Schwarze Karten werden immer ganz rechts gehalten.",
+      "card": "Karte",
+      "cards": "Karten",
+      "draw": "Ziehen",
+      "stack": "Stapel",
+      "playerHand": "Spielerhand"
+    },
+    "catchEmAll": {
+      "mobileMessageTitle": "Oh nein...",
+      "mobileMessage": "Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen optimiert. Bitte benutze einen Desktop Browser um Catch-Em-All zu spielen.",
+      "newGameQuestion": "Neues Spiel starten?",
+      "pressSpacebar": "LEERTASTE drücken",
+      "paused": "Pausiert",
+      "stage": "Stufe",
+      "currentRound": "Aktuelle Runde",
+      "caught": "Pokémon gefangen",
+      "ballsThrown": "Pokébälle geworfen",
+      "lifesLeft": "Leben übrig",
+      "timesThrown": "mal geworfen",
+      "lost": "Du hast verloren!",
+      "pressEnter": "ENTER drücken",
+      "statistics": "Statistik",
+      "won": "Du hast gewonnen!",
+      "localHighscore": "Dein lokaler Highscore",
+      "noHighscore": "Noch kein Highscore vorhanden",
+      "startFirstGame": "Beginne jetzt dein erstes Spiel!",
+      "controls": {
+        "title": "Steuerung",
+        "space": "Leertaste - Spiel starten",
+        "up": "Hoch - Ball werfen",
+        "left": "Links - Trainer nach links schicken",
+        "right": "Rechts - Trainer nach rechts schicken",
+        "esc": "ESC - Spiel pausieren / fortsetzen",
+        "enter": "Enter - Spiel neustarten"
+      }
+    },
+    "admin": {
+      "verificationError": "Admin ID konnte nicht verifiziert werden.",
+      "dashboard": {
+        "title": "Überblick",
+        "tillohApiDescription": "tilloh.dev API status",
+        "mongoDbDescription": "MongoDB Status",
+        "witzApiDescription": "Witz API Status",
+        "identifiersDescription": "Anzahl erzeugter Identifier in DB",
+        "presetsDescription": "Anzahl Link Voreinstellungen in DB",
+        "foldersDescription": "Anzahl Ordner in DB",
+        "duplicateFoldersDescription": "Ordner mit gleichem Namen",
+        "linksDescription": "Anzahl Links in DB",
+        "duplicateLinksDescription": "Links mit gleichem Namen",
+        "jokesDescription": "Anzahl Witze in DB",
+        "duplicateJokesDescription": "Witze mit gleichem Inhalt",
+        "chatsDescription": "Anzahl von Chats in DB"
+      },
+      "toggles": {
+        "title": "Schalter",
+        "newToggle": "Neuer Schalter",
+        "deleteTitle": "Schalter löschen",
+        "deleteQuestion": "Möchtest du diesen Schalter wirklich löschen?"
+      },
+      "linkPresets": {
+        "title": "Link Voreinstellungen",
+        "deleteTitle": "Link Voreinstellung löschen",
+        "deleteQuestion": "Möchtest du diese Link Voreinstellung wirklich löschen?"
+      },
+      "jokes": {
+        "title": "Witze",
+        "deleteTitle": "Witz löschen",
+        "deleteQuestion": "Möchtest du diesen Witz wirklich löschen?"
+      },
+      "identifiers": {
+        "title": "Identifikatoren",
+        "deleteTitle": "Identifikator löschen",
+        "deleteQuestion": "Möchtest du diesen Identifikator wirklich löschen?"
+      },
+      "activities": {
+        "title": "Aktivitäten",
+        "keyActivity": "Schlüssel '{{keyName}}' wurde",
+        "identifierActivity": "Identifikator '{{identifierName}}' wurde",
+        "jokeActivity": "Witz '{{joke}}' wurde",
+        "created": "erstellt",
+        "updated": "aktualisiert"
+      }
+    },
+    "shared": {
+      "headline": "Anwendungen",
+      "madeByText": "Entwickelt von Tilloh mit 💙",
+      "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
+      "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
+      "toggledSiteBackButtonText": "Zurück zur Startseite",
+      "somethingWentWrong": "Etwas ist schief gelaufen: {{error}}",
+      "yes": "Ja",
+      "no": "Nein",
+      "abort": "Abbruch",
+      "close": "Schließen",
+      "save": "Speichern",
+      "duplicate": "Duplizieren",
+      "delete": "Löschen",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
+      "append": "Hinzufügen",
+      "red": "Rot",
+      "green": "Grün",
+      "blue": "Blau",
+      "reset": "Zurücksetzen"
+    }
+  }
+}

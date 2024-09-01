@@ -1,0 +1,230 @@
+{
+  "page": {
+    "home": {
+      "jokeTitle": "Joke of the day",
+      "jokeLoading": "Loading joke of the day...",
+      "searchPlaceholder": "Search"
+    },
+    "about": {
+      "introduction": "my name is Tim, a software developer from northern Germany. I started working in a tax office, broke up dual studies as a sales man and found true passion in programming and especially web / infrastructure development @otto and @stadtwerk gefunden.",
+      "weirdJsText1": "I like to try out new and weird things <a href=\"https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js\">like this</a>",
+      "weirdJsText2": "or <a href=\"https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js\">like this</a>",
+      "usefulWorkText": "I also do useful things for <a href=\"https://deskbox-office.de\">desk.box</a> at work. I promise! 🤡"
+    },
+    "memorandum": {
+      "orders": {
+        "fixed": "Static folder size",
+        "dynamic": "Dynamic folder size"
+      },
+      "doubleClickInfo": "Want to edit something? Try double-clicking.",
+      "loadHyperlinksInfo": "Loading saved hyperlinks...",
+      "errorLoadingHyperlinks": "Something went wrong loading saved hyperlinks: {{error}}",
+      "newLink": "New link",
+      "loadingLocalPreset": "Loading local presets...",
+      "newFolderHeader": "New folder",
+      "folder": {
+        "deleteTitle": "Delete folder",
+        "deleteQuestion": "Do you really want to delete this folder?",
+        "copiedName": "(Copy) {{folderName}}",
+        "editTitle": "Edit folder: '{{folderName}}'",
+        "nameOfFolderHelptext": "Name of folder",
+        "setBackgroundColorQuestion": "Want to change the folder background color?",
+        "currentValues": "Current values",
+        "newValues": "New values",
+        "copiedColorValues": "Color values copied."
+      },
+      "link": {
+        "deleteTitle": "Delete link",
+        "deleteQuestion": "Do you really want to delete this link?",
+        "createTitle": "Create a link",
+        "createInfo": "Create a new link in the folder '{{folderName}}'. Enter the name and URL of the link here.",
+        "nameOfLink": "Name of link",
+        "urlOfLink": "URL of link",
+        "editTitle": "Edit link: {{linkName}}",
+        "editInfo": "Edit the link '{{linkName}}' in the folder '{{folderName}}'."
+      },
+      "presetOverlay": {
+        "title": "Setting the link and folder configuration",
+        "description": "Here you can configure the links and folders. You can also import and export the configuration.",
+        "currentConfigTitle": "This is your current configuration",
+        "folderAmount": "{{amount}} folders",
+        "linkAmount": "{{amount}} links",
+        "technicalInfoTitle": "Technical data",
+        "configImportedLabel": "Configuration successfully imported."
+      },
+      "startup": {
+        "createEmptyFolder": "Create an empty folder",
+        "createEmptyFolderAlt": "Click to create an empty folder",
+        "loadPreset": "Load a preset",
+        "loadPresetAlt": "Click to create a folder with prefabricated links"
+      }
+    },
+    "settings": {
+      "identifiers": {
+        "title": "Your information",
+        "description1": "Here you will find your personal ID. To be able to access your interim results from other devices, you must copy this ID and enter it on the other device.",
+        "description2": "Please note that this ID is only intended for you. If you pass it on to others, they can change your intermediate scores!",
+        "personalId": "Your personal ID"
+      },
+      "onlinePersistence": {
+        "snackbarIdentifierCreated": "New connection for the name '{{identifierName}}' created.",
+        "snackbarNoIdentifierFound": "No connection found for the name '{{identifierName}}'.",
+        "snackbarLoadedIdentifier": "Connection with the ID: '{{identifier}}' loaded.",
+        "title": "Online persistence",
+        "description1": "This website contains several functions that allow you to save intermediate scores. You can save your created folders and links in Memorandum and your high score in Catch-Em-All. As soon as you have created a connection here, you can access it from any other device. If the connection is active, you will see 'online 🌐' under the name of the application in the header of every tilloh.dev page.",
+        "description2": "Simply copy your personal ID from the",
+        "description3": "and add them to the",
+        "description4": "on another device. Your data will then be synchronized.",
+        "activateOnlinePersistenceQuestion": "Save intermediate scores on the server?",
+        "connectionData": "Your connection data",
+        "establishNewConection": "Set up a new connection",
+        "editConnection": "Edit connection",
+        "editConnectionDescription": "Here you can set or change your name for online persistence of intermediate results.",
+        "yourName": "Your name",
+        "yourCurrentName": "Your current name",
+        "yourNameQuestion": "What is your name?",
+        "yourNewNameQuestion": "What is your new name?",
+        "loadConnection": "Load connection data",
+        "loadConnectionDescription": "Copy your ID and paste it on another device to synchronize your intermediate statuses.",
+        "yourId": "Your personal ID",
+        "personalIdQuestion": "What is your personal ID?"
+      }
+    },
+    "todos": {
+      "sideMenu": {
+        "title": "Your lists",
+        "description": "Shopping, tasks and much more. Create your own lists and manage your todos. 📝",
+        "persistenceInfo": "Created lists are saved in the browser on your device. Soon there will also be an option to save lists online and share them with others and edit them live!",
+        "emptyInfo": "You have no lists yet.",
+        "createNewList": "Create a new list"
+      },
+      "overlay": {
+        "createTitle": "Create list",
+        "createSubtitle": "Create a new to-do list here.",
+        "editTitle": "Edit list",
+        "editSubtitle": "Edit the to-do list '{{listName}}' here.",
+        "listName": "Name of list",
+        "listEmoji": "Emoji for the list",
+        "listEmojiDescription": "If you don't assign an emoji, you will receive 📝",
+        "emojiTooltip": "Emojis can be found here https://emojipedia.org/ and here https://emojifinder.com/."
+      },
+      "list": {
+        "noEmoji": "No emoji set...",
+        "noListTitle": "No list title found...",
+        "history": "History",
+        "historyEmpty": "No history available...",
+        "emptyTitle1": "Choose a",
+        "emptyTitle2": "list to start",
+        "emptySubtitle": "Click the menu button in the top right corner."
+      },
+      "newTodo": "New entry"
+    },
+    "unoSort": {
+      "title": "Sorting rules",
+      "rules": "1. color cards are sorted according to the number in your hand, the color with the fewest cards is on the far left.<br/>2. color cards are sorted in ascending order within the color according to their value.<br/>3. colors with the same number of cards are sorted according to their total value.<br/>4. black cards are always held on the far right.",
+      "card": "Card",
+      "cards": "Cards",
+      "draw": "Draw",
+      "stack": "Stack",
+      "playerHand": "Player hand"
+    },
+    "catchEmAll": {
+      "mobileMessageTitle": "Oh no...",
+      "mobileMessage": "This application is not optimized for mobile devices. Please use a desktop browser to play Catch-Em-All.",
+      "newGameQuestion": "Start a new game?",
+      "pressSpacebar": "Press SPACEBAR",
+      "paused": "Paused",
+      "stage": "Stage",
+      "currentRound": "Current round",
+      "caught": "Pokémon caught",
+      "ballsThrown": "Pokéballs thrown",
+      "lifesLeft": "Lifes left",
+      "timesThrown": "-times thrown",
+      "lost": "You lost!",
+      "pressEnter": "Press ENTER",
+      "statistics": "Statistics",
+      "won": "You won!",
+      "localHighscore": "Your local highscore",
+      "noHighscore": "No highscore available yet",
+      "startFirstGame": "Start your first game now!",
+      "controls": {
+        "title": "Controls",
+        "space": "Spacebar - Start game",
+        "up": "Up - Throw ball",
+        "left": "Left - Move trainer to the left",
+        "right": "Right - Move trainer to the right",
+        "esc": "ESC - Pause / resume game",
+        "enter": "Enter - Restart game"
+      }
+    },
+    "admin": {
+      "verificationError": "Admin ID could not be verified.",
+      "dashboard": {
+        "title": "Dashboard",
+        "tillohApiDescription": "tilloh.dev API status",
+        "mongoDbDescription": "MongoDB status",
+        "witzApiDescription": "Witz API status",
+        "identifiersDescription": "People using online storage",
+        "presetsDescription": "Saved memorandum presets",
+        "foldersDescription": "Saved memorandum folders",
+        "duplicateFoldersDescription": "Folders with same content",
+        "linksDescription": "Saved memorandum links",
+        "duplicateLinksDescription": "Links with same content",
+        "jokesDescription": "Displayed daily jokes",
+        "duplicateJokesDescription": "Jokes with same content",
+        "chatsDescription": "Saved chats"
+      },
+      "toggles": {
+        "title": "Toggles",
+        "newToggle": "New toggle",
+        "deleteTitle": "Delete toggle",
+        "deleteQuestion": "Do you really want to delete this toggle?"
+      },
+      "linkPresets": {
+        "title": "Link Presets",
+        "deleteTitle": "Delete link preset",
+        "deleteQuestion": "Do you really want to delete this link preset?"
+      },
+      "jokes": {
+        "title": "Jokes",
+        "deleteTitle": "Delete joke",
+        "deleteQuestion": "Do you really want to delete this joke?"
+      },
+      "identifiers": {
+        "title": "Identifiers",
+        "deleteTitle": "Delete identifier",
+        "deleteQuestion": "Do you really want to delete this identifier?"
+      },
+      "activities": {
+        "title": "Aktivities",
+        "keyActivity": "Key '{{key}}' got",
+        "identifierActivity": "Identifier '{{name}}' got",
+        "jokeActivity": "Joke '{{joke}}' got",
+        "created": "created",
+        "updated": "updated"
+      }
+    },
+    "shared": {
+      "headline": "Applications",
+      "madeByText": "Made by Tilloh with 💙",
+      "toggledSiteHeadline": "This application has been temporarily disabled.",
+      "toggledSiteTryAgainText": "Please try again later. ¯\\_(ツ)_/¯",
+      "toggledSiteBackButtonText": "Back to home",
+      "somethingWentWrong": "Something went wrong: {{error}}",
+      "yes": "Yes",
+      "no": "No",
+      "abort": "Abort",
+      "close": "Close",
+      "save": "Save",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "establish": "Einrichten",
+      "connect": "Verbinden",
+      "append": "Append",
+      "red": "Red",
+      "green": "Green",
+      "blue": "Blue",
+      "reset": "Reset"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getJokeOfTheDay } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
+  import { initialized, t } from '$lib/util/translations';
   import Card from '@smui/card';
   import { onMount } from 'svelte';
 
@@ -11,17 +12,22 @@
   });
 </script>
 
-<section>
-  {#if joke}
-    <Card style="padding:1.5rem;">
-      <i>
-        "{joke.text}"
-      </i>
-    </Card>
-  {:else}
-    <p>Lädt Witz des Tages...</p>
-  {/if}
-</section>
+{#if $initialized}
+  <section>
+    {#if joke}
+      <Card style="padding:1.5rem;">
+        <h3>{$t('page.home.jokeTitle')}</h3>
+        <i>
+          "{joke.text}"
+        </i>
+      </Card>
+    {:else}
+      <p>{$t('page.home.jokeLoading')}</p>
+    {/if}
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {
@@ -29,5 +35,9 @@
     justify-content: center;
     align-items: center;
     margin-top: 4rem;
+  }
+
+  h3 {
+    margin-top: 0;
   }
 </style>

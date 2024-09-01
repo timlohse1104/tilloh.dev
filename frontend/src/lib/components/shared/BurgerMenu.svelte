@@ -1,5 +1,6 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import { onMount } from 'svelte';
@@ -53,29 +54,33 @@
   </button>
 
   <aside popover id="hamburger-menu" class:is-open={isPopoverOpen}>
-    <h2>Anwendungen</h2>
-    <hr />
-    <ul>
-      {#each appLinks as link}
-        <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
-        </li>
-      {/each}
-    </ul>
+    {#if $initialized}
+      <h2>{$t('page.shared.headline')}</h2>
+      <hr />
+      <ul>
+        {#each appLinks as link}
+          <li>
+            <Icon class="material-icons menu-icons">{link.icon}</Icon>
+            <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
+          </li>
+        {/each}
+      </ul>
 
-    <hr />
+      <hr />
 
-    <ul>
-      {#each utilLinks as link}
-        <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
-        </li>
-      {/each}
-    </ul>
+      <ul>
+        {#each utilLinks as link}
+          <li>
+            <Icon class="material-icons menu-icons">{link.icon}</Icon>
+            <a href={link.link} on:click={handleLinkClick}>{link.title}</a>
+          </li>
+        {/each}
+      </ul>
 
-    <footer>Designed by Tilloh with 💙</footer>
+      <footer>{$t('page.shared.madeByText')}</footer>
+    {:else}
+      <h2>Locale initializing...</h2>
+    {/if}
   </aside>
 </IconButton>
 

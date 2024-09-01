@@ -5,6 +5,7 @@
     resetSharedIdentifier,
     sharedIdentifierStore,
   } from '$lib/util/stores';
+  import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
   import Button, { Label } from '@smui/button';
   import Card from '@smui/card';
@@ -102,7 +103,11 @@
 
           $sharedIdentifierStore = identifier;
           name = data.name;
-          triggerSnackbar(`Neue Verbindung für den Namen '${name}' erzeugt.`);
+          triggerSnackbar(
+            $t('page.settings.onlinePersistence.snackbarIdentifierCreated', {
+              identifierName: name,
+            }),
+          );
         })
         .catch((error) => {
           triggerSnackbar(error);
@@ -115,7 +120,11 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.statusCode === 404) {
-          triggerSnackbar(`Keine Verbindung mit der ID '${idInput}' gefunden.`);
+          triggerSnackbar(
+            $t('page.settings.onlinePersistence.snackbarNoIdentifierFound', {
+              identifier: idInput,
+            }),
+          );
           idInput = '';
           return;
         }
@@ -128,7 +137,9 @@
         $sharedIdentifierStore = identifier;
         name = data.name;
         triggerSnackbar(
-          `Verbindung mit der ID: '${$sharedIdentifierStore.id}' geladen.`,
+          $t('page.settings.onlinePersistence.snackbarLoadedIdentifier', {
+            identifier: $sharedIdentifierStore.id,
+          }),
         );
         idInput = '';
       })
@@ -138,133 +149,155 @@
   };
 </script>
 
-<section>
-  <h2>Offline / Online Sicherung</h2>
-  <p class="onlinePersistenceInfoText">
-    Diese Website enthält einige Funktionen, die es dir erlauben, Zwischenstände
-    zu speichern. Im Memorandum kannst du deine angelegten Ordner und Links und
-    in Catch-Em-All deinen Highscore sichern. Aktivierst du die
-    Online-Speicherung, kannst du von jedem anderen Gerät darauf zugreifen.
-  </p>
-  <p class="onlinePersistenceInfoText">
-    Kopiere hierzu einfach deine persönliche ID aus dem Bereich <b
-      >Deine Verbindungsdaten</b
-    >
-    und füge sie im Bereich <b>Schnelle Einrichtung mit ID</b> auf einem anderen
-    Gerät ein. Deine Daten werden dann synchronisiert.
-  </p>
+{#if $initialized}
+  <section>
+    <h2>
+      {$t('page.settings.onlinePersistence.title')}
+    </h2>
+    <p class="onlinePersistenceInfoText">
+      {$t('page.settings.onlinePersistence.description1')}
+    </p>
+    <p class="onlinePersistenceInfoText">
+      {$t('page.settings.onlinePersistence.description2')}
+      <b>
+        {$t('page.settings.onlinePersistence.connectionData')}
+      </b>
 
-  <FormField>
-    <Switch
-      bind:checked={shareDataOnline}
-      on:click={checkIdentifierReset}
-      icons={false}
-      color="secondary"
-    />
-    <span slot="label">Daten zwischen Geräten teilen?</span>
-  </FormField>
+      {$t('page.settings.onlinePersistence.description3')}
+      <b>
+        {$t('page.settings.onlinePersistence.loadConnection')}
+      </b>
+      {$t('page.settings.onlinePersistence.description4')}
+    </p>
 
-  {#if $sharedIdentifierStore.id}
-    <Button
-      on:click={() => (openIdentifierInfo = true)}
-      style="margin-top: 2rem;color: var(--color-theme-1);"
-    >
-      <Icon class="material-icons">info</Icon>
-      <Label>Deine Verbindungsdaten</Label>
-    </Button>
+    <FormField>
+      <Switch
+        bind:checked={shareDataOnline}
+        on:click={checkIdentifierReset}
+        icons={false}
+        color="secondary"
+      />
+      <span slot="label"
+        >{$t(
+          'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
+        )}</span
+      >
+    </FormField>
 
-    <Dialog
-      bind:open={openIdentifierInfo}
-      sheet
-      aria-describedby="sheet-content"
-    >
-      <Content id="sheet-content">
-        <IconButton action="close" class="material-icons">close</IconButton>
-        <IdentifierInformation />
-      </Content>
-    </Dialog>
-  {/if}
+    {#if $sharedIdentifierStore.id}
+      <Button
+        on:click={() => (openIdentifierInfo = true)}
+        style="margin-top: 2rem;color: var(--color-theme-1);"
+      >
+        <Icon class="material-icons">info</Icon>
+        <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
+      </Button>
 
-  {#if shareDataOnline}
-    <div class="inputArea">
-      <Card padded class="connection-card">
-        {#if !$sharedIdentifierStore.id}
-          <h3>Neue Verbindung einrichten</h3>
-        {:else}
-          <h3>Verbindung bearbeiten</h3>
-        {/if}
+      <Dialog
+        bind:open={openIdentifierInfo}
+        sheet
+        aria-describedby="sheet-content"
+      >
+        <Content id="sheet-content">
+          <IconButton action="close" class="material-icons">close</IconButton>
+          <IdentifierInformation />
+        </Content>
+      </Dialog>
+    {/if}
 
-        <p>
-          Hier kannst du deinen Namen für die Online-Speicherung festlegen oder
-          ändern.
-        </p>
+    {#if shareDataOnline}
+      <div class="inputArea">
+        <Card padded class="connection-card">
+          {#if !$sharedIdentifierStore.id}
+            <h3>
+              {$t('page.settings.onlinePersistence.establishNewConection')}
+            </h3>
+          {:else}
+            <h3>{$t('page.settings.onlinePersistence.editConnection')}</h3>
+          {/if}
 
-        <div class="buttonGroup">
-          <div>
-            <Textfield
-              bind:value={name}
-              label={!$sharedIdentifierStore.id
-                ? 'Dein Name'
-                : 'Dein aktueller Name'}
+          <p>
+            {$t('page.settings.onlinePersistence.editConnectionDescription')}
+          </p>
+
+          <div class="buttonGroup">
+            <div>
+              <Textfield
+                bind:value={name}
+                label={!$sharedIdentifierStore.id
+                  ? $t('page.settings.onlinePersistence.yourName')
+                  : $t('page.settings.onlinePersistence.yourCurrentName')}
+              >
+                <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+                <HelperText slot="helper"
+                  >{!$sharedIdentifierStore.id
+                    ? $t('page.settings.onlinePersistence.yourNameQuestion')
+                    : $t(
+                        'page.settings.onlinePersistence.yourNewNameQuestion',
+                      )}</HelperText
+                >
+              </Textfield>
+            </div>
+
+            <Button
+              on:click={saveOnlineIdentifier}
+              style={saveSubmittable ? 'color:var(--green);' : ''}
+              bind:this={saveButton}
+              color="secondary"
             >
-              <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-              <HelperText slot="helper"
-                >{!$sharedIdentifierStore.id
-                  ? 'Wie lautet dein Name?'
-                  : 'Wie lautet dein neuer Name?'}</HelperText
-              >
-            </Textfield>
+              <Icon class="material-icons">save</Icon>
+              {#if !$sharedIdentifierStore.id}
+                <Label>{$t('page.shared.establish')}</Label>
+              {:else}
+                <Label>{$t('page.shared.save')}</Label>
+              {/if}
+            </Button>
           </div>
+        </Card>
 
-          <Button
-            on:click={saveOnlineIdentifier}
-            style={saveSubmittable ? 'color:var(--green);' : ''}
-            bind:this={saveButton}
-            color="secondary"
-          >
-            <Icon class="material-icons">save</Icon>
-            {#if !$sharedIdentifierStore.id}
-              <Label>Einrichten</Label>
-            {:else}
-              <Label>Speichern</Label>
-            {/if}
-          </Button>
-        </div>
-      </Card>
+        <Card padded class="connection-card">
+          <h3>{$t('page.settings.onlinePersistence.loadConnection')}</h3>
+          <p>
+            {$t('page.settings.onlinePersistence.loadConnectionDescription')}
+          </p>
 
-      <Card padded class="connection-card">
-        <h3>Schnelle Einrichtung mit ID</h3>
-        <p>
-          Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine
-          Daten zu synchronisieren.
-        </p>
-
-        <div class="buttonGroup">
-          <div>
-            <Textfield bind:value={idInput} label="Deine ID">
-              <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-              <HelperText slot="helper"
-                >Wie lautet deine persönliche ID?</HelperText
+          <div class="buttonGroup">
+            <div>
+              <Textfield
+                bind:value={idInput}
+                label={$t('page.settings.onlinePersistence.yourId')}
               >
-            </Textfield>
+                <Icon class="material-icons" slot="leadingIcon">badge</Icon>
+                <HelperText slot="helper"
+                  >{$t(
+                    'page.settings.onlinePersistence.personalIdQuestion',
+                  )}</HelperText
+                >
+              </Textfield>
+            </div>
+
+            <Button
+              on:click={connectOnlineIdentifier}
+              bind:this={connectButton}
+            >
+              <Icon class="material-icons">cloud_download</Icon>
+              <Label>{$t('page.shared.connect')}</Label>
+            </Button>
           </div>
+        </Card>
+      </div>
+    {/if}
 
-          <Button on:click={connectOnlineIdentifier} bind:this={connectButton}>
-            <Icon class="material-icons">cloud_download</Icon>
-            <Label>Verbinden</Label>
-          </Button>
-        </div>
-      </Card>
-    </div>
-  {/if}
-
-  <Snackbar bind:this={snackbar}>
-    <Label>{snackbarMessage}</Label>
-    <Actions>
-      <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </Actions>
-  </Snackbar>
-</section>
+    <Snackbar bind:this={snackbar}>
+      <Label>{snackbarMessage}</Label>
+      <Actions>
+        <IconButton class="material-icons" title="Dismiss">close</IconButton>
+      </Actions>
+    </Snackbar>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {
