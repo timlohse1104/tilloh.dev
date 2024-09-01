@@ -27,7 +27,7 @@ export class JokesMongoDbService {
     const startOfTomorrow = new Date(startOfToday);
     startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
 
-    const joke = await this.jokeModel
+    const jokeFromYesterday = await this.jokeModel
       .findOne({
         created: {
           $gte: startOfToday,
@@ -35,6 +35,17 @@ export class JokesMongoDbService {
         },
       })
       .exec();
+
+    let joke;
+    if (!jokeFromYesterday) {
+      const jokes = await this.jokeModel.find().exec();
+
+      if (jokes.length === 0) {
+        throw new NotFoundException(JokeTexts.NOT_FOUND);
+      }
+
+      joke = jokes.reverse()[0];
+    }
 
     if (!joke) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);

@@ -281,13 +281,13 @@
     height: 53vh;
     gap: 2rem;
 
-    @media #{$phone} {
-      flex-direction: column;
+    @media #{$tablet} {
       height: 45vh;
     }
 
-    @media #{$tablet} {
-      height: 45vh;
+    @media #{$phone} {
+      flex-direction: column;
+      height: 40vh;
     }
   }
 

@@ -15,11 +15,10 @@
 {#if $initialized}
   <section>
     {#if joke}
-      <Card style="padding:1.5rem;">
+      <Card style="padding:2rem;">
         <h3>{$t('page.home.jokeTitle')}</h3>
-        <i>
-          "{joke.text}"
-        </i>
+        <i>{joke.text}</i>
+        <p>📅{new Date(joke.created).toLocaleString('DE-de')}</p>
       </Card>
     {:else}
       <p>{$t('page.home.jokeLoading')}</p>
@@ -39,5 +38,10 @@
 
   h3 {
     margin-top: 0;
+  }
+
+  p {
+    font-size: 0.6rem;
+    margin-bottom: 0;
   }
 </style>

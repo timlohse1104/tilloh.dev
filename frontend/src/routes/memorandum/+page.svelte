@@ -156,7 +156,7 @@
     }
 
     @media #{$phone} {
-      height: 75vh;
+      height: 65vh;
     }
   }
 </style>
