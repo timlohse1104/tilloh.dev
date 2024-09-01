@@ -52,6 +52,10 @@ npm run dev
   - `types`: Contains the shared types to be used in all svelte components.
   - `util`: Contains the utility functions of the frontend.
 
+### i18n internationalization
+
+The frontend uses the `sveltekit-i18n` library for internationalization. The translations are stored in the `src/lib/config/` folder. The translations are loaded in the `src/lib/util/translations.ts` file. The translations are used in the svelte components with the `t` function. There is also a initialization check with `{#if $initialized}` svelte condition block.
+
 # Deployment
 
 ## Automatically
