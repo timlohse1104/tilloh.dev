@@ -160,7 +160,51 @@
       }
     },
     "admin": {
-      "newToggle": "Neuer Toggle"
+      "verificationError": "Admin ID konnte nicht verifiziert werden.",
+      "dashboard": {
+        "title": "Überblick",
+        "tillohApiDescription": "tilloh.dev API status",
+        "mongoDbDescription": "MongoDB Status",
+        "witzApiDescription": "Witz API Status",
+        "identifiersDescription": "Anzahl erzeugter Identifier in DB",
+        "presetsDescription": "Anzahl Link Voreinstellungen in DB",
+        "foldersDescription": "Anzahl Ordner in DB",
+        "duplicateFoldersDescription": "Ordner mit gleichem Namen",
+        "linksDescription": "Anzahl Links in DB",
+        "duplicateLinksDescription": "Links mit gleichem Namen",
+        "jokesDescription": "Anzahl Witze in DB",
+        "duplicateJokesDescription": "Witze mit gleichem Inhalt",
+        "chatsDescription": "Anzahl von Chats in DB"
+      },
+      "toggles": {
+        "title": "Schalter",
+        "newToggle": "Neuer Schalter",
+        "deleteTitle": "Schalter löschen",
+        "deleteQuestion": "Möchtest du diesen Schalter wirklich löschen?"
+      },
+      "linkPresets": {
+        "title": "Link Voreinstellungen",
+        "deleteTitle": "Link Voreinstellung löschen",
+        "deleteQuestion": "Möchtest du diese Link Voreinstellung wirklich löschen?"
+      },
+      "jokes": {
+        "title": "Witze",
+        "deleteTitle": "Witz löschen",
+        "deleteQuestion": "Möchtest du diesen Witz wirklich löschen?"
+      },
+      "identifiers": {
+        "title": "Identifikatoren",
+        "deleteTitle": "Identifikator löschen",
+        "deleteQuestion": "Möchtest du diesen Identifikator wirklich löschen?"
+      },
+      "activities": {
+        "title": "Aktivitäten",
+        "keyActivity": "Schlüssel '{{keyName}}' wurde",
+        "identifierActivity": "Identifikator '{{identifierName}}' wurde",
+        "jokeActivity": "Witz '{{joke}}' wurde",
+        "created": "erstellt",
+        "updated": "aktualisiert"
+      }
     },
     "shared": {
       "headline": "Anwendungen",

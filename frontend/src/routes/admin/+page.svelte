@@ -19,6 +19,7 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
+  import { t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
@@ -98,21 +99,21 @@
       ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: `Key '${preset.key}' got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
+        description: `${$t('page.admin.activities.keyActivity', { keyName: preset.key })} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: preset.updated,
         created: preset.created,
       })),
       ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: `Identifier '${identifier.name}' got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
+        description: `${$t('page.admin.activities.identifierActivity', { identifierName: identifier.name })} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: identifier.updated,
         created: identifier.created,
       })),
       ...jokes.map((joke) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: joke._id,
-        description: `Joke '${joke.text}' got ${joke.created === joke.updated ? 'created' : 'updated'}.`,
+        description: `${$t('page.admin.activities.jokeActivity', { joke: joke.text })} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: joke.updated,
         created: joke.created,
       })),
@@ -134,7 +135,7 @@
 
     const { isAdmin } = verifyResponse;
     if (!isAdmin) {
-      verificationError = 'Admin ID konnte nicht verifiziert werden.';
+      verificationError = $t('page.admin.verificationError');
       isVerified = false;
       return;
     }
@@ -326,10 +327,8 @@
         <Icon class="material-icons" slot="trailingIcon"
           >arrow_circle_right</Icon
         >
-        <HelperText
-          persistent
-          slot="helper"
-          style="color: red; font-size: 0.8rem;">{verificationError}</HelperText
+        <HelperText slot="helper" style="color: red; font-size: 0.8rem;"
+          >{verificationError}</HelperText
         >
       </Textfield>
     </div>
@@ -380,41 +379,41 @@
 
 <ConfirmOverlay
   open={confirmDeleteToggleOpenOverlay}
-  questionHeader="Toggle löschen"
-  questionContent="Möchtest du diesen Toggle wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.toggles.deleteTitle')}
+  questionContent={$t('page.admin.toggles.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeleteToggleOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeleteToggleAction}
   on:close={() => (confirmDeleteToggleOpenOverlay = false)}
 />
 <ConfirmOverlay
   open={confirmDeleteIdentifierOpenOverlay}
-  questionHeader="Identifier löschen"
-  questionContent="Möchtest du diesen Identifier wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.identifiers.deleteTitle')}
+  questionContent={$t('page.admin.identifiers.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeleteIdentifierOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeleteIdentifierAction}
   on:close={() => (confirmDeleteIdentifierOpenOverlay = false)}
 />
 <ConfirmOverlay
   open={confirmDeletePresetOpenOverlay}
-  questionHeader="Preset löschen"
-  questionContent="Möchtest du dieses Preset wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.linkPreset.deleteTitle')}
+  questionContent={$t('page.admin.linkPreset.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeletePresetOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeletePresetAction}
   on:close={() => (confirmDeletePresetOpenOverlay = false)}
 />
 <ConfirmOverlay
   open={confirmDeleteJokeOpenOverlay}
-  questionHeader="Witz löschen"
-  questionContent="Möchtest du diesen Witz wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.jokes.deleteTitle')}
+  questionContent={$t('page.admin.jokes.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeleteJokeOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeleteJokeAction}
   on:close={() => (confirmDeleteJokeOpenOverlay = false)}
 />
@@ -439,6 +438,7 @@
 
   .verify-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;

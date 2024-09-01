@@ -7,6 +7,8 @@ interface Params {
   identifierName: string;
   identifier: string;
   listName: string;
+  keyName: string;
+  joke: string;
 }
 
 const config: Config<Partial<Params>> = {

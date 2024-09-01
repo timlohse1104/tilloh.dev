@@ -160,7 +160,51 @@
       }
     },
     "admin": {
-      "newToggle": "New toggle"
+      "verificationError": "Admin ID could not be verified.",
+      "dashboard": {
+        "title": "Dashboard",
+        "tillohApiDescription": "tilloh.dev API status",
+        "mongoDbDescription": "MongoDB status",
+        "witzApiDescription": "Witz API status",
+        "identifiersDescription": "People using online storage",
+        "presetsDescription": "Saved memorandum presets",
+        "foldersDescription": "Saved memorandum folders",
+        "duplicateFoldersDescription": "Folders with same content",
+        "linksDescription": "Saved memorandum links",
+        "duplicateLinksDescription": "Links with same content",
+        "jokesDescription": "Displayed daily jokes",
+        "duplicateJokesDescription": "Jokes with same content",
+        "chatsDescription": "Saved chats"
+      },
+      "toggles": {
+        "title": "Toggles",
+        "newToggle": "New toggle",
+        "deleteTitle": "Delete toggle",
+        "deleteQuestion": "Do you really want to delete this toggle?"
+      },
+      "linkPresets": {
+        "title": "Link Presets",
+        "deleteTitle": "Delete link preset",
+        "deleteQuestion": "Do you really want to delete this link preset?"
+      },
+      "jokes": {
+        "title": "Jokes",
+        "deleteTitle": "Delete joke",
+        "deleteQuestion": "Do you really want to delete this joke?"
+      },
+      "identifiers": {
+        "title": "Identifiers",
+        "deleteTitle": "Delete identifier",
+        "deleteQuestion": "Do you really want to delete this identifier?"
+      },
+      "activities": {
+        "title": "Aktivities",
+        "keyActivity": "Key '{{key}}' got",
+        "identifierActivity": "Identifier '{{name}}' got",
+        "jokeActivity": "Joke '{{joke}}' got",
+        "created": "created",
+        "updated": "updated"
+      }
     },
     "shared": {
       "headline": "Applications",

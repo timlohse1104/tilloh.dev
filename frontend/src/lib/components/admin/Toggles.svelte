@@ -74,11 +74,11 @@
 {#if $initialized}
   <section class="admin-sections">
     <div class="admin-sections-headline">
-      <h2>Toggles</h2>
+      <h2>{$t('page.admin.toggles.title')}</h2>
       <Textfield
         style="margin-left:2rem;width: 100%;"
         bind:value={newToogleName}
-        label={$t('page.admin.newToggle')}
+        label={$t('page.admin.toggles.newToggle')}
         on:keyup={(event) => {
           if (isEnter(event)) addToggle();
         }}
