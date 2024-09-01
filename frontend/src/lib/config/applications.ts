@@ -3,7 +3,7 @@ import { getToggleValue } from '$lib/util/toggle';
 
 const loadApplications = async () => ({
   home: {
-    name: 'Startseite',
+    name: 'Tohuussiet',
     path: '/',
     icon: 'home',
     toggle: true,
@@ -15,7 +15,7 @@ const loadApplications = async () => ({
     toggle: await getToggleValue(TogglesEnum.memorandum),
   },
   todo: {
-    name: 'Listen',
+    name: 'Verteeknis',
     path: '/todo',
     icon: 'list',
     toggle: await getToggleValue(TogglesEnum.todo),
@@ -27,19 +27,19 @@ const loadApplications = async () => ({
     toggle: await getToggleValue(TogglesEnum.chat),
   },
   'catch-em-all': {
-    name: 'Catch-Em-All',
+    name: 'Catch-Em-All Speel',
     path: '/catch-em-all',
     icon: 'sports_esports',
     toggle: await getToggleValue(TogglesEnum.catchEmAll),
   },
   'uno-sort': {
-    name: 'UNO Sortierung',
+    name: 'UNO Ornen',
     path: '/uno-sort',
     icon: 'style',
     toggle: await getToggleValue(TogglesEnum.unoSort),
   },
   about: {
-    name: 'Über mich',
+    name: 'Över mi',
     path: '/about',
     icon: 'badge',
     toggle: await getToggleValue(TogglesEnum.about),
@@ -50,12 +50,12 @@ export const applicationRoutes = await loadApplications();
 
 export const utilityRoutes = {
   settings: {
-    name: 'Einstellungen',
+    name: 'Instellen',
     path: '/settings',
     icon: 'settings',
   },
   admin: {
-    name: 'Admin',
+    name: 'Administratschoon',
     path: '/admin',
     icon: 'admin_panel_settings',
   },
