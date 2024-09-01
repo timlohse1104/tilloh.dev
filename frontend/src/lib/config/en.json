@@ -132,7 +132,32 @@
     },
     "catchEmAll": {
       "mobileMessageTitle": "Oh no...",
-      "mobileMessage": "This application is not optimized for mobile devices. Please use a desktop browser to play Catch-Em-All."
+      "mobileMessage": "This application is not optimized for mobile devices. Please use a desktop browser to play Catch-Em-All.",
+      "newGameQuestion": "Start a new game?",
+      "pressSpacebar": "Press SPACEBAR",
+      "paused": "Paused",
+      "stage": "Stage",
+      "currentRound": "Current round",
+      "caught": "Pokémon caught",
+      "ballsThrown": "Pokéballs thrown",
+      "lifesLeft": "Lifes left",
+      "timesThrown": "-times thrown",
+      "lost": "You lost!",
+      "pressEnter": "Press ENTER",
+      "statistics": "Statistics",
+      "won": "You won!",
+      "localHighscore": "Your local highscore",
+      "noHighscore": "No highscore available yet",
+      "startFirstGame": "Start your first game now!",
+      "controls": {
+        "title": "Controls",
+        "space": "Spacebar - Start game",
+        "up": "Up - Throw ball",
+        "left": "Left - Move trainer to the left",
+        "right": "Right - Move trainer to the right",
+        "esc": "ESC - Pause / resume game",
+        "enter": "Enter - Restart game"
+      }
     },
     "shared": {
       "headline": "Applications",

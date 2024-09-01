@@ -57,8 +57,8 @@
   <meta name={memorandumRoute.name} content="tilloh.dev" />
 </svelte:head>
 
-{#if $initialized}
-  {#if memorandumRoute.toggle}
+{#if memorandumRoute.toggle}
+  {#if $initialized}
     <div class="menuLine">
       <SegmentedButton
         segments={orders}
@@ -118,10 +118,10 @@
       <PresetOverlay />
     {/if}
   {:else}
-    <ToggledApplicationInfo />
+    <section>Locale initializing...</section>
   {/if}
 {:else}
-  <section>Locale initializing...</section>
+  <ToggledApplicationInfo />
 {/if}
 
 <style lang="scss">

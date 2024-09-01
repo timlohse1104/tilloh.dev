@@ -132,7 +132,32 @@
     },
     "catchEmAll": {
       "mobileMessageTitle": "Oh nein...",
-      "mobileMessage": "Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen optimiert. Bitte benutze einen Desktop Browser um Catch-Em-All zu spielen."
+      "mobileMessage": "Dieses Spiel ist aktuell nicht für Smartphone und Tablet Auflösungen optimiert. Bitte benutze einen Desktop Browser um Catch-Em-All zu spielen.",
+      "newGameQuestion": "Neues Spiel starten?",
+      "pressSpacebar": "LEERTASTE drücken",
+      "paused": "Pausiert",
+      "stage": "Stufe",
+      "currentRound": "Aktuelle Runde",
+      "caught": "Pokémon gefangen",
+      "ballsThrown": "Pokébälle geworfen",
+      "lifesLeft": "Leben übrig",
+      "timesThrown": "mal geworfen",
+      "lost": "Du hast verloren!",
+      "pressEnter": "ENTER drücken",
+      "statistics": "Statistik",
+      "won": "Du hast gewonnen!",
+      "localHighscore": "Dein lokaler Highscore",
+      "noHighscore": "Noch kein Highscore vorhanden",
+      "startFirstGame": "Beginne jetzt dein erstes Spiel!",
+      "controls": {
+        "title": "Steuerung",
+        "space": "Leertaste - Spiel starten",
+        "up": "Hoch - Ball werfen",
+        "left": "Links - Trainer nach links schicken",
+        "right": "Rechts - Trainer nach rechts schicken",
+        "esc": "ESC - Spiel pausieren / fortsetzen",
+        "enter": "Enter - Spiel neustarten"
+      }
     },
     "shared": {
       "headline": "Anwendungen",

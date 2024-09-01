@@ -20,7 +20,31 @@
     gameCanvas.setAttribute('height', GAME_HEIGHT);
 
     // init game
-    let game = new Game(GAME_WIDTH, GAME_HEIGHT);
+    let game = new Game(GAME_WIDTH, GAME_HEIGHT, {
+      newGameQuestion: $t('page.catchEmAll.newGameQuestion'),
+      pressSpacebar: $t('page.catchEmAll.pressSpacebar'),
+      paused: $t('page.catchEmAll.paused'),
+      stage: $t('page.catchEmAll.stage'),
+      currentRound: $t('page.catchEmAll.currentRound'),
+      caught: $t('page.catchEmAll.caught'),
+      ballsThrown: $t('page.catchEmAll.ballsThrown'),
+      lifesLeft: $t('page.catchEmAll.lifesLeft'),
+      timesThrown: $t('page.catchEmAll.timesThrown'),
+      lost: $t('page.catchEmAll.lost'),
+      pressEnter: $t('page.catchEmAll.pressEnter'),
+      statistics: $t('page.catchEmAll.statistics'),
+      won: $t('page.catchEmAll.won'),
+      localHighscore: $t('page.catchEmAll.localHighscore'),
+      noHighscore: $t('page.catchEmAll.noHighscore'),
+      startFirstGame: $t('page.catchEmAll.startFirstGame'),
+      controlsTitle: $t('page.catchEmAll.controls.title'),
+      controlsSpace: $t('page.catchEmAll.controls.space'),
+      controlsUp: $t('page.catchEmAll.controls.up'),
+      controlsLeft: $t('page.catchEmAll.controls.left'),
+      controlsRight: $t('page.catchEmAll.controls.right'),
+      controlsEsc: $t('page.catchEmAll.controls.esc'),
+      controlsEnter: $t('page.catchEmAll.controls.enter'),
+    });
 
     let lastTime = 0;
 
