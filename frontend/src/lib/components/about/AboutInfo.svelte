@@ -10,11 +10,7 @@
     </p>
 
     <p>
-      {$t('page.about.weirdJsText1')}
-      <a
-        href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
-        >{$t('page.about.weirdJsButtonText')}</a
-      >:
+      {@html $t('page.about.weirdJsText1')}:
     </p>
 
     <pre>
@@ -30,11 +26,7 @@ alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)
   </pre>
 
     <p>
-      {$t('page.about.weirdJsText2')}
-      <a
-        href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
-        >{$t('page.about.weirdJsButtonText')}</a
-      >:
+      {@html $t('page.about.weirdJsText2')}:
     </p>
 
     <pre>
@@ -72,9 +64,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
   </pre>
 
     <p>
-      {$t('page.about.usefulWorkText1')}
-      <a href="https://deskbox-office.de">desk.box</a>
-      {$t('page.about.usefulWorkText2')}
+      {@html $t('page.about.usefulWorkText')}
     </p>
 
     <p>{$t('page.shared.madeByText')}</p>

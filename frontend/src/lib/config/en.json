@@ -7,11 +7,9 @@
     },
     "about": {
       "introduction": "my name is Tim, a software developer from northern Germany. I started working in a tax office, broke up dual studies as a sales man and found true passion in programming and especially web / infrastructure development @otto and @stadtwerk gefunden.",
-      "weirdJsText1": "I like to try out new and weird things",
-      "weirdJsText2": "or",
-      "weirdJsButtonText": "like this",
-      "usefulWorkText1": "I also do useful things for",
-      "usefulWorkText2": "at work. I promise! 🤡"
+      "weirdJsText1": "I like to try out new and weird things <a href=\"https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js\">like this</a>",
+      "weirdJsText2": "or <a href=\"https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js\">like this</a>",
+      "usefulWorkText": "I also do useful things for <a href=\"https://deskbox-office.de\">desk.box</a> at work. I promise! 🤡"
     },
     "memorandum": {
       "orders": {

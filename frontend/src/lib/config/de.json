@@ -7,11 +7,9 @@
     },
     "about": {
       "introduction": "mein Name ist Tim, Softwareentwickler aus Norddeutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
-      "weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus",
-      "weirdJsText2": "oder",
-      "weirdJsButtonText": "wie das",
-      "usefulWorkText1": "Ich entwickle auch nützliche Dinge für",
-      "usefulWorkText2": "während der Arbeit. Versprochen! 🤡"
+      "weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus <a href=\"https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js\">wie das</a>",
+      "weirdJsText2": "oder <a href=\"https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js\">wie das</a>",
+      "usefulWorkText": "Ich entwickle auch nützliche Dinge für <a href=\"https://deskbox-office.de\">desk.box</a> während der Arbeit. Versprochen! 🤡"
     },
     "memorandum": {
       "orders": {
