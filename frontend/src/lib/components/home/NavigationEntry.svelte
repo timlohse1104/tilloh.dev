@@ -1,11 +1,12 @@
 <script>
   import { applicationRoutes } from '$lib/config/applications';
+  import { getlocale } from '$lib/util/translations';
   import { Icon } from '@smui/common';
 
   export let appKey;
 
   const app = applicationRoutes[appKey];
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
 </script>
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>

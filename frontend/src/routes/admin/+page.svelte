@@ -19,7 +19,7 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
-  import { t } from '$lib/util/translations';
+  import { getlocale, t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
@@ -30,7 +30,7 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';

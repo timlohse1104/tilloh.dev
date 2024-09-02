@@ -2,10 +2,11 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores';
+  import { getlocale } from '$lib/util/translations';
   import { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
 
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')

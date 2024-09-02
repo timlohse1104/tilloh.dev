@@ -1,11 +1,11 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { initialized, t } from '$lib/util/translations';
+  import { getlocale, initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import { onMount } from 'svelte';
 
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
 
   let appLinks = [];
   let utilLinks = [];

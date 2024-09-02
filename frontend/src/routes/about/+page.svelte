@@ -4,8 +4,9 @@
     default as ToggledApplicationInfo,
   } from '$lib/components/about/AboutInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
+  import { getlocale } from '$lib/util/translations';
   const { about: aboutRoute } = applicationRoutes;
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
 </script>
 
 <svelte:head>

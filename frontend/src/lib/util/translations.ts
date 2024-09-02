@@ -27,6 +27,11 @@ const config: Config<Partial<Params>> = {
   ],
 };
 
+export const getlocale = () => {
+  if (navigator.language.startsWith('en')) return 'en';
+  return 'de';
+};
+
 export const {
   t,
   loading,

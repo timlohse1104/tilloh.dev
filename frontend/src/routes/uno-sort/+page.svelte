@@ -2,7 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
-  import { initialized, t } from '$lib/util/translations';
+  import { getlocale, initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -10,7 +10,7 @@
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
-  const locale = navigator.language || 'de';
+  const locale = getlocale();
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
