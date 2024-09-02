@@ -4,7 +4,8 @@
   import { sharedIdentifierStore } from '$lib/util/stores';
   import { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
-  const { home } = applicationRoutes;
+
+  const locale = navigator.language || 'de';
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -19,7 +20,7 @@
     <div class="headlineBox">
       <h2>
         <Icon class="material-icons">{currentPage.icon}</Icon>
-        {currentPage.name}
+        {currentPage.name[locale]}
       </h2>
 
       <p>

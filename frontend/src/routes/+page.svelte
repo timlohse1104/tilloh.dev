@@ -10,6 +10,7 @@
 
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;
+  const locale = navigator.language || 'de';
   let randomJokeToggle = true;
 
   onMount(async () => {
@@ -18,8 +19,8 @@
 </script>
 
 <svelte:head>
-  <title>{homeRoute.name}</title>
-  <meta name={homeRoute.name} content="tilloh.dev" />
+  <title>{homeRoute.name[locale]}</title>
+  <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>

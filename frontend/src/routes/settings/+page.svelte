@@ -3,11 +3,12 @@
   import { utilityRoutes } from '$lib/config/applications';
 
   const { settings: settingsRoute } = utilityRoutes;
+  const locale = navigator.language || 'de';
 </script>
 
 <svelte:head>
-  <title>{settingsRoute.name}</title>
-  <meta name={settingsRoute.name} content="tilloh.dev" />
+  <title>{settingsRoute.name[locale]}</title>
+  <meta name={settingsRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>

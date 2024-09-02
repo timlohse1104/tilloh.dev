@@ -30,6 +30,7 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
+  const locale = navigator.language || 'de';
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';
@@ -307,8 +308,8 @@
 </script>
 
 <svelte:head>
-  <title>{adminRoute.name}</title>
-  <meta name={adminRoute.name} content="tilloh.dev" />
+  <title>{adminRoute.name[locale]}</title>
+  <meta name={adminRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>

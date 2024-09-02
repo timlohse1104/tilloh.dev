@@ -19,6 +19,7 @@
   import List, { Item, Text } from '@smui/list';
 
   const { todo: todoRoute } = applicationRoutes;
+  const locale = navigator.language || 'de';
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
@@ -42,8 +43,8 @@
 </script>
 
 <svelte:head>
-  <title>{todoRoute.name}</title>
-  <meta name={todoRoute.name} content="tilloh.dev" />
+  <title>{todoRoute.name[locale]}</title>
+  <meta name={todoRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if todoRoute.toggle}

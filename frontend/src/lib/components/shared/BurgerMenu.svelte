@@ -5,18 +5,20 @@
   import IconButton from '@smui/icon-button';
   import { onMount } from 'svelte';
 
+  const locale = navigator.language || 'de';
+
   let appLinks = [];
   let utilLinks = [];
 
   onMount(() => {
     appLinks = Object.values(applicationRoutes).map((route) => ({
-      title: route.name,
+      title: route.name[locale],
       link: route.path,
       icon: route.icon,
     }));
 
     utilLinks = Object.values(utilityRoutes).map((route) => ({
-      title: route.name,
+      title: route.name[locale],
       link: route.path,
       icon: route.icon,
     }));

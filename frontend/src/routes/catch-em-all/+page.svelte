@@ -6,6 +6,7 @@
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
+  const locale = navigator.language || 'de';
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
   let gameCanvas;
@@ -68,8 +69,8 @@
 </script>
 
 <svelte:head>
-  <title>{catchEmAllRoute.name}</title>
-  <meta name={catchEmAllRoute.name} content="tilloh.dev" />
+  <title>{catchEmAllRoute.name[locale]}</title>
+  <meta name={catchEmAllRoute.name[locale]} content="tilloh.dev" />
   <meta name="ssr" content="false" />
 </svelte:head>
 

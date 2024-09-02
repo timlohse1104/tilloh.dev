@@ -17,7 +17,7 @@
   import List, { Item, Text } from '@smui/list';
 
   const { chat: chatRoute } = applicationRoutes;
-
+  const locale = navigator.language || 'de';
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
@@ -41,8 +41,8 @@
 </script>
 
 <svelte:head>
-  <title>{chatRoute.name}</title>
-  <meta name={chatRoute.name} content="tilloh.dev" />
+  <title>{chatRoute.name[locale]}</title>
+  <meta name={chatRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if chatRoute.toggle}

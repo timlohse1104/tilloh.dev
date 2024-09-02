@@ -10,6 +10,7 @@
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
+  const locale = navigator.language || 'de';
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
@@ -40,8 +41,8 @@
 </script>
 
 <svelte:head>
-  <title>{unoSortRoute.name}</title>
-  <meta name={unoSortRoute.name} content="tilloh.dev" />
+  <title>{unoSortRoute.name[locale]}</title>
+  <meta name={unoSortRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if unoSortRoute.toggle}

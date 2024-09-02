@@ -5,6 +5,7 @@
   export let appKey;
 
   const app = applicationRoutes[appKey];
+  const locale = navigator.language || 'de';
 </script>
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
@@ -14,7 +15,7 @@
       style="cursor: pointer;font-size: 1.2rem;"
       on:click={() => window.open(app.path, '_self')}>{app.icon}</Icon
     >
-    <a href={app.path}>{app.name}</a>
+    <a href={app.path}>{app.name[locale]}</a>
   </span>
 </li>
 

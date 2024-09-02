@@ -22,6 +22,7 @@
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
+  const locale = navigator.language || 'de';
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -53,8 +54,8 @@
 </script>
 
 <svelte:head>
-  <title>{memorandumRoute.name}</title>
-  <meta name={memorandumRoute.name} content="tilloh.dev" />
+  <title>{memorandumRoute.name[locale]}</title>
+  <meta name={memorandumRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if memorandumRoute.toggle}

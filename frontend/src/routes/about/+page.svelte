@@ -5,11 +5,12 @@
   } from '$lib/components/about/AboutInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   const { about: aboutRoute } = applicationRoutes;
+  const locale = navigator.language || 'de';
 </script>
 
 <svelte:head>
-  <title>{aboutRoute.name}</title>
-  <meta name={aboutRoute.name} content="tilloh.dev" />
+  <title>{aboutRoute.name[locale]}</title>
+  <meta name={aboutRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if aboutRoute.toggle}
