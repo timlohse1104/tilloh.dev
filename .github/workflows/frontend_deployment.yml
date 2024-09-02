@@ -8,11 +8,32 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Test and Audit
     runs-on: ubuntu-latest
     steps:
       - name: Testing Frontend
         run: echo "Testing not implemented yet..."
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache node_modules
+        id: node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Debug cache hit
+        run: echo ${{ steps.node_modules.outputs.cache-hit }}
+
+      - name: Npm audit
+        run: |
+          cd frontend
+          npm audit --audit-level=critical --omit=dev
+
 
   build:
     name: Build
