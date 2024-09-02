@@ -205,7 +205,7 @@
       }
     },
     "shared": {
-      "headline": "Anwendungen",
+      "burgerMenuTitle": "Anwendungen",
       "madeByText": "Entwickelt von Tilloh mit 💙",
       "toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
       "toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",

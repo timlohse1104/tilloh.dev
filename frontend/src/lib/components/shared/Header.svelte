@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores';
-  import IconButton, { Icon } from '@smui/icon-button';
+  import { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
   const { home } = applicationRoutes;
 
@@ -14,21 +14,7 @@
 
 <section>
   <div class="headerBox">
-    <div class="meInfo">
-      <div class="corner">
-        {#if $page.url.pathname === home.path}
-          <IconButton href="https://stadtwerk.org" target="_blank">
-            <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
-          </IconButton>
-        {:else}
-          <div class="corner">
-            <IconButton href="https://github.com/timlohse1104" target="_blank">
-              <img src={'/images/header/github-light.svg'} alt="GitHub" />
-            </IconButton>
-          </div>
-        {/if}
-      </div>
-    </div>
+    <div class="meInfo"></div>
 
     <div class="headlineBox">
       <h2>
@@ -45,17 +31,9 @@
       </p>
     </div>
 
-    {#if $page.url.pathname === home.path}
-      <div class="corner">
-        <IconButton href="https://github.com/timlohse1104" target="_blank">
-          <img src={'/images/header/github-light.svg'} alt="GitHub" />
-        </IconButton>
-      </div>
-    {:else}
-      <div class="corner">
-        <BurgerMenu />
-      </div>
-    {/if}
+    <div class="corner">
+      <BurgerMenu />
+    </div>
   </div>
 </section>
 
