@@ -31,7 +31,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { FilterQuery } from 'mongoose';
 
 @ApiTags('keystore')
 @Controller('/keystore')
@@ -47,7 +46,7 @@ export class KeystoreController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
   getKeys(@Query() filter?: KeystoreDto) {
-    const filterQuery: FilterQuery<KeystoreDto> = filter || {};
+    const filterQuery = filter || {};
     return this.keystoreService.findAll(filterQuery);
   }
 

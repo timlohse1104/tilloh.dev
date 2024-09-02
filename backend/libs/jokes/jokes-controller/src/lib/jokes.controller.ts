@@ -18,7 +18,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { FilterQuery } from 'mongoose';
 
 @ApiTags('jokes')
 @Controller('/jokes')
@@ -45,7 +44,7 @@ export class JokesController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/')
   listJokes(@Query() filter?: JokeDto) {
-    const filterQuery: FilterQuery<JokeDto> = filter || {};
+    const filterQuery = filter || {};
     return this.jokesService.listJokes(filterQuery);
   }
 

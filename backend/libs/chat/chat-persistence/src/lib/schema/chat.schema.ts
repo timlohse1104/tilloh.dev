@@ -37,6 +37,18 @@ export class Chat {
 
   @Prop({ type: Date, required: true, default: new Date() })
   updated: Date;
+
+  @Prop({ required: true })
+  emoji: string;
+
+  @Prop({ required: true })
+  owner: string;
+
+  @Prop({ required: true })
+  securityQuestion: string;
+
+  @Prop({ required: true })
+  securityAnswer: string;
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);
