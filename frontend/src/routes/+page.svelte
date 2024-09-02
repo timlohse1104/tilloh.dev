@@ -35,7 +35,7 @@
       style="text-decoration: none;"
     >
       <Icon class="material-icons">{settings.icon}</Icon>
-      <Label>{settings.name}</Label>
+      <Label>{settings.name[locale]}</Label>
     </Button>
   </div>
 
