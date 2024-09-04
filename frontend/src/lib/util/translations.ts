@@ -12,7 +12,7 @@ interface Params {
 }
 
 const config: Config<Partial<Params>> = {
-  initLocale: 'de',
+  initLocale: 'en',
   loaders: [
     {
       locale: 'en',
@@ -28,8 +28,8 @@ const config: Config<Partial<Params>> = {
 };
 
 export const getlocale = () => {
-  if (navigator.language.startsWith('en')) return 'en';
-  return 'de';
+  if (navigator.language.startsWith('de')) return 'de';
+  return 'en';
 };
 
 export const {
