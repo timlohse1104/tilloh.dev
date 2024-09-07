@@ -4,12 +4,14 @@
   import SearchBar from '$lib/components/home/SearchBar.svelte';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { getToggleValue } from '$lib/util/toggle';
+  import { getlocale } from '$lib/util/translations';
   import Button, { Icon, Label } from '@smui/button';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
 
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;
+  const locale = getlocale();
   let randomJokeToggle = true;
 
   onMount(async () => {
@@ -18,8 +20,8 @@
 </script>
 
 <svelte:head>
-  <title>{homeRoute.name}</title>
-  <meta name={homeRoute.name} content="tilloh.dev" />
+  <title>{homeRoute.name[locale]}</title>
+  <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>
@@ -34,7 +36,7 @@
       style="text-decoration: none;"
     >
       <Icon class="material-icons">{settings.icon}</Icon>
-      <Label>{settings.name}</Label>
+      <Label>{settings.name[locale]}</Label>
     </Button>
   </div>
 

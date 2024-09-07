@@ -30,7 +30,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { FilterQuery } from 'mongoose';
 
 @ApiTags('chats')
 @Controller('/chats')
@@ -46,7 +45,7 @@ export class ChatController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
   getChats(@Query() filter?: ChatDto) {
-    const filterQuery: FilterQuery<ChatDto> = filter || {};
+    const filterQuery = filter || {};
     return this.chatService.listChats(filterQuery);
   }
 

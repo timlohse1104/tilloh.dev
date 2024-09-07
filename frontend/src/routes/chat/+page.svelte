@@ -4,6 +4,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
+  import { getlocale } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -17,7 +18,7 @@
   import List, { Item, Text } from '@smui/list';
 
   const { chat: chatRoute } = applicationRoutes;
-
+  const locale = getlocale();
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
@@ -41,8 +42,8 @@
 </script>
 
 <svelte:head>
-  <title>{chatRoute.name}</title>
-  <meta name={chatRoute.name} content="tilloh.dev" />
+  <title>{chatRoute.name[locale]}</title>
+  <meta name={chatRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if chatRoute.toggle}

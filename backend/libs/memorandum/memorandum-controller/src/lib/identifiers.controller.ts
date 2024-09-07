@@ -30,7 +30,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { FilterQuery } from 'mongoose';
 
 @ApiTags('identifiers')
 @Controller('/identifiers')
@@ -46,7 +45,7 @@ export class IdentifiersController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
   getIdentifiers(@Query() filter?: IdentifierDto) {
-    const filterQuery: FilterQuery<IdentifierDto> = filter || {};
+    const filterQuery = filter || {};
     return this.identifiersService.listIdentifiers(filterQuery);
   }
 
