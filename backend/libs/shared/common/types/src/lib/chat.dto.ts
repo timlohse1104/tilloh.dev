@@ -16,39 +16,43 @@ export class MessageDto {
 }
 
 export class ChatDto {
-  @ApiProperty({ description: 'Chat ID' })
+  @ApiProperty({ description: 'Chat ID', required: false })
   @IsNotEmpty()
   _id: string;
 
-  @ApiProperty({ description: 'Chat name' })
+  @ApiProperty({ description: 'Chat name', required: false })
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ type: [MessageDto], description: 'Chat name' })
+  @ApiProperty({
+    type: [MessageDto],
+    description: 'Chat name',
+    required: false,
+  })
   @IsNotEmpty()
   messages: MessageDto[];
 
-  @ApiProperty({ description: 'Chat creation date' })
+  @ApiProperty({ description: 'Chat creation date', required: false })
   @IsOptional()
   created: Date;
 
-  @ApiProperty({ description: 'Chat update date' })
+  @ApiProperty({ description: 'Chat update date', required: false })
   @IsOptional()
   updated: Date;
 
-  @ApiProperty({ description: 'Chat emoji' })
+  @ApiProperty({ description: 'Chat emoji', required: false })
   @IsOptional()
   emoji: string;
 
-  @ApiProperty({ description: 'Chat owner id' })
+  @ApiProperty({ description: 'Chat owner id', required: false })
   @IsNotEmpty()
   owner: string;
 
-  @ApiProperty({ description: 'Chat security question' })
+  @ApiProperty({ description: 'Chat security question', required: false })
   @IsNotEmpty()
   securityQuestion: string;
 
-  @ApiProperty({ description: 'Chat security answer' })
+  @ApiProperty({ description: 'Chat security answer', required: false })
   @IsNotEmpty()
   securityAnswer: string;
 }
@@ -82,7 +86,3 @@ export class RemoveChatInputDto {
   id: string;
 }
 export class RemoveChatOutputDto extends ChatDto {}
-
-export class FindAllChatsOptions {
-  clientId?: string;
-}

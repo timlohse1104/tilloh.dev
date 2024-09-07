@@ -2,6 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
+  import { getlocale, initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -9,12 +10,7 @@
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
-  const sortInfotext = `
-    1. Farbkarten werden nach ihrer Anzahl auf der Hand sortiert, die Farbe mit den geringsten Karten ist ganz links.<br/>
-    2. Farbkarten werden innerhalb der Farbe nach ihrer Wertigkeit aufsteigend sortiert.<br/>
-    3. Farben mit der gleichen Anzahl an Karten werden nach ihrer Gesamt-Wertigkeit sortiert.<br/>
-    4. Schwarze Karten werden immer ganz rechts gehalten.<br/>
-  `;
+  const locale = getlocale();
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
@@ -45,76 +41,78 @@
 </script>
 
 <svelte:head>
-  <title>{unoSortRoute.name}</title>
-  <meta name={unoSortRoute.name} content="tilloh.dev" />
+  <title>{unoSortRoute.name[locale]}</title>
+  <meta name={unoSortRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if unoSortRoute.toggle}
-  <section>
-    <div class="uno-header">
-      <h1>UNO</h1>
+  {#if $initialized}
+    <section>
+      <div class="uno-header">
+        <h1>UNO</h1>
 
-      <div class="sort-header">
-        <h2>Sortierungsregeln</h2>
-        <div class="sort-info-icon">
-          <Wrapper>
-            <Icon class="material-icons">info</Icon>
-            <Tooltip xPos="start" yPos="below">
-              {@html sortInfotext}
-            </Tooltip>
-          </Wrapper>
-        </div>
-      </div>
-
-      <p class="rule-info">
-        {@html sortInfotext}
-      </p>
-      <div class="uno-menu">
-        <Textfield
-          bind:value={pickAmount}
-          type="number"
-          input$max={stackSize}
-          input$min="0"
-          suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
-        />
-        <Button on:click={() => pickCards(pickAmount)} variant="raised">
-          <Label>ziehen</Label>
-        </Button>
-        <Button on:click={reset} variant="outlined">
-          <Label>Zurücksetzen</Label>
-        </Button>
-      </div>
-    </div>
-
-    <div class="uno-card-area">
-      <div class="stack-area">
-        <p class="label">
-          Stapel <span class="card-amount-info" bind:this={stackSizeElement}
-          ></span>
-        </p>
-
-        <br />
-        <div class="uno-card" id="stack">
-          <div class="card-title-background">
-            <p class="uno-card-title">UNO</p>
+        <div class="sort-header">
+          <h2>{$t('page.unoSort.title')}</h2>
+          <div class="sort-info-icon">
+            <Wrapper>
+              <Icon class="material-icons">info</Icon>
+              <Tooltip xPos="start" yPos="below">
+                {@html $t('page.unoSort.rules')}
+              </Tooltip>
+            </Wrapper>
           </div>
         </div>
-      </div>
 
-      <div>
-        <p class="label">
-          Hand des Spielers <span
-            class="card-amount-info"
-            bind:this={handSizeElement}
-          ></span>
+        <p class="rule-info">
+          {@html $t('page.unoSort.rules')}
         </p>
-
-        <br />
-
-        <div id="player-hand" bind:this={handDivElement}></div>
+        <div class="uno-menu">
+          <Textfield
+            bind:value={pickAmount}
+            type="number"
+            input$max={stackSize}
+            input$min="0"
+            suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
+          />
+          <Button on:click={() => pickCards(pickAmount)} variant="raised">
+            <Label>{$t('page.unoSort.draw')}</Label>
+          </Button>
+          <Button on:click={reset} variant="outlined">
+            <Label>{$t('page.shared.reset')}</Label>
+          </Button>
+        </div>
       </div>
-    </div>
-  </section>
+
+      <div class="uno-card-area">
+        <div class="stack-area">
+          <p class="label">
+            {$t('page.unoSort.stack')}
+            <span class="card-amount-info" bind:this={stackSizeElement}></span>
+          </p>
+
+          <br />
+          <div class="uno-card" id="stack">
+            <div class="card-title-background">
+              <p class="uno-card-title">UNO</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="label">
+            {$t('page.unoSort.playerHand')}
+            <span class="card-amount-info" bind:this={handSizeElement}></span>
+          </p>
+
+          <br />
+
+          <div id="player-hand" bind:this={handDivElement}></div>
+        </div>
+      </div>
+    </section>
+  {:else}
+    <section>Locale initializing...</section>
+  {/if}
 {:else}
   <ToggledApplicationInfo />
 {/if}
@@ -284,13 +282,13 @@
     height: 53vh;
     gap: 2rem;
 
-    @media #{$phone} {
-      flex-direction: column;
+    @media #{$tablet} {
       height: 45vh;
     }
 
-    @media #{$tablet} {
-      height: 45vh;
+    @media #{$phone} {
+      flex-direction: column;
+      height: 40vh;
     }
   }
 

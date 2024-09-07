@@ -2,23 +2,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class KeystoreDto {
-  @ApiProperty({ description: 'Identifier ID' })
+  @ApiProperty({ description: 'Identifier ID', required: false })
   @IsNotEmpty()
   identifier: string;
 
-  @ApiProperty({ description: 'Keystore key' })
+  @ApiProperty({ description: 'Keystore key', required: false })
   @IsNotEmpty()
   key: string;
 
-  @ApiProperty({ description: 'Keystore value' })
+  @ApiProperty({ description: 'Keystore value', required: false })
   @IsNotEmpty()
   value: string;
 
-  @ApiProperty({ description: 'Created date' })
+  @ApiProperty({ description: 'Created date', required: false })
   @IsNotEmpty()
   created: Date;
 
-  @ApiProperty({ description: 'Updated date' })
+  @ApiProperty({ description: 'Updated date', required: false })
   @IsNotEmpty()
   updated: Date;
 }

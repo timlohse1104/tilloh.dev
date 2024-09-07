@@ -2,7 +2,7 @@ import { JokeTexts } from '@backend/shared-texts';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class JokesMongoDbService {
     const startOfTomorrow = new Date(startOfToday);
     startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
 
-    const joke = await this.jokeModel
+    const jokeFromYesterday = await this.jokeModel
       .findOne({
         created: {
           $gte: startOfToday,
@@ -35,6 +35,19 @@ export class JokesMongoDbService {
         },
       })
       .exec();
+
+    let joke;
+    if (!jokeFromYesterday) {
+      const jokes = await this.jokeModel.find().exec();
+
+      if (jokes.length === 0) {
+        throw new NotFoundException(JokeTexts.NOT_FOUND);
+      }
+
+      joke = jokes.reverse()[0];
+    } else {
+      joke = jokeFromYesterday;
+    }
 
     if (!joke) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
@@ -46,11 +59,12 @@ export class JokesMongoDbService {
   /**
    * Fetches all jokes from the mongodb collection 'jokes'.
    *
+   * @param filter Optional param to filter for specific joke results.
    * @returns An array of joke objects.
    */
-  async findAll(): Promise<JokeDto[]> {
-    this.logger.debug(JokeTexts.ATTEMPT_FIND_ALL);
-    const jokes = await this.jokeModel.find().exec();
+  async findAll(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
+    this.logger.debug({ input: { filter } }, JokeTexts.ATTEMPT_FIND_ALL);
+    const jokes = await this.jokeModel.find(filter).exec();
     this.logger.debug({ output: jokes }, JokeTexts.FOUND_ALL);
     return jokes.map((joke) => joke.toObject());
   }

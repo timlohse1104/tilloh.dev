@@ -3,6 +3,7 @@
     localPresetStore,
     presetOverlayOptionsStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
   import Button, { Label } from '@smui/button';
   import Dialog, {
@@ -14,14 +15,12 @@
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
   import hljs from 'highlight.js';
   import { onMount } from 'svelte';
 
   let codeElement;
   let files: FileList;
   let presetUploadSnackbar: Snackbar;
-  let presetDownloadSnackbar: Snackbar;
   let detailOpen = false;
   let configFileInput: HTMLInputElement;
 
@@ -72,7 +71,6 @@
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
-    presetDownloadSnackbar.open();
   };
 </script>
 
@@ -82,87 +80,95 @@
   aria-describedby="large-scroll-content"
   surface$style="width: 50vw; max-width: calc(100vw - 32px);"
 >
-  <Title id="large-scroll-title">
-    Einstellung der Link und Ordner Konfiguration
-    <p class="large-scroll-subtitle">
-      Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf
-      einem beliebigen Gerät weiter zu verwenden.
-      <Wrapper>
-        <Icon class="material-icons">info</Icon>
-        <Tooltip xPos="start" yPos="detected"
-          >Drücke die 'Esc'-Taste um diese Übersicht zu schließen.</Tooltip
-        >
-      </Wrapper>
-    </p>
-  </Title>
+  {#if $initialized}
+    <Title id="large-scroll-title">
+      {$t('page.memorandum.presetOverlay.title')}
 
-  <Title>Das ist deine aktuelle Konfiguration</Title>
+      <p class="large-scroll-subtitle">
+        {$t('page.memorandum.presetOverlay.description')}
+      </p>
+    </Title>
 
-  <List dense>
-    <Item style="margin-left:calc(var(--default-padding)/2);">
-      <Graphic class="material-icons">folder</Graphic>
-      <Text>{folderAmount} Ordner</Text>
-    </Item>
-    <Item style="margin-left:calc(var(--default-padding)/2);">
-      <Graphic class="material-icons">link</Graphic>
-      <Text>{linkAmount} Links</Text>
-    </Item>
-  </List>
+    <Title>
+      {$t('page.memorandum.presetOverlay.currentConfigTitle')}
+    </Title>
 
-  <DialogContent id="large-scroll-content">
-    <div>
-      <Accordion>
-        <Panel bind:open={detailOpen}>
-          <Header
-            >Technische Daten
-            <IconButton slot="icon" toggle pressed={detailOpen}>
-              <Icon class="material-icons" on>expand_less</Icon>
-              <Icon class="material-icons">expand_more</Icon>
-            </IconButton>
-          </Header>
-          <Content
-            ><pre class="code-container">
+    <List dense>
+      <Item style="margin-left:calc(var(--default-padding)/2);">
+        <Graphic class="material-icons">folder</Graphic>
+        <Text>
+          {$t('page.memorandum.presetOverlay.folderAmount', {
+            amount: folderAmount,
+          })}
+        </Text>
+      </Item>
+      <Item style="margin-left:calc(var(--default-padding)/2);">
+        <Graphic class="material-icons">link</Graphic>
+        <Text>
+          {$t('page.memorandum.presetOverlay.linkAmount', {
+            amount: linkAmount,
+          })}
+        </Text>
+      </Item>
+    </List>
+
+    <DialogContent id="large-scroll-content">
+      <div>
+        <Accordion>
+          <Panel bind:open={detailOpen}>
+            <Header>
+              {$t('page.memorandum.presetOverlay.technicalInfoTitle')}
+
+              <IconButton slot="icon" toggle pressed={detailOpen}>
+                <Icon class="material-icons" on>expand_less</Icon>
+                <Icon class="material-icons">expand_more</Icon>
+              </IconButton>
+            </Header>
+            <Content
+              ><pre class="code-container">
             <code class="language-json" bind:this={codeElement}
-                >{JSON.stringify($localPresetStore, null, 2)}</code
-              >
+                  >{JSON.stringify($localPresetStore, null, 2)}</code
+                >
           </pre></Content
-          >
-        </Panel>
-      </Accordion>
-    </div>
+            >
+          </Panel>
+        </Accordion>
+      </div>
+    </DialogContent>
 
-    <Snackbar bind:this={presetUploadSnackbar}>
-      <Label>Konfiguration erfolgreich importiert</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
-
-    <Snackbar bind:this={presetDownloadSnackbar}>
-      <Label>Download der Konfiguration gestartet.</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
-  </DialogContent>
-
-  <DialogActions>
-    <Button
-      on:click={() => {
-        triggerFileSelect();
-        event.stopPropagation();
-      }}
-      variant="outlined"
-    >
-      <Icon class="material-icons">file_upload</Icon>
-      <Label>Import</Label>
-    </Button>
-    <Button on:click={triggerFileDownload} color="secondary" variant="outlined">
-      <Icon class="material-icons">file_download</Icon>
-      <Label>Export</Label>
-    </Button>
-  </DialogActions>
+    <DialogActions>
+      <Button
+        on:click={() => {
+          triggerFileSelect();
+          event.stopPropagation();
+        }}
+        variant="outlined"
+      >
+        <Icon class="material-icons">file_upload</Icon>
+        <Label>Import</Label>
+      </Button>
+      <Button
+        on:click={triggerFileDownload}
+        color="secondary"
+        variant="outlined"
+      >
+        <Icon class="material-icons">file_download</Icon>
+        <Label>Export</Label>
+      </Button>
+    </DialogActions>
+  {:else}
+    <Title id="large-scroll-title">Locale initializing...</Title>
+  {/if}
 </Dialog>
+
+<Snackbar bind:this={presetUploadSnackbar}>
+  <Label>
+    {$t('page.memorandum.presetOverlay.configImportedLabel')}
+  </Label>
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
 
 <input
   bind:this={configFileInput}

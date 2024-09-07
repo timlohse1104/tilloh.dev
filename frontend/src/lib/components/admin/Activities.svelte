@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ActivityTypeDto, type ActivityDto } from '$lib/types/admin.dto';
+  import { initialized, t } from '$lib/util/translations';
   import List, {
     Graphic,
     Item,
@@ -22,25 +23,29 @@
   };
 </script>
 
-<section class="admin-sections">
-  <div class="admin-sections-headline">
-    <h2>Activities</h2>
-  </div>
-  <List threeLine avatarList singleSelection>
-    {#each activities as activity}
-      <Item class="admin-list-items">
-        <Graphic class="material-icons admin-list-items-icon"
-          >{getActivityTypeIcon(activity.type)}</Graphic
-        >
-        <Text class="admin-list-items-text">
-          <PrimaryText>{activity.description}</PrimaryText>
-          <SecondaryText
-            >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
-              'de-DE',
-            )}</SecondaryText
+{#if $initialized}
+  <section class="admin-sections">
+    <div class="admin-sections-headline">
+      <h2>{$t('page.admin.activities.title')}</h2>
+    </div>
+    <List threeLine avatarList singleSelection>
+      {#each activities as activity}
+        <Item class="admin-list-items">
+          <Graphic class="material-icons admin-list-items-icon"
+            >{getActivityTypeIcon(activity.type)}</Graphic
           >
-        </Text>
-      </Item>
-    {/each}
-  </List>
-</section>
+          <Text class="admin-list-items-text">
+            <PrimaryText>{activity.description}</PrimaryText>
+            <SecondaryText
+              >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
+                'de-DE',
+              )}</SecondaryText
+            >
+          </Text>
+        </Item>
+      {/each}
+    </List>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}

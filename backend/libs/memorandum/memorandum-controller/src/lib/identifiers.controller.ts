@@ -20,6 +20,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -43,8 +44,9 @@ export class IdentifiersController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get()
-  getIdentifiers() {
-    return this.identifiersService.listIdentifiers();
+  getIdentifiers(@Query() filter?: IdentifierDto) {
+    const filterQuery = filter || {};
+    return this.identifiersService.listIdentifiers(filterQuery);
   }
 
   @Public()
@@ -82,11 +84,11 @@ export class IdentifiersController {
   @Put('/:id')
   updateIdentifier(
     @Param() updateIdentifierInputDto: UpdateIdentifierInputDto,
-    @Body() identifierDto: IdentifierDto
+    @Body() identifierDto: IdentifierDto,
   ) {
     return this.identifiersService.updateIdentifier(
       updateIdentifierInputDto.id,
-      identifierDto
+      identifierDto,
     );
   }
 
@@ -100,10 +102,10 @@ export class IdentifiersController {
   @ApiNotFoundResponse({ description: 'Identifier not found.' })
   @Delete('/:id')
   deleteIdentifier(
-    @Param() removeIdentifierInputDto: RemoveIdentifierInputDto
+    @Param() removeIdentifierInputDto: RemoveIdentifierInputDto,
   ) {
     return this.identifiersService.deleteIdentifier(
-      removeIdentifierInputDto.id
+      removeIdentifierInputDto.id,
     );
   }
 }
