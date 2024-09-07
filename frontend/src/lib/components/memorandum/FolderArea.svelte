@@ -7,6 +7,7 @@
     folderOrderFolder,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Fab, { Icon } from '@smui/fab';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
@@ -23,7 +24,12 @@
     let currentPreset = $localPresetStore;
 
     currentPreset.Folders.push(
-      new FolderClass(currentPreset.Folders.length, `Neu`, [], defaultColor),
+      new FolderClass(
+        currentPreset.Folders.length,
+        $t('page.memorandum.newFolderHeader'),
+        [],
+        defaultColor,
+      ),
     );
     $localPresetStore = currentPreset;
   };
@@ -47,29 +53,13 @@
   };
 </script>
 
-{#await $localPresetStore}
-  <p>Lädt lokalen Speicher...</p>
-{:then value}
-  {#if value.Folders.length > 0}
-    {#if $folderOrderFolder === 'fixed'}
-      <section class="contentAreaFixed">
-        {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
-          <Folder
-            id={i}
-            folderHeader={folderName}
-            folderBackground={customBackgroundColor}
-            on:delFolder={deleteFolder}
-          />
-        {/each}
-      </section>
-    {:else}
-      <section class="contentAreaFlexible">
-        <Masonry
-          reset
-          gridGap={'0.75rem'}
-          items={$localPresetStore.Folders}
-          bind:refreshLayout
-        >
+{#if $initialized}
+  {#await $localPresetStore}
+    <p>{$t('page.memorandum.loadingLocalPreset')}</p>
+  {:then value}
+    {#if value.Folders.length > 0}
+      {#if $folderOrderFolder === 'fixed'}
+        <section class="contentAreaFixed">
           {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
             <Folder
               id={i}
@@ -78,34 +68,58 @@
               on:delFolder={deleteFolder}
             />
           {/each}
-        </Masonry>
-      </section>
+        </section>
+      {:else}
+        <section class="contentAreaFlexible">
+          <Masonry
+            reset
+            gridGap={'0.75rem'}
+            items={$localPresetStore.Folders}
+            bind:refreshLayout
+          >
+            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+              <Folder
+                id={i}
+                folderHeader={folderName}
+                folderBackground={customBackgroundColor}
+                on:delFolder={deleteFolder}
+              />
+            {/each}
+          </Masonry>
+        </section>
+      {/if}
+    {:else}
+      <Startup on:new={createFolder} on:default={loadPreset} />
     {/if}
-  {:else}
-    <Startup on:new={createFolder} on:default={loadPreset} />
-  {/if}
-{:catch error}
-  <p>Etwas ist schieß gelaufen: {error.message}</p>
-{/await}
+  {:catch error}
+    <p>
+      {$t('page.shared.somethingWentWrong', {
+        error: error.message,
+      })}
+    </p>
+  {/await}
 
-<Fab
-  style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
-  color="secondary"
-  on:click={createFolder}
->
-  <Icon style="font-size:2rem;" class="material-icons">add</Icon>
-</Fab>
+  <Fab
+    style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+    color="secondary"
+    on:click={createFolder}
+  >
+    <Icon style="font-size:2rem;" class="material-icons">add</Icon>
+  </Fab>
 
-<ConfirmOverlay
-  open={confirmDeleteFolderOpenOverlay}
-  questionHeader="Ordner löschen"
-  questionContent="Möchtest du diesen Ordner wirklich löschen?"
-  noActionText="Nein"
-  noAction={() => (confirmDeleteFolderOpenOverlay = false)}
-  yesActionText="Ja"
-  yesAction={confirmDeleteFolderAction}
-  on:close={() => (confirmDeleteFolderOpenOverlay = false)}
-/>
+  <ConfirmOverlay
+    open={confirmDeleteFolderOpenOverlay}
+    questionHeader={$t('page.memorandum.folder.deleteTitle')}
+    questionContent={$t('page.memorandum.folder.deleteQuestion')}
+    noActionText={$t('page.shared.no')}
+    noAction={() => (confirmDeleteFolderOpenOverlay = false)}
+    yesActionText={$t('page.shared.yes')}
+    yesAction={confirmDeleteFolderAction}
+    on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+  />
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @import '../../styles/variables.scss';

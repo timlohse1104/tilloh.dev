@@ -1,13 +1,15 @@
 <script lang="ts">
   import OnlinePersistenceCheck from '$lib/components/settings/OnlinePersistenceCheck.svelte';
   import { utilityRoutes } from '$lib/config/applications';
+  import { getlocale } from '$lib/util/translations';
 
   const { settings: settingsRoute } = utilityRoutes;
+  const locale = getlocale();
 </script>
 
 <svelte:head>
-  <title>{settingsRoute.name}</title>
-  <meta name={settingsRoute.name} content="tilloh.dev" />
+  <title>{settingsRoute.name[locale]}</title>
+  <meta name={settingsRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>

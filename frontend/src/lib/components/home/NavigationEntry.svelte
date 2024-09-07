@@ -1,10 +1,12 @@
 <script>
   import { applicationRoutes } from '$lib/config/applications';
+  import { getlocale } from '$lib/util/translations';
   import { Icon } from '@smui/common';
 
   export let appKey;
 
   const app = applicationRoutes[appKey];
+  const locale = getlocale();
 </script>
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
@@ -14,7 +16,7 @@
       style="cursor: pointer;font-size: 1.2rem;"
       on:click={() => window.open(app.path, '_self')}>{app.icon}</Icon
     >
-    <a href={app.path}>{app.name}</a>
+    <a href={app.path}>{app.name[locale]}</a>
   </span>
 </li>
 
@@ -66,7 +68,7 @@
     }
 
     @media #{$phone} {
-      font-size: 0.6rem;
+      font-size: 0.8rem;
       padding: 0 0.3rem;
       font-weight: 800;
     }

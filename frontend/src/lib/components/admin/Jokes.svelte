@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IdentifierDto } from '$lib/types/identifiers.dto';
+  import type { JokeDto } from '$lib/types/jokes.dto';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
@@ -12,33 +12,32 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let identifiers: IdentifierDto[] = [];
+  export let jokes: JokeDto[] = [];
 </script>
 
 {#if $initialized}
   <section class="admin-sections">
     <div class="admin-sections-headline">
-      <h2>{$t('page.admin.identifiers.title')}</h2>
+      <h2>{$t('page.admin.jokes.title')}</h2>
     </div>
     <List threeLine avatarList singleSelection>
-      {#each identifiers as identifier, i}
+      {#each jokes as joke, i}
         <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon"
-            >fingerprint</Graphic
+            >settings_accessibility</Graphic
           >
           <Text class="admin-list-items-text">
-            <PrimaryText>{identifier.name}</PrimaryText>
-            <SecondaryText>🆔{identifier._id}</SecondaryText>
+            <PrimaryText>{joke.text}</PrimaryText>
+            <SecondaryText>🆔{joke._id}</SecondaryText>
             <SecondaryText
-              >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
-                identifier.updated,
+              >✨{new Date(joke.created).toLocaleString('de-DE')} 🔧{new Date(
+                joke.updated,
               ).toLocaleString('de-DE')}</SecondaryText
             >
           </Text>
           <IconButton
             class="material-icons admin-list-items-button"
-            on:click={() =>
-              dispatch('removeIdentifier', { identifierId: identifier._id })}
+            on:click={() => dispatch('removeJoke', { jokeId: joke._id })}
             >delete</IconButton
           >
         </Item>

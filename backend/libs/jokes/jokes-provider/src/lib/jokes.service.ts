@@ -1,8 +1,12 @@
-import { JokesMongoDbService } from '@backend/jokes/jokes-persistence';
+import {
+  JokeDocument,
+  JokesMongoDbService,
+} from '@backend/jokes/jokes-persistence';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { FilterQuery } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -10,7 +14,7 @@ export class JokesService {
   private readonly logger = new Logger(JokesService.name);
   constructor(
     private jokesMongoDbService: JokesMongoDbService,
-    private httpService: HttpService
+    private httpService: HttpService,
   ) {}
 
   /**
@@ -48,11 +52,12 @@ export class JokesService {
   /**
    * Fetches all jokes.
    *
+   * @param filter Optional param to filter for specific joke results.
    * @returns An array of jokes.
    */
-  async listJokes(): Promise<JokeDto[]> {
+  async listJokes(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
     this.logger.log('Getting all jokes.');
-    return await this.jokesMongoDbService.findAll();
+    return await this.jokesMongoDbService.findAll(filter);
   }
 
   /**
@@ -86,7 +91,7 @@ export class JokesService {
    */
   async updateJoke(
     id: string,
-    modifyJokeDto: Partial<ModifyJokeDto>
+    modifyJokeDto: Partial<ModifyJokeDto>,
   ): Promise<JokeDto> {
     this.logger.log('Updating a joke.');
     return await this.jokesMongoDbService.update(id, modifyJokeDto);

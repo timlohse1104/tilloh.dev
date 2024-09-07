@@ -1,21 +1,24 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { getlocale, initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import { onMount } from 'svelte';
+
+  const locale = getlocale();
 
   let appLinks = [];
   let utilLinks = [];
 
   onMount(() => {
     appLinks = Object.values(applicationRoutes).map((route) => ({
-      title: route.name,
+      title: route.name[locale],
       link: route.path,
       icon: route.icon,
     }));
 
     utilLinks = Object.values(utilityRoutes).map((route) => ({
-      title: route.name,
+      title: route.name[locale],
       link: route.path,
       icon: route.icon,
     }));
@@ -39,15 +42,17 @@
       /></svg
     >
   </button>
+</IconButton>
 
-  <aside popover id="hamburger-menu">
-    <h2>Anwendungen</h2>
+<aside popover id="hamburger-menu">
+  {#if $initialized}
+    <h1>{$t('page.shared.burgerMenuTitle')}</h1>
     <hr />
     <ul>
       {#each appLinks as link}
         <li>
           <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link}>{link.title}</a>
+          <a href={link.link}>{link.title} </a>
         </li>
       {/each}
     </ul>
@@ -63,9 +68,19 @@
       {/each}
     </ul>
 
-    <footer>Designed by Tilloh with 💙</footer>
-  </aside>
-</IconButton>
+    <footer>
+      <IconButton href="https://github.com/timlohse1104" target="_blank">
+        <img src={'/images/header/github-light.svg'} alt="GitHub" />
+      </IconButton>
+      <p>{$t('page.shared.madeByText')}</p>
+      <IconButton href="https://stadtwerk.org" target="_blank">
+        <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
+      </IconButton>
+    </footer>
+  {:else}
+    <section>Locale initializing...</section>
+  {/if}
+</aside>
 
 <style lang="scss">
   @import '../../styles/variables.scss';
@@ -121,65 +136,92 @@
         overlay var(--duration) allow-discrete,
         display var(--duration) allow-discrete;
     }
+  }
 
-    h2 {
-      text-align: left;
-      margin-left: var(--menu-left);
-      color: var(--color-text);
+  h1 {
+    text-align: left;
+    margin-left: var(--menu-left);
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
 
-      @media #{$phone} {
-        font-size: large;
-      }
+    @media #{$phone} {
+      font-size: larger;
+    }
+  }
+
+  hr {
+    position: fixed;
+    left: var(--menu-left);
+    margin: 0;
+  }
+
+  hr:first-of-type {
+    border: 1.25px solid var(--color-text);
+    width: 75%;
+  }
+
+  hr:last-of-type {
+    border: 0.05rem solid var(--color-text);
+    width: 50%;
+    opacity: 0.3;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+
+    @media #{$tablet} {
+      margin-top: 2rem;
     }
 
-    hr {
-      position: fixed;
-      border: 0.5px solid var(--color-text);
-      width: 75%;
-      left: var(--menu-left);
-      margin: 0;
+    @media #{$phone} {
+      margin-top: 2rem;
+    }
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    border: 0;
+    padding-left: var(--menu-left);
+
+    &:hover {
+      background-color: black;
+    }
+  }
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+    display: block;
+    padding: 1rem;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--color-text);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media #{$phone} {
+      font-size: 0.8rem;
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-
-      @media #{$tablet} {
-        margin-top: 2rem;
-      }
-
-      @media #{$phone} {
-        margin-top: 2rem;
-      }
+    p {
+      margin: 0 2rem 0 2rem;
     }
-
-    li {
-      display: flex;
-      align-items: center;
-      border: 0;
-      padding-left: var(--menu-left);
-
-      &:hover {
-        background-color: black;
-      }
-    }
-
-    a {
-      color: var(--color-text);
-      text-decoration: none;
-      display: block;
-      padding: 1rem;
-    }
-
-    footer {
-      position: fixed;
-      bottom: 2rem;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      color: var(--color-text);
+    img {
+      width: 2em;
+      height: 2em;
+      object-fit: contain;
     }
   }
 

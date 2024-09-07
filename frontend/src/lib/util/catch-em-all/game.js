@@ -35,7 +35,7 @@ const GAMECONFIG = {
 };
 
 export default class Game {
-  constructor(gameWidth, gameHeight) {
+  constructor(gameWidth, gameHeight, i18nTexts) {
     // init images
     this.successImage = new Image();
     this.successImage.src = '/images/catch-em-all/Gotcha.png';
@@ -71,6 +71,9 @@ export default class Game {
     // measures
     this.centerMeasure = this.gameWidth / 2;
     this.leftMeasure = this.gameWidth / 7;
+
+    // i18n
+    this.i18n = i18nTexts;
   }
 
   start() {
@@ -124,7 +127,7 @@ export default class Game {
 
     // update all objects
     [...this.gameObjects, ...this.bricks].forEach((object) =>
-      object.update(deltaTime)
+      object.update(deltaTime),
     );
     this.bricks = this.bricks.filter((brick) => !brick.markedForDeletion);
 
@@ -180,19 +183,23 @@ export default class Game {
       this.centerMeasure - this.gameWidth / 3,
       this.gameHeight / 6,
       this.gameWidth / 1.5,
-      this.gameWidth / 4
+      this.gameWidth / 4,
     );
 
     ctx.fillStyle = 'gray';
     ctx.textAlign = 'center';
     ctx.font = '22px Arial';
-    ctx.fillText(`Neues Spiel?`, this.centerMeasure, this.gameHeight / 2);
+    ctx.fillText(
+      this.i18n.newGameQuestion,
+      this.centerMeasure,
+      this.gameHeight / 2,
+    );
     ctx.fillStyle = 'white';
     ctx.font = '30px Arial';
     ctx.fillText(
-      `LEERTASTE drücken`,
+      this.i18n.pressSpacebar,
       this.centerMeasure,
-      this.gameHeight / 2 + 40
+      this.gameHeight / 2 + 40,
     );
 
     // highscore
@@ -210,35 +217,39 @@ export default class Game {
     ctx.font = '30px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-    ctx.fillText('Pausiert', this.centerMeasure, this.gameHeight / 3);
+    ctx.fillText(this.i18n.paused, this.centerMeasure, this.gameHeight / 3);
     ctx.font = '20px Arial';
     ctx.fillStyle = 'crimson';
     ctx.fillText(
-      `Level ${this.currentLevel + 1}`,
+      `${this.i18n.stage} ${this.currentLevel + 1}`,
       this.centerMeasure,
-      this.gameHeight / 3 + 50
+      this.gameHeight / 3 + 50,
     );
 
     // current round statistics
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'lightgray';
-    ctx.fillText('Aktuelle Runde:', this.leftMeasure, this.gameHeight / 2 + 40);
+    ctx.fillText(
+      `${this.i18n.currentRound}:`,
+      this.leftMeasure,
+      this.gameHeight / 2 + 40,
+    );
     ctx.font = '14px Arial';
     ctx.fillText(
-      `Pokémon gefangen: ${this.ball.collisions.bricks}`,
+      `${this.i18n.caught}: ${this.ball.collisions.bricks}`,
       this.leftMeasure,
-      this.gameHeight / 2 + 70
+      this.gameHeight / 2 + 70,
     );
     ctx.fillText(
-      `Ball geworfen: ${this.ball.collisions.paddle}`,
+      `${this.i18n.ballsThrown}: ${this.ball.collisions.paddle}`,
       this.leftMeasure,
-      this.gameHeight / 2 + 90
+      this.gameHeight / 2 + 90,
     );
     ctx.fillText(
-      `Leben übrig: ${this.lifes}`,
+      `${this.i18n.lifesLeft}: ${this.lifes}`,
       this.leftMeasure,
-      this.gameHeight / 2 + 110
+      this.gameHeight / 2 + 110,
     );
 
     // highscore
@@ -252,16 +263,16 @@ export default class Game {
     ctx.font = '12px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'left';
-    ctx.fillText(`${this.ball.collisions.bricks} Pokémon gefangen`, 10, 14);
+    ctx.fillText(`${this.ball.collisions.bricks} ${this.i18n.caught}`, 10, 14);
     ctx.fillText(
-      `Level ${this.currentLevel + 1} / ${this.levels.length}`,
+      `${this.i18n.stage} ${this.currentLevel + 1} / ${this.levels.length}`,
       this.centerMeasure - 20,
-      14
+      14,
     );
     ctx.fillText(
-      `${this.ball.collisions.paddle}-mal geworfen`,
+      `${this.ball.collisions.paddle}${this.i18n.timesThrown}`,
       this.gameWidth - 95,
-      14
+      14,
     );
   }
 
@@ -275,36 +286,48 @@ export default class Game {
       this.centerMeasure - this.gameWidth / 4,
       this.gameHeight / 7,
       this.centerMeasure,
-      this.gameHeight / 5
+      this.gameHeight / 5,
     );
 
     ctx.font = '40px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-    ctx.fillText(`Verloren!`, this.centerMeasure, this.gameHeight / 2 - 50);
+    ctx.fillText(this.i18n.lost, this.centerMeasure, this.gameHeight / 2 - 50);
     ctx.font = '24px Arial';
-    ctx.fillText(`Neues Spiel?`, this.centerMeasure, this.gameHeight / 2 + 50);
-    ctx.fillText(`ENTER drücken`, this.centerMeasure, this.gameHeight / 2 + 90);
+    ctx.fillText(
+      this.i18n.newGameQuestion,
+      this.centerMeasure,
+      this.gameHeight / 2 + 50,
+    );
+    ctx.fillText(
+      this.i18n.pressEnter,
+      this.centerMeasure,
+      this.gameHeight / 2 + 90,
+    );
 
     // statistics
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
-    ctx.fillText('Statistik:', this.gameWidth / 3.5, this.gameHeight / 2 + 200);
+    ctx.fillText(
+      `${this.i18n.statistics}`,
+      this.gameWidth / 3.5,
+      this.gameHeight / 2 + 200,
+    );
     ctx.font = '14px Arial';
     ctx.fillText(
-      `Pokémon gefangen: ${this.ball.collisions.bricks}`,
+      `${this.i18n.caught}: ${this.ball.collisions.bricks}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 230
+      this.gameHeight / 2 + 230,
     );
     ctx.fillText(
-      `Ball geworfen:    ${this.ball.collisions.paddle}`,
+      `${this.i18n.ballsThrown}:    ${this.ball.collisions.paddle}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 250
+      this.gameHeight / 2 + 250,
     );
     ctx.fillText(
-      `Leben übrig:              ${this.lifes}`,
+      `${this.i18n.lifesLeft}:              ${this.lifes}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 270
+      this.gameHeight / 2 + 270,
     );
   }
 
@@ -318,36 +341,48 @@ export default class Game {
       this.centerMeasure - this.gameWidth / 4,
       this.gameHeight / 6,
       this.centerMeasure,
-      this.gameWidth / 3
+      this.gameWidth / 3,
     );
 
     ctx.font = '40px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-    ctx.fillText(`Gewonnen!`, this.centerMeasure, this.gameHeight / 2 - 50);
+    ctx.fillText(this.i18n.won, this.centerMeasure, this.gameHeight / 2 - 50);
     ctx.font = '24px Arial';
-    ctx.fillText(`Neues Spiel?`, this.centerMeasure, this.gameHeight / 2 + 50);
-    ctx.fillText(`ENTER drücken`, this.centerMeasure, this.gameHeight / 2 + 90);
+    ctx.fillText(
+      this.i18n.newGameQuestion,
+      this.centerMeasure,
+      this.gameHeight / 2 + 50,
+    );
+    ctx.fillText(
+      this.i18n.pressEnter,
+      this.centerMeasure,
+      this.gameHeight / 2 + 90,
+    );
 
     // statistics
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
-    ctx.fillText('Statistik:', this.gameWidth / 3.5, this.gameHeight / 2 + 200);
+    ctx.fillText(
+      `${this.i18n.statistics}:`,
+      this.gameWidth / 3.5,
+      this.gameHeight / 2 + 200,
+    );
     ctx.font = '14px Arial';
     ctx.fillText(
-      `Pokémon gefangen: ${this.ball.collisions.bricks}`,
+      `${this.i18n.caught}: ${this.ball.collisions.bricks}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 230
+      this.gameHeight / 2 + 230,
     );
     ctx.fillText(
-      `Ball geworfen:    ${this.ball.collisions.paddle}`,
+      `${this.i18n.ballsThrown}:    ${this.ball.collisions.paddle}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 250
+      this.gameHeight / 2 + 250,
     );
     ctx.fillText(
-      `Leben übrig:              ${this.lifes}`,
+      `${this.i18n.lifesLeft}:              ${this.lifes}`,
       this.gameWidth / 3.5,
-      this.gameHeight / 2 + 270
+      this.gameHeight / 2 + 270,
     );
   }
 
@@ -401,45 +436,45 @@ export default class Game {
       ctx.textAlign = 'left';
       ctx.fillStyle = 'lightgray';
       ctx.fillText(
-        `Dein lokaler Highscore:`,
+        `${this.i18n.localHighscore}:`,
         this.leftMeasure,
-        this.gameHeight / 2 + 160
+        this.gameHeight / 2 + 160,
       );
       ctx.font = '14px Arial';
       ctx.fillText(
-        `Level: ${getLocalHighscore().level}`,
+        `${this.i18n.stage}: ${getLocalHighscore().level}`,
         this.leftMeasure,
-        this.gameHeight / 2 + 190
+        this.gameHeight / 2 + 190,
       );
       ctx.fillText(
-        `Pokémon gefangen: ${getLocalHighscore().caught}`,
+        `${this.i18n.caught}: ${getLocalHighscore().caught}`,
         this.leftMeasure,
-        this.gameHeight / 2 + 210
+        this.gameHeight / 2 + 210,
       );
       ctx.fillText(
-        `Ball geworfen: ${getLocalHighscore().keptUp}`,
+        `${this.i18n.ballsThrown}: ${getLocalHighscore().keptUp}`,
         this.leftMeasure,
-        this.gameHeight / 2 + 230
+        this.gameHeight / 2 + 230,
       );
       ctx.fillText(
-        `Leben übrig: ${getLocalHighscore().lifes}`,
+        `${this.i18n.lifesLeft}: ${getLocalHighscore().lifes}`,
         this.leftMeasure,
-        this.gameHeight / 2 + 250
+        this.gameHeight / 2 + 250,
       );
     } else {
       ctx.font = '20px Arial';
       ctx.textAlign = 'left';
       ctx.fillStyle = 'gray';
       ctx.fillText(
-        `Noch kein Highscore vorhanden`,
+        this.i18n.noHighscore,
         this.leftMeasure,
-        this.gameHeight / 2 + 160
+        this.gameHeight / 2 + 160,
       );
       ctx.font = '14px Arial';
       ctx.fillText(
-        `Beginne jetzt ein neues Spiel!`,
+        this.i18n.startFirstGame,
         this.leftMeasure,
-        this.gameHeight / 2 + 190
+        this.gameHeight / 2 + 190,
       );
     }
   }
@@ -448,37 +483,41 @@ export default class Game {
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'lightgray';
-    ctx.fillText(`Steuerung:`, this.leftMeasure, this.gameHeight / 2 + 300);
+    ctx.fillText(
+      `${this.i18n.controlsTitle}:`,
+      this.leftMeasure,
+      this.gameHeight / 2 + 300,
+    );
     ctx.font = '14px Arial';
     ctx.fillText(
-      `Leertaste - Spiel starten`,
+      this.i18n.controlsSpace,
       this.leftMeasure,
-      this.gameHeight / 2 + 330
+      this.gameHeight / 2 + 330,
     );
     ctx.fillText(
-      `Hoch - Ball werfen`,
+      this.i18n.controlsUp,
       this.leftMeasure,
-      this.gameHeight / 2 + 350
+      this.gameHeight / 2 + 350,
     );
     ctx.fillText(
-      `Links - Trainer nach links schicken`,
+      this.i18n.controlsLeft,
       this.leftMeasure,
-      this.gameHeight / 2 + 370
+      this.gameHeight / 2 + 370,
     );
     ctx.fillText(
-      `Rechts - Trainer nach rechts schicken`,
+      this.i18n.controlsRight,
       this.leftMeasure,
-      this.gameHeight / 2 + 390
+      this.gameHeight / 2 + 390,
     );
     ctx.fillText(
-      `ESC - Spiel pausieren / fortsetzen`,
+      this.i18n.controlsEsc,
       this.leftMeasure,
-      this.gameHeight / 2 + 410
+      this.gameHeight / 2 + 410,
     );
     ctx.fillText(
-      `Enter - Spiel neustarten `,
+      this.i18n.controlsEnter,
       this.leftMeasure,
-      this.gameHeight / 2 + 430
+      this.gameHeight / 2 + 430,
     );
   }
 }

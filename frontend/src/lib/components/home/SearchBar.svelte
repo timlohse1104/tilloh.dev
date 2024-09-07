@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import Paper from '@smui/paper';
   import { Input } from '@smui/textfield';
@@ -6,22 +7,26 @@
   let value = '';
 </script>
 
-<div class="search-container">
-  <form action="https://duckduckgo.com/">
-    <Paper class="solo-paper" elevation={6}>
-      <Icon class="material-icons">search</Icon>
-      <Input
-        style="width: 250em;"
-        bind:value
-        placeholder="Search"
-        class="solo-input"
-        type="text"
-        name="q"
-        autofocus
-      />
-    </Paper>
-  </form>
-</div>
+{#if $initialized}
+  <div class="search-container">
+    <form action="https://duckduckgo.com/">
+      <Paper class="solo-paper" elevation={6}>
+        <Icon class="material-icons">search</Icon>
+        <Input
+          style="width: 250em;"
+          bind:value
+          placeholder={$t('page.home.searchPlaceholder')}
+          class="solo-input"
+          type="text"
+          name="q"
+          autofocus
+        />
+      </Paper>
+    </form>
+  </div>
+{:else}
+  <div class="search-container">Locale initializing...</div>
+{/if}
 
 <style lang="scss">
   .search-container {

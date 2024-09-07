@@ -2,6 +2,7 @@
   import type { TodoList } from '$lib/types/todo.ts';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
@@ -86,83 +87,92 @@
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >
-  {#if $listOverlayOptionsStore.type === 'new'}
-    <Title id="simple-title">
-      Liste erstellen
-      <p class="subtitle">Lege hier eine neue Aufgabenliste an.</p>
-    </Title>
-  {:else}
-    <Title id="simple-title">
-      Liste bearbeiten
-      <p class="subtitle">
-        Bearbeite hier die Liste <b>{newListName}</b>.
-      </p>
-    </Title>
-  {/if}
-  <Content id="simple-content">
-    <div class="createListSection">
-      <Textfield
-        variant="outlined"
-        bind:value={newListName}
-        label="Name der Liste"
-        required
-        on:keyup={(event) => proceedOnEnter(event)}
-      />
-      <div>
+  {#if $initialized}
+    {#if $listOverlayOptionsStore.type === 'new'}
+      <Title id="simple-title">
+        {$t('page.todos.overlay.createTitle')}
+        <p class="subtitle">
+          {$t('page.todos.overlay.createSubtitle')}
+        </p>
+      </Title>
+    {:else}
+      <Title id="simple-title">
+        {$t('page.todos.overlay.editTitle')}
+        <p class="subtitle">
+          <b
+            >{$t('page.todos.overlay.createSubtitle', {
+              listName: newListName,
+            })}</b
+          >.
+        </p>
+      </Title>
+    {/if}
+    <Content id="simple-content">
+      <div class="createListSection">
         <Textfield
           variant="outlined"
-          bind:this={newListEmojiInput}
-          bind:value={newListEmoji}
-          label="Emoji der Liste"
+          bind:value={newListName}
+          label={$t('page.todos.overlay.listName')}
+          required
           on:keyup={(event) => proceedOnEnter(event)}
-        >
-          <HelperText persistent slot="helper"
-            >Vergibst du kein Emoji erhältst du 📝</HelperText
+        />
+        <div>
+          <Textfield
+            variant="outlined"
+            bind:this={newListEmojiInput}
+            bind:value={newListEmoji}
+            label={$t('page.todos.overlay.listEmoji')}
+            on:keyup={(event) => proceedOnEnter(event)}
           >
-          <Wrapper>
-            <IconButton
-              style="position:absolute;color: white;right:0;top:0"
-              size="mini"
+            <HelperText persistent slot="helper"
+              >{$t('page.todos.overlay.listEmojiDescription')}</HelperText
             >
-              <Icon class="material-icons">info</Icon>
-            </IconButton>
-            <Tooltip xPos="center" yPos="above"
-              >Emojis kann man z.B. hier https://emojipedia.org/ und hier
-              https://emojifinder.com/ finden.</Tooltip
-            >
-          </Wrapper>
-        </Textfield>
+            <Wrapper>
+              <IconButton
+                style="position:absolute;color: white;right:0;top:0"
+                size="mini"
+              >
+                <Icon class="material-icons">info</Icon>
+              </IconButton>
+              <Tooltip xPos="center" yPos="above"
+                >{$t('page.todos.overlay.emojiTooltip')}</Tooltip
+              >
+            </Wrapper>
+          </Textfield>
+        </div>
       </div>
-    </div>
-  </Content>
+    </Content>
 
-  <Actions>
-    <Button on:click={deleteList}>
-      <Icon class="material-icons">delete</Icon>
-      <Label>Löschen</Label>
-    </Button>
-    <Button on:click={closeOverlay}>
-      <Icon class="material-icons">playlist_remove</Icon>
-      <Label>Abbruch</Label>
-    </Button>
-    <Button
-      on:click={$listOverlayOptionsStore.type === 'new'
-        ? createList
-        : updateList}
-      bind:this={saveButton}
-    >
-      <Icon class="material-icons"
-        >{$listOverlayOptionsStore.type === 'new'
-          ? 'playlist_add'
-          : 'save'}</Icon
+    <Actions>
+      <Button on:click={deleteList} color="secondary">
+        <Icon class="material-icons">delete</Icon>
+        <Label>{$t('page.shared.delete')}</Label>
+      </Button>
+      <Button on:click={closeOverlay} color="secondary">
+        <Icon class="material-icons">playlist_remove</Icon>
+        <Label>{$t('page.shared.abort')}</Label>
+      </Button>
+      <Button
+        on:click={$listOverlayOptionsStore.type === 'new'
+          ? createList
+          : updateList}
+        bind:this={saveButton}
       >
-      <Label
-        >{$listOverlayOptionsStore.type === 'new'
-          ? 'Hinzufügen'
-          : 'Speichern'}</Label
-      >
-    </Button>
-  </Actions>
+        <Icon class="material-icons"
+          >{$listOverlayOptionsStore.type === 'new'
+            ? 'playlist_add'
+            : 'save'}</Icon
+        >
+        <Label
+          >{$listOverlayOptionsStore.type === 'new'
+            ? $t('page.shared.append')
+            : $t('page.shared.save')}</Label
+        >
+      </Button>
+    </Actions>
+  {:else}
+    <Title id="simple-title">Locale initializing...</Title>
+  {/if}
 </Dialog>
 
 <svelte:window

@@ -23,16 +23,19 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
+      - name: Debug cache hit
+        run: echo ${{ steps.node_modules_cache.outputs.cache-hit }}
+
       - name: Npm audit
         run: |
           cd backend
           npm audit --audit-level=critical --omit=dev
 
-      - name: Npm clean install
+      - name: Npm install
         if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd backend
-          npm ci --legacy-peer-deps
+          npm i --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
@@ -63,11 +66,11 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
-      - name: Npm clean install
+      - name: Npm install
         if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd backend
-          npm ci --legacy-peer-deps
+          npm i --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
@@ -112,11 +115,11 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
 
-      - name: Npm clean install
+      - name: Npm install
         if: steps.node_modules_cache.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd backend
-          npm ci --legacy-peer-deps
+          npm i --legacy-peer-deps
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
@@ -150,10 +153,11 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules
 
-      - name: Npm clean install
+      - name: Npm install
+        if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd backend
-          npm ci
+          npm i --legacy-peer-deps
 
       - name: Build backend
         run: |
@@ -226,7 +230,7 @@ jobs:
           script: |
             cd api
             rm -rf node_modules
-            npm i
+            npm i --legacy-peer-deps
 
       - name: Restart backend service
         uses: appleboy/ssh-action@master
