@@ -3,7 +3,7 @@ import { KeystoreDto, UpdateKeystoreInputBodyDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Keystore, KeystoreDocument } from './schema/keystore.schema';
 
 @Injectable()
@@ -18,11 +18,14 @@ export class KeystoreMongoDbService {
   /**
    * Fetches all keys.
    *
+   * @param filter Optional param to filter for specific key results.
    * @returns An array of key objects.
    */
-  async findAll(): Promise<KeystoreDto[]> {
-    this.logger.debug({ input: {} }, KeystoreTexts.ATTEMPT_FIND_ALL);
-    const keys = await this.keystoreModel.find();
+  async findAll(
+    filter: FilterQuery<KeystoreDocument> = {},
+  ): Promise<KeystoreDto[]> {
+    this.logger.debug({ input: { filter } }, KeystoreTexts.ATTEMPT_FIND_ALL);
+    const keys = await this.keystoreModel.find(filter);
     this.logger.debug(
       { output: keys },
       `MongoDb responded, found ${keys.length} keys.`,

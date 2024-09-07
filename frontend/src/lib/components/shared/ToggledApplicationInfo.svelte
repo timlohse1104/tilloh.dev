@@ -1,26 +1,31 @@
 <script lang="ts">
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Icon from '@smui/textfield/icon';
 </script>
 
-<div class="toggled-application-info-outer">
-  <div class="toggled-application-info-inner">
-    <Icon class="material-icons toggled-application-icon">construction</Icon>
-    <h2>Diese Anwendung wurde vorübergehend deaktiviert.</h2>
-    <p>Versuche es später erneut. ¯\_(ツ)_/¯</p>
-    <div class="back-button">
-      <Button
-        color="secondary"
-        variant="outlined"
-        href="/"
-        style="text-decoration: none;"
-      >
-        <Icon class="material-icons">home</Icon>
-        <Label>Zurück zur Startseite</Label>
-      </Button>
+{#if $initialized}
+  <div class="toggled-application-info-outer">
+    <div class="toggled-application-info-inner">
+      <Icon class="material-icons toggled-application-icon">construction</Icon>
+      <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
+      <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
+      <div class="back-button">
+        <Button
+          color="secondary"
+          variant="outlined"
+          href="/"
+          style="text-decoration: none;"
+        >
+          <Icon class="material-icons">home</Icon>
+          <Label>{$t('page.shared.toggledSiteBackButtonText')}</Label>
+        </Button>
+      </div>
     </div>
   </div>
-</div>
+{:else}
+  <div class="toggled-application-info-outer">Locale initializing...</div>
+{/if}
 
 <style lang="scss">
   .toggled-application-info-outer {

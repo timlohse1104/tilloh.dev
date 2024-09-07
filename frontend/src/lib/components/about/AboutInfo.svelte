@@ -1,19 +1,19 @@
-<section>
-  <p>
-    <span class="capital-word">Moin</span> my name is Tim. I'm a software developer
-    from Germany. I started working in a tax office, broke up dual studies as a sales
-    man and found true passion in programming and especially web / infrastructure
-    development @otto and @stadtwerk.
-  </p>
+<script lang="ts">
+  import { initialized, t } from '$lib/util/translations';
+</script>
 
-  <p>
-    I like to try out new and weird things <a
-      href="https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js"
-      >like this</a
-    >:
-  </p>
+{#if $initialized}
+  <section>
+    <p>
+      <span class="capital-word">Moin</span>
+      {$t('page.about.introduction')}
+    </p>
 
-  <pre>
+    <p>
+      {@html $t('page.about.weirdJsText1')}:
+    </p>
+
+    <pre>
   <code>
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
@@ -25,14 +25,11 @@ alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)
   </code>
   </pre>
 
-  <p>
-    or <a
-      href="https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js"
-      >like this</a
-    >:
-  </p>
+    <p>
+      {@html $t('page.about.weirdJsText2')}:
+    </p>
 
-  <pre>
+    <pre>
   <code>
 const f = input
   .split(&apos;\n&apos;)
@@ -66,13 +63,15 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
   </code>
   </pre>
 
-  <p>
-    I also do useful things for <a href="https://deskbox-office.de">desk.box</a>
-    at work. I promise! 🤡
-  </p>
+    <p>
+      {@html $t('page.about.usefulWorkText')}
+    </p>
 
-  <p>Made by Tilloh with 💙</p>
-</section>
+    <p>{$t('page.shared.madeByText')}</p>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {

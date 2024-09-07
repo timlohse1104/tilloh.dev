@@ -2,8 +2,8 @@ export class JokeDto {
   _id!: string;
   text!: string;
   language!: string;
-  created!: Date;
-  updated!: Date;
+  created!: string;
+  updated!: string;
 }
 
 export class JokeEditDto {

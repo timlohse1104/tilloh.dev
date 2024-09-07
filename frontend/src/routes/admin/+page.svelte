@@ -3,8 +3,9 @@
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
-  import { getJokes } from '$lib/api/jokes.api';
+  import { deleteJoke, getJokes } from '$lib/api/jokes.api';
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
+  import Jokes from '$lib/components/admin/Jokes.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import { utilityRoutes } from '$lib/config/applications';
   import { ActivityTypeDto } from '$lib/types/admin.dto';
@@ -18,6 +19,7 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
+  import { getlocale, t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
@@ -28,15 +30,16 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
+  const locale = getlocale();
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
   let allPresetFolders: FolderDto[] = [];
-  let allChats: ChatDto[] = [];
-  let allJokes: JokeDto[] = [];
-  let allToggles: KeystoreKeyDto[] = [];
+  let chats: ChatDto[] = [];
+  let jokes: JokeDto[] = [];
+  let toggles: KeystoreKeyDto[] = [];
   let apiIsHealthy = false;
   let jokesIsHealthy = false;
   let mongoIsHealthy = false;
@@ -44,6 +47,8 @@
   let confirmDeleteToggleAction;
   let confirmDeleteIdentifierOpenOverlay = false;
   let confirmDeleteIdentifierAction;
+  let confirmDeleteJokeOpenOverlay = false;
+  let confirmDeleteJokeAction;
   let confirmDeletePresetOpenOverlay = false;
   let confirmDeletePresetAction;
 
@@ -52,20 +57,42 @@
     return allPresetFolders.length;
   };
 
+  $: getDuplicateFoldersAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const folderNames = allPresetFolders.map((folder) => folder.folderName);
+    const uniqueFolders = new Set(folderNames);
+    return folderNames.length - uniqueFolders.size;
+  };
+
   $: getLinksAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
     const allLinks = allPresetFolders.map((folder) => folder.links).flat();
     return allLinks.length;
   };
 
+  $: getDuplicateLinksAmount = (): number => {
+    if (allPresetFolders.length === 0) return 0;
+    const allLinks = allPresetFolders.map((folder) => folder.links).flat();
+    const linkUrls = allLinks.map((link) => link.linkUrl);
+    const uniqueLinks = new Set(linkUrls);
+    return linkUrls.length - uniqueLinks.size;
+  };
+
   $: getJokesAmount = (): number => {
-    if (allJokes.length === 0) return 0;
-    return allJokes.length;
+    if (jokes.length === 0) return 0;
+    return jokes.length;
+  };
+
+  $: getDuplicateJokesAmount = (): number => {
+    if (jokes.length === 0) return 0;
+    const jokeTexts = jokes.map((joke) => joke.text);
+    const uniqueJokes = new Set(jokeTexts);
+    return jokeTexts.length - uniqueJokes.size;
   };
 
   $: getChatsAmount = (): number => {
-    if (allChats.length === 0) return 0;
-    return allChats.length;
+    if (chats.length === 0) return 0;
+    return chats.length;
   };
 
   $: getLatestActivities = () => {
@@ -73,16 +100,23 @@
       ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: `Key ${preset.key} got ${preset.created === preset.updated ? 'created' : 'updated'}.`,
+        description: `${$t('page.admin.activities.keyActivity', { keyName: preset.key })} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: preset.updated,
         created: preset.created,
       })),
       ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: `Identifier ${identifier.name} got ${identifier.created === identifier.updated ? 'created' : 'updated'}.`,
+        description: `${$t('page.admin.activities.identifierActivity', { identifierName: identifier.name })} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: identifier.updated,
         created: identifier.created,
+      })),
+      ...jokes.map((joke) => ({
+        type: ActivityTypeDto.IDENTIFIER,
+        id: joke._id,
+        description: `${$t('page.admin.activities.jokeActivity', { joke: joke.text })} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        updated: joke.updated,
+        created: joke.created,
       })),
     ].slice(0, 10);
     console.log({ activities }, 'Activities reloaded.');
@@ -102,7 +136,7 @@
 
     const { isAdmin } = verifyResponse;
     if (!isAdmin) {
-      verificationError = 'Admin ID konnte nicht verifiziert werden.';
+      verificationError = $t('page.admin.verificationError');
       isVerified = false;
       return;
     }
@@ -160,7 +194,7 @@
   const removeIdentifier = async (event) => {
     confirmDeleteIdentifierAction = async () => {
       const { identifierId } = event.detail;
-      console.log('removing link preset', { identifierId }, '...');
+      console.log('removing identifier', { identifierId }, '...');
       try {
         await deleteIdentifier(adminToken, identifierId);
       } catch (error) {
@@ -179,28 +213,47 @@
   };
 
   const loadJokes = async () => {
-    allJokes = await getJokes(adminToken);
-    console.log({ allJokes }, 'Jokes reloaded.');
+    jokes = await getJokes(adminToken);
+    console.log({ allJokes: jokes }, 'Jokes reloaded.');
+  };
+
+  const removeJoke = async (event) => {
+    confirmDeleteJokeAction = async () => {
+      const { jokeId } = event.detail;
+      console.log('removing joke', { jokeId }, '...');
+      try {
+        await deleteJoke(adminToken, jokeId);
+      } catch (error) {
+        console.error('Error deleting identifier', error);
+        return;
+      }
+
+      const deletedJoke = jokes.find((joke) => joke._id === jokeId);
+      console.log({ deletedIdentifier: deletedJoke }, 'Joke deleted.');
+      await loadJokes();
+    };
+
+    confirmDeleteJokeOpenOverlay = true;
   };
 
   const loadChats = async () => {
-    allChats = await getChats(adminToken);
-    console.log({ allChats }, 'Chats reloaded.');
+    chats = await getChats(adminToken);
+    console.log({ allChats: chats }, 'Chats reloaded.');
   };
 
   const loadToggles = async () => {
     const keystoreResponse = await getKeystore(adminToken);
     console.log({ keystoreResponse }, 'Keystore response.');
-    allToggles = keystoreResponse.filter(
+    toggles = keystoreResponse.filter(
       (toggle) => toggle.identifier === TOGGLE_KEY_IDENTIFIER,
     );
-    console.log({ allToggles }, 'Toggles reloaded.');
+    console.log({ allToggles: toggles }, 'Toggles reloaded.');
   };
 
   const removeToggle = async (event) => {
     confirmDeleteToggleAction = async () => {
       const { id } = event.detail;
-      const toggle = allToggles.find((t) => t._id === id);
+      const toggle = toggles.find((t) => t._id === id);
       console.log({ toggle }, 'Removing toggle...');
 
       try {
@@ -246,7 +299,7 @@
   };
 
   $: getToggleState = (key: string) => {
-    const toggle = allToggles.find(
+    const toggle = toggles.find(
       (t) => t.identifier === TOGGLE_KEY_IDENTIFIER && t.key === key,
     );
     if (!toggle) return true;
@@ -255,8 +308,8 @@
 </script>
 
 <svelte:head>
-  <title>{adminRoute.name}</title>
-  <meta name={adminRoute.name} content="tilloh.dev" />
+  <title>{adminRoute.name[locale]}</title>
+  <meta name={adminRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>
@@ -275,10 +328,8 @@
         <Icon class="material-icons" slot="trailingIcon"
           >arrow_circle_right</Icon
         >
-        <HelperText
-          persistent
-          slot="helper"
-          style="color: red; font-size: 0.8rem;">{verificationError}</HelperText
+        <HelperText slot="helper" style="color: red; font-size: 0.8rem;"
+          >{verificationError}</HelperText
         >
       </Textfield>
     </div>
@@ -296,6 +347,9 @@
             apiIsHealthy,
             jokesIsHealthy,
             mongoIsHealthy,
+            duplicateJokesAmount: getDuplicateJokesAmount(),
+            duplicateLinksAmount: getDuplicateLinksAmount(),
+            duplicateFoldersAmount: getDuplicateFoldersAmount(),
           }}
           on:updateDashboard={updateDashboard}
         />
@@ -304,7 +358,7 @@
 
     <div class="admin-content">
       <Toggles
-        toggles={allToggles}
+        {toggles}
         on:updateDashboard={updateDashboard}
         on:removeToggle={removeToggle}
       />
@@ -317,39 +371,52 @@
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
+      {#if getToggleState(TogglesEnum.adminJokes)}
+        <Jokes {jokes} on:removeJoke={removeJoke} />
+      {/if}
     </div>
   {/if}
 </section>
 
 <ConfirmOverlay
   open={confirmDeleteToggleOpenOverlay}
-  questionHeader="Toggle löschen"
-  questionContent="Möchtest du diesen Toggle wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.toggles.deleteTitle')}
+  questionContent={$t('page.admin.toggles.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeleteToggleOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeleteToggleAction}
   on:close={() => (confirmDeleteToggleOpenOverlay = false)}
 />
 <ConfirmOverlay
   open={confirmDeleteIdentifierOpenOverlay}
-  questionHeader="Identifier löschen"
-  questionContent="Möchtest du diesen Identifier wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.identifiers.deleteTitle')}
+  questionContent={$t('page.admin.identifiers.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeleteIdentifierOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeleteIdentifierAction}
   on:close={() => (confirmDeleteIdentifierOpenOverlay = false)}
 />
 <ConfirmOverlay
   open={confirmDeletePresetOpenOverlay}
-  questionHeader="Preset löschen"
-  questionContent="Möchtest du dieses Preset wirklich löschen?"
-  noActionText="Nein"
+  questionHeader={$t('page.admin.linkPreset.deleteTitle')}
+  questionContent={$t('page.admin.linkPreset.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
   noAction={() => (confirmDeletePresetOpenOverlay = false)}
-  yesActionText="Ja"
+  yesActionText={$t('page.shared.yes')}
   yesAction={confirmDeletePresetAction}
   on:close={() => (confirmDeletePresetOpenOverlay = false)}
+/>
+<ConfirmOverlay
+  open={confirmDeleteJokeOpenOverlay}
+  questionHeader={$t('page.admin.jokes.deleteTitle')}
+  questionContent={$t('page.admin.jokes.deleteQuestion')}
+  noActionText={$t('page.shared.no')}
+  noAction={() => (confirmDeleteJokeOpenOverlay = false)}
+  yesActionText={$t('page.shared.yes')}
+  yesAction={confirmDeleteJokeAction}
+  on:close={() => (confirmDeleteJokeOpenOverlay = false)}
 />
 
 <style lang="scss">
@@ -372,6 +439,7 @@
 
   .verify-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;

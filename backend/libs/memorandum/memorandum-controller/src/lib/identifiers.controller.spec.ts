@@ -93,6 +93,8 @@ describe('IdentifiersController', () => {
         {
           _id: 'mock_id',
           name: 'mock_name',
+          created: new Date(),
+          updated: new Date(),
         },
       );
 

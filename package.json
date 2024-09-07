@@ -10,10 +10,10 @@
   },
   "private": true,
   "devDependencies": {
-    "@nx/js": "19.3.2",
+    "@nx/js": "19.6.2",
     "concurrently": "^8.2.2",
     "npm": "^10.3.0",
-    "nx": "19.3.2"
+    "nx": "19.6.2"
   },
   "workspaces": [
     "packages/*"

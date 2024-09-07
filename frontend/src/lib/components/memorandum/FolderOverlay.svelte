@@ -6,6 +6,7 @@
     folderOverlayOptionsStore,
     localPresetStore,
   } from '$lib/util/memorandum/stores.js';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -83,7 +84,9 @@
 
       const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
       duplicatedFolder.id = currentPreset.Folders.length;
-      duplicatedFolder.folderName = `(Kopie) ${folderName}`;
+      duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
+        folderName,
+      });
 
       currentPreset.Folders.push(duplicatedFolder);
 
@@ -118,139 +121,172 @@
   aria-labelledby="simple-title"
   aria-describedby="simple-content"
 >
-  <Title id="simple-title">
-    Bearbeite den Ordner: {folderName}
-  </Title>
+  {#if $initialized}
+    <Title id="simple-title">
+      {$t('page.memorandum.folder.editTitle', { folderName })}
+    </Title>
 
-  <Content id="simple-content" style="background-color:{customColor.getRGBA()}">
-    <Textfield
-      variant="outlined"
-      bind:this={nameInput}
-      bind:value={folderName}
-      label="Name"
-      style="margin-top: 1rem; width: 100%"
-      on:keyup={(event) => {
-        if (isEnter(event)) editFolder();
-      }}
+    <Content
+      id="simple-content"
+      style="background-color:{customColor.getRGBA()}"
     >
-      <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
-      <HelperText slot="helper">Name des Ordners</HelperText>
-    </Textfield>
+      <Textfield
+        variant="outlined"
+        bind:this={nameInput}
+        bind:value={folderName}
+        label="Name"
+        style="margin-top: 1rem; width: 100%"
+        on:keyup={(event) => {
+          if (isEnter(event)) editFolder();
+        }}
+      >
+        <Icon class="material-icons" slot="leadingIcon">text_format</Icon>
+        <HelperText slot="helper">
+          {$t('page.memorandum.folder.nameOfFolderHelptext')}
+        </HelperText>
+      </Textfield>
 
-    <FormField>
-      <Checkbox bind:checked={customColorActive} />
-      <Icon class="material-icons">brush</Icon>
-      <span slot="label">Hintergrundfarbe selbst bestimmen? </span>
-    </FormField>
-
-    {#if customColorActive}
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.r}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          Rot
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.g}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          Grün
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={255}
-          bind:value={customColor.b}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          Blau
-        </span>
-      </FormField>
-      <FormField align="end" style="display: flex;">
-        <Slider
-          style="flex-grow: 1;"
-          min={0}
-          max={1}
-          step={0.01}
-          bind:value={customColor.a}
-        />
-        <span
-          slot="label"
-          style="padding-right: 12px; width: 1rem; display: block;"
-        >
-          Alpha
+      <FormField>
+        <Checkbox bind:checked={customColorActive} />
+        <Icon class="material-icons">brush</Icon>
+        <span slot="label">
+          {$t('page.memorandum.folder.setBackgroundColorQuestion', {
+            folderName,
+          })}
         </span>
       </FormField>
 
-      <div style="display: flex;">
-        <div style="margin-right: 1rem;">
-          <Textfield bind:value={customColorString} label="Aktuelle Werte">
-            <IconButton
-              class="material-icons"
-              slot="trailingIcon"
-              on:click={copyColorToClipboard}
+      {#if customColorActive}
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.r}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
+            {$t('page.shared.red')}
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.g}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
+            {$t('page.shared.green')}
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={255}
+            bind:value={customColor.b}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
+            {$t('page.shared.blue')}
+          </span>
+        </FormField>
+        <FormField align="end" style="display: flex;">
+          <Slider
+            style="flex-grow: 1;"
+            min={0}
+            max={1}
+            step={0.01}
+            bind:value={customColor.a}
+          />
+          <span
+            slot="label"
+            style="padding-right: 12px; width: 1rem; display: block;"
+          >
+            Alpha
+          </span>
+        </FormField>
+
+        <div style="display: flex;">
+          <div style="margin-right: 1rem;">
+            <Textfield
+              bind:value={customColorString}
+              label={$t('page.memorandum.folder.currentValues')}
             >
-              content_copy
-            </IconButton>
-            <HelperText slot="helper">Format: "rot,grün,blau,alpha"</HelperText>
-          </Textfield>
-        </div>
-        <div>
-          <Textfield bind:value={customColorInput} label="Neue Werte">
-            <IconButton
-              class="material-icons"
-              slot="trailingIcon"
-              on:click={updateCustomColorFromInput}
+              <IconButton
+                class="material-icons"
+                slot="trailingIcon"
+                on:click={copyColorToClipboard}
+              >
+                content_copy
+              </IconButton>
+              <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
+            </Textfield>
+          </div>
+          <div>
+            <Textfield
+              bind:value={customColorInput}
+              label={$t('page.memorandum.folder.newValues')}
             >
-              change_circle
-            </IconButton>
-            <HelperText slot="helper">Format: "rot,grün,blau,alpha"</HelperText>
-          </Textfield>
+              <IconButton
+                class="material-icons"
+                slot="trailingIcon"
+                on:click={updateCustomColorFromInput}
+              >
+                change_circle
+              </IconButton>
+              <HelperText slot="helper">Format: "r,g,b,a"</HelperText>
+            </Textfield>
+          </div>
         </div>
-      </div>
-    {/if}
+      {/if}
 
-    <Snackbar bind:this={colorCopySnackbar}>
-      <Label>Farbwerte kopiert.</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
-  </Content>
-  <Actions>
-    <Button on:click={duplicateFolder}>
-      <Icon class="material-icons">content_copy</Icon>
-      <Label>Duplizieren</Label>
-    </Button>
-    <Button on:click={closeOverlay}>
-      <Icon class="material-icons">folder_off</Icon>
-      <Label>Abbruch</Label>
-    </Button>
-    <Button bind:this={saveButton} on:click={editFolder}>
-      <Icon class="material-icons">save</Icon>
-      <Label>Speichern</Label>
-    </Button>
-  </Actions>
+      <Snackbar bind:this={colorCopySnackbar}>
+        <Label>
+          {$t('page.memorandum.folder.copiedColorValues')}
+        </Label>
+        <Actions>
+          <IconButton class="material-icons" title="Dismiss">close</IconButton>
+        </Actions>
+      </Snackbar>
+    </Content>
+    <Actions>
+      <Button on:click={duplicateFolder}>
+        <Icon class="material-icons">content_copy</Icon>
+        <Label>
+          {$t('page.shared.duplicate', {
+            folderName,
+          })}
+        </Label>
+      </Button>
+      <Button on:click={closeOverlay}>
+        <Icon class="material-icons">folder_off</Icon>
+        <Label>
+          {$t('page.shared.abort', {
+            folderName,
+          })}
+        </Label>
+      </Button>
+      <Button bind:this={saveButton} on:click={editFolder}>
+        <Icon class="material-icons">save</Icon>
+        <Label>
+          {$t('page.shared.save', {
+            folderName,
+          })}
+        </Label>
+      </Button>
+    </Actions>
+  {:else}
+    <Title id="simple-title">Locale initializing...</Title>
+  {/if}
 </Dialog>
 
 <svelte:window
