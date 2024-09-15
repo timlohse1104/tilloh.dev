@@ -100,41 +100,46 @@ describe('JokesMongoDbService', () => {
       // act & assert
       await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
     });
-    it('should return the last joke if no one created today', async () => {
+    it('should return a random joke if no one created today', async () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
       jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(null),
       } as never);
 
-      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce([mockJokeDocument(expectedJoke)]),
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(0),
+      } as never);
+
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+        }),
       } as never);
 
       // act & assert
       await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
     });
-    it('should throw a not found exception when joke is not found', async () => {
+    it('should throw a not found exception when no joke was found', async () => {
       // arrange
       jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(null),
       } as never);
 
-      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce([]),
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(1),
+      } as never);
+
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(null),
+        }),
       } as never);
 
       // act & assert
       await expect(service.findJokeOfTheDay()).rejects.toThrow(
         'Joke not found',
       );
-    });
-    it('should throw a not found exception when joke is not found', async () => {
-      // arrange
-      jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
-
-      // act & assert
-      await expect(service.findJokeOfTheDay()).rejects.toThrow();
     });
   });
 
