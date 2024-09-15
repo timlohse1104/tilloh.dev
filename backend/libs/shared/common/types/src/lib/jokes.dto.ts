@@ -17,6 +17,10 @@ export class JokeDto {
   @ApiProperty({ description: 'Chat update date', required: false })
   @IsOptional()
   updated: Date;
+
+  @ApiProperty({ description: 'Joke verification status', required: false })
+  @IsOptional()
+  verified: boolean;
 }
 
 export class JokesDto {

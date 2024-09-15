@@ -21,39 +21,17 @@ export class JokesMongoDbService {
    */
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
-    const startOfToday = new Date();
-    startOfToday.setUTCHours(0, 0, 0, 0);
 
-    const startOfTomorrow = new Date(startOfToday);
-    startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
+    const jokeCount = await this.jokeModel.countDocuments().exec();
+    const random = Math.floor(Math.random() * jokeCount);
+    const randomJoke = await this.jokeModel.findOne().skip(random).exec();
 
-    const jokeFromYesterday = await this.jokeModel
-      .findOne({
-        created: {
-          $gte: startOfToday,
-          $lt: startOfTomorrow,
-        },
-      })
-      .exec();
-
-    let joke;
-    if (!jokeFromYesterday) {
-      const jokes = await this.jokeModel.find().exec();
-
-      if (jokes.length === 0) {
-        throw new NotFoundException(JokeTexts.NOT_FOUND);
-      }
-
-      joke = jokes.reverse()[0];
-    } else {
-      joke = jokeFromYesterday;
-    }
-
-    if (!joke) {
+    if (!randomJoke) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
-    return joke.toObject();
+
+    this.logger.debug({ output: randomJoke }, JokeTexts.FOUND_ONE);
+    return randomJoke.toObject();
   }
 
   /**
