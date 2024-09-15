@@ -35,6 +35,48 @@ export class JokesMongoDbService {
   }
 
   /**
+   * Fetches a the joke of the day from mongodb collection 'jokes'.
+   *
+   * @returns A single joke object.
+   */
+  async findJokeOfTheDay(): Promise<JokeDto> {
+    this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
+    const startOfToday = new Date();
+    startOfToday.setUTCHours(0, 0, 0, 0);
+
+    const startOfTomorrow = new Date(startOfToday);
+    startOfTomorrow.setUTCDate(startOfToday.getUTCDate() + 1);
+
+    const jokeFromYesterday = await this.jokeModel
+      .findOne({
+        created: {
+          $gte: startOfToday,
+          $lt: startOfTomorrow,
+        },
+      })
+      .exec();
+
+    let joke;
+    if (!jokeFromYesterday) {
+      const jokes = await this.jokeModel.find().exec();
+
+      if (jokes.length === 0) {
+        throw new NotFoundException(JokeTexts.NOT_FOUND);
+      }
+
+      joke = jokes.reverse()[0];
+    } else {
+      joke = jokeFromYesterday;
+    }
+
+    if (!joke) {
+      throw new NotFoundException(JokeTexts.NOT_FOUND);
+    }
+    this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
+    return joke.toObject();
+  }
+
+  /**
    * Fetches all jokes from the mongodb collection 'jokes'.
    *
    * @param filter Optional param to filter for specific joke results.

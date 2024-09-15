@@ -46,7 +46,7 @@ export class JokesService {
    */
   async getRandomJoke(): Promise<JokeDto> {
     this.logger.log('Getting the random joke of the day.');
-    return await this.jokesMongoDbService.findRandomOne();
+    return await this.jokesMongoDbService.findJokeOfTheDay();
   }
 
   /**
