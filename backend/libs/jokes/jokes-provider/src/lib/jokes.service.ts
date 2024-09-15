@@ -30,6 +30,7 @@ export class JokesService {
     try {
       const jokeResponse = await firstValueFrom(this.httpService.get(jokeUrl));
       joke = jokeResponse.data;
+      joke.verified = true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error('Failed to fetch data: ' + error?.message);
