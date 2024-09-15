@@ -26,7 +26,18 @@ export class JokesController {
 
   @Public()
   @ApiOkResponse({
-    description: 'Random joke rotated daily.',
+    description: 'Daily joke rotated every night.',
+    type: JokeDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Get('/daily')
+  getJokeOfTheDay() {
+    return this.jokesService.getJokeOfTheDay();
+  }
+
+  @Public()
+  @ApiOkResponse({
+    description: 'Random joke.',
     type: JokeDto,
   })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
