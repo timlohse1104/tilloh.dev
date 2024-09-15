@@ -18,6 +18,7 @@ describe('JokesController', () => {
           provide: JokesService,
           useValue: {
             getRandomJoke: jest.fn(),
+            getJokeOfTheDay: jest.fn(),
             listJokes: jest.fn(),
             getJoke: jest.fn(),
             createJoke: jest.fn(),
@@ -42,13 +43,24 @@ describe('JokesController', () => {
   });
 
   describe('getRandomJoke', () => {
-    it('should return a joke.', async () => {
+    it('should return a random joke.', async () => {
       // arrange
       const randomJoke = mockJokeDto({});
       jest.spyOn(jokesService, 'getRandomJoke').mockResolvedValue(randomJoke);
 
       // act & assert
       await expect(controller.getRandomJoke()).resolves.toEqual(randomJoke);
+    });
+  });
+
+  describe('getJokeOfTheDay', () => {
+    it('should return the joke of the day.', async () => {
+      // arrange
+      const randomJoke = mockJokeDto({});
+      jest.spyOn(jokesService, 'getJokeOfTheDay').mockResolvedValue(randomJoke);
+
+      // act & assert
+      await expect(controller.getJokeOfTheDay()).resolves.toEqual(randomJoke);
     });
   });
 
