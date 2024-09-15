@@ -26,17 +26,6 @@ export class JokesController {
 
   @Public()
   @ApiOkResponse({
-    description: 'Daily joke rotated every night.',
-    type: JokeDto,
-  })
-  @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
-  @Get('/daily')
-  getJokeOfTheDay() {
-    return this.jokesService.getJokeOfTheDay();
-  }
-
-  @Public()
-  @ApiOkResponse({
     description: 'Random joke.',
     type: JokeDto,
   })
@@ -44,6 +33,17 @@ export class JokesController {
   @Get('/random')
   getRandomJoke() {
     return this.jokesService.getRandomJoke();
+  }
+
+  @Public()
+  @ApiOkResponse({
+    description: 'Daily joke rotated every night.',
+    type: JokeDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
+  @Get('/daily')
+  getJokeOfTheDay() {
+    return this.jokesService.getJokeOfTheDay();
   }
 
   @ApiBearerAuth()
