@@ -7,8 +7,12 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-export const getJokeOfTheDay = async (): Promise<JokeDto> => {
+export const getRandomJoke = async (): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/random`).then((res) => res.json());
+};
+
+export const getJokeOfTheDay = async (): Promise<JokeDto> => {
+  return await fetch(`${apiURL}/jokes/daily`).then((res) => res.json());
 };
 
 export const getJokes = async (token: string): Promise<JokeDto[]> => {
@@ -20,7 +24,7 @@ export const getJokes = async (token: string): Promise<JokeDto[]> => {
 
 export const createJoke = async (
   token: string,
-  jokeEditDto: JokeEditDto
+  jokeEditDto: JokeEditDto,
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes`, {
     method: 'POST',
@@ -39,7 +43,7 @@ export const getJoke = async (token: string, id: string): Promise<JokeDto> => {
 export const updateJoke = async (
   token: string,
   id: string,
-  jokeEditDto: JokeEditDto
+  jokeEditDto: JokeEditDto,
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'PUT',
@@ -50,7 +54,7 @@ export const updateJoke = async (
 
 export const deleteJoke = async (
   token: string,
-  id: string
+  id: string,
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'DELETE',
