@@ -41,6 +41,16 @@ export class JokesService {
   }
 
   /**
+   * Duplicate joke cleanup task.
+   * This method is scheduled to run every day at 3:30 AM.
+   */
+  @Cron('30 3 * * *', { timeZone: 'Europe/Berlin' })
+  async cleanupDuplicateJokes() {
+    this.logger.log('Cleaning up duplicate jokes.');
+    await this.jokesMongoDbService.removeDuplicates();
+  }
+
+  /**
    * Fetches the joke of the day.
    *
    * @returns A single joke.

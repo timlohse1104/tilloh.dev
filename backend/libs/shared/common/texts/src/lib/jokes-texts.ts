@@ -11,4 +11,6 @@ export class JokeTexts {
   static readonly UPDATED_ONE = 'MongoDb responded, updated joke.';
   static readonly DELETE_ONE = 'MongoDb responded, deleted joke.';
   static readonly NOT_FOUND = 'Joke not found.';
+  static readonly ERROR_REMOVING_DUPLICATE = 'Error removing duplicate jokes.';
+  static readonly NO_DUPLICATES = 'No duplicate jokes to be removed.';
 }

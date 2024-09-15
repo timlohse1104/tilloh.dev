@@ -171,4 +171,47 @@ export class JokesMongoDbService {
     this.logger.debug({ output: joke }, JokeTexts.DELETE_ONE);
     return joke.toObject();
   }
+
+  /**
+   * Deletes all duplicate jokes from the mongodb collection 'jokes' and only keep the latest.
+   */
+  async removeDuplicates(): Promise<void> {
+    try {
+      this.logger.debug('Retrieving duplicate jokes.');
+      const duplicates = await this.jokeModel.aggregate([
+        {
+          $group: {
+            _id: '$text',
+            uniqueIds: { $addToSet: '$_id' },
+            latest: { $max: '$created' },
+          },
+        },
+        {
+          $match: {
+            $expr: { $gt: [{ $size: '$uniqueIds' }, 1] },
+          },
+        },
+      ]);
+      this.logger.debug(`Found ${duplicates.length} duplicate jokes.`);
+      if (duplicates.length === 0) {
+        this.logger.warn(JokeTexts.NO_DUPLICATES);
+        return;
+      }
+      for (const group of duplicates) {
+        const latestJoke = await this.jokeModel
+          .findOne({ text: group?._id, created: group?.latest })
+          .exec();
+
+        const deleteResult = await this.jokeModel
+          .deleteMany({ text: group?._id, _id: { $ne: latestJoke?._id } })
+          .exec();
+
+        this.logger.debug(
+          `Removed ${deleteResult?.deletedCount} duplicates for joke '${group?._id}'.`,
+        );
+      }
+    } catch (error) {
+      this.logger.error(JokeTexts.ERROR_REMOVING_DUPLICATE, error);
+    }
+  }
 }
