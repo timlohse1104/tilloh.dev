@@ -21,6 +21,7 @@ describe('JokesService', () => {
           provide: JokesMongoDbService,
           useValue: {
             findRandomOne: jest.fn(),
+            findJokeOfTheDay: jest.fn(),
             create: jest.fn(),
             findAll: jest.fn(),
             findOne: jest.fn(),
@@ -90,6 +91,22 @@ describe('JokesService', () => {
 
       // act
       const result = await service.getRandomJoke();
+
+      // assert
+      expect(result).toEqual(joke);
+    });
+  });
+
+  describe('getJokeOfTheDay', () => {
+    it('should get the joke of the day', async () => {
+      // arrange
+      const joke = mockJokeDto({ text: 'joke1' });
+      jest
+        .spyOn(jokesMongoDbServiceMock, 'findJokeOfTheDay')
+        .mockResolvedValue(joke);
+
+      // act
+      const result = await service.getJokeOfTheDay();
 
       // assert
       expect(result).toEqual(joke);
