@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AboutInfo from '$lib/components/about/AboutInfo.svelte';
+  import Jokes from '$lib/components/jokes/Jokes.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { getlocale } from '$lib/util/translations';
@@ -13,7 +13,7 @@
 </svelte:head>
 
 {#if aboutRoute.toggle}
-  <AboutInfo />
+  <Jokes />
 {:else}
   <ToggledApplicationInfo />
 {/if}
