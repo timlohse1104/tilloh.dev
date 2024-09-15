@@ -64,24 +64,15 @@ export class JokesMongoDbService {
       })
       .exec();
 
-    let joke;
     if (!jokeFromYesterday) {
-      const jokes = await this.jokeModel.find().exec();
-
-      if (jokes.length === 0) {
-        throw new NotFoundException(JokeTexts.NOT_FOUND);
-      }
-
-      joke = jokes.reverse()[0];
-    } else {
-      joke = jokeFromYesterday;
+      return this.findRandomOne();
     }
 
-    if (!joke) {
+    if (!jokeFromYesterday) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
-    return joke.toObject();
+    this.logger.debug({ output: jokeFromYesterday }, JokeTexts.FOUND_ONE);
+    return jokeFromYesterday.toObject();
   }
 
   /**

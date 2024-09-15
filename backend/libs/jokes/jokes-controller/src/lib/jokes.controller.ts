@@ -71,6 +71,7 @@ export class JokesController {
     return this.jokesService.getJoke(id);
   }
 
+  @Public()
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Joke created.',

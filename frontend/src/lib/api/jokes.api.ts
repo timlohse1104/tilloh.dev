@@ -23,12 +23,11 @@ export const getJokes = async (token: string): Promise<JokeDto[]> => {
 };
 
 export const createJoke = async (
-  token: string,
   jokeEditDto: JokeEditDto,
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes`, {
     method: 'POST',
-    headers: createHeaders(token),
+    headers: createHeaders(),
     body: JSON.stringify(jokeEditDto),
   }).then((res) => res.json());
 };
