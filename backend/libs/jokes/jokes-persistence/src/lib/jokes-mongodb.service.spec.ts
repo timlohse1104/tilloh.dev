@@ -32,6 +32,8 @@ describe('JokesMongoDbService', () => {
             findOneAndUpdate: jest.fn(),
             findOneAndDelete: jest.fn(),
             countDocuments: jest.fn(),
+            aggregate: jest.fn(),
+            deleteMany: jest.fn(),
           },
         },
         JokesMongoDbService,
@@ -275,6 +277,37 @@ describe('JokesMongoDbService', () => {
 
       // act & assert
       await expect(service.remove('id')).rejects.toThrow();
+    });
+  });
+
+  describe('removeDuplicates', () => {
+    it('should remove duplicates', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'aggregate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([
+          {
+            _id: 'id',
+            uniqueIds: ['id1', 'id2'],
+            latest: new Date(),
+          },
+        ]),
+      } as never);
+
+      jest.spyOn(jokeModel, 'deleteMany').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce({}),
+      } as never);
+
+      // act & assert
+      await expect(service.removeDuplicates()).resolves.toBeUndefined();
+    });
+    it('should output nothing if no duplicates where found', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'aggregate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as never);
+
+      // act & assert
+      await expect(service.removeDuplicates()).resolves.toBeUndefined();
     });
   });
 });
