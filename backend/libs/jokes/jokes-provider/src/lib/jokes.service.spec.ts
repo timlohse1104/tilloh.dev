@@ -27,6 +27,7 @@ describe('JokesService', () => {
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
+            removeDuplicates: jest.fn(),
           },
         },
         {
@@ -78,6 +79,18 @@ describe('JokesService', () => {
       await expect(service.persistDailyJoke()).rejects.toThrow(
         'Failed to fetch data: ' + errorMessage,
       );
+    });
+  });
+
+  describe('persistDailyJoke', () => {
+    it('should persist a daily joke', async () => {
+      // arrange
+      jest
+        .spyOn(jokesMongoDbServiceMock, 'removeDuplicates')
+        .mockResolvedValueOnce(undefined);
+
+      // act & assert
+      await expect(service.cleanupDuplicateJokes()).resolves.toBe(undefined);
     });
   });
 
