@@ -87,6 +87,55 @@ describe('JokesMongoDbService', () => {
     });
   });
 
+  describe('findJokeOfTheDay', () => {
+    it('should find the joke of the day', async () => {
+      // arrange
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+      } as never);
+
+      // act & assert
+      await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
+    });
+    it('should return the last joke if no one created today', async () => {
+      // arrange
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([mockJokeDocument(expectedJoke)]),
+      } as never);
+
+      // act & assert
+      await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
+    });
+    it('should throw a not found exception when joke is not found', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(null),
+      } as never);
+
+      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as never);
+
+      // act & assert
+      await expect(service.findJokeOfTheDay()).rejects.toThrow(
+        'Joke not found',
+      );
+    });
+    it('should throw a not found exception when joke is not found', async () => {
+      // arrange
+      jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
+
+      // act & assert
+      await expect(service.findJokeOfTheDay()).rejects.toThrow();
+    });
+  });
+
   describe('findAll', () => {
     it('should find all jokes', async () => {
       // arrange
