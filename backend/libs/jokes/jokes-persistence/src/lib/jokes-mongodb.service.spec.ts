@@ -31,6 +31,7 @@ describe('JokesMongoDbService', () => {
             create: jest.fn(),
             findOneAndUpdate: jest.fn(),
             findOneAndDelete: jest.fn(),
+            countDocuments: jest.fn(),
           },
         },
         JokesMongoDbService,
@@ -53,18 +54,28 @@ describe('JokesMongoDbService', () => {
     it('should find a random joke', async () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(1),
+      } as never);
       jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+        }),
       } as never);
 
       // act & assert
       await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
     });
-    it('should return the last joke if no one created today', async () => {
+    it('should throw a not found exception when joke is not found', async () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(0),
+      } as never);
       jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(null),
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(null),
+        }),
       } as never);
 
       jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
@@ -72,27 +83,7 @@ describe('JokesMongoDbService', () => {
       } as never);
 
       // act & assert
-      await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
-    });
-    it('should throw a not found exception when joke is not found', async () => {
-      // arrange
-      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(null),
-      } as never);
-
-      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce([]),
-      } as never);
-
-      // act & assert
       await expect(service.findRandomOne()).rejects.toThrow('Joke not found');
-    });
-    it('should throw a not found exception when joke is not found', async () => {
-      // arrange
-      jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
-
-      // act & assert
-      await expect(service.findRandomOne()).rejects.toThrow();
     });
   });
 
