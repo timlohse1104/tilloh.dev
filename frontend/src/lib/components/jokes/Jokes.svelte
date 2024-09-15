@@ -10,6 +10,7 @@
   import Snackbar, { Actions } from '@smui/snackbar';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
+  import { onMount } from 'svelte';
 
   const languages = ['de', 'en'];
 
@@ -45,6 +46,10 @@
     newJokeText = '';
     newJokeLanguage = 'de';
   };
+
+  onMount(() => {
+    setRandomJoke();
+  });
 </script>
 
 {#if $initialized}
