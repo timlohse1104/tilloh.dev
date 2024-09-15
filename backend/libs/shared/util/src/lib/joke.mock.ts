@@ -5,4 +5,5 @@ export const mockJokeDto = (mock: Partial<JokeDto>): JokeDto => ({
   language: mock.language || 'mockLanguage',
   created: mock?.created || new Date(),
   updated: mock?.updated || new Date(),
+  verified: mock?.verified || false,
 });

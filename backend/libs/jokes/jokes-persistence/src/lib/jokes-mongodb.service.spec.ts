@@ -31,6 +31,9 @@ describe('JokesMongoDbService', () => {
             create: jest.fn(),
             findOneAndUpdate: jest.fn(),
             findOneAndDelete: jest.fn(),
+            countDocuments: jest.fn(),
+            aggregate: jest.fn(),
+            deleteMany: jest.fn(),
           },
         },
         JokesMongoDbService,
@@ -53,12 +56,49 @@ describe('JokesMongoDbService', () => {
     it('should find a random joke', async () => {
       // arrange
       const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(1),
+      } as never);
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
+        }),
+      } as never);
+
+      // act & assert
+      await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
+    });
+    it('should throw a not found exception when joke is not found', async () => {
+      // arrange
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
+      jest.spyOn(jokeModel, 'countDocuments').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce(0),
+      } as never);
+      jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
+        skip: jest.fn().mockReturnValueOnce({
+          exec: jest.fn().mockResolvedValueOnce(null),
+        }),
+      } as never);
+
+      jest.spyOn(jokeModel, 'find').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([mockJokeDocument(expectedJoke)]),
+      } as never);
+
+      // act & assert
+      await expect(service.findRandomOne()).rejects.toThrow('Joke not found');
+    });
+  });
+
+  describe('findJokeOfTheDay', () => {
+    it('should find the joke of the day', async () => {
+      // arrange
+      const expectedJoke = mockJokeDto({ text: 'joke1' });
       jest.spyOn(jokeModel, 'findOne').mockReturnValueOnce({
         exec: jest.fn().mockResolvedValueOnce(mockJokeDocument(expectedJoke)),
       } as never);
 
       // act & assert
-      await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
+      await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
     });
     it('should return the last joke if no one created today', async () => {
       // arrange
@@ -72,7 +112,7 @@ describe('JokesMongoDbService', () => {
       } as never);
 
       // act & assert
-      await expect(service.findRandomOne()).resolves.toEqual(expectedJoke);
+      await expect(service.findJokeOfTheDay()).resolves.toEqual(expectedJoke);
     });
     it('should throw a not found exception when joke is not found', async () => {
       // arrange
@@ -85,14 +125,16 @@ describe('JokesMongoDbService', () => {
       } as never);
 
       // act & assert
-      await expect(service.findRandomOne()).rejects.toThrow('Joke not found');
+      await expect(service.findJokeOfTheDay()).rejects.toThrow(
+        'Joke not found',
+      );
     });
     it('should throw a not found exception when joke is not found', async () => {
       // arrange
       jest.spyOn(service, 'findOne').mockRejectedValueOnce(new Error());
 
       // act & assert
-      await expect(service.findRandomOne()).rejects.toThrow();
+      await expect(service.findJokeOfTheDay()).rejects.toThrow();
     });
   });
 
@@ -235,6 +277,37 @@ describe('JokesMongoDbService', () => {
 
       // act & assert
       await expect(service.remove('id')).rejects.toThrow();
+    });
+  });
+
+  describe('removeDuplicates', () => {
+    it('should remove duplicates', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'aggregate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([
+          {
+            _id: 'id',
+            uniqueIds: ['id1', 'id2'],
+            latest: new Date(),
+          },
+        ]),
+      } as never);
+
+      jest.spyOn(jokeModel, 'deleteMany').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce({}),
+      } as never);
+
+      // act & assert
+      await expect(service.removeDuplicates()).resolves.toBeUndefined();
+    });
+    it('should output nothing if no duplicates where found', async () => {
+      // arrange
+      jest.spyOn(jokeModel, 'aggregate').mockReturnValueOnce({
+        exec: jest.fn().mockResolvedValueOnce([]),
+      } as never);
+
+      // act & assert
+      await expect(service.removeDuplicates()).resolves.toBeUndefined();
     });
   });
 });

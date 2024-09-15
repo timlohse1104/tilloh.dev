@@ -30,6 +30,7 @@ export class JokesService {
     try {
       const jokeResponse = await firstValueFrom(this.httpService.get(jokeUrl));
       joke = jokeResponse.data;
+      joke.verified = true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error('Failed to fetch data: ' + error?.message);
@@ -37,6 +38,26 @@ export class JokesService {
 
     this.logger.log('Persisting the joke of the day.');
     await this.jokesMongoDbService.create(joke);
+  }
+
+  /**
+   * Duplicate joke cleanup task.
+   * This method is scheduled to run every day at 3:30 AM.
+   */
+  @Cron('30 3 * * *', { timeZone: 'Europe/Berlin' })
+  async cleanupDuplicateJokes() {
+    this.logger.log('Cleaning up duplicate jokes.');
+    await this.jokesMongoDbService.removeDuplicates();
+  }
+
+  /**
+   * Fetches the joke of the day.
+   *
+   * @returns A single joke.
+   */
+  async getJokeOfTheDay(): Promise<JokeDto> {
+    this.logger.log('Getting the joke of the day.');
+    return await this.jokesMongoDbService.findJokeOfTheDay();
   }
 
   /**

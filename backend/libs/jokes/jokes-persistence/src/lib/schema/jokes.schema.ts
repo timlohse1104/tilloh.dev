@@ -16,6 +16,9 @@ export class Joke {
 
   @Prop({ type: Date, required: true, default: () => new Date() })
   updated!: Date;
+
+  @Prop({ required: true, default: false })
+  verified!: boolean;
 }
 
 export const JokeSchema = SchemaFactory.createForClass(Joke);

@@ -4,6 +4,7 @@ export class JokeDto {
   language!: string;
   created!: string;
   updated!: string;
+  verified?: boolean;
 }
 
 export class JokeEditDto {

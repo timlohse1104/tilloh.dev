@@ -21,6 +21,33 @@ export class JokesMongoDbService {
    */
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
+
+    const jokeCount = await this.jokeModel
+      .countDocuments({
+        $or: [{ verified: true }, { verified: { $exists: false } }],
+      })
+      .exec();
+    const random = Math.floor(Math.random() * jokeCount);
+    const randomJoke = await this.jokeModel
+      .findOne({ $or: [{ verified: true }, { verified: { $exists: false } }] })
+      .skip(random)
+      .exec();
+
+    if (!randomJoke) {
+      throw new NotFoundException(JokeTexts.NOT_FOUND);
+    }
+
+    this.logger.debug({ output: randomJoke }, JokeTexts.FOUND_ONE);
+    return randomJoke.toObject();
+  }
+
+  /**
+   * Fetches a the joke of the day from mongodb collection 'jokes'.
+   *
+   * @returns A single joke object.
+   */
+  async findJokeOfTheDay(): Promise<JokeDto> {
+    this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
     const startOfToday = new Date();
     startOfToday.setUTCHours(0, 0, 0, 0);
 
@@ -29,6 +56,7 @@ export class JokesMongoDbService {
 
     const jokeFromYesterday = await this.jokeModel
       .findOne({
+        $or: [{ verified: true }, { verified: { $exists: false } }],
         created: {
           $gte: startOfToday,
           $lt: startOfTomorrow,
@@ -36,24 +64,15 @@ export class JokesMongoDbService {
       })
       .exec();
 
-    let joke;
     if (!jokeFromYesterday) {
-      const jokes = await this.jokeModel.find().exec();
-
-      if (jokes.length === 0) {
-        throw new NotFoundException(JokeTexts.NOT_FOUND);
-      }
-
-      joke = jokes.reverse()[0];
-    } else {
-      joke = jokeFromYesterday;
+      return this.findRandomOne();
     }
 
-    if (!joke) {
+    if (!jokeFromYesterday) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
     }
-    this.logger.debug({ output: joke }, JokeTexts.FOUND_ONE);
-    return joke.toObject();
+    this.logger.debug({ output: jokeFromYesterday }, JokeTexts.FOUND_ONE);
+    return jokeFromYesterday.toObject();
   }
 
   /**
@@ -142,5 +161,48 @@ export class JokesMongoDbService {
     }
     this.logger.debug({ output: joke }, JokeTexts.DELETE_ONE);
     return joke.toObject();
+  }
+
+  /**
+   * Deletes all duplicate jokes from the mongodb collection 'jokes' and only keep the latest.
+   */
+  async removeDuplicates(): Promise<void> {
+    try {
+      this.logger.debug('Retrieving duplicate jokes.');
+      const duplicates = await this.jokeModel.aggregate([
+        {
+          $group: {
+            _id: '$text',
+            uniqueIds: { $addToSet: '$_id' },
+            latest: { $max: '$created' },
+          },
+        },
+        {
+          $match: {
+            $expr: { $gt: [{ $size: '$uniqueIds' }, 1] },
+          },
+        },
+      ]);
+      this.logger.debug(`Found ${duplicates.length} duplicate jokes.`);
+      if (duplicates.length === 0) {
+        this.logger.warn(JokeTexts.NO_DUPLICATES);
+        return;
+      }
+      for (const group of duplicates) {
+        const latestJoke = await this.jokeModel
+          .findOne({ text: group?._id, created: group?.latest })
+          .exec();
+
+        const deleteResult = await this.jokeModel
+          .deleteMany({ text: group?._id, _id: { $ne: latestJoke?._id } })
+          .exec();
+
+        this.logger.debug(
+          `Removed ${deleteResult?.deletedCount} duplicates for joke '${group?._id}'.`,
+        );
+      }
+    } catch (error) {
+      this.logger.error(JokeTexts.ERROR_REMOVING_DUPLICATE, error);
+    }
   }
 }

@@ -14,6 +14,12 @@ const loadApplications = async () => ({
     icon: 'bookmarks',
     toggle: await getToggleValue(TogglesEnum.memorandum),
   },
+  jokes: {
+    name: { en: 'Jokes', de: 'Witze' },
+    path: '/jokes',
+    icon: 'psychology',
+    toggle: await getToggleValue(TogglesEnum.jokes),
+  },
   todo: {
     name: { en: 'Lists', de: 'Listen' },
     path: '/todo',

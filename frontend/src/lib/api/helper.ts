@@ -1,4 +1,4 @@
-export const createHeaders = (token: string) => ({
+export const createHeaders = (token?: string) => ({
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${token}`,
+  Authorization: token ? `Bearer ${token}` : '',
 });

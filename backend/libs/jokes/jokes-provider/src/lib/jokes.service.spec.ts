@@ -21,11 +21,13 @@ describe('JokesService', () => {
           provide: JokesMongoDbService,
           useValue: {
             findRandomOne: jest.fn(),
+            findJokeOfTheDay: jest.fn(),
             create: jest.fn(),
             findAll: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
+            removeDuplicates: jest.fn(),
           },
         },
         {
@@ -80,6 +82,18 @@ describe('JokesService', () => {
     });
   });
 
+  describe('persistDailyJoke', () => {
+    it('should persist a daily joke', async () => {
+      // arrange
+      jest
+        .spyOn(jokesMongoDbServiceMock, 'removeDuplicates')
+        .mockResolvedValueOnce(undefined);
+
+      // act & assert
+      await expect(service.cleanupDuplicateJokes()).resolves.toBe(undefined);
+    });
+  });
+
   describe('getRandomJoke', () => {
     it('should get a random joke', async () => {
       // arrange
@@ -90,6 +104,22 @@ describe('JokesService', () => {
 
       // act
       const result = await service.getRandomJoke();
+
+      // assert
+      expect(result).toEqual(joke);
+    });
+  });
+
+  describe('getJokeOfTheDay', () => {
+    it('should get the joke of the day', async () => {
+      // arrange
+      const joke = mockJokeDto({ text: 'joke1' });
+      jest
+        .spyOn(jokesMongoDbServiceMock, 'findJokeOfTheDay')
+        .mockResolvedValue(joke);
+
+      // act
+      const result = await service.getJokeOfTheDay();
 
       // assert
       expect(result).toEqual(joke);
