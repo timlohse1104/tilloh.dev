@@ -22,9 +22,16 @@ export class JokesMongoDbService {
   async findRandomOne(): Promise<JokeDto> {
     this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
 
-    const jokeCount = await this.jokeModel.countDocuments().exec();
+    const jokeCount = await this.jokeModel
+      .countDocuments({
+        $or: [{ verified: true }, { verified: { $exists: false } }],
+      })
+      .exec();
     const random = Math.floor(Math.random() * jokeCount);
-    const randomJoke = await this.jokeModel.findOne().skip(random).exec();
+    const randomJoke = await this.jokeModel
+      .findOne({ $or: [{ verified: true }, { verified: { $exists: false } }] })
+      .skip(random)
+      .exec();
 
     if (!randomJoke) {
       throw new NotFoundException(JokeTexts.NOT_FOUND);
@@ -49,6 +56,7 @@ export class JokesMongoDbService {
 
     const jokeFromYesterday = await this.jokeModel
       .findOne({
+        $or: [{ verified: true }, { verified: { $exists: false } }],
         created: {
           $gte: startOfToday,
           $lt: startOfTomorrow,

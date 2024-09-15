@@ -26,7 +26,7 @@ export class JokesController {
 
   @Public()
   @ApiOkResponse({
-    description: 'Random joke.',
+    description: 'Random verified joke.',
     type: JokeDto,
   })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
@@ -37,7 +37,7 @@ export class JokesController {
 
   @Public()
   @ApiOkResponse({
-    description: 'Daily joke rotated every night.',
+    description: 'Daily verified joke rotated every night.',
     type: JokeDto,
   })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
