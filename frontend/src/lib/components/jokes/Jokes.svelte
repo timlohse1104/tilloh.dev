@@ -69,8 +69,6 @@
       </Card>
     {/if}
 
-    <hr />
-
     <h2>{$t('page.jokes.titleNewJoke')}</h2>
     <p>{$t('page.jokes.descriptionNewJoke')}</p>
 
@@ -78,8 +76,8 @@
       textarea
       bind:value={newJokeText}
       label={$t('page.jokes.newJokeTextInput')}
-      input$rows={6}
-      input$cols={40}
+      input$rows={4}
+      input$cols={50}
       input$resizable={false}
     >
       <HelperText slot="helper">{$t('page.jokes.newJokeHelperText')}</HelperText
@@ -121,14 +119,25 @@
 {/if}
 
 <style lang="scss">
+  @import '../../styles/variables.scss';
   section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 80vw;
-    margin: 0 auto;
+    max-width: 90vw;
+    margin: 0 auto 3rem auto;
     color: var(--light80);
-    height: 88vh;
+    height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    @media #{$tablet} {
+      max-width: 60vw;
+    }
+
+    @media #{$phone} {
+      max-width: 90vw;
+    }
   }
 
   :global(.randomJokeButton) {
@@ -141,12 +150,6 @@
   }
 
   :global(.createJokeButton) {
-    margin-top: 3rem;
-  }
-
-  hr {
-    border: 1px solid var(--color-text);
-    width: 100%;
-    margin: 3rem 0;
+    margin-top: 2rem;
   }
 </style>
