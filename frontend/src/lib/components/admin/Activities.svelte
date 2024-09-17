@@ -8,8 +8,12 @@
     SecondaryText,
     Text,
   } from '@smui/list';
+  import Snackbar, { Label } from '@smui/snackbar';
 
   export let activities: ActivityDto[] = [];
+
+  let copyToClipboardSnackbar;
+  let copiedId = '';
 
   const getActivityTypeIcon = (type: string) => {
     switch (type) {
@@ -23,6 +27,13 @@
         return 'info';
     }
   };
+
+  const copyIdToClipboard = (id: string) => {
+    navigator.clipboard.writeText(id);
+    copiedId = id;
+    copyToClipboardSnackbar.open();
+    // copiedId = '';
+  };
 </script>
 
 {#if $initialized}
@@ -32,7 +43,10 @@
     </div>
     <List threeLine avatarList singleSelection>
       {#each activities as activity}
-        <Item class="admin-list-items">
+        <Item
+          class="admin-list-items"
+          on:SMUI:action={() => copyIdToClipboard(activity.id)}
+        >
           <Graphic class="material-icons admin-list-items-icon"
             >{getActivityTypeIcon(activity.type)}</Graphic
           >
@@ -49,6 +63,14 @@
       {/each}
     </List>
   </section>
+
+  <Snackbar bind:this={copyToClipboardSnackbar}>
+    <Label
+      >{$t('page.admin.activities.copiedToClipboard', {
+        id: copiedId,
+      })}</Label
+    >
+  </Snackbar>
 {:else}
   <section>Locale initializing...</section>
 {/if}

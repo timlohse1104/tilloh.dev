@@ -163,6 +163,7 @@
   "page.admin.activities.jokeActivity": "Witz wurde",
   "page.admin.activities.created": "erstellt",
   "page.admin.activities.updated": "aktualisiert",
+  "page.admin.activities.copiedToClipboard": "ID '{{id}}' wurde in die Zwischenablage kopiert.",
   "page.shared.burgerMenuTitle": "Anwendungen",
   "page.shared.madeByText": "Entwickelt von Tilloh mit 💙",
   "page.shared.toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",

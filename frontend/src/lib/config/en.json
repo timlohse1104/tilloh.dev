@@ -163,6 +163,7 @@
   "page.admin.activities.jokeActivity": "Joke got",
   "page.admin.activities.created": "created",
   "page.admin.activities.updated": "updated",
+  "page.admin.activities.copiedToClipboard": "ID '{{id}}' copied to clipboard.",
   "page.shared.burgerMenuTitle": "Applications",
   "page.shared.madeByText": "Made by Tilloh with 💙",
   "page.shared.toggledSiteHeadline": "This application has been temporarily disabled.",
