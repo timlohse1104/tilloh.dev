@@ -449,11 +449,7 @@
   .admin-overview {
     display: grid;
     width: 100%;
-    margin-top: 2rem;
-
-    @media #{$phone} {
-      margin-top: 1rem;
-    }
+    margin-top: 1rem;
   }
 
   .admin-content {
@@ -475,6 +471,7 @@
   :global(.admin-sections) {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
   }
 
   :global(.admin-sections-headline) {
@@ -482,6 +479,12 @@
     align-items: center;
     justify-content: space-between;
     margin: 0 1rem;
+  }
+
+  :global(.admin-sections-list) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 60vh;
   }
 
   :global(.admin-list-items) {

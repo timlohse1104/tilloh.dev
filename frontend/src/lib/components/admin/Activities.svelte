@@ -41,7 +41,7 @@
     <div class="admin-sections-headline">
       <h2>{$t('page.admin.activities.title')}</h2>
     </div>
-    <List threeLine avatarList singleSelection>
+    <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each activities as activity}
         <Item
           class="admin-list-items"

@@ -20,7 +20,7 @@
     <div class="admin-sections-headline">
       <h2>{$t('page.admin.linkPresets.title')}</h2>
     </div>
-    <List threeLine avatarList singleSelection>
+    <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each linkPresets as linkPreset}
         <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon">link</Graphic>

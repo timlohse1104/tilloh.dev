@@ -92,7 +92,7 @@
         </IconButton>
       </Textfield>
     </div>
-    <List threeLine avatarList singleSelection>
+    <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each toggles as toggle, i}
         <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon"

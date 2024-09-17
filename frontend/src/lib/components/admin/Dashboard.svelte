@@ -106,6 +106,7 @@
     margin-bottom: 1rem;
 
     h1 {
+      font-size: 2rem;
       margin: 0;
     }
   }
@@ -113,7 +114,7 @@
   .dashboard-content {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: 0.5rem;
     max-width: 100%;
     flex-wrap: wrap;
     justify-content: start;
