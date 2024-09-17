@@ -20,6 +20,7 @@
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
   import { getlocale, t } from '$lib/util/translations';
+  import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
@@ -351,17 +352,13 @@
             duplicateLinksAmount: getDuplicateLinksAmount(),
             duplicateFoldersAmount: getDuplicateFoldersAmount(),
           }}
-          on:updateDashboard={updateDashboard}
+          on:updateDashboard
         />
       {/if}
     </div>
 
     <div class="admin-content">
-      <Toggles
-        {toggles}
-        on:updateDashboard={updateDashboard}
-        on:removeToggle={removeToggle}
-      />
+      <Toggles {toggles} on:updateDashboard on:removeToggle={removeToggle} />
       {#if getToggleState(TogglesEnum.adminActivities)}
         <Activities activities={getLatestActivities()} />
       {/if}
@@ -380,6 +377,14 @@
         <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       {/if}
     </div>
+
+    <Fab
+      style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+      color="secondary"
+      on:click={updateDashboard}
+    >
+      <Icon style="font-size:2rem;" class="material-icons">refresh</Icon>
+    </Fab>
   {/if}
 </section>
 

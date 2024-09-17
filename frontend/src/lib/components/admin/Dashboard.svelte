@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { AdminDashboardPropsDto } from '$lib/types/admin.dto';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
-  import { createEventDispatcher } from 'svelte';
   import DashboardCard from './DashboardCard.svelte';
 
   export let metrics: AdminDashboardPropsDto = {
@@ -19,17 +17,12 @@
     duplicateFoldersAmount: 0,
     duplicateLinksAmount: 0,
   };
-  const dispatch = createEventDispatcher();
 </script>
 
 {#if $initialized}
   <section>
     <div class="dashboard-header">
       <h1>{$t('page.admin.dashboard.title')}</h1>
-      <IconButton
-        class="material-icons"
-        on:click={() => dispatch('updateDashboard')}>refresh</IconButton
-      >
     </div>
     <div class="dashboard-content">
       <DashboardCard
