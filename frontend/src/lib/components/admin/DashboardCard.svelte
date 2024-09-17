@@ -52,7 +52,7 @@
     }
 
     p {
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       margin: 0;
     }
   }

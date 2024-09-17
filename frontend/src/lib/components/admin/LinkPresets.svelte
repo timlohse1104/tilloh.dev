@@ -18,7 +18,9 @@
 {#if $initialized}
   <section class="admin-sections">
     <div class="admin-sections-headline">
-      <h2>{$t('page.admin.linkPresets.title')}</h2>
+      <h2>
+        {$t('page.admin.linkPresets.title')} <span>({linkPresets.length})</span>
+      </h2>
     </div>
     <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each linkPresets as linkPreset}

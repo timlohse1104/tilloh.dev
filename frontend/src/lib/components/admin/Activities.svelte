@@ -39,7 +39,9 @@
 {#if $initialized}
   <section class="admin-sections">
     <div class="admin-sections-headline">
-      <h2>{$t('page.admin.activities.title')}</h2>
+      <h2>
+        {$t('page.admin.activities.title')} <span>({activities.length})</span>
+      </h2>
     </div>
     <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each activities as activity}

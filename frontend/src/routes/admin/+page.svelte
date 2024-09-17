@@ -366,7 +366,12 @@
         <Activities activities={getLatestActivities()} />
       {/if}
       {#if getToggleState(TogglesEnum.adminJokes)}
-        <Jokes {jokes} on:removeJoke={removeJoke} />
+        <Jokes
+          {jokes}
+          on:removeJoke={removeJoke}
+          on:updateDashboard
+          {adminToken}
+        />
       {/if}
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
@@ -454,12 +459,12 @@
 
   .admin-content {
     display: grid;
-    grid-template-columns: repeat(3, 33%);
+    grid-template-columns: repeat(auto-fill, minmax(800px, 33%));
     width: 100%;
     margin-top: 2rem;
 
     @media #{$tablet} {
-      grid-template-columns: repeat(2, 50%);
+      grid-template-columns: 100%;
     }
 
     @media #{$phone} {
@@ -479,6 +484,11 @@
     align-items: center;
     justify-content: space-between;
     margin: 0 1rem;
+  }
+
+  :global(.admin-sections-headline h2 span) {
+    font-size: 0.65rem;
+    color: var(--color-text-secondary);
   }
 
   :global(.admin-sections-list) {
