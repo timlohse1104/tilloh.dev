@@ -42,7 +42,7 @@ export const getJoke = async (token: string, id: string): Promise<JokeDto> => {
 export const updateJoke = async (
   token: string,
   id: string,
-  jokeEditDto: JokeEditDto,
+  jokeEditDto: Partial<JokeEditDto>,
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'PUT',
