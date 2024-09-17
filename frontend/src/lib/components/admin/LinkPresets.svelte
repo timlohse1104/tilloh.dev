@@ -13,7 +13,6 @@
   const dispatch = createEventDispatcher();
 
   export let linkPresets: KeystoreKeyDto[] = [];
-  let selectionIndex = 0;
 </script>
 
 {#if $initialized}
@@ -21,13 +20,9 @@
     <div class="admin-sections-headline">
       <h2>{$t('page.admin.linkPresets.title')}</h2>
     </div>
-    <List threeLine avatarList singleSelection selectedIndex={selectionIndex}>
-      {#each linkPresets as linkPreset, i}
-        <Item
-          on:SMUI:action={() => (selectionIndex = i)}
-          selected={selectionIndex === i}
-          class="admin-list-items"
-        >
+    <List threeLine avatarList singleSelection>
+      {#each linkPresets as linkPreset}
+        <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon">link</Graphic>
           <Text class="admin-list-items-text">
             <PrimaryText>👤🆔{linkPreset.identifier}</PrimaryText>
