@@ -2,6 +2,9 @@
   "name": "tilloh.dev-backend",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -65,9 +68,6 @@
     "vite-plugin-restart": "^0.4.0",
     "vitest": "^2.0.0"
   },
-  "type": "module",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
   "dependencies": {
     "highlight.js": "^11.9.0",
     "socket.io-client": "^4.7.4",

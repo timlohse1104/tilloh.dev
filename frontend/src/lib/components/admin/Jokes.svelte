@@ -21,11 +21,9 @@
       <h2>{$t('page.admin.jokes.title')}</h2>
     </div>
     <List threeLine avatarList singleSelection>
-      {#each jokes as joke, i}
+      {#each jokes as joke}
         <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon"
-            >settings_accessibility</Graphic
-          >
+          <Graphic class="material-icons admin-list-items-icon">😂</Graphic>
           <Text class="admin-list-items-text">
             <PrimaryText>{joke.text}</PrimaryText>
             <SecondaryText>🆔{joke._id}</SecondaryText>

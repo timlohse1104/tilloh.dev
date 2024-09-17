@@ -114,7 +114,7 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    max-width: 90vw;
+    max-width: 100%;
     flex-wrap: wrap;
     justify-content: start;
   }

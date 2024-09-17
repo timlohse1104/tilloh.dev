@@ -17,6 +17,8 @@
         return 'link';
       case ActivityTypeDto.IDENTIFIER:
         return 'person';
+      case ActivityTypeDto.JOKE:
+        return '😂';
       default:
         return 'info';
     }
@@ -36,8 +38,9 @@
           >
           <Text class="admin-list-items-text">
             <PrimaryText>{activity.description}</PrimaryText>
+            <SecondaryText>🆔{activity.id}</SecondaryText>
             <SecondaryText
-              >🆔{activity.id} 🔧{new Date(activity.updated).toLocaleString(
+              >🔧{new Date(activity.updated).toLocaleString(
                 'de-DE',
               )}</SecondaryText
             >

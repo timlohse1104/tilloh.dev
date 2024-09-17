@@ -13,7 +13,7 @@
   const dispatch = createEventDispatcher();
 
   export let linkPresets: KeystoreKeyDto[] = [];
-  let selectionIndex = 3;
+  let selectionIndex = 0;
 </script>
 
 {#if $initialized}

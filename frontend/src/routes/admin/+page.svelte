@@ -100,21 +100,21 @@
       ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: `${$t('page.admin.activities.keyActivity', { keyName: preset.key })} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.keyActivity')} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: preset.updated,
         created: preset.created,
       })),
       ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: `${$t('page.admin.activities.identifierActivity', { identifierName: identifier.name })} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.identifierActivity')} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: identifier.updated,
         created: identifier.created,
       })),
       ...jokes.map((joke) => ({
-        type: ActivityTypeDto.IDENTIFIER,
+        type: ActivityTypeDto.JOKE,
         id: joke._id,
-        description: `${$t('page.admin.activities.jokeActivity', { joke: joke.text })} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.jokeActivity')} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: joke.updated,
         created: joke.created,
       })),
@@ -365,14 +365,14 @@
       {#if getToggleState(TogglesEnum.adminActivities)}
         <Activities activities={getLatestActivities()} />
       {/if}
-      {#if getToggleState(TogglesEnum.adminIdentifiers)}
-        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      {#if getToggleState(TogglesEnum.adminJokes)}
+        <Jokes {jokes} on:removeJoke={removeJoke} />
       {/if}
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
-      {#if getToggleState(TogglesEnum.adminJokes)}
-        <Jokes {jokes} on:removeJoke={removeJoke} />
+      {#if getToggleState(TogglesEnum.adminIdentifiers)}
+        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       {/if}
     </div>
   {/if}
@@ -447,15 +447,9 @@
   }
 
   .admin-overview {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    width: 90vw;
-    margin-top: 3rem;
-
-    @media #{$tablet} {
-      margin-top: 2rem;
-    }
+    display: grid;
+    width: 100%;
+    margin-top: 2rem;
 
     @media #{$phone} {
       margin-top: 1rem;
@@ -464,16 +458,17 @@
 
   .admin-content {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(550px, 25%));
-    width: 90vw;
-    margin-top: 3rem;
+    grid-template-columns: repeat(3, 33%);
+    width: 100%;
+    margin-top: 2rem;
 
     @media #{$tablet} {
-      margin-top: 2rem;
+      grid-template-columns: repeat(2, 50%);
     }
 
     @media #{$phone} {
       margin-top: 1rem;
+      grid-template-columns: 100%;
     }
   }
 
