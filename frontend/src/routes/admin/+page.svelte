@@ -352,13 +352,17 @@
             duplicateLinksAmount: getDuplicateLinksAmount(),
             duplicateFoldersAmount: getDuplicateFoldersAmount(),
           }}
-          on:updateDashboard
+          on:updateDashboard={updateDashboard}
         />
       {/if}
     </div>
 
     <div class="admin-content">
-      <Toggles {toggles} on:updateDashboard on:removeToggle={removeToggle} />
+      <Toggles
+        {toggles}
+        on:updateDashboard={updateDashboard}
+        on:removeToggle={removeToggle}
+      />
       {#if getToggleState(TogglesEnum.adminActivities)}
         <Activities activities={getLatestActivities()} />
       {/if}
@@ -366,7 +370,7 @@
         <Jokes
           {jokes}
           on:removeJoke={removeJoke}
-          on:updateDashboard
+          on:updateDashboard={updateDashboard}
           {adminToken}
         />
       {/if}
