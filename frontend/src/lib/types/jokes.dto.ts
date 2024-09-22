@@ -11,4 +11,5 @@ export class JokeEditDto {
   text: string;
   language: string;
   categories: string[];
+  verified?: boolean;
 }
