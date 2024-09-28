@@ -34,7 +34,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     ThrottlerModule.forRoot([
       {
         ttl: 300000,
-        limit: 100,
+        limit: 500,
       },
     ]),
     ScheduleModule.forRoot(),
@@ -95,7 +95,7 @@ export class AppModule {
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
   );
   const globalPrefix = process.env.GLOBAL_PREFIX;
   const port = process.env.PORT;
@@ -105,7 +105,7 @@ async function bootstrap() {
   app.useLogger(app.get(PinoLogger));
   app.enableCors();
   app.useGlobalFilters(
-    new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger))
+    new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger)),
   );
 
   const config = new DocumentBuilder()
@@ -120,7 +120,7 @@ async function bootstrap() {
 
   await app.listen(port, address, () => {
     Logger.log(
-      `🚀 Application is running on: http://${address}:${port}/${globalPrefix}`
+      `🚀 Application is running on: http://${address}:${port}/${globalPrefix}`,
     );
   });
 }

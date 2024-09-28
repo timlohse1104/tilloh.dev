@@ -20,6 +20,7 @@
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
   import { getlocale, t } from '$lib/util/translations';
+  import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
@@ -100,21 +101,21 @@
       ...linkPresets.map((preset) => ({
         type: ActivityTypeDto.PRESET,
         id: preset.identifier,
-        description: `${$t('page.admin.activities.keyActivity', { keyName: preset.key })} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.keyActivity')} ${preset.created === preset.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: preset.updated,
         created: preset.created,
       })),
       ...identifiers.map((identifier) => ({
         type: ActivityTypeDto.IDENTIFIER,
         id: identifier._id,
-        description: `${$t('page.admin.activities.identifierActivity', { identifierName: identifier.name })} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.identifierActivity')} ${identifier.created === identifier.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: identifier.updated,
         created: identifier.created,
       })),
       ...jokes.map((joke) => ({
-        type: ActivityTypeDto.IDENTIFIER,
+        type: ActivityTypeDto.JOKE,
         id: joke._id,
-        description: `${$t('page.admin.activities.jokeActivity', { joke: joke.text })} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
+        description: `${$t('page.admin.activities.jokeActivity')} ${joke.created === joke.updated ? $t('page.admin.activities.created') : $t('page.admin.activities.updated')}.`,
         updated: joke.updated,
         created: joke.created,
       })),
@@ -365,16 +366,29 @@
       {#if getToggleState(TogglesEnum.adminActivities)}
         <Activities activities={getLatestActivities()} />
       {/if}
-      {#if getToggleState(TogglesEnum.adminIdentifiers)}
-        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
+      {#if getToggleState(TogglesEnum.adminJokes)}
+        <Jokes
+          {jokes}
+          on:removeJoke={removeJoke}
+          on:updateDashboard={updateDashboard}
+          {adminToken}
+        />
       {/if}
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
         <LinkPresets {linkPresets} on:removeLinkPresets={removeLinkPreset} />
       {/if}
-      {#if getToggleState(TogglesEnum.adminJokes)}
-        <Jokes {jokes} on:removeJoke={removeJoke} />
+      {#if getToggleState(TogglesEnum.adminIdentifiers)}
+        <Identifiers {identifiers} on:removeIdentifier={removeIdentifier} />
       {/if}
     </div>
+
+    <Fab
+      style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+      color="secondary"
+      on:click={updateDashboard}
+    >
+      <Icon style="font-size:2rem;" class="material-icons">refresh</Icon>
+    </Fab>
   {/if}
 </section>
 
@@ -447,39 +461,31 @@
   }
 
   .admin-overview {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    width: 90vw;
-    margin-top: 3rem;
-
-    @media #{$tablet} {
-      margin-top: 2rem;
-    }
-
-    @media #{$phone} {
-      margin-top: 1rem;
-    }
+    display: grid;
+    width: 100%;
+    margin-top: 1rem;
   }
 
   .admin-content {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(550px, 25%));
-    width: 90vw;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(800px, 33%));
+    width: 100%;
+    margin-top: 2rem;
 
     @media #{$tablet} {
-      margin-top: 2rem;
+      grid-template-columns: 100%;
     }
 
     @media #{$phone} {
       margin-top: 1rem;
+      grid-template-columns: 100%;
     }
   }
 
   :global(.admin-sections) {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
   }
 
   :global(.admin-sections-headline) {
@@ -487,6 +493,17 @@
     align-items: center;
     justify-content: space-between;
     margin: 0 1rem;
+  }
+
+  :global(.admin-sections-headline h2 span) {
+    font-size: 0.65rem;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.admin-sections-list) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 60vh;
   }
 
   :global(.admin-list-items) {
