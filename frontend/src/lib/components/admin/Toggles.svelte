@@ -74,9 +74,9 @@
 {#if $initialized}
   <section class="admin-sections">
     <div class="admin-sections-headline">
-      <h2>{$t('page.admin.toggles.title')}</h2>
+      <h2>{$t('page.admin.toggles.title')} <span>({toggles.length})</span></h2>
       <Textfield
-        style="margin-left:2rem;width: 100%;"
+        style="margin-left:2rem;width: 75%;"
         bind:value={newToogleName}
         label={$t('page.admin.toggles.newToggle')}
         on:keyup={(event) => {
@@ -92,7 +92,7 @@
         </IconButton>
       </Textfield>
     </div>
-    <List threeLine avatarList singleSelection>
+    <List threeLine avatarList singleSelection class="admin-sections-list">
       {#each toggles as toggle, i}
         <Item class="admin-list-items">
           <Graphic class="material-icons admin-list-items-icon"
