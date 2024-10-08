@@ -81,6 +81,12 @@ supervisorctl start tilloh-api-daemon
 supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 ```
 
+5. Find errors in stderr
+
+```
+supervisorctl tail tilloh-api-daemon stderr
+```
+
 ## Websocket Documentation
 
 As for now there is no easy possibility to get automated swagger documentation for websocket gateways.
