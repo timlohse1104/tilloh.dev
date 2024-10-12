@@ -47,7 +47,7 @@ export class JokesMongoDbService {
    * @returns A single joke object.
    */
   async findJokeOfTheDay(): Promise<JokeDto> {
-    this.logger.debug(JokeTexts.ATTEMPT_FIND_RANDOM_ONE);
+    this.logger.debug(JokeTexts.ATTEMPT_FIND_DAILY_ONE);
     const startOfToday = new Date();
     startOfToday.setUTCHours(0, 0, 0, 0);
 
@@ -56,21 +56,29 @@ export class JokesMongoDbService {
 
     const jokeFromYesterday = await this.jokeModel
       .findOne({
-        $or: [{ verified: true }, { verified: { $exists: false } }],
-        created: {
-          $gte: startOfToday,
-          $lt: startOfTomorrow,
-        },
+        $and: [
+          { $or: [{ verified: true }, { verified: { $exists: false } }] },
+          {
+            created: {
+              $gte: startOfToday,
+              $lt: startOfTomorrow,
+            },
+          },
+        ],
       })
       .exec();
 
     if (!jokeFromYesterday) {
-      return this.findRandomOne();
+      this.logger.warn(JokeTexts.FROM_YESTERDAY_NOT_FOUND);
+      const randomJoke = await this.findRandomOne();
+
+      if (!randomJoke) {
+        throw new NotFoundException(JokeTexts.NOT_FOUND);
+      }
+
+      return randomJoke;
     }
 
-    if (!jokeFromYesterday) {
-      throw new NotFoundException(JokeTexts.NOT_FOUND);
-    }
     this.logger.debug({ output: jokeFromYesterday }, JokeTexts.FOUND_ONE);
     return jokeFromYesterday.toObject();
   }
