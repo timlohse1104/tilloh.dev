@@ -1,16 +1,7 @@
 <script>
-  import { page } from '$app/stores';
   import Header from '$lib/components/shared/Header.svelte';
   import './styles.css';
-
-  $: pageName = $page.url.pathname.replace('/', '')
-    ? $page.url.pathname.replace('/', '')
-    : 'home';
 </script>
-
-<svelte:head>
-  <link rel="icon" href={`/favicons/${pageName}.favicon.svg`} />
-</svelte:head>
 
 <div class="app">
   <Header />
