@@ -34,7 +34,7 @@
     justify-content: center;
     align-items: center;
     padding: 36px 18px;
-    margin-top: 2em;
+    margin-top: 1em;
     background-color: var(--mdc-theme-background);
     border: 1px solid
       var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));

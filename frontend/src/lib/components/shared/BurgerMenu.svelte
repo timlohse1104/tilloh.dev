@@ -46,7 +46,12 @@
 
 <aside popover id="hamburger-menu">
   {#if $initialized}
-    <h1>{$t('page.shared.burgerMenuTitle')}</h1>
+    <div class="burger-menu-header">
+      <div class="tilloh-logo">
+        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
+      </div>
+      <h1>{$t('page.shared.burgerMenuTitle')}</h1>
+    </div>
     <hr />
     <ul>
       {#each appLinks as link}
@@ -70,11 +75,11 @@
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
-        <img src={'/images/header/github-light.svg'} alt="GitHub" />
+        <img src={'/images/links/github-light.svg'} alt="GitHub" />
       </IconButton>
       <p>{$t('page.shared.madeByText')}</p>
       <IconButton href="https://stadtwerk.org" target="_blank">
-        <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
+        <img src={'/images/links/stadtwerk-logo.svg'} alt="stadtwerk" />
       </IconButton>
     </footer>
   {:else}
@@ -116,12 +121,12 @@
 
     @media #{$tablet} {
       width: 50%;
-      font-size: medium;
+      font-size: x-large;
     }
 
     @media #{$phone} {
-      width: 100%;
-      font-size: small;
+      width: 75%;
+      font-size: larger;
     }
 
     &:popover-open {
@@ -138,14 +143,30 @@
     }
   }
 
+  .burger-menu-header {
+    display: flex;
+    align-items: center;
+    margin-left: var(--menu-left);
+  }
+
   h1 {
     text-align: left;
-    margin-left: var(--menu-left);
-    margin-bottom: 1.5rem;
     color: var(--color-text);
 
     @media #{$phone} {
       font-size: larger;
+    }
+  }
+
+  .tilloh-logo {
+    width: 2em;
+    height: 2em;
+    margin-right: 1rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 
