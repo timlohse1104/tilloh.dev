@@ -16,7 +16,11 @@
 
 <section>
   <div class="headerBox">
-    <div class="meInfo"></div>
+    <div class="meInfo">
+      <div class="tilloh-logo">
+        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
+      </div>
+    </div>
 
     <div class="headlineBox">
       <h2>
@@ -47,6 +51,17 @@
     padding: 0.5em 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: var(--white30) 1px solid;
+  }
+
+  .tilloh-logo {
+    width: 3em;
+    height: 3em;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   .headlineBox {
