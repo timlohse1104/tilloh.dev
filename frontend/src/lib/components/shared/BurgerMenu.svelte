@@ -46,7 +46,12 @@
 
 <aside popover id="hamburger-menu">
   {#if $initialized}
-    <h1>{$t('page.shared.burgerMenuTitle')}</h1>
+    <h1>
+      <IconButton href="https://github.com/timlohse1104" target="_blank">
+        <img src={'/images/links/github-light.svg'} alt="GitHub" />
+      </IconButton>
+      {$t('page.shared.burgerMenuTitle')}
+    </h1>
     <hr />
     <ul>
       {#each appLinks as link}
@@ -70,11 +75,11 @@
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
-        <img src={'/images/header/github-light.svg'} alt="GitHub" />
+        <img src={'/images/links/github-light.svg'} alt="GitHub" />
       </IconButton>
       <p>{$t('page.shared.madeByText')}</p>
       <IconButton href="https://stadtwerk.org" target="_blank">
-        <img src={'/images/header/stadtwerk-logo.svg'} alt="stadtwerk" />
+        <img src={'/images/links/stadtwerk-logo.svg'} alt="stadtwerk" />
       </IconButton>
     </footer>
   {:else}
@@ -116,12 +121,12 @@
 
     @media #{$tablet} {
       width: 50%;
-      font-size: medium;
+      font-size: x-large;
     }
 
     @media #{$phone} {
-      width: 100%;
-      font-size: small;
+      width: 75%;
+      font-size: larger;
     }
 
     &:popover-open {
