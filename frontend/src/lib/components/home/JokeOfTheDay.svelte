@@ -33,7 +33,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 4rem;
+    margin-top: 3rem;
   }
 
   h3 {
