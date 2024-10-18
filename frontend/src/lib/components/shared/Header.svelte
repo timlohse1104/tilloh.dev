@@ -17,11 +17,7 @@
 <section>
   <div class="headerBox">
     <div class="meInfo">
-      <IconButton
-        class="tilloh-logo"
-        href={applicationRoutes.home.path}
-        target="_blank"
-      >
+      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
     </div>

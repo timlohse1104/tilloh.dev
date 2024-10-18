@@ -47,11 +47,7 @@
 <aside popover id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
-      <IconButton
-        class="tilloh-logo"
-        href={applicationRoutes.home.path}
-        target="_blank"
-      >
+      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
