@@ -3,7 +3,7 @@
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import { getlocale } from '$lib/util/translations';
-  import { Icon } from '@smui/icon-button';
+  import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
 
   const locale = getlocale();
@@ -17,9 +17,13 @@
 <section>
   <div class="headerBox">
     <div class="meInfo">
-      <div class="tilloh-logo">
+      <IconButton
+        class="tilloh-logo"
+        href={applicationRoutes.home.path}
+        target="_blank"
+      >
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </div>
+      </IconButton>
     </div>
 
     <div class="headlineBox">
@@ -53,7 +57,7 @@
     border-bottom: var(--white30) 1px solid;
   }
 
-  .tilloh-logo {
+  :global(.tilloh-logo) {
     width: 3em;
     height: 3em;
 
