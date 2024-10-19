@@ -47,9 +47,9 @@
 <aside popover id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
-      <div class="tilloh-logo">
+      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </div>
+      </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
     </div>
     <hr />
@@ -158,7 +158,7 @@
     }
   }
 
-  .tilloh-logo {
+  :global(.tilloh-logo) {
     width: 2em;
     height: 2em;
     margin-right: 1rem;
