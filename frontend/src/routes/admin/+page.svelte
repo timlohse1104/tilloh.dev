@@ -19,7 +19,7 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
-  import { getlocale, t } from '$lib/util/translations';
+  import { locale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -31,7 +31,6 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
-  const locale = getlocale();
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';
@@ -309,8 +308,8 @@
 </script>
 
 <svelte:head>
-  <title>{adminRoute.name[locale]}</title>
-  <meta name={adminRoute.name[locale]} content="tilloh.dev" />
+  <title>{adminRoute.name[$locale]}</title>
+  <meta name={adminRoute.name[$locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>

@@ -2,11 +2,10 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores';
-  import { getlocale } from '$lib/util/translations';
+  import { locale, locales, t } from '$lib/util/translations';
   import IconButton, { Icon } from '@smui/icon-button';
+  import Select, { Option } from '@smui/select';
   import BurgerMenu from './BurgerMenu.svelte';
-
-  const locale = getlocale();
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -25,7 +24,7 @@
     <div class="headlineBox">
       <h2>
         <Icon class="material-icons">{currentPage.icon}</Icon>
-        {currentPage.name[locale]}
+        {currentPage.name[$locale]}
       </h2>
 
       <p>
@@ -38,6 +37,13 @@
     </div>
 
     <div class="corner">
+      <Select class="language-select" bind:value={$locale}>
+        {#each $locales as value}
+          <Option {value} selected={$locale === value}
+            >{$t(`lang.${value}`)}</Option
+          >
+        {/each}
+      </Select>
       <BurgerMenu />
     </div>
   </div>
@@ -77,8 +83,14 @@
     }
   }
 
+  :global(.language-select) {
+    width: 5em;
+    height: 3em;
+    margin: 0.25em 0.5em;
+  }
+
   .corner {
-    width: 3em;
+    // width: 3em;
     height: 3em;
     margin: 0.25em 0.5em;
     display: flex;

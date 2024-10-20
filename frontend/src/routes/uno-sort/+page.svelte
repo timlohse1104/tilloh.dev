@@ -2,7 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { initialized, locale, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -10,7 +10,6 @@
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
-  const locale = getlocale();
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
@@ -41,8 +40,8 @@
 </script>
 
 <svelte:head>
-  <title>{unoSortRoute.name[locale]}</title>
-  <meta name={unoSortRoute.name[locale]} content="tilloh.dev" />
+  <title>{unoSortRoute.name[$locale]}</title>
+  <meta name={unoSortRoute.name[$locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if unoSortRoute.toggle}

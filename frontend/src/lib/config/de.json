@@ -1,4 +1,6 @@
 {
+  "lang.de": "Deutsch",
+  "lang.en": "Englisch",
   "page.home.jokeTitle": "Witz des Tages",
   "page.home.jokeLoading": "Lädt Witz des Tages...",
   "page.home.searchPlaceholder": "Suche",
@@ -67,6 +69,8 @@
   "page.settings.onlinePersistence.loadConnectionDescription": "Kopiere deine ID und füge sie auf einem anderen Gerät ein, um deine Zwischenstände zu synchronisieren.",
   "page.settings.onlinePersistence.yourId": "Deine ID",
   "page.settings.onlinePersistence.personalIdQuestion": "Wie lautet deine persönliche ID?",
+  "page.settings.languageSwitch.title": "Sprachauswahl",
+  "page.settings.languageSwitch.description": "Wähle hier deine bevorzugte Sprache aus.",
   "page.jokes.titleRandomJoke": "Heute schon gelacht? 😂",
   "page.jokes.descriptionRandomJoke": "Drücke auf den Knopf und erhalte einen zufälligen Witz. Viel Spaß!",
   "page.jokes.titleNewJoke": "Bring andere zum lachen! 😃",

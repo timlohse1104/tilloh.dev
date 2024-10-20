@@ -14,7 +14,7 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { initialized, locale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
@@ -22,7 +22,6 @@
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
-  const locale = getlocale();
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -54,8 +53,8 @@
 </script>
 
 <svelte:head>
-  <title>{memorandumRoute.name[locale]}</title>
-  <meta name={memorandumRoute.name[locale]} content="tilloh.dev" />
+  <title>{memorandumRoute.name[$locale]}</title>
+  <meta name={memorandumRoute.name[$locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if memorandumRoute.toggle}

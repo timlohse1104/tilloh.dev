@@ -1,4 +1,6 @@
 {
+  "lang.de": "German",
+  "lang.en": "English",
   "page.home.jokeTitle": "Joke of the day",
   "page.home.jokeLoading": "Loading joke of the day...",
   "page.home.searchPlaceholder": "Search",
@@ -67,6 +69,8 @@
   "page.settings.onlinePersistence.loadConnectionDescription": "Copy your ID and paste it on another device to synchronize your intermediate statuses.",
   "page.settings.onlinePersistence.yourId": "Your personal ID",
   "page.settings.onlinePersistence.personalIdQuestion": "What is your personal ID?",
+  "page.settings.languageSwitch.title": "Language selection",
+  "page.settings.languageSwitch.description": "Choose your preferred language.",
   "page.jokes.titleRandomJoke": "Already laughed today? 😂",
   "page.jokes.descriptionRandomJoke": "Press the button to get a new joke. Have fun!",
   "page.jokes.titleNewJoke": "Make others laugh! 😃",

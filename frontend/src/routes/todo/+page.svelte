@@ -4,7 +4,7 @@
   import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { initialized, locale, t } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -19,7 +19,6 @@
   import List, { Item, Text } from '@smui/list';
 
   const { todo: todoRoute } = applicationRoutes;
-  const locale = getlocale();
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
@@ -43,8 +42,8 @@
 </script>
 
 <svelte:head>
-  <title>{todoRoute.name[locale]}</title>
-  <meta name={todoRoute.name[locale]} content="tilloh.dev" />
+  <title>{todoRoute.name[$locale]}</title>
+  <meta name={todoRoute.name[$locale]} content="tilloh.dev" />
 </svelte:head>
 
 {#if todoRoute.toggle}
