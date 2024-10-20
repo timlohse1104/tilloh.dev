@@ -24,9 +24,14 @@ The API documentation is available at `https://api.tilloh.dev/v1`
 
 Create a `.env` file in the root of the backend folder with the following variables:
 
-- `PORT`: The port the server will listen to
-- `MONGODB_URI`: The URI of the mongodb database
-- `GLOBAL_PREFIX`: The prefix for all the routes
+```env
+SERVER_ADDRESS="<address-identifier>" # default localhost
+PORT="<port-number>" # default 61154
+MONGO_DB_URL="<mongodb-url>" # default mongodb://localhost/tilloh-dev
+GLOBAL_PREFIX="v1" # default v1
+ADMIN_IDENTIFIER="<admin-identifier>" # from bitwarden
+
+```
 
 ## Development server
 
