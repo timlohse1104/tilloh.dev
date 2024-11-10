@@ -1,9 +1,49 @@
 <script lang="ts">
   import * as webllm from '@mlc-ai/web-llm';
 
-  const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
+  // const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
+  const selectedModel = 'gemma-2-9b-it-q4f32_1-MLC';
   let engine: webllm.MLCEngineInterface;
-  let systemPromptText = '';
+  const defaultSystemPrompt = `"Der User schickt dir Texte, die durch einen OCR Prozess aus Rechnungen ausgelesen wurden. Antworte immer im Format von .env Dateien mit dieser Struktur: 'key1="gefundener Wert1"
+key2="gefundener Wert2"'. Gib keine zusätzliche Erklärung zurück. Solltest du einem Schlüssel keinen Wert zuordnen können, lasse den Wert frei. Am wichtigsten ist, dass Schlüssel, die nicht auf der Rechnung zu finden sind, einen leeren Wert zugeordnet bekommen. Wenn alle angegebenen Schlüssel befüllt sind, gib keine weiteren oder doppelten Schlüssel an. Finde diese Schlüssel: vendorName (Name des Rechnungsstellers), dueDate (Das Fälligkeitsdatum der Rechnung), invoiceReceiptDate (Das Rechnungsdatum), invoiceReceiptId (Die Rechnungsnummer), paymentTerms (Die Zahlungsbedingungen der Rechnung), receiverAddress (Die Adresse des Empfängers - bitte ohne Namen angeben), subtotal (Der Nettobetrag ohne Umsatz- / Mehrwertsteuer), tax (Der Umsatz- / Mehrwertsteuerbetrag), total (Die Gesamtsumme mit Umsatz- / Mehrwertsteuer), taxPayerId (Die Steuernummer des Anbieters), oekoId (Die Öko-Kontrollnummer), vendorAddress (Die Adresse des Anbieters - bitte ohne Namen angeben), taxPayerUstId (Die Umsatzsteuer-Identifikationsnummer des Anbieters - DE + 9 Zahlen), taxRate (Der Umsatz- / Mehrwertsteuersatz als Prozentzahl), iban1 (Die erste erkannte IBAN), iban2 (Die zweite erkannte IBAN), bic1 (Die ersten erkannten BIC), bic2 (Die zweiten erkannten BIC), deliveryDate (Das Lieferdatum des Rechnungsinhalts), vendorPhone (Die Telefonnummer des Anbieters), vendorFax (Die Faxnummer des Anbieters), vendorEmail (Die Email-Adresse des Anbieters - keine URL), invoiceReceiptType (Der Dokumenttyp - Angebot / Auftrag / Bescheid / Gutschrift / Kontoauszug / Lieferschein / Lohnunterlagen / Mahnung / Rechnung / Vertrag - Fallback ist Sonstige), invoiceReceiptYear (Die Jahreszahl des Rechnungsdatums), discountRate (Der Skontosatz als Prozentzahl), discountDueDate (Das Fälligkeitsdatum vom Skonto), discountTotal (Der Betrag von Gesamtsumme abzüglich des Skontowertes), receiverCompany (Der Name des Unternehmens des Rechnungsempfängers), ibanList (Die Liste aller IBANs aus der Rechnung), bicList (Die Liste aller BICs aus der Rechnung).
+
+ Hier ist ein Beispiel eines Outputs nach einer Anfrage von dem User:
+ user: Milchvieh GmbH - Mittelstraße 35 21473 Kiel stadt.werk GmbH Bettina Musterfrau Musterstr. 10 34552 Kopenhagen, Dänemark Rechnungsdatum 22.08.2024 Leistungsdatum 14.08.2024 Kundennummer 0890 Rechnungsnummer: R-CL-2024-00015 Vielen Dank für Ihren Auftrag. Wir berechnen Ihnen folgende Lieferung bzw. Leistung: Nr. Position Menge Einheit USt. Preis Gesamt 1 Ferkel 1 Stück 19 % 357,50 € 357,50 € Zwischensumme netto 357,50 € USt. 19 % 67,93 € Gesamtsumme 425,43 € Bitte begleichen Sie den Rechnungsbetrag bis zum 22.09.2024. Bei Zahlung bis zum 29.08.2024 gewähren wir 2% Skonto. Seite 1 von 1 Milchvieh GmbH Bankverbindung Steuer-Nr.: 162/248/13744 Mittelstraße 35 ING (ehem. ING-DiBa) USt.-ID-Nr.: DE296921904 21473 Kiel IBAN 1: DE74500105174386278432 IBAN2: DE39 2176 3542 0000 4172 20 Öko-Nr.: DK-ÖKO-100 lorenz@stadtwerk.org BIC1: INGDDEFFXXX BIC 2: GENODEF1BDS Telefon: 0431/525478 Fax: 0431/525472
+
+ assistant:
+vendorName="Milchvieh GmbH"
+dueDate="22.09.2024"
+invoiceReceiptDate="22.08.2024"
+invoiceReceiptId="R-CL-2024-00015"
+paymentTerms="Bitte begleichen Sie den Rechnungsbetrag bis zum 22.09.2024."
+receiverAddress="Musterstr. 10 34552 Kopenhagen, Dänemark"
+subtotal="357,50"
+tax="67,93"
+total="425,43"
+taxPayerId="162/248/13744"
+oekoId="DK-ÖKO-100"
+vendorAddress="Mittelstraße 35 - 21473 Kiel"
+taxPayerUstId="DE296921904"
+taxRate="19%"
+iban1="DE74500105174386278432"
+iban2="DE39217635420000417220"
+bic1="INGDDEFFXXX"
+bic2="GENODEF1BDS"
+deliveryDate="14.08.2024"
+vendorPhone="0431/525478"
+vendorFax="0431/525472"
+vendorEmail="lorenz@stadtwerk.org"
+invoiceReceiptType="Rechnung"
+invoiceReceiptYear="2024"
+discountRate="2%"
+discountDueDate="29.08.2024"
+discountTotal="416,92"
+receiverCompany="stadt.werk GmbH"
+ibanList="DE74500105174386278432","DE39217635420000417220"
+bicList="INGDDEFFXXX","GENODEF1BDS"
+User:
+Llama:"`;
+  let systemPromptText = defaultSystemPrompt;
   let userPromptText = '';
   let llmResults = [];
   let promptResStats: any = {};
