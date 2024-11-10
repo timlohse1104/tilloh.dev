@@ -47,6 +47,8 @@ Llama:"`;
   let userPromptText = '';
   let llmResults = [];
   let promptResStats: any = {};
+  let inputFile;
+  const ocrSpaceUrl = 'https://api.ocr.space/parse/image';
 
   function setLabel(id: string, text: string) {
     const label = document.getElementById(id);
@@ -138,6 +140,26 @@ Llama:"`;
     console.log('Reset prompt input field.');
   }
 
+  async function generateUserPrompt() {
+    const body = new FormData();
+    body.append('scale', 'true');
+    body.append('OCRENGINE', '2');
+    body.append('filetype', 'PDF'); // TODO: make this dynamic
+    body.append('file', new Blob([inputFile]), inputFile.name);
+
+    const ocrResponse = await fetch(ocrSpaceUrl, {
+      method: 'POST',
+      body,
+      headers: {
+        apikey: 'K81369343988957',
+      },
+    });
+    console.log('OCR response:', ocrResponse);
+    const ocrData = await ocrResponse.json();
+    console.log(JSON.stringify(ocrData));
+    userPromptText = ocrData?.ParsedResults?.ParsedText;
+  }
+
   main();
   // webLLMGlobal = {};
 </script>
@@ -147,21 +169,34 @@ Llama:"`;
   <meta name="llm" content="tilloh.dev" />
 </svelte:head>
 
-<h2>WebLLM Test Page</h2>
+<h2>OCRSpace and WebLLM</h2>
+
+<h3>Loading model {selectedModel}</h3>
 Open console to see output
 <br />
 <br />
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label id="init-label"> </label>
 
+<h3>Upload img / pdf file</h3>
+<input
+  type="file"
+  accept="image/png, image/jpeg, application/pdf"
+  bind:value={inputFile}
+/>
+<br />
+<span>Uploaded file: {inputFile?.name || ''}</span>
+<button on:click={generateUserPrompt}>Generate User Prompt</button>
+<br />
+
 <h3>System Prompt</h3>
 <div class="prompt-input-area">
-  <input id="prompt-label" bind:value={systemPromptText} />
+  <input class="prompt-input" bind:value={systemPromptText} />
 </div>
 
 <h3>User Prompt</h3>
 <div class="prompt-input-area">
-  <input id="prompt-label user-prompt-input" bind:value={userPromptText} />
+  <input class="prompt-input" bind:value={userPromptText} />
   <button on:click={promptLLM}>Send</button>
 </div>
 
@@ -195,10 +230,12 @@ Open console to see output
     display: flex;
     margin-bottom: 20px;
     height: 100px;
+    width: 100%;
   }
 
-  input {
+  .prompt-input {
     flex-grow: 10;
+    width: 100%;
   }
 
   button {
