@@ -69,6 +69,7 @@
     "vitest": "^2.0.0"
   },
   "dependencies": {
+    "@mlc-ai/web-llm": "^0.2.74",
     "highlight.js": "^11.9.0",
     "socket.io-client": "^4.7.4",
     "svelte-masonry": "^0.1.1",
