@@ -1,21 +1,21 @@
-import { OcrSpaceResponseDto } from '@c4-app-backend/shared-common-ocr';
-import { mockKeycloakUser } from '@c4-app-backend/shared/util/test';
+import { OcrSpaceResponseDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { File } from 'buffer';
+import { Blob, File } from 'buffer';
 import { of, throwError } from 'rxjs';
 import { OcrSpaceService } from './ocr.service';
 
-const currentUser = mockKeycloakUser({ id: 'user1' });
-
-describe('OcrSpaceService', async () => {
-  const fileMock = new File(
-    new Blob([await Buffer.from('testFile')], { type: 'testType' }),
-    'fileMock',
-  );
+describe('OcrSpaceService', () => {
+  const testFileBuffer = Buffer.from('testFile');
+  const testFileBlob = new Blob([testFileBuffer], {
+    type: 'application/pdf',
+  });
+  const fileMock = new File([testFileBlob], 'file.pdf', {
+    type: 'application/pdf',
+  });
   let service: OcrSpaceService;
   let httpService: HttpService;
 
@@ -59,6 +59,10 @@ describe('OcrSpaceService', async () => {
     httpService = module.get<HttpService>(HttpService);
   });
 
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
   it('should log the correct debug message and make the correct HTTP request with the primary URL', async () => {
     const mockResponse: AxiosResponse<Partial<OcrSpaceResponseDto>> = {
       data: { ProcessingTimeInMilliseconds: '1000' },
@@ -70,7 +74,7 @@ describe('OcrSpaceService', async () => {
 
     jest.spyOn(httpService, 'post').mockReturnValueOnce(of(mockResponse));
 
-    const result = await service.executeOcrProcess(mockBuffer);
+    const result = await service.executeOcrProcess(fileMock);
 
     expect(result).toEqual(mockResponse.data);
     expect(httpService.post).toHaveBeenCalledWith(
@@ -83,18 +87,13 @@ describe('OcrSpaceService', async () => {
   });
 
   it('should return error if request fails', async () => {
+    const errorMsgMock = 'Request failed';
     jest
       .spyOn(httpService, 'post')
-      .mockReturnValueOnce(throwError(() => new Error('Request failed')));
+      .mockReturnValueOnce(throwError(() => new Error(errorMsgMock)));
 
-    await expect(
-      service.executeOcrProcess(
-        nodeEntryMock,
-        mockBuffer,
-        currentUser.id,
-        mockReqId,
-        mockJobId,
-      ),
-    ).rejects.toThrowError('Backup URL failed');
+    await expect(service.executeOcrProcess(fileMock)).rejects.toThrowError(
+      errorMsgMock,
+    );
   });
 });
