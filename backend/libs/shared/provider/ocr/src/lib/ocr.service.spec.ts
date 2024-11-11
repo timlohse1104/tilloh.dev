@@ -1,21 +1,23 @@
 import { OcrSpaceResponseDto } from '@backend/shared-types';
+import { File as MulterFile } from '@nest-lab/fastify-multer';
 import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { Blob, File } from 'buffer';
 import { of, throwError } from 'rxjs';
 import { SharedOcrService } from './ocr.service';
 
 describe('SharedOcrService', () => {
   const testFileBuffer = Buffer.from('testFile');
-  const testFileBlob = new Blob([testFileBuffer], {
-    type: 'application/pdf',
-  });
-  const fileMock = new File([testFileBlob], 'file.pdf', {
-    type: 'application/pdf',
-  });
+  const mockFilename = 'test.pdf';
+  const fileMock: MulterFile = {
+    buffer: testFileBuffer,
+    mimetype: 'application/pdf',
+    fieldname: '',
+    originalname: mockFilename,
+    encoding: 'binary',
+  }; // To make typescript happy
   let service: SharedOcrService;
   let httpService: HttpService;
 
