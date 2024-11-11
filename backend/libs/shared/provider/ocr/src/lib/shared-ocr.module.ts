@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { KeystoreMongoDbService } from './ocr.service';
+import { SharedOcrService } from './ocr.service';
 
 @Module({
   imports: [],
   controllers: [],
-  providers: [KeystoreMongoDbService],
-  exports: [KeystoreMongoDbService],
+  providers: [SharedOcrService],
+  exports: [SharedOcrService],
 })
 export class SharedKeystorePersistenceModule {}

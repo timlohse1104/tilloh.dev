@@ -7,8 +7,8 @@ import { File } from 'buffer';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class OcrSpaceService {
-  private readonly logger = new Logger(OcrSpaceService.name);
+export class SharedOcrService {
+  private readonly logger = new Logger(SharedOcrService.name);
 
   constructor(
     private config: ConfigService,

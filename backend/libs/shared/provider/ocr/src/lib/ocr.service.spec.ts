@@ -6,9 +6,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { Blob, File } from 'buffer';
 import { of, throwError } from 'rxjs';
-import { OcrSpaceService } from './ocr.service';
+import { SharedOcrService } from './ocr.service';
 
-describe('OcrSpaceService', () => {
+describe('SharedOcrService', () => {
   const testFileBuffer = Buffer.from('testFile');
   const testFileBlob = new Blob([testFileBuffer], {
     type: 'application/pdf',
@@ -16,13 +16,13 @@ describe('OcrSpaceService', () => {
   const fileMock = new File([testFileBlob], 'file.pdf', {
     type: 'application/pdf',
   });
-  let service: OcrSpaceService;
+  let service: SharedOcrService;
   let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        OcrSpaceService,
+        SharedOcrService,
         {
           provide: ConfigService,
           useValue: {
@@ -55,7 +55,7 @@ describe('OcrSpaceService', () => {
       ],
     }).compile();
 
-    service = module.get<OcrSpaceService>(OcrSpaceService);
+    service = module.get<SharedOcrService>(SharedOcrService);
     httpService = module.get<HttpService>(HttpService);
   });
 
