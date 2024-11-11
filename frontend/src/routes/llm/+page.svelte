@@ -151,7 +151,7 @@ Llama:"`;
       method: 'POST',
       body,
       headers: {
-        apikey: 'K81369343988957',
+        apikey: '',
       },
     });
     console.log('OCR response:', ocrResponse);
