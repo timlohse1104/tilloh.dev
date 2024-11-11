@@ -1,11 +1,22 @@
-import { JokesService } from '@backend/jokes/jokes-provider';
-import { mockJokeDto } from '@backend/util';
+import { SharedOcrService } from '@backend/shared-ocr';
+import { OcrSpaceResponseDto } from '@backend/shared-types';
+import { File } from '@nest-lab/fastify-multer';
 import { Test, TestingModule } from '@nestjs/testing';
-import { JokesController } from './jokes.controller';
+import { OcrController } from './ocr.controller';
 
-describe('JokesController', () => {
-  let controller: JokesController;
-  let jokesService: JokesService;
+describe('OcrController', () => {
+  let controller: OcrController;
+  let sharedOcrService: SharedOcrService;
+
+  const testFileBuffer = Buffer.from('testFile');
+  const mockFilename = 'test.pdf';
+  const fileMock: File = {
+    buffer: testFileBuffer,
+    mimetype: 'application/pdf',
+    fieldname: '',
+    originalname: mockFilename,
+    encoding: 'binary',
+  };
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -15,23 +26,17 @@ describe('JokesController', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: JokesService,
+          provide: SharedOcrService,
           useValue: {
-            getRandomJoke: jest.fn(),
-            getJokeOfTheDay: jest.fn(),
-            listJokes: jest.fn(),
-            getJoke: jest.fn(),
-            createJoke: jest.fn(),
-            updateJoke: jest.fn(),
-            deleteJoke: jest.fn(),
+            executeOcrProcess: jest.fn(),
           },
         },
       ],
-      controllers: [JokesController],
+      controllers: [OcrController],
     }).compile();
 
-    controller = module.get<JokesController>(JokesController);
-    jokesService = module.get<JokesService>(JokesService);
+    controller = module.get<OcrController>(OcrController);
+    sharedOcrService = module.get<SharedOcrService>(SharedOcrService);
   });
 
   afterEach(() => {
@@ -42,85 +47,37 @@ describe('JokesController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('getRandomJoke', () => {
-    it('should return a random joke.', async () => {
+  describe('executeOcrProcess', () => {
+    it('should return ocr data.', async () => {
       // arrange
-      const randomJoke = mockJokeDto({});
-      jest.spyOn(jokesService, 'getRandomJoke').mockResolvedValue(randomJoke);
+      const ocrResponseMock: OcrSpaceResponseDto = {
+        ParsedResults: [
+          {
+            TextOverlay: {
+              HasOverlay: false,
+              Lines: [],
+            },
+            TextOrientation: '0',
+            FileParseExitCode: 1,
+            ParsedText: 'test line',
+            ErrorMessage: '',
+            ErrorDetails: '',
+          },
+        ],
+        OCRExitCode: 1,
+        IsErroredOnProcessing: false,
+        ErrorMessage: '',
+        ErrorDetails: '',
+        ProcessingTimeInMilliseconds: '5000',
+      };
+      jest
+        .spyOn(sharedOcrService, 'executeOcrProcess')
+        .mockResolvedValue(ocrResponseMock);
 
       // act & assert
-      await expect(controller.getRandomJoke()).resolves.toEqual(randomJoke);
-    });
-  });
-
-  describe('getJokeOfTheDay', () => {
-    it('should return the joke of the day.', async () => {
-      // arrange
-      const randomJoke = mockJokeDto({});
-      jest.spyOn(jokesService, 'getJokeOfTheDay').mockResolvedValue(randomJoke);
-
-      // act & assert
-      await expect(controller.getJokeOfTheDay()).resolves.toEqual(randomJoke);
-    });
-  });
-
-  describe('listJokes', () => {
-    it('should return a list of jokes.', async () => {
-      // arrange
-      const jokes = [mockJokeDto({}), mockJokeDto({})];
-      jest.spyOn(jokesService, 'listJokes').mockResolvedValue(jokes);
-
-      // act & assert
-      await expect(controller.listJokes()).resolves.toEqual(jokes);
-    });
-  });
-
-  describe('getJoke', () => {
-    it('should return a joke.', async () => {
-      // arrange
-      const joke = mockJokeDto({});
-      jest.spyOn(jokesService, 'getJoke').mockResolvedValue(joke);
-
-      // act & assert
-      await expect(controller.getJoke('mockId')).resolves.toEqual(joke);
-    });
-  });
-
-  describe('createJoke', () => {
-    it('should return a joke.', async () => {
-      // arrange
-      const joke = mockJokeDto({});
-      const modifyJokeDto = { ...joke, categories: [] };
-      jest.spyOn(jokesService, 'createJoke').mockResolvedValue(joke);
-
-      // act & assert
-      await expect(controller.createJoke(modifyJokeDto)).resolves.toEqual(joke);
-    });
-  });
-
-  describe('updateJoke', () => {
-    it('should return a joke.', async () => {
-      // arrange
-      const joke = mockJokeDto({});
-
-      const modifyJokeDto = { ...joke, categories: [] };
-      jest.spyOn(jokesService, 'updateJoke').mockResolvedValue(joke);
-
-      // act & assert
-      await expect(
-        controller.updateJoke('mockId', modifyJokeDto),
-      ).resolves.toEqual(joke);
-    });
-  });
-
-  describe('deleteJoke', () => {
-    it('should return a joke.', async () => {
-      // arrange
-      const joke = mockJokeDto({});
-      jest.spyOn(jokesService, 'deleteJoke').mockResolvedValue(joke);
-
-      // act & assert
-      await expect(controller.deleteJoke('mockId')).resolves.toEqual(joke);
+      await expect(controller.executeOcrProcess(fileMock)).resolves.toEqual(
+        ocrResponseMock,
+      );
     });
   });
 });

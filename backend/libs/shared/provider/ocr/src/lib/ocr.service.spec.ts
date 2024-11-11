@@ -17,7 +17,7 @@ describe('SharedOcrService', () => {
     fieldname: '',
     originalname: mockFilename,
     encoding: 'binary',
-  }; // To make typescript happy
+  };
   let service: SharedOcrService;
   let httpService: HttpService;
 
