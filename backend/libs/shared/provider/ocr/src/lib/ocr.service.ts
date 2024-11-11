@@ -1,9 +1,9 @@
 import { OcrSpaceResponseDto } from '@backend/shared-types';
+import { File } from '@nest-lab/fastify-multer';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosResponse } from 'axios';
-import { File } from 'buffer';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -25,23 +25,25 @@ export class SharedOcrService {
     this.logger.debug(
       {
         input: {
-          objectData: `${file.bytes} bytes`,
+          objectData: `${file.size} bytes`,
         },
       },
       'Executing OCRSpace process.',
     );
     const ocrSpaceUrlDefault = this.config.get('OCR_SPACE_URL');
     const ocrSpaceApiKey = this.config.get('OCR_SPACE_API_KEY');
-    const fileName = file.name;
+    const fileName = file.originalname;
+
+    if (!file.buffer) throw new Error('File is empty.');
 
     const body = new FormData();
     body.set('scale', 'true');
     // body.set('isTable', 'true'); // TODO: Enable table extraction
     body.set('OCREngine', '2');
-    body.set('filetype', file.type);
+    body.set('filetype', file.mimetype);
     body.set(
       'file',
-      new Blob([await file.arrayBuffer()], { type: file.type }),
+      new Blob([file.buffer], { type: file.mimetype }),
       fileName,
     );
 

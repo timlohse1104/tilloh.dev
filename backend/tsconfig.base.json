@@ -47,6 +47,7 @@
       "@backend/memorandum/memorandum-controller": [
         "libs/memorandum/memorandum-controller/src/index.ts"
       ],
+      "@backend/ocr/ocr-controller": ["libs/ocr/ocr-controller/src/index.ts"],
       "@backend/memorandum/memorandum-persistence": [
         "libs/memorandum/memorandum-persistence/src/index.ts"
       ],
@@ -56,6 +57,7 @@
       "@backend/shared-keystore-persistence": [
         "libs/shared/provider/keystore-persistence/src/index.ts"
       ],
+      "@backend/shared-ocr": ["libs/shared/provider/ocr/src/index.ts"],
       "@backend/shared-metrics-controller": [
         "libs/shared/controller/metrics/src/index.ts"
       ],
