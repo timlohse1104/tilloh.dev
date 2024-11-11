@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { executeOcrProcess } from '$lib/api/ocr.api';
   import * as webllm from '@mlc-ai/web-llm';
 
   // const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
@@ -48,8 +49,8 @@ Llama:"`;
   let llmResults = [];
   let promptResStats: any = {};
   let inputFile;
-  const ocrSpaceUrl = 'https://api.ocr.space/parse/image';
 
+  // TODO: Refactor this the svelte way
   function setLabel(id: string, text: string) {
     const label = document.getElementById(id);
     if (label == null) {
@@ -58,6 +59,7 @@ Llama:"`;
     label.innerText = text;
   }
 
+  // TODO: Make model loading optional behind button
   async function main() {
     const initProgressCallback = (report: webllm.InitProgressReport) => {
       setLabel('init-label', report.text);
@@ -141,23 +143,10 @@ Llama:"`;
   }
 
   async function generateUserPrompt() {
-    const body = new FormData();
-    body.append('scale', 'true');
-    body.append('OCRENGINE', '2');
-    body.append('filetype', 'PDF'); // TODO: make this dynamic
-    body.append('file', new Blob([inputFile]), inputFile.name);
-
-    const ocrResponse = await fetch(ocrSpaceUrl, {
-      method: 'POST',
-      body,
-      headers: {
-        apikey: '',
-      },
-    });
-    console.log('OCR response:', ocrResponse);
-    const ocrData = await ocrResponse.json();
-    console.log(JSON.stringify(ocrData));
-    userPromptText = ocrData?.ParsedResults?.ParsedText;
+    const ocrResponse = await executeOcrProcess(inputFile);
+    console.log('OCR response:');
+    console.log(JSON.stringify(ocrResponse));
+    userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
 
   main();
