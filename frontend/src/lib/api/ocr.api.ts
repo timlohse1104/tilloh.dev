@@ -1,7 +1,6 @@
 import { dev } from '$app/environment';
 import type { OcrSpaceResponseDto } from '$lib/types/ocr-space.dto';
 import { environment } from '$lib/util/environment';
-import { createHeaders } from './helper';
 
 const apiURL = dev
   ? environment.localApiBaseUrl
@@ -10,9 +9,11 @@ const apiURL = dev
 export const executeOcrProcess = async (
   file: File,
 ): Promise<OcrSpaceResponseDto> => {
+  const formData = new FormData();
+  formData.set('file', file);
+
   return await fetch(`${apiURL}/ocr`, {
     method: 'POST',
-    headers: createHeaders(),
-    body: JSON.stringify({ file }),
+    body: formData,
   }).then((res) => res.json());
 };

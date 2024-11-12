@@ -48,7 +48,7 @@ Llama:"`;
   let userPromptText = '';
   let llmResults = [];
   let promptResStats: any = {};
-  let inputFile;
+  let inputFiles: File[];
 
   // TODO: Refactor this the svelte way
   function setLabel(id: string, text: string) {
@@ -59,7 +59,6 @@ Llama:"`;
     label.innerText = text;
   }
 
-  // TODO: Make model loading optional behind button
   async function main() {
     const initProgressCallback = (report: webllm.InitProgressReport) => {
       setLabel('init-label', report.text);
@@ -73,7 +72,8 @@ Llama:"`;
       },
       // customize kv cache, use either context_window_size or sliding_window_size (with attention sink)
       {
-        context_window_size: 8096,
+        // TODO: Make this maschine dependend
+        context_window_size: 2048,
         // sliding_window_size: 1024,
         // attention_sink_size: 4,
       },
@@ -143,14 +143,21 @@ Llama:"`;
   }
 
   async function generateUserPrompt() {
-    const ocrResponse = await executeOcrProcess(inputFile);
-    console.log('OCR response:');
-    console.log(JSON.stringify(ocrResponse));
+    console.log('Generating user prompt with ocr.');
+    const ocrResponse = await executeOcrProcess(inputFiles[0]);
+
+    console.log(
+      `OCR responsed within ${parseFloat(ocrResponse.ProcessingTimeInMilliseconds) / 1000} seconds.`,
+      { ocrResponse },
+    );
     userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
 
+  function reloadModel() {
+    console.log('Reloading model.');
+  }
+
   main();
-  // webLLMGlobal = {};
 </script>
 
 <svelte:head>
@@ -158,61 +165,63 @@ Llama:"`;
   <meta name="llm" content="tilloh.dev" />
 </svelte:head>
 
-<h2>OCRSpace and WebLLM</h2>
+<section>
+  <h2>OCRSpace and WebLLM</h2>
 
-<h3>Loading model {selectedModel}</h3>
-Open console to see output
-<br />
-<br />
-<!-- svelte-ignore a11y-label-has-associated-control -->
-<label id="init-label"> </label>
+  <h3>Loading model {selectedModel}</h3>
+  <button on:click={() => reloadModel()}>Reload Model</button>
+  Open console to see output
+  <br />
+  <br />
+  <!-- svelte-ignore a11y-label-has-associated-control -->
+  <label id="init-label"> </label>
 
-<h3>Upload img / pdf file</h3>
-<input
-  type="file"
-  accept="image/png, image/jpeg, application/pdf"
-  bind:value={inputFile}
-/>
-<br />
-<span>Uploaded file: {inputFile?.name || ''}</span>
-<button on:click={generateUserPrompt}>Generate User Prompt</button>
-<br />
+  <h3>Upload img / pdf file</h3>
+  <input
+    type="file"
+    accept="image/png, image/jpeg, application/pdf"
+    bind:files={inputFiles}
+  />
+  <br />
+  <button on:click={generateUserPrompt}>Generate User Prompt</button>
+  <br />
 
-<h3>System Prompt</h3>
-<div class="prompt-input-area">
-  <input class="prompt-input" bind:value={systemPromptText} />
-</div>
+  <h3>System Prompt</h3>
+  <div class="prompt-input-area">
+    <input class="prompt-input" bind:value={systemPromptText} />
+  </div>
 
-<h3>User Prompt</h3>
-<div class="prompt-input-area">
-  <input class="prompt-input" bind:value={userPromptText} />
-  <button on:click={promptLLM}>Send</button>
-</div>
+  <h3>User Prompt</h3>
+  <div class="prompt-input-area">
+    <input class="prompt-input" bind:value={userPromptText} />
+    <button on:click={promptLLM}>Send</button>
+  </div>
 
-<h3>Response</h3>
-{#each llmResults as responseTexts, index (index)}
-  <span id="generate-label">{responseTexts.message.content}</span>
-{/each}
+  <h3>Response</h3>
+  {#each llmResults as responseTexts, index (index)}
+    <span id="generate-label">{responseTexts.message.content}</span>
+  {/each}
 
-<br />
+  <br />
 
-<h3>Stats</h3>
-<table>
-  <tr>
-    <th>completion_tokens</th>
-    <th>prompt_tokens</th>
-    <th>total_tokens</th>
-    <th>promptResStats</th>
-    <th>promptResStats</th>
-  </tr>
-  <tr>
-    <td>{promptResStats?.completion_tokens || '-'}</td>
-    <td>{promptResStats?.prompt_tokens || '-'}</td>
-    <td>{promptResStats?.total_tokens || '-'}</td>
-    <td>{promptResStats?.extra?.prefill_tokens_per_s || '-'}</td>
-    <td>{promptResStats?.extra?.decode_tokens_per_s || '-'}</td>
-  </tr>
-</table>
+  <h3>Stats</h3>
+  <table>
+    <tr>
+      <th>completion_tokens</th>
+      <th>prompt_tokens</th>
+      <th>total_tokens</th>
+      <th>promptResStats</th>
+      <th>promptResStats</th>
+    </tr>
+    <tr>
+      <td>{promptResStats?.completion_tokens || '-'}</td>
+      <td>{promptResStats?.prompt_tokens || '-'}</td>
+      <td>{promptResStats?.total_tokens || '-'}</td>
+      <td>{promptResStats?.extra?.prefill_tokens_per_s || '-'}</td>
+      <td>{promptResStats?.extra?.decode_tokens_per_s || '-'}</td>
+    </tr>
+  </table>
+</section>
 
 <style lang="scss">
   .prompt-input-area {
