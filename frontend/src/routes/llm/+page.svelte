@@ -2,8 +2,8 @@
   import { executeOcrProcess } from '$lib/api/ocr.api';
   import * as webllm from '@mlc-ai/web-llm';
 
-  // const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
-  const selectedModel = 'gemma-2-9b-it-q4f32_1-MLC';
+  const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
+  // const selectedModel = 'gemma-2-9b-it-q4f32_1-MLC';
   let engine: webllm.MLCEngineInterface;
   const defaultSystemPrompt = `"Der User schickt dir Texte, die durch einen OCR Prozess aus Rechnungen ausgelesen wurden. Antworte immer im Format von .env Dateien mit dieser Struktur: 'key1="gefundener Wert1"
 key2="gefundener Wert2"'. Gib keine zusätzliche Erklärung zurück. Solltest du einem Schlüssel keinen Wert zuordnen können, lasse den Wert frei. Am wichtigsten ist, dass Schlüssel, die nicht auf der Rechnung zu finden sind, einen leeren Wert zugeordnet bekommen. Wenn alle angegebenen Schlüssel befüllt sind, gib keine weiteren oder doppelten Schlüssel an. Finde diese Schlüssel: vendorName (Name des Rechnungsstellers), dueDate (Das Fälligkeitsdatum der Rechnung), invoiceReceiptDate (Das Rechnungsdatum), invoiceReceiptId (Die Rechnungsnummer), paymentTerms (Die Zahlungsbedingungen der Rechnung), receiverAddress (Die Adresse des Empfängers - bitte ohne Namen angeben), subtotal (Der Nettobetrag ohne Umsatz- / Mehrwertsteuer), tax (Der Umsatz- / Mehrwertsteuerbetrag), total (Die Gesamtsumme mit Umsatz- / Mehrwertsteuer), taxPayerId (Die Steuernummer des Anbieters), oekoId (Die Öko-Kontrollnummer), vendorAddress (Die Adresse des Anbieters - bitte ohne Namen angeben), taxPayerUstId (Die Umsatzsteuer-Identifikationsnummer des Anbieters - DE + 9 Zahlen), taxRate (Der Umsatz- / Mehrwertsteuersatz als Prozentzahl), iban1 (Die erste erkannte IBAN), iban2 (Die zweite erkannte IBAN), bic1 (Die ersten erkannten BIC), bic2 (Die zweiten erkannten BIC), deliveryDate (Das Lieferdatum des Rechnungsinhalts), vendorPhone (Die Telefonnummer des Anbieters), vendorFax (Die Faxnummer des Anbieters), vendorEmail (Die Email-Adresse des Anbieters - keine URL), invoiceReceiptType (Der Dokumenttyp - Angebot / Auftrag / Bescheid / Gutschrift / Kontoauszug / Lieferschein / Lohnunterlagen / Mahnung / Rechnung / Vertrag - Fallback ist Sonstige), invoiceReceiptYear (Die Jahreszahl des Rechnungsdatums), discountRate (Der Skontosatz als Prozentzahl), discountDueDate (Das Fälligkeitsdatum vom Skonto), discountTotal (Der Betrag von Gesamtsumme abzüglich des Skontowertes), receiverCompany (Der Name des Unternehmens des Rechnungsempfängers), ibanList (Die Liste aller IBANs aus der Rechnung), bicList (Die Liste aller BICs aus der Rechnung).
@@ -73,7 +73,7 @@ Llama:"`;
       // customize kv cache, use either context_window_size or sliding_window_size (with attention sink)
       {
         // TODO: Make this maschine dependend
-        context_window_size: 2048,
+        context_window_size: 4096,
         // sliding_window_size: 1024,
         // attention_sink_size: 4,
       },
@@ -112,6 +112,7 @@ Llama:"`;
 
   async function promptLLM() {
     console.log('Prompting LLM...');
+
     const promptResponse = await engine.chat.completions.create({
       messages: [
         { role: 'system', content: systemPromptText },
@@ -120,11 +121,9 @@ Llama:"`;
       // below configurations are all optional
       n: 1,
       temperature: 0.01,
-      max_tokens: 1024,
+      max_tokens: 2048,
       frequency_penalty: 0.9,
       presence_penalty: 0.9,
-      // 46510 and 7188 are "California", and 8421 and 51325 are "Texas" in Llama-3.1-8B-Instruct
-      // So we would have a higher chance of seeing the latter two, but never the first in the answer
       logit_bias: {
         '46510': -100,
         '7188': -100,
@@ -134,6 +133,7 @@ Llama:"`;
       logprobs: true,
       top_logprobs: 2,
     });
+
     console.log('LLM responded.', promptResponse);
     llmResults = promptResponse.choices;
     promptResStats = JSON.stringify(promptResponse.usage);
