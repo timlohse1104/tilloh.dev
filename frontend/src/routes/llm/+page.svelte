@@ -50,6 +50,12 @@ Llama:"`;
   let promptResStats: any = {};
   let inputFiles: File[];
 
+  $: completionTokens = promptResStats?.completion_tokens || '-';
+  $: promptTokens = promptResStats?.prompt_tokens || '-';
+  $: totalTokens = promptResStats?.total_tokens || '-';
+  $: prefillTokensPerS = promptResStats?.extra?.prefill_tokens_per_s || '-';
+  $: decodeTokensPerS = promptResStats?.extra?.decode_tokens_per_s || '-';
+
   // TODO: Refactor this the svelte way
   function setLabel(id: string, text: string) {
     const label = document.getElementById(id);
@@ -136,7 +142,7 @@ Llama:"`;
 
     console.log('LLM responded.', promptResponse);
     llmResults = promptResponse.choices;
-    promptResStats = JSON.stringify(promptResponse.usage);
+    promptResStats = promptResponse.usage;
     systemPromptText = '';
     userPromptText = '';
     console.log('Reset prompt input field.');
@@ -199,7 +205,12 @@ Llama:"`;
 
   <h3>Response</h3>
   {#each llmResults as responseTexts, index (index)}
-    <span id="generate-label">{responseTexts.message.content}</span>
+    <span id="generate-label">
+      {@html responseTexts.message.content
+        .split('\n')
+        .map((line) => `<p style="margin: 0; font-size: 14px;">${line}</p>`)
+        .join('')}
+    </span>
   {/each}
 
   <br />
@@ -210,15 +221,15 @@ Llama:"`;
       <th>completion_tokens</th>
       <th>prompt_tokens</th>
       <th>total_tokens</th>
-      <th>promptResStats</th>
-      <th>promptResStats</th>
+      <th>prefill_tokens_per_s</th>
+      <th>decode_tokens_per_s</th>
     </tr>
     <tr>
-      <td>{promptResStats?.completion_tokens || '-'}</td>
-      <td>{promptResStats?.prompt_tokens || '-'}</td>
-      <td>{promptResStats?.total_tokens || '-'}</td>
-      <td>{promptResStats?.extra?.prefill_tokens_per_s || '-'}</td>
-      <td>{promptResStats?.extra?.decode_tokens_per_s || '-'}</td>
+      <td>{completionTokens}</td>
+      <td>{promptTokens}</td>
+      <td>{totalTokens}</td>
+      <td>{prefillTokensPerS}</td>
+      <td>{decodeTokensPerS}</td>
     </tr>
   </table>
 </section>
