@@ -20,8 +20,7 @@
   };
   let engine: webllm.MLCEngineInterface;
   const defaultSystemPrompt =
-    'Der User schickt dir einen Text, welcher die Zusammensetzung eines Nahrungsmittels beschreibt. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels (z.B. Vollmilchschokolade), der passendenen Ernährungsweise (vegan, vegetarisch, normal) und der Begründung warum du diese Wahl getroffen hast.\n\nBeispiel: Vollmilchschokolade; vegan;\nDer Zucker wird hauptsächlich aus Kartoffeln hergestellt. Da Kartoffeln vegan sind, kann die Zubereitung dieser Schokolade als vegetarisch angesehen werden. Trenne die drei Informationen durch ein Semikolon.';
-  // const defaultSystemPrompt = `Der User schickt dir einen Text, der durch einen OCR Prozess aus einem Bild einer Lebensmittel Inhaltsangabe ausgelesen wurden. Antworte immer im Format von .env Dateien mit dieser Struktur: 'key1="gefundener Wert1"\nkey2="gefundener Wert2"'. Gib keine zusätzliche Erklärung zurück. Solltest du einem Schlüssel keinen Wert zuordnen können, lasse den Wert frei. Finde diese Schlüssel: foodName (Name des Lebensmittel), diet (die Ernährungsweise des Lebensmittels, vegan - vegetarisch - normal), dietReason (der Grund für die Ernährungsweise des Lebensmittels)Hier sind zwei Beispiele eines Outputs nach einer Anfrage von dem User.\nUser: "GREENFORCE\nENTDECKE TOLLE REZEPTE UND VIELE WEITERE LECKERE\nGREENFORCE-PRODUKTE UND NEWS AUF\nGREENFORCE.COM, FACEBOOK, INSTAGRAM UND TIKTOK!\nVEGANER LEBERKÄSE\nMIT ERBSENPROTEIN\nNährwerte\nEnergie\nFett\n-davon gesättigte Fettsäuren\nKohlenhydrate\n- davon Zucker\nBallaststoffe\nEiweiß\nSalz\n8/100 g\n699 kJ /169 kcal\n14 g\n1,0 g\n1,7 g\n0,3 g\n4.2 g\n1,2 g\n2,5 g\n260322 214738\nNETTOFÜLLGEWICHT:\n160 g (2x 80g)\nGREENFORCE\nFUTURE FOOD AG\nSTREITFELDSTR. 25C\n6000891 •\nUnter Schutzatmosphäre verpackt.\nD-81673 MÜNCHEN\nUngeöffnet bei maximal +7°C zu verbrauchen bis:\nMat.-Nr. 143807/2\n18.09.2024\nGF 2681534 08:27"\nAssistent:foodName="Veganer Leberkäse"\ndiet="vegan"\ndietReason="enthält keine tierischen Produkte"\nUser: "Nestlé. Good food, Good life.\nNAHRWERTINFORMATIONEN\nBei einer Portion von 20 g\nPro\nPro\n100 g\nPortion\nEnergie\n2130 kJ\n426 kJ\n509 kcal\n102 kcal\nFett\n26,2 g\ndavon gesättigte Fettsäuren 14,4 g\n5,2 g\n2,9 g\nKohlenhydrate\n59,8 g\ndavon Zucker\n12,0 g\n40,8 g\n8,2 g\n% RM*\nPro\nPortion\n5 %\n7 %\n15 %\n5 %\n9 %\nBallaststoffe\n3,0 g\n0,6 g\nEiweiß\n6,8 g\n1,4 g\nSalz\n0,78 g\n0,16 g\n3 %\n3 %\n*RM: Referenzmenge für einen durchschnittlichen Erwachsenen\n((8400 kJ /2000 kcal). Packung enthalt 7,5 Portionen.\nHAST DU FRAGEN?\nDE 069 6671-30 71\nwww.nestle.de\nNestlé Deutschland AG,\n60523 Frankfurt am Main, Deutschland.\n* Reg. Trademark of Societé des Produits Nestlé S.A.\n221\nPAP\nA NATO\nKakao\nCocoa Plan\nwww.nestlecocoaplan.com\nZUTATEN\nKnusperpralinen mit Milchschokolade (72%), Cornflakes (24%) und\nMandeln (4%). Milchschokolade enthält neben Kakaobutter auch\nandere pflanzliche Fette. Zutaten: Zucker, Cornflakes (Mais, Zucker,\nSalz, GERSTENMALZEXTRAKT), Kakaobutter' (12,2%), Kakaomasse'\n(10,6%), MAGERMILCHPULVER, MOLKENERZEUGNIS, MANDELN,\npflanzliche Fette (Palm, Shea), BUTTERREINFETT, Emulgator\nLecithine, natürliches Vanillearoma. Kann enthalten: SOJA und andere\nNÜSSE. Wichtig: Da es sich bei den Mandeln um ein Naturprodukt\nhandelt, können Schalenteile enthalten sein.\n'Rainforest Alliance-zertifiziert. Mehr erfahren unter ra.org\nHergestellt in Deutschland mit Mandeln aus der EU.\nHALTBARKEIT\nTrocken lagern. Vor Wärme schutzen.\nMindestens haltbar bis Ende: siehe Seite.\nHILF MIT ... ENTSORGE RICHTIG\nKARTON\nFOLIE\n499652\n613035\nPapiertonne Gelber Sack\n2 x 75 g = 150 g C* - 44239519/100140772"\nAssistent:\nfoodName="Kakao"\ndiet="vegetarisch"\ndietReason="enthält Milchschokolade und andere Milch Erzeugnisse, jedoch kein Fleisch"`;
+    'Der User schickt dir einen Text, welcher die Zusammensetzung eines Nahrungsmittels beschreibt. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels (z.B. Vollmilchschokolade), der passendenen Ernährungsweise ("vegan" = keine tierischen Inhaltsstoffe vorhanden, "vegetarisch" = maximal Milchprodukte enthalten, "fleischlich" = enthält mindestens fleischliche Inhaltsstoffe) und der Begründung warum du entschieden hast, dass das Lebensmittel vegan, vegetarisch oder fleischlich ist. Gib nur die geforderten Informationen an. Trenne die drei Informationen durch ein Semikolon.';
   let systemPromptText = defaultSystemPrompt;
   let userPromptText = '';
   let llmResults = [];
@@ -161,12 +160,23 @@
     {:else if !loading && llmResults.length != 0}
       <h3>Einschätzung</h3>
       {#each llmResults as responseTexts, index (index)}
-        <span id="generate-label">
+        <p id="generate-label">
+          {#if responseTexts?.message?.content
+            ?.toLowerCase()
+            ?.includes('vegan')}
+            <span>🥬</span>
+          {:else if responseTexts?.message?.content
+            ?.toLowerCase()
+            ?.includes('vegetarisch')}
+            <span>🥛</span>
+          {:else}
+            <span>🥩</span>
+          {/if}
           {@html responseTexts.message.content
-            .split('\n')
+            .split(';')
             .map((line) => `<p style="margin: 0; font-size: 14px;">${line}</p>`)
             .join('')}
-        </span>
+        </p>
       {/each}
     {/if}
   </Card>
