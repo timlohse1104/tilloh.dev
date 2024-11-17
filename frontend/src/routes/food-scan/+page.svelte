@@ -1,7 +1,14 @@
 <script lang="ts">
   import { executeOcrProcess } from '$lib/api/ocr.api';
+  import { applicationRoutes } from '$lib/config/applications';
+  import { getlocale } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
+  import Card from '@smui/card';
+  import Checkbox from '@smui/checkbox';
+  import FormField from '@smui/form-field';
 
+  const { chat: chatRoute } = applicationRoutes;
+  const locale = getlocale();
   const selectedModel = 'Llama-3.2-1B-Instruct-q0f16-MLC';
   // const selectedModel = 'Llama-3.1-8B-Instruct-q4f32_1-MLC';
   // const selectedModel = 'gemma-2-9b-it-q4f32_1-MLC';
@@ -21,6 +28,10 @@
   let promptResStats: any = {};
   let inputFiles: File[] = [];
   let loadModelInfo = '';
+  let debugInfoActive = false;
+  let ocrResponseTime;
+  let llmResponseTime;
+  let loading = false;
 
   $: completionTokens = promptResStats?.completion_tokens || '-';
   $: promptTokens = promptResStats?.prompt_tokens || '-';
@@ -28,14 +39,15 @@
   $: prefillTokensPerS = promptResStats?.extra?.prefill_tokens_per_s || '-';
   $: decodeTokensPerS = promptResStats?.extra?.decode_tokens_per_s || '-';
   $: if (inputFiles?.length > 0) generateUserPrompt();
+  $: if (userPromptText) promptLLM();
 
-  function setLabel(id: string, text: string) {
+  function setLabel(text: string) {
     loadModelInfo = text;
   }
 
   async function main() {
     const initProgressCallback = (report: webllm.InitProgressReport) => {
-      setLabel('init-label', report.text);
+      setLabel(report.text);
     };
     try {
       engine = await webllm.CreateMLCEngine(
@@ -58,10 +70,11 @@
     console.log('Generating user prompt with ocr.');
     const ocrResponse = await executeOcrProcess(inputFiles[0]);
 
-    console.log(
-      `OCR responsed within ${parseFloat(ocrResponse.ProcessingTimeInMilliseconds) / 1000} seconds.`,
-      { ocrResponse },
-    );
+    ocrResponseTime =
+      parseFloat(ocrResponse.ProcessingTimeInMilliseconds) / 1000;
+    console.log(`OCR responsed within ${ocrResponseTime} seconds.`, {
+      ocrResponse,
+    });
     userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
 
@@ -91,12 +104,10 @@
     });
 
     const promptEndTime = Date.now();
-    console.log(
-      `LLM responded within ${(promptEndTime - promptStartTime) / 1000} seconds.`,
-      {
-        promptResponse,
-      },
-    );
+    const llmResponseTime = (promptEndTime - promptStartTime) / 1000;
+    console.log(`LLM responded within ${llmResponseTime} seconds.`, {
+      promptResponse,
+    });
     llmResults = promptResponse.choices;
     promptResStats = promptResponse.usage;
   }
@@ -110,87 +121,77 @@
 </script>
 
 <svelte:head>
-  <title>llm</title>
-  <meta name="llm" content="tilloh.dev" />
+  <title>{chatRoute.name[locale]}</title>
+  <meta name={chatRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
 <section>
-  <h2>OCRSpace and WebLLM</h2>
+  <h2>Can i eat it?</h2>
 
-  <h3>Loading model {selectedModel}</h3>
+  <h4>Loading model {selectedModel}</h4>
   <p>{loadModelInfo}</p>
   <button on:click={() => reloadModel()}>Reload Model</button>
   Open console to see output
   <br />
-  <br />
-  <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label id="init-label"> </label>
 
-  <h3>Upload img / pdf file</h3>
+  <h3>Upload image of food in question</h3>
   <input
     type="file"
     accept="image/png, image/jpeg, application/pdf"
     bind:files={inputFiles}
   />
 
-  <h3>System Prompt</h3>
-  <div class="prompt-input-area">
-    <input class="prompt-input" bind:value={systemPromptText} />
-  </div>
+  <FormField>
+    <Checkbox bind:checked={debugInfoActive} />
+    <span slot="label">More information</span>
+  </FormField>
 
-  <h3>User Prompt</h3>
-  <div class="prompt-input-area">
-    <input class="prompt-input" bind:value={userPromptText} />
-    <button on:click={promptLLM}>Send</button>
-  </div>
+  {#if loading && inputFiles.length != 0}
+    <p>⌛ Loading...</p>
+  {:else if !loading && llmResults.length != 0}
+    <h3>Response</h3>
+    {#each llmResults as responseTexts, index (index)}
+      <span id="generate-label">
+        {@html responseTexts.message.content
+          .split('\n')
+          .map((line) => `<p style="margin: 0; font-size: 14px;">${line}</p>`)
+          .join('')}
+      </span>
+    {/each}
+  {/if}
 
-  <h3>Response</h3>
-  {#each llmResults as responseTexts, index (index)}
-    <span id="generate-label">
-      {@html responseTexts.message.content
-        .split('\n')
-        .map((line) => `<p style="margin: 0; font-size: 14px;">${line}</p>`)
-        .join('')}
-    </span>
-  {/each}
+  {#if debugInfoActive}
+    <p>System Prompt</p>
+    <Card padded>{systemPromptText}</Card>
 
-  <br />
+    <p>User Prompt</p>
+    <Card padded>{userPromptText}</Card>
 
-  <h3>Stats</h3>
-  <table>
-    <tr>
-      <th>completion_tokens</th>
-      <th>prompt_tokens</th>
-      <th>total_tokens</th>
-      <th>prefill_tokens_per_s</th>
-      <th>decode_tokens_per_s</th>
-    </tr>
-    <tr>
-      <td>{completionTokens}</td>
-      <td>{promptTokens}</td>
-      <td>{totalTokens}</td>
-      <td>{prefillTokensPerS}</td>
-      <td>{decodeTokensPerS}</td>
-    </tr>
-  </table>
+    <p>Stats</p>
+    <table>
+      <tr>
+        <th>ocr time</th>
+        <th>llm time</th>
+        <th>completion_tokens</th>
+        <th>prompt_tokens</th>
+        <th>total_tokens</th>
+        <th>prefill_tokens_per_s</th>
+        <th>decode_tokens_per_s</th>
+      </tr>
+      <tr>
+        <td>{ocrResponseTime}</td>
+        <td>{llmResponseTime}</td>
+        <td>{completionTokens}</td>
+        <td>{promptTokens}</td>
+        <td>{totalTokens}</td>
+        <td>{prefillTokensPerS}</td>
+        <td>{decodeTokensPerS}</td>
+      </tr>
+    </table>
+  {/if}
 </section>
 
 <style lang="scss">
-  .prompt-input-area {
-    display: flex;
-    margin-bottom: 20px;
-    height: 100px;
-    width: 100%;
-  }
-
-  .prompt-input {
-    flex-grow: 10;
-    width: 100%;
-  }
-
-  button {
-    flex-grow: 0;
-  }
   table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
