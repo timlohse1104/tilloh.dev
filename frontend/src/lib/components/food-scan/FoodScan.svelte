@@ -7,17 +7,7 @@
   import Select, { Option } from '@smui/select';
   const { prebuiltAppConfig } = webllm;
   const { model_list: availableModels } = prebuiltAppConfig;
-  let selectedModel = {
-    model: 'https://huggingface.co/mlc-ai/Llama-3.2-3B-Instruct-q4f32_1-MLC',
-    model_id: 'Llama-3.2-3B-Instruct-q4f32_1-MLC',
-    model_lib:
-      "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/web-llm-models/v0_2_48/Llama-3.2-3B-Instruct-q4f32_1-ctx4k_cs1k-webgpu.wasm'",
-    vram_required_MB: 2951.51,
-    low_resource_required: true,
-    overrides: {
-      context_window_size: 4096,
-    },
-  };
+  let selectedModel = availableModels[4];
   let engine: webllm.MLCEngineInterface;
   const defaultSystemPrompt =
     'Der User schickt dir einen Text, welcher die Zusammensetzung eines Nahrungsmittels beschreibt. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels (z.B. Vollmilchschokolade), der passendenen Ernährungsweise ("vegan" = keine tierischen Inhaltsstoffe vorhanden, "vegetarisch" = maximal Milchprodukte enthalten, "fleischlich" = enthält mindestens fleischliche Inhaltsstoffe) und der Begründung warum du entschieden hast, dass das Lebensmittel vegan, vegetarisch oder fleischlich ist. Gib nur die geforderten Informationen an. Trenne die drei Informationen durch ein Semikolon.';
@@ -32,8 +22,8 @@
   let llmResponseTime = 0;
   let loading = false;
 
-  $: ocrResponseTimeText = ocrResponseTime || '-';
-  $: llmResponseTimeText = llmResponseTime || '-';
+  $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
+  $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
   $: completionTokens = promptResStats?.completion_tokens || '-';
   $: promptTokens = promptResStats?.prompt_tokens || '-';
   $: totalTokens = promptResStats?.total_tokens || '-';
@@ -50,7 +40,7 @@
   async function main() {
     try {
       engine = await webllm.CreateMLCEngine(
-        selectedModel.model_id,
+        selectedModel?.model_id,
         {
           initProgressCallback: modelInitProgressCallback,
           logLevel: 'INFO',
@@ -117,7 +107,7 @@
     console.log('Reloading model.');
     try {
       engine = await webllm.CreateMLCEngine(
-        selectedModel.model_id,
+        selectedModel?.model_id,
         {
           initProgressCallback: modelInitProgressCallback,
           logLevel: 'INFO',
@@ -183,7 +173,7 @@
 
   {#if debugInfoActive}
     <h3>Debug Information</h3>
-    <p>Selected model {selectedModel}</p>
+    <p>Selected model: {selectedModel?.model_id}</p>
     <Select
       class="select-model"
       bind:value={selectedModel}
@@ -191,8 +181,8 @@
     >
       {#each availableModels as model}
         <Option value={model}
-          >{model.model_id} ({model.vram_required_MB}MB VRAM / {model.overrides
-            .context_window_size} window size)</Option
+          >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
+            ?.overrides?.context_window_size} window size)</Option
         >
       {/each}
     </Select>
