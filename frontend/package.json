@@ -44,7 +44,7 @@
     "@sveltejs/adapter-auto": "^3.1.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.5.17",
-    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
     "@swc-node/register": "~1.10.0",
     "@swc/core": "~1.9.0",
     "@tsconfig/svelte": "^5.0.2",
