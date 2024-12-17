@@ -106,11 +106,9 @@
     </div>
 
     <div class="boxArea">
-      {#if $folderOrderFolder === 'flexible'}
-        {#key $localPresetStore}
-          <BoxArea bind:searchQuery />
-        {/key}
-      {/if}
+      {#key $localPresetStore}
+        <BoxArea bind:searchQuery />
+      {/key}
     </div>
 
     {#if $folderOverlayOptionsStore.showOverlay}
@@ -174,15 +172,5 @@
     @media #{$phone} {
       height: 65vh;
     }
-  }
-
-  .search-input {
-    padding: 0.5rem;
-    border: none;
-    border-radius: var(--default-border-radius);
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-size: 1rem;
-    margin-left: auto;
   }
 </style>
