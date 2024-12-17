@@ -13,9 +13,19 @@
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
+  export let searchQuery;
+
   let refreshLayout;
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
+
+  // Filter folders and links based on search query
+  $: filteredFolders = $localPresetStore.Folders.filter((folder) => {
+    if (!searchQuery) return true;
+    return folder.links.some((link) =>
+      link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  });
 
   const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
@@ -60,9 +70,10 @@
     {#if value.Folders.length > 0}
       {#if $folderOrderFolder === 'fixed'}
         <section class="contentAreaFixed">
-          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+          {#each filteredFolders as { folderName, customBackgroundColor, id }}
             <Folder
-              id={i}
+              {searchQuery}
+              {id}
               folderHeader={folderName}
               folderBackground={customBackgroundColor}
               on:delFolder={deleteFolder}
@@ -74,12 +85,13 @@
           <Masonry
             reset
             gridGap={'0.75rem'}
-            items={$localPresetStore.Folders}
+            items={filteredFolders}
             bind:refreshLayout
           >
-            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+            {#each filteredFolders as { folderName, customBackgroundColor, id }}
               <Folder
-                id={i}
+                {searchQuery}
+                {id}
                 folderHeader={folderName}
                 folderBackground={customBackgroundColor}
                 on:delFolder={deleteFolder}

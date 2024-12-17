@@ -14,6 +14,7 @@
   const dispatch = createEventDispatcher();
 
   export let id;
+  export let searchQuery = '';
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
@@ -21,6 +22,12 @@
   let confirmDeleteLinkOpenOverlay = false;
   let confirmDeleteLinkAction;
 
+  $: filteredLinks = $localPresetStore?.Folders.find(
+    (folder) => folder.id === id,
+  )?.links.filter((link) => {
+    if (!searchQuery) return true;
+    return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
+  });
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
@@ -231,7 +238,7 @@
         </p>
       {:then value}
         {#if $localPresetStore?.Folders[id]?.links.length > 0}
-          {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
+          {#each filteredLinks as { id: index, linkName, linkUrl, faviconLink }}
             <Link
               on:delLink={deleteLink}
               on:editLink={showOverlay}
