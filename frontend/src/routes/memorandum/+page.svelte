@@ -21,7 +21,6 @@
   import Textfield from '@smui/textfield';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
   const locale = getlocale();
@@ -42,7 +41,7 @@
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
 
-  let searchQuery = writable('');
+  let searchQuery = '';
 
   onMount(() => {
     refreshPresetStore();
@@ -86,7 +85,7 @@
 
       <Textfield
         variant="outlined"
-        bind:value={$searchQuery}
+        bind:value={searchQuery}
         label={$t('page.memorandum.searchPlaceholder')}
       >
         <Icon class="material-icons search-icon" slot="trailingIcon"
