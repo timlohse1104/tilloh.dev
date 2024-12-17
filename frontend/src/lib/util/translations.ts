@@ -1,4 +1,5 @@
 import i18n, { type Config } from 'sveltekit-i18n';
+
 interface Params {
   error: any;
   folderName: string;
@@ -33,6 +34,10 @@ export const getlocale = () => {
   return 'en';
 };
 
+export const changeLanguage = (language) => {
+  setLocale(language);
+};
+
 export const {
   t,
   loading,
@@ -41,4 +46,5 @@ export const {
   initialized,
   translations,
   loadTranslations,
+  setLocale,
 } = new i18n(config);

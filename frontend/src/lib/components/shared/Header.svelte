@@ -1,12 +1,13 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { languageStore } from '$lib/util/language';
   import { sharedIdentifierStore } from '$lib/util/stores';
-  import { getlocale } from '$lib/util/translations';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
+  import LanguageSwitch from './LanguageSwitch.svelte';
 
-  const locale = getlocale();
+  $: locale = $languageStore;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -38,10 +39,12 @@
     </div>
 
     <div class="corner">
+      <LanguageSwitch />
       <BurgerMenu />
     </div>
   </div>
 </section>
+🏴󠁧󠁢󠁥
 
 <style lang="scss">
   .headerBox {
@@ -78,16 +81,9 @@
   }
 
   .corner {
-    width: 3em;
     height: 3em;
     margin: 0.25em 0.5em;
     display: flex;
-  }
-
-  .corner img {
-    width: 2em;
-    height: 2em;
-    object-fit: contain;
   }
 
   .meInfo {

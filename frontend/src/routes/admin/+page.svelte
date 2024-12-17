@@ -19,7 +19,8 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
-  import { getlocale, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
+  import { t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -31,7 +32,7 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
-  const locale = getlocale();
+
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';
@@ -53,6 +54,7 @@
   let confirmDeletePresetOpenOverlay = false;
   let confirmDeletePresetAction;
 
+  $: locale = $languageStore;
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
     return allPresetFolders.length;

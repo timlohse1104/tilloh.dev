@@ -6,6 +6,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
+  import { languageStore } from '$lib/util/language';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
@@ -14,7 +15,7 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
@@ -23,7 +24,6 @@
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
-  const locale = getlocale();
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -40,8 +40,9 @@
   let order = $folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
-
   let searchQuery = '';
+
+  $: locale = $languageStore;
 
   onMount(() => {
     refreshPresetStore();

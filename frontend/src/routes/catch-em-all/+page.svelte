@@ -2,15 +2,18 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
+  import { initialized, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
-  const locale = getlocale();
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
+
   let gameCanvas;
   let ctx;
+
+  $: locale = $languageStore;
 
   onMount(() => {
     gameCanvas = document.getElementById('gameScreen');
