@@ -42,6 +42,7 @@
   "page.memorandum.startup.createEmptyFolderAlt": "Klicke um einen leeren Ordner zu erstellen",
   "page.memorandum.startup.loadPreset": "Lade eine Voreinstellung",
   "page.memorandum.startup.loadPresetAlt": "Klicke um einen Ordner mit vorgefertigten Links zu erstellen",
+  "page.memorandum.searchPlaceholder": "Durchsuche Links",
   "page.settings.identifiers.title": "Deine Informationen",
   "page.settings.identifiers.description1": "Hier findest du deine persönliche ID. Um auf deine Zwischenstände von anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem anderen Gerät eintragen.",
   "page.settings.identifiers.description2": "Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an andere weitergeben, können diese Personen deine Zwischenstände verändern!",

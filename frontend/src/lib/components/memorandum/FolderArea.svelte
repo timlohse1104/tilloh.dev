@@ -13,6 +13,14 @@
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
+  export let searchQuery;
+
+  $: filteredItems = $localPresetStore.Folders.filter((folder) => {
+    if (!$searchQuery) return true;
+    return folder.links.some((link) =>
+      link.linkName?.toLowerCase().includes($searchQuery.toLowerCase()),
+    );
+  });
   let refreshLayout;
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
@@ -60,7 +68,7 @@
     {#if value.Folders.length > 0}
       {#if $folderOrderFolder === 'fixed'}
         <section class="contentAreaFixed">
-          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+          {#each filteredItems as { folderName, customBackgroundColor }, i}
             <Folder
               id={i}
               folderHeader={folderName}
@@ -74,10 +82,10 @@
           <Masonry
             reset
             gridGap={'0.75rem'}
-            items={$localPresetStore.Folders}
+            items={filteredItems}
             bind:refreshLayout
           >
-            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+            {#each filteredItems as { folderName, customBackgroundColor }, i}
               <Folder
                 id={i}
                 folderHeader={folderName}

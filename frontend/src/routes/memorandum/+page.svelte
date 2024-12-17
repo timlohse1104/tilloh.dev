@@ -18,8 +18,10 @@
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
+  import Textfield from '@smui/textfield';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
   const locale = getlocale();
@@ -39,6 +41,8 @@
   let order = $folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
+
+  let searchQuery = writable('');
 
   onMount(() => {
     refreshPresetStore();
@@ -80,6 +84,16 @@
         class="material-icons">swap_vert</IconButton
       >
 
+      <Textfield
+        variant="outlined"
+        bind:value={$searchQuery}
+        label={$t('page.memorandum.searchPlaceholder')}
+      >
+        <Icon class="material-icons search-icon" slot="trailingIcon"
+          >search</Icon
+        >
+      </Textfield>
+
       <div class="infoButtons">
         <Wrapper>
           <IconButton style="color: white" size="mini">
@@ -95,10 +109,8 @@
     <div class="boxArea">
       {#if $folderOrderFolder === 'flexible'}
         {#key $localPresetStore}
-          <BoxArea />
+          <BoxArea bind:searchQuery />
         {/key}
-      {:else}
-        <BoxArea />
       {/if}
     </div>
 
@@ -127,6 +139,10 @@
 
 <style lang="scss">
   @import '../../lib/styles/variables.scss';
+
+  :global(.search-icon) {
+    margin: 1rem;
+  }
 
   .menuLine {
     display: flex;
@@ -159,5 +175,15 @@
     @media #{$phone} {
       height: 65vh;
     }
+  }
+
+  .search-input {
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--default-border-radius);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-left: auto;
   }
 </style>
