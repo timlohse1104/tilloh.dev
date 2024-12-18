@@ -484,42 +484,42 @@
     }
   }
 
-  :global(.admin-sections) {
+  :global(.admin_sections) {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
   }
 
-  :global(.admin-sections-headline) {
+  :global(.admin_sections_headline) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0 1rem;
   }
 
-  :global(.admin-sections-headline h2 span) {
+  :global(.admin_sections_headline h2 span) {
     font-size: 0.65rem;
     color: var(--color-text-secondary);
   }
 
-  :global(.admin-sections-list) {
+  :global(.admin_sections_list) {
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 60vh;
   }
 
-  :global(.admin-list-items) {
+  :global(.admin_list_items) {
     display: flex;
   }
-  :global(.admin-list-items-icon) {
+  :global(.admin_list_items_icon) {
     flex-grow: 1;
   }
-  :global(.admin-list-items-text) {
+  :global(.admin_list_items_text) {
     flex-grow: 100;
     margin-right: 1rem;
     text-align: start;
   }
-  :global(.admin-list-items-button) {
+  :global(.admin_list_items_button) {
     flex-grow: 1;
   }
 </style>

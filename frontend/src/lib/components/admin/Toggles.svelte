@@ -72,8 +72,8 @@
 </script>
 
 {#if $initialized}
-  <section class="admin-sections">
-    <div class="admin-sections-headline">
+  <section class="admin_sections">
+    <div class="admin_sections_headline">
       <h2>{$t('page.admin.toggles.title')} <span>({toggles.length})</span></h2>
       <Textfield
         style="margin-left:2rem;width: 75%;"
@@ -92,13 +92,13 @@
         </IconButton>
       </Textfield>
     </div>
-    <List threeLine avatarList singleSelection class="admin-sections-list">
+    <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each toggles as toggle, i}
-        <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon"
+        <Item class="admin_list_items">
+          <Graphic class="material-icons admin_list_items_icon"
             >toggle_on</Graphic
           >
-          <Text class="admin-list-items-text">
+          <Text class="admin_list_items_text">
             <PrimaryText>{toggle.key}</PrimaryText>
             <SecondaryText>🆔{toggle._id}</SecondaryText>
             <SecondaryText
@@ -113,7 +113,7 @@
             checked={isToggleActive(toggle)}
           />
           <IconButton
-            class="material-icons admin-list-items-button"
+            class="material-icons admin_list_items_button"
             on:click={() => dispatch('removeToggle', { id: toggle._id })}
             >delete</IconButton
           >

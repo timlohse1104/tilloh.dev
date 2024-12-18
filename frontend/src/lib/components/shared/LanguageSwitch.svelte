@@ -16,7 +16,7 @@
 </script>
 
 {#if initialized}
-  <div class="language-switcher">
+  <div class="language_switcher">
     <span>🇩🇪</span>
     <Switch
       bind:checked={languageSwitch}
@@ -31,7 +31,7 @@
 {/if}
 
 <style lang="scss">
-  .language-switcher {
+  .language_switcher {
     display: flex;
     align-items: center;
     margin-right: 1rem;

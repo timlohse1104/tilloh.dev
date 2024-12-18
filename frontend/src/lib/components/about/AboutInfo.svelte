@@ -5,7 +5,7 @@
 {#if $initialized}
   <section>
     <p>
-      <span class="capital-word">Moin</span>
+      <span class="capital_word">Moin</span>
       {$t('page.about.introduction')}
     </p>
 
@@ -83,7 +83,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
     overflow-x: hidden;
   }
 
-  .capital-word {
+  .capital_word {
     font-size: 3rem;
   }
 </style>
