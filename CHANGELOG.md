@@ -45,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [general] Initial project version setup including already existing features like memorandum, uno sort, lists, catch-em-all, settings and about me.
+- [general] Automatic ci / cd pipeline with GitHub Actions.
+- [general] Git hooks for pre-commit checks and post-commit gitmoji commit messages.
 
 ### Changed
 
