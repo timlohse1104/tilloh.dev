@@ -317,7 +317,7 @@
 
 <section>
   {#if !isVerified}
-    <div class="verify-content">
+    <div class="verify_content">
       <Textfield
         variant="outlined"
         bind:value={adminToken}
@@ -337,7 +337,7 @@
       </Textfield>
     </div>
   {:else}
-    <div class="admin-overview">
+    <div class="admin_overview">
       {#if getToggleState(TogglesEnum.adminDashboard)}
         <Dashboard
           metrics={{
@@ -359,7 +359,7 @@
       {/if}
     </div>
 
-    <div class="admin-content">
+    <div class="admin_content">
       <Toggles
         {toggles}
         on:updateDashboard={updateDashboard}
@@ -453,7 +453,7 @@
     overflow-y: auto;
   }
 
-  .verify-content {
+  .verify_content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -462,13 +462,13 @@
     height: 100%;
   }
 
-  .admin-overview {
+  .admin_overview {
     display: grid;
     width: 100%;
     margin-top: 1rem;
   }
 
-  .admin-content {
+  .admin_content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(800px, 33%));
     width: 100%;

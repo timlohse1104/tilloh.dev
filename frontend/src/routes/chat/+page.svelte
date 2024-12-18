@@ -108,8 +108,8 @@
     </Drawer>
 
     <Scrim />
-    <AppContent class="app-content">
-      <main class="main-content">
+    <AppContent class="app_content">
+      <main class="main_content">
         <IconButton
           color="secondary"
           style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
@@ -141,14 +141,14 @@
     z-index: 0;
   }
 
-  * :global(.app-content) {
+  * :global(.app_content) {
     flex: auto;
     overflow: auto;
     position: relative;
     flex-grow: 1;
   }
 
-  .main-content {
+  .main_content {
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
