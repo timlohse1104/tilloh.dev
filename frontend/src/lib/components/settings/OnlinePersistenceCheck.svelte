@@ -187,7 +187,7 @@
     {#if $sharedIdentifierStore.id}
       <Button
         on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;color: var(--color-theme-1);"
+        style="margin-top: 2rem;color: var(--color_theme_1);"
       >
         <Icon class="material-icons">info</Icon>
         <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
@@ -307,10 +307,10 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    color: var(--color-text);
+    color: var(--color_text);
 
     span {
-      color: var(--color-text);
+      color: var(--color_text);
     }
   }
 

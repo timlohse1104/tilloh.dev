@@ -53,7 +53,7 @@
     cursor: pointer;
     margin: 0;
     flex-grow: 2;
-    padding: var(--default-padding);
+    padding: var(--default_padding);
     border: none;
     background-color: var(--trans);
     color: white;

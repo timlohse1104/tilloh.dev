@@ -2,20 +2,20 @@
 
 /* My variables */
 :root {
-  --font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font-mono: 'Fira Mono', monospace;
-  --color-bg-0: rgb(0, 42, 82);
-  --color-bg-1: hsl(208, 100%, 8%);
-  --color-bg-2: hsl(223, 100%, 1%);
-  --color-theme-1: rgba(252, 255, 86, 1);
-  --color-theme-1-50: rgba(252, 255, 86, 0.5);
-  --color-theme-2: rgba(64, 117, 166, 1);
-  --color-theme-2-50: rgba(64, 117, 166, 0.5);
-  --color-text: rgba(255, 255, 255, 0.7);
-  --column-width: 42rem;
-  --column-margin-top: 4rem;
-  --pre-background: rgba(50, 50, 50, 0.5);
+  --font_body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font_mono: 'Fira Mono', monospace;
+  --color_bg_0: rgb(0, 42, 82);
+  --color_bg_1: hsl(208, 100%, 8%);
+  --color_bg_2: hsl(223, 100%, 1%);
+  --color_theme_1: rgba(252, 255, 86, 1);
+  --color_theme_1_50: rgba(252, 255, 86, 0.5);
+  --color_theme_2: rgba(64, 117, 166, 1);
+  --color_theme_2_50: rgba(64, 117, 166, 0.5);
+  --color_text: rgba(255, 255, 255, 0.7);
+  --column_width: 42rem;
+  --column_margin_top: 4rem;
+  --pre_background: rgba(50, 50, 50, 0.5);
 
   --green: rgb(0, 210, 53);
   --red: rgb(210, 0, 30);
@@ -28,13 +28,13 @@
   --black80: rgba(0, 0, 0, 0.8);
   --sharpen: 2px 2px var(--black80);
   --trans: rgba(0, 0, 0, 0);
-  --default-padding: 1.2rem;
+  --default_padding: 1.2rem;
 }
 
 /* General styling */
 :root {
-  font-family: var(--font-body);
-  color: var(--color-text);
+  font-family: var(--font_body);
+  color: var(--color_text);
 }
 
 body {
@@ -43,9 +43,9 @@ body {
   background-size: 100vw 100vh;
   background-image: linear-gradient(
     180deg,
-    var(--color-bg-0) 0%,
-    var(--color-bg-1) 25%,
-    var(--color-bg-2) 75%
+    var(--color_bg_0) 0%,
+    var(--color_bg_1) 25%,
+    var(--color_bg_2) 75%
   );
 }
 
@@ -60,7 +60,7 @@ p {
 }
 
 a {
-  color: var(--color-theme-1);
+  color: var(--color_theme_1);
   text-decoration: none;
 }
 
@@ -79,12 +79,12 @@ h2 {
 
 pre {
   font-size: 16px;
-  font-family: var(--font-mono);
-  background-color: var(--pre-background);
+  font-family: var(--font_mono);
+  background-color: var(--pre_background);
   border-radius: 3px;
   padding: 0.5em;
   overflow-x: auto;
-  color: var(--color-text);
+  color: var(--color_text);
 }
 
 .text-column {

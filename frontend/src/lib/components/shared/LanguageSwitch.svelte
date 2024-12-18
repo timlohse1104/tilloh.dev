@@ -11,7 +11,7 @@
   };
 
   onMount(() => {
-    languageSwitch = $languageStore === 'de' ? true : false;
+    languageSwitch = $languageStore === 'en' ? true : false;
   });
 </script>
 

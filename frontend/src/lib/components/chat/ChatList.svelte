@@ -131,7 +131,7 @@
   .list_content {
     display: flex;
     flex-direction: column;
-    margin-top: calc(var(--default-padding) * 2);
+    margin-top: calc(var(--default_padding) * 2);
     height: 75vh;
     overflow-y: auto;
 
@@ -152,7 +152,7 @@
   .history_list {
     display: flex;
     align-items: center;
-    margin-top: var(--default-padding);
+    margin-top: var(--default_padding);
   }
 
   hr {

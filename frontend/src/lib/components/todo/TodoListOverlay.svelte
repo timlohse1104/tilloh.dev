@@ -186,7 +186,7 @@
   .create_list_section {
     display: flex;
     flex-direction: row;
-    gap: var(--default-padding);
-    margin-top: var(--default-padding);
+    gap: var(--default_padding);
+    margin-top: var(--default_padding);
   }
 </style>

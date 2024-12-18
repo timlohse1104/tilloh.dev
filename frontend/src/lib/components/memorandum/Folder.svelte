@@ -293,8 +293,8 @@
 
   .link_box_fixed {
     display: grid;
-    margin: 0 calc(var(--default-padding) / 2) var(--default-padding)
-      calc(var(--default-padding) / 2);
+    margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
+      calc(var(--default_padding) / 2);
     grid-template-columns: calc(100% - 50px) 50px;
     grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
@@ -332,7 +332,7 @@
     display: flex;
     align-items: center;
     font-weight: bolder;
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     text-shadow: var(--sharpen);
     font-size: 18px;
   }
@@ -353,7 +353,7 @@
     grid-area: addLinkBtn;
     @include mem_button;
     text-align: left;
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     display: flex;
     align-items: center;
     justify-content: space-between;

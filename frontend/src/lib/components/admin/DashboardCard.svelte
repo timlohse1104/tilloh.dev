@@ -25,7 +25,7 @@
   :global(.admin_dashboard_card) {
     width: 11rem;
     height: 11rem;
-    background-color: var(--color-bg-2);
+    background-color: var(--color_bg_2);
     display: flex;
   }
 
@@ -44,7 +44,7 @@
     align-items: center;
     justify-content: center;
     flex-grow: 9;
-    // border-bottom: 1px solid var(--color-bg-1);
+    // border-bottom: 1px solid var(--color_bg_1);
 
     h2 {
       font-size: 1.25rem;
@@ -64,7 +64,7 @@
     bottom: -1rem;
     width: 50%;
     height: 1px;
-    background-color: var(--color-bg-1);
+    background-color: var(--color_bg_1);
     transform: translateX(-50%);
   }
 
