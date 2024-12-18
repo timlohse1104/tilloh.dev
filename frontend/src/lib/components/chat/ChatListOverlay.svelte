@@ -100,7 +100,7 @@
     </Title>
   {/if}
   <Content id="simple-content">
-    <div class="createListSection">
+    <div class="create_list_section">
       <Textfield
         variant="outlined"
         bind:value={newListName}
@@ -173,7 +173,7 @@
   .subtitle {
     font-size: 1rem;
   }
-  .createListSection {
+  .create_list_section {
     display: flex;
     flex-direction: row;
     gap: var(--default-padding);

@@ -63,10 +63,10 @@
             style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
             >{$t('page.todos.sideMenu.title')}</Title
           >
-          <Subtitle class="todos-side-menu-description"
+          <Subtitle class="todos_side_menu_description"
             >{$t('page.todos.sideMenu.description')}</Subtitle
           >
-          <Subtitle class="todos-side-menu-description"
+          <Subtitle class="todos_side_menu_description"
             >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
           >
         </Header>
@@ -116,8 +116,8 @@
       </Drawer>
 
       <Scrim />
-      <AppContent class="app-content">
-        <main class="main-content">
+      <AppContent class="app_content">
+        <main class="main_content">
           <IconButton
             color="secondary"
             style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
@@ -152,20 +152,20 @@
     z-index: 0;
   }
 
-  * :global(.app-content) {
+  * :global(.app_content) {
     flex: auto;
     overflow: auto;
     position: relative;
     flex-grow: 1;
   }
 
-  .main-content {
+  .main_content {
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
   }
 
-  :global(.todos-side-menu-description) {
+  :global(.todos_side_menu_description) {
     text-align: left;
     margin: 0 0 var(--default-padding) 0;
     padding-left: calc(var(--default-padding) / 2);

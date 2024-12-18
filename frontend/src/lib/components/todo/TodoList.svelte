@@ -34,20 +34,20 @@
 
 {#if $initialized}
   <section
-    class="todo-list"
+    class="todo_list"
     style="overflow:hidden;display:flex;align-items:center;"
   >
-    <div class="list-area">
+    <div class="list_area">
       {#if currentList || currentList?.todos?.length > 0}
-        <div class="list-header">
+        <div class="list_header">
           <h2>
             {currentList?.emoji || $t('page.todos.list.noEmoji')}
             {currentList?.name || $t('page.todos.list.noEmoji')}
           </h2>
           <hr />
-          <div class="history-area">
+          <div class="history_area">
             {#if currentList?.history?.length > 0}
-              <div class="history-list">
+              <div class="history_list">
                 <Wrapper>
                   <Button color="secondary" variant="outlined">
                     <Icon class="material-icons">info</Icon>
@@ -74,7 +74,7 @@
         </div>
       {/if}
 
-      <div class="list-content">
+      <div class="list_content">
         {#if !currentList}
           <h1 style="margin-top:2rem;">
             {$t('page.todos.list.emptyTitle1')}
@@ -112,12 +112,12 @@
     padding: 0;
   }
 
-  .todo-list {
+  .todo_list {
     display: flex;
     flex-direction: column;
   }
 
-  .list-area {
+  .list_area {
     width: 50%;
 
     @media #{$tablet} {
@@ -129,11 +129,11 @@
     }
   }
 
-  .list-header {
+  .list_header {
     margin: 0;
   }
 
-  .list-content {
+  .list_content {
     display: flex;
     flex-direction: column;
     margin-top: calc(var(--default-padding) * 2);
@@ -149,12 +149,12 @@
     }
   }
 
-  .history-area {
+  .history_area {
     display: flex;
     flex-direction: column;
   }
 
-  .history-list {
+  .history_list {
     display: flex;
     align-items: center;
     margin-top: var(--default-padding);

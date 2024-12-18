@@ -16,19 +16,19 @@
 </script>
 
 {#if $initialized}
-  <section class="admin-sections">
-    <div class="admin-sections-headline">
+  <section class="admin_sections">
+    <div class="admin_sections_headline">
       <h2>
         {$t('page.admin.identifiers.title')} <span>({identifiers.length})</span>
       </h2>
     </div>
-    <List threeLine avatarList singleSelection class="admin-sections-list">
+    <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each identifiers as identifier, i}
-        <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon"
+        <Item class="admin_list_items">
+          <Graphic class="material-icons admin_list_items_icon"
             >fingerprint</Graphic
           >
-          <Text class="admin-list-items-text">
+          <Text class="admin_list_items_text">
             <PrimaryText>{identifier.name}</PrimaryText>
             <SecondaryText>🆔{identifier._id}</SecondaryText>
             <SecondaryText
@@ -38,7 +38,7 @@
             >
           </Text>
           <IconButton
-            class="material-icons admin-list-items-button"
+            class="material-icons admin_list_items_button"
             on:click={() =>
               dispatch('removeIdentifier', { identifierId: identifier._id })}
             >delete</IconButton

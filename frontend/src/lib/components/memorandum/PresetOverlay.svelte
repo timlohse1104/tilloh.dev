@@ -84,7 +84,7 @@
     <Title id="large-scroll-title">
       {$t('page.memorandum.presetOverlay.title')}
 
-      <p class="large-scroll-subtitle">
+      <p class="large_scroll_subtitle">
         {$t('page.memorandum.presetOverlay.description')}
       </p>
     </Title>
@@ -125,7 +125,7 @@
               </IconButton>
             </Header>
             <Content
-              ><pre class="code-container">
+              ><pre class="code_container">
             <code class="language-json" bind:this={codeElement}
                   >{JSON.stringify($localPresetStore, null, 2)}</code
                 >
@@ -182,7 +182,7 @@
 />
 
 <style lang="scss">
-  .code-container {
+  .code_container {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -200,7 +200,7 @@
     }
   }
 
-  .large-scroll-subtitle {
+  .large_scroll_subtitle {
     font-size: 1rem;
   }
 </style>
