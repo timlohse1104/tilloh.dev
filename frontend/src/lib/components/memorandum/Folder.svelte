@@ -339,7 +339,7 @@
 
   .box_delete_button {
     grid-area: delBtn;
-    @include mem-button;
+    @include mem_button;
     text-align: center;
     font-weight: bolder;
     text-shadow: var(--sharpen);
@@ -351,7 +351,7 @@
 
   .link_add_button {
     grid-area: addLinkBtn;
-    @include mem-button;
+    @include mem_button;
     text-align: left;
     padding-left: var(--default-padding);
     display: flex;

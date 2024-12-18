@@ -71,7 +71,7 @@
 
   button {
     grid-area: delBtn;
-    @include mem-button;
+    @include mem_button;
     background-color: var(--trans);
     text-shadow: var(--sharpen);
 
