@@ -42,10 +42,10 @@
   :global(::-webkit-scrollbar-thumb) {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--color-theme-2-50);
+    background-color: var(--color_theme_2_50);
 
     &:hover {
-      background-color: var(--color-theme-2);
+      background-color: var(--color_theme_2);
     }
   }
 </style>

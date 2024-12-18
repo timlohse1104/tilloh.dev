@@ -94,7 +94,7 @@
     </Title>
 
     <List dense>
-      <Item style="margin-left:calc(var(--default-padding)/2);">
+      <Item style="margin-left:calc(var(--default_padding)/2);">
         <Graphic class="material-icons">folder</Graphic>
         <Text>
           {$t('page.memorandum.presetOverlay.folderAmount', {
@@ -102,7 +102,7 @@
           })}
         </Text>
       </Item>
-      <Item style="margin-left:calc(var(--default-padding)/2);">
+      <Item style="margin-left:calc(var(--default_padding)/2);">
         <Graphic class="material-icons">link</Graphic>
         <Text>
           {$t('page.memorandum.presetOverlay.linkAmount', {
@@ -191,12 +191,12 @@
     code {
       line-height: 1.5;
       font-size: 12px;
-      font-family: var(--font-mono);
-      background-color: var(--pre-background);
+      font-family: var(--font_mono);
+      background-color: var(--pre_background);
       border-radius: 3px;
       padding: 0.5em;
       overflow-x: auto;
-      color: var(--color-text);
+      color: var(--color_text);
     }
   }
 

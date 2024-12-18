@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - [general] Refactored css names to snake_case.
+- [general] Implemented google material font locally.
 
 ### Fixed
 

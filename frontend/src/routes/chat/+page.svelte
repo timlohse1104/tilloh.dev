@@ -57,7 +57,7 @@
     >
       <Header>
         <Title
-          style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
+          style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
           >Deine Chats</Title
         >
       </Header>
@@ -66,7 +66,7 @@
           <!-- Fallback if no chats could be found -->
           {#if $chatStore.length === 0}
             <div
-              style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
+              style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
             >
               <Icon class="material-icons">search_off</Icon>
               <Text>Keine Chats vorhanden</Text>
@@ -76,7 +76,7 @@
             {#each $chatStore as list, i (i)}
               <Item
                 href="javascript:void(0)"
-                style="padding-left: calc(var(--default-padding) / 1.5);"
+                style="padding-left: calc(var(--default_padding) / 1.5);"
                 on:click={() => setActiveList(i)}
               >
                 <Text>{list.emoji} {list.name}</Text>
@@ -97,7 +97,7 @@
               color={$chatStore.length === 0 ? 'primary' : 'secondary'}
               variant="outlined"
               on:click={() => showListOverlay('new')}
-              style="margin: var(--default-padding);"
+              style="margin: var(--default_padding);"
             >
               <Icon class="material-icons">playlist_add</Icon>
               <Label>Neuen Chat anlegen</Label>
@@ -112,7 +112,7 @@
       <main class="main_content">
         <IconButton
           color="secondary"
-          style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
+          style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
           size="button"
           on:click={() => (openMenu = !openMenu)}
         >

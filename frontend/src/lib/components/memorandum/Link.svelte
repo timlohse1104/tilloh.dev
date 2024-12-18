@@ -41,7 +41,7 @@
     grid-template-columns: 20px calc(100% - 70px) 50px;
     height: auto;
     grid-template-areas: 'icon link delBtn';
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     box-sizing: border-box;
     align-items: center;
 
@@ -56,14 +56,14 @@
     padding: 0;
     width: 25px;
     height: 25px;
-    padding: calc(var(--default-padding) / 4) 0 calc(var(--default-padding) / 4)
+    padding: calc(var(--default_padding) / 4) 0 calc(var(--default_padding) / 4)
       0;
   }
 
   a {
     grid-area: link;
     display: block;
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     color: var(--light80);
     text-shadow: var(--sharpen);
     font-size: 14px;

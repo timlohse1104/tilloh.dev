@@ -146,8 +146,8 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: calc(var(--default-padding) / 2);
-    gap: calc(var(--default-padding) / 2);
+    padding-left: calc(var(--default_padding) / 2);
+    gap: calc(var(--default_padding) / 2);
   }
 
   .info_buttons {

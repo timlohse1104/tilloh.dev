@@ -112,7 +112,7 @@
   {/await}
 
   <Fab
-    style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
     color="secondary"
     on:click={createFolder}
   >
