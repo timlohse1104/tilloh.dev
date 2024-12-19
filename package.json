@@ -1,6 +1,6 @@
 {
   "name": "here",
-  "version": "0.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "scripts": {
     "postinstall": "cp git-hooks/* .git/hooks/ && chmod -R +x .git/hooks/",
@@ -10,10 +10,10 @@
   },
   "private": true,
   "devDependencies": {
-    "@nx/js": "20.1.2",
+    "@nx/js": "20.2.2",
     "concurrently": "^9.0.0",
     "npm": "^10.3.0",
-    "nx": "20.1.2"
+    "nx": "20.2.2"
   },
   "workspaces": [
     "packages/*"
