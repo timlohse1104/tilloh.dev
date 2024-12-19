@@ -69,7 +69,7 @@
   {:then value}
     {#if value.Folders.length > 0}
       {#if $folderOrderFolder === 'fixed'}
-        <section class="contentAreaFixed">
+        <section class="content_area_fixed">
           {#each filteredFolders as { folderName, customBackgroundColor, id }}
             <Folder
               {searchQuery}
@@ -81,7 +81,7 @@
           {/each}
         </section>
       {:else}
-        <section class="contentAreaFlexible">
+        <section class="content_area_flexible">
           <Masonry
             reset
             gridGap={'0.75rem'}
@@ -112,7 +112,7 @@
   {/await}
 
   <Fab
-    style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
     color="secondary"
     on:click={createFolder}
   >
@@ -136,7 +136,7 @@
 <style lang="scss">
   @import '../../styles/variables.scss';
 
-  .contentAreaFixed {
+  .content_area_fixed {
     color: white;
     margin: 0;
     overflow-y: auto;
@@ -158,7 +158,7 @@
     }
   }
 
-  .contentAreaFlexible {
+  .content_area_flexible {
     overflow-y: auto;
     overflow-x: hidden;
   }

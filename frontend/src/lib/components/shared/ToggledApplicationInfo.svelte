@@ -5,12 +5,12 @@
 </script>
 
 {#if $initialized}
-  <div class="toggled-application-info-outer">
-    <div class="toggled-application-info-inner">
-      <Icon class="material-icons toggled-application-icon">construction</Icon>
+  <div class="toggled_application_info_outer">
+    <div class="toggled_application_info_inner">
+      <Icon class="material-icons toggled_application_icon">construction</Icon>
       <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
       <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
-      <div class="back-button">
+      <div class="back_button">
         <Button
           color="secondary"
           variant="outlined"
@@ -24,30 +24,30 @@
     </div>
   </div>
 {:else}
-  <div class="toggled-application-info-outer">Locale initializing...</div>
+  <div class="toggled_application_info_outer">Locale initializing...</div>
 {/if}
 
 <style lang="scss">
-  .toggled-application-info-outer {
+  .toggled_application_info_outer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80vh;
   }
 
-  .toggled-application-info-inner {
+  .toggled_application_info_inner {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  :global(.toggled-application-icon) {
+  :global(.toggled_application_icon) {
     font-size: 5rem;
     color: var(--light80);
   }
 
-  .back-button {
+  .back_button {
     margin-top: 3rem;
   }
 </style>

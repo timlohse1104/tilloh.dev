@@ -33,15 +33,15 @@
 </script>
 
 {#if $initialized}
-  <section class="admin-sections">
-    <div class="admin-sections-headline">
+  <section class="admin_sections">
+    <div class="admin_sections_headline">
       <h2>{$t('page.admin.jokes.title')} <span>({jokes.length})</span></h2>
     </div>
-    <List threeLine avatarList singleSelection class="admin-sections-list">
+    <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each jokes as joke}
-        <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon">😂</Graphic>
-          <Text class="admin-list-items-text">
+        <Item class="admin_list_items">
+          <Graphic class="material-icons admin_list_items_icon">😂</Graphic>
+          <Text class="admin_list_items_text">
             <PrimaryText>{joke.text}</PrimaryText>
             <SecondaryText
               >{joke.verified === undefined || joke.verified
@@ -57,12 +57,12 @@
 
           {#if !joke.verified && joke.verified !== undefined}
             <IconButton
-              class="material-icons admin-list-items-button"
+              class="material-icons admin_list_items_button"
               on:click={() => verifyJoke(joke._id)}>thumb_up</IconButton
             >
           {/if}
           <IconButton
-            class="material-icons admin-list-items-button"
+            class="material-icons admin_list_items_button"
             on:click={() => dispatch('removeJoke', { jokeId: joke._id })}
             >delete</IconButton
           >

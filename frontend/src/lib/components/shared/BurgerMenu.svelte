@@ -11,8 +11,6 @@
 
   $: locale = $languageStore;
 
-  console.log(navigator.language);
-
   onMount(() => {
     appLinks = Object.values(applicationRoutes).map((route) => ({
       title: route.name[locale],
@@ -49,8 +47,8 @@
 
 <aside popover id="hamburger-menu">
   {#if $initialized}
-    <div class="burger-menu-header">
-      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
+    <div class="burger_menu_header">
+      <IconButton class="tilloh_logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
@@ -59,7 +57,7 @@
     <ul>
       {#each appLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
+          <Icon class="material-icons menu_icons">{link.icon}</Icon>
           <a href={link.link}>{link.title} </a>
         </li>
       {/each}
@@ -70,7 +68,7 @@
     <ul>
       {#each utilLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
+          <Icon class="material-icons menu_icons">{link.icon}</Icon>
           <a href={link.link}>{link.title}</a>
         </li>
       {/each}
@@ -108,7 +106,7 @@
 
   aside {
     position: fixed;
-    background-color: var(--color-bg-2);
+    background-color: var(--color_bg_2);
     width: 30%;
     height: 100%;
     inset: 0;
@@ -132,7 +130,7 @@
       font-size: larger;
     }
 
-    &:popover-open {
+    &:popover_open {
       transform: translateX(0);
     }
 
@@ -146,7 +144,7 @@
     }
   }
 
-  .burger-menu-header {
+  .burger_menu_header {
     display: flex;
     align-items: center;
     margin-left: var(--menu-left);
@@ -154,14 +152,14 @@
 
   h1 {
     text-align: left;
-    color: var(--color-text);
+    color: var(--color_text);
 
     @media #{$phone} {
       font-size: larger;
     }
   }
 
-  :global(.tilloh-logo) {
+  :global(.tilloh_logo) {
     width: 2em;
     height: 2em;
     margin-right: 1rem;
@@ -180,12 +178,12 @@
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--color-text);
+    border: 1.25px solid var(--color_text);
     width: 75%;
   }
 
   hr:last-of-type {
-    border: 0.05rem solid var(--color-text);
+    border: 0.05rem solid var(--color_text);
     width: 50%;
     opacity: 0.3;
   }
@@ -217,7 +215,7 @@
   }
 
   a {
-    color: var(--color-text);
+    color: var(--color_text);
     text-decoration: none;
     display: block;
     padding: 1rem;
@@ -229,7 +227,7 @@
     left: 0;
     width: 100%;
     text-align: center;
-    color: var(--color-text);
+    color: var(--color_text);
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -250,7 +248,7 @@
   }
 
   @starting-style {
-    aside:popover-open {
+    aside:popover_open {
       transform: translateX(100%);
     }
     aside::backdrop {
@@ -258,7 +256,7 @@
     }
   }
 
-  :global(.menu-icons) {
-    color: var(--color-text);
+  :global(.menu_icons) {
+    color: var(--color_text);
   }
 </style>

@@ -60,13 +60,13 @@
       >
         <Header>
           <Title
-            style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
+            style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
             >{$t('page.todos.sideMenu.title')}</Title
           >
-          <Subtitle class="todos-side-menu-description"
+          <Subtitle class="todos_side_menu_description"
             >{$t('page.todos.sideMenu.description')}</Subtitle
           >
-          <Subtitle class="todos-side-menu-description"
+          <Subtitle class="todos_side_menu_description"
             >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
           >
         </Header>
@@ -74,7 +74,7 @@
           <List>
             {#if $todoStore.length === 0}
               <div
-                style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
+                style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
               >
                 <Icon class="material-icons">search_off</Icon>
                 <Text>{$t('page.todos.sideMenu.emptyInfo')}</Text>
@@ -84,7 +84,7 @@
               {#each $todoStore as list, i (i)}
                 <Item
                   href="javascript:void(0)"
-                  style="padding-left: calc(var(--default-padding) / 1.5);"
+                  style="padding-left: calc(var(--default_padding) / 1.5);"
                   on:click={() => setActiveList(i)}
                 >
                   <Text>{list.emoji} {list.name}</Text>
@@ -105,7 +105,7 @@
                 color={$todoStore.length === 0 ? 'primary' : 'secondary'}
                 variant="outlined"
                 on:click={() => showListOverlay('new')}
-                style="margin: var(--default-padding);"
+                style="margin: var(--default_padding);"
               >
                 <Icon class="material-icons">playlist_add</Icon>
                 <Label>{$t('page.todos.sideMenu.createNewList')}</Label>
@@ -116,11 +116,11 @@
       </Drawer>
 
       <Scrim />
-      <AppContent class="app-content">
-        <main class="main-content">
+      <AppContent class="app_content">
+        <main class="main_content">
           <IconButton
             color="secondary"
-            style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
+            style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
             size="button"
             on:click={() => (openMenu = !openMenu)}
           >
@@ -152,22 +152,22 @@
     z-index: 0;
   }
 
-  * :global(.app-content) {
+  * :global(.app_content) {
     flex: auto;
     overflow: auto;
     position: relative;
     flex-grow: 1;
   }
 
-  .main-content {
+  .main_content {
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
   }
 
-  :global(.todos-side-menu-description) {
+  :global(.todos_side_menu_description) {
     text-align: left;
-    margin: 0 0 var(--default-padding) 0;
-    padding-left: calc(var(--default-padding) / 2);
+    margin: 0 0 var(--default_padding) 0;
+    padding-left: calc(var(--default_padding) / 2);
   }
 </style>

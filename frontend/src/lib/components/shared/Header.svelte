@@ -16,14 +16,14 @@
 </script>
 
 <section>
-  <div class="headerBox">
-    <div class="meInfo">
-      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
+  <div class="header_box">
+    <div class="me_info">
+      <IconButton class="tilloh_logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
     </div>
 
-    <div class="headlineBox">
+    <div class="headline_box">
       <h2>
         <Icon class="material-icons">{currentPage.icon}</Icon>
         {currentPage.name[locale]}
@@ -44,10 +44,9 @@
     </div>
   </div>
 </section>
-🏴󠁧󠁢󠁥
 
 <style lang="scss">
-  .headerBox {
+  .header_box {
     display: flex;
     justify-content: space-between;
     background-color: var(--darkgrey80);
@@ -56,7 +55,7 @@
     border-bottom: var(--white30) 1px solid;
   }
 
-  :global(.tilloh-logo) {
+  :global(.tilloh_logo) {
     width: 3em;
     height: 3em;
 
@@ -67,7 +66,7 @@
     }
   }
 
-  .headlineBox {
+  .headline_box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -86,7 +85,7 @@
     display: flex;
   }
 
-  .meInfo {
+  .me_info {
     display: flex;
     flex-direction: column;
   }

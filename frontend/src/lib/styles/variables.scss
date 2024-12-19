@@ -2,7 +2,7 @@ $phone: 'only screen and (max-width : 767px)';
 $tablet: 'only screen and (max-width : 1152px)';
 $wide: 'only screen and (min-width : 2200px)';
 
-@mixin mem-button {
+@mixin mem_button {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -11,7 +11,7 @@ $wide: 'only screen and (min-width : 2200px)';
   color: var(--light80);
 }
 
-@mixin menu-item-box {
+@mixin menu_item_box {
   width: 55px;
   height: 100%;
   display: inline-block;

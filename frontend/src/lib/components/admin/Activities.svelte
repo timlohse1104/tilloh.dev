@@ -37,22 +37,22 @@
 </script>
 
 {#if $initialized}
-  <section class="admin-sections">
-    <div class="admin-sections-headline">
+  <section class="admin_sections">
+    <div class="admin_sections_headline">
       <h2>
         {$t('page.admin.activities.title')} <span>({activities.length})</span>
       </h2>
     </div>
-    <List threeLine avatarList singleSelection class="admin-sections-list">
+    <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each activities as activity}
         <Item
-          class="admin-list-items"
+          class="admin_list_items"
           on:SMUI:action={() => copyIdToClipboard(activity.id)}
         >
-          <Graphic class="material-icons admin-list-items-icon"
+          <Graphic class="material-icons admin_list_items_icon"
             >{getActivityTypeIcon(activity.type)}</Graphic
           >
-          <Text class="admin-list-items-text">
+          <Text class="admin_list_items_text">
             <PrimaryText>{activity.description}</PrimaryText>
             <SecondaryText>🆔{activity.id}</SecondaryText>
             <SecondaryText

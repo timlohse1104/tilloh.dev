@@ -64,7 +64,7 @@
 
 {#if memorandumRoute.toggle}
   {#if $initialized}
-    <div class="menuLine">
+    <div class="menu_line">
       <SegmentedButton
         segments={orders}
         let:segment
@@ -89,12 +89,12 @@
         bind:value={searchQuery}
         label={$t('page.memorandum.searchPlaceholder')}
       >
-        <Icon class="material-icons search-icon" slot="trailingIcon"
+        <Icon class="material-icons search_icon" slot="trailingIcon"
           >search</Icon
         >
       </Textfield>
 
-      <div class="infoButtons">
+      <div class="info_buttons">
         <Wrapper>
           <IconButton style="color: white" size="mini">
             <Icon class="material-icons">info</Icon>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <div class="boxArea">
+    <div class="box_area">
       {#key $localPresetStore}
         <BoxArea bind:searchQuery />
       {/key}
@@ -138,25 +138,25 @@
 <style lang="scss">
   @import '../../lib/styles/variables.scss';
 
-  :global(.search-icon) {
+  :global(.search_icon) {
     margin: 1rem;
   }
 
-  .menuLine {
+  .menu_line {
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: calc(var(--default-padding) / 2);
-    gap: calc(var(--default-padding) / 2);
+    padding-left: calc(var(--default_padding) / 2);
+    gap: calc(var(--default_padding) / 2);
   }
 
-  .infoButtons {
+  .info_buttons {
     display: flex;
     flex-grow: 10;
     justify-content: end;
   }
 
-  .boxArea {
+  .box_area {
     display: grid;
     height: 85vh;
     grid-template-columns: 100%;
