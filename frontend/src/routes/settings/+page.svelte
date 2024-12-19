@@ -1,10 +1,11 @@
 <script lang="ts">
   import OnlinePersistenceCheck from '$lib/components/settings/OnlinePersistenceCheck.svelte';
   import { utilityRoutes } from '$lib/config/applications';
-  import { getlocale } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
 
   const { settings: settingsRoute } = utilityRoutes;
-  const locale = getlocale();
+
+  $: locale = $languageStore;
 </script>
 
 <svelte:head>

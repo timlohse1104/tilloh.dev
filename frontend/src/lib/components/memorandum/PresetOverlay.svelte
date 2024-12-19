@@ -84,7 +84,7 @@
     <Title id="large-scroll-title">
       {$t('page.memorandum.presetOverlay.title')}
 
-      <p class="large-scroll-subtitle">
+      <p class="large_scroll_subtitle">
         {$t('page.memorandum.presetOverlay.description')}
       </p>
     </Title>
@@ -94,7 +94,7 @@
     </Title>
 
     <List dense>
-      <Item style="margin-left:calc(var(--default-padding)/2);">
+      <Item style="margin-left:calc(var(--default_padding)/2);">
         <Graphic class="material-icons">folder</Graphic>
         <Text>
           {$t('page.memorandum.presetOverlay.folderAmount', {
@@ -102,7 +102,7 @@
           })}
         </Text>
       </Item>
-      <Item style="margin-left:calc(var(--default-padding)/2);">
+      <Item style="margin-left:calc(var(--default_padding)/2);">
         <Graphic class="material-icons">link</Graphic>
         <Text>
           {$t('page.memorandum.presetOverlay.linkAmount', {
@@ -125,7 +125,7 @@
               </IconButton>
             </Header>
             <Content
-              ><pre class="code-container">
+              ><pre class="code_container">
             <code class="language-json" bind:this={codeElement}
                   >{JSON.stringify($localPresetStore, null, 2)}</code
                 >
@@ -182,7 +182,7 @@
 />
 
 <style lang="scss">
-  .code-container {
+  .code_container {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -191,16 +191,16 @@
     code {
       line-height: 1.5;
       font-size: 12px;
-      font-family: var(--font-mono);
-      background-color: var(--pre-background);
+      font-family: var(--font_mono);
+      background-color: var(--pre_background);
       border-radius: 3px;
       padding: 0.5em;
       overflow-x: auto;
-      color: var(--color-text);
+      color: var(--color_text);
     }
   }
 
-  .large-scroll-subtitle {
+  .large_scroll_subtitle {
     font-size: 1rem;
   }
 </style>

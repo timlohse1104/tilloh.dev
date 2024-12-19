@@ -32,20 +32,20 @@
 </script>
 
 <section
-  class="chat-list"
+  class="chat_list"
   style="overflow:hidden;display:flex;align-items:center;"
 >
-  <div class="list-area">
+  <div class="list_area">
     {#if currentList || currentList?.chats?.length > 0}
-      <div class="list-header">
+      <div class="list_header">
         <h2>
           {currentList?.emoji || '📝'}
           {currentList?.name || 'Hier würde der Chatname stehen...'}
         </h2>
         <hr />
-        <div class="history-area">
+        <div class="history_area">
           {#if currentList?.history?.length > 0}
-            <div class="history-list">
+            <div class="history_list">
               <Wrapper>
                 <Button color="secondary" variant="outlined">
                   <Icon class="material-icons">info</Icon>
@@ -74,7 +74,7 @@
       </div>
     {/if}
 
-    <div class="list-content">
+    <div class="list_content">
       {#if !currentList || currentList?.chats?.length === 0}
         <h1 style="margin-top:2rem;">
           Wähle einen <Icon class="material-icons">chat</Icon> Chat aus.
@@ -107,12 +107,12 @@
     padding: 0;
   }
 
-  .chat-list {
+  .chat_list {
     display: flex;
     flex-direction: column;
   }
 
-  .list-area {
+  .list_area {
     width: 50%;
 
     @media #{$tablet} {
@@ -124,14 +124,14 @@
     }
   }
 
-  .list-header {
+  .list_header {
     margin: 0;
   }
 
-  .list-content {
+  .list_content {
     display: flex;
     flex-direction: column;
-    margin-top: calc(var(--default-padding) * 2);
+    margin-top: calc(var(--default_padding) * 2);
     height: 75vh;
     overflow-y: auto;
 
@@ -144,15 +144,15 @@
     }
   }
 
-  .history-area {
+  .history_area {
     display: flex;
     flex-direction: column;
   }
 
-  .history-list {
+  .history_list {
     display: flex;
     align-items: center;
-    margin-top: var(--default-padding);
+    margin-top: var(--default_padding);
   }
 
   hr {

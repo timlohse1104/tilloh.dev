@@ -21,10 +21,10 @@
 
 {#if $initialized}
   <section>
-    <div class="dashboard-header">
+    <div class="dashboard_header">
       <h1>{$t('page.admin.dashboard.title')}</h1>
     </div>
-    <div class="dashboard-content">
+    <div class="dashboard_content">
       <DashboardCard
         header="TillohAPI"
         description={$t('page.admin.dashboard.tillohApiDescription')}
@@ -92,7 +92,7 @@
 {/if}
 
 <style lang="scss">
-  .dashboard-header {
+  .dashboard_header {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -104,7 +104,7 @@
     }
   }
 
-  .dashboard-content {
+  .dashboard_content {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;

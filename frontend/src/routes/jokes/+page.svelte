@@ -2,9 +2,11 @@
   import Jokes from '$lib/components/jokes/Jokes.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { getlocale } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
+
   const { jokes: jokesRoute } = applicationRoutes;
-  const locale = getlocale();
+
+  $: locale = $languageStore;
 </script>
 
 <svelte:head>

@@ -1,12 +1,13 @@
 <script>
   import { applicationRoutes } from '$lib/config/applications';
-  import { getlocale } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
   import { Icon } from '@smui/common';
 
   export let appKey;
 
   const app = applicationRoutes[appKey];
-  const locale = getlocale();
+
+  $: locale = $languageStore;
 </script>
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
@@ -46,7 +47,7 @@
     top: 0;
     left: calc(50% - var(--size));
     border: var(--size) solid transparent;
-    border-top: var(--size) solid var(--color-theme-1);
+    border-top: var(--size) solid var(--color_theme_1);
   }
 
   a {
@@ -54,7 +55,7 @@
     height: 100%;
     align-items: center;
     padding: 0 1rem;
-    color: var(--color-text);
+    color: var(--color_text);
     font-weight: 700;
     font-size: 1rem;
     text-transform: uppercase;
@@ -75,6 +76,6 @@
   }
 
   a:hover {
-    color: var(--color-theme-1);
+    color: var(--color_theme_1);
   }
 </style>
