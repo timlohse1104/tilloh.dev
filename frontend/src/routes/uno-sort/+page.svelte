@@ -2,7 +2,8 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/language';
+  import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -10,12 +11,14 @@
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
-  const locale = getlocale();
+
   let handSizeElement;
   let stackSizeElement;
   let handDivElement;
   let unoSort;
   let pickAmount = 1;
+
+  $: locale = $languageStore;
 
   $: stackSize = unoSort?.getStackSize();
 
@@ -48,12 +51,12 @@
 {#if unoSortRoute.toggle}
   {#if $initialized}
     <section>
-      <div class="uno-header">
+      <div class="uno_header">
         <h1>UNO</h1>
 
-        <div class="sort-header">
+        <div class="sort_header">
           <h2>{$t('page.unoSort.title')}</h2>
-          <div class="sort-info-icon">
+          <div class="sort_info_icon">
             <Wrapper>
               <Icon class="material-icons">info</Icon>
               <Tooltip xPos="start" yPos="below">
@@ -63,10 +66,10 @@
           </div>
         </div>
 
-        <p class="rule-info">
+        <p class="rule_info">
           {@html $t('page.unoSort.rules')}
         </p>
-        <div class="uno-menu">
+        <div class="uno_menu">
           <Textfield
             bind:value={pickAmount}
             type="number"
@@ -83,17 +86,17 @@
         </div>
       </div>
 
-      <div class="uno-card-area">
-        <div class="stack-area">
+      <div class="uno_card_area">
+        <div class="stack_area">
           <p class="label">
             {$t('page.unoSort.stack')}
-            <span class="card-amount-info" bind:this={stackSizeElement}></span>
+            <span class="card_amount_info" bind:this={stackSizeElement}></span>
           </p>
 
           <br />
-          <div class="uno-card" id="stack">
-            <div class="card-title-background">
-              <p class="uno-card-title">UNO</p>
+          <div class="uno_card" id="stack">
+            <div class="card_title_background">
+              <p class="uno_card_title">UNO</p>
             </div>
           </div>
         </div>
@@ -101,12 +104,12 @@
         <div>
           <p class="label">
             {$t('page.unoSort.playerHand')}
-            <span class="card-amount-info" bind:this={handSizeElement}></span>
+            <span class="card_amount_info" bind:this={handSizeElement}></span>
           </p>
 
           <br />
 
-          <div id="player-hand" bind:this={handDivElement}></div>
+          <div id="player_hand" bind:this={handDivElement}></div>
         </div>
       </div>
     </section>
@@ -124,21 +127,21 @@
     padding: 1rem;
   }
 
-  .uno-header {
+  .uno_header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .sort-header {
+  .sort_header {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
   }
 
-  .sort-info-icon {
+  .sort_info_icon {
     display: none;
     cursor: pointer;
     color: var(--light80);
@@ -148,7 +151,7 @@
     }
   }
 
-  .uno-menu {
+  .uno_menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -181,7 +184,7 @@
     }
   }
 
-  .rule-info {
+  .rule_info {
     font-size: 1em;
     font-weight: bold;
     text-align: center;
@@ -192,13 +195,13 @@
     }
   }
 
-  .stack-area {
+  .stack_area {
     @media #{$phone} {
       display: none;
     }
   }
 
-  :global(.uno-card) {
+  :global(.uno_card) {
     box-shadow: var(--sharpen);
     border: 5px solid white;
     border-radius: 10px;
@@ -213,7 +216,7 @@
     position: relative;
   }
 
-  :global(.card-title-background) {
+  :global(.card_title_background) {
     position: relative;
     width: 90px;
     height: 100px;
@@ -229,14 +232,14 @@
     transform: skewX(-25deg);
   }
 
-  :global(.uno-card-title) {
+  :global(.uno_card_title) {
     font-size: 1em;
     font-weight: bold;
     text-align: center;
     text-shadow: 0 0 5px black;
   }
 
-  :global(.uno-card-digit-top-left) {
+  :global(.uno_card_digit_top_left) {
     position: absolute;
     top: 0.25rem;
     left: 0.25rem;
@@ -246,7 +249,7 @@
     width: min-content;
   }
 
-  :global(.uno-card-digit-bottom-right) {
+  :global(.uno_card_digit_bottom_right) {
     position: absolute;
     bottom: 0.25rem;
     right: 0.25rem;
@@ -257,7 +260,7 @@
     transform: rotate(180deg);
   }
 
-  #player-hand {
+  #player_hand {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -276,7 +279,7 @@
     color: white;
   }
 
-  .uno-card-area {
+  .uno_card_area {
     overflow-y: auto;
     display: flex;
     height: 53vh;
@@ -292,7 +295,7 @@
     }
   }
 
-  .card-amount-info {
+  .card_amount_info {
     font-size: 0.5em;
     font-weight: normal;
   }

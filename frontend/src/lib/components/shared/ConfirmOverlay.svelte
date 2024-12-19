@@ -30,11 +30,11 @@
 
 <Dialog
   bind:open
-  aria-labelledby="question-title"
-  aria-describedby="question-content"
+  aria-labelledby="question_title"
+  aria-describedby="question_content"
 >
-  <Title id="question-title">{questionHeader}</Title>
-  <Content id="question-content">{questionContent}</Content>
+  <Title id="question_title">{questionHeader}</Title>
+  <Content id="question_content">{questionContent}</Content>
   <Actions>
     <Button on:click={executeNoAction}>
       <Label>{noActionText}</Label>

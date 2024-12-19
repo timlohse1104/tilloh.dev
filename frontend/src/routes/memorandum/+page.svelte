@@ -6,6 +6,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
+  import { languageStore } from '$lib/util/language';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
@@ -14,15 +15,15 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
+  import Textfield from '@smui/textfield';
   import Tooltip, { Wrapper } from '@smui/tooltip';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
-  const locale = getlocale();
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -39,6 +40,9 @@
   let order = $folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
     : orders[0];
+  let searchQuery = '';
+
+  $: locale = $languageStore;
 
   onMount(() => {
     refreshPresetStore();
@@ -60,7 +64,7 @@
 
 {#if memorandumRoute.toggle}
   {#if $initialized}
-    <div class="menuLine">
+    <div class="menu_line">
       <SegmentedButton
         segments={orders}
         let:segment
@@ -80,7 +84,17 @@
         class="material-icons">swap_vert</IconButton
       >
 
-      <div class="infoButtons">
+      <Textfield
+        variant="outlined"
+        bind:value={searchQuery}
+        label={$t('page.memorandum.searchPlaceholder')}
+      >
+        <Icon class="material-icons search_icon" slot="trailingIcon"
+          >search</Icon
+        >
+      </Textfield>
+
+      <div class="info_buttons">
         <Wrapper>
           <IconButton style="color: white" size="mini">
             <Icon class="material-icons">info</Icon>
@@ -92,14 +106,10 @@
       </div>
     </div>
 
-    <div class="boxArea">
-      {#if $folderOrderFolder === 'flexible'}
-        {#key $localPresetStore}
-          <BoxArea />
-        {/key}
-      {:else}
-        <BoxArea />
-      {/if}
+    <div class="box_area">
+      {#key $localPresetStore}
+        <BoxArea bind:searchQuery />
+      {/key}
     </div>
 
     {#if $folderOverlayOptionsStore.showOverlay}
@@ -128,21 +138,25 @@
 <style lang="scss">
   @import '../../lib/styles/variables.scss';
 
-  .menuLine {
+  :global(.search_icon) {
+    margin: 1rem;
+  }
+
+  .menu_line {
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: calc(var(--default-padding) / 2);
-    gap: calc(var(--default-padding) / 2);
+    padding-left: calc(var(--default_padding) / 2);
+    gap: calc(var(--default_padding) / 2);
   }
 
-  .infoButtons {
+  .info_buttons {
     display: flex;
     flex-grow: 10;
     justify-content: end;
   }
 
-  .boxArea {
+  .box_area {
     display: grid;
     height: 85vh;
     grid-template-columns: 100%;
