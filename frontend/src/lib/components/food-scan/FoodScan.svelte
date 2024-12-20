@@ -203,7 +203,7 @@
       Let's scan the backside of a food item to get an estimation wether it is
       vegan or not.
     </h3>
-    <label for="file-upload" class="custom_file_label">Choose file</label>
+    <label for="file-upload" class="custom_file_label">📂 Choose file</label>
     <input
       id="file-upload"
       class="file_input"
@@ -308,10 +308,26 @@
     justify-content: center;
   }
 
+  .file_input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .custom_file_label {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: var(--black30);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
   .initial_scan_output {
     display: flex;
     flex-direction: row;
     gap: 2rem;
+    margin-top: 1rem;
   }
 
   .prompt_output {
@@ -327,21 +343,19 @@
 
   .image_preview {
     max-width: 33vw;
-  }
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.2),
+      0 6px 20px rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    border: 3px solid var(--black30);
+    transition:
+      transform 0.5s ease,
+      box-shadow 0.5s ease;
 
-  .file_input {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-  }
-
-  .custom_file_label {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
   }
 
   :global(.select_model) {
