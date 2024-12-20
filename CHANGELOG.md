@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- [food-scan] MVP implementation with web llm and https://ocr.space/OCRAPI.
 
 ### Changed
 - [general] Refactored css names to snake_case.
