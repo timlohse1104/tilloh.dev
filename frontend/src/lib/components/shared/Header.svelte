@@ -25,8 +25,8 @@
 
     <div class="headline_box">
       <h2>
-        <Icon class="material-icons">{currentPage.icon}</Icon>
-        {currentPage.name[locale]}
+        <Icon class="material-icons">{currentPage?.icon}</Icon>
+        {currentPage?.name?.[locale]}
       </h2>
 
       <p>

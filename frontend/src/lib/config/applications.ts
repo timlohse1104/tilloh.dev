@@ -26,6 +26,12 @@ const loadApplications = async () => ({
     icon: 'list',
     toggle: await getToggleValue(TogglesEnum.todo),
   },
+  'food-scan': {
+    name: { en: 'Food Scan', de: 'Nahrungsscanner' },
+    path: '/food-scan',
+    icon: 'fastfood',
+    toggle: await getToggleValue(TogglesEnum.foodScan),
+  },
   chat: {
     name: { en: 'Chat', de: 'Klönschnack' },
     path: '/chat',

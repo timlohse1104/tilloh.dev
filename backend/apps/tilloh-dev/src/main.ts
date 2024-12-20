@@ -3,6 +3,7 @@ import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
+import { OcrControllerModule } from '@backend/ocr/ocr-controller';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
@@ -10,6 +11,7 @@ import {
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
+import { FastifyMulterModule } from '@nest-lab/fastify-multer';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
@@ -27,6 +29,7 @@ import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
+    FastifyMulterModule,
     PrometheusModule.register({
       controller: metricsControllerFactory(),
       path: '',
@@ -70,6 +73,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     JokesControllerModule,
     ChatControllerModule,
     ChatGatewayModule,
+    OcrControllerModule,
   ],
   providers: [
     Logger,

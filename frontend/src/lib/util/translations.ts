@@ -11,6 +11,7 @@ interface Params {
   keyName: string;
   joke: string;
   id: string;
+  modelName: string;
 }
 
 const config: Config<Partial<Params>> = {
