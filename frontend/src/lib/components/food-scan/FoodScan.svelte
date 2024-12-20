@@ -1,76 +1,18 @@
 <script lang="ts">
   import { executeOcrProcess } from '$lib/api/ocr.api';
+  import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
   import Checkbox from '@smui/checkbox';
   import FormField from '@smui/form-field';
   import Select, { Option } from '@smui/select';
+
   const { prebuiltAppConfig } = webllm;
   const { model_list: availableModels } = prebuiltAppConfig;
-  let selectedModel = availableModels[4];
-  let engine: webllm.MLCEngineInterface;
-  const defaultSystemPrompt = `Du erhältst vom User einen Text mit Inhaltsstoffen eines Nahrungsmittels. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels und ob es vegan ist "ja" (das Lebensmittel enthält nur pflanzliche Inhaltsstoffe) / "nein" (das Lebensmittel enthält zumindest ein offensichtliches Tierprodukt). Trenne die beiden Informationen durch ein Semikolon.
+  const defaultSystemPrompt = `Du erhältst einen Text der auf der Rückseite der Verpackung eines Nahrungsmittels steht. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels und ob es vegan ist (ja / nein)! Trenne die beiden Informationen durch ein Semikolon.`;
 
-    Beispiel:
-    Text vom User: "1000Va
-    oodess
-    Fromarsac, Marsac sur l'Isle,
-    24052 Périgueux, Cedex 9, France
-    Brotaufstrich auf Mandelbasis
-    Zutaten: Wasser, 16% MANDELPÜREE,
-    Rapsöl, Inulin, Kartoffelstärke, Kräuter der Provence,
-    Kräuter, Knoblauch, Zitronensaftkonzentrat, Speisesalz,
-    natürliche Aromen, Stickstoff zum Aufschlagen.
-    Kann Spuren von Sellerie und weiteren Schalenfrüchten enthalten.
-    Durchschnittliche
-    Nährwerte pro
-    Brennwert
-    100 g
-    Portion
-    30 g
-    939 kJ/
-    282 kJ/
-    227 kcal
-    68 kcal
-    Fett
-    19 g
-    5,7 g
-    davon gesättigte
-    Fettsäuren
-    1,7 g
-    0,5 g
-    Kohlenhydrate
-    7,4 g
-    3272770 015653
-    Nach dem Öffnen alsbald
-    verzehren. Bei +2°C bis +8°C
-    mindestens haltbar bis:
-    siehe Deckelrand
-    2,2 g
-    davon Zucker
-    1,1 g
-    ‹ 0,5 g
-    Ballaststoffe
-    4,0 g
-    1,2 g
-    Eiweiß
-    4,6 g
-    Salz
-    1,4 g
-    1,1g
-    0,33 g
-    Eine Packung entspricht ca. 4,5 Portionen
-    Ich liebe
-    Verbraucherservice:
-    Käse.com
-    D PF 1627, 65006 Wiesbaden
-    140ge •
-    info@bresso.de
-    info@bresso.at
-    A25417-03
-    ZHau"
-    Antwort: "Brotaufstrich auf Mandelbasis;ja"
-    `;
+  let engine: webllm.MLCEngineInterface;
+  let selectedModel = availableModels[52]; // Qwen2.5-3B-Instruct-q4f32_1-MLC
   let systemPromptText = defaultSystemPrompt;
   let userPromptText = '';
   let llmResults = [];
@@ -96,7 +38,6 @@
     generateUserPrompt();
   }
   $: if (userPromptText) promptLLM();
-  $: if (selectedModel) reloadModel();
 
   const modelInitProgressCallback = (report: webllm.InitProgressReport) => {
     loadModelInfo = report.text;
@@ -163,7 +104,6 @@
     console.log(`LLM responded within ${llmResponseTime} seconds.`, {
       promptResponse,
     });
-    console.log(promptResponse.choices[0].message.content);
     llmResults = promptResponse.choices;
     promptResStats = promptResponse.usage;
 
@@ -172,6 +112,7 @@
 
   async function reloadModel() {
     console.log('Reloading model.');
+    engineReady = false;
     try {
       engine = await webllm.CreateMLCEngine(
         selectedModel?.model_id,
@@ -191,105 +132,118 @@
   main();
 </script>
 
-<section>
-  {#if !engineReady}
-    <Card padded class="warning_hint">
-      <h2>⚠️ This application takes a while to load! ⚠️</h2>
-      <p>Please be patient</p>
-      <p>{loadModelInfo}</p>
-    </Card>
-  {:else}
-    <h3>
-      Let's scan the backside of a food item to get an estimation wether it is
-      vegan or not.
-    </h3>
-    <label for="file-upload" class="custom_file_label">📂 Choose file</label>
-    <input
-      id="file-upload"
-      class="file_input"
-      type="file"
-      accept="image/png, image/jpeg"
-      bind:files={inputFiles}
-    />
+{#if $initialized}
+  <section>
+    {#if !engineReady}
+      <Card padded class="warning_hint">
+        <h2>{$t('page.foodScan.loadingHint')}</h2>
+        <p class="warning_sign">⚠️</p>
+        <p>{@html $t('page.foodScan.warning')}</p>
+        <p>{loadModelInfo}</p>
+      </Card>
+    {:else}
+      <h3>{$t('page.foodScan.introduction')}</h3>
+      <label for="file-upload" class="custom_file_label"
+        >{$t('page.foodScan.chooseFile')}</label
+      >
+      <input
+        id="file-upload"
+        class="file_input"
+        type="file"
+        accept="image/png, image/jpeg"
+        bind:files={inputFiles}
+      />
 
-    {#if inputFiles?.length > 0}
-      <div class="initial_scan_output">
-        <img class="image_preview" src={imagePreviewSrc || ''} alt="Preview" />
+      {#if inputFiles?.length > 0}
+        <div class="initial_scan_output">
+          <img
+            class="image_preview"
+            src={imagePreviewSrc || ''}
+            alt="Preview"
+          />
 
-        <div class="prompt_output">
-          {#if loading && inputFiles.length != 0}
-            <p>⌛ Loading...</p>
-          {:else if !loading && llmResults.length != 0}
-            {#each llmResults as responseTexts, index (index)}
-              <h3>{responseTexts.message.content.split(';')[0]}</h3>
-              <p id="generate-label">
-                {#if responseTexts.message.content
-                  .split(';')[1]
-                  .toLowerCase()
-                  .includes('ja')}
-                  <span>✅ Vegan.</span>
-                {:else}
-                  <span>❌ Not vegan.</span>
-                {/if}
-              </p>
-            {/each}
-          {/if}
+          <div class="prompt_output">
+            {#if loading && inputFiles.length != 0}
+              <p>{$t('page.foodScan.loading')}</p>
+            {:else if !loading && llmResults.length != 0}
+              {#each llmResults as responseTexts, index (index)}
+                <h2>{responseTexts.message.content.split(';')[0]}</h2>
+                <p id="generate-label">
+                  {#if responseTexts.message.content
+                    .split(';')[1]
+                    .toLowerCase()
+                    .includes('ja')}
+                    {$t('page.foodScan.vegan')}
+                  {:else}
+                    {$t('page.foodScan.notVegan')}
+                  {/if}
+                </p>
+              {/each}
+            {/if}
+          </div>
         </div>
-      </div>
-      <FormField>
-        <Checkbox bind:checked={debugInfoActive} />
-        <p slot="label">Technical information</p>
-      </FormField>
-    {/if}
+        <FormField>
+          <Checkbox bind:checked={debugInfoActive} />
+          <p slot="label">{$t('page.foodScan.technicalInfo')}</p>
+        </FormField>
 
-    {#if debugInfoActive}
-      <div>
-        <h3>Debug Information</h3>
-        <p>Selected model: {selectedModel?.model_id}</p>
-        <Select
-          class="select_model"
-          bind:value={selectedModel}
-          label="Select Model"
-        >
-          {#each availableModels as model}
-            <Option value={model}
-              >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
-                ?.overrides?.context_window_size} window size)</Option
+        {#if debugInfoActive}
+          <div>
+            <h3>{$t('page.foodScan.debug.title')}</h3>
+            <p>
+              {$t('page.foodScan.debug.selectedModel', {
+                modelName: selectedModel?.model_id,
+              })}
+            </p>
+            <Select
+              class="select_model"
+              bind:value={selectedModel}
+              label="Select Model"
+              on:SMUISelect:change={reloadModel}
             >
-          {/each}
-        </Select>
+              {#each availableModels as model}
+                <Option value={model}
+                  >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
+                    ?.overrides?.context_window_size} window size)</Option
+                >
+              {/each}
+            </Select>
 
-        <p>System Prompt</p>
-        <Card padded>{systemPromptText}</Card>
+            <p>{$t('page.foodScan.debug.systemPrompt')}</p>
+            <Card padded>{systemPromptText}</Card>
 
-        <p>User Prompt</p>
-        <Card padded>{userPromptText}</Card>
+            <p>{$t('page.foodScan.debug.userPrompt')}</p>
+            <Card padded>{userPromptText}</Card>
 
-        <p>Stats</p>
-        <table>
-          <tr>
-            <th>ocr time</th>
-            <th>llm time</th>
-            <th>completion_tokens</th>
-            <th>prompt_tokens</th>
-            <th>total_tokens</th>
-            <th>prefill_tokens_per_s</th>
-            <th>decode_tokens_per_s</th>
-          </tr>
-          <tr>
-            <td>{ocrResponseTimeText}</td>
-            <td>{llmResponseTimeText}</td>
-            <td>{completionTokens}</td>
-            <td>{promptTokens}</td>
-            <td>{totalTokens}</td>
-            <td>{prefillTokensPerS}</td>
-            <td>{decodeTokensPerS}</td>
-          </tr>
-        </table>
-      </div>
+            <p>{$t('page.foodScan.debug.stats.title')}</p>
+            <table>
+              <tr>
+                <th>{$t('page.foodScan.debug.stats.ocr')}</th>
+                <th>{$t('page.foodScan.debug.stats.llm')}</th>
+                <th>{$t('page.foodScan.debug.stats.completion')}</th>
+                <th>{$t('page.foodScan.debug.stats.prompt')}</th>
+                <th>{$t('page.foodScan.debug.stats.total')}</th>
+                <th>{$t('page.foodScan.debug.stats.prefill')}</th>
+                <th>{$t('page.foodScan.debug.stats.decode')}</th>
+              </tr>
+              <tr>
+                <td>{ocrResponseTimeText}</td>
+                <td>{llmResponseTimeText}</td>
+                <td>{completionTokens}</td>
+                <td>{promptTokens}</td>
+                <td>{totalTokens}</td>
+                <td>{prefillTokensPerS}</td>
+                <td>{decodeTokensPerS}</td>
+              </tr>
+            </table>
+          </div>
+        {/if}
+      {/if}
     {/if}
-  {/if}
-</section>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   section {
@@ -300,12 +254,18 @@
     flex-direction: column;
     height: 80vh;
     overflow: auto;
+    text-align: center;
   }
 
   :global(.warning_hint) {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .warning_sign {
+    font-size: 2rem;
+    margin: 0;
   }
 
   .file_input {
@@ -335,6 +295,10 @@
     flex-direction: column;
     gap: 1rem;
     padding: 0.25rem 0.25rem 0 0;
+
+    p {
+      text-align: left;
+    }
   }
 
   h3 {
@@ -353,7 +317,7 @@
       box-shadow 0.5s ease;
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     }
   }
