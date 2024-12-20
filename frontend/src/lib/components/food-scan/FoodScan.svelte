@@ -10,7 +10,7 @@
   let selectedModel = availableModels[4];
   let engine: webllm.MLCEngineInterface;
   const defaultSystemPrompt =
-    'Der User schickt dir einen Text, welcher die Zusammensetzung eines Nahrungsmittels beschreibt. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels (z.B. Vollmilchschokolade), der passendenen Ernährungsweise ("vegan" = keine tierischen Inhaltsstoffe vorhanden, "vegetarisch" = maximal Milchprodukte enthalten, "fleischlich" = enthält mindestens fleischliche Inhaltsstoffe) und der Begründung warum du entschieden hast, dass das Lebensmittel vegan, vegetarisch oder fleischlich ist. Gib nur die geforderten Informationen an. Trenne die drei Informationen durch ein Semikolon.';
+    'Du erhältst vom User einen Text, der per OCR aus einem Bild der Rückseite einer Nahrungsmittel-Verpackung ausgelesen wurde. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels (z.B. Vollmilchschokolade) und ob das Nahrungsmittel vegan ist ("vegan" / "nicht vegan" ). Vegan bedeuetet, dass das Lebensmittel nur aus pflanzlichen Inhaltsstoffe besteht. Trenne die beiden Informationen durch ein Semikolon.';
   let systemPromptText = defaultSystemPrompt;
   let userPromptText = '';
   let llmResults = [];
@@ -21,6 +21,7 @@
   let ocrResponseTime = 0;
   let llmResponseTime = 0;
   let loading = false;
+  let engineReady = false;
 
   $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
   $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
@@ -35,6 +36,7 @@
 
   const modelInitProgressCallback = (report: webllm.InitProgressReport) => {
     loadModelInfo = report.text;
+    if (report.progress === 1) engineReady = true;
   };
 
   async function main() {
@@ -52,6 +54,9 @@
     } catch (error) {
       console.error('Failed to create MLCEngine:', error);
     }
+
+    const initProgress = engine.getInitProgressCallback();
+    console.log('initProgress', initProgress);
   }
 
   async function generateUserPrompt() {
@@ -125,13 +130,15 @@
 </script>
 
 <section>
-  <Card padded>
-    <h2>Can i eat it?</h2>
-
-    <p>⚠️ Wait for the model to be loaded.</p>
-    <p>{loadModelInfo}</p>
-
-    <h3>Upload image of food in question</h3>
+  {#if !engineReady}
+    <Card padded class="margin-bottom:1rem;">
+      <h2>⚠️ This application takes a while to load. Please be patient.</h2>
+      <p>{loadModelInfo}</p>
+    </Card>
+  {:else}
+    <h3>
+      Upload an image of the backside of a food item to get an estimation.
+    </h3>
     <span>
       <input
         type="file"
@@ -141,7 +148,7 @@
 
       <FormField>
         <Checkbox bind:checked={debugInfoActive} />
-        <span slot="label">More information</span>
+        <p slot="label">More information</p>
       </FormField>
     </span>
 
@@ -151,16 +158,10 @@
       <h3>Einschätzung</h3>
       {#each llmResults as responseTexts, index (index)}
         <p id="generate-label">
-          {#if responseTexts?.message?.content
-            ?.toLowerCase()
-            ?.includes('vegan')}
-            <span>🥬</span>
-          {:else if responseTexts?.message?.content
-            ?.toLowerCase()
-            ?.includes('vegetarisch')}
-            <span>🥛</span>
+          {#if responseTexts?.message?.content?.toLowerCase() === 'vegan'}
+            <span>✅</span>
           {:else}
-            <span>🥩</span>
+            <span>❌</span>
           {/if}
           {@html responseTexts.message.content
             .split(';')
@@ -169,51 +170,51 @@
         </p>
       {/each}
     {/if}
-  </Card>
 
-  {#if debugInfoActive}
-    <h3>Debug Information</h3>
-    <p>Selected model: {selectedModel?.model_id}</p>
-    <Select
-      class="select-model"
-      bind:value={selectedModel}
-      label="Select Model"
-    >
-      {#each availableModels as model}
-        <Option value={model}
-          >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
-            ?.overrides?.context_window_size} window size)</Option
-        >
-      {/each}
-    </Select>
+    {#if debugInfoActive}
+      <h3>Debug Information</h3>
+      <p>Selected model: {selectedModel?.model_id}</p>
+      <Select
+        class="select-model"
+        bind:value={selectedModel}
+        label="Select Model"
+      >
+        {#each availableModels as model}
+          <Option value={model}
+            >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
+              ?.overrides?.context_window_size} window size)</Option
+          >
+        {/each}
+      </Select>
 
-    <p>System Prompt</p>
-    <Card padded>{systemPromptText}</Card>
+      <p>System Prompt</p>
+      <Card padded>{systemPromptText}</Card>
 
-    <p>User Prompt</p>
-    <Card padded>{userPromptText}</Card>
+      <p>User Prompt</p>
+      <Card padded>{userPromptText}</Card>
 
-    <p>Stats</p>
-    <table>
-      <tr>
-        <th>ocr time</th>
-        <th>llm time</th>
-        <th>completion_tokens</th>
-        <th>prompt_tokens</th>
-        <th>total_tokens</th>
-        <th>prefill_tokens_per_s</th>
-        <th>decode_tokens_per_s</th>
-      </tr>
-      <tr>
-        <td>{ocrResponseTimeText}</td>
-        <td>{llmResponseTimeText}</td>
-        <td>{completionTokens}</td>
-        <td>{promptTokens}</td>
-        <td>{totalTokens}</td>
-        <td>{prefillTokensPerS}</td>
-        <td>{decodeTokensPerS}</td>
-      </tr>
-    </table>
+      <p>Stats</p>
+      <table>
+        <tr>
+          <th>ocr time</th>
+          <th>llm time</th>
+          <th>completion_tokens</th>
+          <th>prompt_tokens</th>
+          <th>total_tokens</th>
+          <th>prefill_tokens_per_s</th>
+          <th>decode_tokens_per_s</th>
+        </tr>
+        <tr>
+          <td>{ocrResponseTimeText}</td>
+          <td>{llmResponseTimeText}</td>
+          <td>{completionTokens}</td>
+          <td>{promptTokens}</td>
+          <td>{totalTokens}</td>
+          <td>{prefillTokensPerS}</td>
+          <td>{decodeTokensPerS}</td>
+        </tr>
+      </table>
+    {/if}
   {/if}
 </section>
 
