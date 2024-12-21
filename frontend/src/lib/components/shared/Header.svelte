@@ -4,7 +4,6 @@
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
-  import LanguageSwitch from './LanguageSwitch.svelte';
 
   export let locale;
 
@@ -38,7 +37,6 @@
     </div>
 
     <div class="corner">
-      <LanguageSwitch />
       <BurgerMenu {locale} />
     </div>
   </div>

@@ -3,6 +3,7 @@
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
+  import LanguageSwitch from './LanguageSwitch.svelte';
 
   export let locale;
 
@@ -65,6 +66,12 @@
         </li>
       {/each}
     </ul>
+
+    <hr />
+
+    <LanguageSwitch
+      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+    />
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
@@ -174,7 +181,7 @@
     width: 75%;
   }
 
-  hr:last-of-type {
+  hr:not(:first-of-type) {
     border: 0.05rem solid var(--color_text);
     width: 50%;
     opacity: 0.3;
