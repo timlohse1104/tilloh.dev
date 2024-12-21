@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { initialized, t } from '$lib/util/translations';
+  import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
   import Card from '@smui/card';
   import Select, { Option } from '@smui/select';
@@ -20,56 +20,56 @@
   export let decodeTokensPerS: string = '';
 </script>
 
-{#if $initialized}
-  <section>
-    <h3>{$t('page.foodScan.debug.title')}</h3>
-    <Select
-      class="select_model"
-      bind:value={selectedModel}
-      label="Select Model"
-      on:SMUISelect:change={() => dispatch('reloadModel')}
-    >
-      {#each availableModels as model}
-        <Option value={model}
-          >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model
-            ?.overrides?.context_window_size} window size)</Option
-        >
-      {/each}
-    </Select>
+<section>
+  <h3>{$t('page.foodScan.debug.title')}</h3>
+  <Select
+    class="select_model"
+    bind:value={selectedModel}
+    label="Select Model"
+    on:SMUISelect:change={() => dispatch('reloadModel')}
+  >
+    {#each availableModels as model}
+      <Option value={model}
+        >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model?.overrides
+          ?.context_window_size} window size)</Option
+      >
+    {/each}
+  </Select>
 
-    <p>{$t('page.foodScan.debug.systemPrompt')}</p>
-    <Card padded>{systemPromptText}</Card>
+  <p>{$t('page.foodScan.debug.systemPrompt')}</p>
+  <Card padded>{systemPromptText}</Card>
 
-    <p>{$t('page.foodScan.debug.userPrompt')}</p>
-    <Card padded>{userPromptText}</Card>
+  <p>{$t('page.foodScan.debug.userPrompt')}</p>
+  <Card padded>{userPromptText}</Card>
 
-    <p>{$t('page.foodScan.debug.stats.title')}</p>
-    <table>
-      <tr>
-        <th>{$t('page.foodScan.debug.stats.ocr')}</th>
-        <th>{$t('page.foodScan.debug.stats.llm')}</th>
-        <th>{$t('page.foodScan.debug.stats.completion')}</th>
-        <th>{$t('page.foodScan.debug.stats.prompt')}</th>
-        <th>{$t('page.foodScan.debug.stats.total')}</th>
-        <th>{$t('page.foodScan.debug.stats.prefill')}</th>
-        <th>{$t('page.foodScan.debug.stats.decode')}</th>
-      </tr>
-      <tr>
-        <td>{ocrResponseTimeText}</td>
-        <td>{llmResponseTimeText}</td>
-        <td>{completionTokens}</td>
-        <td>{promptTokens}</td>
-        <td>{totalTokens}</td>
-        <td>{prefillTokensPerS}</td>
-        <td>{decodeTokensPerS}</td>
-      </tr>
-    </table>
-  </section>
-{:else}
-  <section>Locale initializing...</section>
-{/if}
+  <p>{$t('page.foodScan.debug.stats.title')}</p>
+  <table>
+    <tr>
+      <th>{$t('page.foodScan.debug.stats.ocr')}</th>
+      <th>{$t('page.foodScan.debug.stats.llm')}</th>
+      <th>{$t('page.foodScan.debug.stats.completion')}</th>
+      <th>{$t('page.foodScan.debug.stats.prompt')}</th>
+      <th>{$t('page.foodScan.debug.stats.total')}</th>
+      <th>{$t('page.foodScan.debug.stats.prefill')}</th>
+      <th>{$t('page.foodScan.debug.stats.decode')}</th>
+    </tr>
+    <tr>
+      <td>{ocrResponseTimeText}</td>
+      <td>{llmResponseTimeText}</td>
+      <td>{completionTokens}</td>
+      <td>{promptTokens}</td>
+      <td>{totalTokens}</td>
+      <td>{prefillTokensPerS}</td>
+      <td>{decodeTokensPerS}</td>
+    </tr>
+  </table>
+</section>
 
 <style lang="scss">
+  section {
+    text-align: left;
+  }
+
   :global(.select_model) {
     width: 50vw;
   }
