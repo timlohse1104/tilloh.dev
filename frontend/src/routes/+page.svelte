@@ -20,6 +20,7 @@
   $: locale = $languageStore;
 
   onMount(async () => {
+    await setLocale($languageStore);
     randomJokeToggle = await getToggleValue(TogglesEnum.randomJoke);
   });
 </script>

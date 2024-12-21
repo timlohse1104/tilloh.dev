@@ -1,29 +1,21 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/language';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
-  import { onMount } from 'svelte';
 
-  const locale = $languageStore;
+  export let locale;
 
-  let appLinks = [];
-  let utilLinks = [];
-
-  onMount(() => {
-    appLinks = Object.values(applicationRoutes).map((route) => ({
-      title: route.name[locale],
-      link: route.path,
-      icon: route.icon,
-    }));
-
-    utilLinks = Object.values(utilityRoutes).map((route) => ({
-      title: route.name[locale],
-      link: route.path,
-      icon: route.icon,
-    }));
-  });
+  $: appLinks = Object.values(applicationRoutes).map((route) => ({
+    title: route.name[locale],
+    link: route.path,
+    icon: route.icon,
+  }));
+  $: utilLinks = Object.values(utilityRoutes).map((route) => ({
+    title: route.name[locale],
+    link: route.path,
+    icon: route.icon,
+  }));
 </script>
 
 <IconButton>

@@ -1,10 +1,13 @@
 <script>
   import Header from '$lib/components/shared/Header.svelte';
+  import { languageStore } from '$lib/util/language';
   import './styles.css';
+
+  $: locale = $languageStore;
 </script>
 
 <div class="app">
-  <Header />
+  <Header {locale} />
 
   <main>
     <slot />

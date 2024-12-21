@@ -133,7 +133,7 @@
   "page.catchEmAll.controls.enter": "Enter - Restart game",
   "page.foodScan.loadingHint": "The application is still loading. Please be patient!",
   "page.foodScan.warning": "A large download is carried out once the first time it is used. Ensure that a sufficient data connection is available.<br>Exit the application if a mobile data connection with a low volume is being used!",
-  "page.foodScan.introduction": "Let's scan the backside of a food item to get an estimation wether it is vegan or not.",
+  "page.foodScan.introduction": "Scan the backside of a food item to get an estimation wether it is vegan or not.",
   "page.foodScan.chooseFile": "📂 Choose file",
   "page.foodScan.loading": "⌛ Loading...",
   "page.foodScan.vegan": "✅ Vegan.",
