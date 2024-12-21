@@ -144,16 +144,36 @@
       </Card>
     {:else}
       <h3>{$t('page.foodScan.introduction')}</h3>
-      <label for="file-upload" class="custom_file_label"
-        >{$t('page.foodScan.chooseFile')}</label
-      >
-      <input
-        id="file-upload"
-        class="file_input"
-        type="file"
-        accept="image/png, image/jpeg"
-        bind:files={inputFiles}
-      />
+      <div class="file_inputs">
+        <form>
+          <label for="file_upload" class="custom_file_label"
+            >{$t('page.foodScan.chooseFile')}</label
+          >
+          <input
+            id="file_upload"
+            class="file_input"
+            type="file"
+            accept="image/*"
+            bind:files={inputFiles}
+          />
+        </form>
+
+        <p>{$t('page.foodScan.or')}</p>
+
+        <form>
+          <label for="camera_upload" class="custom_file_label"
+            >{$t('page.foodScan.takePicture')}</label
+          >
+          <input
+            id="camera_upload"
+            class="file_input"
+            type="file"
+            accept="image/*"
+            bind:files={inputFiles}
+            capture
+          />
+        </form>
+      </div>
 
       {#if inputFiles?.length > 0}
         <ContentOutput {imagePreviewSrc} {loading} {inputFiles} {llmResults} />
@@ -209,6 +229,14 @@
     margin: 0;
   }
 
+  .file_inputs {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
   .file_input {
     opacity: 0;
     position: absolute;
@@ -222,5 +250,9 @@
     color: white;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+  button {
+    all: unset;
   }
 </style>
