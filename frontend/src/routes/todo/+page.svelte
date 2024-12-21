@@ -5,7 +5,7 @@
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/language';
   import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
-  import { initialized, t } from '$lib/util/translations';
+  import { initialized, setLocale, t } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -18,6 +18,7 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { onMount } from 'svelte';
 
   const { todo: todoRoute } = applicationRoutes;
 
@@ -43,6 +44,10 @@
     currentListIndex = index;
     openMenu = false;
   };
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>

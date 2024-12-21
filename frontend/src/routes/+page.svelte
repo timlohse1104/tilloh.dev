@@ -5,9 +5,12 @@
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/language';
   import { getToggleValue } from '$lib/util/toggle';
+  import { setLocale } from '$lib/util/translations';
   import Button, { Icon, Label } from '@smui/button';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
+
+  setLocale($languageStore);
 
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;

@@ -22,9 +22,10 @@
 
   $: stackSize = unoSort?.getStackSize();
 
-  onMount(() => {
+  onMount(async () => {
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
+    await setLocale($languageStore);
   });
 
   const pickCards = (amount: number) => {

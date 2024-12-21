@@ -35,10 +35,6 @@ export const getlocale = () => {
   return 'en';
 };
 
-export const changeLanguage = (language) => {
-  setLocale(language);
-};
-
 export const {
   t,
   loading,
