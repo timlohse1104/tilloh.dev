@@ -62,7 +62,7 @@ body.light-theme {
     var(--color_bg_light_2) 100%
   );
 
-  --mdc-theme-primary: #ff3e00;
+  --mdc-theme-primary: var(--light80);
   --mdc-theme-secondary: #676778;
   --mdc-theme-background: var(--light80);
   --mdc-theme-surface: var(--light80);

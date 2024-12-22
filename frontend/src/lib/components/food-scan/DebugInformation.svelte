@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { themeStore } from '$lib/util/themeStore';
   import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
   import Card from '@smui/card';
@@ -37,10 +38,20 @@
   </Select>
 
   <p>{$t('page.foodScan.debug.systemPrompt')}</p>
-  <Card padded>{systemPromptText}</Card>
+  <Card
+    padded
+    style={$themeStore === 'dark'
+      ? 'background-color: var(--color_bg_1)'
+      : 'background-color: var(--color_bg_light_1)'}>{systemPromptText}</Card
+  >
 
   <p>{$t('page.foodScan.debug.userPrompt')}</p>
-  <Card padded>{userPromptText}</Card>
+  <Card
+    padded
+    style={$themeStore === 'dark'
+      ? 'background-color: var(--color_bg_1)'
+      : 'background-color: var(--color_bg_light_1)'}>{userPromptText}</Card
+  >
 
   <p>{$t('page.foodScan.debug.stats.title')}</p>
   <table>
