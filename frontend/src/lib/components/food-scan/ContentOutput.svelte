@@ -4,7 +4,12 @@
   export let imagePreviewSrc: string = '';
   export let loading: boolean = false;
   export let inputFiles = [];
-  export let llmResults = [];
+  export let llmResult = '';
+  export let diet = '';
+
+  $: llmResults = llmResult.split(';');
+
+  $: if (llmResult) console.log('inner llmResult', llmResult);
 </script>
 
 <section>
@@ -14,19 +19,23 @@
     <div class="prompt_output">
       {#if loading && inputFiles.length != 0}
         <p>{$t('page.foodScan.loading')}</p>
-      {:else if !loading && llmResults.length != 0}
-        {#each llmResults as responseTexts, index (index)}
-          <h2>{responseTexts.message.content.split(';')[0]}</h2>
-          <p id="generate-label">
-            {#if responseTexts.message.content
-              .split(';')[1]
-              .toLowerCase()
-              .includes('ja')}
-              {$t('page.foodScan.vegan')}
-            {:else}
-              {$t('page.foodScan.notVegan')}
-            {/if}
-          </p>
+      {:else if !loading && llmResult}
+        {#each llmResults as line, i}
+          {#if i === 0}
+            <h2>{llmResult.split(';')[0]}</h2>
+          {:else if i === 1}
+            <p id="generate-label">
+              {#if diet === 'vegan'}
+                {$t('page.foodScan.vegan')}
+              {:else}
+                {$t('page.foodScan.notVegan')}
+              {/if}
+            </p>
+          {:else}
+            <p id="generate-label">
+              {line}
+            </p>
+          {/if}
         {/each}
       {/if}
     </div>
@@ -34,6 +43,8 @@
 </section>
 
 <style lang="scss">
+  @import '../../styles/variables.scss';
+
   section {
     text-align: left;
   }
@@ -41,8 +52,11 @@
   .initial_scan_output {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
-    margin-top: 1rem;
+    gap: 1rem;
+
+    @media #{$phone} {
+      flex-direction: column;
+    }
   }
 
   .prompt_output {
@@ -50,18 +64,17 @@
     flex-direction: column;
     gap: 1rem;
     padding: 0.25rem 0.25rem 0 0;
+    max-width: min(600px, 50vw);
 
     p {
       text-align: left;
+      margin: 0;
+      font-size: 0.75rem;
     }
   }
 
-  h3 {
-    margin: 0;
-  }
-
   .image_preview {
-    max-width: 33vw;
+    max-width: min(500px, 33vw);
     box-shadow:
       0 4px 8px rgba(0, 0, 0, 0.2),
       0 6px 20px rgba(0, 0, 0, 0.19);

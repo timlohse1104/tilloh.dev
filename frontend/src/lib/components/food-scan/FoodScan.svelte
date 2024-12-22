@@ -4,19 +4,22 @@
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
   import Checkbox from '@smui/checkbox';
+  import Chip, { Set, Text } from '@smui/chips';
   import FormField from '@smui/form-field';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 
   const { prebuiltAppConfig } = webllm;
   const { model_list: availableModels } = prebuiltAppConfig;
+  // console.log(availableModels.map((model, i) => `${i} ${model.model_id}`));
   const defaultSystemPrompt = `Du erhältst einen Text der auf der Rückseite der Verpackung eines Nahrungsmittels steht. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels und ob es vegan ist (ja / nein)! Trenne die beiden Informationen durch ein Semikolon.`;
+  const followUpQuestionSystemPrompt = `Du erhältst eine Frage zum Lebensmittel, das du vorhin analysiert hast. Du antwortest darauf ausschließlich mit einer klaren und prägnanten Antwort.`;
 
   let engine: webllm.MLCEngineInterface;
-  let selectedModel = availableModels[52]; // Qwen2.5-3B-Instruct-q4f32_1-MLC
+  let selectedModel = availableModels[4]; // Llama-3.2-3B-Instruct-q4f32_1-MLC
   let systemPromptText = defaultSystemPrompt;
   let userPromptText = '';
-  let llmResults = [];
+  let llmResult = '';
   let promptResStats: any = {};
   let inputFiles: File[] = [];
   let imagePreviewSrc = '';
@@ -26,6 +29,8 @@
   let llmResponseTime = 0;
   let loading = false;
   let engineReady = false;
+
+  $: if (llmResult) console.log('outer llmResult', llmResult);
 
   $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
   $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
@@ -39,6 +44,16 @@
     generateUserPrompt();
   }
   $: if (userPromptText) promptLLM();
+  $: diet =
+    llmResult?.split(';')?.[1]?.toLowerCase() === 'ja'
+      ? 'vegan'
+      : 'nicht vegan';
+  $: followUpQuestions = [
+    `Warum ist dieses Lebensmittel ${diet}?`,
+    'Ist das Lebensmittel gesund?',
+    'Ist das Lebensmittel laktosefrei?',
+    'Ist das Lebensmittel glutenfrei?',
+  ];
 
   const modelInitProgressCallback = (report: webllm.InitProgressReport) => {
     loadModelInfo = report.text;
@@ -75,15 +90,27 @@
     userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
 
-  async function promptLLM() {
+  async function promptLLM(followUpQuestion: string = '') {
     console.log('Prompting LLM...');
     const promptStartTime = Date.now();
+    let messages: any = [];
 
-    const promptResponse = await engine.chat.completions.create({
-      messages: [
+    if (followUpQuestion) {
+      messages = [
+        { role: 'system', content: followUpQuestionSystemPrompt },
+        { role: 'user', content: userPromptText },
+        { role: 'assistant', content: llmResult },
+        { role: 'user', content: followUpQuestion },
+      ];
+    } else {
+      messages = [
         { role: 'system', content: systemPromptText },
         { role: 'user', content: userPromptText },
-      ],
+      ];
+    }
+
+    const promptResponse = await engine.chat.completions.create({
+      messages,
       // below configurations are all optional
       n: 1,
       temperature: 0.01,
@@ -105,7 +132,12 @@
     console.log(`LLM responded within ${llmResponseTime} seconds.`, {
       promptResponse,
     });
-    llmResults = promptResponse.choices;
+
+    if (followUpQuestion) {
+      llmResult += `;${promptResponse.choices[0].message.content}`;
+    } else {
+      llmResult = promptResponse.choices[0].message.content;
+    }
     promptResStats = promptResponse.usage;
 
     loading = false;
@@ -128,6 +160,10 @@
     } catch (error) {
       console.error('Failed to create MLCEngine:', error);
     }
+  }
+
+  async function askFollowUpQuestion(question: string) {
+    promptLLM(question);
   }
 
   main();
@@ -176,7 +212,21 @@
       </div>
 
       {#if inputFiles?.length > 0}
-        <ContentOutput {imagePreviewSrc} {loading} {inputFiles} {llmResults} />
+        <ContentOutput
+          {imagePreviewSrc}
+          {loading}
+          {inputFiles}
+          {llmResult}
+          {diet}
+        />
+
+        {#if llmResult}
+          <Set chips={followUpQuestions} let:chip>
+            <Chip {chip} on:click={() => askFollowUpQuestion(chip)}
+              ><Text>{chip}</Text></Chip
+            >
+          </Set>
+        {/if}
 
         <FormField>
           <Checkbox bind:checked={debugInfoActive} />
@@ -207,6 +257,8 @@
 {/if}
 
 <style lang="scss">
+  @import '../../styles/variables.scss';
+
   section {
     padding-top: 2rem;
     display: flex;
@@ -234,7 +286,10 @@
     gap: 2rem;
     justify-content: center;
     align-items: center;
-    margin-top: 1rem;
+
+    @media #{$phone} {
+      gap: 1rem;
+    }
   }
 
   .file_input {
