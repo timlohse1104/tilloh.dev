@@ -54,11 +54,7 @@
       </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
     </div>
-    <hr
-      style={$themeStore === 'dark'
-        ? 'border-color: var(--color-text);'
-        : 'border-color: var(--color-text_light);'}
-    />
+    <hr />
     <ul>
       {#each appLinks as link}
         <li>
@@ -68,11 +64,7 @@
       {/each}
     </ul>
 
-    <hr
-      style={$themeStore === 'dark'
-        ? 'border-color: var(--color-text);'
-        : 'border-color: var(--color-text_light);'}
-    />
+    <hr />
 
     <ul>
       {#each utilLinks as link}
@@ -83,11 +75,7 @@
       {/each}
     </ul>
 
-    <hr
-      style={$themeStore === 'dark'
-        ? 'border-color: var(--color-text);'
-        : 'border-color: var(--color-text_light);'}
-    />
+    <hr />
 
     <LanguageSwitch
       customStyle="padding-left: var(--menu_left);margin-top:3rem;"
@@ -199,12 +187,12 @@
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--color_text);
+    border: 1.25px solid var(--mdc-theme-on-surface);
     width: 75%;
   }
 
   hr:not(:first-of-type) {
-    border: 0.05rem solid var(--color_text);
+    border: 0.05rem solid var(--mdc-theme-on-surface);
     width: 50%;
     opacity: 0.3;
   }
