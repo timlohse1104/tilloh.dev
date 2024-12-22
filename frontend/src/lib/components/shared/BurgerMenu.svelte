@@ -1,5 +1,6 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { themeStore } from '$lib/util/themeStore';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
@@ -39,7 +40,13 @@
   </button>
 </IconButton>
 
-<aside popover id="hamburger-menu">
+<aside
+  popover
+  id="hamburger-menu"
+  style={$themeStore === 'dark'
+    ? 'background-color: var(--color_bg_2);'
+    : 'background-color: var(--color_bg_light_2);'}
+>
   {#if $initialized}
     <div class="burger-menu-header">
       <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
@@ -47,7 +54,11 @@
       </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
     </div>
-    <hr />
+    <hr
+      style={$themeStore === 'dark'
+        ? 'border-color: var(--color-text);'
+        : 'border-color: var(--color-text_light);'}
+    />
     <ul>
       {#each appLinks as link}
         <li>
@@ -57,7 +68,11 @@
       {/each}
     </ul>
 
-    <hr />
+    <hr
+      style={$themeStore === 'dark'
+        ? 'border-color: var(--color-text);'
+        : 'border-color: var(--color-text_light);'}
+    />
 
     <ul>
       {#each utilLinks as link}
@@ -68,7 +83,11 @@
       {/each}
     </ul>
 
-    <hr />
+    <hr
+      style={$themeStore === 'dark'
+        ? 'border-color: var(--color-text);'
+        : 'border-color: var(--color-text_light);'}
+    />
 
     <LanguageSwitch
       customStyle="padding-left: var(--menu_left);margin-top:3rem;"
@@ -109,7 +128,6 @@
 
   aside {
     position: fixed;
-    background-color: var(--color_bg_2);
     width: 30%;
     height: 100%;
     inset: 0;
