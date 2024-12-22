@@ -65,12 +65,16 @@
     gap: 1rem;
     padding: 0.25rem 0.25rem 0 0;
     max-width: min(600px, 50vw);
+  }
 
-    p {
-      text-align: left;
-      margin: 0;
-      font-size: 0.75rem;
-    }
+  p {
+    text-align: left;
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  p:first-of-type {
+    font-size: 1.25rem;
   }
 
   .image_preview {

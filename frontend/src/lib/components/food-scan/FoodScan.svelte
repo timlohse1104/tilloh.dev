@@ -163,6 +163,7 @@
   }
 
   async function askFollowUpQuestion(question: string) {
+    loading = true;
     promptLLM(question);
   }
 
