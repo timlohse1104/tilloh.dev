@@ -3,7 +3,7 @@
   import TodoListComponent from '$lib/components/todo/TodoList.svelte';
   import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { listOverlayOptionsStore, todoStore } from '$lib/util/stores.ts';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import Button from '@smui/button';

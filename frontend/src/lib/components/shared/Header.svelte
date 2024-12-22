@@ -29,9 +29,9 @@
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green)">online 🌐</span>
+          <span style="color: var(--green) !important">online 🌐</span>
         {:else}
-          <span style="color: var(--red)">offline 📴</span>
+          <span style="color: var(--red) !important">offline 📴</span>
         {/if}
       </p>
     </div>
@@ -46,7 +46,6 @@
   .header_box {
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkgrey80);
     padding: 0.5em 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: var(--white30) 1px solid;

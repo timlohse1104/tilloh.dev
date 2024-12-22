@@ -1,9 +1,11 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { themeStore } from '$lib/util/themeStore';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import LanguageSwitch from './LanguageSwitch.svelte';
+  import ThemeSwitch from './ThemeSwitch.svelte';
 
   export let locale;
 
@@ -38,7 +40,13 @@
   </button>
 </IconButton>
 
-<aside popover id="hamburger-menu">
+<aside
+  popover
+  id="hamburger-menu"
+  style={$themeStore === 'dark'
+    ? 'background-color: var(--color_bg_2);'
+    : 'background-color: var(--color_bg_light_2);'}
+>
   {#if $initialized}
     <div class="burger-menu-header">
       <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
@@ -70,6 +78,9 @@
     <hr />
 
     <LanguageSwitch
+      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+    />
+    <ThemeSwitch
       customStyle="padding-left: var(--menu_left);margin-top:3rem;"
     />
 
@@ -105,7 +116,6 @@
 
   aside {
     position: fixed;
-    background-color: var(--color_bg_2);
     width: 30%;
     height: 100%;
     inset: 0;
@@ -177,12 +187,12 @@
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--color_text);
+    border: 1.25px solid var(--mdc-theme-on-surface);
     width: 75%;
   }
 
   hr:not(:first-of-type) {
-    border: 0.05rem solid var(--color_text);
+    border: 0.05rem solid var(--mdc-theme-on-surface);
     width: 50%;
     opacity: 0.3;
   }
@@ -209,7 +219,7 @@
     padding-left: var(--menu_left);
 
     &:hover {
-      background-color: black;
+      background-color: var(--lightgrey80);
     }
   }
 
