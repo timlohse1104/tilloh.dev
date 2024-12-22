@@ -3,7 +3,7 @@
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
   import { languageStore } from '$lib/util/language';
-  import { initialized, t } from '$lib/util/translations';
+  import { initialized, setLocale, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
@@ -15,7 +15,9 @@
 
   $: locale = $languageStore;
 
-  onMount(() => {
+  onMount(async () => {
+    await setLocale($languageStore);
+
     gameCanvas = document.getElementById('game_screen');
     ctx = gameCanvas.getContext('2d');
 

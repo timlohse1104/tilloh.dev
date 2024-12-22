@@ -1,13 +1,11 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/language';
   import { sharedIdentifierStore } from '$lib/util/stores';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
-  import LanguageSwitch from './LanguageSwitch.svelte';
 
-  $: locale = $languageStore;
+  export let locale;
 
   $: pageName = $page.url.pathname.replace('/', '')
     ? $page.url.pathname.replace('/', '')
@@ -39,8 +37,7 @@
     </div>
 
     <div class="corner">
-      <LanguageSwitch />
-      <BurgerMenu />
+      <BurgerMenu {locale} />
     </div>
   </div>
 </section>

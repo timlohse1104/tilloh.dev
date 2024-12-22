@@ -20,11 +20,12 @@
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
   import { languageStore } from '$lib/util/language';
-  import { t } from '$lib/util/translations';
+  import { setLocale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import { onMount } from 'svelte';
   import Activities from '../../lib/components/admin/Activities.svelte';
   import Dashboard from '../../lib/components/admin/Dashboard.svelte';
   import Identifiers from '../../lib/components/admin/Identifiers.svelte';
@@ -308,6 +309,10 @@
     if (!toggle) return true;
     return toggle?.value === 'true';
   };
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>

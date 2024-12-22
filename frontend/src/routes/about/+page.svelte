@@ -3,10 +3,16 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/language';
+  import { setLocale } from '$lib/util/translations';
+  import { onMount } from 'svelte';
 
   const { about: aboutRoute } = applicationRoutes;
 
   $: locale = $languageStore;
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>
