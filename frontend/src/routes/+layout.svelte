@@ -1,6 +1,6 @@
 <script>
   import Header from '$lib/components/shared/Header.svelte';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { themeStore } from '$lib/util/themeStore';
   import { onMount } from 'svelte';
   import './styles.css';

@@ -2,7 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 

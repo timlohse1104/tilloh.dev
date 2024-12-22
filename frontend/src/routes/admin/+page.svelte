@@ -19,7 +19,7 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { setLocale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
