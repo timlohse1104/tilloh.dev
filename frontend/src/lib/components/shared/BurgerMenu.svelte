@@ -219,7 +219,7 @@
     padding-left: var(--menu_left);
 
     &:hover {
-      background-color: black;
+      background-color: var(--lightgrey80);
     }
   }
 

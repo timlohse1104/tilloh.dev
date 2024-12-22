@@ -9,9 +9,9 @@
   --color_bg_0: rgb(0, 42, 82);
   --color_bg_1: hsl(208, 100%, 8%);
   --color_bg_2: hsl(223, 100%, 1%);
-  --color_bg_light_0: rgb(173, 216, 230);
-  --color_bg_light_1: hsl(155, 70%, 80%);
-  --color_bg_light_2: hsl(220, 1%, 100%);
+  --color_bg_light_1: rgb(220, 220, 230);
+  --color_bg_light_0: hsl(220, 50%, 60%);
+  --color_bg_light_2: hsl(220, 0%, 100%);
   --color_theme_1: rgba(252, 255, 86, 1);
   --color_theme_1_50: rgba(252, 255, 86, 0.5);
   --color_theme_2: rgba(64, 117, 166, 1);
