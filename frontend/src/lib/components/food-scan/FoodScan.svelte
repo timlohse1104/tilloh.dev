@@ -30,8 +30,6 @@
   let loading = false;
   let engineReady = false;
 
-  $: if (llmResult) console.log('outer llmResult', llmResult);
-
   $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
   $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
   $: completionTokens = promptResStats?.completion_tokens || '-';

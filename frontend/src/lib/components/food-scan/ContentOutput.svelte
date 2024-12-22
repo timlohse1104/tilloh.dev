@@ -8,8 +8,6 @@
   export let diet = '';
 
   $: llmResults = llmResult.split(';');
-
-  $: if (llmResult) console.log('inner llmResult', llmResult);
 </script>
 
 <section>
@@ -70,7 +68,7 @@
   p {
     text-align: left;
     margin: 0;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 
   p:first-of-type {
