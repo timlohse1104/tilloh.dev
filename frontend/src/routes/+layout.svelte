@@ -1,9 +1,24 @@
 <script>
   import Header from '$lib/components/shared/Header.svelte';
   import { languageStore } from '$lib/util/language';
+  import { themeStore } from '$lib/util/themeStore';
+  import { onMount } from 'svelte';
   import './styles.css';
 
   $: locale = $languageStore;
+  $: theme = $themeStore;
+
+  onMount(() => {
+    document.body.classList.toggle('light-theme', theme === 'light');
+  });
+
+  $: {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+  }
 </script>
 
 <div class="app">

@@ -4,6 +4,7 @@
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import LanguageSwitch from './LanguageSwitch.svelte';
+  import ThemeSwitch from './ThemeSwitch.svelte';
 
   export let locale;
 
@@ -70,6 +71,9 @@
     <hr />
 
     <LanguageSwitch
+      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+    />
+    <ThemeSwitch
       customStyle="padding-left: var(--menu_left);margin-top:3rem;"
     />
 
