@@ -8,12 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [food-scan] MVP implementation with web llm and https://ocr.space/OCRAPI.
+- [general] Added global theme switch functionality with local storage.
 
 ### Changed
 - [general] Refactored css names to snake_case.
 - [general] Implemented google material font locally.
+- [food-scan] Second increment with follow up questions and camera input for mobile browsers.
+- [general] Updated dark theme styling.
 
 ### Fixed
+- [general] Language switch support fix for in-app texts.
+- [general] Side nav bar css fix.
 
 ## [1.0.2] - 2024-12-18
 

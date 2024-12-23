@@ -7,6 +7,9 @@ export class EnvironmentVariables {
   NODE_ENV: string;
 
   @IsString()
+  SERVER_ADDRESS: string;
+
+  @IsString()
   GLOBAL_PREFIX: string;
 
   @IsNumber()
@@ -16,17 +19,23 @@ export class EnvironmentVariables {
   MONGO_DB_URL: string;
 
   @IsString()
-  SERVER_ADDRESS: string;
+  ADMIN_IDENTIFIER: string;
+
+  @IsString()
+  OCR_SPACE_URL: string;
+
+  @IsString()
+  OCR_SPACE_API_KEY: string;
 }
 
 export function validate(
   EnvironmentVariablesClass,
-  config?: Record<string, unknown>
+  config?: Record<string, unknown>,
 ) {
   const validatedConfig: never = plainToInstance(
     EnvironmentVariablesClass,
     config,
-    { enableImplicitConversion: true }
+    { enableImplicitConversion: true },
   );
   const errors = validateSync(validatedConfig, {
     skipMissingProperties: false,

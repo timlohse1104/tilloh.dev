@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { themeStore } from '$lib/util/themeStore';
   import Card, { Content } from '@smui/card';
 
   export let header: string;
@@ -7,7 +8,12 @@
   export let status: boolean = undefined;
 </script>
 
-<Card class="admin_dashboard_card">
+<Card
+  class="admin_dashboard_card"
+  style={$themeStore === 'dark'
+    ? 'background-color: var(--color_bg_2);'
+    : 'background-color: var(--color_bg_light_2);'}
+>
   <Content class="admin_dashboard_card_content">
     <div class="card_headline">
       <h2>{header}</h2>
@@ -25,7 +31,6 @@
   :global(.admin_dashboard_card) {
     width: 11rem;
     height: 11rem;
-    background-color: var(--color_bg_2);
     display: flex;
   }
 

@@ -1,31 +1,27 @@
 <script lang="ts">
-  import { languageStore } from '$lib/util/languageStore';
+  import { themeStore, toggleTheme } from '$lib/util/themeStore';
   import { initialized } from '$lib/util/translations';
   import Switch from '@smui/switch';
   import { onMount } from 'svelte';
 
   export let customStyle = '';
-  let languageSwitch = false;
-
-  const changeLanguage = () => {
-    languageStore.set(languageSwitch ? 'en' : 'de');
-  };
+  let themeSwitch = false;
 
   onMount(() => {
-    languageSwitch = $languageStore === 'en' ? true : false;
+    themeSwitch = $themeStore === 'light';
   });
 </script>
 
 {#if initialized}
   <section style={customStyle}>
-    <span>🇩🇪</span>
+    <span>🌙</span>
     <Switch
-      bind:checked={languageSwitch}
-      on:SMUISwitch:change={changeLanguage}
+      bind:checked={themeSwitch}
+      on:SMUISwitch:change={toggleTheme}
       color="secondary"
       icons={false}
     />
-    <span>🇬🇧</span>
+    <span>☀️</span>
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -38,5 +34,10 @@
     margin-right: 1rem;
     font-size: 0.9rem;
     color: var(--lightgrey80);
+  }
+
+  body.dark-theme {
+    background-color: #333;
+    color: #fff;
   }
 </style>
