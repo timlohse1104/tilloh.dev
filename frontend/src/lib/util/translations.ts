@@ -1,4 +1,5 @@
 import i18n, { type Config } from 'sveltekit-i18n';
+
 interface Params {
   error: any;
   folderName: string;
@@ -10,6 +11,7 @@ interface Params {
   keyName: string;
   joke: string;
   id: string;
+  modelName: string;
 }
 
 const config: Config<Partial<Params>> = {
@@ -41,4 +43,5 @@ export const {
   initialized,
   translations,
   loadTranslations,
+  setLocale,
 } = new i18n(config);

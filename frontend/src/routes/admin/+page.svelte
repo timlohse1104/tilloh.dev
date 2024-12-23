@@ -19,11 +19,13 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { isEnter } from '$lib/util/helper.js';
-  import { getlocale, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/languageStore';
+  import { setLocale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import { onMount } from 'svelte';
   import Activities from '../../lib/components/admin/Activities.svelte';
   import Dashboard from '../../lib/components/admin/Dashboard.svelte';
   import Identifiers from '../../lib/components/admin/Identifiers.svelte';
@@ -31,7 +33,7 @@
   import Toggles from '../../lib/components/admin/Toggles.svelte';
 
   const { admin: adminRoute } = utilityRoutes;
-  const locale = getlocale();
+
   let adminToken = '';
   let isVerified = false;
   let verificationError = '';
@@ -53,6 +55,7 @@
   let confirmDeletePresetOpenOverlay = false;
   let confirmDeletePresetAction;
 
+  $: locale = $languageStore;
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
     return allPresetFolders.length;
@@ -306,6 +309,10 @@
     if (!toggle) return true;
     return toggle?.value === 'true';
   };
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>
@@ -315,7 +322,7 @@
 
 <section>
   {#if !isVerified}
-    <div class="verify-content">
+    <div class="verify_content">
       <Textfield
         variant="outlined"
         bind:value={adminToken}
@@ -335,7 +342,7 @@
       </Textfield>
     </div>
   {:else}
-    <div class="admin-overview">
+    <div class="admin_overview">
       {#if getToggleState(TogglesEnum.adminDashboard)}
         <Dashboard
           metrics={{
@@ -357,7 +364,7 @@
       {/if}
     </div>
 
-    <div class="admin-content">
+    <div class="admin_content">
       <Toggles
         {toggles}
         on:updateDashboard={updateDashboard}
@@ -383,7 +390,7 @@
     </div>
 
     <Fab
-      style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+      style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
       color="secondary"
       on:click={updateDashboard}
     >
@@ -451,7 +458,7 @@
     overflow-y: auto;
   }
 
-  .verify-content {
+  .verify_content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -460,13 +467,13 @@
     height: 100%;
   }
 
-  .admin-overview {
+  .admin_overview {
     display: grid;
     width: 100%;
     margin-top: 1rem;
   }
 
-  .admin-content {
+  .admin_content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(800px, 33%));
     width: 100%;
@@ -482,42 +489,42 @@
     }
   }
 
-  :global(.admin-sections) {
+  :global(.admin_sections) {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
   }
 
-  :global(.admin-sections-headline) {
+  :global(.admin_sections_headline) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0 1rem;
   }
 
-  :global(.admin-sections-headline h2 span) {
+  :global(.admin_sections_headline h2 span) {
     font-size: 0.65rem;
-    color: var(--color-text-secondary);
+    color: var(--color_text-secondary);
   }
 
-  :global(.admin-sections-list) {
+  :global(.admin_sections_list) {
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 60vh;
   }
 
-  :global(.admin-list-items) {
+  :global(.admin_list_items) {
     display: flex;
   }
-  :global(.admin-list-items-icon) {
+  :global(.admin_list_items_icon) {
     flex-grow: 1;
   }
-  :global(.admin-list-items-text) {
+  :global(.admin_list_items_text) {
     flex-grow: 100;
     margin-right: 1rem;
     text-align: start;
   }
-  :global(.admin-list-items-button) {
+  :global(.admin_list_items_button) {
     flex-grow: 1;
   }
 </style>

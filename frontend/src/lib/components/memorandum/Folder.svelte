@@ -14,6 +14,7 @@
   const dispatch = createEventDispatcher();
 
   export let id;
+  export let searchQuery = '';
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
@@ -21,6 +22,12 @@
   let confirmDeleteLinkOpenOverlay = false;
   let confirmDeleteLinkAction;
 
+  $: filteredLinks = $localPresetStore?.Folders.find(
+    (folder) => folder.id === id,
+  )?.links.filter((link) => {
+    if (!searchQuery) return true;
+    return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
+  });
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
@@ -179,7 +186,9 @@
 
 {#if $initialized}
   <section
-    class={$folderOrderFolder === 'fixed' ? 'linkBoxFixed' : 'linkBoxFlexible'}
+    class={$folderOrderFolder === 'fixed'
+      ? 'link_box_fixed'
+      : 'link_box_flexible'}
     style={`border: solid 0.1em ${folderBackgroundColor};`}
     use:draggable={`{ "type": "folder", "folderId": "${id}" }`}
     use:dropzone={{
@@ -202,20 +211,20 @@
     role="presentation"
   >
     <div
-      class="boxHeader"
+      class="box_header"
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
         : 'var(--darkgrey80)'}
       on:dblclick={showFolderOverlay}
       role="presentation"
     >
-      <button on:click={openFolderLinks} class="folderHeaderButton">
+      <button on:click={openFolderLinks} class="folder_header_button">
         {folderHeader}
       </button>
     </div>
 
     <button
-      class="boxDelBtn"
+      class="box_delete_button"
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
         : 'var(--darkgrey80)'}
@@ -224,14 +233,14 @@
       -
     </button>
 
-    <div class="boxContent">
+    <div class="box_content">
       {#await $localPresetStore}
         <p>
           {$t('page.memorandum.loadHyperlinksInfo')}
         </p>
       {:then value}
         {#if $localPresetStore?.Folders[id]?.links.length > 0}
-          {#each $localPresetStore?.Folders[id]?.links as { id: index, linkName, linkUrl, faviconLink }}
+          {#each filteredLinks as { id: index, linkName, linkUrl, faviconLink }}
             <Link
               on:delLink={deleteLink}
               on:editLink={showOverlay}
@@ -253,7 +262,7 @@
     </div>
 
     <button
-      class="linkAddBtn"
+      class="link_add_button"
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
         : 'var(--darkgrey80)'}
@@ -282,10 +291,10 @@
 <style lang="scss">
   @import '../../styles/variables.scss';
 
-  .linkBoxFixed {
+  .link_box_fixed {
     display: grid;
-    margin: 0 calc(var(--default-padding) / 2) var(--default-padding)
-      calc(var(--default-padding) / 2);
+    margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
+      calc(var(--default_padding) / 2);
     grid-template-columns: calc(100% - 50px) 50px;
     grid-template-rows: 2.5rem auto 2rem;
     grid-template-areas:
@@ -293,7 +302,7 @@
       'content content'
       'addLinkBtn addLinkBtn';
   }
-  .linkBoxFlexible {
+  .link_box_flexible {
     display: grid;
     width: 100%;
     grid-template-columns: calc(100% - 50px) 50px;
@@ -309,7 +318,7 @@
     }
   }
 
-  .folderHeaderButton {
+  .folder_header_button {
     cursor: pointer;
     background-color: transparent;
     border: none;
@@ -318,19 +327,19 @@
     padding: 0;
   }
 
-  .boxHeader {
+  .box_header {
     grid-area: header;
     display: flex;
     align-items: center;
     font-weight: bolder;
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     text-shadow: var(--sharpen);
     font-size: 18px;
   }
 
-  .boxDelBtn {
+  .box_delete_button {
     grid-area: delBtn;
-    @include mem-button;
+    @include mem_button;
     text-align: center;
     font-weight: bolder;
     text-shadow: var(--sharpen);
@@ -340,11 +349,11 @@
     }
   }
 
-  .linkAddBtn {
+  .link_add_button {
     grid-area: addLinkBtn;
-    @include mem-button;
+    @include mem_button;
     text-align: left;
-    padding-left: var(--default-padding);
+    padding-left: var(--default_padding);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -352,7 +361,7 @@
     text-shadow: var(--sharpen);
   }
 
-  .boxContent {
+  .box_content {
     grid-area: content;
     box-sizing: border-box;
     overflow: auto;

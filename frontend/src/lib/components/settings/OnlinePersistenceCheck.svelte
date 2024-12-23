@@ -154,10 +154,10 @@
     <h2>
       {$t('page.settings.onlinePersistence.title')}
     </h2>
-    <p class="onlinePersistenceInfoText">
+    <p class="online_persistence_info_text">
       {$t('page.settings.onlinePersistence.description1')}
     </p>
-    <p class="onlinePersistenceInfoText">
+    <p class="online_persistence_info_text">
       {$t('page.settings.onlinePersistence.description2')}
       <b>
         {$t('page.settings.onlinePersistence.connectionData')}
@@ -187,7 +187,7 @@
     {#if $sharedIdentifierStore.id}
       <Button
         on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;color: var(--color-theme-1);"
+        style="margin-top: 2rem;color: var(--color_theme_1);"
       >
         <Icon class="material-icons">info</Icon>
         <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
@@ -206,8 +206,8 @@
     {/if}
 
     {#if shareDataOnline}
-      <div class="inputArea">
-        <Card padded class="connection-card">
+      <div class="input_area">
+        <Card padded class="connection_card">
           {#if !$sharedIdentifierStore.id}
             <h3>
               {$t('page.settings.onlinePersistence.establishNewConection')}
@@ -220,7 +220,7 @@
             {$t('page.settings.onlinePersistence.editConnectionDescription')}
           </p>
 
-          <div class="buttonGroup">
+          <div class="button_group">
             <div>
               <Textfield
                 bind:value={name}
@@ -255,13 +255,13 @@
           </div>
         </Card>
 
-        <Card padded class="connection-card">
+        <Card padded class="connection_card">
           <h3>{$t('page.settings.onlinePersistence.loadConnection')}</h3>
           <p>
             {$t('page.settings.onlinePersistence.loadConnectionDescription')}
           </p>
 
-          <div class="buttonGroup">
+          <div class="button_group">
             <div>
               <Textfield
                 bind:value={idInput}
@@ -307,14 +307,14 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    color: var(--color-text);
+    color: var(--color_text);
 
     span {
-      color: var(--color-text);
+      color: var(--color_text);
     }
   }
 
-  .inputArea {
+  .input_area {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -324,16 +324,16 @@
     margin-top: 1rem;
   }
 
-  :global(.connection-card) {
+  :global(.connection_card) {
     width: 500px;
   }
 
-  .onlinePersistenceInfoText {
+  .online_persistence_info_text {
     width: 90%;
     text-align: center;
   }
 
-  .buttonGroup {
+  .button_group {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
