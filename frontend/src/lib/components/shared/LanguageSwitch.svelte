@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { initialized } from '$lib/util/translations';
   import Switch from '@smui/switch';
   import { onMount } from 'svelte';
 
+  export let customStyle = '';
   let languageSwitch = false;
 
   const changeLanguage = () => {
@@ -16,7 +17,7 @@
 </script>
 
 {#if initialized}
-  <div class="language_switcher">
+  <section style={customStyle}>
     <span>🇩🇪</span>
     <Switch
       bind:checked={languageSwitch}
@@ -25,13 +26,13 @@
       icons={false}
     />
     <span>🇬🇧</span>
-  </div>
+  </section>
 {:else}
   <section>Locale initializing...</section>
 {/if}
 
 <style lang="scss">
-  .language_switcher {
+  section {
     display: flex;
     align-items: center;
     margin-right: 1rem;

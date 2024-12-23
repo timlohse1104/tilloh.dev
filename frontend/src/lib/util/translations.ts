@@ -11,6 +11,7 @@ interface Params {
   keyName: string;
   joke: string;
   id: string;
+  modelName: string;
 }
 
 const config: Config<Partial<Params>> = {
@@ -32,10 +33,6 @@ const config: Config<Partial<Params>> = {
 export const getlocale = () => {
   if (navigator.language.startsWith('de')) return 'de';
   return 'en';
-};
-
-export const changeLanguage = (language) => {
-  setLocale(language);
 };
 
 export const {
