@@ -13,9 +13,9 @@ export class LoggerMiddleware implements NestMiddleware {
    * @param next The next function to be called.
    */
   use(req: FastifyRequest, res: FastifyReply, next: () => void) {
-    const { id, url, method, query, context, headers } = req;
+    const { id, url, method, params, query, headers, body, ip, ips } = req;
     this.logger.log(
-      { req: { id, method, url, query, headers }, context },
+      { req: { id, method, url, params, query, headers, body, ip, ips } },
       `⬇️  ${method} Incoming request`,
     );
     next();
