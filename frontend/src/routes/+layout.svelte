@@ -1,10 +1,28 @@
 <script>
   import Header from '$lib/components/shared/Header.svelte';
+  import { languageStore } from '$lib/util/languageStore';
+  import { themeStore } from '$lib/util/themeStore';
+  import { onMount } from 'svelte';
   import './styles.css';
+
+  $: locale = $languageStore;
+  $: theme = $themeStore;
+
+  onMount(() => {
+    document.body.classList.toggle('light-theme', theme === 'light');
+  });
+
+  $: {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+  }
 </script>
 
 <div class="app">
-  <Header />
+  <Header {locale} />
 
   <main>
     <slot />
@@ -42,10 +60,10 @@
   :global(::-webkit-scrollbar-thumb) {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--color-theme-2-50);
+    background-color: var(--color_theme_2_50);
 
     &:hover {
-      background-color: var(--color-theme-2);
+      background-color: var(--color_theme_2);
     }
   }
 </style>

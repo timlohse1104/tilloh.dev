@@ -187,7 +187,7 @@
                 ? 'message-left'
                 : 'message-right'}"
               style={`background-color: var(${
-                isOwnMessage(message) ? '--color-theme-1' : '--color-theme-2'
+                isOwnMessage(message) ? '--color_theme_1' : '--color_theme_2'
               })`}
             >
               <p class="message-header">
@@ -258,14 +258,14 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: var(--default-padding);
+    padding: var(--default_padding);
     border: 1px solid
       var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
   }
 
   /* Join styles */
   .join-header {
-    padding-bottom: calc(var(--default-padding) * 2);
+    padding-bottom: calc(var(--default_padding) * 2);
   }
   .join-input-container {
     display: flex;
@@ -316,7 +316,7 @@
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding-bottom: var(--default-padding);
+    padding-bottom: var(--default_padding);
   }
   .message-header {
     font-size: 0.8em;
@@ -343,7 +343,7 @@
     justify-content: center;
     align-items: center;
     width: 95%;
-    padding: var(--default-padding) 0;
+    padding: var(--default_padding) 0;
     border: 1px solid
       var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
   }

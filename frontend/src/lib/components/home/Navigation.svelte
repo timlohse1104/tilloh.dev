@@ -24,7 +24,7 @@
 
 <section>
   {#if currentWidth > 1400}
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each activeRouteKeys as appKey}
@@ -34,7 +34,7 @@
       </nav>
     </div>
   {:else if currentWidth > 850}
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each [...activeRouteKeys.slice(0, applicationRoutesKeysHalf)] as appKey}
@@ -43,7 +43,7 @@
         </ul>
       </nav>
     </div>
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each [...activeRouteKeys.slice(applicationRoutesKeysHalf)] as appKey}
@@ -53,7 +53,7 @@
       </nav>
     </div>
   {:else if currentWidth < 850}
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each [...activeRouteKeys.slice(0, applicationRoutesKeysThird)] as appKey}
@@ -62,7 +62,7 @@
         </ul>
       </nav>
     </div>
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each [...activeRouteKeys.slice(applicationRoutesKeysThird, applicationRoutesKeysThird * 2)] as appKey}
@@ -71,7 +71,7 @@
         </ul>
       </nav>
     </div>
-    <div class="navigation-box">
+    <div class="navigation_box">
       <nav>
         <ul>
           {#each [...activeRouteKeys.slice(applicationRoutesKeysThird * 2)] as appKey}
@@ -94,7 +94,7 @@
     margin-top: 0;
   }
 
-  .navigation-box {
+  .navigation_box {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem;
