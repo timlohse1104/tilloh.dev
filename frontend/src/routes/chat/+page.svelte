@@ -3,8 +3,9 @@
   import ChatListOverlay from '$lib/components/chat/ChatListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
+  import { setLocale } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -16,6 +17,7 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { onMount } from 'svelte';
 
   const { chat: chatRoute } = applicationRoutes;
 
@@ -41,6 +43,10 @@
     currentListIndex = index;
     openMenu = false;
   };
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>

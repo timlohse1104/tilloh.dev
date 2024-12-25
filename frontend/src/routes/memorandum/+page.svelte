@@ -6,7 +6,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
-  import { languageStore } from '$lib/util/language';
+  import { languageStore } from '$lib/util/languageStore';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
@@ -15,7 +15,7 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
-  import { initialized, t } from '$lib/util/translations';
+  import { initialized, setLocale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
@@ -44,7 +44,8 @@
 
   $: locale = $languageStore;
 
-  onMount(() => {
+  onMount(async () => {
+    await setLocale($languageStore);
     refreshPresetStore();
   });
 
@@ -70,22 +71,24 @@
         let:segment
         singleSelect
         bind:selected={order}
+        style="background-color: var(--trans);"
       >
-        <Segment {segment}>
+        <Segment
+          {segment}
+          style={segment !== order ? 'background-color: var(--trans);' : ''}
+        >
           <Icon class="material-icons" on:click={() => updateOrder(segment)}
             >{segment.icon}</Icon
           >
         </Segment>
       </SegmentedButton>
 
-      <IconButton
-        style="color: white"
-        on:click={showPresetOverlay}
-        class="material-icons">swap_vert</IconButton
+      <IconButton on:click={showPresetOverlay} class="material-icons"
+        >swap_vert</IconButton
       >
 
       <Textfield
-        variant="outlined"
+        variant="standard"
         bind:value={searchQuery}
         label={$t('page.memorandum.searchPlaceholder')}
       >

@@ -44,11 +44,11 @@ export class NumberCard extends Card {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno_card');
     cardDiv.innerHTML = `
-    <div class="uno_card-digit-top-left">${this.title}</div>
+    <div class="uno_card_digit_top_left">${this.title}</div>
     <div class="card_title_background">
-      <p class="uno_card-title">${this.title}</p>
+      <p class="uno_card_title">${this.title}</p>
     </div>
-    <div class="uno_card-digit-bottom-right">${this.title}</div>`;
+    <div class="uno_card_digit_bottom_right">${this.title}</div>`;
     cardDiv.setAttribute('style', `background: ${this.color};`);
     this.handDivElement.appendChild(cardDiv);
   }
@@ -73,11 +73,11 @@ export class ActionCard extends Card {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno_card');
     cardDiv.innerHTML = `
-    <div class="uno_card-digit-top-left">${this.title}</div>
+    <div class="uno_card_digit_top_left">${this.title}</div>
     <div class="card_title_background">
-      <p class="uno_card-title">${this.title}</p>
+      <p class="uno_card_title">${this.title}</p>
     </div>
-    <div class="uno_card-digit-bottom-right">${this.title}</div>`;
+    <div class="uno_card_digit_bottom_right">${this.title}</div>`;
     cardDiv.setAttribute('style', `background: ${this.color}`);
     this.handDivElement.appendChild(cardDiv);
   }
@@ -102,11 +102,11 @@ export class SpecialActionCard extends Card {
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'uno_card');
     cardDiv.innerHTML = `
-    <div class="uno_card-digit-top-left">${this.title}</div>
+    <div class="uno_card_digit_top_left">${this.title}</div>
     <div class="card_title_background">
-      <p class="uno_card-title">${this.title}</p>
+      <p class="uno_card_title">${this.title}</p>
     </div>
-    <div class="uno_card-digit-bottom-right">${this.title}</div>`;
+    <div class="uno_card_digit_bottom_right">${this.title}</div>`;
     cardDiv.setAttribute('style', `background: ${this.color}; color: white`);
     this.handDivElement.appendChild(cardDiv);
   }

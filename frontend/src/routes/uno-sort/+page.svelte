@@ -2,8 +2,8 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
-  import { languageStore } from '$lib/util/language';
-  import { initialized, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/languageStore';
+  import { initialized, setLocale, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';
   import Textfield from '@smui/textfield';
@@ -22,9 +22,10 @@
 
   $: stackSize = unoSort?.getStackSize();
 
-  onMount(() => {
+  onMount(async () => {
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
+    await setLocale($languageStore);
   });
 
   const pickCards = (amount: number) => {

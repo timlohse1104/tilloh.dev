@@ -1,29 +1,24 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/language';
+  import { themeStore } from '$lib/util/themeStore';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
-  import { onMount } from 'svelte';
+  import LanguageSwitch from './LanguageSwitch.svelte';
+  import ThemeSwitch from './ThemeSwitch.svelte';
 
-  let appLinks = [];
-  let utilLinks = [];
+  export let locale;
 
-  $: locale = $languageStore;
-
-  onMount(() => {
-    appLinks = Object.values(applicationRoutes).map((route) => ({
-      title: route.name[locale],
-      link: route.path,
-      icon: route.icon,
-    }));
-
-    utilLinks = Object.values(utilityRoutes).map((route) => ({
-      title: route.name[locale],
-      link: route.path,
-      icon: route.icon,
-    }));
-  });
+  $: appLinks = Object.values(applicationRoutes).map((route) => ({
+    title: route.name[locale],
+    link: route.path,
+    icon: route.icon,
+  }));
+  $: utilLinks = Object.values(utilityRoutes).map((route) => ({
+    title: route.name[locale],
+    link: route.path,
+    icon: route.icon,
+  }));
 </script>
 
 <IconButton>
@@ -45,10 +40,16 @@
   </button>
 </IconButton>
 
-<aside popover id="hamburger-menu">
+<aside
+  popover
+  id="hamburger-menu"
+  style={$themeStore === 'dark'
+    ? 'background-color: var(--color_bg_2);'
+    : 'background-color: var(--color_bg_light_2);'}
+>
   {#if $initialized}
-    <div class="burger_menu_header">
-      <IconButton class="tilloh_logo" href={applicationRoutes.home.path}>
+    <div class="burger-menu-header">
+      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
       <h1>{$t('page.shared.burgerMenuTitle')}</h1>
@@ -57,7 +58,7 @@
     <ul>
       {#each appLinks as link}
         <li>
-          <Icon class="material-icons menu_icons">{link.icon}</Icon>
+          <Icon class="material-icons menu-icons">{link.icon}</Icon>
           <a href={link.link}>{link.title} </a>
         </li>
       {/each}
@@ -68,11 +69,20 @@
     <ul>
       {#each utilLinks as link}
         <li>
-          <Icon class="material-icons menu_icons">{link.icon}</Icon>
+          <Icon class="material-icons menu-icons">{link.icon}</Icon>
           <a href={link.link}>{link.title}</a>
         </li>
       {/each}
     </ul>
+
+    <hr />
+
+    <LanguageSwitch
+      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+    />
+    <ThemeSwitch
+      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+    />
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
@@ -92,7 +102,7 @@
   @import '../../styles/variables.scss';
 
   :root {
-    --menu-left: 2rem;
+    --menu_left: 2rem;
   }
 
   button {
@@ -106,7 +116,6 @@
 
   aside {
     position: fixed;
-    background-color: var(--color_bg_2);
     width: 30%;
     height: 100%;
     inset: 0;
@@ -130,7 +139,7 @@
       font-size: larger;
     }
 
-    &:popover_open {
+    &:popover-open {
       transform: translateX(0);
     }
 
@@ -144,10 +153,10 @@
     }
   }
 
-  .burger_menu_header {
+  .burger-menu-header {
     display: flex;
     align-items: center;
-    margin-left: var(--menu-left);
+    margin-left: var(--menu_left);
   }
 
   h1 {
@@ -159,7 +168,7 @@
     }
   }
 
-  :global(.tilloh_logo) {
+  :global(.tilloh-logo) {
     width: 2em;
     height: 2em;
     margin-right: 1rem;
@@ -173,17 +182,17 @@
 
   hr {
     position: fixed;
-    left: var(--menu-left);
+    left: var(--menu_left);
     margin: 0;
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--color_text);
+    border: 1.25px solid var(--mdc-theme-on-surface);
     width: 75%;
   }
 
-  hr:last-of-type {
-    border: 0.05rem solid var(--color_text);
+  hr:not(:first-of-type) {
+    border: 0.05rem solid var(--mdc-theme-on-surface);
     width: 50%;
     opacity: 0.3;
   }
@@ -207,10 +216,10 @@
     display: flex;
     align-items: center;
     border: 0;
-    padding-left: var(--menu-left);
+    padding-left: var(--menu_left);
 
     &:hover {
-      background-color: black;
+      background-color: var(--lightgrey80);
     }
   }
 
@@ -248,7 +257,7 @@
   }
 
   @starting-style {
-    aside:popover_open {
+    aside:popover-open {
       transform: translateX(100%);
     }
     aside::backdrop {
@@ -256,7 +265,7 @@
     }
   }
 
-  :global(.menu_icons) {
+  :global(.menu-icons) {
     color: var(--color_text);
   }
 </style>
