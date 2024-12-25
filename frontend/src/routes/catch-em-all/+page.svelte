@@ -2,18 +2,23 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import Game from '$lib/util/catch-em-all/game';
-  import { getlocale, initialized, t } from '$lib/util/translations';
+  import { languageStore } from '$lib/util/languageStore';
+  import { initialized, setLocale, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
   const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
-  const locale = getlocale();
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
+
   let gameCanvas;
   let ctx;
 
-  onMount(() => {
-    gameCanvas = document.getElementById('gameScreen');
+  $: locale = $languageStore;
+
+  onMount(async () => {
+    await setLocale($languageStore);
+
+    gameCanvas = document.getElementById('game_screen');
     ctx = gameCanvas.getContext('2d');
 
     // init canvas
@@ -76,9 +81,9 @@
 
 {#if catchEmAllRoute.toggle}
   {#if $initialized}
-    <canvas id="gameScreen"></canvas>
+    <canvas id="game_screen"></canvas>
 
-    <div class="mobileMessage">
+    <div class="mobile_message">
       <img src="/images/catch-em-all/LookAway.png" alt="Pikachu looks away." />
       <h1>{$t('page.catchEmAll.mobileMessageTitle')}</h1>
       <h2>{$t('page.catchEmAll.mobileMessage')}</h2>
@@ -93,7 +98,7 @@
 <style lang="scss">
   @import '../../lib/styles/variables.scss';
 
-  #gameScreen {
+  #game_screen {
     border: 1px solid grey;
     box-shadow: 1px 5px 10px;
     height: 100%;
@@ -108,7 +113,7 @@
     }
   }
 
-  .mobileMessage {
+  .mobile_message {
     display: none;
     text-align: center;
     color: var(--light80);

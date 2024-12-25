@@ -30,7 +30,8 @@ PORT="<port-number>" # default 61154
 MONGO_DB_URL="<mongodb-url>" # default mongodb://localhost/tilloh-dev
 GLOBAL_PREFIX="v1" # default v1
 ADMIN_IDENTIFIER="<admin-identifier>" # from bitwarden
-
+OCR_SPACE_URL="https://api.ocr.space/parse/image"
+OCR_SPACE_API_KEY="<api-key>" # from bitwarden
 ```
 
 ## Development server

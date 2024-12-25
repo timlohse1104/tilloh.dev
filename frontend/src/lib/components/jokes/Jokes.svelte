@@ -57,13 +57,13 @@
     <h1>{$t('page.jokes.titleRandomJoke')}</h1>
     <p>{$t('page.jokes.descriptionRandomJoke')}</p>
 
-    <Fab class="randomJokeButton" on:click={setRandomJoke} extended>
+    <Fab class="random_joke_button" on:click={setRandomJoke} extended>
       <Icon class="material-icons">refresh</Icon>
       <Label>{$t('page.jokes.newRandomJoke')}</Label>
     </Fab>
 
     {#if randomJoke}
-      <Card class="randomJoke">
+      <Card class="random_joke">
         <i>{randomJoke.text}</i>
         <p>📅{new Date(randomJoke.created).toLocaleString('DE-de')}</p>
       </Card>
@@ -94,7 +94,7 @@
     </Select>
 
     <Button
-      class="createJokeButton"
+      class="create_joke_button"
       bind:this={saveButton}
       on:click={createNewJoke}
     >
@@ -140,16 +140,16 @@
     }
   }
 
-  :global(.randomJokeButton) {
+  :global(.random_joke_button) {
     margin-top: 2rem;
   }
 
-  :global(.randomJoke) {
+  :global(.random_joke) {
     padding: 2rem;
     margin-top: 3rem;
   }
 
-  :global(.createJokeButton) {
+  :global(.create_joke_button) {
     margin-top: 2rem;
   }
 </style>

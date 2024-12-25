@@ -19,7 +19,7 @@
       {$t('page.settings.identifiers.description2')}
     </p>
 
-    <div class="infoBox">
+    <div class="info_box">
       <Textfield
         label={$t('page.settings.identifiers.personalId')}
         value={$sharedIdentifierStore.id}
@@ -40,7 +40,7 @@
 {/if}
 
 <style lang="scss">
-  .infoBox {
+  .info_box {
     display: flex;
     justify-content: space-between;
     align-items: center;

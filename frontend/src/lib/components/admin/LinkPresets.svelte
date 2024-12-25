@@ -16,17 +16,17 @@
 </script>
 
 {#if $initialized}
-  <section class="admin-sections">
-    <div class="admin-sections-headline">
+  <section class="admin_sections">
+    <div class="admin_sections_headline">
       <h2>
         {$t('page.admin.linkPresets.title')} <span>({linkPresets.length})</span>
       </h2>
     </div>
-    <List threeLine avatarList singleSelection class="admin-sections-list">
+    <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each linkPresets as linkPreset}
-        <Item class="admin-list-items">
-          <Graphic class="material-icons admin-list-items-icon">link</Graphic>
-          <Text class="admin-list-items-text">
+        <Item class="admin_list_items">
+          <Graphic class="material-icons admin_list_items_icon">link</Graphic>
+          <Text class="admin_list_items_text">
             <PrimaryText>👤🆔{linkPreset.identifier}</PrimaryText>
             <SecondaryText>🆔{linkPreset._id}</SecondaryText>
             <SecondaryText
@@ -36,7 +36,7 @@
             >
           </Text>
           <IconButton
-            class="material-icons admin-list-items-button"
+            class="material-icons admin_list_items_button"
             on:click={() =>
               dispatch('removeLinkPresets', {
                 identifier: linkPreset.identifier,
