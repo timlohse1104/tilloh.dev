@@ -13,9 +13,19 @@
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
+  export let searchQuery;
+
   let refreshLayout;
   let confirmDeleteFolderOpenOverlay = false;
   let confirmDeleteFolderAction;
+
+  // Filter folders and links based on search query
+  $: filteredFolders = $localPresetStore.Folders.filter((folder) => {
+    if (!searchQuery) return true;
+    return folder.links.some((link) =>
+      link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  });
 
   const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
@@ -59,10 +69,11 @@
   {:then value}
     {#if value.Folders.length > 0}
       {#if $folderOrderFolder === 'fixed'}
-        <section class="contentAreaFixed">
-          {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+        <section class="content_area_fixed">
+          {#each filteredFolders as { folderName, customBackgroundColor, id }}
             <Folder
-              id={i}
+              {searchQuery}
+              {id}
               folderHeader={folderName}
               folderBackground={customBackgroundColor}
               on:delFolder={deleteFolder}
@@ -70,16 +81,17 @@
           {/each}
         </section>
       {:else}
-        <section class="contentAreaFlexible">
+        <section class="content_area_flexible">
           <Masonry
             reset
             gridGap={'0.75rem'}
-            items={$localPresetStore.Folders}
+            items={filteredFolders}
             bind:refreshLayout
           >
-            {#each $localPresetStore.Folders as { folderName, customBackgroundColor }, i}
+            {#each filteredFolders as { folderName, customBackgroundColor, id }}
               <Folder
-                id={i}
+                {searchQuery}
+                {id}
                 folderHeader={folderName}
                 folderBackground={customBackgroundColor}
                 on:delFolder={deleteFolder}
@@ -100,7 +112,7 @@
   {/await}
 
   <Fab
-    style="position:fixed;bottom: var(--default-padding);right: var(--default-padding);z-index: 100;"
+    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
     color="secondary"
     on:click={createFolder}
   >
@@ -124,7 +136,7 @@
 <style lang="scss">
   @import '../../styles/variables.scss';
 
-  .contentAreaFixed {
+  .content_area_fixed {
     color: white;
     margin: 0;
     overflow-y: auto;
@@ -146,7 +158,7 @@
     }
   }
 
-  .contentAreaFlexible {
+  .content_area_flexible {
     overflow-y: auto;
     overflow-x: hidden;
   }

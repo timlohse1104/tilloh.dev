@@ -3,8 +3,9 @@
   import ChatListOverlay from '$lib/components/chat/ChatListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
+  import { languageStore } from '$lib/util/languageStore';
   import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
-  import { getlocale } from '$lib/util/translations';
+  import { setLocale } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
   import Drawer, {
@@ -16,12 +17,15 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { onMount } from 'svelte';
 
   const { chat: chatRoute } = applicationRoutes;
-  const locale = getlocale();
+
   let currentListIndex = 0;
   let newListIndex = 0;
   let openMenu = false;
+
+  $: locale = $languageStore;
 
   const showListOverlay = (type: 'new' | 'edit', index?: number) => {
     if (type === 'new') {
@@ -39,6 +43,10 @@
     currentListIndex = index;
     openMenu = false;
   };
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 </script>
 
 <svelte:head>
@@ -55,7 +63,7 @@
     >
       <Header>
         <Title
-          style="text-align:left;margin:0;padding-left: calc(var(--default-padding)/2)"
+          style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
           >Deine Chats</Title
         >
       </Header>
@@ -64,7 +72,7 @@
           <!-- Fallback if no chats could be found -->
           {#if $chatStore.length === 0}
             <div
-              style="display:flex;gap: var(--default-padding);padding: var(--default-padding);margin:0 0 0 0.5rem;"
+              style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
             >
               <Icon class="material-icons">search_off</Icon>
               <Text>Keine Chats vorhanden</Text>
@@ -74,7 +82,7 @@
             {#each $chatStore as list, i (i)}
               <Item
                 href="javascript:void(0)"
-                style="padding-left: calc(var(--default-padding) / 1.5);"
+                style="padding-left: calc(var(--default_padding) / 1.5);"
                 on:click={() => setActiveList(i)}
               >
                 <Text>{list.emoji} {list.name}</Text>
@@ -95,7 +103,7 @@
               color={$chatStore.length === 0 ? 'primary' : 'secondary'}
               variant="outlined"
               on:click={() => showListOverlay('new')}
-              style="margin: var(--default-padding);"
+              style="margin: var(--default_padding);"
             >
               <Icon class="material-icons">playlist_add</Icon>
               <Label>Neuen Chat anlegen</Label>
@@ -106,11 +114,11 @@
     </Drawer>
 
     <Scrim />
-    <AppContent class="app-content">
-      <main class="main-content">
+    <AppContent class="app_content">
+      <main class="main_content">
         <IconButton
           color="secondary"
-          style="position: absolute;right: 0;top: 0;margin: calc(var(--default-padding)/ 10);"
+          style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
           size="button"
           on:click={() => (openMenu = !openMenu)}
         >
@@ -139,14 +147,14 @@
     z-index: 0;
   }
 
-  * :global(.app-content) {
+  * :global(.app_content) {
     flex: auto;
     overflow: auto;
     position: relative;
     flex-grow: 1;
   }
 
-  .main-content {
+  .main_content {
     overflow: auto;
     height: 100%;
     box-sizing: border-box;

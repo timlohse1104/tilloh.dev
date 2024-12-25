@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { themeStore } from '$lib/util/themeStore';
   import { initialized, t } from '$lib/util/translations';
 </script>
 
 {#if $initialized}
   <section>
     <p>
-      <span class="capital-word">Moin</span>
+      <span class="capital_word">Moin</span>
       {$t('page.about.introduction')}
     </p>
 
@@ -13,8 +14,11 @@
       {@html $t('page.about.weirdJsText1')}:
     </p>
 
-    <pre>
-  <code>
+    <pre
+      style={$themeStore === 'dark'
+        ? 'background-color: var(--color_bg_2)'
+        : 'background-color: var(--color_bg_light_2)'}>
+      <code>
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
   return Array.from&lpar;&lcub; length: number &rcub;, &lpar;&rpar; =&gt; this.numbers&lsqb;'1'&rsqb;&rpar;.join&lpar;' + '&rpar;;
@@ -22,15 +26,18 @@ function genNumber&lpar;number&rpar; &lcub;
 
 alphabet = [];
 alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;`;
-  </code>
+      </code>
   </pre>
 
     <p>
       {@html $t('page.about.weirdJsText2')}:
     </p>
 
-    <pre>
-  <code>
+    <pre
+      style={$themeStore === 'dark'
+        ? 'background-color: var(--color_bg_2)'
+        : 'background-color: var(--color_bg_light_2)'}>
+      <code>
 const f = input
   .split(&apos;\n&apos;)
   .map((l, i, a) =&gt; &lcub;
@@ -60,7 +67,7 @@ const f = input
     return d;
   &rcub;);
 console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
-  </code>
+    </code>
   </pre>
 
     <p>
@@ -83,7 +90,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
     overflow-x: hidden;
   }
 
-  .capital-word {
+  .capital_word {
     font-size: 3rem;
   }
 </style>
