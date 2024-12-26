@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
+  import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
   import { languageStore } from '$lib/util/languageStore';
   import { themeStore } from '$lib/util/themeStore';
   import { onMount } from 'svelte';
   import './styles.css';
+
+  export let isVerified: boolean = false;
 
   $: locale = $languageStore;
   $: theme = $themeStore;
@@ -24,9 +27,13 @@
 <div class="app">
   <Header {locale} />
 
-  <main>
-    <slot />
-  </main>
+  {#if !isVerified}
+    <GlobalLogin {isVerified} />
+  {:else}
+    <main>
+      <slot />
+    </main>
+  {/if}
 </div>
 
 <style lang="scss">
