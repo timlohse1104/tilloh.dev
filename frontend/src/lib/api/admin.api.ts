@@ -14,3 +14,13 @@ export const verifyAdminId = async (id: string) => {
     body: JSON.stringify({ id }),
   }).then((res) => res.json());
 };
+
+export const verifyUserId = async (id: string) => {
+  return await fetch(`${apiURL}/user/verify`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id }),
+  }).then((res) => res.json());
+};

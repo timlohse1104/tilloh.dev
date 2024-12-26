@@ -1,33 +1,37 @@
 <script lang="ts">
-  import { verifyAdminId } from '$lib/api/admin.api';
+  import { verifyAdminId, verifyUserId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
 
-  export let isAdmin: boolean = false;
+  export let isAdminRoute: boolean = false;
   export let token: string = '';
   export let isVerified: boolean = false;
 
   let verificationError: string = '';
 
   const verifyId = async () => {
-    const verifyResponse = await verifyAdminId(token);
+    const verifyResponse = isAdminRoute
+      ? await verifyAdminId(token)
+      : await verifyUserId(token);
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
-      console.error('Error verifying admin ID');
+      console.error(`Error verifying ${isAdminRoute ? 'admin' : 'user'} ID`);
       isVerified = false;
       return;
     }
 
-    const { isAdmin } = verifyResponse;
-    if (!isAdmin) {
-      verificationError = $t('page.admin.verificationError');
+    const { isVerifiedUser } = verifyResponse;
+    if (!isVerified) {
+      verificationError = isAdminRoute
+        ? $t('page.shared.admin.verificationError')
+        : $t('page.shared.user.verificationError');
       isVerified = false;
       return;
     }
-    isVerified = verifyResponse.isAdmin;
+    isVerified = isVerifiedUser;
   };
 </script>
 
@@ -35,7 +39,7 @@
   <Textfield
     variant="outlined"
     bind:value={token}
-    label="Admin ID"
+    label={isAdminRoute ? 'Admin ID' : 'User ID'}
     style="margin-top: 1rem; width: 100%; max-width: 300px;"
     on:keyup={(event) => {
       if (isEnter(event)) verifyId();
@@ -50,4 +54,12 @@
 </div>
 
 <style lang="scss">
+  .verify_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 </style>
