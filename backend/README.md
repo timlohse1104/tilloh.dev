@@ -52,20 +52,22 @@ npm run dev
 
 Generate an application
 
-1. Run `nx g application --name=my-app "--tags=scope:my-app, type:app"` to generate a nest application.
-2. Answer "Which unit test runner would you like to use?" with "Jest"
-3. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+1. Run `nx g application --name=my-app "--tags=scope:my-app, type:app"` from root path to generate a nest application.
+2. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+3. Answer "Which linter would you like to use?" with "eslint"
+4. Answer "Which unit test runner would you like to use?" with "jest"
 
 Generate a library
 
-1. Run `nx g library --name=my-lib --directory=/my-app/controller/ "--tags=scope:my-app, type:controller"` to generate a library.
-2. Answer "Which unit test runner would you like to use?" with "Jest"
-3. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+1. Run `nx g library --name=my-lib --directory=/my-app/controller/ "--tags=scope:my-app, type:controller"` from root path to generate a library.
+2. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+3. Answer "Which linter would you like to use?" with "eslint"
+4. Answer "Which unit test runner would you like to use?" with "jest"
 
 Libraries are shareable across libraries and applications.
 
 - Code scaffolding
-  Run `nx g @nx/nest:resource --name=my-resource --project=my-app-controller-my-lib` to generate crud endpoints for a resource.
+  Run `nx g resource --name=my-resource --project=my-app-controller-my-lib` from root path to generate crud endpoints for a resource.
 
 # Deployment
 
