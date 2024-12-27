@@ -19,7 +19,6 @@ export class AdminController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post('/verify')
   verifyAdmin(@Body() inputVerifyAdmin: InputVerifyAdmin) {
-    const { id } = inputVerifyAdmin;
-    return this.adminService.verifyAdmin(id);
+    return this.adminService.verifyAdmin(inputVerifyAdmin);
   }
 }

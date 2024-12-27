@@ -1,4 +1,4 @@
-import { OutputVerifyAdmin } from '@backend/shared-types';
+import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -13,9 +13,22 @@ export class AdminService {
    * @param id The id to verify.
    * @returns True if the id is the admin identifier, false otherwise.
    */
-  verifyAdmin(id: string): OutputVerifyAdmin {
-    this.logger.log(`Verifying admin for input id ${id}.`);
-    const isAdmin = this.configService.get('ADMIN_IDENTIFIER') === id;
-    return { isAdmin };
+  verifyAdmin(inputVerifyAdmin: InputVerifyAdmin): OutputVerifyAdmin {
+    const { id, type } = inputVerifyAdmin;
+    const isAdmin = type === 'admin';
+
+    this.logger.log(
+      `Verifying ${isAdmin ? 'admin' : 'user'} for input id ${id}.`,
+    );
+    let isVerified = false;
+
+    if (isAdmin) {
+      isVerified = this.configService.get('ADMIN_IDENTIFIER') === id;
+    } else {
+      // TODO: Refactor identifier into shared library and implement logic here
+      const identifier = false;
+    }
+
+    return { isVerified };
   }
 }

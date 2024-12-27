@@ -5,9 +5,13 @@ export class InputVerifyAdmin {
   @ApiProperty()
   @IsString()
   id: string;
+
+  @ApiProperty()
+  @IsString()
+  type: 'user' | 'admin';
 }
 
 export class OutputVerifyAdmin {
   @ApiProperty()
-  isAdmin: boolean;
+  isVerified: boolean;
 }
