@@ -50,9 +50,6 @@
       "@backend/memorandum/memorandum-persistence": [
         "libs/memorandum/memorandum-persistence/src/index.ts"
       ],
-      "@backend/memorandum/memorandum-provider": [
-        "libs/memorandum/memorandum-provider/src/index.ts"
-      ],
       "@backend/ocr/ocr-controller": ["libs/ocr/ocr-controller/src/index.ts"],
       "@backend/shared-controller-health": [
         "libs/shared/controller/health/src/index.ts"
