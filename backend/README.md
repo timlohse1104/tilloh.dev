@@ -34,7 +34,7 @@ OCR_SPACE_URL="https://api.ocr.space/parse/image"
 OCR_SPACE_API_KEY="<api-key>" # from bitwarden
 ```
 
-## Development server
+## Development
 
 1. Start mongodb
 
@@ -47,6 +47,25 @@ npm run start:db
 ```
 npm run dev
 ```
+
+### Nx generation
+
+Generate an application
+
+1. Run `nx g application --name=my-app "--tags=scope:my-app, type:app"` to generate a nest application.
+2. Answer "Which unit test runner would you like to use?" with "Jest"
+3. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+
+Generate a library
+
+1. Run `nx g library --name=my-lib --directory=/my-app/controller/ "--tags=scope:my-app, type:controller"` to generate a library.
+2. Answer "Which unit test runner would you like to use?" with "Jest"
+3. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+
+Libraries are shareable across libraries and applications.
+
+- Code scaffolding
+  Run `nx g @nx/nest:resource --name=my-resource --project=my-app-controller-my-lib` to generate crud endpoints for a resource.
 
 # Deployment
 
