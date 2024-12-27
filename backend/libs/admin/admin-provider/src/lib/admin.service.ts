@@ -10,7 +10,7 @@ export class AdminService {
   /**
    * Verifies if the input id is the admin identifier.
    *
-   * @param id The id to verify.
+   * @param inputVerifyAdmin Id and type of the user to verify.
    * @returns True if the id is the admin identifier, false otherwise.
    */
   verifyAdmin(inputVerifyAdmin: InputVerifyAdmin): OutputVerifyAdmin {
