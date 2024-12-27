@@ -50,17 +50,10 @@ npm run dev
 
 ### Nx generation
 
-Generate an application
-
-1. Run `nx g @nx/nest:application --name=my-app "--tags=scope:my-app, type:app"` to generate a nest application.
-2. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
-3. Answer "Which linter would you like to use?" with "eslint"
-4. Answer "Which unit test runner would you like to use?" with "jest"
-
 Generate a library
 
-1. Run `nx g @nx/nest:library --name=my-lib --directory=/my-app/controller/ "--tags=scope:my-app, type:controller"` to generate a library.
-2. Answer "Which bundler would you like to use to build the library? Choose 'none' to skip build setup." with "tsc"
+1. Run `nx g @nx/nest:library --name=foo --directory=/libs/foo/controller/foo/ "--tags=scope:my-app, type:controller"` to generate a library.
+2. Use type:provider if library should be created
 3. Answer "Which linter would you like to use?" with "eslint"
 4. Answer "Which unit test runner would you like to use?" with "jest"
 

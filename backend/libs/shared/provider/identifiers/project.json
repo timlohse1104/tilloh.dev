@@ -1,0 +1,16 @@
+{
+  "name": "identifiers",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/provider/identifiers/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:provider"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/provider/identifiers/jest.config.ts"
+      }
+    }
+  }
+}
