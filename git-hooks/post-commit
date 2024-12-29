@@ -16,7 +16,11 @@ COMMIT_MSG=$(git log -1 --pretty=%B)
 if echo "${COMMIT_MSG}" | grep -iq "performance"; then
     GITMOJI=":zap:"
 elif echo "${COMMIT_MSG}" | grep -iq "documentation"; then
-    GITMOJI=":fire:"
+    GITMOJI=":memo:"
+elif echo "${COMMIT_MSG}" | grep -iq "docs"; then
+    GITMOJI=":memo:"
+elif echo "${COMMIT_MSG}" | grep -iq "readme"; then
+    GITMOJI=":memo:"
 elif echo "${COMMIT_MSG}" | grep -iq "linting"; then
     GITMOJI=":rotating_light:"
 elif echo "${COMMIT_MSG}" | grep -iq "unfinished"; then
