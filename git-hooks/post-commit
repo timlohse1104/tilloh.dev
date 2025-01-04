@@ -15,13 +15,25 @@ COMMIT_MSG=$(git log -1 --pretty=%B)
 # checks for keywords and adds appropriate gitmoji
 if echo "${COMMIT_MSG}" | grep -iq "performance"; then
     GITMOJI=":zap:"
+elif echo "${COMMIT_MSG}" | grep -iq "security"; then
+    GITMOJI=":lock:"
+elif echo "${COMMIT_MSG}" | grep -iq "initial"; then
+    GITMOJI=":tada:"
 elif echo "${COMMIT_MSG}" | grep -iq "documentation"; then
-    GITMOJI=":fire:"
+    GITMOJI=":memo:"
+elif echo "${COMMIT_MSG}" | grep -iq "docs"; then
+    GITMOJI=":memo:"
+elif echo "${COMMIT_MSG}" | grep -iq "readme"; then
+    GITMOJI=":memo:"
 elif echo "${COMMIT_MSG}" | grep -iq "linting"; then
     GITMOJI=":rotating_light:"
 elif echo "${COMMIT_MSG}" | grep -iq "unfinished"; then
     GITMOJI=":construction:"
+elif echo "${COMMIT_MSG}" | grep -iq "github"; then
+    GITMOJI=":green_heart:"
 elif echo "${COMMIT_MSG}" | grep -iq "workflow"; then
+    GITMOJI=":green_heart:"
+elif echo "${COMMIT_MSG}" | grep -iq "deployment"; then
     GITMOJI=":green_heart:"
 elif echo "${COMMIT_MSG}" | grep -iq "dependencies"; then
     GITMOJI=":pushpin:"
@@ -41,6 +53,10 @@ elif echo "${COMMIT_MSG}" | grep -iq "types"; then
     GITMOJI=":label:"
 elif echo "${COMMIT_MSG}" | grep -iq "infrastructure"; then
     GITMOJI=":bricks:"
+elif echo "${COMMIT_MSG}" | grep -iq "deploy"; then
+    GITMOJI=":rocket:"
+elif echo "${COMMIT_MSG}" | grep -iq "critical"; then
+    GITMOJI=":ambulance:"
 elif echo "${COMMIT_MSG}" | grep -iq "fix"; then
     GITMOJI=":bug:"
 elif echo "${COMMIT_MSG}" | grep -iq "add"; then
