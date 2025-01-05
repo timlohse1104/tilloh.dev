@@ -320,8 +320,4 @@
     border-radius: 5px;
     cursor: pointer;
   }
-
-  button {
-    all: unset;
-  }
 </style>
