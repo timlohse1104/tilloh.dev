@@ -1,5 +1,5 @@
-@import '@fontsource/fira-mono';
-@import '../lib/styles/variables.scss';
+@use '@fontsource/fira-mono' as *;
+@use '../lib/styles/variables.scss' as *;
 
 /* My variables */
 :root {

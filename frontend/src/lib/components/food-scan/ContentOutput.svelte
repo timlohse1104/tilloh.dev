@@ -41,7 +41,7 @@
 </section>
 
 <style lang="scss">
-  @import '../../styles/variables.scss';
+  @use '../../styles/variables.scss' as *;
 
   section {
     text-align: left;

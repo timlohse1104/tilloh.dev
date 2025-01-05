@@ -273,7 +273,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../styles/variables.scss';
+  @use '../../styles/variables.scss' as *;
 
   section {
     padding-top: 2rem;

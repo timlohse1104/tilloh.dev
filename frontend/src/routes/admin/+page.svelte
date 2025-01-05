@@ -441,7 +441,7 @@
 />
 
 <style lang="scss">
-  @import '../../lib/styles/variables.scss';
+  @use '../../lib/styles/variables.scss' as *;
 
   :root {
     --min-content-width: 550px;

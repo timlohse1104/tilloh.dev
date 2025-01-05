@@ -139,7 +139,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/variables.scss';
+  @use '../../lib/styles/variables.scss' as *;
 
   :global(.search_icon) {
     margin: 1rem;
