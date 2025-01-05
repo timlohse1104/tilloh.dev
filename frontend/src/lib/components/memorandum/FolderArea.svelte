@@ -134,7 +134,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../styles/variables.scss';
+  @use '../../styles/variables.scss' as *;
 
   .content_area_fixed {
     color: white;

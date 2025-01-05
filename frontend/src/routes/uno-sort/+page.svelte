@@ -122,7 +122,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../lib/styles/variables.scss';
+  @use '../../lib/styles/variables.scss' as *;
 
   section {
     padding: 1rem;

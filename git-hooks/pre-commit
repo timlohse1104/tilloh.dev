@@ -7,7 +7,7 @@ exec 1>&2
 
 # Run the linter on the frontend code
 cd frontend
-nx run-many -t lint --all --parallel=10
+nx run-many -t lint --parallel=10
 
 # If there is an error, abort the commit
 if [ $? -ne 0 ]; then
@@ -17,7 +17,7 @@ fi
 
 # Run the linter on the backend code
 cd ../backend
-nx run-many -t lint --all --parallel=10
+nx run-many -t lint --parallel=10
 
 # If there is an error, abort the commit
 if [ $? -ne 0 ]; then

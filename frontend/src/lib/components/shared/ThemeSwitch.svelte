@@ -35,9 +35,4 @@
     font-size: 0.9rem;
     color: var(--lightgrey80);
   }
-
-  body.dark-theme {
-    background-color: #333;
-    color: #fff;
-  }
 </style>

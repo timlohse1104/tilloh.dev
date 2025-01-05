@@ -44,6 +44,3 @@
     </Button>
   </Actions>
 </Dialog>
-
-<style lang="scss">
-</style>

@@ -99,7 +99,7 @@
 </aside>
 
 <style lang="scss">
-  @import '../../styles/variables.scss';
+  @use '../../styles/variables.scss' as *;
 
   :root {
     --menu_left: 2rem;

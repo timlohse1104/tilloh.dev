@@ -289,7 +289,7 @@
 {/if}
 
 <style lang="scss">
-  @import '../../styles/variables.scss';
+  @use '../../styles/variables.scss' as *;
 
   .link_box_fixed {
     display: grid;
