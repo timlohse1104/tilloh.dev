@@ -29,6 +29,8 @@
       return;
     }
 
+    console.log(verifyResponse);
+
     isVerified = verifyResponse.isVerified;
     if (!isVerified) {
       verificationError = isAdminRoute

@@ -7,8 +7,7 @@
   import { onMount } from 'svelte';
   import './styles.css';
 
-  export let isVerified: boolean = $identifierStore ? true : false;
-
+  $: isVerified = $identifierStore ? true : false;
   $: locale = $languageStore;
   $: theme = $themeStore;
 
@@ -33,9 +32,9 @@
       <GlobalLogin {isVerified} />
     </div>
   {:else}
-    <slot />
-    <!-- <main>
-    </main> -->
+    <main>
+      <slot />
+    </main>
   {/if}
 </div>
 
@@ -47,11 +46,11 @@
   }
 
   main {
-    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    width: 100%;
+    width: 100vw;
+    height: 60vh;
     margin: 0 auto;
     box-sizing: border-box;
   }
