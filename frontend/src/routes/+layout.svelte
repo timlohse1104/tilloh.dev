@@ -28,7 +28,9 @@
   <Header {locale} />
 
   {#if !isVerified}
-    <GlobalLogin {isVerified} />
+    <div class="login_container">
+      <GlobalLogin {isVerified} />
+    </div>
   {:else}
     <main>
       <slot />
@@ -72,5 +74,13 @@
     &:hover {
       background-color: var(--color_theme_2);
     }
+  }
+
+  .login_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 100vw;
   }
 </style>
