@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
+  import { identifierStore } from '$lib/util/identifierStore';
   import { t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
@@ -29,10 +30,14 @@
     }
 
     isVerified = verifyResponse.isVerified;
-    if (!isVerified)
+    if (!isVerified) {
       verificationError = isAdminRoute
         ? $t('page.shared.admin.verificationError')
         : $t('page.shared.user.verificationError');
+      return;
+    }
+
+    $identifierStore = token;
   };
 </script>
 
