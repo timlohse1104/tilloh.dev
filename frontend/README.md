@@ -22,7 +22,7 @@ There are a few usable toggles in the frontend. These can be created in the admi
 
 ## Development
 
-1. Install dependencies.
+1. Install npm dependencies.
 
 ```
 cd frontend
