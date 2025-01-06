@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { t } from '$lib/util/translations';
@@ -6,11 +7,12 @@
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
 
-  export let isAdminRoute: boolean = false;
   export let token: string = '';
   export let isVerified: boolean = false;
 
   let verificationError: string = '';
+
+  $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
 
   const verify = async () => {
     const verifyResponse = await verifyId(
