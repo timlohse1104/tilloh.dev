@@ -6,7 +6,6 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
-  import { languageStore } from '$lib/util/languageStore';
   import {
     folderOrderFolder,
     folderOverlayOptionsStore,
@@ -15,6 +14,7 @@
     presetOverlayOptionsStore,
     refreshPresetStore,
   } from '$lib/util/memorandum/stores';
+  import { languageStore } from '$lib/util/store-language';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';

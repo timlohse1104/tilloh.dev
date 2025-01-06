@@ -2,7 +2,7 @@
   import FoodScan from '$lib/components/food-scan/FoodScan.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/languageStore';
+  import { languageStore } from '$lib/util/store-language';
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 

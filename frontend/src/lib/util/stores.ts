@@ -1,32 +1,10 @@
 import { browser } from '$app/environment';
 import { getIdentifier } from '$lib/api/identifiers.api';
 import type { ChatList } from '$lib/types/chat';
-import type { TodoList } from '$lib/types/todo';
 import { Identifier } from '$lib/util/types';
 import { writable } from 'svelte/store';
 
 // Localstorage stores
-// Todo store
-
-let todoStoreDefault: TodoList[] = [];
-const todoStoreKey = 'todos';
-
-if (browser) {
-  if (!localStorage.getItem(todoStoreKey)) {
-    localStorage.setItem(todoStoreKey, JSON.stringify(todoStoreDefault));
-  }
-
-  todoStoreDefault =
-    JSON.parse(localStorage.getItem(todoStoreKey)) || todoStoreDefault;
-}
-
-export const todoStore = writable(todoStoreDefault);
-
-if (browser) {
-  todoStore.subscribe((value: TodoList[]) =>
-    localStorage.setItem(todoStoreKey, JSON.stringify(value))
-  );
-}
 
 // Chat store
 let chatStoreDefault: ChatList[] = [];
@@ -45,7 +23,7 @@ export const chatStore = writable(chatStoreDefault);
 
 if (browser) {
   chatStore.subscribe((value: ChatList[]) =>
-    localStorage.setItem(chatStoreKey, JSON.stringify(value))
+    localStorage.setItem(chatStoreKey, JSON.stringify(value)),
   );
 }
 
@@ -78,7 +56,7 @@ if (browser) {
 }
 
 export const sharedIdentifierStore = writable<Identifier>(
-  JSON.parse(sharedIdentifierDefault)
+  JSON.parse(sharedIdentifierDefault),
 );
 
 if (browser) {

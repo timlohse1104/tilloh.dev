@@ -2,9 +2,12 @@ import { browser } from '$app/environment';
 import { getlocale, setLocale } from '$lib/util/translations';
 import { writable } from 'svelte/store';
 
-const getInitialLanguage = () => {
+const localStorageKey = 'language';
+const defaultValue = 'en';
+
+const getInitialValue = () => {
   if (browser) {
-    const savedLanguage = localStorage.getItem('language');
+    const savedLanguage = localStorage.getItem(localStorageKey);
     if (savedLanguage) {
       setLocale(savedLanguage);
       return savedLanguage;
@@ -12,15 +15,15 @@ const getInitialLanguage = () => {
     // In case of no saved language in local storage, use the default language from the browser
     return getlocale();
   } else {
-    return 'en';
+    return defaultValue;
   }
 };
 
-export const languageStore = writable(getInitialLanguage());
+export const languageStore = writable(getInitialValue());
 
 if (browser) {
   languageStore.subscribe((value) => {
-    localStorage.setItem('language', value);
+    localStorage.setItem(localStorageKey, value);
     setLocale(value);
   });
 }

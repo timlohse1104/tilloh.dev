@@ -2,16 +2,17 @@ import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
 const localStorageKey = 'identifier';
+const defaultValue = '';
 
-const getInitialIdentifier = () => {
+const getInitialValue = () => {
   if (browser) {
-    return localStorage.getItem(localStorageKey) || '';
+    return localStorage.getItem(localStorageKey) || defaultValue;
   } else {
-    return '';
+    return defaultValue;
   }
 };
 
-export const identifierStore = writable(getInitialIdentifier());
+export const identifierStore = writable(getInitialValue());
 
 if (browser) {
   identifierStore.subscribe((value) => {

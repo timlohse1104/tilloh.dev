@@ -1,6 +1,6 @@
 <script lang="ts">
   import { executeOcrProcess } from '$lib/api/ocr.api';
-  import { themeStore } from '$lib/util/themeStore';
+  import { themeStore } from '$lib/util/store-theme';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';

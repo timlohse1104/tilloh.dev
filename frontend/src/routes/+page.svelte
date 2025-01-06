@@ -3,7 +3,7 @@
   import Navigation from '$lib/components/home/Navigation.svelte';
   import SearchBar from '$lib/components/home/SearchBar.svelte';
   import { TogglesEnum } from '$lib/types/toggle.dto';
-  import { languageStore } from '$lib/util/languageStore';
+  import { languageStore } from '$lib/util/store-language';
   import { getToggleValue } from '$lib/util/toggle';
   import { setLocale } from '$lib/util/translations';
   import Button, { Icon, Label } from '@smui/button';
