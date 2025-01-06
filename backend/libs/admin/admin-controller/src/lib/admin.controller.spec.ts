@@ -35,8 +35,21 @@ describe('AdminController', () => {
   describe('verfiyAdmin', () => {
     it('should return the output of verifing an admin', async () => {
       // Arrange
-      const inputVerifyAdmin: InputVerifyAdmin = { id: '1' };
-      const outputVerifyAdmin: OutputVerifyAdmin = { isAdmin: true };
+      const inputVerifyAdmin: InputVerifyAdmin = { id: '1', type: 'admin' };
+      const outputVerifyAdmin: OutputVerifyAdmin = { isVerified: true };
+      jest
+        .spyOn(adminService, 'verifyAdmin')
+        .mockResolvedValue(outputVerifyAdmin as never);
+
+      // Act and Assert
+      await expect(controller.verifyAdmin(inputVerifyAdmin)).resolves.toEqual(
+        outputVerifyAdmin,
+      );
+    });
+    it('should return the output of verifing a user', async () => {
+      // Arrange
+      const inputVerifyAdmin: InputVerifyAdmin = { id: '1', type: 'user' };
+      const outputVerifyAdmin: OutputVerifyAdmin = { isVerified: false };
       jest
         .spyOn(adminService, 'verifyAdmin')
         .mockResolvedValue(outputVerifyAdmin as never);

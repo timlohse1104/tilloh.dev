@@ -33,7 +33,6 @@ export class AdminService {
     } else {
       try {
         const identifier = await this.identifiersService.getIdentifier({ id });
-        console.log(identifier); // Debug statement
         this.logger.log(`Found identifier with name '${identifier?.name}'.`);
         isVerified = true;
       } catch (error) {

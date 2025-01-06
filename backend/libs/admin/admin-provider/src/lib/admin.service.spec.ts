@@ -1,3 +1,5 @@
+import { IdentifiersService } from '@backend/shared-identifiers';
+import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminService } from './admin.service';
@@ -5,6 +7,7 @@ import { AdminService } from './admin.service';
 describe('AdminService', () => {
   let service: AdminService;
   let configService: ConfigService;
+  let identifiersService: IdentifiersService;
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -20,11 +23,18 @@ describe('AdminService', () => {
             get: jest.fn(),
           },
         },
+        {
+          provide: IdentifiersService,
+          useValue: {
+            getIdentifier: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<AdminService>(AdminService);
     configService = module.get<ConfigService>(ConfigService);
+    identifiersService = module.get<IdentifiersService>(IdentifiersService);
   });
 
   it('should be defined.', () => {
@@ -34,19 +44,23 @@ describe('AdminService', () => {
   describe('verifyAdmin', () => {
     it('should return true if admin id could be validated against admin identifier', async () => {
       // arrange
-      const inputId = 'correctId';
-      configService.get = jest.fn().mockReturnValue(inputId);
+      const input: InputVerifyAdmin = { id: 'correctId', type: 'admin' };
+      configService.get = jest.fn().mockReturnValue(input.id);
+      const output: OutputVerifyAdmin = { isVerified: true };
 
       // act & assert
-      expect(service.verifyAdmin(inputId)).toEqual({ isAdmin: true });
+      await expect(service.verifyAdmin(input)).resolves.toEqual(output);
     });
-    it('should return false if admin id could not be validated against admin identifier', async () => {
+    it('should return false if user id could not be validated', async () => {
       // arrange
-      const inputId = 'wrongId';
-      configService.get = jest.fn().mockReturnValue('correctId');
+      const input: InputVerifyAdmin = { id: 'falseId', type: 'user' };
+      jest
+        .spyOn(identifiersService, 'getIdentifier')
+        .mockImplementationOnce(() => Promise.reject(new Error()));
+      const output: OutputVerifyAdmin = { isVerified: false };
 
       // act & assert
-      expect(service.verifyAdmin(inputId)).toEqual({ isAdmin: false });
+      await expect(service.verifyAdmin(input)).resolves.toEqual(output);
     });
   });
 });
