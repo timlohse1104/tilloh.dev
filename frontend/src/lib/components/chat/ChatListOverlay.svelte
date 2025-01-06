@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { ChatList } from '$lib/types/chat';
   import { isEmoji, isEnter } from '$lib/util/helper';
-  import { chatStore, listOverlayOptionsStore } from '$lib/util/stores';
+  import { chatStore } from '$lib/util/store-chat';
+  import { listOverlayOptionsStore } from '$lib/util/store-other';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
   import IconButton from '@smui/icon-button';

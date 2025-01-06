@@ -1,6 +1,6 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
-  import { chatStore } from '$lib/util/stores.ts';
+  import { chatStore } from '$lib/util/store-chat';
   import Autocomplete from '@smui-extra/autocomplete';
 
   export let listIndex;

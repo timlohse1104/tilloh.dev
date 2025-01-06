@@ -1,6 +1,6 @@
 import { browser, dev } from '$app/environment';
 import { environment } from '$lib/util/environment';
-import { sharedIdentifierStore } from '$lib/util/stores';
+import { sharedIdentifierStore } from '$lib/util/store-other';
 import { writable } from 'svelte/store';
 import { defaultColor } from './constants';
 
@@ -33,7 +33,7 @@ export const refreshPresetStore = async () => {
   if (sharedIdentifier.id && sharedIdentifier.name) {
     const remotePresetResponse = await getRemotePreset(
       sharedIdentifier.id,
-      linkPresetKey
+      linkPresetKey,
     );
 
     let remotePreset;
@@ -42,7 +42,7 @@ export const refreshPresetStore = async () => {
       const newRemotePresetResponse = await createRemotePreset(
         sharedIdentifier.id,
         linkPresetKey,
-        linkPresetDefault
+        linkPresetDefault,
       );
       remotePreset = JSON.parse(newRemotePresetResponse.value);
     } else {
@@ -113,7 +113,7 @@ if (browser) {
       await updateRemotePreset(
         sharedIdentifier.id,
         linkPresetKey,
-        JSON.stringify(val)
+        JSON.stringify(val),
       );
     }
     localStorage.setItem(linkPresetKey, JSON.stringify(val));
@@ -137,7 +137,7 @@ export const folderOrderFolder = writable(folderOrderDefault);
 
 if (browser) {
   folderOrderFolder.subscribe((val) =>
-    localStorage.setItem(folderOrderKey, val)
+    localStorage.setItem(folderOrderKey, val),
   );
 }
 

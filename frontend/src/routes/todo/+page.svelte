@@ -4,8 +4,8 @@
   import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/store-language';
+  import { listOverlayOptionsStore } from '$lib/util/store-other';
   import { todoStore } from '$lib/util/store-todo.ts';
-  import { listOverlayOptionsStore } from '$lib/util/stores.ts';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';

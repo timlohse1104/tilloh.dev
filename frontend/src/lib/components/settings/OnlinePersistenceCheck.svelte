@@ -4,7 +4,7 @@
   import {
     resetSharedIdentifier,
     sharedIdentifierStore,
-  } from '$lib/util/stores';
+  } from '$lib/util/store-other';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
   import Button, { Label } from '@smui/button';
