@@ -21,20 +21,18 @@
     );
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
-      console.error(`Error verifying ${isAdminRoute ? 'admin' : 'user'} ID`);
+      const errorMessage = `Error verifying ${isAdminRoute ? 'admin' : 'user'} ID`;
+      console.error(errorMessage);
+      verificationError = $t('page.shared.verificationError');
       isVerified = false;
       return;
     }
 
-    const { isVerifiedUser } = verifyResponse;
-    if (!isVerified) {
+    isVerified = verifyResponse.isVerified;
+    if (!isVerified)
       verificationError = isAdminRoute
         ? $t('page.shared.admin.verificationError')
         : $t('page.shared.user.verificationError');
-      isVerified = false;
-      return;
-    }
-    isVerified = isVerifiedUser;
   };
 </script>
 

@@ -9,8 +9,6 @@
 
   $: pageName = $page.url.pathname.replace('/', '') || 'home';
   $: currentPage = applicationRoutes[pageName] || utilityRoutes[pageName];
-
-  $: if (currentPage) console.log(`Current page is ${pageName}`);
 </script>
 
 <section>

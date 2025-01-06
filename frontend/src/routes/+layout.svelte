@@ -32,9 +32,9 @@
       <GlobalLogin {isVerified} />
     </div>
   {:else}
-    <main>
-      <slot />
-    </main>
+    <slot />
+    <!-- <main>
+    </main> -->
   {/if}
 </div>
 
@@ -81,6 +81,5 @@
     align-items: center;
     justify-content: center;
     height: 80vh;
-    width: 100vw;
   }
 </style>

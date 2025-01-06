@@ -206,6 +206,7 @@
   "page.shared.green": "Green",
   "page.shared.blue": "Blue",
   "page.shared.reset": "Reset",
+  "page.shared.verificationError": "Verification of ID failed.",
   "page.shared.admin.verificationError": "Admin ID could not be verified.",
   "page.shared.user.verificationError": "User ID could not be verified."
 }
