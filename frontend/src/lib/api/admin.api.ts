@@ -11,6 +11,6 @@ export const verifyId = async (id: string, type: 'user' | 'admin') => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ id, type }),
   }).then((res) => res.json());
 };

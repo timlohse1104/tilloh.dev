@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { verifyAdminId } from '$lib/api/admin.api';
+  import { verifyId } from '$lib/api/admin.api';
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
@@ -129,8 +129,8 @@
     );
   };
 
-  const verifyId = async () => {
-    const verifyResponse = await verifyAdminId(adminToken);
+  const verify = async () => {
+    const verifyResponse = await verifyId(adminToken, 'admin');
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
       console.error('Error verifying admin ID');
@@ -329,7 +329,7 @@
         label="Admin ID"
         style="margin-top: 1rem; width: 100%; max-width: 300px;"
         on:keyup={(event) => {
-          if (isEnter(event)) verifyId();
+          if (isEnter(event)) verify();
         }}
       >
         <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>

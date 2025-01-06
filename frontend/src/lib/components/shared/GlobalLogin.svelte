@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { verifyAdminId, verifyUserId } from '$lib/api/admin.api';
+  import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
@@ -12,10 +12,11 @@
 
   let verificationError: string = '';
 
-  const verifyId = async () => {
-    const verifyResponse = isAdminRoute
-      ? await verifyAdminId(token)
-      : await verifyUserId(token);
+  const verify = async () => {
+    const verifyResponse = await verifyId(
+      token,
+      isAdminRoute ? 'admin' : 'user',
+    );
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
       console.error(`Error verifying ${isAdminRoute ? 'admin' : 'user'} ID`);
@@ -42,7 +43,7 @@
     label={isAdminRoute ? 'Admin ID' : 'User ID'}
     style="margin-top: 1rem; width: 100%; max-width: 300px;"
     on:keyup={(event) => {
-      if (isEnter(event)) verifyId();
+      if (isEnter(event)) verify();
     }}
   >
     <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
