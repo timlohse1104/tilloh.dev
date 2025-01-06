@@ -1,4 +1,4 @@
-import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
+import { IdentifiersService } from '@backend/shared-identifiers';
 import { mockIdentifierDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IdentifiersController } from './identifiers.controller';

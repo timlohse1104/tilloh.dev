@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
+  import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
-  import { languageStore } from '$lib/util/languageStore';
-  import { themeStore } from '$lib/util/themeStore';
+  import { identifierStore } from '$lib/util/store-identifier';
+  import { languageStore } from '$lib/util/store-language';
+  import { themeStore } from '$lib/util/store-theme';
   import { onMount } from 'svelte';
   import './styles.css';
 
+  $: isVerified = $identifierStore ? true : false;
   $: locale = $languageStore;
   $: theme = $themeStore;
 
@@ -24,9 +27,15 @@
 <div class="app">
   <Header {locale} />
 
-  <main>
-    <slot />
-  </main>
+  {#if !isVerified}
+    <div class="login_container">
+      <GlobalLogin {isVerified} />
+    </div>
+  {:else}
+    <main>
+      <slot />
+    </main>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -37,11 +46,11 @@
   }
 
   main {
-    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    width: 100%;
+    width: 100vw;
+    height: 60vh;
     margin: 0 auto;
     box-sizing: border-box;
   }
@@ -65,5 +74,12 @@
     &:hover {
       background-color: var(--color_theme_2);
     }
+  }
+
+  .login_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
   }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sharedIdentifierStore } from '$lib/util/stores';
+  import { sharedIdentifierStore } from '$lib/util/store-other';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import Textfield from '@smui/textfield';

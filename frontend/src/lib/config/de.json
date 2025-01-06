@@ -153,7 +153,6 @@
   "page.foodScan.debug.stats.total": "total_tokens",
   "page.foodScan.debug.stats.prefill": "prefill_tokens_per_s",
   "page.foodScan.debug.stats.decode": "decode_tokens_per_s",
-  "page.admin.verificationError": "Admin ID konnte nicht verifiziert werden.",
   "page.admin.dashboard.title": "Überblick",
   "page.admin.dashboard.tillohApiDescription": "tilloh.dev API status",
   "page.admin.dashboard.mongoDbDescription": "MongoDB Status",
@@ -206,5 +205,8 @@
   "page.shared.red": "Rot",
   "page.shared.green": "Grün",
   "page.shared.blue": "Blau",
-  "page.shared.reset": "Zurücksetzen"
+  "page.shared.reset": "Zurücksetzen",
+  "page.shared.verificationError": "ID Verifikation ist fehlgeschlagen.",
+  "page.shared.admin.verificationError": "Admin ID konnte nicht verifiziert werden.",
+  "page.shared.user.verificationError": "User ID konnte nicht verifiziert werden."
 }

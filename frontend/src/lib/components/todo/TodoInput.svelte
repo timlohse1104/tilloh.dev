@@ -1,6 +1,6 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
-  import { todoStore } from '$lib/util/stores.ts';
+  import { todoStore } from '$lib/util/store-todo.ts';
   import { initialized, t } from '$lib/util/translations';
   import Autocomplete from '@smui-extra/autocomplete';
 

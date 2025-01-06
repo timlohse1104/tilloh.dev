@@ -29,7 +29,7 @@ export class IdentifiersService {
   async listIdentifiers(
     filter: FilterQuery<IdentifierDocument> = {},
   ): Promise<GetIdentifiersOutputDto[]> {
-    this.logger.log('returned list of all identifiers');
+    this.logger.log('Return a list of all identifiers.');
     return await this.identifiersMongoDbService.findAll(filter);
   }
 
@@ -42,7 +42,7 @@ export class IdentifiersService {
   async getIdentifier(
     getIdentifierInput: GetIdentifierInputDto,
   ): Promise<GetIdentifierOutputDto> {
-    this.logger.log('returns one identifier');
+    this.logger.log('Returns a single identifier.');
     return await this.identifiersMongoDbService.findOne(getIdentifierInput.id);
   }
 
@@ -55,7 +55,7 @@ export class IdentifiersService {
   async createIdentifier(
     createIdentifierInputDto: CreateIdentifierInputDto,
   ): Promise<CreateIdentifierOutputDto> {
-    this.logger.log('creates an identifier');
+    this.logger.log('Create a new identifier.');
     return this.identifiersMongoDbService.create(createIdentifierInputDto.name);
   }
 
@@ -70,7 +70,7 @@ export class IdentifiersService {
     id: string,
     identifierDto: IdentifierDto,
   ): Promise<UpdateIdentifierOutputDto> {
-    this.logger.log('updates identifier with id:' + id);
+    this.logger.log(`Update an identifier with id ${id}.`);
     return await this.identifiersMongoDbService.update(id, identifierDto);
   }
 
@@ -81,7 +81,7 @@ export class IdentifiersService {
    * @returns The deleted identifier.
    */
   async deleteIdentifier(id: string): Promise<RemoveIdentifierOutputDto> {
-    this.logger.log('deleted identifier with id:' + id);
+    this.logger.log(`Deleted identifier with id ${id}.`);
     return this.identifiersMongoDbService.remove(id);
   }
 }

@@ -1,4 +1,4 @@
-import { IdentifiersService } from '@backend/memorandum/memorandum-provider';
+import { IdentifiersService } from '@backend/shared-identifiers';
 import {
   CreateIdentifierInputDto,
   CreateIdentifierOutputDto,

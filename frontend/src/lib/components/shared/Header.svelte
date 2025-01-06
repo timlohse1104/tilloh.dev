@@ -1,15 +1,13 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { sharedIdentifierStore } from '$lib/util/stores';
+  import { sharedIdentifierStore } from '$lib/util/store-other';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
 
   export let locale;
 
-  $: pageName = $page.url.pathname.replace('/', '')
-    ? $page.url.pathname.replace('/', '')
-    : 'home';
+  $: pageName = $page.url.pathname.replace('/', '') || 'home';
   $: currentPage = applicationRoutes[pageName] || utilityRoutes[pageName];
 </script>
 

@@ -8,4 +8,4 @@ import { IdentifiersService } from './identifier.service';
   providers: [IdentifiersService],
   exports: [IdentifiersService],
 })
-export class MemorandumProviderModule {}
+export class IdentifiersModule {}

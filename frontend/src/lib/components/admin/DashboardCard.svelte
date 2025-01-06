@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { themeStore } from '$lib/util/themeStore';
+  import { themeStore } from '$lib/util/store-theme';
   import Card, { Content } from '@smui/card';
 
   export let header: string;
