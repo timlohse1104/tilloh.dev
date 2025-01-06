@@ -73,4 +73,4 @@ npm run build
 ```
 
 2. Deploy the frontend by coping the `dist` folder content to the server in `/home/tilloh/html`.
-3. Reload website.
+3. Reload website with Strg + F5.

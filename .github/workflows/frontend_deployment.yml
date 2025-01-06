@@ -67,7 +67,7 @@ jobs:
         if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
         run: |
           cd frontend
-          npm i --legacy-peer-deps
+          npm i --legacy-peer-deps --verbose
 
       - name: Build frontend
         run: |
