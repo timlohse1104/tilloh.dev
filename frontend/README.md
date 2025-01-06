@@ -66,7 +66,7 @@ The frontend uses the `sveltekit-i18n` library for internationalization. The tra
 
 ## Manually
 
-1. Build the frontend
+1. Build the frontend artifact
 
 ```
 npm run build
