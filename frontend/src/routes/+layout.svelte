@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
   import { identifierStore } from '$lib/util/store-identifier';
@@ -10,6 +11,7 @@
   $: isVerified = $identifierStore ? true : false;
   $: locale = $languageStore;
   $: theme = $themeStore;
+  $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
 
   onMount(() => {
     document.body.classList.toggle('light-theme', theme === 'light');
@@ -29,7 +31,7 @@
 
   {#if !isVerified}
     <div class="login_container">
-      <GlobalLogin {isVerified} />
+      <GlobalLogin {isVerified} isAdminLogin={isAdminRoute} />
     </div>
   {:else}
     <main>

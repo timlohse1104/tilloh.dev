@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from '$app/stores';
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/store-identifier';
@@ -10,31 +9,35 @@
 
   export let token: string = '';
   export let isVerified: boolean = false;
+  export let isAdminLogin: boolean = false;
+  export let callback: () => Promise<void> = async () => {};
 
   let verificationError: string = '';
 
-  $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
-
   const verify = async () => {
-    const verifyResponse = await verifyId(token, 'user');
+    const verifyResponse = await verifyId(
+      token,
+      isAdminLogin ? 'admin' : 'user',
+    );
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
-      const errorMessage = `Error verifying user ID`;
+      const errorMessage = `Error verifying ${isAdminLogin ? 'admin' : 'user'} ID.`;
       console.error(errorMessage);
       verificationError = $t('page.shared.verificationError');
       isVerified = false;
       return;
     }
 
-    console.log(verifyResponse);
-
     isVerified = verifyResponse.isVerified;
     if (!isVerified) {
-      verificationError = $t('page.shared.user.verificationError');
+      verificationError = isAdminLogin
+        ? $t('page.shared.admin.verificationError')
+        : $t('page.shared.user.verificationError');
       return;
     }
 
-    $identifierStore = token;
+    if (!isAdminLogin) $identifierStore = token;
+    await callback();
   };
 </script>
 
@@ -42,7 +45,7 @@
   <Textfield
     variant="outlined"
     bind:value={token}
-    label={isAdminRoute ? 'Admin ID' : 'User ID'}
+    label={isAdminLogin ? 'Admin ID' : 'User ID'}
     style="margin-top: 1rem; width: 100%; max-width: 300px;"
     on:keyup={(event) => {
       if (isEnter(event)) verify();

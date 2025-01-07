@@ -14,11 +14,11 @@
   const dispatch = createEventDispatcher();
 
   export let jokes: JokeDto[] = [];
-  export let adminToken: string;
+  export let token: string;
 
   const verifyJoke = async (jokeId: string) => {
     console.log({ jokeId }, 'Verifying joke...');
-    const updateJokeResponse = await updateJoke(adminToken, jokeId, {
+    const updateJokeResponse = await updateJoke(token, jokeId, {
       verified: true,
     });
 
