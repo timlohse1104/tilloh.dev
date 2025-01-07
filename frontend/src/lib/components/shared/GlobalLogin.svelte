@@ -16,13 +16,10 @@
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
 
   const verify = async () => {
-    const verifyResponse = await verifyId(
-      token,
-      isAdminRoute ? 'admin' : 'user',
-    );
+    const verifyResponse = await verifyId(token, 'user');
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
-      const errorMessage = `Error verifying ${isAdminRoute ? 'admin' : 'user'} ID`;
+      const errorMessage = `Error verifying user ID`;
       console.error(errorMessage);
       verificationError = $t('page.shared.verificationError');
       isVerified = false;
@@ -33,9 +30,7 @@
 
     isVerified = verifyResponse.isVerified;
     if (!isVerified) {
-      verificationError = isAdminRoute
-        ? $t('page.shared.admin.verificationError')
-        : $t('page.shared.user.verificationError');
+      verificationError = $t('page.shared.user.verificationError');
       return;
     }
 

@@ -35,7 +35,7 @@
   const { admin: adminRoute } = utilityRoutes;
 
   let adminToken = '';
-  let isVerified = false;
+  let verifiedAdmin = false;
   let verificationError = '';
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
@@ -134,17 +134,18 @@
 
     if (!verifyResponse && verifyResponse?.statusCode !== 200) {
       console.error('Error verifying admin ID');
-      isVerified = false;
+      verifiedAdmin = false;
       return;
     }
 
-    const { isAdmin } = verifyResponse;
-    if (!isAdmin) {
-      verificationError = $t('page.admin.verificationError');
-      isVerified = false;
+    const { isVerified } = verifyResponse;
+    verifiedAdmin = isVerified;
+    if (!verifiedAdmin) {
+      verificationError = $t('page.shared.admin.verificationError');
+      verifiedAdmin = false;
       return;
     }
-    isVerified = verifyResponse.isAdmin;
+
     await updateDashboard();
   };
 
@@ -321,7 +322,7 @@
 </svelte:head>
 
 <section>
-  {#if !isVerified}
+  {#if !verifiedAdmin}
     <div class="verify_content">
       <Textfield
         variant="outlined"
