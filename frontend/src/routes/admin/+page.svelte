@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { verifyId } from '$lib/api/admin.api';
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { deleteIdentifier, getIdentifiers } from '$lib/api/identifiers.api';
@@ -7,6 +6,7 @@
   import { deleteKey, getKeystore } from '$lib/api/keystore.api';
   import Jokes from '$lib/components/admin/Jokes.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
+  import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import { utilityRoutes } from '$lib/config/applications';
   import { ActivityTypeDto } from '$lib/types/admin.dto';
   import type { ChatDto } from '$lib/types/chats.dto';
@@ -18,12 +18,9 @@
   } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
-  import { isEnter } from '$lib/util/helper.js';
   import { languageStore } from '$lib/util/store-language';
   import { setLocale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
   import { onMount } from 'svelte';
   import Activities from '../../lib/components/admin/Activities.svelte';
@@ -34,9 +31,6 @@
 
   const { admin: adminRoute } = utilityRoutes;
 
-  let adminToken = '';
-  let isVerified = false;
-  let verificationError = '';
   let identifiers: IdentifierDto[] = [];
   let linkPresets: KeystoreKeyDto[] = [];
   let allPresetFolders: FolderDto[] = [];
@@ -55,6 +49,8 @@
   let confirmDeletePresetOpenOverlay = false;
   let confirmDeletePresetAction;
 
+  $: isVerified = false;
+  $: token = '';
   $: locale = $languageStore;
   $: getFolderAmount = (): number => {
     if (allPresetFolders.length === 0) return 0;
@@ -129,27 +125,8 @@
     );
   };
 
-  const verify = async () => {
-    const verifyResponse = await verifyId(adminToken, 'admin');
-
-    if (!verifyResponse && verifyResponse?.statusCode !== 200) {
-      console.error('Error verifying admin ID');
-      isVerified = false;
-      return;
-    }
-
-    const { isAdmin } = verifyResponse;
-    if (!isAdmin) {
-      verificationError = $t('page.admin.verificationError');
-      isVerified = false;
-      return;
-    }
-    isVerified = verifyResponse.isAdmin;
-    await updateDashboard();
-  };
-
   const loadLinkPresets = async () => {
-    const keystoreResponse = await getKeystore(adminToken);
+    const keystoreResponse = await getKeystore(token);
     const linkPresetKey = 'memorandum.link-preset';
     linkPresets = keystoreResponse.filter(
       (preset) => preset.key === linkPresetKey,
@@ -174,7 +151,7 @@
       const { identifier, key } = event.detail;
       console.log('removing link preset', { identifier, key }, '...');
       try {
-        await deleteKey(adminToken, { identifier, key });
+        await deleteKey(token, { identifier, key });
       } catch (error) {
         console.error('Error deleting identifier', error);
         return;
@@ -191,7 +168,7 @@
   };
 
   const loadIdentifiers = async () => {
-    identifiers = await getIdentifiers(adminToken);
+    identifiers = await getIdentifiers(token);
     console.log({ identifiers }, 'Identifiers reloaded.');
   };
 
@@ -200,7 +177,7 @@
       const { identifierId } = event.detail;
       console.log('removing identifier', { identifierId }, '...');
       try {
-        await deleteIdentifier(adminToken, identifierId);
+        await deleteIdentifier(token, identifierId);
       } catch (error) {
         console.error('Error deleting identifier', error);
         return;
@@ -217,7 +194,7 @@
   };
 
   const loadJokes = async () => {
-    jokes = await getJokes(adminToken);
+    jokes = await getJokes(token);
     console.log({ allJokes: jokes }, 'Jokes reloaded.');
   };
 
@@ -226,7 +203,7 @@
       const { jokeId } = event.detail;
       console.log('removing joke', { jokeId }, '...');
       try {
-        await deleteJoke(adminToken, jokeId);
+        await deleteJoke(token, jokeId);
       } catch (error) {
         console.error('Error deleting identifier', error);
         return;
@@ -241,12 +218,12 @@
   };
 
   const loadChats = async () => {
-    chats = await getChats(adminToken);
+    chats = await getChats(token);
     console.log({ allChats: chats }, 'Chats reloaded.');
   };
 
   const loadToggles = async () => {
-    const keystoreResponse = await getKeystore(adminToken);
+    const keystoreResponse = await getKeystore(token);
     console.log({ keystoreResponse }, 'Keystore response.');
     toggles = keystoreResponse.filter(
       (toggle) => toggle.identifier === TOGGLE_KEY_IDENTIFIER,
@@ -261,7 +238,7 @@
       console.log({ toggle }, 'Removing toggle...');
 
       try {
-        await deleteKey(adminToken, {
+        await deleteKey(token, {
           identifier: TOGGLE_KEY_IDENTIFIER,
           key: toggle.key,
         });
@@ -277,10 +254,10 @@
   };
 
   const loadHealthChecks = async () => {
-    const readyzRes = await readyz(adminToken);
+    const readyzRes = await readyz(token);
     apiIsHealthy = readyzRes === 'ok';
 
-    const livezRes = await livez(adminToken);
+    const livezRes = await livez(token);
     const mongoMatch = livezRes.match(/^mongodb (\d+)/m);
     const jokesMatch = livezRes.match(/^witzapi (\d+)/m);
     const mongoStatusCode = mongoMatch ? parseInt(mongoMatch[1], 10) : 0;
@@ -293,6 +270,7 @@
   };
 
   const updateDashboard = async () => {
+    console.log('Updating dashboard.');
     await loadLinkPresets();
     await loadIdentifiers();
     await loadJokes();
@@ -322,25 +300,12 @@
 
 <section>
   {#if !isVerified}
-    <div class="verify_content">
-      <Textfield
-        variant="outlined"
-        bind:value={adminToken}
-        label="Admin ID"
-        style="margin-top: 1rem; width: 100%; max-width: 300px;"
-        on:keyup={(event) => {
-          if (isEnter(event)) verify();
-        }}
-      >
-        <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
-        <Icon class="material-icons" slot="trailingIcon"
-          >arrow_circle_right</Icon
-        >
-        <HelperText slot="helper" style="color: red; font-size: 0.8rem;"
-          >{verificationError}</HelperText
-        >
-      </Textfield>
-    </div>
+    <GlobalLogin
+      bind:isVerified
+      bind:token
+      isAdminLogin={true}
+      callback={updateDashboard}
+    />
   {:else}
     <div class="admin_overview">
       {#if getToggleState(TogglesEnum.adminDashboard)}
@@ -378,7 +343,7 @@
           {jokes}
           on:removeJoke={removeJoke}
           on:updateDashboard={updateDashboard}
-          {adminToken}
+          {token}
         />
       {/if}
       {#if getToggleState(TogglesEnum.adminLinkPreset)}
@@ -456,15 +421,6 @@
     height: 90dvh;
     overflow-x: hidden;
     overflow-y: auto;
-  }
-
-  .verify_content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
 
   .admin_overview {
