@@ -14,7 +14,7 @@
 
 <div
   id="link"
-  use:draggable={`{ "type": "link", "linkId": "${linkId}", "folderId": "${folderId}" }`}
+  use:draggable={`{ "type": "link", "linkId": "${linkId}", "originFolderId": "${folderId}" }`}
   on:dblclick={() =>
     dispatch('editLink', {
       linkId: linkId,

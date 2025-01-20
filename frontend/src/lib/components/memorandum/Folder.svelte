@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+  import type { FolderDto } from '$lib/types/memorandum.dto';
   import { draggable, dropzone } from '$lib/util/drag-and-drop';
   import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import {
@@ -6,14 +7,14 @@
     folderOverlayOptionsStore,
     linkOverlayOptionsStore,
     localPresetStore,
-  } from '$lib/util/memorandum/stores.js';
+  } from '$lib/util/memorandum/stores';
   import { initialized, t } from '$lib/util/translations';
   import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
   const dispatch = createEventDispatcher();
 
-  export let id;
+  export let folderId;
   export let searchQuery = '';
   export let folderHeader;
   export let folderBackground;
@@ -22,12 +23,17 @@
   let confirmDeleteLinkOpenOverlay = false;
   let confirmDeleteLinkAction;
 
-  $: filteredLinks = $localPresetStore?.Folders.find(
-    (folder) => folder.id === id,
-  )?.links.filter((link) => {
+  $: currentFolder = $localPresetStore?.Folders.find(
+    (folder) => folder.id === folderId,
+  );
+  $: currentFolderIndex = $localPresetStore?.Folders.findIndex(
+    (folder) => folder.id === folderId,
+  );
+  $: filteredLinks = currentFolder?.links?.filter((link) => {
     if (!searchQuery) return true;
     return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
   });
+
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
@@ -35,7 +41,7 @@
   const showOverlay = (event) => {
     $linkOverlayOptionsStore.showOverlay =
       !$linkOverlayOptionsStore.showOverlay;
-    $linkOverlayOptionsStore.currentFolderId = id;
+    $linkOverlayOptionsStore.currentFolderId = folderId;
     $linkOverlayOptionsStore.currentFolder = folderHeader;
 
     if (event.detail) {
@@ -46,11 +52,15 @@
   };
 
   const deleteLink = (event) => {
+    const linkId = event.detail;
+    console.log(`Deleting link with ID: ${linkId}`);
     confirmDeleteLinkAction = () => {
       let currentPreset = $localPresetStore;
 
-      currentPreset.Folders[id].links.splice(event.detail, 1);
-      updateLinkIds(currentPreset.Folders[id].links);
+      currentPreset.Folders.forEach((folder: FolderDto) => {
+        const linkIndex = folder.links.findIndex((link) => link.id === linkId);
+        if (linkIndex !== -1) folder.links.splice(linkIndex, 1);
+      });
 
       $localPresetStore = currentPreset;
     };
@@ -61,15 +71,17 @@
   const showFolderOverlay = () => {
     $folderOverlayOptionsStore.showOverlay =
       !$folderOverlayOptionsStore.showOverlay;
-    $folderOverlayOptionsStore.currentFolderId = id;
+    $folderOverlayOptionsStore.currentFolderId = folderId;
     $folderOverlayOptionsStore.currentFolderName = folderHeader;
     $folderOverlayOptionsStore.currentFolderBackgroundColor =
-      $localPresetStore.Folders[id].customBackgroundColor;
+      $localPresetStore.Folders.find(
+        (folder) => (folder.id = folderId),
+      ).customBackgroundColor;
   };
 
   const openFolderLinks = () => {
     let currentPreset = $localPresetStore;
-    let folder = currentPreset.Folders[id];
+    let folder = currentPreset.Folders.find((folder) => (folder.id = folderId));
 
     if (folder.links.length > 0) {
       folder.links.map((link) => {
@@ -78,100 +90,42 @@
     }
   };
 
-  const dropFolder = (event, dropInfo) => {
-    const { originFolderIndex } = dropInfo;
-    let targetIndex = getTargetFolderIndex(event);
-
-    if (originFolderIndex !== targetIndex) {
+  const dropFolder = (originFolderId) => {
+    if (originFolderId !== folderId) {
       let currPreset = $localPresetStore;
-
-      currPreset.Folders.splice(
-        targetIndex,
-        0,
-        currPreset.Folders.splice(originFolderIndex, 1)[0],
+      const originFolderIndex = currPreset.Folders.findIndex(
+        (folder) => folder.id === originFolderId,
       );
+      const originFolder = currPreset.Folders.splice(originFolderIndex, 1)[0];
+
+      currPreset.Folders.splice(currentFolderIndex, 0, originFolder);
 
       $localPresetStore = currPreset;
     }
   };
 
-  const dropLink = (event, dropInfo) => {
-    const { originFolderIndex, originLinkIndex } = dropInfo;
-    let targetFolderIndex = getTargetFolderIndex(event);
-    let targetLinkIndex = getTargetLinkIndex(event);
+  const dropLink = (originLinkId) => {
     let currPreset = $localPresetStore;
+    let originFolderIndex;
+    let originLinkIndex;
 
-    // push link to target folder on position of target link
-    currPreset.Folders[targetFolderIndex].links.splice(
-      targetLinkIndex,
-      0,
-      // get the link from the origin folder and remove it
-      currPreset.Folders[originFolderIndex]?.links.splice(
-        originLinkIndex,
-        1,
-      )[0],
-    );
+    currPreset.Folders.some((folder) => {
+      originLinkIndex = folder.links.findIndex((link) => {
+        return link.id === originLinkId;
+      });
+      if (originLinkIndex !== -1) {
+        originFolderIndex = currPreset.Folders.indexOf(folder);
+        return true;
+      }
+    });
 
-    // updates links ids in array to be reactively updated
-    // origin folder
-    let originLinks = currPreset.Folders[originFolderIndex].links;
-    updateLinkIds(originLinks);
-    // target folder
-    let targetLinks = currPreset.Folders[targetFolderIndex].links;
-    updateLinkIds(targetLinks);
+    const originLink = currPreset.Folders[originFolderIndex].links.splice(
+      originLinkIndex,
+      1,
+    )[0];
 
+    currPreset.Folders[currentFolderIndex].links.splice(0, 0, originLink);
     $localPresetStore = currPreset;
-  };
-
-  const updateLinkIds = (links) => {
-    links.map((link) => (link.id = links.indexOf(link)));
-  };
-
-  const getTargetLinkIndex = (event) => {
-    let targetIndex;
-
-    if (
-      event.target.nodeName === 'A' ||
-      event.target.nodeName === 'IMG' ||
-      event.target.nodeName === 'BUTTON' ||
-      (event.target.previousElementSibling &&
-        event.target.previousElementSibling.nodeName === 'A')
-    ) {
-      targetIndex = [].slice
-        .call(event.target.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode);
-    } else if (event.target.nodeName === 'DIV' && event.target.id === 'link') {
-      targetIndex = [].slice
-        .call(event.target.parentNode.children)
-        .indexOf(event.target);
-    }
-
-    return targetIndex;
-  };
-
-  const getTargetFolderIndex = (event) => {
-    let targetIndex;
-
-    if (
-      event.target.nodeName === 'A' ||
-      event.target.nodeName === 'IMG' ||
-      (event.target.previousElementSibling &&
-        event.target.previousElementSibling.nodeName === 'A')
-    ) {
-      targetIndex = [].slice
-        .call(event.target.parentNode.parentNode.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode.parentNode.parentNode);
-    } else if (event.target.nodeName === 'DIV' && event.target.id === 'link') {
-      targetIndex = [].slice
-        .call(event.target.parentNode.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode.parentNode);
-    } else {
-      targetIndex = [].slice
-        .call(event.target.parentNode.parentNode.children)
-        .indexOf(event.target.parentNode);
-    }
-
-    return targetIndex || 0;
   };
 
   const provideLinkFaviconUrl = (linkUrl) => {
@@ -190,21 +144,16 @@
       ? 'link_box_fixed'
       : 'link_box_flexible'}
     style={`border: solid 0.1em ${folderBackgroundColor};`}
-    use:draggable={`{ "type": "folder", "folderId": "${id}" }`}
+    use:draggable={`{ "type": "folder", "originFolderId": "${folderId}" }`}
     use:dropzone={{
       onDrop(input, event) {
         event.stopPropagation();
-        const { type, linkId, folderId } = JSON.parse(input);
+        const { type, linkId, originFolderId } = JSON.parse(input);
 
         if (type === 'folder') {
-          const dropInfo = { originFolderIndex: folderId };
-          dropFolder(event, dropInfo);
+          dropFolder(originFolderId);
         } else if (type === 'link') {
-          const dropInfo = {
-            originFolderIndex: folderId,
-            originLinkIndex: linkId,
-          };
-          dropLink(event, dropInfo);
+          dropLink(linkId);
         }
       },
     }}
@@ -228,7 +177,7 @@
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
         : 'var(--darkgrey80)'}
-      on:click={() => dispatch('delFolder', id)}
+      on:click={() => dispatch('delFolder', folderId)}
     >
       -
     </button>
@@ -239,13 +188,13 @@
           {$t('page.memorandum.loadHyperlinksInfo')}
         </p>
       {:then value}
-        {#if $localPresetStore?.Folders[id]?.links.length > 0}
-          {#each filteredLinks as { id: index, linkName, linkUrl, faviconLink }}
+        {#if filteredLinks?.length > 0}
+          {#each filteredLinks as { id: linkId, linkName, linkUrl, faviconLink }}
             <Link
               on:delLink={deleteLink}
               on:editLink={showOverlay}
-              linkId={index}
-              folderId={id}
+              {linkId}
+              {folderId}
               {linkName}
               {linkUrl}
               faviconLink={faviconLink || provideLinkFaviconUrl(linkUrl)}

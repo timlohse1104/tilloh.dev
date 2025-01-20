@@ -5,7 +5,7 @@
   import {
     folderOverlayOptionsStore,
     localPresetStore,
-  } from '$lib/util/memorandum/stores.js';
+  } from '$lib/util/memorandum/stores';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';

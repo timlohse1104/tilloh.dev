@@ -2,7 +2,7 @@
   import {
     localPresetStore,
     presetOverlayOptionsStore,
-  } from '$lib/util/memorandum/stores.js';
+  } from '$lib/util/memorandum/stores';
   import { initialized, t } from '$lib/util/translations';
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
   import Button, { Label } from '@smui/button';

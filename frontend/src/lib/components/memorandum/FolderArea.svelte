@@ -6,7 +6,7 @@
   import {
     folderOrderFolder,
     localPresetStore,
-  } from '$lib/util/memorandum/stores.js';
+  } from '$lib/util/memorandum/stores';
   import { initialized, t } from '$lib/util/translations';
   import Fab, { Icon } from '@smui/fab';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
@@ -53,9 +53,13 @@
   };
 
   const deleteFolder = (event) => {
+    const folderId = event.detail;
     confirmDeleteFolderAction = () => {
       let currentPreset = $localPresetStore;
-      currentPreset.Folders.splice(event.detail, 1);
+      const folderToBeDeletedIndex = currentPreset.Folders.findIndex(
+        (folder) => folder.id === folderId,
+      );
+      currentPreset.Folders.splice(folderToBeDeletedIndex, 1);
       $localPresetStore = currentPreset;
     };
 
@@ -73,7 +77,7 @@
           {#each filteredFolders as { folderName, customBackgroundColor, id }}
             <Folder
               {searchQuery}
-              {id}
+              folderId={id}
               folderHeader={folderName}
               folderBackground={customBackgroundColor}
               on:delFolder={deleteFolder}
@@ -91,7 +95,7 @@
             {#each filteredFolders as { folderName, customBackgroundColor, id }}
               <Folder
                 {searchQuery}
-                {id}
+                folderId={id}
                 folderHeader={folderName}
                 folderBackground={customBackgroundColor}
                 on:delFolder={deleteFolder}

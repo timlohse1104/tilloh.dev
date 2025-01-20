@@ -1,4 +1,5 @@
 import { browser, dev } from '$app/environment';
+import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
 import { environment } from '$lib/util/environment';
 import { sharedIdentifierStore } from '$lib/util/store-other';
 import { writable } from 'svelte/store';
@@ -8,10 +9,10 @@ const apiURL = dev
   ? environment.localApiBaseUrl
   : environment.productionApiBaseUrl;
 
-let linkPresetDefault = '{"Folders": []}';
+const linkPresetDefault = '{"Folders": []}';
 const linkPresetKey = 'memorandum.link-preset';
 
-export let localPresetStore = writable(JSON.parse(linkPresetDefault));
+export const localPresetStore = writable(JSON.parse(linkPresetDefault));
 
 // Helper functions
 const ensureFolderBackgroundColor = (linkPreset) => {
@@ -23,6 +24,32 @@ const ensureFolderBackgroundColor = (linkPreset) => {
     }
   }
 
+  return linkPreset;
+};
+
+function isUUID(str) {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str);
+}
+
+const ensureLinkUUID = (links: LinkDto[]): LinkDto[] => {
+  links.forEach((link) => {
+    if (!isUUID(link.id)) {
+      link.id = crypto.randomUUID();
+    }
+  });
+  return links;
+};
+
+const ensureFolderUUID = (linkPreset: MemorandumDto) => {
+  const folders = linkPreset.Folders;
+  folders.forEach((folder) => {
+    if (!isUUID(folder.id)) {
+      folder.id = crypto.randomUUID();
+      folder.links = ensureLinkUUID(folder.links);
+    }
+  });
   return linkPreset;
 };
 
@@ -59,7 +86,20 @@ export const refreshPresetStore = async () => {
     linkPreset = JSON.parse(localStorage.getItem(linkPresetKey));
   }
 
-  localPresetStore.set(ensureFolderBackgroundColor(linkPreset));
+  const backwardsCompatiblePreset = ensureFolderUUID(
+    ensureFolderBackgroundColor(linkPreset),
+  );
+
+  // Update remote preset backwards compatible if needed
+  if (sharedIdentifier.id && sharedIdentifier.name) {
+    await updateRemotePreset(
+      sharedIdentifier.id,
+      linkPresetKey,
+      JSON.stringify(backwardsCompatiblePreset),
+    );
+  }
+
+  localPresetStore.set(backwardsCompatiblePreset);
 };
 
 // Online preset

@@ -4,7 +4,7 @@
   import {
     linkOverlayOptionsStore,
     localPresetStore,
-  } from '$lib/util/memorandum/stores.js';
+  } from '$lib/util/memorandum/stores';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
