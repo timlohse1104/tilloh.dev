@@ -43,11 +43,12 @@
   const addLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
-      let currLinks =
-        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links;
+      let currLinks = currPreset.Folders.find(
+        (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
+      ).links;
 
       currLinks.push(
-        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+        new HyperlinkClass(crypto.randomUUID(), newLinkName, newLinkUrl),
       );
 
       $localPresetStore = currPreset;
@@ -58,10 +59,12 @@
   const editLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
-      let currLink =
-        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links[
-          $linkOverlayOptionsStore.currLinkId
-        ];
+      let currLinks = currPreset.Folders.find(
+        (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
+      ).links;
+      let currLink = currLinks.find(
+        (link) => link.id === $linkOverlayOptionsStore.currLinkId,
+      );
 
       currLink.linkName = newLinkName;
       currLink.linkUrl = newLinkUrl;
@@ -74,11 +77,12 @@
   const duplicateLink = () => {
     if (submittable) {
       let currPreset = $localPresetStore;
-      let currLinks =
-        currPreset.Folders[$linkOverlayOptionsStore.currentFolderId].links;
+      let currLinks = currPreset.Folders.find(
+        (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
+      ).links;
 
       currLinks.push(
-        new HyperlinkClass(currLinks.length, newLinkName, newLinkUrl),
+        new HyperlinkClass(crypto.randomUUID(), newLinkName, newLinkUrl),
       );
 
       $localPresetStore = currPreset;
