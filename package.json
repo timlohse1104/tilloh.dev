@@ -11,14 +11,14 @@
   "private": true,
   "devDependencies": {
     "@nx/eslint-plugin": "^20.3.0",
-    "@nx/js": "20.4.0",
-    "@nx/eslint": "20.4.0",
+    "@nx/js": "20.4.2",
+    "@nx/eslint": "20.4.2",
     "@nx/linter": "^19.8.4",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "concurrently": "^9.0.0",
     "eslint": "~9.19.0",
     "npm": "^11.0.0",
-    "nx": "20.4.0"
+    "nx": "20.4.2"
   },
   "workspaces": [
     "packages/*"
