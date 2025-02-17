@@ -1,7 +1,7 @@
 import i18n, { type Config } from 'sveltekit-i18n';
 
 interface Params {
-  error: any;
+  error: unknown;
   folderName: string;
   linkName: string;
   amount: number;

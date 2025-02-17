@@ -131,6 +131,8 @@
   "page.catchEmAll.controls.right": "Right - Move trainer to the right",
   "page.catchEmAll.controls.esc": "ESC - Pause / resume game",
   "page.catchEmAll.controls.enter": "Enter - Restart game",
+  "page.foodScan.webGPUNotAvailableTitle": "This application is not supported ⚠️",
+  "page.foodScan.webGPUNotAvailableError": "WebGPU is not supported in your current environment, but it is necessary to run the WebLLM engine. Please make sure that your browser supports WebGPU and that it is enabled in your browser settings. You can also consult your browser's compatibility chart to see if it supports WebGPU.",
   "page.foodScan.loadingHint": "The application is still loading. Please be patient!",
   "page.foodScan.warning": "A large download is carried out once the first time it is used. Ensure that a sufficient data connection is available.<br>Exit the application if a mobile data connection with a low volume is being used!",
   "page.foodScan.introduction": "Scan the backside of a food item to get an estimation wether it is vegan or not.",

@@ -14,21 +14,29 @@ const sharedIdentifierKey = 'shared.identifier';
 let sharedIdentifierDefault = '{}';
 
 if (browser) {
-  if (!localStorage.getItem(sharedIdentifierKey)) {
-    localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
-  }
   const localIdentifier = localStorage.getItem(sharedIdentifierKey);
-  let remoteIdentifier;
-  try {
-    remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);
-  } catch (error) {
-    console.error('Error while fetching remote identifier.', error);
-  }
-  if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
-    console.log('Remote identifier fetched successfully.');
-    sharedIdentifierDefault = localIdentifier;
+  let resetIdentifier = false;
+
+  if (!localIdentifier) {
+    localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
+    resetIdentifier = true;
   } else {
-    console.log('Remote identifier not found. Resetting local identifier.');
+    sharedIdentifierDefault = localIdentifier;
+  }
+
+  if (resetIdentifier) {
+    let remoteIdentifier;
+    try {
+      remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);
+    } catch (error) {
+      console.error('Error while fetching remote identifier.', error);
+    }
+    if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
+      console.log('Remote identifier fetched successfully.');
+      sharedIdentifierDefault = localIdentifier;
+    } else {
+      console.log('Remote identifier not found. Resetting local identifier.');
+    }
   }
 }
 

@@ -17,7 +17,8 @@ function getInitialLocale(): string {
   if (browser) {
     try {
       return window.navigator.language.split('-')[0];
-    } catch (e) {
+    } catch (error) {
+      console.log(error);
       return 'de';
     }
   }

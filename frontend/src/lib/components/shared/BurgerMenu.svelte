@@ -52,7 +52,7 @@
       <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
         <img src={'/images/logo.png'} alt="tilloh.dev logo" />
       </IconButton>
-      <h1>{$t('page.shared.burgerMenuTitle')}</h1>
+      <h2>{$t('page.shared.burgerMenuTitle')}</h2>
     </div>
     <hr />
     <ul>
@@ -77,12 +77,14 @@
 
     <hr />
 
-    <LanguageSwitch
-      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
-    />
-    <ThemeSwitch
-      customStyle="padding-left: var(--menu_left);margin-top:3rem;"
-    />
+    <div class="switch_area">
+      <LanguageSwitch
+        customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+      />
+      <ThemeSwitch
+        customStyle="padding-left: var(--menu_left);margin-top:3rem;"
+      />
+    </div>
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
@@ -100,10 +102,6 @@
 
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
-
-  :root {
-    --menu_left: 2rem;
-  }
 
   button {
     all: unset;
@@ -131,12 +129,12 @@
 
     @media #{$tablet} {
       width: 50%;
-      font-size: x-large;
+      font-size: large;
     }
 
     @media #{$phone} {
       width: 75%;
-      font-size: larger;
+      font-size: medium;
     }
 
     &:popover-open {
@@ -159,12 +157,13 @@
     margin-left: var(--menu_left);
   }
 
-  h1 {
+  h2 {
     text-align: left;
     color: var(--color_text);
+    font-size: 2.5rem;
 
     @media #{$phone} {
-      font-size: larger;
+      font-size: x-large;
     }
   }
 
@@ -187,12 +186,12 @@
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--mdc-theme-on-surface);
+    border: 1.25px solid;
     width: 75%;
   }
 
   hr:not(:first-of-type) {
-    border: 0.05rem solid var(--mdc-theme-on-surface);
+    border: 0.05rem solid;
     width: 50%;
     opacity: 0.3;
   }
@@ -200,16 +199,8 @@
   ul {
     list-style: none;
     padding: 0;
-    margin-top: 3rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
-
-    @media #{$tablet} {
-      margin-top: 2rem;
-    }
-
-    @media #{$phone} {
-      margin-top: 2rem;
-    }
   }
 
   li {
@@ -228,6 +219,16 @@
     text-decoration: none;
     display: block;
     padding: 1rem;
+  }
+
+  .switch_area {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+
+    @media #{$phone} {
+      margin-top: 1rem;
+    }
   }
 
   footer {
