@@ -35,6 +35,7 @@
   --sharpen: 2px 2px var(--black80);
   --trans: rgba(0, 0, 0, 0);
   --default_padding: 1.2rem;
+  --menu_left: 2rem;
 }
 
 /* General styling */

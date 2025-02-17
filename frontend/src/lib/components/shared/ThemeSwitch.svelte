@@ -31,7 +31,7 @@
   section {
     display: flex;
     align-items: center;
-    margin-right: 1rem;
+    margin: 0 1rem 0 0 !important;
     font-size: 0.9rem;
     color: var(--lightgrey80);
   }
