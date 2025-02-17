@@ -30,6 +30,7 @@
   let llmResponseTime = 0;
   let loading = false;
   let engineReady = false;
+  let isWebGPUNotAvailableError = false;
 
   $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
   $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
@@ -73,6 +74,8 @@
       );
     } catch (error) {
       console.error('Failed to create MLCEngine:', error);
+      isWebGPUNotAvailableError =
+        error?.constructor?.name === 'WebGPUNotAvailableError';
     }
   }
 
@@ -171,7 +174,22 @@
 
 {#if $initialized}
   <section>
-    {#if !engineReady}
+    {#if isWebGPUNotAvailableError}
+      <Card
+        padded
+        class="warning_hint"
+        style={$themeStore === 'dark'
+          ? 'background-color: var(--color_bg_2)'
+          : 'background-color: var(--color_bg_light_2)'}
+      >
+        <h2>
+          {$t('page.foodScan.webGPUNotAvailableTitle')}
+        </h2>
+        <p>
+          {$t('page.foodScan.webGPUNotAvailableError')}
+        </p>
+      </Card>
+    {:else if !engineReady}
       <Card
         padded
         class="warning_hint"
@@ -290,6 +308,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 2rem;
+    padding: 2rem;
   }
 
   .warning_sign {
