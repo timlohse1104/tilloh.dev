@@ -186,12 +186,12 @@
   }
 
   hr:first-of-type {
-    border: 1.25px solid var(--mdc-theme-on-surface);
+    border: 1.25px solid;
     width: 75%;
   }
 
   hr:not(:first-of-type) {
-    border: 0.05rem solid var(--mdc-theme-on-surface);
+    border: 0.05rem solid;
     width: 50%;
     opacity: 0.3;
   }
