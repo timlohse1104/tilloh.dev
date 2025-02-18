@@ -74,9 +74,9 @@
       );
     } catch (error) {
       console.error('Failed to create MLCEngine:', error);
-      console.log('Error class name: ', error?.constructor?.name);
-      isWebGPUNotAvailableError =
-        error?.constructor?.name === 'WebGPUNotAvailableError';
+      isWebGPUNotAvailableError = error.message.includes(
+        'WebGPUNotAvailableError',
+      );
     }
   }
 
