@@ -75,7 +75,7 @@
     } catch (error) {
       console.error('Failed to create MLCEngine:', error);
       isWebGPUNotAvailableError = error.message.includes(
-        'WebGPUNotAvailableError',
+        'WebGPU is not supported',
       );
     }
   }
