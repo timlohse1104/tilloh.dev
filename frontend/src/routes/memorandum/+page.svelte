@@ -7,12 +7,12 @@
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
   import {
-    folderOrderFolder,
-    folderOverlayOptionsStore,
-    linkOverlayOptionsStore,
-    localPresetStore,
-    presetOverlayOptionsStore,
-    refreshPresetStore,
+      folderOrderFolder,
+      folderOverlayOptionsStore,
+      linkOverlayOptionsStore,
+      localPresetStore,
+      presetOverlayOptionsStore,
+      refreshPresetStore,
   } from '$lib/util/memorandum/stores';
   import { languageStore } from '$lib/util/store-language';
   import { initialized, setLocale, t } from '$lib/util/translations';
@@ -161,20 +161,11 @@
 
   .box_area {
     display: grid;
-    height: 85vh;
     grid-template-columns: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     scroll-behavior: unset;
     margin-top: 1rem;
     grid-auto-flow: dense;
-
-    @media #{$tablet} {
-      height: 82vh;
-    }
-
-    @media #{$phone} {
-      height: 65vh;
-    }
   }
 </style>
