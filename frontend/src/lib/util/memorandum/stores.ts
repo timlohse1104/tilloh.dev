@@ -1,8 +1,8 @@
 import { browser, dev } from '$app/environment';
-import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
 import { environment } from '$lib/util/environment';
 import { sharedIdentifierStore } from '$lib/util/stores/store-other';
 import { writable } from 'svelte/store';
+import { ensureFolderUUID } from '../uuid';
 import { defaultColor } from './constants';
 
 const apiURL = dev
@@ -24,32 +24,6 @@ const ensureFolderBackgroundColor = (linkPreset) => {
     }
   }
 
-  return linkPreset;
-};
-
-function isUUID(str) {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(str);
-}
-
-const ensureLinkUUID = (links: LinkDto[]): LinkDto[] => {
-  links.forEach((link) => {
-    if (!isUUID(link.id)) {
-      link.id = crypto.randomUUID();
-    }
-  });
-  return links;
-};
-
-const ensureFolderUUID = (linkPreset: MemorandumDto) => {
-  const folders = linkPreset.Folders;
-  folders.forEach((folder) => {
-    if (!isUUID(folder.id)) {
-      folder.id = crypto.randomUUID();
-      folder.links = ensureLinkUUID(folder.links);
-    }
-  });
   return linkPreset;
 };
 
@@ -159,8 +133,6 @@ if (browser) {
     localStorage.setItem(linkPresetKey, JSON.stringify(val));
   });
 }
-
-// Folder order store
 
 // Other stores
 export const presetOverlayOptionsStore = writable({
