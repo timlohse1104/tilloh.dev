@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { localPresetStore } from '$lib/util/memorandum/stores';
+  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { presetOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';

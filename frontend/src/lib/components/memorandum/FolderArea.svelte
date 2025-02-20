@@ -3,8 +3,8 @@
   import { fetchJson } from '$lib/util/memorandum/async.js';
   import { FolderClass } from '$lib/util/memorandum/classes.js';
   import { defaultColor } from '$lib/util/memorandum/constants.js';
-  import { localPresetStore } from '$lib/util/memorandum/stores';
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
+  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { initialized, t } from '$lib/util/translations';
   import Fab, { Icon } from '@smui/fab';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
