@@ -2,7 +2,7 @@
   import AboutInfo from '$lib/components/about/AboutInfo.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 

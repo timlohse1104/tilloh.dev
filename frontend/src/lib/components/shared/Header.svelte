@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { sharedIdentifierStore } from '$lib/util/store-other';
+  import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
 
@@ -27,9 +27,9 @@
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green) !important">online 🌐</span>
+          <span style="color: var(--green) !important">🌐 Cloud</span>
         {:else}
-          <span style="color: var(--red) !important">offline 📴</span>
+          <span style="color: var(--red) !important">📴 Lokal</span>
         {/if}
       </p>
     </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
-  import { identifierStore } from '$lib/util/store-identifier';
+  import { identifierStore } from '$lib/util/stores/store-identifier';
   import { t } from '$lib/util/translations';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';

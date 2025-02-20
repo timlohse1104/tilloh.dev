@@ -1,9 +1,9 @@
 import { browser, dev } from '$app/environment';
-import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
 import { environment } from '$lib/util/environment';
-import { sharedIdentifierStore } from '$lib/util/store-other';
+import { sharedIdentifierStore } from '$lib/util/stores/store-other';
 import { writable } from 'svelte/store';
-import { defaultColor } from './constants';
+import { defaultColor } from '../memorandum/constants';
+import { ensureFolderUUID } from '../uuid';
 
 const apiURL = dev
   ? environment.localApiBaseUrl
@@ -24,32 +24,6 @@ const ensureFolderBackgroundColor = (linkPreset) => {
     }
   }
 
-  return linkPreset;
-};
-
-function isUUID(str) {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(str);
-}
-
-const ensureLinkUUID = (links: LinkDto[]): LinkDto[] => {
-  links.forEach((link) => {
-    if (!isUUID(link.id)) {
-      link.id = crypto.randomUUID();
-    }
-  });
-  return links;
-};
-
-const ensureFolderUUID = (linkPreset: MemorandumDto) => {
-  const folders = linkPreset.Folders;
-  folders.forEach((folder) => {
-    if (!isUUID(folder.id)) {
-      folder.id = crypto.randomUUID();
-      folder.links = ensureLinkUUID(folder.links);
-    }
-  });
   return linkPreset;
 };
 
@@ -159,45 +133,3 @@ if (browser) {
     localStorage.setItem(linkPresetKey, JSON.stringify(val));
   });
 }
-
-// Folder order store
-let folderOrderDefault = 'fixed';
-const folderOrderKey = 'memorandum.folder-order';
-
-if (browser) {
-  if (!localStorage.getItem(folderOrderKey)) {
-    localStorage.setItem(folderOrderKey, folderOrderDefault);
-  }
-
-  folderOrderDefault =
-    localStorage.getItem(folderOrderKey) || folderOrderDefault;
-}
-
-export const folderOrderFolder = writable(folderOrderDefault);
-
-if (browser) {
-  folderOrderFolder.subscribe((val) =>
-    localStorage.setItem(folderOrderKey, val),
-  );
-}
-
-// Other stores
-export const presetOverlayOptionsStore = writable({
-  showOverlay: false,
-});
-
-export const folderOverlayOptionsStore = writable({
-  showOverlay: false,
-  currentFolderId: undefined,
-  currentFolderName: undefined,
-  currentFolderBackgroundColor: undefined,
-});
-
-export const linkOverlayOptionsStore = writable({
-  showOverlay: false,
-  currentFolderId: undefined,
-  currentFolder: undefined,
-  currLinkId: undefined,
-  currLinkName: undefined,
-  currLinkUrl: undefined,
-});

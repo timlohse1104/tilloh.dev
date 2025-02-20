@@ -2,10 +2,8 @@
   import { isEnter } from '$lib/util/helper.js';
   import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import { defaultColor } from '$lib/util/memorandum/constants.js';
-  import {
-    folderOverlayOptionsStore,
-    localPresetStore,
-  } from '$lib/util/memorandum/stores';
+  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
+  import { folderOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Checkbox from '@smui/checkbox';

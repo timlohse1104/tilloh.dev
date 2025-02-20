@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { initialized } from '$lib/util/translations';
   import Switch from '@smui/switch';
   import { onMount } from 'svelte';

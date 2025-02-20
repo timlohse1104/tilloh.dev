@@ -2,9 +2,9 @@
   import { page } from '$app/stores';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
-  import { identifierStore } from '$lib/util/store-identifier';
-  import { languageStore } from '$lib/util/store-language';
-  import { themeStore } from '$lib/util/store-theme';
+  import { identifierStore } from '$lib/util/stores/store-identifier';
+  import { languageStore } from '$lib/util/stores/store-language';
+  import { themeStore } from '$lib/util/stores/store-theme';
   import { onMount } from 'svelte';
   import './styles.css';
 
@@ -44,7 +44,7 @@
   .app {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
   }
 
   main {
@@ -52,7 +52,8 @@
     flex-direction: column;
     padding: 1rem;
     width: 100vw;
-    height: 60vh;
+    overflow: auto;
+    flex: 1;
     margin: 0 auto;
     box-sizing: border-box;
   }

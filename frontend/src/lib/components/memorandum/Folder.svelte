@@ -2,12 +2,12 @@
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { draggable, dropzone } from '$lib/util/drag-and-drop';
   import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
+  import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
+  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import {
-    folderOrderFolder,
     folderOverlayOptionsStore,
     linkOverlayOptionsStore,
-    localPresetStore,
-  } from '$lib/util/memorandum/stores';
+  } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';

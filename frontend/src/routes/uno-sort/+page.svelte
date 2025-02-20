@@ -2,7 +2,7 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import { Icon } from '@smui/common';

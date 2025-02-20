@@ -1,6 +1,6 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { themeStore } from '$lib/util/store-theme';
+  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';

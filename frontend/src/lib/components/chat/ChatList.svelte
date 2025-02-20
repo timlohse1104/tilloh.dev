@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { chatStore } from '$lib/util/store-chat';
+  import { chatStore } from '$lib/util/stores/store-chat';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';

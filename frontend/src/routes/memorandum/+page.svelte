@@ -6,15 +6,17 @@
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import type { Order } from '$lib/types/memorandum.dto';
+  import { languageStore } from '$lib/util/stores/store-language';
+  import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import {
-    folderOrderFolder,
+    localPresetStore,
+    refreshPresetStore,
+  } from '$lib/util/stores/store-memorandum-preset';
+  import {
     folderOverlayOptionsStore,
     linkOverlayOptionsStore,
-    localPresetStore,
     presetOverlayOptionsStore,
-    refreshPresetStore,
-  } from '$lib/util/memorandum/stores';
-  import { languageStore } from '$lib/util/store-language';
+  } from '$lib/util/stores/stores-memorandum';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
@@ -161,20 +163,11 @@
 
   .box_area {
     display: grid;
-    height: 85vh;
     grid-template-columns: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     scroll-behavior: unset;
     margin-top: 1rem;
     grid-auto-flow: dense;
-
-    @media #{$tablet} {
-      height: 82vh;
-    }
-
-    @media #{$phone} {
-      height: 65vh;
-    }
   }
 </style>

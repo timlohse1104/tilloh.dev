@@ -3,9 +3,9 @@
   import ChatListOverlay from '$lib/components/chat/ChatListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
-  import { chatStore } from '$lib/util/store-chat';
-  import { languageStore } from '$lib/util/store-language';
-  import { listOverlayOptionsStore } from '$lib/util/store-other';
+  import { chatStore } from '$lib/util/stores/store-chat';
+  import { languageStore } from '$lib/util/stores/store-language';
+  import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { setLocale } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';

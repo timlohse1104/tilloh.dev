@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { themeStore } from '$lib/util/store-theme';
+  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
 </script>
 

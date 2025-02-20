@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { themeStore, toggleTheme } from '$lib/util/store-theme';
+  import { themeStore, toggleTheme } from '$lib/util/stores/store-theme';
   import { initialized } from '$lib/util/translations';
   import Switch from '@smui/switch';
   import { onMount } from 'svelte';
