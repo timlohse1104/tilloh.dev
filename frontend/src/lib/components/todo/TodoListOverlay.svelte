@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { TodoList } from '$lib/types/todo.ts';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
-  import { listOverlayOptionsStore } from '$lib/util/store-other';
-  import { todoStore } from '$lib/util/store-todo.ts';
+  import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
+  import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';

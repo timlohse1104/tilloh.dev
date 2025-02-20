@@ -1,6 +1,6 @@
 <script>
   import { applicationRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { Icon } from '@smui/common';
 
   export let appKey;

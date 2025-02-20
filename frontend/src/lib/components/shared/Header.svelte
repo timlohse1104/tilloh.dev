@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { sharedIdentifierStore } from '$lib/util/store-other';
+  import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import IconButton, { Icon } from '@smui/icon-button';
   import BurgerMenu from './BurgerMenu.svelte';
 

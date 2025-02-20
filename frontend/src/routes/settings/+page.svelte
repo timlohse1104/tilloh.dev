@@ -1,7 +1,7 @@
 <script lang="ts">
   import OnlinePersistenceCheck from '$lib/components/settings/OnlinePersistenceCheck.svelte';
   import { utilityRoutes } from '$lib/config/applications';
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 

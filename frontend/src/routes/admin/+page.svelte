@@ -18,7 +18,7 @@
   } from '$lib/types/keystore.dto';
   import type { FolderDto } from '$lib/types/memorandum.dto';
   import { TogglesEnum } from '$lib/types/toggle.dto';
-  import { languageStore } from '$lib/util/store-language';
+  import { languageStore } from '$lib/util/stores/store-language';
   import { setLocale, t } from '$lib/util/translations';
   import Fab from '@smui/fab';
   import Icon from '@smui/textfield/icon';

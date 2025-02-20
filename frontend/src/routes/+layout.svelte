@@ -2,9 +2,9 @@
   import { page } from '$app/stores';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
-  import { identifierStore } from '$lib/util/store-identifier';
-  import { languageStore } from '$lib/util/store-language';
-  import { themeStore } from '$lib/util/store-theme';
+  import { identifierStore } from '$lib/util/stores/store-identifier';
+  import { languageStore } from '$lib/util/stores/store-language';
+  import { themeStore } from '$lib/util/stores/store-theme';
   import { onMount } from 'svelte';
   import './styles.css';
 

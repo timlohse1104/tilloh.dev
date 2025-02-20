@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { todoStore } from '$lib/util/store-todo.ts';
+  import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';

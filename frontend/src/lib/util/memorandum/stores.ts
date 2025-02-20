@@ -1,7 +1,7 @@
 import { browser, dev } from '$app/environment';
 import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
 import { environment } from '$lib/util/environment';
-import { sharedIdentifierStore } from '$lib/util/store-other';
+import { sharedIdentifierStore } from '$lib/util/stores/store-other';
 import { writable } from 'svelte/store';
 import { defaultColor } from './constants';
 
