@@ -1,10 +1,8 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
   import { HyperlinkClass } from '$lib/util/memorandum/classes.js';
-  import {
-    linkOverlayOptionsStore,
-    localPresetStore,
-  } from '$lib/util/memorandum/stores';
+  import { localPresetStore } from '$lib/util/memorandum/stores';
+  import { linkOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
