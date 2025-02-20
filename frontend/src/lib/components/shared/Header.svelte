@@ -27,9 +27,9 @@
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green) !important">online 🌐</span>
+          <span style="color: var(--green) !important">🌐 Cloud</span>
         {:else}
-          <span style="color: var(--red) !important">offline 📴</span>
+          <span style="color: var(--red) !important">📴 Lokal</span>
         {/if}
       </p>
     </div>
