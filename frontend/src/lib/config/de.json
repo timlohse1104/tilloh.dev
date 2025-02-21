@@ -147,7 +147,6 @@
   "page.foodScan.debug.stats.total": "total_tokens",
   "page.foodScan.debug.stats.prefill": "prefill_tokens_per_s",
   "page.foodScan.debug.stats.decode": "decode_tokens_per_s",
-  "page.admin.dashboard.title": "Überblick",
   "page.admin.dashboard.tillohApiDescription": "tilloh.dev API status",
   "page.admin.dashboard.mongoDbDescription": "MongoDB Status",
   "page.admin.dashboard.witzApiDescription": "Witz API Status",

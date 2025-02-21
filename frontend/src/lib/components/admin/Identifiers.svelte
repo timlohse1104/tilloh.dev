@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IdentifierDto } from '$lib/types/identifiers.dto';
+  import { adminIdentifiersStore } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
@@ -11,19 +11,18 @@
   } from '@smui/list';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-
-  export let identifiers: IdentifierDto[] = [];
 </script>
 
 {#if $initialized}
   <section class="admin_sections">
     <div class="admin_sections_headline">
       <h2>
-        {$t('page.admin.identifiers.title')} <span>({identifiers.length})</span>
+        {$t('page.admin.identifiers.title')}
+        <span>({$adminIdentifiersStore.length})</span>
       </h2>
     </div>
     <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each identifiers as identifier, i}
+      {#each $adminIdentifiersStore as identifier, i}
         <Item class="admin_list_items">
           <Graphic class="material-icons admin_list_items_icon"
             >fingerprint</Graphic
