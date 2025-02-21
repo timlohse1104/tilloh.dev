@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { adminIdentifiersStore } from '$lib/util/stores/stores-admin';
+  import { createIdentifier } from '$lib/api/identifiers.api';
+  import { isEnter } from '$lib/util/helper';
+  import {
+    adminIdentifiersStore,
+    adminTokenStore,
+  } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
@@ -9,8 +14,27 @@
     SecondaryText,
     Text,
   } from '@smui/list';
+  import Textfield from '@smui/textfield';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
+
+  let newIdentifierName = '';
+
+  const addIdentifier = async () => {
+    if (!newIdentifierName) {
+      return;
+    }
+    console.log({ newIdentifierName }, 'Creating new identifier...');
+
+    const newIdentifier = await createIdentifier(
+      newIdentifierName,
+      $adminTokenStore,
+    );
+    console.log({ newIdentifier }, 'New identifier created.');
+
+    newIdentifierName = '';
+    dispatch('updateDashboard');
+  };
 </script>
 
 {#if $initialized}
@@ -20,6 +44,22 @@
         {$t('page.admin.identifiers.title')}
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
+      <Textfield
+        style="margin-left:2rem;width: 75%;"
+        bind:value={newIdentifierName}
+        label={$t('page.admin.toggles.newIdentifier')}
+        on:keyup={(event) => {
+          if (isEnter(event)) addIdentifier();
+        }}
+      >
+        <IconButton
+          class="material-icons"
+          style="position:absolute;right:0;"
+          on:click={() => addIdentifier()}
+        >
+          add
+        </IconButton>
+      </Textfield>
     </div>
     <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each $adminIdentifiersStore as identifier, i}

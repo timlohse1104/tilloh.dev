@@ -161,6 +161,7 @@
   "page.admin.dashboard.chatsDescription": "Saved chats",
   "page.admin.toggles.title": "Toggles",
   "page.admin.toggles.newToggle": "New toggle",
+  "page.admin.toggles.newIdentifier": "New identifier",
   "page.admin.toggles.deleteTitle": "Delete toggle",
   "page.admin.toggles.deleteQuestion": "Do you really want to delete this toggle?",
   "page.admin.linkPresets.title": "Link Presets",

@@ -161,6 +161,7 @@
   "page.admin.dashboard.chatsDescription": "Anzahl von Chats in DB",
   "page.admin.toggles.title": "Schalter",
   "page.admin.toggles.newToggle": "Neuer Schalter",
+  "page.admin.toggles.newIdentifier": "Neuer Idenfitikator",
   "page.admin.toggles.deleteTitle": "Schalter löschen",
   "page.admin.toggles.deleteQuestion": "Möchtest du diesen Schalter wirklich löschen?",
   "page.admin.linkPresets.title": "Link Voreinstellungen",

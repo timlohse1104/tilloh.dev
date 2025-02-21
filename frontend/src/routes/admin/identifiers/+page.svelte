@@ -10,8 +10,10 @@
     confirmDeleteIdentifierOpenOverlayStore,
     updateIdentifiers,
   } from '$lib/util/stores/stores-admin';
+  import { getContext } from 'svelte';
 
   const { admin: adminRoute } = utilityRoutes;
+  const updateDashboard = getContext<() => void>('updateDashboard');
 
   $: locale = $languageStore;
 
@@ -42,4 +44,7 @@
   <meta name={adminRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-<Identifiers on:removeIdentifier={removeIdentifier} />
+<Identifiers
+  on:removeIdentifier={removeIdentifier}
+  on:updateDashboard={updateDashboard}
+/>
