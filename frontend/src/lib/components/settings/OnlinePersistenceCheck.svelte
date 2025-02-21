@@ -211,11 +211,9 @@
               >
                 <Icon class="material-icons" slot="leadingIcon">badge</Icon>
                 <HelperText slot="helper"
-                  >{!$sharedIdentifierStore.id
-                    ? $t('page.settings.onlinePersistence.yourNameQuestion')
-                    : $t(
-                        'page.settings.onlinePersistence.yourNewNameQuestion',
-                      )}</HelperText
+                  >{$t(
+                    'page.settings.onlinePersistence.yourNameQuestion',
+                  )}</HelperText
                 >
               </Textfield>
             </div>
