@@ -95,6 +95,6 @@
     gap: 0.5rem;
     max-width: 100%;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
   }
 </style>
