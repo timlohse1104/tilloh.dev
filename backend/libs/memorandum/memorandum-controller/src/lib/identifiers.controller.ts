@@ -62,7 +62,6 @@ export class IdentifiersController {
     return this.identifiersService.getIdentifier(getIdentifierInput);
   }
 
-  @Public()
   @ApiOkResponse({
     description: 'Identifier successfully created.',
     type: CreateIdentifierOutputDto,

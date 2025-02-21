@@ -31,7 +31,7 @@
 </svelte:head>
 
 <section>
-  <Navigation />
+  <Navigation routes={applicationRoutes} />
   <SearchBar />
 
   <div>

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [food-scan] MVP implementation with web llm and https://ocr.space/OCRAPI.
 - [global] Added global theme switch functionality with local storage.
 - [global] Light login functionality for every page to make tilloh.dev accessible to invited users.
+- [memorandum] Autofocus on link search input field for a better UX.
 
 ### Changed
 - [global] Refactored css names to snake_case.
@@ -17,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [food-scan] Second increment with follow up questions and camera input for mobile browsers.
 - [global] Updated dark theme styling.
 - [global] Refactored svelte store usage and corresponding code architecture.
+- [settings] Changed the way users activate cloud persistence and updated info texts.
+- [global] Refactored the way in which svelte stores are used in the app.
 
 ### Fixed
 - [global] Language switch support fix for in-app texts.

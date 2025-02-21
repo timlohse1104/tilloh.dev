@@ -4,8 +4,6 @@
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
-  import LanguageSwitch from './LanguageSwitch.svelte';
-  import ThemeSwitch from './ThemeSwitch.svelte';
 
   export let locale;
 
@@ -74,17 +72,6 @@
         </li>
       {/each}
     </ul>
-
-    <hr />
-
-    <div class="switch_area">
-      <LanguageSwitch
-        customStyle="padding-left: var(--menu_left);margin-top:3rem;"
-      />
-      <ThemeSwitch
-        customStyle="padding-left: var(--menu_left);margin-top:3rem;"
-      />
-    </div>
 
     <footer>
       <IconButton href="https://github.com/timlohse1104" target="_blank">
@@ -219,16 +206,6 @@
     text-decoration: none;
     display: block;
     padding: 1rem;
-  }
-
-  .switch_area {
-    display: flex;
-    flex-direction: row;
-    margin-top: 2rem;
-
-    @media #{$phone} {
-      margin-top: 1rem;
-    }
   }
 
   footer {

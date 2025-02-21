@@ -93,6 +93,7 @@
         variant="standard"
         bind:value={searchQuery}
         label={$t('page.memorandum.searchPlaceholder')}
+        autofocus
       >
         <Icon class="material-icons search_icon" slot="trailingIcon"
           >search</Icon

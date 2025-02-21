@@ -20,10 +20,10 @@ export const getIdentifier = async (id: string) => {
   }).then((res) => res.json());
 };
 
-export const createIdentifier = async (name: string) => {
+export const createIdentifier = async (name: string, token: string) => {
   return await fetch(`${apiURL}/identifiers`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: createHeaders(token),
     body: JSON.stringify({ name }),
   }).then((res) => res.json());
 };
