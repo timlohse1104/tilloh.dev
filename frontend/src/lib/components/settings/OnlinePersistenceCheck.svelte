@@ -155,19 +155,7 @@
       {$t('page.settings.onlinePersistence.title')}
     </h2>
     <p class="online_persistence_info_text">
-      {$t('page.settings.onlinePersistence.description1')}
-    </p>
-    <p class="online_persistence_info_text">
-      {$t('page.settings.onlinePersistence.description2')}
-      <b>
-        {$t('page.settings.onlinePersistence.connectionData')}
-      </b>
-
-      {$t('page.settings.onlinePersistence.description3')}
-      <b>
-        {$t('page.settings.onlinePersistence.loadConnection')}
-      </b>
-      {$t('page.settings.onlinePersistence.description4')}
+      {@html $t('page.settings.onlinePersistence.description1')}
     </p>
 
     <FormField>
