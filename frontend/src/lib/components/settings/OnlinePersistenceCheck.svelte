@@ -192,16 +192,10 @@
       </Dialog>
     {/if}
 
-    {#if shareDataOnline}
+    {#if shareDataOnline && $sharedIdentifierStore.id}
       <div class="input_area">
         <Card padded class="connection_card">
-          {#if !$sharedIdentifierStore.id}
-            <h3>
-              {$t('page.settings.onlinePersistence.establishNewConection')}
-            </h3>
-          {:else}
-            <h3>{$t('page.settings.onlinePersistence.editConnection')}</h3>
-          {/if}
+          <h3>{$t('page.settings.onlinePersistence.editConnection')}</h3>
 
           <p>
             {$t('page.settings.onlinePersistence.editConnectionDescription')}
