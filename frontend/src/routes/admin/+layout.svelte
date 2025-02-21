@@ -171,7 +171,9 @@
   </div>
 
   <main>
-    <slot />
+    <section>
+      <slot />
+    </section>
   </main>
 
   <Fab
@@ -204,8 +206,8 @@
   />
   <ConfirmOverlay
     open={$confirmDeletePresetOpenOverlayStore}
-    questionHeader={$t('page.admin.linkPreset.deleteTitle')}
-    questionContent={$t('page.admin.linkPreset.deleteQuestion')}
+    questionHeader={$t('page.admin.linkPresets.deleteTitle')}
+    questionContent={$t('page.admin.linkPresets.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => ($confirmDeletePresetOpenOverlayStore = false)}
     yesActionText={$t('page.shared.yes')}
@@ -223,3 +225,59 @@
     on:close={() => ($confirmDeleteJokeOpenOverlayStore = false)}
   />
 {/if}
+
+<style lang="scss">
+  section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .admin_overview {
+    display: grid;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  :global(.admin_sections) {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    width: 100vw;
+  }
+
+  :global(.admin_sections_headline) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+  }
+
+  :global(.admin_sections_headline h2 span) {
+    font-size: 0.8rem;
+    color: var(--color_text-secondary);
+  }
+
+  :global(.admin_sections_list) {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  :global(.admin_list_items) {
+    display: flex;
+  }
+  :global(.admin_list_items_icon) {
+    flex-grow: 1;
+  }
+  :global(.admin_list_items_text) {
+    flex-grow: 100;
+    margin-right: 1rem;
+    text-align: start;
+  }
+  :global(.admin_list_items_button) {
+    flex-grow: 1;
+  }
+</style>
