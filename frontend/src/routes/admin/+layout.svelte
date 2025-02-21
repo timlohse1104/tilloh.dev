@@ -3,9 +3,10 @@
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
   import Dashboard from '$lib/components/admin/Dashboard.svelte';
+  import Navigation from '$lib/components/home/Navigation.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
-  import { utilityRoutes } from '$lib/config/applications';
+  import { adminSubRoutes, utilityRoutes } from '$lib/config/applications';
   import type { ChatDto } from '$lib/types/chats.dto';
   import { TOGGLE_KEY_IDENTIFIER } from '$lib/types/keystore.dto';
   import { languageStore } from '$lib/util/stores/store-language';
@@ -151,6 +152,7 @@
   />
 {:else}
   <div class="admin_overview">
+    <Navigation routes={adminSubRoutes} />
     <Dashboard
       metrics={{
         identifierAmount: $adminIdentifiersStore.length,
