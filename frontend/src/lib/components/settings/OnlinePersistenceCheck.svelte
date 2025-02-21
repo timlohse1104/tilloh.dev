@@ -1,6 +1,7 @@
 <script lang="ts">
   import { dev } from '$app/environment';
   import { environment } from '$lib/util/environment';
+  import { identifierStore } from '$lib/util/stores/store-identifier';
   import {
     resetSharedIdentifier,
     sharedIdentifierStore,
@@ -26,23 +27,15 @@
   let shareDataOnline;
   let name = '';
   let saveButton;
-  let connectButton;
   let openIdentifierInfo = false;
-  let idInput = '';
   let snackbar: Snackbar;
   let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
   $: saveSubmittable = name && !sameName;
-  $: connectSubmittable = !!idInput;
   $: if (saveButton) {
     saveButton.$$set({
       disabled: !saveSubmittable,
-    });
-  }
-  $: if (connectButton) {
-    connectButton.$$set({
-      disabled: !connectSubmittable,
     });
   }
 
@@ -55,10 +48,12 @@
     }
   });
 
-  const checkIdentifierReset = async () => {
+  const triggerCloudPersistence = async () => {
     if (shareDataOnline) {
       resetSharedIdentifier();
       name = '';
+    } else {
+      connectOnlineIdentifier();
     }
   };
 
@@ -116,16 +111,21 @@
   };
 
   const connectOnlineIdentifier = async () => {
-    await fetch(`${apiURL}/identifiers/${idInput}`)
+    const loginId = $identifierStore;
+    if (!loginId) {
+      triggerSnackbar($t('page.settings.onlinePersistence.snackbarNoLoginId'));
+      return;
+    }
+
+    await fetch(`${apiURL}/identifiers/${loginId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.statusCode === 404) {
           triggerSnackbar(
             $t('page.settings.onlinePersistence.snackbarNoIdentifierFound', {
-              identifier: idInput,
+              identifier: loginId,
             }),
           );
-          idInput = '';
           return;
         }
 
@@ -141,7 +141,6 @@
             identifier: $sharedIdentifierStore.id,
           }),
         );
-        idInput = '';
       })
       .catch((error) => {
         triggerSnackbar(error);
@@ -161,7 +160,7 @@
     <FormField>
       <Switch
         bind:checked={shareDataOnline}
-        on:click={checkIdentifierReset}
+        on:click={triggerCloudPersistence}
         icons={false}
         color="secondary"
       />
@@ -239,37 +238,6 @@
               {:else}
                 <Label>{$t('page.shared.save')}</Label>
               {/if}
-            </Button>
-          </div>
-        </Card>
-
-        <Card padded class="connection_card">
-          <h3>{$t('page.settings.onlinePersistence.loadConnection')}</h3>
-          <p>
-            {$t('page.settings.onlinePersistence.loadConnectionDescription')}
-          </p>
-
-          <div class="button_group">
-            <div>
-              <Textfield
-                bind:value={idInput}
-                label={$t('page.settings.onlinePersistence.yourId')}
-              >
-                <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-                <HelperText slot="helper"
-                  >{$t(
-                    'page.settings.onlinePersistence.personalIdQuestion',
-                  )}</HelperText
-                >
-              </Textfield>
-            </div>
-
-            <Button
-              on:click={connectOnlineIdentifier}
-              bind:this={connectButton}
-            >
-              <Icon class="material-icons">cloud_download</Icon>
-              <Label>{$t('page.shared.connect')}</Label>
             </Button>
           </div>
         </Card>
