@@ -26,15 +26,18 @@
       height="32"
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
-      ><path
+    >
+      <path
         fill="none"
         stroke="currentColor"
         stroke-linecap="round"
         stroke-linejoin="round"
         stroke-width="2"
-        d="M5 8h22M5 16h22M5 24h22"
-      /></svg
-    >
+        d="M4 4h6v6h-6zM13 4h6v6h-6zM22 4h6v6h-6z
+           M4 13h6v6h-6zM13 13h6v6h-6zM22 13h6v6h-6z
+           M4 22h6v6h-6zM13 22h6v6h-6zM22 22h6v6h-6z"
+      />
+    </svg>
   </button>
 </IconButton>
 
