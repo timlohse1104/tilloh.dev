@@ -3,7 +3,7 @@
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import IconButton, { Icon } from '@smui/icon-button';
-  import BurgerMenu from './BurgerMenu.svelte';
+  import AppsMenu from './AppsMenu.svelte';
 
   export let locale;
 
@@ -50,7 +50,7 @@
     </div>
 
     <div class="corner">
-      <BurgerMenu {locale} />
+      <AppsMenu {locale} />
     </div>
   </div>
 </section>
