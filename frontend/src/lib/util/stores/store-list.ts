@@ -20,3 +20,7 @@ if (browser) {
     localStorage.setItem(localStorageKey, JSON.stringify(value)),
   );
 }
+
+export const newListIndexStore = writable(0);
+
+export const currentListIndexStore = writable(0);

@@ -1,14 +1,18 @@
 <script lang="ts">
+  import CreateListButton from '$lib/components/lists/CreateListButton.svelte';
   import ListComponent from '$lib/components/lists/List.svelte';
   import ListOverlay from '$lib/components/lists/ListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/stores/store-language';
-  import { listStore } from '$lib/util/stores/store-list';
+  import {
+    currentListIndexStore,
+    listStore,
+    newListIndexStore,
+  } from '$lib/util/stores/store-list';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import Button from '@smui/button';
-  import { Icon, Label } from '@smui/common';
+  import { Icon } from '@smui/common';
   import Drawer, {
     AppContent,
     Content,
@@ -23,26 +27,24 @@
 
   const { lists: listsRoute } = applicationRoutes;
 
-  let currentListIndex = 0;
-  let newListIndex = 0;
   let openMenu = false;
 
   $: locale = $languageStore;
 
   const showListOverlay = (type: 'new' | 'edit', index?: number) => {
     if (type === 'new') {
-      newListIndex = $listStore.length;
+      $newListIndexStore = $listStore.length;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     } else {
-      currentListIndex = index;
+      $currentListIndexStore = index;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     }
   };
 
   const setActiveList = (index: number) => {
-    currentListIndex = index;
+    $currentListIndexStore = index;
     openMenu = false;
   };
 
@@ -59,11 +61,7 @@
 {#if listsRoute.toggle}
   {#if $initialized}
     <section>
-      <Drawer
-        variant="modal"
-        bind:open={openMenu}
-        style="width:25%;max-width:max-content;height:max-content;overflow:auto;"
-      >
+      <Drawer variant="modal" bind:open={openMenu} class="lists_side_drawer">
         <Header>
           <Title
             style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
@@ -86,7 +84,7 @@
                 <Text>{$t('page.lists.sideMenu.emptyInfo')}</Text>
               </div>
             {:else}
-              <!-- List all lists -->
+              <!-- Show all lists -->
               {#each $listStore as list, i (i)}
                 <Item
                   href="javascript:void(0)"
@@ -106,17 +104,7 @@
                 <hr style="border-color:var(--darkgrey80);width:95%" />
               {/each}
             {/if}
-            <div style="display:flex;justify-content:center;">
-              <Button
-                color={$listStore.length === 0 ? 'primary' : 'secondary'}
-                variant="outlined"
-                on:click={() => showListOverlay('new')}
-                style="margin: var(--default_padding);"
-              >
-                <Icon class="material-icons">playlist_add</Icon>
-                <Label>{$t('page.lists.sideMenu.createNewList')}</Label>
-              </Button>
-            </div>
+            <CreateListButton />
           </List>
         </Content>
       </Drawer>
@@ -126,21 +114,21 @@
         <main class="main_content">
           <IconButton
             color="secondary"
-            style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
+            class="lists_menu_button"
             size="button"
             on:click={() => (openMenu = !openMenu)}
           >
             <Icon class="material-icons">menu</Icon>
           </IconButton>
-          <ListComponent listIndex={currentListIndex} />
+          <ListComponent listIndex={$currentListIndexStore} />
         </main>
       </AppContent>
 
       {#if $listOverlayOptionsStore.showOverlay}
         <ListOverlay
-          listIndex={newListIndex}
-          newListName={$listStore[newListIndex]?.name}
-          newListEmoji={$listStore[newListIndex]?.emoji}
+          listIndex={$newListIndexStore}
+          newListName={$listStore[$newListIndexStore]?.name}
+          newListEmoji={$listStore[$newListIndexStore]?.emoji}
         />
       {/if}
     </section>
@@ -152,6 +140,8 @@
 {/if}
 
 <style lang="scss">
+  @use '../../lib/styles/variables.scss' as *;
+
   section {
     position: relative;
     display: flex;
@@ -175,5 +165,27 @@
     text-align: left;
     margin: 0 0 var(--default_padding) 0;
     padding-left: calc(var(--default_padding) / 2);
+  }
+
+  :global(.lists_menu_button) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 1rem;
+  }
+
+  :global(.lists_side_drawer) {
+    width: 25%;
+    max-width: max-content;
+    height: max-content;
+    overflow: auto;
+
+    @media #{$tablet} {
+      width: 50%;
+    }
+
+    @media #{$phone} {
+      width: 75%;
+    }
   }
 </style>
