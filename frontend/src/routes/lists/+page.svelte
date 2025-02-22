@@ -1,6 +1,6 @@
 <script lang="ts">
-  import ListComponent from '$lib/components/list/List.svelte';
-  import ListOverlay from '$lib/components/list/ListOverlay.svelte';
+  import ListComponent from '$lib/components/lists/List.svelte';
+  import ListOverlay from '$lib/components/lists/ListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/stores/store-language';
