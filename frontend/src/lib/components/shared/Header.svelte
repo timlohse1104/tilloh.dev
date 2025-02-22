@@ -24,7 +24,6 @@
   $: currentPage = getCurrentPage();
 
   $: if (pageName) currentPage = getCurrentPage();
-  $: if (currentPage) console.log(`Loaded ${currentPage}`);
 </script>
 
 <section>
