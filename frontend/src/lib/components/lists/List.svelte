@@ -1,6 +1,7 @@
 <script lang="ts">
   import { listStore } from '$lib/util/stores/store-list';
   import { initialized, t } from '$lib/util/translations';
+  import { onMount } from 'svelte';
   import CreateListButton from './CreateListButton.svelte';
   import ListEntry from './ListEntry.svelte';
   import ListEntryInput from './ListEntryInput.svelte';
@@ -8,28 +9,28 @@
   export let listIndex;
 
   $: currentList = $listStore[listIndex] || $listStore[0];
+  // Sort entries by done status
+  $: if (currentList) currentList.entries.sort((a, b) => a.done - b.done);
 
-  $: if (currentList) console.log(currentList);
-
-  const deleteListEntry = (index) => {
+  const deleteListEntry = (id: string) => {
+    const index = currentList.entries.findIndex((e) => e.id === id);
     listStore.update((list) => {
-      list[listIndex].lists.splice(index, 1);
+      list[listIndex]?.entries?.splice(index, 1);
       return list;
     });
   };
-  const checkListEntry = (index) => {
+  const checkListEntry = (id: string) => {
+    const index = currentList.entries.findIndex((e) => e.id === id);
     listStore.update((list) => {
-      list[listIndex].lists[index].done = !list[listIndex].lists[index].done;
+      list[listIndex].entries[index].done =
+        !list[listIndex]?.entries[index]?.done;
       return list;
     });
   };
 
-  const clearHistory = () => {
-    listStore.update((list) => {
-      list[listIndex].history = [];
-      return list;
-    });
-  };
+  onMount(() => {
+    console.log('currentList', currentList);
+  });
 </script>
 
 {#if $initialized}
@@ -38,21 +39,22 @@
     style="overflow:hidden;display:flex;align-items:center;"
   >
     <div class="list_area">
-      {#if currentList || currentList?.lists?.length > 0}
-        <div class="list_header">
+      <div class="list_header">
+        {#if currentList || currentList?.lists?.length > 0}
           <h2>
             {currentList?.emoji || $t('page.lists.list.noEmoji')}
             {currentList?.name || $t('page.lists.list.noEmoji')}
           </h2>
           <ListEntryInput {listIndex} />
-        </div>
-      {/if}
-
-      <div class="list_content">
-        {#if !currentList}
+        {:else}
           <h1 style="margin-top:2rem;">
             {$t('page.lists.list.emptyTitle')}
           </h1>
+        {/if}
+      </div>
+
+      <div class="list_content">
+        {#if !currentList}
           <div style="display:flex;flex-direction:column;align-items:center;">
             <p style="margin-top:2rem;">
               {$t('page.lists.list.emptySubtitle')}
@@ -60,7 +62,16 @@
             </p>
           </div>
         {:else}
-          {#each currentList?.entries as listEntry, i (i)}
+          {#each currentList?.entries as listEntry (listEntry.id)}
+            {#if listEntry}
+              <ListEntry
+                {listEntry}
+                deleteListEntry={() => deleteListEntry(listEntry.id)}
+                listEntryChecked={() => checkListEntry(listEntry.id)}
+              />
+            {/if}
+          {/each}
+          <!-- {#each currentList?.entries as listEntry, i (i)}
             {#if listEntry}
               <ListEntry
                 {listEntry}
@@ -68,7 +79,7 @@
                 listEntryChecked={() => checkListEntry(i)}
               />
             {/if}
-          {/each}
+          {/each} -->
         {/if}
       </div>
     </div>

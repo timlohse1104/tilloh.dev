@@ -1,3 +1,4 @@
+import type { List, ListEntry } from '$lib/types/list';
 import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
 
 const isUUID = (str) => {
@@ -24,4 +25,20 @@ export const ensureFolderUUID = (linkPreset: MemorandumDto) => {
     }
   });
   return linkPreset;
+};
+
+const ensureListEntryUUID = (listEntry: ListEntry) => {
+  if (!isUUID(listEntry.id)) {
+    listEntry.id = crypto.randomUUID();
+  }
+};
+
+export const ensureListUUID = (list: List): List => {
+  if (!isUUID(list.id)) {
+    list.id = crypto.randomUUID();
+  }
+  list.entries.forEach((entry) => {
+    ensureListEntryUUID(entry);
+  });
+  return list;
 };

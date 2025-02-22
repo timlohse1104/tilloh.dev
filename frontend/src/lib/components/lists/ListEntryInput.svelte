@@ -11,7 +11,7 @@
   const saveListEntry = () => {
     if (newListEntryName) {
       listStore.update((n) => {
-        n[listIndex].entries.push({ title: newListEntryName, done: false });
+        n[listIndex].entries.unshift({ title: newListEntryName, done: false });
         return [...n];
       });
       addToHistory(newListEntryName);
