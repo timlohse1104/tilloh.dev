@@ -91,6 +91,9 @@
 
   .list_area {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1 {
       @media #{$phone} {
@@ -105,15 +108,14 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 50%;
 
-    h2 {
-      @media #{$tablet} {
-        width: 60vw;
-      }
+    @media #{$tablet} {
+      width: 70%;
+    }
 
-      @media #{$phone} {
-        width: 60vw;
-      }
+    @media #{$phone} {
+      width: 100%;
     }
   }
 
@@ -121,6 +123,15 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    width: 50%;
+
+    @media #{$tablet} {
+      width: 70%;
+    }
+
+    @media #{$phone} {
+      width: 100%;
+    }
   }
 
   .history_area {
