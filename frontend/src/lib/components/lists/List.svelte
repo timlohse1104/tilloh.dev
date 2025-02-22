@@ -1,9 +1,6 @@
 <script lang="ts">
   import { listStore } from '$lib/util/stores/store-list';
   import { initialized, t } from '$lib/util/translations';
-  import Button, { Label } from '@smui/button';
-  import IconButton, { Icon } from '@smui/icon-button';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
   import CreateListButton from './CreateListButton.svelte';
   import ListEntry from './ListEntry.svelte';
   import ListEntryInput from './ListEntryInput.svelte';
@@ -47,31 +44,6 @@
             {currentList?.emoji || $t('page.lists.list.noEmoji')}
             {currentList?.name || $t('page.lists.list.noEmoji')}
           </h2>
-          <div class="history_area">
-            {#if currentList?.history?.length > 0}
-              <div class="history_list">
-                <Wrapper>
-                  <Button color="secondary" variant="outlined">
-                    <Icon class="material-icons">info</Icon>
-                    <Label>{$t('page.lists.list.history')}</Label>
-                    <Tooltip xPos="end" yPos="detected">
-                      {currentList?.history}
-                    </Tooltip>
-                  </Button>
-                </Wrapper>
-                <IconButton
-                  color="secondary"
-                  style="margin-left: auto;"
-                  size="button"
-                  on:click={clearHistory}
-                >
-                  <Icon class="material-icons">delete</Icon>
-                </IconButton>
-              </div>
-            {:else}
-              <pre class="status">{$t('page.lists.list.historyEmpty')}</pre>
-            {/if}
-          </div>
           <ListEntryInput {listIndex} />
         </div>
       {/if}

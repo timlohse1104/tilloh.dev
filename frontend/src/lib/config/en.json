@@ -90,8 +90,6 @@
   "page.lists.overlay.emojiTooltip": "Emojis can be found here https://emojipedia.org/ and here https://emojifinder.com/.",
   "page.lists.list.noEmoji": "No emoji set...",
   "page.lists.list.noListTitle": "No list title found...",
-  "page.lists.list.history": "History",
-  "page.lists.list.historyEmpty": "No history available...",
   "page.lists.list.emptyTitle": "Pretty empty in here",
   "page.lists.list.emptySubtitle": "Create your first list!",
   "page.unoSort.title": "Sorting rules",

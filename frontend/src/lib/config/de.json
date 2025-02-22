@@ -90,8 +90,6 @@
   "page.lists.overlay.emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden.",
   "page.lists.list.noEmoji": "Kein Emoji vorhanden...",
   "page.lists.list.noListTitle": "Kein Listentitel vorhanden...",
-  "page.lists.list.history": "Verlauf",
-  "page.lists.list.historyEmpty": "Kein Verlauf vorhanden...",
   "page.lists.list.emptyTitle": "Ganz schön leer hier",
   "page.lists.list.emptySubtitle": "Erstelle deine erste Liste!",
   "page.unoSort.title": "Sortierungsregeln",
