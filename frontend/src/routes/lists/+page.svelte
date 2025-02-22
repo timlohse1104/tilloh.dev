@@ -1,11 +1,11 @@
 <script lang="ts">
+  import ListComponent from '$lib/components/list/List.svelte';
+  import ListOverlay from '$lib/components/list/ListOverlay.svelte';
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
-  import TodoListComponent from '$lib/components/todo/TodoList.svelte';
-  import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/stores/store-language';
+  import { listStore } from '$lib/util/stores/store-list';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
-  import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import Button from '@smui/button';
   import { Icon, Label } from '@smui/common';
@@ -21,7 +21,7 @@
   import List, { Item, Text } from '@smui/list';
   import { onMount } from 'svelte';
 
-  const { todo: todoRoute } = applicationRoutes;
+  const { lists: listsRoute } = applicationRoutes;
 
   let currentListIndex = 0;
   let newListIndex = 0;
@@ -31,7 +31,7 @@
 
   const showListOverlay = (type: 'new' | 'edit', index?: number) => {
     if (type === 'new') {
-      newListIndex = $todoStore.length;
+      newListIndex = $listStore.length;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     } else {
@@ -52,11 +52,11 @@
 </script>
 
 <svelte:head>
-  <title>{todoRoute.name[locale]}</title>
-  <meta name={todoRoute.name[locale]} content="tilloh.dev" />
+  <title>{listsRoute.name[locale]}</title>
+  <meta name={listsRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-{#if todoRoute.toggle}
+{#if listsRoute.toggle}
   {#if $initialized}
     <section>
       <Drawer
@@ -67,27 +67,27 @@
         <Header>
           <Title
             style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
-            >{$t('page.todos.sideMenu.title')}</Title
+            >{$t('page.lists.sideMenu.title')}</Title
           >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.description')}</Subtitle
+          <Subtitle class="lists_side_menu_description"
+            >{$t('page.lists.sideMenu.description')}</Subtitle
           >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
+          <Subtitle class="lists_side_menu_description"
+            >{$t('page.lists.sideMenu.persistenceInfo')}</Subtitle
           >
         </Header>
         <Content>
           <List>
-            {#if $todoStore.length === 0}
+            {#if $listStore.length === 0}
               <div
                 style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
               >
                 <Icon class="material-icons">search_off</Icon>
-                <Text>{$t('page.todos.sideMenu.emptyInfo')}</Text>
+                <Text>{$t('page.lists.sideMenu.emptyInfo')}</Text>
               </div>
             {:else}
-              <!-- List all todos -->
-              {#each $todoStore as list, i (i)}
+              <!-- List all lists -->
+              {#each $listStore as list, i (i)}
                 <Item
                   href="javascript:void(0)"
                   style="padding-left: calc(var(--default_padding) / 1.5);"
@@ -108,13 +108,13 @@
             {/if}
             <div style="display:flex;justify-content:center;">
               <Button
-                color={$todoStore.length === 0 ? 'primary' : 'secondary'}
+                color={$listStore.length === 0 ? 'primary' : 'secondary'}
                 variant="outlined"
                 on:click={() => showListOverlay('new')}
                 style="margin: var(--default_padding);"
               >
                 <Icon class="material-icons">playlist_add</Icon>
-                <Label>{$t('page.todos.sideMenu.createNewList')}</Label>
+                <Label>{$t('page.lists.sideMenu.createNewList')}</Label>
               </Button>
             </div>
           </List>
@@ -132,15 +132,15 @@
           >
             <Icon class="material-icons">menu</Icon>
           </IconButton>
-          <TodoListComponent listIndex={currentListIndex} />
+          <ListComponent listIndex={currentListIndex} />
         </main>
       </AppContent>
 
       {#if $listOverlayOptionsStore.showOverlay}
-        <TodoListOverlay
+        <ListOverlay
           listIndex={newListIndex}
-          newListName={$todoStore[newListIndex]?.name}
-          newListEmoji={$todoStore[newListIndex]?.emoji}
+          newListName={$listStore[newListIndex]?.name}
+          newListEmoji={$listStore[newListIndex]?.emoji}
         />
       {/if}
     </section>
@@ -171,7 +171,7 @@
     box-sizing: border-box;
   }
 
-  :global(.todos_side_menu_description) {
+  :global(.lists_side_menu_description) {
     text-align: left;
     margin: 0 0 var(--default_padding) 0;
     padding-left: calc(var(--default_padding) / 2);

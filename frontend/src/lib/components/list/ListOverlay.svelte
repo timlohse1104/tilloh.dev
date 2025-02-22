@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { TodoList } from '$lib/types/todo.ts';
+  import type { List } from '$lib/types/list';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
+  import { listStore } from '$lib/util/stores/store-list';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
-  import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import Dialog, { Actions, Content, Title } from '@smui/dialog';
@@ -33,13 +33,13 @@
   }
 
   const createList = () => {
-    const list: TodoList = {
+    const list: List = {
       name: newListName,
       emoji: newListEmoji || '📝',
       history: [],
-      todos: [],
+      entries: [],
     };
-    todoStore.update((n) => {
+    listStore.update((n) => {
       return [...n, list];
     });
 
@@ -47,7 +47,7 @@
   };
 
   const updateList = () => {
-    todoStore.update((n) => {
+    listStore.update((n) => {
       console.log(listIndex);
       console.log(n);
       n[listIndex].name = newListName;
@@ -59,7 +59,7 @@
   };
 
   const deleteList = () => {
-    todoStore.update((n) => {
+    listStore.update((n) => {
       n.splice(listIndex, 1);
       return n;
     });
@@ -91,17 +91,17 @@
   {#if $initialized}
     {#if $listOverlayOptionsStore.type === 'new'}
       <Title id="simple-title">
-        {$t('page.todos.overlay.createTitle')}
+        {$t('page.lists.overlay.createTitle')}
         <p class="subtitle">
-          {$t('page.todos.overlay.createSubtitle')}
+          {$t('page.lists.overlay.createSubtitle')}
         </p>
       </Title>
     {:else}
       <Title id="simple-title">
-        {$t('page.todos.overlay.editTitle')}
+        {$t('page.lists.overlay.editTitle')}
         <p class="subtitle">
           <b
-            >{$t('page.todos.overlay.createSubtitle', {
+            >{$t('page.lists.overlay.createSubtitle', {
               listName: newListName,
             })}</b
           >.
@@ -113,7 +113,7 @@
         <Textfield
           variant="outlined"
           bind:value={newListName}
-          label={$t('page.todos.overlay.listName')}
+          label={$t('page.lists.overlay.listName')}
           required
           on:keyup={(event) => proceedOnEnter(event)}
         />
@@ -122,11 +122,11 @@
             variant="outlined"
             bind:this={newListEmojiInput}
             bind:value={newListEmoji}
-            label={$t('page.todos.overlay.listEmoji')}
+            label={$t('page.lists.overlay.listEmoji')}
             on:keyup={(event) => proceedOnEnter(event)}
           >
             <HelperText persistent slot="helper"
-              >{$t('page.todos.overlay.listEmojiDescription')}</HelperText
+              >{$t('page.lists.overlay.listEmojiDescription')}</HelperText
             >
             <Wrapper>
               <IconButton
@@ -136,7 +136,7 @@
                 <Icon class="material-icons">info</Icon>
               </IconButton>
               <Tooltip xPos="center" yPos="above"
-                >{$t('page.todos.overlay.emojiTooltip')}</Tooltip
+                >{$t('page.lists.overlay.emojiTooltip')}</Tooltip
               >
             </Wrapper>
           </Textfield>

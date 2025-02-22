@@ -1,26 +1,27 @@
 <script lang="ts">
-  import type { Todo } from '$lib/types/todo.ts';
+  import type { ListEntry } from '$lib/types/list';
   import Checkbox from '@smui/checkbox';
   import FormField from '@smui/form-field';
   import IconButton, { Icon } from '@smui/icon-button';
 
-  export let todo: Todo;
-  export let deleteTodo;
-  export let todoChecked;
+  export let listEntry: ListEntry;
+  export let deleteListEntry;
+  export let listEntryChecked;
 </script>
 
 <section>
-  <div class="todo">
+  <div class="entry">
     <FormField>
-      <Checkbox bind:checked={todo['done']} on:click={todoChecked} />
-      <span slot="label" class={todo?.done ? 'striked' : ''}>{todo?.title}</span
+      <Checkbox bind:checked={listEntry['done']} on:click={listEntryChecked} />
+      <span slot="label" class={listEntry?.done ? 'striked' : ''}
+        >{listEntry?.title}</span
       >
     </FormField>
     <IconButton
       color="secondary"
       style="margin-left: auto;"
       size="button"
-      on:click={deleteTodo}
+      on:click={deleteListEntry}
     >
       <Icon class="material-icons">delete</Icon>
     </IconButton>
@@ -28,7 +29,7 @@
 </section>
 
 <style>
-  .todo {
+  .entry {
     display: flex;
     justify-content: space-between;
     align-items: center;

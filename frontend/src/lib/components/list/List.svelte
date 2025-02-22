@@ -1,31 +1,31 @@
 <script lang="ts">
-  import { todoStore } from '$lib/util/stores/store-todo';
+  import { listStore } from '$lib/util/stores/store-list';
   import { initialized, t } from '$lib/util/translations';
   import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
   import Tooltip, { Wrapper } from '@smui/tooltip';
-  import Todo from './Todo.svelte';
-  import TodoInput from './TodoInput.svelte';
+  import ListEntry from './ListEntry.svelte';
+  import ListEntryInput from './ListEntryInput.svelte';
 
   export let listIndex;
 
-  $: currentList = $todoStore[listIndex] || $todoStore[0];
+  $: currentList = $listStore[listIndex] || $listStore[0];
 
-  const deleteTodo = (index) => {
-    todoStore.update((list) => {
-      list[listIndex].todos.splice(index, 1);
+  const deleteListEntry = (index) => {
+    listStore.update((list) => {
+      list[listIndex].lists.splice(index, 1);
       return list;
     });
   };
-  const checkTodo = (index) => {
-    todoStore.update((list) => {
-      list[listIndex].todos[index].done = !list[listIndex].todos[index].done;
+  const checkListEntry = (index) => {
+    listStore.update((list) => {
+      list[listIndex].lists[index].done = !list[listIndex].lists[index].done;
       return list;
     });
   };
 
   const clearHistory = () => {
-    todoStore.update((list) => {
+    listStore.update((list) => {
       list[listIndex].history = [];
       return list;
     });
@@ -34,15 +34,15 @@
 
 {#if $initialized}
   <section
-    class="todo_list"
+    class="entry_list"
     style="overflow:hidden;display:flex;align-items:center;"
   >
     <div class="list_area">
-      {#if currentList || currentList?.todos?.length > 0}
+      {#if currentList || currentList?.lists?.length > 0}
         <div class="list_header">
           <h2>
-            {currentList?.emoji || $t('page.todos.list.noEmoji')}
-            {currentList?.name || $t('page.todos.list.noEmoji')}
+            {currentList?.emoji || $t('page.lists.list.noEmoji')}
+            {currentList?.name || $t('page.lists.list.noEmoji')}
           </h2>
           <hr />
           <div class="history_area">
@@ -51,7 +51,7 @@
                 <Wrapper>
                   <Button color="secondary" variant="outlined">
                     <Icon class="material-icons">info</Icon>
-                    <Label>{$t('page.todos.list.history')}</Label>
+                    <Label>{$t('page.lists.list.history')}</Label>
                     <Tooltip xPos="end" yPos="detected">
                       {currentList?.history}
                     </Tooltip>
@@ -67,33 +67,33 @@
                 </IconButton>
               </div>
             {:else}
-              <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
+              <pre class="status">{$t('page.lists.list.historyEmpty')}</pre>
             {/if}
           </div>
-          <TodoInput {listIndex} />
+          <ListEntryInput {listIndex} />
         </div>
       {/if}
 
       <div class="list_content">
         {#if !currentList}
           <h1 style="margin-top:2rem;">
-            {$t('page.todos.list.emptyTitle1')}
+            {$t('page.lists.list.emptyTitle1')}
             <Icon class="material-icons">list</Icon>
-            {$t('page.todos.list.emptyTitle2')}
+            {$t('page.lists.list.emptyTitle2')}
           </h1>
           <div style="display:flex;flex-direction:column;align-items:center;">
             <p style="margin-top:2rem;">
-              {$t('page.todos.list.emptySubtitle')}
+              {$t('page.lists.list.emptySubtitle')}
               <Icon class="material-icons">menu</Icon>
             </p>
           </div>
         {:else}
-          {#each currentList?.todos as todo, i (i)}
-            {#if todo}
-              <Todo
-                {todo}
-                deleteTodo={() => deleteTodo(i)}
-                todoChecked={() => checkTodo(i)}
+          {#each currentList?.lists as listEntry, i (i)}
+            {#if listEntry}
+              <ListEntry
+                {listEntry}
+                deleteListEntry={() => deleteListEntry(i)}
+                listEntryChecked={() => checkListEntry(i)}
               />
             {/if}
           {/each}
@@ -112,7 +112,7 @@
     padding: 0;
   }
 
-  .todo_list {
+  .entry_list {
     display: flex;
     flex-direction: column;
   }

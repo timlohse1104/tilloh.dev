@@ -1,11 +1,11 @@
-export type Todo = {
+export type ListEntry = {
   title: string;
   done?: boolean;
 };
 
-export type TodoList = {
+export type List = {
   name: string;
   emoji: string;
-  todos: Todo[];
+  entries: ListEntry[];
   history: string[];
 };

@@ -1,7 +1,7 @@
 export enum TogglesEnum {
   randomJoke = 'TOGGLE_RANDOM_JOKE',
   memorandum = 'TOGGLE_NAV_MEMORANDUM',
-  todo = 'TOGGLE_NAV_TODO',
+  lists = 'TOGGLE_NAV_LISTS',
   foodScan = 'TOGGLE_NAV_FOOD_SCAN',
   jokes = 'TOGGLE_NAV_JOKES',
   chat = 'TOGGLE_NAV_CHAT',

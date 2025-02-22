@@ -1,9 +1,9 @@
 import { browser } from '$app/environment';
-import type { TodoList } from '$lib/types/todo';
+import type { List } from '$lib/types/list';
 import { writable } from 'svelte/store';
 
-const localStorageKey = 'todos';
-const defaultValue: TodoList[] = [];
+const localStorageKey = 'lists';
+const defaultValue: List[] = [];
 
 const getInitialValue = () => {
   if (browser) {
@@ -13,10 +13,10 @@ const getInitialValue = () => {
   }
 };
 
-export const todoStore = writable(getInitialValue());
+export const listStore = writable(getInitialValue());
 
 if (browser) {
-  todoStore.subscribe((value: TodoList[]) =>
+  listStore.subscribe((value: List[]) =>
     localStorage.setItem(localStorageKey, JSON.stringify(value)),
   );
 }

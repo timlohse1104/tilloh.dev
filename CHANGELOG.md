@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [global] Refactored svelte store usage and corresponding code architecture.
 - [settings] Changed the way users activate cloud persistence and updated info texts.
 - [global] Refactored the way in which svelte stores are used in the app.
+- [global] Renamed todo feature into list.
 
 ### Fixed
 - [global] Language switch support fix for in-app texts.

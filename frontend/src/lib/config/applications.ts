@@ -20,11 +20,11 @@ const loadApplications = async () => ({
     icon: 'psychology',
     toggle: await getToggleValue(TogglesEnum.jokes),
   },
-  todo: {
+  lists: {
     name: { en: 'Lists', de: 'Listen' },
-    path: '/todo',
+    path: '/lists',
     icon: 'list',
-    toggle: await getToggleValue(TogglesEnum.todo),
+    toggle: await getToggleValue(TogglesEnum.lists),
   },
   'food-scan': {
     name: { en: 'Food Scan', de: 'Essen-Scan' },

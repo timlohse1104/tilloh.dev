@@ -10,7 +10,7 @@ There are a few usable toggles in the frontend. These can be created in the admi
 
 1. **TOGGLE_RANDOM_JOKE**: Show a random joke on the home page.
 2. **TOGGLE_NAV_MEMORANDUM**: Show the memorandum button in the navigation bar and activate route.
-3. **TOGGLE_NAV_TODO**: Show the todo button in the navigation bar and activate route.
+3. **TOGGLE_NAV_LISTS**: Show the lists button in the navigation bar and activate route.
 4. **TOGGLE_NAV_CHAT**: Show the chat button in the navigation bar and activate route.
 5. **TOGGLE_NAV_CATCH_EM_ALL**: Show the catch em all button in the navigation bar and activate route.
 6. **TOGGLE_NAV_UNO_SORT**: Show the uno sort button in the navigation bar and activate route.
