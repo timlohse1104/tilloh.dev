@@ -12,9 +12,15 @@ export class ListEntry {
 
   @Prop({ required: true, default: false })
   done!: boolean;
+
+  @Prop({ type: Date, required: true, default: () => new Date() })
+  created!: Date;
+
+  @Prop({ type: Date, required: true, default: () => new Date() })
+  updated!: Date;
 }
 
-@Schema({ collection: 'jokes' })
+@Schema({ collection: 'lists' })
 export class List {
   @Prop({ required: true })
   _id: string;

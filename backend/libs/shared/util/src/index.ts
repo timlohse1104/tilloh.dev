@@ -5,4 +5,5 @@ export * from './lib/http-response.mock';
 export * from './lib/identifier.mock';
 export * from './lib/joke.mock';
 export * from './lib/keystore.mock';
+export * from './lib/list.mock';
 export * from './lib/logger.middleware';
