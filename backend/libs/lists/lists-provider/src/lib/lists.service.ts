@@ -1,131 +1,69 @@
 import {
-  JokeDocument,
-  JokesMongoDbService,
-} from '@backend/jokes/jokes-persistence';
-import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
-import { HttpService } from '@nestjs/axios';
+  ListDocument,
+  ListsMongoDbService,
+} from '@backend/lists/lists-persistence';
+import { ListDto } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
 import { FilterQuery } from 'mongoose';
-import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class JokesService {
-  private readonly logger = new Logger(JokesService.name);
-  constructor(
-    private jokesMongoDbService: JokesMongoDbService,
-    private httpService: HttpService,
-  ) {}
+export class ListsService {
+  private readonly logger = new Logger(ListsService.name);
+  constructor(private listsMongoDbService: ListsMongoDbService) {}
 
   /**
-   * Fetches a joke from the jokes-api and persists it in the database.
-   * This method is scheduled to run every day at 3:00 AM.
-   */
-  @Cron('0 3 * * *', { timeZone: 'Europe/Berlin' })
-  async persistDailyJoke() {
-    this.logger.log('Getting new joke of the day from jokes-api.');
-    const jokeUrl = 'https://witzapi.de/api/joke/?limit=1&language=de';
-
-    let joke: JokeDto;
-    try {
-      const jokeResponse = await firstValueFrom(this.httpService.get(jokeUrl));
-      joke = jokeResponse.data;
-      joke.verified = true;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      throw new Error('Failed to fetch data: ' + error?.message);
-    }
-
-    this.logger.log('Persisting the joke of the day.');
-    await this.jokesMongoDbService.create(joke);
-  }
-
-  /**
-   * Duplicate joke cleanup task.
-   * This method is scheduled to run every day at 3:30 AM.
-   */
-  @Cron('30 3 * * *', { timeZone: 'Europe/Berlin' })
-  async cleanupDuplicateJokes() {
-    this.logger.log('Cleaning up duplicate jokes.');
-    await this.jokesMongoDbService.removeDuplicates();
-  }
-
-  /**
-   * Fetches the joke of the day.
+   * Fetches all lists.
    *
-   * @returns A single joke.
+   * @param filter Optional param to filter for specific list results.
+   * @returns An array of lists.
    */
-  async getJokeOfTheDay(): Promise<JokeDto> {
-    this.logger.log('Getting the joke of the day.');
-    return await this.jokesMongoDbService.findJokeOfTheDay();
+  async getLists(filter: FilterQuery<ListDocument> = {}): Promise<ListDto[]> {
+    this.logger.log('Getting all lists.');
+    return await this.listsMongoDbService.findAll(filter);
   }
 
   /**
-   * Fetches a random joke.
+   * Fetches a list by its id.
    *
-   * @returns A single joke.
+   * @param id The id of the list.
+   * @returns A single list.
    */
-  async getRandomJoke(): Promise<JokeDto> {
-    this.logger.log('Getting the random joke of the day.');
-    return await this.jokesMongoDbService.findRandomOne();
+  async getList(id: string): Promise<ListDto> {
+    this.logger.log('Getting a list by id.');
+    return await this.listsMongoDbService.findOne(id);
   }
 
   /**
-   * Fetches all jokes.
+   * Creates a new list.
    *
-   * @param filter Optional param to filter for specific joke results.
-   * @returns An array of jokes.
+   * @param listDto The list to create.
+   * @returns The created list.
    */
-  async listJokes(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
-    this.logger.log('Getting all jokes.');
-    return await this.jokesMongoDbService.findAll(filter);
+  async createList(listDto: ListDto): Promise<ListDto> {
+    this.logger.log('Creating a list.');
+    return await this.listsMongoDbService.create(listDto);
   }
 
   /**
-   * Fetches a joke by its id.
+   * Updates a list by its id.
    *
-   * @param id The id of the joke.
-   * @returns A single joke.
+   * @param id The id of the list.
+   * @param listDto The list to update.
+   * @returns The updated list.
    */
-  async getJoke(id: string): Promise<JokeDto> {
-    this.logger.log('Getting a joke by id.');
-    return await this.jokesMongoDbService.findOne(id);
+  async updateList(id: string, listDto: Partial<ListDto>): Promise<ListDto> {
+    this.logger.log('Updating a list.');
+    return await this.listsMongoDbService.update(id, listDto);
   }
 
   /**
-   * Creates a new joke.
+   * Deletes a list by its id.
    *
-   * @param createJokeDto The joke to create.
-   * @returns The created joke.
+   * @param id The id of the list.
+   * @returns The deleted list.
    */
-  async createJoke(createJokeDto: ModifyJokeDto): Promise<JokeDto> {
-    this.logger.log('Creating a joke.');
-    return await this.jokesMongoDbService.create(createJokeDto);
-  }
-
-  /**
-   * Updates a joke by its id.
-   *
-   * @param id The id of the joke.
-   * @param modifyJokeDto The joke to update.
-   * @returns The updated joke.
-   */
-  async updateJoke(
-    id: string,
-    modifyJokeDto: Partial<ModifyJokeDto>,
-  ): Promise<JokeDto> {
-    this.logger.log('Updating a joke.');
-    return await this.jokesMongoDbService.update(id, modifyJokeDto);
-  }
-
-  /**
-   * Deletes a joke by its id.
-   *
-   * @param id The id of the joke.
-   * @returns The deleted joke.
-   */
-  async deleteJoke(id: string): Promise<JokeDto> {
-    this.logger.log('Deleting a joke.');
-    return await this.jokesMongoDbService.remove(id);
+  async deleteList(id: string): Promise<ListDto> {
+    this.logger.log('Deleting a list.');
+    return await this.listsMongoDbService.remove(id);
   }
 }
