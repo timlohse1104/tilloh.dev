@@ -1,7 +1,7 @@
-import { ListsMongoDbService } from '@backend/lists/lists-persistence';
 import { mockListDto } from '@backend/util';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ListsMongoDbService } from './lists-mongodb.service';
 import { ListsService } from './lists.service';
 
 describe('ListsService', () => {

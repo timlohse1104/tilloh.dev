@@ -1,7 +1,7 @@
 {
-  "name": "todo-todo-controller",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/todo/todo-controller/src",
+  "name": "lists",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/lists/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -17,7 +17,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/todo/todo-controller/jest.config.ts"
+        "jestConfig": "libs/lists/jest.config.ts"
       }
     }
   }

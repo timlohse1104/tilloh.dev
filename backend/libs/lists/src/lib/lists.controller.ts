@@ -1,4 +1,3 @@
-import { JokesService as ListsService } from '@backend/jokes/jokes-provider';
 import { ListDto } from '@backend/shared-types';
 import { Public } from '@backend/util';
 import {
@@ -18,6 +17,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { ListsService } from './lists.service';
 
 @ApiTags('lists')
 @Controller('/lists')

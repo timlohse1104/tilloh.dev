@@ -63,9 +63,7 @@
       "@backend/shared-ocr": ["libs/shared/provider/ocr/src/index.ts"],
       "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
       "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
-      "@backend/lists/lists-controller": [
-        "libs/lists/lists-controller/src/index.ts"
-      ],
+      "@backend/lists": ["libs/lists/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"],
       "@backend/shared-identifiers": [
         "libs/shared/provider/identifiers/src/index.ts"

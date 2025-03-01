@@ -1,10 +1,8 @@
-import {
-  ListDocument,
-  ListsMongoDbService,
-} from '@backend/lists/lists-persistence';
 import { ListDto } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
+import { ListsMongoDbService } from './lists-mongodb.service';
+import { ListDocument } from './schema/lists.schema';
 
 @Injectable()
 export class ListsService {
