@@ -1,28 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { randomUUID } from 'crypto';
 import { Document } from 'mongoose';
 
 export type ListDocument = List & Document;
 
 export class ListEntry {
-  @Prop({ required: true })
-  _id!: string;
+  @Prop({ required: true, default: () => randomUUID() })
+  _id: string;
 
   @Prop({ required: true })
-  title!: string;
+  title: string;
 
   @Prop({ required: true, default: false })
-  done!: boolean;
+  done: boolean;
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  created!: Date;
+  created: Date;
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  updated!: Date;
+  updated: Date;
 }
 
 @Schema({ collection: 'lists' })
 export class List {
-  @Prop({ required: true })
+  @Prop({ required: true, default: () => randomUUID() })
   _id: string;
 
   @Prop({ required: true })
@@ -32,16 +33,16 @@ export class List {
   emoji: string;
 
   @Prop({ type: [ListEntry], required: true, default: [] })
-  entries!: ListEntry[];
+  entries: ListEntry[];
 
   @Prop({ required: true })
-  history!: string[];
+  history: string[];
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  created!: Date;
+  created: Date;
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  updated!: Date;
+  updated: Date;
 }
 
 export const ListSchema = SchemaFactory.createForClass(List);

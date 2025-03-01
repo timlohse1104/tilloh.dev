@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsObject, IsOptional } from 'class-validator';
 
 export class ListEntryDto {
   @ApiProperty({ description: 'List entry ID', required: false })
-  @IsNotEmpty()
-  _id: string;
+  @IsOptional()
+  _id?: string;
 
   @ApiProperty({ description: 'List entry title', required: false })
   @IsNotEmpty()
@@ -25,8 +25,8 @@ export class ListEntryDto {
 
 export class ListDto {
   @ApiProperty({ description: 'List ID', required: false })
-  @IsNotEmpty()
-  _id: string;
+  @IsOptional()
+  _id?: string;
 
   @ApiProperty({ description: 'List name', required: false })
   @IsNotEmpty()
@@ -37,6 +37,7 @@ export class ListDto {
   emoji: string;
 
   @ApiProperty({ description: 'List entries' })
+  @IsObject()
   entries: ListEntryDto[];
 
   @ApiProperty({ description: 'List history' })

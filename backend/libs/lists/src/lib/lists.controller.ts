@@ -58,7 +58,7 @@ export class ListsController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized request.' })
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Post('/')
-  createList(@Body() listDto: ListDto) {
+  createList(@Body() listDto: Partial<ListDto>) {
     return this.listsService.createList(listDto);
   }
 

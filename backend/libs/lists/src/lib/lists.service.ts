@@ -37,7 +37,7 @@ export class ListsService {
    * @param listDto The list to create.
    * @returns The created list.
    */
-  async createList(listDto: ListDto): Promise<ListDto> {
+  async createList(listDto: Partial<ListDto>): Promise<ListDto> {
     this.logger.log('Creating a list.');
     return await this.listsMongoDbService.create(listDto);
   }
