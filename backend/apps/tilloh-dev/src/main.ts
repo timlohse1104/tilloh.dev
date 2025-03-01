@@ -2,7 +2,7 @@ import { AdminControllerModule } from '@backend/admin-controller';
 import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
-import { ListsControllerModule } from '@backend/lists/lists-controller';
+import { ListsModule } from '@backend/lists';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { OcrControllerModule } from '@backend/ocr/ocr-controller';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
@@ -75,7 +75,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     ChatControllerModule,
     ChatGatewayModule,
     OcrControllerModule,
-    ListsControllerModule,
+    ListsModule,
   ],
   providers: [
     Logger,
