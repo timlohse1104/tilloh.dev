@@ -1,14 +1,12 @@
-import { JokesMongoDbService } from '@backend/jokes/jokes-persistence';
-import { mockHttpResponse, mockJokeDto } from '@backend/util';
+import { ListsMongoDbService } from '@backend/lists/lists-persistence';
+import { mockListDto } from '@backend/util';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
-import { throwError } from 'rxjs';
-import { JokesService } from './jokes.service';
+import { ListsService } from './lists.service';
 
-describe('JokesService', () => {
-  let service: JokesService;
-  let jokesMongoDbServiceMock: JokesMongoDbService;
-  let httpService: HttpService;
+describe('ListsService', () => {
+  let service: ListsService;
+  let listsMongoDbServiceMock: ListsMongoDbService;
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -18,16 +16,13 @@ describe('JokesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: JokesMongoDbService,
+          provide: ListsMongoDbService,
           useValue: {
-            findRandomOne: jest.fn(),
-            findJokeOfTheDay: jest.fn(),
             create: jest.fn(),
             findAll: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
-            removeDuplicates: jest.fn(),
           },
         },
         {
@@ -36,14 +31,13 @@ describe('JokesService', () => {
             get: jest.fn(),
           },
         },
-        JokesService,
+        ListsService,
       ],
     }).compile();
 
-    service = module.get<JokesService>(JokesService);
-    jokesMongoDbServiceMock =
-      module.get<JokesMongoDbService>(JokesMongoDbService);
-    httpService = module.get<HttpService>(HttpService);
+    service = module.get<ListsService>(ListsService);
+    listsMongoDbServiceMock =
+      module.get<ListsMongoDbService>(ListsMongoDbService);
   });
 
   afterEach(() => {
@@ -54,146 +48,74 @@ describe('JokesService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('persistDailyJoke', () => {
-    it('should persist a daily joke', async () => {
+  describe('getLists', () => {
+    it('should list all lists', async () => {
       // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest
-        .spyOn(httpService, 'get')
-        .mockReturnValueOnce(mockHttpResponse({ data: joke }));
-      const createSpy = jest.spyOn(jokesMongoDbServiceMock, 'create');
-
-      // act
-      await service.persistDailyJoke();
-
-      // assert
-      expect(createSpy).toHaveBeenCalledWith(joke);
-    });
-    it('should throw an error when httpService.get fails', async () => {
-      const errorMessage = 'Network Error';
-
-      jest
-        .spyOn(httpService, 'get')
-        .mockReturnValue(throwError(() => new Error(errorMessage)));
-
-      await expect(service.persistDailyJoke()).rejects.toThrow(
-        'Failed to fetch data: ' + errorMessage,
-      );
-    });
-  });
-
-  describe('persistDailyJoke', () => {
-    it('should persist a daily joke', async () => {
-      // arrange
-      jest
-        .spyOn(jokesMongoDbServiceMock, 'removeDuplicates')
-        .mockResolvedValueOnce(undefined);
-
-      // act & assert
-      await expect(service.cleanupDuplicateJokes()).resolves.toBe(undefined);
-    });
-  });
-
-  describe('getRandomJoke', () => {
-    it('should get a random joke', async () => {
-      // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest
-        .spyOn(jokesMongoDbServiceMock, 'findRandomOne')
-        .mockResolvedValue(joke);
-
-      // act
-      const result = await service.getRandomJoke();
-
-      // assert
-      expect(result).toEqual(joke);
-    });
-  });
-
-  describe('getJokeOfTheDay', () => {
-    it('should get the joke of the day', async () => {
-      // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest
-        .spyOn(jokesMongoDbServiceMock, 'findJokeOfTheDay')
-        .mockResolvedValue(joke);
-
-      // act
-      const result = await service.getJokeOfTheDay();
-
-      // assert
-      expect(result).toEqual(joke);
-    });
-  });
-
-  describe('listJokes', () => {
-    it('should list all jokes', async () => {
-      // arrange
-      const jokes = [
-        mockJokeDto({ text: 'joke1' }),
-        mockJokeDto({ text: 'joke2' }),
+      const lists = [
+        mockListDto({ name: 'list1' }),
+        mockListDto({ name: 'list2' }),
       ];
-      jest.spyOn(jokesMongoDbServiceMock, 'findAll').mockResolvedValue(jokes);
+      jest.spyOn(listsMongoDbServiceMock, 'findAll').mockResolvedValue(lists);
 
       // act
-      const result = await service.listJokes();
+      const result = await service.getLists();
 
       // assert
-      expect(result).toEqual(jokes);
+      expect(result).toEqual(lists);
     });
   });
 
-  describe('getJoke', () => {
-    it('should get a joke by id', async () => {
+  describe('getList', () => {
+    it('should get a list by id', async () => {
       // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest.spyOn(jokesMongoDbServiceMock, 'findOne').mockResolvedValue(joke);
+      const list = mockListDto({ name: 'list1' });
+      jest.spyOn(listsMongoDbServiceMock, 'findOne').mockResolvedValue(list);
 
       // act
-      const result = await service.getJoke('id');
+      const result = await service.getList('id');
 
       // assert
-      expect(result).toEqual(joke);
+      expect(result).toEqual(list);
     });
   });
 
-  describe('createJoke', () => {
-    it('should create a joke', async () => {
+  describe('createList', () => {
+    it('should create a list', async () => {
       // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest.spyOn(jokesMongoDbServiceMock, 'create').mockResolvedValue(joke);
+      const list = mockListDto({ name: 'list1' });
+      jest.spyOn(listsMongoDbServiceMock, 'create').mockResolvedValue(list);
 
       // act
-      const result = await service.createJoke({ ...joke, categories: [] });
+      const result = await service.createList({ ...list, history: [] });
 
       // assert
-      expect(result).toEqual(joke);
+      expect(result).toEqual(list);
     });
   });
 
-  describe('updateJoke', () => {
-    it('should update a joke', async () => {
+  describe('updateList', () => {
+    it('should update a list', async () => {
       // arrange
-      const joke = mockJokeDto({ text: 'joke1' });
-      jest.spyOn(jokesMongoDbServiceMock, 'update').mockResolvedValue(joke);
+      const list = mockListDto({ name: 'list1' });
+      jest.spyOn(listsMongoDbServiceMock, 'update').mockResolvedValue(list);
 
       // act
-      const result = await service.updateJoke('id', joke);
+      const result = await service.updateList('id', list);
 
       // assert
-      expect(result).toEqual(joke);
+      expect(result).toEqual(list);
     });
   });
 
-  describe('removeJoke', () => {
-    it('should remove a joke', async () => {
+  describe('removeList', () => {
+    it('should remove a list', async () => {
       // arrange
 
       // act
-      await service.deleteJoke('id');
+      await service.deleteList('id');
 
       // assert
-      expect(jokesMongoDbServiceMock.remove).toHaveBeenCalledWith('id');
+      expect(listsMongoDbServiceMock.remove).toHaveBeenCalledWith('id');
     });
   });
 });
