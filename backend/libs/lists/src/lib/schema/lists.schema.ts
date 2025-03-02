@@ -6,43 +6,52 @@ export type ListDocument = List & Document;
 
 export class ListEntry {
   @Prop({ required: true, default: () => randomUUID() })
-  _id: string;
+  _id!: string;
 
   @Prop({ required: true })
-  title: string;
+  title!: string;
 
   @Prop({ required: true, default: false })
-  done: boolean;
+  done!: boolean;
+
+  @Prop({ required: true })
+  author!: string;
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  created: Date;
+  created!: Date;
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  updated: Date;
+  updated!: Date;
 }
 
 @Schema({ collection: 'lists' })
 export class List {
   @Prop({ required: true, default: () => randomUUID() })
-  _id: string;
+  _id!: string;
 
   @Prop({ required: true })
-  name: string;
+  name!: string;
+
+  @Prop({ required: true, default: '📝' })
+  emoji!: string;
 
   @Prop({ required: true })
-  emoji: string;
+  owner!: string;
+
+  @Prop({ required: true, default: [] })
+  invited!: string[];
 
   @Prop({ type: [ListEntry], required: true, default: [] })
-  entries: ListEntry[];
+  entries!: ListEntry[];
 
-  @Prop({ required: true })
-  history: string[];
-
-  @Prop({ type: Date, required: true, default: () => new Date() })
-  created: Date;
+  @Prop({ required: true, default: [] })
+  history!: string[];
 
   @Prop({ type: Date, required: true, default: () => new Date() })
-  updated: Date;
+  created!: Date;
+
+  @Prop({ type: Date, required: true, default: () => new Date() })
+  updated!: Date;
 }
 
 export const ListSchema = SchemaFactory.createForClass(List);
