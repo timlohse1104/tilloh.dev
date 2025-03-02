@@ -65,10 +65,39 @@ export const utilityRoutes = {
     name: { en: 'Settings', de: 'Einstellungen' },
     path: '/settings',
     icon: 'settings',
+    toggle: () => true,
   },
   admin: {
     name: { en: 'Admin area', de: 'Admin Bereich' },
     path: '/admin',
     icon: 'admin_panel_settings',
+    toggle: () => true,
+  },
+};
+
+export const adminSubRoutes = {
+  idenfiers: {
+    name: { en: 'Identifiers', de: 'Identifikatoren' },
+    path: '/admin/identifiers',
+    icon: 'fingerprint',
+    toggle: () => true,
+  },
+  jokes: {
+    name: { en: 'Jokes', de: 'Witze' },
+    path: '/admin/jokes',
+    icon: 'psychology',
+    toggle: () => true,
+  },
+  presets: {
+    name: { en: 'Presets', de: 'Voreinstellungen' },
+    path: '/admin/presets',
+    icon: 'bookmarks',
+    toggle: () => true,
+  },
+  toggles: {
+    name: { en: 'Toggles', de: 'Schalter' },
+    path: '/admin/toggles',
+    icon: 'toggle_off',
+    toggle: () => true,
   },
 };

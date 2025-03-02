@@ -5,6 +5,7 @@
     type KeystoreKeyDto,
   } from '$lib/types/keystore.dto';
   import { isEnter } from '$lib/util/helper';
+  import { adminTogglesStore } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
@@ -18,8 +19,6 @@
   import Textfield from '@smui/textfield';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-
-  export let toggles: KeystoreKeyDto[] = [];
 
   let newToogleName = '';
 
@@ -45,7 +44,7 @@
   };
 
   const switchToggle = async (id: string) => {
-    const toggle = toggles.find((t) => t._id === id);
+    const toggle = $adminTogglesStore.find((t) => t._id === id);
     console.log({ toggle }, 'Updating toggle...');
     const { identifier, key, value: oldValue } = toggle;
 
@@ -74,7 +73,10 @@
 {#if $initialized}
   <section class="admin_sections">
     <div class="admin_sections_headline">
-      <h2>{$t('page.admin.toggles.title')} <span>({toggles.length})</span></h2>
+      <h2>
+        {$t('page.admin.toggles.title')}
+        <span>({$adminTogglesStore.length})</span>
+      </h2>
       <Textfield
         style="margin-left:2rem;width: 75%;"
         bind:value={newToogleName}
@@ -93,7 +95,7 @@
       </Textfield>
     </div>
     <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each toggles as toggle, i}
+      {#each $adminTogglesStore as toggle, i}
         <Item class="admin_list_items">
           <Graphic class="material-icons admin_list_items_icon"
             >toggle_on</Graphic

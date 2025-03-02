@@ -21,9 +21,6 @@
 
 {#if $initialized}
   <section>
-    <div class="dashboard_header">
-      <h1>{$t('page.admin.dashboard.title')}</h1>
-    </div>
     <div class="dashboard_content">
       <DashboardCard
         header="TillohAPI"
@@ -92,24 +89,12 @@
 {/if}
 
 <style lang="scss">
-  .dashboard_header {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-bottom: 1rem;
-
-    h1 {
-      font-size: 2rem;
-      margin: 0;
-    }
-  }
-
   .dashboard_content {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     max-width: 100%;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
   }
 </style>

@@ -1,6 +1,9 @@
 <script lang="ts">
   import { updateJoke } from '$lib/api/jokes.api';
-  import type { JokeDto } from '$lib/types/jokes.dto';
+  import {
+    adminJokesStore,
+    adminTokenStore,
+  } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
   import List, {
@@ -13,12 +16,9 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let jokes: JokeDto[] = [];
-  export let token: string;
-
   const verifyJoke = async (jokeId: string) => {
     console.log({ jokeId }, 'Verifying joke...');
-    const updateJokeResponse = await updateJoke(token, jokeId, {
+    const updateJokeResponse = await updateJoke($adminTokenStore, jokeId, {
       verified: true,
     });
 
@@ -35,10 +35,12 @@
 {#if $initialized}
   <section class="admin_sections">
     <div class="admin_sections_headline">
-      <h2>{$t('page.admin.jokes.title')} <span>({jokes.length})</span></h2>
+      <h2>
+        {$t('page.admin.jokes.title')} <span>({$adminJokesStore.length})</span>
+      </h2>
     </div>
     <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each jokes as joke}
+      {#each $adminJokesStore as joke}
         <Item class="admin_list_items">
           <Graphic class="material-icons admin_list_items_icon">😂</Graphic>
           <Text class="admin_list_items_text">

@@ -1,11 +1,11 @@
 <script>
-  import { applicationRoutes } from '$lib/config/applications';
   import { languageStore } from '$lib/util/stores/store-language';
   import { Icon } from '@smui/common';
 
   export let appKey;
+  export let app;
 
-  const app = applicationRoutes[appKey];
+  $: if (app) console.log(app);
 
   $: locale = $languageStore;
 </script>

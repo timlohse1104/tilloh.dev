@@ -19,10 +19,14 @@
       <h2>{header}</h2>
       <p>{description}</p>
     </div>
-    {#if amount === undefined}
+    {#if amount !== undefined}
+      <p class="card_value">{amount}</p>
+    {:else if status !== undefined}
       <p class="card_value">{!!status ? '🟢' : '🔴'}</p>
     {:else}
-      <p class="card_value">{amount}</p>
+      <div class="card_slot">
+        <slot></slot>
+      </div>
     {/if}
   </Content>
 </Card>
@@ -49,7 +53,6 @@
     align-items: center;
     justify-content: center;
     flex-grow: 9;
-    // border-bottom: 1px solid var(--color_bg_1);
 
     h2 {
       font-size: 1.25rem;
@@ -63,7 +66,6 @@
   }
 
   .card_headline::after {
-    content: '';
     position: relative;
     left: 25%;
     bottom: -1rem;
@@ -77,5 +79,11 @@
     font-size: 2.25rem;
     margin: 1rem;
     flex-grow: 1;
+    text-align: center;
+  }
+
+  .card_slot {
+    display: flex;
+    justify-content: center;
   }
 </style>

@@ -35,7 +35,7 @@
   section {
     display: flex;
     align-items: center;
-    margin: 0 1rem 0 0 !important;
+    margin-bottom: 1rem;
     font-size: 0.9rem;
     color: var(--lightgrey80);
   }
