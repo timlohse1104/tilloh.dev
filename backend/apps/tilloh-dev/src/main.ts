@@ -1,4 +1,4 @@
-import { AdminControllerModule } from '@backend/admin-controller';
+import { AdminModule } from '@backend/admin';
 import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
@@ -69,7 +69,7 @@ import { EnvironmentVariables, validate } from './env.validation';
         },
       },
     }),
-    AdminControllerModule,
+    AdminModule,
     MemorandumControllerModule,
     JokesControllerModule,
     ChatControllerModule,
