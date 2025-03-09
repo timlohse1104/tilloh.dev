@@ -1,7 +1,7 @@
-import { AdminService } from '@backend/admin-provider';
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminController } from './admin.controller';
+import { AdminService } from './admin.service';
 
 describe('AdminController', () => {
   let controller: AdminController;

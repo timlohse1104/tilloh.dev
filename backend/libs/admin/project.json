@@ -1,7 +1,7 @@
 {
-  "name": "admin-controller",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/admin/admin-controller/src",
+  "name": "admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/admin/src",
   "projectType": "library",
   "tags": [
     "scope:admin",
@@ -20,7 +20,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/admin/admin-controller/jest.config.ts"
+        "jestConfig": "libs/admin/jest.config.ts"
       }
     }
   }

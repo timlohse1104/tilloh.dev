@@ -16,7 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@backend/admin-controller": ["libs/admin/admin-controller/src/index.ts"],
+      "@backend/admin": ["libs/admin/src/index.ts"],
       "@backend/admin-provider": ["libs/admin/admin-provider/src/index.ts"],
       "@backend/catch-em-all/catch-em-all-controller": [
         "libs/catch-em-all/catch-em-all-controller/src/index.ts"
