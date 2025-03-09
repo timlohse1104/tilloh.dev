@@ -8,4 +8,4 @@ import { OcrController } from './ocr.controller';
   providers: [],
   exports: [],
 })
-export class OcrControllerModule {}
+export class OcrModule {}

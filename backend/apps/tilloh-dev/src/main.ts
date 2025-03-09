@@ -3,7 +3,7 @@ import { ChatControllerModule } from '@backend/chat/chat-controller';
 import { ChatGatewayModule } from '@backend/chat/chat-gateway';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
-import { OcrControllerModule } from '@backend/ocr/ocr-controller';
+import { OcrModule } from '@backend/ocr';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
@@ -73,7 +73,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     JokesControllerModule,
     ChatControllerModule,
     ChatGatewayModule,
-    OcrControllerModule,
+    OcrModule,
   ],
   providers: [
     Logger,

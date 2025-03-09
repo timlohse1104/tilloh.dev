@@ -1,7 +1,7 @@
 {
-  "name": "ocr-controller",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ocr/ocr-controller/src",
+  "name": "ocr",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ocr/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -17,7 +17,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/ocr/ocr-controller/jest.config.ts"
+        "jestConfig": "libs/ocr/jest.config.ts"
       }
     }
   }
