@@ -77,11 +77,13 @@
     if (submittable) {
       let currentPreset = $localPresetStore;
       let currentFolder = {
-        ...currentPreset.Folders[$folderOverlayOptionsStore.currentFolderId],
+        ...currentPreset.Folders.find(
+          (folder) => folder.id === $folderOverlayOptionsStore.currentFolderId,
+        ),
       };
 
       const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
-      duplicatedFolder.id = currentPreset.Folders.length;
+      duplicatedFolder.id = crypto.randomUUID();
       duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
         folderName,
       });
