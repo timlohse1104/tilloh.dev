@@ -1,7 +1,7 @@
 {
-  "name": "catch-em-all-catch-em-all-provider",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/catch-em-all/catch-em-all-provider/src",
+  "name": "catch-em-all",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/catch-em-all/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -17,7 +17,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/catch-em-all/catch-em-all-provider/jest.config.ts"
+        "jestConfig": "libs/catch-em-all/jest.config.ts"
       }
     }
   }
