@@ -19,14 +19,7 @@
       "@backend/admin": ["libs/admin/src/index.ts"],
       "@backend/admin-provider": ["libs/admin/admin-provider/src/index.ts"],
       "@backend/catch-em-all": ["libs/catch-em-all/src/index.ts"],
-      "@backend/chat/chat-controller": [
-        "libs/chat/chat-controller/src/index.ts"
-      ],
-      "@backend/chat/chat-gateway": ["libs/chat/chat-gateway/src/index.ts"],
-      "@backend/chat/chat-persistence": [
-        "libs/chat/chat-persistence/src/index.ts"
-      ],
-      "@backend/chat/chat-provider": ["libs/chat/chat-provider/src/index.ts"],
+      "@backend/chat": ["libs/chat/src/index.ts"],
       "@backend/jokes/jokes-controller": [
         "libs/jokes/jokes-controller/src/index.ts"
       ],
