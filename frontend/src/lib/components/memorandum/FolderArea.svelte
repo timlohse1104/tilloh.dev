@@ -33,7 +33,7 @@
 
     currentPreset.Folders.push(
       new FolderClass(
-        currentPreset.Folders.length,
+        crypto.randomUUID(),
         $t('page.memorandum.newFolderHeader'),
         [],
         defaultColor,

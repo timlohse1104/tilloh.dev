@@ -16,17 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@backend/admin-controller": ["libs/admin/admin-controller/src/index.ts"],
+      "@backend/admin": ["libs/admin/src/index.ts"],
       "@backend/admin-provider": ["libs/admin/admin-provider/src/index.ts"],
-      "@backend/catch-em-all/catch-em-all-controller": [
-        "libs/catch-em-all/catch-em-all-controller/src/index.ts"
-      ],
-      "@backend/catch-em-all/catch-em-all-persistence": [
-        "libs/catch-em-all/catch-em-all-persistence/src/index.ts"
-      ],
-      "@backend/catch-em-all/catch-em-all-provider": [
-        "libs/catch-em-all/catch-em-all-provider/src/index.ts"
-      ],
+      "@backend/catch-em-all": ["libs/catch-em-all/src/index.ts"],
       "@backend/chat/chat-controller": [
         "libs/chat/chat-controller/src/index.ts"
       ],
@@ -50,7 +42,7 @@
       "@backend/memorandum/memorandum-persistence": [
         "libs/memorandum/memorandum-persistence/src/index.ts"
       ],
-      "@backend/ocr/ocr-controller": ["libs/ocr/ocr-controller/src/index.ts"],
+      "@backend/ocr": ["libs/ocr/src/index.ts"],
       "@backend/shared-controller-health": [
         "libs/shared/controller/health/src/index.ts"
       ],
