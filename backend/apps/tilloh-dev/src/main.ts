@@ -1,6 +1,5 @@
 import { AdminModule } from '@backend/admin';
-import { ChatControllerModule } from '@backend/chat/chat-controller';
-import { ChatGatewayModule } from '@backend/chat/chat-gateway';
+import { ChatModule } from '@backend/chat';
 import { JokesControllerModule } from '@backend/jokes/jokes-controller';
 import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
 import { OcrModule } from '@backend/ocr';
@@ -71,8 +70,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     AdminModule,
     MemorandumControllerModule,
     JokesControllerModule,
-    ChatControllerModule,
-    ChatGatewayModule,
+    ChatModule,
     OcrModule,
   ],
   providers: [
