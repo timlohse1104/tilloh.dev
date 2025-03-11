@@ -26,9 +26,9 @@ Create a `.env` file in the root of the backend folder with the following variab
 
 ```env
 SERVER_ADDRESS="<address-identifier>" # default localhost
+GLOBAL_PREFIX="v1" # default v1
 PORT="<port-number>" # default 61154
 MONGO_DB_URL="<mongodb-url>" # default mongodb://localhost/tilloh-dev
-GLOBAL_PREFIX="v1" # default v1
 ADMIN_IDENTIFIER="<admin-identifier>" # from bitwarden
 OCR_SPACE_URL="https://api.ocr.space/parse/image"
 OCR_SPACE_API_KEY="<api-key>" # from bitwarden
@@ -64,13 +64,13 @@ Libraries are shareable across libraries and applications.
 
 # Deployment
 
-## Automatically
+## Automatically (uberspace)
 
 1. Make changes to the backend code under `/backend`.
 2. Push the changes to the repository `main` branch.
 3. The changes will be automatically deployed to the server after manually confirming the deployment.
 
-## Manually
+## Manually (uberspace)
 
 1. Build the backend
 
@@ -107,7 +107,13 @@ supervisorctl tail -f tilloh-api-daemon | npx pino-pretty
 supervisorctl tail tilloh-api-daemon stderr
 ```
 
-## Websocket Documentation
+## Alternative
+
+See [docker-compose](../README.md#start-all-together) for an alternative deployment method using Docker Compose.
+
+This method allows for easier management of dependencies and services, especially in environments where Docker is already in use. All necessary parts of the application are existent in the compose file. Only DNS settings need to be configured according to the selected cloud provider to finally match https://tilloh.dev.
+
+# Websocket Documentation
 
 As for now there is no easy possibility to get automated swagger documentation for websocket gateways.
 

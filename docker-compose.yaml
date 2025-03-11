@@ -1,0 +1,20 @@
+version: '3'
+services:
+  frontend:
+    image: tilloh-dev-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+  backend:
+    image: tilloh-dev-backend
+    ports:
+      - "61154:61154"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_DB_URL=mongodb://mongodb:27017/tilloh-dev
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

@@ -1,11 +1,7 @@
 import { plainToInstance } from 'class-transformer';
-import { IsNumber, IsString, Matches, validateSync } from 'class-validator';
+import { IsNumber, IsString, validateSync } from 'class-validator';
 
 export class EnvironmentVariables {
-  @IsString()
-  @Matches(/^(development|production)$/)
-  NODE_ENV: string;
-
   @IsString()
   SERVER_ADDRESS: string;
 
