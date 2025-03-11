@@ -1,5 +1,9 @@
-import { AxiosHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { Observable, of } from 'rxjs';
+import {
+  AxiosHeaders,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'npm:axios';
+import { Observable, of } from 'npm:rxjs';
 
 export const mockHttpResponse = (
   input: Partial<AxiosResponse>,

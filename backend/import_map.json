@@ -1,0 +1,20 @@
+{
+  "imports": {
+    "@backend/admin": "./libs/admin/src/index.ts",
+    "@backend/admin-provider": "./libs/admin/admin-provider/src/index.ts",
+    "@backend/catch-em-all": "./libs/catch-em-all/src/index.ts",
+    "@backend/chat": "./libs/chat/src/index.ts",
+    "@backend/jokes": "./libs/jokes/src/index.ts",
+    "@backend/memorandum": "./libs/memorandum/src/index.ts",
+    "@backend/ocr": "./libs/ocr/src/index.ts",
+    "@backend/shared-controller-health": "./libs/shared/controller/health/src/index.ts",
+    "@backend/shared-keystore-persistence": "./libs/shared/provider/keystore-persistence/src/index.ts",
+    "@backend/shared-metrics-controller": "./libs/shared/controller/metrics/src/index.ts",
+    "@backend/shared-ocr": "./libs/shared/provider/ocr/src/index.ts",
+    "@backend/shared-texts": "./libs/shared/common/texts/src/index.ts",
+    "@backend/shared-types": "./libs/shared/common/types/src/index.ts",
+    "@backend/todo": "./libs/todo/src/index.ts",
+    "@backend/util": "./libs/shared/util/src/index.ts",
+    "@backend/shared-identifiers": "./libs/shared/provider/identifiers/src/index.ts"
+  }
+}

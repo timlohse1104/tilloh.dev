@@ -3,8 +3,8 @@ import {
   HealthCheckService,
   HttpHealthIndicator,
   MongooseHealthIndicator,
-} from '@nestjs/terminus';
-import { Test } from '@nestjs/testing';
+} from 'npm:@nestjs/terminus';
+import { Test } from 'npm:@nestjs/testing';
 import { healthControllerFactory } from './health.controller.factory';
 
 describe('HealthCheckControllerFactory', () => {

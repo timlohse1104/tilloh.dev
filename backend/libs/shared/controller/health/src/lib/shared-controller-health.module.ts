@@ -1,5 +1,5 @@
-import { DynamicModule, Module } from '@nestjs/common';
-import { TerminusModule } from '@nestjs/terminus';
+import { DynamicModule, Module } from 'npm:@nestjs/common';
+import { TerminusModule } from 'npm:@nestjs/terminus';
 import { healthControllerFactory } from './health.controller.factory';
 
 @Module({})

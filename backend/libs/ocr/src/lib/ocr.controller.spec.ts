@@ -1,7 +1,7 @@
 import { SharedOcrService } from '@backend/shared-ocr';
 import { OcrSpaceResponseDto } from '@backend/shared-types';
-import { File } from '@nest-lab/fastify-multer';
-import { Test, TestingModule } from '@nestjs/testing';
+import { File } from 'npm:@nest-lab/fastify-multer';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { OcrController } from './ocr.controller';
 
 describe('OcrController', () => {

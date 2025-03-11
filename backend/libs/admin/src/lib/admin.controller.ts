@@ -1,8 +1,12 @@
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { Public } from '@backend/util';
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
+import { Body, Controller, Post } from 'npm:@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiTags,
+} from 'npm:@nestjs/swagger';
+import { Throttle } from 'npm:@nestjs/throttler';
 import { AdminService } from './admin.service';
 
 @ApiTags('admin')

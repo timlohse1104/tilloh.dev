@@ -1,9 +1,9 @@
 import { IdentifiersTexts } from '@backend/shared-texts';
 import { IdentifierDto } from '@backend/shared-types';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { randomUUID } from 'crypto';
-import { FilterQuery, Model } from 'mongoose';
+import { randomUUID } from 'node:crypto';
+import { Injectable, Logger, NotFoundException } from 'npm:@nestjs/common';
+import { InjectModel } from 'npm:@nestjs/mongoose';
+import { FilterQuery, Model } from 'npm:mongoose';
 import { Identifier, IdentifierDocument } from './schema/identifiers.schema';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 

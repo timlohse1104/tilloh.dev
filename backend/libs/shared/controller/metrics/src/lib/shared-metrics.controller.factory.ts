@@ -1,7 +1,7 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { PrometheusController } from '@willsoto/nestjs-prometheus';
 import { Response } from 'express';
+import { Controller, Get, Res } from 'npm:@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from 'npm:@nestjs/swagger';
+import { PrometheusController } from 'npm:@willsoto/nestjs-prometheus';
 
 export function metricsControllerFactory() {
   @Controller()
@@ -17,7 +17,7 @@ export function metricsControllerFactory() {
       description: 'Successful response',
       type: String,
     })
-    async index(@Res({ passthrough: true }) response: Response) {
+    override index(@Res({ passthrough: true }) response: Response) {
       return super.index(response);
     }
   }

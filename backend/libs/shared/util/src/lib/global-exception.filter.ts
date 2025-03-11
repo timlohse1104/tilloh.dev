@@ -4,9 +4,9 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-} from '@nestjs/common';
-import { HttpAdapterHost } from '@nestjs/core';
-import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
+} from 'npm:@nestjs/common';
+import { HttpAdapterHost } from 'npm:@nestjs/core';
+import { InjectPinoLogger, PinoLogger } from 'npm:nestjs-pino';
 
 // https://docs.nestjs.com/exception-filters#catch-everything
 @Catch()
@@ -14,7 +14,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,
     @InjectPinoLogger(GlobalExceptionFilter.name)
-    private readonly logger: PinoLogger
+    private readonly logger: PinoLogger,
   ) {}
 
   /**
@@ -42,7 +42,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         info: exception?.['response'] ?? {},
       },
       exception?.['message'],
-      GlobalExceptionFilter.name
+      GlobalExceptionFilter.name,
     );
 
     const responseBody = {

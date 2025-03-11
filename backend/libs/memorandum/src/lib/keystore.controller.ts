@@ -22,7 +22,7 @@ import {
   Post,
   Put,
   Query,
-} from '@nestjs/common';
+} from 'npm:@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -30,7 +30,7 @@ import {
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+} from 'npm:@nestjs/swagger';
 
 @ApiTags('keystore')
 @Controller('/keystore')

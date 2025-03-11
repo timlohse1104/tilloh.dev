@@ -46,6 +46,7 @@
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
+    "@nrwl/deno": "^17.2.3",
     "@nx/eslint": "20.4.5",
     "@nx/eslint-plugin": "^20.3.0",
     "@nx/jest": "20.4.5",

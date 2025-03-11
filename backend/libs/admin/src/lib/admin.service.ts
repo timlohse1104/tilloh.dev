@@ -1,7 +1,7 @@
 import { IdentifiersService } from '@backend/shared-identifiers';
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, Logger } from 'npm:@nestjs/common';
+import { ConfigService } from 'npm:@nestjs/config';
 
 @Injectable()
 export class AdminService {

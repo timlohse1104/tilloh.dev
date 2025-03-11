@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test } from 'npm:@nestjs/testing';
 import { metricsControllerFactory } from './shared-metrics.controller.factory';
 
 describe('MetricsControllerFactory', () => {

@@ -1,10 +1,10 @@
 import { OcrSpaceResponseDto } from '@backend/shared-types';
-import { File } from '@nest-lab/fastify-multer';
-import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios';
-import { firstValueFrom } from 'rxjs';
+import { File } from 'npm:@nest-lab/fastify-multer';
+import { HttpService } from 'npm:@nestjs/axios';
+import { Injectable, Logger } from 'npm:@nestjs/common';
+import { ConfigService } from 'npm:@nestjs/config';
+import { AxiosResponse } from 'npm:axios';
+import { firstValueFrom } from 'npm:rxjs';
 
 @Injectable()
 export class SharedOcrService {

@@ -8,8 +8,8 @@ import {
   RemoveIdentifierOutputDto,
   UpdateIdentifierOutputDto,
 } from '@backend/shared-types';
-import { Injectable, Logger } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { Injectable, Logger } from 'npm:@nestjs/common';
+import { FilterQuery } from 'npm:mongoose';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { IdentifierDocument } from './schema/identifiers.schema';
 

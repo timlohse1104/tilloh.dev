@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Module } from 'npm:@nestjs/common';
+import { MongooseModule } from 'npm:@nestjs/mongoose';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { JokesController } from './jokes.controller';
 import { JokesService } from './jokes.service';

@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Module } from 'npm:@nestjs/common';
+import { MongooseModule } from 'npm:@nestjs/mongoose';
 import { IdentifiersService } from './identifier.service';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { Identifier, IdentifierSchema } from './schema/identifiers.schema';

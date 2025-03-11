@@ -10,20 +10,20 @@ import {
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
-import { FastifyMulterModule } from '@nest-lab/fastify-multer';
-import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { MongooseModule } from '@nestjs/mongoose';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { ScheduleModule } from '@nestjs/schedule';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { LoggerModule, Logger as PinoLogger } from 'nestjs-pino';
+import { FastifyMulterModule } from 'npm:@nest-lab/fastify-multer';
+import { Logger, MiddlewareConsumer, Module } from 'npm:@nestjs/common';
+import { ConfigModule } from 'npm:@nestjs/config';
+import { APP_GUARD, HttpAdapterHost, NestFactory } from 'npm:@nestjs/core';
+import { MongooseModule } from 'npm:@nestjs/mongoose';
+import { ScheduleModule } from 'npm:@nestjs/schedule';
+import { DocumentBuilder, SwaggerModule } from 'npm:@nestjs/swagger';
+import { ThrottlerGuard, ThrottlerModule } from 'npm:@nestjs/throttler';
+import { PrometheusModule } from 'npm:@willsoto/nestjs-prometheus';
+import { LoggerModule, Logger as PinoLogger } from 'npm:nestjs-pino';
 import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({

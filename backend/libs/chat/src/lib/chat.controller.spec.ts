@@ -6,7 +6,7 @@ import {
   UpdateChatInputDto,
 } from '@backend/shared-types';
 import { mockChatEntityDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { ChatController } from './chat.controller';
 import { ChatService } from './chat.service';
 

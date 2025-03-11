@@ -1,9 +1,9 @@
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
-import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
-import { FilterQuery } from 'mongoose';
-import { firstValueFrom } from 'rxjs';
+import { HttpService } from 'npm:@nestjs/axios';
+import { Injectable, Logger } from 'npm:@nestjs/common';
+import { Cron } from 'npm:@nestjs/schedule';
+import { FilterQuery } from 'npm:mongoose';
+import { firstValueFrom } from 'npm:rxjs';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { JokeDocument } from './schema/jokes.schema';
 

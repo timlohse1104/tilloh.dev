@@ -1,11 +1,11 @@
 import { OcrSpaceResponseDto } from '@backend/shared-types';
-import { File as MulterFile } from '@nest-lab/fastify-multer';
-import { HttpService } from '@nestjs/axios';
-import { Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { of, throwError } from 'rxjs';
+import { File as MulterFile } from 'npm:@nest-lab/fastify-multer';
+import { HttpService } from 'npm:@nestjs/axios';
+import { Logger } from 'npm:@nestjs/common';
+import { ConfigService } from 'npm:@nestjs/config';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
+import { of, throwError } from 'npm:rxjs';
 import { SharedOcrService } from './ocr.service';
 
 describe('SharedOcrService', () => {

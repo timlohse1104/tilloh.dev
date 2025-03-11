@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module } from 'npm:@nestjs/common';
 
 @Module({
   controllers: [],

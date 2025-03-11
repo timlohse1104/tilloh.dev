@@ -1,8 +1,8 @@
 import { KeystoreDto } from '@backend/shared-types';
 import { mockKeystoreDto } from '@backend/util';
-import { getModelToken } from '@nestjs/mongoose';
-import { Test, TestingModule } from '@nestjs/testing';
-import { Document, Model } from 'mongoose';
+import { getModelToken } from 'npm:@nestjs/mongoose';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
+import { Document, Model } from 'npm:mongoose';
 import { KeystoreMongoDbService } from './keystore-mongodb.service';
 import { Keystore } from './schema/keystore.schema';
 

@@ -1,19 +1,20 @@
 import { SharedOcrService } from '@backend/shared-ocr';
 import { OcrSpaceResponseDto } from '@backend/shared-types';
 import { Public } from '@backend/util';
-import { File, FileInterceptor } from '@nest-lab/fastify-multer';
+import FastifyMulter from 'npm:@nest-lab/fastify-multer';
 import {
   Controller,
   Post,
   UploadedFile,
   UseInterceptors,
-} from '@nestjs/common';
+} from 'npm:@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiOkResponse,
   ApiTags,
-} from '@nestjs/swagger';
+} from 'npm:@nestjs/swagger';
+const { File, FileInterceptor } = FastifyMulter;
 
 @ApiTags('ocr')
 @Controller('/ocr')

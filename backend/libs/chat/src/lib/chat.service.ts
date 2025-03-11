@@ -1,7 +1,7 @@
 import { ChatTexts } from '@backend/shared-texts';
 import { ChatEntityDto } from '@backend/shared-types';
-import { Injectable, Logger } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { Injectable, Logger } from 'npm:@nestjs/common';
+import { FilterQuery } from 'npm:mongoose';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { ChatDocument } from './schema/chat.schema';
 

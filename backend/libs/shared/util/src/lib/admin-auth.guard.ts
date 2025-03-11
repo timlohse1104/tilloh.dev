@@ -1,13 +1,13 @@
+import { Request } from 'express';
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
   SetMetadata,
   UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
+} from 'npm:@nestjs/common';
+import { ConfigService } from 'npm:@nestjs/config';
+import { Reflector } from 'npm:@nestjs/core';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -16,7 +16,7 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 export class AdminGuard implements CanActivate {
   constructor(
     private configService: ConfigService,
-    private reflector: Reflector
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -33,7 +33,7 @@ export class AdminGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without token.`,
-        { description: `Provided no bearer token.` }
+        { description: `Provided no bearer token.` },
       );
     }
 
@@ -45,7 +45,7 @@ export class AdminGuard implements CanActivate {
     if (!isValid) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without permission.`,
-        { description: `Provided bearer token: ${token}` }
+        { description: `Provided bearer token: ${token}` },
       );
     }
     return isValid;

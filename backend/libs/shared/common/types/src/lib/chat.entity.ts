@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { ApiProperty } from 'npm:@nestjs/swagger';
+import { IsOptional } from 'npm:class-validator';
 import { Message } from './message.entity';
 
 export class ChatEntityDto {

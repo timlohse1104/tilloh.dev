@@ -3,7 +3,7 @@ import {
   MessageDto,
   UpdateMessageDto,
 } from '@backend/shared-types';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from 'npm:@nestjs/common';
 import { ChatMongoDbService } from './chat.mongodb.service';
 
 @Injectable()

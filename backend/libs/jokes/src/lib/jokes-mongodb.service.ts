@@ -1,8 +1,8 @@
 import { JokeTexts } from '@backend/shared-texts';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { Injectable, Logger, NotFoundException } from 'npm:@nestjs/common';
+import { InjectModel } from 'npm:@nestjs/mongoose';
+import { FilterQuery, Model } from 'npm:mongoose';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 
 @Injectable()

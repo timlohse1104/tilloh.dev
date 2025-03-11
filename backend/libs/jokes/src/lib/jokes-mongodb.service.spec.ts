@@ -1,8 +1,8 @@
 import { JokeDto } from '@backend/shared-types';
 import { mockJokeDto } from '@backend/util';
-import { getModelToken } from '@nestjs/mongoose';
-import { Test, TestingModule } from '@nestjs/testing';
-import { Document, Model } from 'mongoose';
+import { getModelToken } from 'npm:@nestjs/mongoose';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
+import { Document, Model } from 'npm:mongoose';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 

@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   HealthCheckResult,
   HealthCheckService,
   HttpHealthIndicator,
   MongooseHealthIndicator,
 } from '@nestjs/terminus';
-import { AxiosError } from '@nestjs/terminus/dist/errors/axios.error';
+import { Controller, Get } from 'npm:@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from 'npm:@nestjs/swagger';
+import { AxiosError } from 'npm:@nestjs/terminus/dist/errors/axios.error';
 
 export function healthControllerFactory() {
   @Controller('/health')

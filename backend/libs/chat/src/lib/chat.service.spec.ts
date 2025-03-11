@@ -1,5 +1,5 @@
 import { mockChatEntityDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { ChatService } from './chat.service';
 

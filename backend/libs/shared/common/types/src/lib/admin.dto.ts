@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { ApiProperty } from 'npm:@nestjs/swagger';
+import { IsString } from 'npm:class-validator';
 
 export class InputVerifyAdmin {
   @ApiProperty()

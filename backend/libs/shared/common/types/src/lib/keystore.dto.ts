@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { ApiProperty } from 'npm:@nestjs/swagger';
+import { IsNotEmpty } from 'npm:class-validator';
 
 export class KeystoreDto {
   @ApiProperty({ description: 'Identifier ID', required: false })

@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { ApiProperty } from 'npm:@nestjs/swagger';
+import { IsNotEmpty, IsOptional } from 'npm:class-validator';
 
 class OcrSpaceWordDto {
   @ApiProperty()

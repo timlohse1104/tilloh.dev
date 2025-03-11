@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Module } from 'npm:@nestjs/common';
 import { metricsControllerFactory } from './shared-metrics.controller.factory';
 
 @Module({})

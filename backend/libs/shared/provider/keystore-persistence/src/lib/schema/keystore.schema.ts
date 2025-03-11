@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from 'npm:@nestjs/mongoose';
+import { Document } from 'npm:mongoose';
 
 export type KeystoreDocument = Keystore & Document;
 
@@ -26,5 +26,5 @@ export class Keystore {
 
 export const KeystoreSchema = SchemaFactory.createForClass(Keystore).index(
   { identifier: 1, key: 1 },
-  { unique: true }
+  { unique: true },
 );

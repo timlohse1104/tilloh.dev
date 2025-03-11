@@ -1,6 +1,6 @@
 import { IdentifiersService } from '@backend/shared-identifiers';
 import { mockIdentifierDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { IdentifiersController } from './identifiers.controller';
 
 describe('IdentifiersController', () => {

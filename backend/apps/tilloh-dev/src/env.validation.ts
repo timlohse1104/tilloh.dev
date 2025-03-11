@@ -1,5 +1,5 @@
-import { plainToInstance } from 'class-transformer';
-import { IsNumber, IsString, Matches, validateSync } from 'class-validator';
+import { plainToInstance } from 'npm:class-transformer';
+import { IsNumber, IsString, Matches, validateSync } from 'npm:class-validator';
 
 export class EnvironmentVariables {
   @IsString()

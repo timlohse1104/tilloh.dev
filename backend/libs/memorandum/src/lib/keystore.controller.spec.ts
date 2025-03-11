@@ -1,6 +1,6 @@
 import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
 import { mockKeystoreDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { KeystoreController } from './keystore.controller';
 
 describe('KeystoreController', () => {

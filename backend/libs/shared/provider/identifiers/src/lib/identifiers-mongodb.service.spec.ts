@@ -1,8 +1,8 @@
 import { IdentifierDto } from '@backend/shared-types';
 import { mockIdentifierDto } from '@backend/util';
-import { getModelToken } from '@nestjs/mongoose';
-import { Test, TestingModule } from '@nestjs/testing';
-import { Document, Model } from 'mongoose';
+import { getModelToken } from 'npm:@nestjs/mongoose';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
+import { Document, Model } from 'npm:mongoose';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { Identifier, IdentifierDocument } from './schema/identifiers.schema';
 

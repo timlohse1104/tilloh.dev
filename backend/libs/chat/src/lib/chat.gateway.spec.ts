@@ -7,8 +7,8 @@ import {
   UpdateMessageDto,
 } from '@backend/shared-types';
 import { mockMessageDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
-import { Socket } from 'socket.io';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
+import { Socket } from 'npm:socket.io';
 import { ChatGateway } from './chat.gateway';
 import { MessagesService } from './messages.service';
 

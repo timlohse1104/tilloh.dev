@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Module } from 'npm:@nestjs/common';
+import { MongooseModule } from 'npm:@nestjs/mongoose';
 import { KeystoreMongoDbService } from './keystore-mongodb.service';
 import { Keystore, KeystoreSchema } from './schema/keystore.schema';
 

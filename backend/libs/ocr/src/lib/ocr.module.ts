@@ -1,5 +1,5 @@
 import { SharedOcrModule } from '@backend/shared-ocr';
-import { Module } from '@nestjs/common';
+import { Module } from 'npm:@nestjs/common';
 import { OcrController } from './ocr.controller';
 
 @Module({

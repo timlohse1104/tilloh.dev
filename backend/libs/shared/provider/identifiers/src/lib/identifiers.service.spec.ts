@@ -1,5 +1,5 @@
 import { mockIdentifierDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { IdentifiersService } from './identifier.service';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 

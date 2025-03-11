@@ -1,6 +1,6 @@
 import { UpdateMessageDto } from '@backend/shared-types';
 import { mockChatEntityDto, mockMessageDto } from '@backend/util';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { MessagesService } from './messages.service';
 

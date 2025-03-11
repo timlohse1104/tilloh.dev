@@ -5,7 +5,6 @@ import {
   TypingDto,
   UpdateMessageDto,
 } from '@backend/shared-types';
-import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -13,7 +12,8 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Logger } from 'npm:@nestjs/common';
+import { Server, Socket } from 'npm:socket.io';
 import { MessagesService } from './messages.service';
 
 @WebSocketGateway({

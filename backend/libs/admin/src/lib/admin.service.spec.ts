@@ -1,7 +1,7 @@
 import { IdentifiersService } from '@backend/shared-identifiers';
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
-import { ConfigService } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from 'npm:@nestjs/config';
+import { Test, TestingModule } from 'npm:@nestjs/testing';
 import { AdminService } from './admin.service';
 
 describe('AdminService', () => {

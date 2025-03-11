@@ -1,6 +1,6 @@
 import { SharedIdentifiersModule } from '@backend/shared-identifiers';
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module } from 'npm:@nestjs/common';
+import { ConfigModule } from 'npm:@nestjs/config';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 
