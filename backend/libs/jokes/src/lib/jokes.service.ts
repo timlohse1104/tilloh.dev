@@ -1,13 +1,11 @@
-import {
-  JokeDocument,
-  JokesMongoDbService,
-} from '@backend/jokes/jokes-persistence';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { FilterQuery } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
+import { JokesMongoDbService } from './jokes-mongodb.service';
+import { JokeDocument } from './schema/jokes.schema';
 
 @Injectable()
 export class JokesService {

@@ -60,7 +60,7 @@ Generate a library
 Libraries are shareable across libraries and applications.
 
 - Code scaffolding
-  Run `nx g @nx/nest:resource --name=my-resource --project=my-app-controller-my-lib` to generate crud endpoints for a resource.
+  Run `nx g @nx/nest:resource --name=my-resource --project=my-app` to generate crud endpoints for a resource.
 
 # Deployment
 

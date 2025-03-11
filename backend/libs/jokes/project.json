@@ -1,7 +1,7 @@
 {
-  "name": "jokes-persistence",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jokes/jokes-persistence/src",
+  "name": "jokes",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jokes/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -17,7 +17,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/jokes/jokes-persistence/jest.config.ts"
+        "jestConfig": "libs/jokes/jest.config.ts"
       }
     }
   }

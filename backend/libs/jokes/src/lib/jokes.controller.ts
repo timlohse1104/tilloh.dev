@@ -1,4 +1,3 @@
-import { JokesService } from '@backend/jokes/jokes-provider';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { Public } from '@backend/util';
 import {
@@ -18,6 +17,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { JokesService } from './jokes.service';
 
 @ApiTags('jokes')
 @Controller('/jokes')

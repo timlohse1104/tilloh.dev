@@ -20,15 +20,7 @@
       "@backend/admin-provider": ["libs/admin/admin-provider/src/index.ts"],
       "@backend/catch-em-all": ["libs/catch-em-all/src/index.ts"],
       "@backend/chat": ["libs/chat/src/index.ts"],
-      "@backend/jokes/jokes-controller": [
-        "libs/jokes/jokes-controller/src/index.ts"
-      ],
-      "@backend/jokes/jokes-persistence": [
-        "libs/jokes/jokes-persistence/src/index.ts"
-      ],
-      "@backend/jokes/jokes-provider": [
-        "libs/jokes/jokes-provider/src/index.ts"
-      ],
+      "@backend/jokes": ["libs/jokes/src/index.ts"],
       "@backend/memorandum": ["libs/memorandum/src/index.ts"],
       "@backend/ocr": ["libs/ocr/src/index.ts"],
       "@backend/shared-controller-health": [

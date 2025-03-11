@@ -1,6 +1,6 @@
 import { AdminModule } from '@backend/admin';
 import { ChatModule } from '@backend/chat';
-import { JokesControllerModule } from '@backend/jokes/jokes-controller';
+import { JokesModule } from '@backend/jokes';
 import { ListsModule } from '@backend/lists';
 import { MemorandumModule } from '@backend/memorandum';
 import { OcrModule } from '@backend/ocr';
@@ -70,7 +70,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     }),
     AdminModule,
     MemorandumModule,
-    JokesControllerModule,
+    JokesModule,
     ChatModule,
     OcrModule,
     ListsModule,
