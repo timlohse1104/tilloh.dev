@@ -14,4 +14,4 @@ import { Identifier, IdentifierSchema } from './schema/identifiers.schema';
   providers: [IdentifiersService, IdentifiersMongoDbService],
   exports: [IdentifiersService],
 })
-export class IdentifiersModule {}
+export class SharedIdentifiersModule {}
