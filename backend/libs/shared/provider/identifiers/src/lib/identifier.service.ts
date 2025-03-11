@@ -1,8 +1,4 @@
 import {
-  IdentifierDocument,
-  IdentifiersMongoDbService,
-} from '@backend/memorandum/memorandum-persistence';
-import {
   CreateIdentifierInputDto,
   CreateIdentifierOutputDto,
   GetIdentifierInputDto,
@@ -14,6 +10,8 @@ import {
 } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
+import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
+import { IdentifierDocument } from './schema/identifiers.schema';
 
 @Injectable()
 export class IdentifiersService {
