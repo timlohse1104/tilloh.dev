@@ -29,9 +29,7 @@
       "@backend/jokes/jokes-provider": [
         "libs/jokes/jokes-provider/src/index.ts"
       ],
-      "@backend/memorandum/memorandum-controller": [
-        "libs/memorandum/memorandum-controller/src/index.ts"
-      ],
+      "@backend/memorandum": ["libs/memorandum/src/index.ts"],
       "@backend/memorandum/memorandum-persistence": [
         "libs/memorandum/memorandum-persistence/src/index.ts"
       ],

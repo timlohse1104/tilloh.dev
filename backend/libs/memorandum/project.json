@@ -1,7 +1,7 @@
 {
-  "name": "memorandum-memorandum-persistence",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/memorandum/memorandum-persistence/src",
+  "name": "memorandum",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/memorandum/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -17,7 +17,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/memorandum/memorandum-persistence/jest.config.ts"
+        "jestConfig": "libs/memorandum/jest.config.ts"
       }
     }
   }
