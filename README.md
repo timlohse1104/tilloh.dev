@@ -10,11 +10,35 @@ The frontend is a single-page application that serves as a portfolio for my proj
 
 It is built with SvelteKit and Svelte Material UI.
 
+### Run with docker
+
+To run the frontend using Docker, you can use the provided Dockerfile. First, ensure Docker is installed on your system. Then, navigate to the root directory of the project and execute the following commands:
+
+1. Build the image
+
+`docker build -t tilloh-dev-frontend -f Frontend.Dockerfile .`
+
+2. Run the container
+
+`docker run -d -p 5173:5173 tilloh-dev-frontend`
+
 ## Backend
 
 The backend is a REST API that powers the frontend. It consists of generated identifiers for user sessions, an ocr feature, a joke scraper and a key-value store to store link information.
 
 The backend is built with NestJS and Swagger.
+
+### Run with docker
+
+To run the backend using Docker, you can use the provided Dockerfile. Just like with the frontend, ensure Docker is installed on your system. Then, navigate to the root directory of the project and execute the following commands:
+
+1. Build the image
+
+`docker build -t tilloh-dev-backend -f Backend.Dockerfile .`
+
+2. Run the container
+
+`docker run -d -p 61154:61154 tilloh-dev-backend`
 
 ## Development
 

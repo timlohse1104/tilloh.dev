@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [global] Added global theme switch functionality with local storage.
 - [global] Light login functionality for every page to make tilloh.dev accessible to invited users.
 - [memorandum] Autofocus on link search input field for a better UX.
+- [general] Added dockerfile to run the frontend os independent
 
 ### Changed
 - [global] Refactored css names to snake_case.
