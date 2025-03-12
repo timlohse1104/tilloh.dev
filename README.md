@@ -74,6 +74,12 @@ To start all services, navigate to the root directory of the project and execute
 
 `docker-compose up -d`
 
+### Usage
+
+After starting all services contained in docker-compose file the first user must be created manually.
+
+Use a tool like Postman or do a POST http://localhost:61154/v1/identifiers request the way you like. It is important to provide an Authrization: Bearer <ADMIN_IDENTIFIER> header in the request to authorize. After that you will get an identifier id that can be used for further usage in the application user interface login screen.
+
 ## Development
 
 Before committing changes it is necessary to fix all linting errors. After cloning this repository, `npm install` will automatically install a pre-commit hook that will run the linter before committing changes!

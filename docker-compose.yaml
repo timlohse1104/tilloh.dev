@@ -1,13 +1,15 @@
 version: '3'
 services:
   frontend:
-    image: tilloh-dev-frontend
+    image: tilloh-dev-frontend:latest
     ports:
       - "5173:5173"
     depends_on:
       - backend
+    environment:
+      - BACKEND_URL=http://localhost:61154/v1
   backend:
-    image: tilloh-dev-backend
+    image: tilloh-dev-backend:latest
     ports:
       - "61154:61154"
     depends_on:
