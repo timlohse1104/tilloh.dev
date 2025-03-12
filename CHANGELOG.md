@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [1.0.3] - 2025-03-12
+
+### Added
 - [food-scan] MVP implementation with web llm and https://ocr.space/OCRAPI.
 - [global] Added global theme switch functionality with local storage.
 - [global] Light login functionality for every page to make tilloh.dev accessible to invited users.
