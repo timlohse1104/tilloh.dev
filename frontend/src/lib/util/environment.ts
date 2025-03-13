@@ -18,6 +18,13 @@ async function fetchBackendUrl(): Promise<string> {
     console.warn('Network error: Failed to fetch backend URL from config.');
     return undefined;
   }
-  const config = await configResponse?.json();
-  return config?.backendUrl;
+
+  let jsonConfig;
+  try {
+    jsonConfig = await configResponse?.json();
+  } catch (error) {
+    console.warn('Could not parse config as JSON. Using default URL instead.');
+    return undefined;
+  }
+  return jsonConfig?.backendUrl;
 }
