@@ -16,7 +16,7 @@ export const getChats = async (token: string): Promise<ChatDto[]> => {
 
 export const createChat = async (
   token: string,
-  name: string
+  name: string,
 ): Promise<ChatDto> => {
   return await fetch(`${apiURL}/chats`, {
     method: 'POST',
@@ -35,7 +35,7 @@ export const getChat = async (token: string, id: string): Promise<ChatDto> => {
 export const updateChat = async (
   token: string,
   id: string,
-  name: string
+  name: string,
 ): Promise<ChatDto> => {
   return await fetch(`${apiURL}/chats/${id}`, {
     method: 'PUT',
@@ -46,7 +46,7 @@ export const updateChat = async (
 
 export const deleteChat = async (
   token: string,
-  id: string
+  id: string,
 ): Promise<ChatDto> => {
   return await fetch(`${apiURL}/chats/${id}`, {
     method: 'DELETE',

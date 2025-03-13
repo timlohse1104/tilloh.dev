@@ -1,7 +1,7 @@
-import { IdentifiersMongoDbService } from '@backend/memorandum/memorandum-persistence';
 import { mockIdentifierDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IdentifiersService } from './identifier.service';
+import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 
 describe('IdentifiersService', () => {
   let service: IdentifiersService;

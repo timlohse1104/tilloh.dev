@@ -1,7 +1,7 @@
 import { AdminModule } from '@backend/admin';
 import { ChatModule } from '@backend/chat';
-import { JokesControllerModule } from '@backend/jokes/jokes-controller';
-import { MemorandumControllerModule } from '@backend/memorandum/memorandum-controller';
+import { JokesModule } from '@backend/jokes';
+import { MemorandumModule } from '@backend/memorandum';
 import { OcrModule } from '@backend/ocr';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
@@ -68,8 +68,8 @@ import { EnvironmentVariables, validate } from './env.validation';
       },
     }),
     AdminModule,
-    MemorandumControllerModule,
-    JokesControllerModule,
+    MemorandumModule,
+    JokesModule,
     ChatModule,
     OcrModule,
   ],

@@ -1,11 +1,17 @@
-import { MemorandumPersistenceModule } from '@backend/memorandum/memorandum-persistence';
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { IdentifiersService } from './identifier.service';
+import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
+import { Identifier, IdentifierSchema } from './schema/identifiers.schema';
 
 @Module({
-  imports: [MemorandumPersistenceModule],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Identifier.name, schema: IdentifierSchema },
+    ]),
+  ],
   controllers: [],
-  providers: [IdentifiersService],
+  providers: [IdentifiersService, IdentifiersMongoDbService],
   exports: [IdentifiersService],
 })
-export class IdentifiersModule {}
+export class SharedIdentifiersModule {}
