@@ -1,8 +1,8 @@
-import { JokesMongoDbService } from '@backend/jokes/jokes-persistence';
 import { mockHttpResponse, mockJokeDto } from '@backend/util';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { throwError } from 'rxjs';
+import { JokesMongoDbService } from './jokes-mongodb.service';
 import { JokesService } from './jokes.service';
 
 describe('JokesService', () => {

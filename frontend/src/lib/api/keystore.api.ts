@@ -33,13 +33,14 @@ export const createKey = async (createKeystoreKeyDto: KeystoreKeyDto) => {
 
 export const getKey = async (inputKeystoreDto: InputKeystoreDto) => {
   const { identifier, key } = inputKeystoreDto;
-  return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
+  const keyUrl = `${apiURL}/keystore/${identifier}/${key}`;
+  return await fetch(keyUrl, {
     method: 'GET',
   }).then((res) => res.json());
 };
 
 export const updateKey = async (
-  inputKeystoreUpdateDto: InputKeystoreUpdateDto
+  inputKeystoreUpdateDto: InputKeystoreUpdateDto,
 ) => {
   const { identifier, key, value } = inputKeystoreUpdateDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
@@ -51,7 +52,7 @@ export const updateKey = async (
 
 export const deleteKey = async (
   token: string,
-  inputKeystoreDto: InputKeystoreDto
+  inputKeystoreDto: InputKeystoreDto,
 ) => {
   const { identifier, key } = inputKeystoreDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
