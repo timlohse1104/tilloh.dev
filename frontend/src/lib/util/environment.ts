@@ -5,7 +5,19 @@ export const environment = {
 };
 
 async function fetchBackendUrl(): Promise<string> {
-  const response = await fetch('/config.json');
-  const config = await response?.json();
+  let configResponse;
+  try {
+    configResponse = await fetch('/config.json');
+    if (!configResponse.ok) {
+      console.warn(
+        `Failed to fetch backend URL from config.json. This is no issue at all. The application will use the default URL instead.`,
+      );
+      return undefined;
+    }
+  } catch (error) {
+    console.warn('Network error: Failed to fetch backend URL from config.');
+    return undefined;
+  }
+  const config = await configResponse?.json();
   return config?.backendUrl;
 }
