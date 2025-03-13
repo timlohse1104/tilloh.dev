@@ -1,7 +1,7 @@
-import { JokesService } from '@backend/jokes/jokes-provider';
 import { mockJokeDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JokesController } from './jokes.controller';
+import { JokesService } from './jokes.service';
 
 describe('JokesController', () => {
   let controller: JokesController;
