@@ -25,4 +25,26 @@ if [ $? -ne 0 ]; then
  exit 1
 fi
 
+echo "Running testing hook."
+
+# Run the test-suite on frontend code
+cd frontend
+nx run-many -t test --parallel=10
+
+# If there is an error, abort the commit
+if [ $? -ne 0 ]; then
+ echo "\nFrontend testing failed, commit aborted."
+ exit 1
+fi
+
+# Run the test-suite on backend code
+cd ../backend
+nx run-many -t test --parallel=10
+
+# If there is an error, abort the commit
+if [ $? -ne 0 ]; then
+ echo "\nBackend testing failed, commit aborted."
+ exit 1
+fi
+
 exit 0
