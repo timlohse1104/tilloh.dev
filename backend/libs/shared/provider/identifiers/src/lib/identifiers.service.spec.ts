@@ -1,10 +1,10 @@
 import { mockIdentifierDto } from '@backend/util';
 import { Test, TestingModule } from '@nestjs/testing';
-import { IdentifiersService } from './identifier.service';
+import { SharedIdentifiersService } from './identifier.service';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 
-describe('IdentifiersService', () => {
-  let service: IdentifiersService;
+describe('SharedIdentifiersService', () => {
+  let service: SharedIdentifiersService;
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -23,11 +23,11 @@ describe('IdentifiersService', () => {
             findOneAndDelete: jest.fn(),
           },
         },
-        IdentifiersService,
+        SharedIdentifiersService,
       ],
     }).compile();
 
-    service = module.get<IdentifiersService>(IdentifiersService);
+    service = module.get<SharedIdentifiersService>(SharedIdentifiersService);
   });
 
   afterEach(() => {

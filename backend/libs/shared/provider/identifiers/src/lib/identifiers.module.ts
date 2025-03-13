@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { IdentifiersService } from './identifier.service';
+import { SharedIdentifiersService } from './identifier.service';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { Identifier, IdentifierSchema } from './schema/identifiers.schema';
 
@@ -11,7 +11,7 @@ import { Identifier, IdentifierSchema } from './schema/identifiers.schema';
     ]),
   ],
   controllers: [],
-  providers: [IdentifiersService, IdentifiersMongoDbService],
-  exports: [IdentifiersService],
+  providers: [SharedIdentifiersService, IdentifiersMongoDbService],
+  exports: [SharedIdentifiersService],
 })
 export class SharedIdentifiersModule {}

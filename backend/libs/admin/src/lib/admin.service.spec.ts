@@ -1,4 +1,4 @@
-import { IdentifiersService } from '@backend/shared-identifiers';
+import { SharedIdentifiersService } from '@backend/shared-identifiers';
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -7,7 +7,7 @@ import { AdminService } from './admin.service';
 describe('AdminService', () => {
   let service: AdminService;
   let configService: ConfigService;
-  let identifiersService: IdentifiersService;
+  let identifiersService: SharedIdentifiersService;
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -24,7 +24,7 @@ describe('AdminService', () => {
           },
         },
         {
-          provide: IdentifiersService,
+          provide: SharedIdentifiersService,
           useValue: {
             getIdentifier: jest.fn(),
           },
@@ -34,7 +34,9 @@ describe('AdminService', () => {
 
     service = module.get<AdminService>(AdminService);
     configService = module.get<ConfigService>(ConfigService);
-    identifiersService = module.get<IdentifiersService>(IdentifiersService);
+    identifiersService = module.get<SharedIdentifiersService>(
+      SharedIdentifiersService,
+    );
   });
 
   it('should be defined.', () => {

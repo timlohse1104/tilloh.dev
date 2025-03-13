@@ -9,9 +9,8 @@
   "include": [
     "src/**/*.ts",
     "src/lib/logger.middleware.ts",
-    "../guards/src/lib/user-auth.guard.ts",
-    "../guards/src/lib/public.guard.ts",
-    "../guards/src/lib/token-extraction.ts"
+    "src/lib/user-auth.guard.ts",
+    "src/lib/public.guard.ts"
   ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

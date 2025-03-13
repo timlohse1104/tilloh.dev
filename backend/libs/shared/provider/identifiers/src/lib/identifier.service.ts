@@ -14,8 +14,8 @@ import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { IdentifierDocument } from './schema/identifiers.schema';
 
 @Injectable()
-export class IdentifiersService {
-  private readonly logger = new Logger(IdentifiersService.name);
+export class SharedIdentifiersService {
+  private readonly logger = new Logger(SharedIdentifiersService.name);
   constructor(private identifiersMongoDbService: IdentifiersMongoDbService) {}
 
   /**

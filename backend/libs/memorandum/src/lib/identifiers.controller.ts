@@ -1,4 +1,5 @@
-import { IdentifiersService } from '@backend/shared-identifiers';
+import { Public } from '@backend/guards';
+import { SharedIdentifiersService } from '@backend/shared-identifiers';
 import {
   CreateIdentifierInputDto,
   CreateIdentifierOutputDto,
@@ -11,7 +12,6 @@ import {
   UpdateIdentifierInputDto,
   UpdateIdentifierOutputDto,
 } from '@backend/shared-types';
-import { Public } from '@backend/util';
 import {
   Body,
   Controller,
@@ -34,7 +34,7 @@ import {
 @ApiTags('identifiers')
 @Controller('/identifiers')
 export class IdentifiersController {
-  constructor(private identifiersService: IdentifiersService) {}
+  constructor(private identifiersService: SharedIdentifiersService) {}
 
   @ApiBearerAuth()
   @ApiOkResponse({

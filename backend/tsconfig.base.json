@@ -37,6 +37,7 @@
       "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
       "@backend/lists": ["libs/lists/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"],
+      "@backend/guards": ["libs/shared/guards/src/index.ts"],
       "@backend/shared-identifiers": [
         "libs/shared/provider/identifiers/src/index.ts"
       ]

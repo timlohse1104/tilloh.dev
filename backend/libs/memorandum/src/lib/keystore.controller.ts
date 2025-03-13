@@ -1,3 +1,4 @@
+import { Public } from '@backend/guards';
 import { KeystoreMongoDbService } from '@backend/shared-keystore-persistence';
 import { KeystoreTexts } from '@backend/shared-texts';
 import {
@@ -12,7 +13,6 @@ import {
   UpdateKeystoreInputParamDto,
   UpdateKeystoreOutputDto,
 } from '@backend/shared-types';
-import { Public } from '@backend/util';
 import {
   Body,
   Controller,

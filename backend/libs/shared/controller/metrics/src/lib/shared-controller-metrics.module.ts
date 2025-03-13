@@ -5,9 +5,9 @@ import { metricsControllerFactory } from './shared-metrics.controller.factory';
 export class SharedControllerMetricsModule {
   static registerAsync(): DynamicModule {
     return {
+      imports: [],
       module: SharedControllerMetricsModule,
       controllers: [metricsControllerFactory()],
-      imports: [],
       providers: [],
       exports: [],
     };

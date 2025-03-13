@@ -1,5 +1,5 @@
+import { Public } from '@backend/guards';
 import { ListDto } from '@backend/shared-types';
-import { Public } from '@backend/util';
 import {
   Body,
   Controller,

@@ -1,4 +1,4 @@
-import { IdentifiersService } from '@backend/shared-identifiers';
+import { SharedIdentifiersService } from '@backend/shared-identifiers';
 import { InputVerifyAdmin, OutputVerifyAdmin } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -8,7 +8,7 @@ export class AdminService {
   private readonly logger = new Logger(AdminService.name);
   constructor(
     private configService: ConfigService,
-    private identifiersService: IdentifiersService,
+    private identifiersService: SharedIdentifiersService,
   ) {}
 
   /**

@@ -5,6 +5,7 @@ import { ListsModule } from '@backend/lists';
 import { MemorandumModule } from '@backend/memorandum';
 import { OcrModule } from '@backend/ocr';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
+import { SharedIdentifiersModule } from '@backend/shared-identifiers';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
   AdminGuard,
@@ -74,6 +75,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     ChatModule,
     OcrModule,
     ListsModule,
+    SharedIdentifiersModule,
   ],
   providers: [
     Logger,

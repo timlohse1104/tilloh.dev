@@ -2,21 +2,18 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  SetMetadata,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
-
-export const IS_PUBLIC_KEY = 'isPublic';
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+import { IS_PUBLIC_KEY } from './public.guard';
+import { extractTokenFromHeader } from './token-extraction';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
   constructor(
     private configService: ConfigService,
-    private reflector: Reflector
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -29,11 +26,11 @@ export class AdminGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const token = extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without token.`,
-        { description: `Provided no bearer token.` }
+        { description: `Provided no bearer token.` },
       );
     }
 
@@ -45,14 +42,9 @@ export class AdminGuard implements CanActivate {
     if (!isValid) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without permission.`,
-        { description: `Provided bearer token: ${token}` }
+        { description: `Provided bearer token: ${token}` },
       );
     }
     return isValid;
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
   }
 }

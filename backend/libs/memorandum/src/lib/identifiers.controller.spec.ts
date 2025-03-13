@@ -1,4 +1,4 @@
-import { IdentifiersService } from '@backend/shared-identifiers';
+import { SharedIdentifiersService } from '@backend/shared-identifiers';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IdentifiersController } from './identifiers.controller';
 
@@ -9,7 +9,7 @@ describe('IdentifiersController', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: IdentifiersService,
+          provide: SharedIdentifiersService,
           useValue: {
             listIdentifiers: jest.fn(),
             getIdentifier: jest.fn(),
