@@ -12,12 +12,7 @@ import {
 } from '@backend/util';
 import fastifyCors from '@fastify/cors';
 import { FastifyMulterModule } from '@nest-lab/fastify-multer';
-import {
-  INestApplication,
-  Logger,
-  MiddlewareConsumer,
-  Module,
-} from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -101,11 +96,13 @@ export class AppModule {
 }
 
 async function bootstrap() {
-  const app = (await NestFactory.create(
+  const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter() as any,
-  )) as NestFastifyApplication;
-  await app.register(fastifyCors);
+    new FastifyAdapter(),
+  );
+  await app.register(fastifyCors, {
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
 
   const globalPrefix = process.env.GLOBAL_PREFIX;
   const port = process.env.PORT;
@@ -124,15 +121,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const document = SwaggerModule.createDocument(
-    app as unknown as INestApplication,
-    config,
-  );
-  SwaggerModule.setup(
-    globalPrefix,
-    app as unknown as INestApplication,
-    document,
-  );
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup(globalPrefix, app, document);
 
   await app.listen(port, address, () => {
     Logger.log(
