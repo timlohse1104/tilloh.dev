@@ -10,8 +10,14 @@ import {
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
+import fastifyCors from '@fastify/cors';
 import { FastifyMulterModule } from '@nest-lab/fastify-multer';
-import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
+import {
+  INestApplication,
+  Logger,
+  MiddlewareConsumer,
+  Module,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -95,17 +101,18 @@ export class AppModule {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
+  const app = (await NestFactory.create(
     AppModule,
-    new FastifyAdapter(),
-  );
+    new FastifyAdapter() as any,
+  )) as NestFastifyApplication;
+  await app.register(fastifyCors);
+
   const globalPrefix = process.env.GLOBAL_PREFIX;
   const port = process.env.PORT;
   const address = process.env.SERVER_ADDRESS;
 
   app.setGlobalPrefix(globalPrefix);
   app.useLogger(app.get(PinoLogger));
-  app.enableCors();
   app.useGlobalFilters(
     new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger)),
   );
@@ -117,8 +124,15 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(globalPrefix, app, document);
+  const document = SwaggerModule.createDocument(
+    app as unknown as INestApplication,
+    config,
+  );
+  SwaggerModule.setup(
+    globalPrefix,
+    app as unknown as INestApplication,
+    document,
+  );
 
   await app.listen(port, address, () => {
     Logger.log(
