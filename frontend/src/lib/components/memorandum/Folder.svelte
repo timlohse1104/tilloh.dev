@@ -75,7 +75,7 @@
     $folderOverlayOptionsStore.currentFolderName = folderHeader;
     $folderOverlayOptionsStore.currentFolderBackgroundColor =
       $localPresetStore.Folders.find(
-        (folder) => (folder.id = folderId),
+        (f) => f.id === folderId,
       ).customBackgroundColor;
   };
 

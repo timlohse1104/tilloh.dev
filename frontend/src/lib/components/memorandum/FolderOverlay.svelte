@@ -61,12 +61,14 @@
   const editFolder = () => {
     if (submittable) {
       let currentPreset = $localPresetStore;
-      currentPreset.Folders[
-        $folderOverlayOptionsStore.currentFolderId
-      ].folderName = folderName;
-      currentPreset.Folders[
-        $folderOverlayOptionsStore.currentFolderId
-      ].customBackgroundColor = { ...customColor };
+
+      currentPreset.Folders.find(
+        (f) => f.id === $folderOverlayOptionsStore.currentFolderId,
+      ).folderName = folderName;
+
+      currentPreset.Folders.find(
+        (f) => f.id === $folderOverlayOptionsStore.currentFolderId,
+      ).customBackgroundColor = { ...customColor };
 
       $localPresetStore = currentPreset;
       closeOverlay();

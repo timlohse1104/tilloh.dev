@@ -10,6 +10,7 @@ import {
   GlobalExceptionFilter,
   LoggerMiddleware,
 } from '@backend/util';
+import fastifyCors from '@fastify/cors';
 import { FastifyMulterModule } from '@nest-lab/fastify-multer';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -99,13 +100,16 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  await app.register(fastifyCors, {
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
+
   const globalPrefix = process.env.GLOBAL_PREFIX;
   const port = process.env.PORT;
   const address = process.env.SERVER_ADDRESS;
 
   app.setGlobalPrefix(globalPrefix);
   app.useLogger(app.get(PinoLogger));
-  app.enableCors();
   app.useGlobalFilters(
     new GlobalExceptionFilter(app.get(HttpAdapterHost), app.get(PinoLogger)),
   );
