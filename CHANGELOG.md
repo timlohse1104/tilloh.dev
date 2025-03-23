@@ -10,7 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [global]  Upgraded to fastify version 5 and updated corresponding dependencies.
+
 ### Fixed
+
+- [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
 
 ## [1.0.3] - 2025-03-12
 
