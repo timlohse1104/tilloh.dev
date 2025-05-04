@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16-alpine AS node
+FROM --platform=linux/amd64 node:22-alpine AS node
 
 FROM --platform=linux/amd64 nginxinc/nginx-unprivileged:alpine-slim
 
