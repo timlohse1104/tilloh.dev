@@ -6,7 +6,8 @@
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
   import { setLocale } from '$lib/util/translations';
-  import Button, { Icon, Label } from '@smui/button';
+  import { Button } from 'carbon-components-svelte';
+  import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
 
@@ -35,14 +36,8 @@
   <SearchBar />
 
   <div>
-    <Button
-      color="secondary"
-      variant="outlined"
-      href={settings.path}
-      style="text-decoration: none;"
-    >
-      <Icon class="material-icons">{settings.icon}</Icon>
-      <Label>{settings.name[locale]}</Label>
+    <Button kind="tertiary" href={settings.path} icon={Settings}>
+      {settings.name[locale]}
     </Button>
   </div>
 
@@ -62,5 +57,10 @@
     div {
       margin-top: 1rem;
     }
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 </style>
