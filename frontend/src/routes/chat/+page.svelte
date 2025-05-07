@@ -18,6 +18,8 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { Button as CButton } from 'carbon-components-svelte';
+  import { TableOfContents } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
   const { chat: chatRoute } = applicationRoutes;
@@ -117,14 +119,14 @@
     <Scrim />
     <AppContent class="app_content">
       <main class="main_content">
-        <IconButton
-          color="secondary"
+        <CButton
+          kind="tertiary"
+          iconDescription="TODO"
+          icon={TableOfContents}
+          size="small"
           style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
-          size="button"
           on:click={() => (openMenu = !openMenu)}
-        >
-          <Icon class="material-icons">menu</Icon>
-        </IconButton>
+        />
         <ChatListComponent listIndex={currentListIndex} />
       </main>
     </AppContent>
