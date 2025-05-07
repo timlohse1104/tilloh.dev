@@ -1,8 +1,7 @@
 <script lang="ts">
   import { chatStore } from '$lib/util/stores/store-chat';
-  import Button, { Label } from '@smui/button';
   import IconButton, { Icon } from '@smui/icon-button';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import { Tooltip } from 'carbon-components-svelte';
   import Chat from './Chat.svelte';
   import ChatInput from './ChatInput.svelte';
 
@@ -46,15 +45,9 @@
         <div class="history_area">
           {#if currentList?.history?.length > 0}
             <div class="history_list">
-              <Wrapper>
-                <Button color="secondary" variant="outlined">
-                  <Icon class="material-icons">info</Icon>
-                  <Label>Verlauf</Label>
-                  <Tooltip xPos="end" yPos="detected">
-                    {currentList?.history}
-                  </Tooltip>
-                </Button>
-              </Wrapper>
+              <Tooltip triggerText="Verlauf" direction="bottom">
+                {currentList?.history}
+              </Tooltip>
               <IconButton
                 color="secondary"
                 style="margin-left: auto;"
