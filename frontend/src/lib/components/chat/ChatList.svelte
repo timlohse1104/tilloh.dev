@@ -1,7 +1,8 @@
 <script lang="ts">
   import { chatStore } from '$lib/util/stores/store-chat';
-  import IconButton, { Icon } from '@smui/icon-button';
-  import { Tooltip } from 'carbon-components-svelte';
+  import { Icon } from '@smui/icon-button';
+  import { Button, Tooltip } from 'carbon-components-svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import Chat from './Chat.svelte';
   import ChatInput from './ChatInput.svelte';
 
@@ -48,14 +49,14 @@
               <Tooltip triggerText="Verlauf" direction="bottom">
                 {currentList?.history}
               </Tooltip>
-              <IconButton
-                color="secondary"
+
+              <Button
+                kind="danger-tertiary"
+                iconDescription="Delete"
+                icon={TrashCan}
                 style="margin-left: auto;"
-                size="button"
                 on:click={clearHistory}
-              >
-                <Icon class="material-icons">delete</Icon>
-              </IconButton>
+              />
             </div>
           {:else if !currentList?.history}
             <pre class="status">Hier würde der Verlauf stehen...</pre>
