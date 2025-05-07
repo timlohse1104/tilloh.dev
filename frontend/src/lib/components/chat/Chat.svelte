@@ -1,8 +1,9 @@
 <script lang="ts">
   import Checkbox from '@smui/checkbox';
   import FormField from '@smui/form-field';
-  import IconButton, { Icon } from '@smui/icon-button';
-  import type { Chat } from '../types/chat.ts';
+  import { Button } from 'carbon-components-svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+  import type { Chat } from '../../types/chat.ts';
 
   export let chat: Chat;
   export let deleteChat;
@@ -16,14 +17,14 @@
       <span slot="label" class={chat?.done ? 'striked' : ''}>{chat?.title}</span
       >
     </FormField>
-    <IconButton
-      color="secondary"
+    <Button
+      kind="danger-tertiary"
+      iconDescription="TODO"
+      icon={TrashCan}
       style="margin-left: auto;"
-      size="button"
+      size="small"
       on:click={deleteChat}
-    >
-      <Icon class="material-icons">delete</Icon>
-    </IconButton>
+    />
   </div>
 </section>
 

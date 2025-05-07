@@ -52,9 +52,10 @@
 
               <Button
                 kind="danger-tertiary"
-                iconDescription="Delete"
+                iconDescription="TODO"
                 icon={TrashCan}
                 style="margin-left: auto;"
+                size="small"
                 on:click={clearHistory}
               />
             </div>
