@@ -64,7 +64,6 @@
     grid-area: link;
     display: block;
     padding-left: var(--default_padding);
-    color: var(--light80);
     text-shadow: var(--sharpen);
     font-size: 14px;
   }
@@ -77,7 +76,7 @@
 
     &:hover {
       background-color: var(--black30);
-      color: var(--red);
+      color: red;
       text-shadow: none;
     }
   }

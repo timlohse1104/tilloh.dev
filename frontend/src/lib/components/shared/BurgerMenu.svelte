@@ -1,6 +1,5 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
@@ -38,13 +37,7 @@
   </button>
 </IconButton>
 
-<aside
-  popover
-  id="hamburger-menu"
-  style={$themeStore === 'dark'
-    ? 'background-color: var(--color_bg_2);'
-    : 'background-color: var(--color_bg_light_2);'}
->
+<aside popover id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
       <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
@@ -146,7 +139,6 @@
 
   h2 {
     text-align: left;
-    color: var(--color_text);
     font-size: 2.5rem;
 
     @media #{$phone} {
@@ -202,7 +194,6 @@
   }
 
   a {
-    color: var(--color_text);
     text-decoration: none;
     display: block;
     padding: 1rem;
@@ -214,7 +205,6 @@
     left: 0;
     width: 100%;
     text-align: center;
-    color: var(--color_text);
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -241,9 +231,5 @@
     aside::backdrop {
       opacity: 0;
     }
-  }
-
-  :global(.menu-icons) {
-    color: var(--color_text);
   }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { themeStore, toggleTheme } from '$lib/util/stores/store-theme';
+  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized } from '$lib/util/translations';
-  import Switch from '@smui/switch';
+  import { Theme } from 'carbon-components-svelte';
   import { onMount } from 'svelte';
 
   export let customStyle = '';
@@ -14,14 +14,18 @@
 
 {#if initialized}
   <section style={customStyle}>
-    <span>🌙</span>
-    <Switch
-      bind:checked={themeSwitch}
-      on:SMUISwitch:change={toggleTheme}
-      color="secondary"
-      icons={false}
-    />
     <span>☀️</span>
+    <Theme
+      render="toggle"
+      toggle={{
+        themes: ['g10', 'g80'],
+        labelA: '',
+        labelB: '',
+        hideLabel: true,
+        size: 'sm',
+      }}
+    />
+    <span>🌙</span>
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -33,6 +37,10 @@
     align-items: center;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    color: var(--lightgrey80);
+
+    span {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
   }
 </style>

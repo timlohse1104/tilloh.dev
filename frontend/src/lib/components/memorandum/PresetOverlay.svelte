@@ -190,11 +190,9 @@
       line-height: 1.5;
       font-size: 12px;
       font-family: var(--font_mono);
-      background-color: var(--pre_background);
       border-radius: 3px;
       padding: 0.5em;
       overflow-x: auto;
-      color: var(--color_text);
     }
   }
 

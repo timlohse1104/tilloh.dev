@@ -1,6 +1,5 @@
 <script lang="ts">
   import { executeOcrProcess } from '$lib/api/ocr.api';
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
@@ -176,13 +175,7 @@
 {#if $initialized}
   <section>
     {#if isWebGPUNotAvailableError}
-      <Card
-        padded
-        class="warning_hint"
-        style={$themeStore === 'dark'
-          ? 'background-color: var(--color_bg_2)'
-          : 'background-color: var(--color_bg_light_2)'}
-      >
+      <Card padded class="warning_hint">
         <h2>
           {$t('page.foodScan.webGPUNotAvailableTitle')}
         </h2>
@@ -191,13 +184,7 @@
         </p>
       </Card>
     {:else if !engineReady}
-      <Card
-        padded
-        class="warning_hint"
-        style={$themeStore === 'dark'
-          ? 'background-color: var(--color_bg_2)'
-          : 'background-color: var(--color_bg_light_2)'}
-      >
+      <Card padded class="warning_hint">
         <h2>{$t('page.foodScan.loadingHint')}</h2>
         <p class="warning_sign">⚠️</p>
         <p>{@html $t('page.foodScan.warning')}</p>
@@ -207,14 +194,9 @@
       <h3>{$t('page.foodScan.introduction')}</h3>
       <div class="file_inputs">
         <form>
-          <label
-            for="file_upload"
-            class="custom_file_label"
-            style={$themeStore === 'dark'
-              ? 'background-color: var(--color_bg_1)'
-              : 'background-color: var(--color_bg_light_1)'}
-            >{$t('page.foodScan.chooseFile')}</label
-          >
+          <label for="file_upload" class="custom_file_label">
+            {$t('page.foodScan.chooseFile')}
+          </label>
           <input
             id="file_upload"
             class="file_input"
@@ -252,14 +234,11 @@
 
         {#if llmResult}
           <Set chips={followUpQuestions} let:chip>
-            <Chip
-              {chip}
-              style={$themeStore === 'dark'
-                ? 'background-color: var(--color_bg_1)'
-                : 'background-color: var(--color_bg_light_1)'}
-              on:click={() => askFollowUpQuestion(chip)}
-              ><Text>{chip}</Text></Chip
-            >
+            <Chip {chip} on:click={() => askFollowUpQuestion(chip)}>
+              <Text>
+                {chip}
+              </Text>
+            </Chip>
           </Set>
         {/if}
 

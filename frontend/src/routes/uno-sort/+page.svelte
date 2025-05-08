@@ -145,7 +145,6 @@
   .sort_info_icon {
     display: none;
     cursor: pointer;
-    color: var(--light80);
 
     @media #{$phone} {
       display: block;

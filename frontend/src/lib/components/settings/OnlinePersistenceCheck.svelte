@@ -164,17 +164,17 @@
         icons={false}
         color="secondary"
       />
-      <span slot="label"
-        >{$t(
+      <span slot="label">
+        {$t(
           'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
-        )}</span
-      >
+        )}
+      </span>
     </FormField>
 
     {#if $sharedIdentifierStore.id}
       <Button
         on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;color: var(--color_theme_1);"
+        style="margin-top: 2rem;color: green;"
       >
         <Icon class="material-icons">info</Icon>
         <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
@@ -220,7 +220,7 @@
 
             <Button
               on:click={saveOnlineIdentifier}
-              style={saveSubmittable ? 'color:var(--green);' : ''}
+              style={saveSubmittable ? 'color:green;' : ''}
               bind:this={saveButton}
               color="secondary"
             >
@@ -255,11 +255,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    color: var(--color_text);
-
-    span {
-      color: var(--color_text);
-    }
   }
 
   .input_area {

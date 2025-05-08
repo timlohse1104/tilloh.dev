@@ -260,7 +260,6 @@
 
   :global(.admin_sections_headline h2 span) {
     font-size: 0.8rem;
-    color: var(--color_text-secondary);
   }
 
   :global(.admin_sections_list) {

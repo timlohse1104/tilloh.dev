@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
 </script>
 
@@ -14,10 +13,7 @@
       {@html $t('page.about.weirdJsText1')}:
     </p>
 
-    <pre
-      style={$themeStore === 'dark'
-        ? 'background-color: var(--color_bg_2)'
-        : 'background-color: var(--color_bg_light_2)'}>
+    <pre>
       <code>
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
@@ -33,10 +29,7 @@ alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)
       {@html $t('page.about.weirdJsText2')}:
     </p>
 
-    <pre
-      style={$themeStore === 'dark'
-        ? 'background-color: var(--color_bg_2)'
-        : 'background-color: var(--color_bg_light_2)'}>
+    <pre>
       <code>
 const f = input
   .split(&apos;\n&apos;)
@@ -84,7 +77,6 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
   section {
     max-width: 80vw;
     margin: 0 auto;
-    color: var(--light80);
     height: 88vh;
     overflow-y: auto;
     overflow-x: hidden;

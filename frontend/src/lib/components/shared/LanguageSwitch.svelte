@@ -37,6 +37,5 @@
     align-items: center;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    color: var(--lightgrey80);
   }
 </style>

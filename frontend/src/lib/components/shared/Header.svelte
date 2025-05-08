@@ -42,9 +42,9 @@
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green) !important">🌐 Cloud</span>
+          <span style="color: green !important">🌐 Cloud</span>
         {:else}
-          <span style="color: var(--red) !important">📴 Lokal</span>
+          <span style="color: red !important">📴 Lokal</span>
         {/if}
       </p>
     </div>
@@ -80,7 +80,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--light80);
 
     h2 {
       margin: 0;

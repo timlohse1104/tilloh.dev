@@ -44,7 +44,6 @@
 
   :global(.toggled_application_icon) {
     font-size: 5rem;
-    color: var(--light80);
   }
 
   .back_button {

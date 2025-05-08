@@ -298,7 +298,7 @@
     text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: var(--red);
+      background-color: red;
     }
   }
 

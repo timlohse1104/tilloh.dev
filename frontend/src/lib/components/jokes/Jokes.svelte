@@ -126,7 +126,6 @@
     align-items: center;
     max-width: 90vw;
     margin: 0 auto 3rem auto;
-    color: var(--light80);
     height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
