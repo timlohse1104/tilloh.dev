@@ -1,36 +1,18 @@
 <script lang="ts">
   import { initialized, t } from '$lib/util/translations';
-</script>
+  import { CodeSnippet } from 'carbon-components-svelte';
 
-{#if $initialized}
-  <section>
-    <p>
-      <span class="capital_word">Moin</span>
-      {$t('page.about.introduction')}
-    </p>
-
-    <p>
-      {@html $t('page.about.weirdJsText1')}:
-    </p>
-
-    <pre>
-      <code>
+  const code1 = `
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
   return Array.from&lpar;&lcub; length: number &rcub;, &lpar;&rpar; =&gt; this.numbers&lsqb;'1'&rsqb;&rpar;.join&lpar;' + '&rpar;;
 &rcub;
 
 alphabet = [];
-alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;`;
-      </code>
-  </pre>
+alphabet&lsqb;'i'&rsqb; = \`&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;\`;
+`;
 
-    <p>
-      {@html $t('page.about.weirdJsText2')}:
-    </p>
-
-    <pre>
-      <code>
+  const code2 = `
 const f = input
   .split(&apos;\n&apos;)
   .map((l, i, a) =&gt; &lcub;
@@ -60,8 +42,37 @@ const f = input
     return d;
   &rcub;);
 console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
-    </code>
-  </pre>
+`;
+</script>
+
+{#if $initialized}
+  <section>
+    <p>
+      <span class="capital_word">Moin</span>
+      {$t('page.about.introduction')}
+    </p>
+
+    <p>
+      {@html $t('page.about.weirdJsText1')}:
+    </p>
+
+    <div class="code_snippet">
+      <CodeSnippet type="multi" code={code1} hideCopyButton expanded />
+    </div>
+
+    <p>
+      {@html $t('page.about.weirdJsText2')}:
+    </p>
+
+    <div class="code_snippet">
+      <CodeSnippet
+        type="multi"
+        code={code2}
+        class="code_snippet"
+        hideCopyButton
+        expanded
+      />
+    </div>
 
     <p>
       {@html $t('page.about.usefulWorkText')}
@@ -84,5 +95,10 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
 
   .capital_word {
     font-size: 3rem;
+  }
+
+  .code_snippet {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 </style>
