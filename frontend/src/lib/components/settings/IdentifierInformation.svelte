@@ -6,9 +6,6 @@
 
 {#if $initialized}
   <section>
-    <h2>
-      {$t('page.settings.identifiers.title')}
-    </h2>
     <p>
       {$t('page.settings.identifiers.description1')}
     </p>
@@ -36,6 +33,6 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 </style>

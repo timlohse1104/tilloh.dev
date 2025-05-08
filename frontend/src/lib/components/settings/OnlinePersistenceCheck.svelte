@@ -10,13 +10,9 @@
   import type { Identifier } from '$lib/util/types';
   import { Label } from '@smui/button';
   import Card from '@smui/card';
-  import Dialog, { Content } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
   import Snackbar, { Actions } from '@smui/snackbar';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
-  import Icon from '@smui/textfield/icon';
-  import { Button, Toggle } from 'carbon-components-svelte';
+  import { Button, Modal, TextInput, Toggle } from 'carbon-components-svelte';
   import { Information, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
@@ -172,16 +168,13 @@
         {$t('page.settings.onlinePersistence.connectionData')}
       </Button>
 
-      <Dialog
+      <Modal
+        passiveModal
         bind:open={openIdentifierInfo}
-        sheet
-        aria-describedby="sheet-content"
+        modalHeading={$t('page.settings.identifiers.title')}
       >
-        <Content id="sheet-content">
-          <IconButton action="close" class="material-icons">close</IconButton>
-          <IdentifierInformation />
-        </Content>
-      </Dialog>
+        <IdentifierInformation />
+      </Modal>
     {/if}
 
     {#if shareDataOnline && $sharedIdentifierStore.id}
@@ -194,21 +187,15 @@
           </p>
 
           <div class="button_group">
-            <div>
-              <Textfield
-                bind:value={name}
-                label={!$sharedIdentifierStore.id
-                  ? $t('page.settings.onlinePersistence.yourName')
-                  : $t('page.settings.onlinePersistence.yourCurrentName')}
-              >
-                <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-                <HelperText slot="helper"
-                  >{$t(
-                    'page.settings.onlinePersistence.yourNameQuestion',
-                  )}</HelperText
-                >
-              </Textfield>
-            </div>
+            <TextInput
+              labelText={!$sharedIdentifierStore.id
+                ? $t('page.settings.onlinePersistence.yourName')
+                : $t('page.settings.onlinePersistence.yourCurrentName')}
+              helperText={$t(
+                'page.settings.onlinePersistence.yourNameQuestion',
+              )}
+              bind:value={name}
+            />
 
             <Button
               kind="ghost"
@@ -273,6 +260,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin-top: 1rem;
     gap: 1rem;
   }
 </style>
