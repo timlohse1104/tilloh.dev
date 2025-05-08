@@ -13,6 +13,7 @@
   import IconButton from '@smui/icon-button';
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
+  import { CodeSnippet } from 'carbon-components-svelte';
   import hljs from 'highlight.js';
   import { onMount } from 'svelte';
 
@@ -122,13 +123,14 @@
                 <Icon class="material-icons">expand_more</Icon>
               </IconButton>
             </Header>
-            <Content
-              ><pre class="code_container">
-            <code class="language-json" bind:this={codeElement}
-                  >{JSON.stringify($localPresetStore, null, 2)}</code
-                >
-          </pre></Content
-            >
+            <Content>
+              <CodeSnippet
+                type="multi"
+                code={JSON.stringify($localPresetStore, null, 2)}
+                hideCopyButton
+                expanded
+              />
+            </Content>
           </Panel>
         </Accordion>
       </div>
