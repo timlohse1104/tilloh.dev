@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Card, { Content } from '@smui/card';
+  import { Tile } from 'carbon-components-svelte';
 
   export let header: string;
   export let description: string;
@@ -7,8 +7,8 @@
   export let status: boolean = undefined;
 </script>
 
-<Card class="admin_dashboard_card">
-  <Content class="admin_dashboard_card_content">
+<Tile class="admin_dashboard_card">
+  <div class="admin_dashboard_card_content">
     <div class="card_headline">
       <h2>{header}</h2>
       <p>{description}</p>
@@ -22,8 +22,8 @@
         <slot></slot>
       </div>
     {/if}
-  </Content>
-</Card>
+  </div>
+</Tile>
 
 <style lang="scss">
   :global(.admin_dashboard_card) {

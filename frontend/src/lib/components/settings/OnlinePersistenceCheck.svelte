@@ -9,10 +9,15 @@
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
   import { Label } from '@smui/button';
-  import Card from '@smui/card';
   import IconButton from '@smui/icon-button';
   import Snackbar, { Actions } from '@smui/snackbar';
-  import { Button, Modal, TextInput, Toggle } from 'carbon-components-svelte';
+  import {
+    Button,
+    Modal,
+    TextInput,
+    Tile,
+    Toggle,
+  } from 'carbon-components-svelte';
   import { Information, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
@@ -179,7 +184,7 @@
 
     {#if shareDataOnline && $sharedIdentifierStore.id}
       <div class="input_area">
-        <Card padded class="connection_card">
+        <Tile class="connection_card">
           <h3>{$t('page.settings.onlinePersistence.editConnection')}</h3>
 
           <p>
@@ -211,7 +216,7 @@
               {/if}
             </Button>
           </div>
-        </Card>
+        </Tile>
       </div>
     {/if}
 
