@@ -73,7 +73,6 @@
     "@mlc-ai/web-llm": "^0.2.74",
     "carbon-components-svelte": "^0.89.2",
     "carbon-icons-svelte": "^13.3.0",
-    "highlight.js": "^11.9.0",
     "socket.io-client": "^4.7.4",
     "svelte-masonry": "^0.1.1",
     "svelte-material-ui": "^7.0.0",

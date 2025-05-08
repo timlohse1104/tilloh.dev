@@ -64,7 +64,6 @@
     grid-area: link;
     display: block;
     padding-left: var(--default_padding);
-    text-shadow: var(--sharpen);
     font-size: 14px;
   }
 
@@ -72,7 +71,6 @@
     grid-area: delBtn;
     @include mem_button;
     background-color: var(--trans);
-    text-shadow: var(--sharpen);
 
     &:hover {
       background-color: var(--black30);

@@ -202,7 +202,6 @@
   }
 
   :global(.uno_card) {
-    box-shadow: var(--sharpen);
     border: 5px solid white;
     border-radius: 10px;
     padding: 0.5rem;

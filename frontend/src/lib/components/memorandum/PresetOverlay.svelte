@@ -14,8 +14,6 @@
   import List, { Graphic, Item, Text } from '@smui/list';
   import Snackbar, { Actions } from '@smui/snackbar';
   import { CodeSnippet } from 'carbon-components-svelte';
-  import hljs from 'highlight.js';
-  import { onMount } from 'svelte';
 
   let codeElement;
   let files: FileList;
@@ -43,10 +41,6 @@
   $: linkAmount = [
     ...$localPresetStore.Folders.map((folder) => folder.links.length),
   ].reduce((a, b) => a + b, 0);
-
-  onMount(() => {
-    hljs.highlightAll();
-  });
 
   const closeOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = false;

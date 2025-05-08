@@ -276,7 +276,6 @@
     background-color: transparent;
     border: none;
     color: var(--white);
-    text-shadow: var(--sharpen);
     padding: 0;
   }
 
@@ -286,7 +285,6 @@
     align-items: center;
     font-weight: bolder;
     padding-left: var(--default_padding);
-    text-shadow: var(--sharpen);
     font-size: 18px;
   }
 
@@ -295,7 +293,6 @@
     @include mem_button;
     text-align: center;
     font-weight: bolder;
-    text-shadow: var(--sharpen);
 
     &:hover {
       background-color: red;
@@ -311,7 +308,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    text-shadow: var(--sharpen);
   }
 
   .box_content {
