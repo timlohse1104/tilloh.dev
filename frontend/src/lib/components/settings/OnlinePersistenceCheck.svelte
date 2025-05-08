@@ -8,7 +8,7 @@
   } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
-  import Button, { Label } from '@smui/button';
+  import { Label } from '@smui/button';
   import Card from '@smui/card';
   import Dialog, { Content } from '@smui/dialog';
   import IconButton from '@smui/icon-button';
@@ -16,7 +16,8 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
-  import { Toggle } from 'carbon-components-svelte';
+  import { Button as CButton, Toggle } from 'carbon-components-svelte';
+  import { Information, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
@@ -25,18 +26,12 @@
     : environment.productionApiBaseUrl;
   let shareDataOnline;
   let name = '';
-  let saveButton;
   let openIdentifierInfo = false;
   let snackbar: Snackbar;
   let snackbarMessage = '';
 
   $: sameName = $sharedIdentifierStore.name === name;
   $: saveSubmittable = name && !sameName;
-  $: if (saveButton) {
-    saveButton.$$set({
-      disabled: !saveSubmittable,
-    });
-  }
 
   onMount(() => {
     if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
@@ -168,13 +163,14 @@
     />
 
     {#if $sharedIdentifierStore.id}
-      <Button
+      <CButton
+        kind="ghost"
+        icon={Information}
+        class="connection_data_button"
         on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;color: green;"
       >
-        <Icon class="material-icons">info</Icon>
-        <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
-      </Button>
+        {$t('page.settings.onlinePersistence.connectionData')}
+      </CButton>
 
       <Dialog
         bind:open={openIdentifierInfo}
@@ -214,19 +210,18 @@
               </Textfield>
             </div>
 
-            <Button
+            <CButton
+              kind="ghost"
+              icon={Save}
+              disabled={!saveSubmittable}
               on:click={saveOnlineIdentifier}
-              style={saveSubmittable ? 'color:green;' : ''}
-              bind:this={saveButton}
-              color="secondary"
             >
-              <Icon class="material-icons">save</Icon>
               {#if !$sharedIdentifierStore.id}
                 <Label>{$t('page.shared.establish')}</Label>
               {:else}
                 <Label>{$t('page.shared.save')}</Label>
               {/if}
-            </Button>
+            </CButton>
           </div>
         </Card>
       </div>
@@ -246,6 +241,15 @@
 <style lang="scss">
   :global(.server_persistence_toggle) {
     margin-top: 2rem;
+  }
+
+  :global(.connection_data_button) {
+    margin-top: 2rem;
+    color: green;
+
+    &:hover {
+      color: darkgreen;
+    }
   }
 
   section {
