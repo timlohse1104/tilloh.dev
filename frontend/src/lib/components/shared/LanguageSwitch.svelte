@@ -1,7 +1,7 @@
 <script lang="ts">
   import { languageStore } from '$lib/util/stores/store-language';
   import { initialized } from '$lib/util/translations';
-  import Switch from '@smui/switch';
+  import { Toggle } from 'carbon-components-svelte';
   import { onMount } from 'svelte';
 
   export let customStyle = '';
@@ -19,11 +19,13 @@
 {#if initialized}
   <section style={customStyle}>
     <span>🇩🇪</span>
-    <Switch
-      bind:checked={languageSwitch}
-      on:SMUISwitch:change={changeLanguage}
-      color="secondary"
-      icons={false}
+    <Toggle
+      size="sm"
+      bind:toggled={languageSwitch}
+      on:change={changeLanguage}
+      labelA=""
+      labelB=""
+      hideLabel
     />
     <span>🇬🇧</span>
   </section>
@@ -37,5 +39,10 @@
     align-items: center;
     margin-bottom: 1rem;
     font-size: 0.9rem;
+
+    span {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
   }
 </style>
