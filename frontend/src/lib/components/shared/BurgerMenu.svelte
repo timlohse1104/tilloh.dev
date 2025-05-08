@@ -3,6 +3,8 @@
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import IconButton from '@smui/icon-button';
+  import { Button } from 'carbon-components-svelte';
+  import { Menu } from 'carbon-icons-svelte';
 
   export let locale;
 
@@ -18,24 +20,14 @@
   }));
 </script>
 
-<IconButton>
-  <button popovertarget="hamburger-menu">
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      ><path
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M5 8h22M5 16h22M5 24h22"
-      /></svg
-    >
-  </button>
-</IconButton>
+<Button
+  kind="tertiary"
+  iconDescription="TODO"
+  icon={Menu}
+  popovertarget="hamburger-menu"
+  tooltipPosition="left"
+  size="xl"
+/>
 
 <aside popover id="hamburger-menu">
   {#if $initialized}

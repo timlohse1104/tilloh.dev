@@ -22,7 +22,6 @@
 
   $: pageName = $page.url.pathname.replace('/', '') || 'home';
   $: currentPage = getCurrentPage();
-
   $: if (pageName) currentPage = getCurrentPage();
 </script>
 
@@ -89,7 +88,7 @@
 
   .corner {
     height: 3em;
-    margin: 0.25em 0.5em;
+    margin: 1em 0.5em;
     display: flex;
   }
 
