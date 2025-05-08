@@ -6,7 +6,8 @@
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { initialized, t } from '$lib/util/translations';
-  import Fab, { Icon } from '@smui/fab';
+  import { Button } from 'carbon-components-svelte';
+  import { Add } from 'carbon-icons-svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
@@ -113,13 +114,14 @@
     </p>
   {/await}
 
-  <Fab
-    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
-    color="secondary"
+  <Button
+    kind="tertiary"
+    iconDescription="TODO"
+    icon={Add}
+    id="add_folder_button"
+    tooltipPosition="left"
     on:click={createFolder}
-  >
-    <Icon style="font-size:2rem;" class="material-icons">add</Icon>
-  </Fab>
+  />
 
   <ConfirmOverlay
     open={confirmDeleteFolderOpenOverlay}
@@ -167,5 +169,12 @@
 
   * :global(svg:focus) {
     outline: 0;
+  }
+
+  :global(#add_folder_button) {
+    position: fixed;
+    bottom: var(--default_padding);
+    right: var(--default_padding);
+    z-index: 100;
   }
 </style>
