@@ -1,8 +1,7 @@
 <script lang="ts">
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
-  import Textfield from '@smui/textfield';
-  import { CopyButton } from 'carbon-components-svelte';
+  import { CopyButton, TextInput } from 'carbon-components-svelte';
 </script>
 
 {#if $initialized}
@@ -19,13 +18,11 @@
     </p>
 
     <div class="info_box">
-      <Textfield
-        label={$t('page.settings.identifiers.personalId')}
-        value={$sharedIdentifierStore.id}
-        style="width: 100%;"
-        helperLine$style="width: 100%;"
+      <TextInput
         disabled
-      ></Textfield>
+        labelText={$t('page.settings.identifiers.personalId')}
+        value={$sharedIdentifierStore.id}
+      />
 
       <CopyButton text={$sharedIdentifierStore.id} />
     </div>
@@ -38,7 +35,7 @@
   .info_box {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     margin-bottom: 1rem;
   }
 </style>
