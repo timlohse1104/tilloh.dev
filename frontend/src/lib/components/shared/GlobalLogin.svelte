@@ -3,9 +3,8 @@
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { t } from '$lib/util/translations';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
-  import Icon from '@smui/textfield/icon';
+  import { PasswordInput, ToastNotification } from 'carbon-components-svelte';
+  import { fade } from 'svelte/transition';
 
   export let token: string = '';
   export let isVerified: boolean = false;
@@ -13,8 +12,12 @@
   export let callback: () => Promise<void> = async () => {};
 
   let verificationError: string = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
 
   const verify = async () => {
+    console.log('verifing');
     const verifyResponse = await verifyId(
       token,
       isAdminLogin ? 'admin' : 'user',
@@ -24,6 +27,7 @@
       const errorMessage = `Error verifying ${isAdminLogin ? 'admin' : 'user'} ID.`;
       console.error(errorMessage);
       verificationError = $t('page.shared.verificationError');
+      timeout = 3_000;
       isVerified = false;
       return;
     }
@@ -33,6 +37,7 @@
       verificationError = isAdminLogin
         ? $t('page.shared.admin.verificationError')
         : $t('page.shared.user.verificationError');
+      timeout = 3_000;
       return;
     }
 
@@ -42,22 +47,35 @@
 </script>
 
 <div class="verify_content">
-  <Textfield
-    variant="outlined"
-    bind:value={token}
-    label={isAdminLogin ? 'Admin ID' : 'User ID'}
-    style="margin-top: 1rem; width: 100%; max-width: 300px;"
-    on:keyup={(event) => {
-      if (isEnter(event)) verify();
-    }}
-  >
-    <Icon class="material-icons" slot="leadingIcon">fingerprint</Icon>
-    <Icon class="material-icons" slot="trailingIcon">arrow_circle_right</Icon>
-    <HelperText slot="helper" style="color: red; font-size: 0.8rem;"
-      >{verificationError}</HelperText
-    >
-  </Textfield>
+  <div>
+    <PasswordInput
+      placeholder={isAdminLogin ? 'Admin ID' : 'User ID'}
+      size="xl"
+      bind:value={token}
+      on:keyup={(event) => {
+        if (isEnter(event)) verify();
+      }}
+    />
+  </div>
 </div>
+
+{#if showNotification}
+  <div transition:fade>
+    <ToastNotification
+      {timeout}
+      kind="error"
+      fullWidth
+      lowContrast
+      subtitle={verificationError}
+      caption={new Date().toLocaleString()}
+      on:close={(e) => {
+        timeout = undefined;
+        console.log(e.detail.timeout);
+        token = '';
+      }}
+    />
+  </div>
+{/if}
 
 <style lang="scss">
   .verify_content {
