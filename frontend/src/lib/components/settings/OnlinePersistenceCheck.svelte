@@ -16,7 +16,7 @@
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
-  import { Button as CButton, Toggle } from 'carbon-components-svelte';
+  import { Button, Toggle } from 'carbon-components-svelte';
   import { Information, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
@@ -159,18 +159,18 @@
       labelText={$t(
         'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
       )}
-      class="server_persistence_toggle"
+      class="mt2"
     />
 
     {#if $sharedIdentifierStore.id}
-      <CButton
+      <Button
         kind="ghost"
         icon={Information}
-        class="connection_data_button"
+        class="save-button mt2"
         on:click={() => (openIdentifierInfo = true)}
       >
         {$t('page.settings.onlinePersistence.connectionData')}
-      </CButton>
+      </Button>
 
       <Dialog
         bind:open={openIdentifierInfo}
@@ -210,9 +210,10 @@
               </Textfield>
             </div>
 
-            <CButton
+            <Button
               kind="ghost"
               icon={Save}
+              class="save-button"
               disabled={!saveSubmittable}
               on:click={saveOnlineIdentifier}
             >
@@ -221,7 +222,7 @@
               {:else}
                 <Label>{$t('page.shared.save')}</Label>
               {/if}
-            </CButton>
+            </Button>
           </div>
         </Card>
       </div>
@@ -239,19 +240,6 @@
 {/if}
 
 <style lang="scss">
-  :global(.server_persistence_toggle) {
-    margin-top: 2rem;
-  }
-
-  :global(.connection_data_button) {
-    margin-top: 2rem;
-    color: green;
-
-    &:hover {
-      color: darkgreen;
-    }
-  }
-
   section {
     position: relative;
     display: flex;

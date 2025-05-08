@@ -1,9 +1,8 @@
 <script lang="ts">
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
   import Textfield from '@smui/textfield';
-  import Icon from '@smui/textfield/icon';
+  import { CopyButton } from 'carbon-components-svelte';
 </script>
 
 {#if $initialized}
@@ -28,11 +27,7 @@
         disabled
       ></Textfield>
 
-      <IconButton
-        on:click={() =>
-          navigator.clipboard.writeText($sharedIdentifierStore.id)}
-        ><Icon class="material-icons">content_copy</Icon></IconButton
-      >
+      <CopyButton text={$sharedIdentifierStore.id} />
     </div>
   </section>
 {:else}

@@ -102,3 +102,16 @@ button:focus:not(:focus-visible) {
   width: 1px;
   white-space: nowrap;
 }
+
+/* Helper classes for spacing and layout */
+.mt2 {
+  margin-top: 2rem;
+}
+
+/* Carbon Buttons Overrides */
+.save-button {
+  color: green;
+}
+.save-button:hover {
+  color: lightgreen;
+}
