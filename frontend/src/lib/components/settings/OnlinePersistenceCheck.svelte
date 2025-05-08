@@ -8,18 +8,17 @@
   } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
-  import { Label } from '@smui/button';
-  import IconButton from '@smui/icon-button';
-  import Snackbar, { Actions } from '@smui/snackbar';
   import {
     Button,
     Modal,
     TextInput,
     Tile,
+    ToastNotification,
     Toggle,
   } from 'carbon-components-svelte';
   import { Information, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
   const apiURL = dev
@@ -28,9 +27,10 @@
   let shareDataOnline;
   let name = '';
   let openIdentifierInfo = false;
-  let snackbar: Snackbar;
   let snackbarMessage = '';
+  let timeout = undefined;
 
+  $: showNotification = timeout !== undefined;
   $: sameName = $sharedIdentifierStore.name === name;
   $: saveSubmittable = name && !sameName;
 
@@ -54,7 +54,7 @@
 
   const triggerSnackbar = (message: string) => {
     snackbarMessage = message;
-    snackbar.open();
+    timeout = 3_000;
   };
 
   const saveOnlineIdentifier = async () => {
@@ -210,9 +210,9 @@
               on:click={saveOnlineIdentifier}
             >
               {#if !$sharedIdentifierStore.id}
-                <Label>{$t('page.shared.establish')}</Label>
+                {$t('page.shared.establish')}
               {:else}
-                <Label>{$t('page.shared.save')}</Label>
+                {$t('page.shared.save')}
               {/if}
             </Button>
           </div>
@@ -220,12 +220,22 @@
       </div>
     {/if}
 
-    <Snackbar bind:this={snackbar}>
-      <Label>{snackbarMessage}</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
+    {#if showNotification}
+      <div transition:fade>
+        <ToastNotification
+          {timeout}
+          kind="info-square"
+          fullWidth
+          lowContrast
+          subtitle={snackbarMessage}
+          caption={new Date().toLocaleString()}
+          on:close={(e) => {
+            timeout = undefined;
+            console.log(e.detail.timeout);
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
