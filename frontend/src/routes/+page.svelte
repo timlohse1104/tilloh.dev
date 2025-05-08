@@ -7,7 +7,6 @@
   import { getToggleValue } from '$lib/util/toggle';
   import { setLocale } from '$lib/util/translations';
   import { Button } from 'carbon-components-svelte';
-  import 'carbon-components-svelte/css/all.css';
   import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';

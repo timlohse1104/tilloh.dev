@@ -11,13 +11,12 @@
   import Button, { Label } from '@smui/button';
   import Card from '@smui/card';
   import Dialog, { Content } from '@smui/dialog';
-  import FormField from '@smui/form-field';
   import IconButton from '@smui/icon-button';
   import Snackbar, { Actions } from '@smui/snackbar';
-  import Switch from '@smui/switch';
   import Textfield from '@smui/textfield';
   import HelperText from '@smui/textfield/helper-text';
   import Icon from '@smui/textfield/icon';
+  import { Toggle } from 'carbon-components-svelte';
   import { onMount } from 'svelte';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
@@ -157,19 +156,16 @@
       {@html $t('page.settings.onlinePersistence.description1')}
     </p>
 
-    <FormField>
-      <Switch
-        bind:checked={shareDataOnline}
-        on:click={triggerCloudPersistence}
-        icons={false}
-        color="secondary"
-      />
-      <span slot="label">
-        {$t(
-          'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
-        )}
-      </span>
-    </FormField>
+    <Toggle
+      bind:toggled={shareDataOnline}
+      on:click={triggerCloudPersistence}
+      labelA={$t('page.shared.no')}
+      labelB={$t('page.shared.yes')}
+      labelText={$t(
+        'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
+      )}
+      class="server_persistence_toggle"
+    />
 
     {#if $sharedIdentifierStore.id}
       <Button
@@ -248,6 +244,10 @@
 {/if}
 
 <style lang="scss">
+  :global(.server_persistence_toggle) {
+    margin-top: 2rem;
+  }
+
   section {
     position: relative;
     display: flex;

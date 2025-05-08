@@ -1,15 +1,8 @@
 <script lang="ts">
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized } from '$lib/util/translations';
   import { Theme } from 'carbon-components-svelte';
-  import { onMount } from 'svelte';
 
   export let customStyle = '';
-  let themeSwitch = false;
-
-  onMount(() => {
-    themeSwitch = $themeStore === 'light';
-  });
 </script>
 
 {#if initialized}
@@ -24,6 +17,8 @@
         hideLabel: true,
         size: 'sm',
       }}
+      persist
+      persistKey="__carbon-theme"
     />
     <span>🌙</span>
   </section>

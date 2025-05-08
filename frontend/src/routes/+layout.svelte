@@ -5,6 +5,7 @@
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
   import { themeStore } from '$lib/util/stores/store-theme';
+  import 'carbon-components-svelte/css/all.css';
   import { onMount } from 'svelte';
   import './styles.css';
 
