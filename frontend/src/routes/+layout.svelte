@@ -6,25 +6,13 @@
   import { languageStore } from '$lib/util/stores/store-language';
   import { themeStore } from '$lib/util/stores/store-theme';
   import 'carbon-components-svelte/css/all.css';
-  import { onMount } from 'svelte';
   import './styles.css';
 
   $: isVerified = $identifierStore ? true : false;
   $: locale = $languageStore;
-  $: theme = $themeStore;
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
-
-  onMount(() => {
-    document.body.classList.toggle('light-theme', theme === 'light');
-  });
-
-  $: {
-    if (theme === 'light') {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
-  }
+  $: theme = $themeStore;
+  $: document.documentElement.setAttribute('theme', theme);
 </script>
 
 <div class="app">
