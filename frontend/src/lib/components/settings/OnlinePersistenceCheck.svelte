@@ -167,7 +167,7 @@
       <Button
         kind="ghost"
         icon={Information}
-        class="save-button mt2"
+        class="save_button mt2"
         on:click={() => (openIdentifierInfo = true)}
       >
         {$t('page.settings.onlinePersistence.connectionData')}
@@ -205,7 +205,7 @@
             <Button
               kind="ghost"
               icon={Save}
-              class="save-button"
+              class="save_button"
               disabled={!saveSubmittable}
               on:click={saveOnlineIdentifier}
             >
