@@ -115,6 +115,8 @@
   }
 
   aside {
+    background-color: var(--cds-ui-background);
+    color: var(--cds-text-01);
     position: fixed;
     width: 30%;
     height: 100%;
@@ -144,7 +146,7 @@
     }
 
     &::backdrop {
-      background-color: var(--black30);
+      background-color: var(--black80);
       opacity: 1;
       transition:
         opacity var(--duration),
