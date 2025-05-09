@@ -2,7 +2,8 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
-  import IconButton, { Icon } from '@smui/icon-button';
+  import { Icon } from '@smui/icon-button';
+  import { Button } from 'carbon-components-svelte';
   import BurgerMenu from './BurgerMenu.svelte';
 
   export let locale;
@@ -27,11 +28,17 @@
 
 <section>
   <div class="header_box">
-    <div class="me_info">
-      <IconButton class="tilloh_logo" href={applicationRoutes.home.path}>
-        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </IconButton>
-    </div>
+    <Button
+      kind="tertiary"
+      href={applicationRoutes.home.path}
+      class="home_button"
+    >
+      <img
+        src={'/images/logo.png'}
+        alt="tilloh.dev logo"
+        style="height: 3em;"
+      />
+    </Button>
 
     <div class="headline_box">
       <h2>
@@ -48,9 +55,7 @@
       </p>
     </div>
 
-    <div class="corner">
-      <BurgerMenu {locale} />
-    </div>
+    <BurgerMenu {locale} />
   </div>
 </section>
 
@@ -58,20 +63,9 @@
   .header_box {
     display: flex;
     justify-content: space-between;
-    padding: 0.5em 1em;
+    padding: 1em 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: var(--white30) 1px solid;
-  }
-
-  :global(.tilloh_logo) {
-    width: 3em;
-    height: 3em;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
   }
 
   .headline_box {
@@ -86,15 +80,14 @@
     }
   }
 
-  .corner {
-    height: 3em;
-    margin: 1em 0.5em;
+  :global(.bx--btn.home_button) {
+    padding: 0;
+    margin: 0;
+    height: 3rem;
+    width: 3rem;
     display: flex;
-  }
-
-  .me_info {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   p {
