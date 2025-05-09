@@ -2,7 +2,6 @@
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { initialized, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
-  import IconButton from '@smui/icon-button';
   import { Button } from 'carbon-components-svelte';
   import { Menu } from 'carbon-icons-svelte';
 
@@ -32,10 +31,7 @@
 <aside popover id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
-      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
-        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </IconButton>
-      <h2>{$t('page.shared.burgerMenuTitle')}</h2>
+      <h2 class="mt1">{$t('page.shared.burgerMenuTitle')}</h2>
     </div>
     <hr />
     <ul>
@@ -59,13 +55,27 @@
     </ul>
 
     <footer>
-      <IconButton href="https://github.com/timlohse1104" target="_blank">
-        <img src={'/images/links/github-light.svg'} alt="GitHub" />
-      </IconButton>
+      <Button
+        kind="tertiary"
+        href="https://github.com/timlohse1104"
+        target="_blank"
+        class="global_menu_footer_buttons"
+      >
+        <img src={'/images/links/github-dark.svg'} alt="GitHub" />
+      </Button>
       <p>{$t('page.shared.madeByText')}</p>
-      <IconButton href="https://stadtwerk.org" target="_blank">
-        <img src={'/images/links/stadtwerk-logo.svg'} alt="stadtwerk" />
-      </IconButton>
+      <Button
+        kind="tertiary"
+        href="https://stadtwerk.org"
+        target="_blank"
+        class="global_menu_footer_buttons"
+      >
+        <img
+          src={'/images/links/stadtwerk-logo.svg'}
+          style="height: 3em;"
+          alt="stadtwerk"
+        />
+      </Button>
     </footer>
   {:else}
     <section>Locale initializing...</section>
@@ -76,6 +86,16 @@
   @use '../../styles/variables.scss' as *;
 
   :global(.bx--btn.global_menu) {
+    padding: 0;
+    margin: 0;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.bx--btn.global_menu_footer_buttons) {
     padding: 0;
     margin: 0;
     height: 3rem;
@@ -145,18 +165,6 @@
 
     @media #{$phone} {
       font-size: x-large;
-    }
-  }
-
-  :global(.tilloh-logo) {
-    width: 2em;
-    height: 2em;
-    margin-right: 1rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
     }
   }
 
