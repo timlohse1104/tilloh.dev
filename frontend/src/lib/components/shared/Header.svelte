@@ -2,7 +2,6 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
-  import { Icon } from '@smui/icon-button';
   import { Button } from 'carbon-components-svelte';
   import GlobalMenu from './GlobalMenu.svelte';
 
@@ -42,7 +41,11 @@
 
     <div class="headline_box">
       <h2>
-        <Icon class="material-icons">{currentPage?.icon}</Icon>
+        {#await import(
+          `/node_modules/carbon-icons-svelte/lib/${currentPage?.cicon}.svelte`
+        ) then icon}
+          <svelte:component this={icon.default} />
+        {/await}
         {currentPage?.name?.[locale]}
       </h2>
 
