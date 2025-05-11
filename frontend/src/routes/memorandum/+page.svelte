@@ -109,6 +109,7 @@
         <Button
           kind="ghost"
           iconDescription={$t('page.memorandum.doubleClickInfo')}
+          tooltipPosition="left"
           icon={Information}
         />
       </div>
