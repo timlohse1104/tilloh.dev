@@ -1,21 +1,24 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { initialized, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
   import { Button } from 'carbon-components-svelte';
-  import { Menu } from 'carbon-icons-svelte';
+  import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
 
   export let locale;
 
   $: appLinks = Object.values(applicationRoutes).map((route) => ({
+    id: route.id,
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
+    cicon: route.cicon,
   }));
   $: utilLinks = Object.values(utilityRoutes).map((route) => ({
+    id: route.id,
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
+    cicon: route.cicon,
   }));
 </script>
 
@@ -37,7 +40,11 @@
     <ul>
       {#each appLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
+          {#await import(
+            `/node_modules/carbon-icons-svelte/lib/${link.cicon}.svelte`
+          ) then icon}
+            <svelte:component this={icon.default} />
+          {/await}
           <a href={link.link}>{link.title} </a>
         </li>
       {/each}
@@ -48,7 +55,11 @@
     <ul>
       {#each utilLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
+          {#await import(
+            `/node_modules/carbon-icons-svelte/lib/${link.cicon}.svelte`
+          ) then icon}
+            <svelte:component this={icon.default} />
+          {/await}
           <a href={link.link}>{link.title}</a>
         </li>
       {/each}
