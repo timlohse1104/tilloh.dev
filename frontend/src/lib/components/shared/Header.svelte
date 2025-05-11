@@ -4,7 +4,7 @@
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { Icon } from '@smui/icon-button';
   import { Button } from 'carbon-components-svelte';
-  import BurgerMenu from './BurgerMenu.svelte';
+  import GlobalMenu from './GlobalMenu.svelte';
 
   export let locale;
 
@@ -55,7 +55,7 @@
       </p>
     </div>
 
-    <BurgerMenu {locale} />
+    <GlobalMenu {locale} />
   </div>
 </section>
 
