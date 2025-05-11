@@ -23,6 +23,8 @@
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Textfield from '@smui/textfield';
   import Tooltip, { Wrapper } from '@smui/tooltip';
+  import { Button } from 'carbon-components-svelte';
+  import { ChangeCatalog } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
@@ -85,9 +87,12 @@
         </Segment>
       </SegmentedButton>
 
-      <IconButton on:click={showPresetOverlay} class="material-icons"
-        >swap_vert</IconButton
-      >
+      <Button
+        kind="ghost"
+        iconDescription="TODO"
+        icon={ChangeCatalog}
+        on:click={showPresetOverlay}
+      />
 
       <Textfield
         variant="standard"

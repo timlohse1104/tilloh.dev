@@ -4,8 +4,6 @@
   export let appKey;
   export let app;
 
-  $: if (app) console.log(app);
-
   $: locale = $languageStore;
 </script>
 
