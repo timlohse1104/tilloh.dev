@@ -18,8 +18,6 @@
     presetOverlayOptionsStore,
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
-  import SegmentedButton, { Segment } from '@smui/segmented-button';
   import { Button, Search } from 'carbon-components-svelte';
   import { ChangeCatalog, Information } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
@@ -29,34 +27,43 @@
     {
       id: 'fixed',
       name: $t('page.memorandum.orders.fixed'),
-      icon: 'border_all',
+      icon: 'Grid',
     },
     {
       id: 'flexible',
       name: $t('page.memorandum.orders.dynamic'),
-      icon: 'expand',
+      icon: 'Workspace',
     },
   ];
 
-  let order = $folderOrderFolder
-    ? orders.find((o) => o.id === $folderOrderFolder)
-    : orders[0];
   let searchQuery = '';
+  let orderFixedIcon;
+  let orderDynamicIcon;
 
   $: locale = $languageStore;
-
-  onMount(async () => {
-    await setLocale($languageStore);
-    refreshPresetStore();
-  });
+  $: order = $folderOrderFolder
+    ? orders.find((o) => o.id === $folderOrderFolder)
+    : orders[0];
 
   const showPresetOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = true;
   };
 
-  const updateOrder = (order: Order) => {
-    $folderOrderFolder = order.id;
-  };
+  function updateOrder(orderId: string) {
+    $folderOrderFolder = orderId;
+  }
+
+  onMount(async () => {
+    await setLocale($languageStore);
+    refreshPresetStore();
+
+    orderFixedIcon = await import(
+      `/node_modules/carbon-icons-svelte/lib/${orders[0].icon}.svelte`
+    ).then((icon) => icon.default);
+    orderDynamicIcon = await import(
+      `/node_modules/carbon-icons-svelte/lib/${orders[1].icon}.svelte`
+    ).then((icon) => icon.default);
+  });
 </script>
 
 <svelte:head>
@@ -67,22 +74,22 @@
 {#if memorandumRoute.toggle}
   {#if $initialized}
     <div class="menu_line">
-      <SegmentedButton
-        segments={orders}
-        let:segment
-        singleSelect
-        bind:selected={order}
-        style="background-color: var(--trans);"
-      >
-        <Segment
-          {segment}
-          style={segment !== order ? 'background-color: var(--trans);' : ''}
-        >
-          <Icon class="material-icons" on:click={() => updateOrder(segment)}
-            >{segment.icon}</Icon
-          >
-        </Segment>
-      </SegmentedButton>
+      <div class="order_buttons">
+        <Button
+          kind="ghost"
+          iconDescription="TODO"
+          icon={orderFixedIcon}
+          class={order === orders[0] ? 'active_order' : ''}
+          on:click={() => updateOrder(orders[0].id)}
+        />
+        <Button
+          kind="ghost"
+          iconDescription="TODO"
+          icon={orderDynamicIcon}
+          class={order === orders[1] ? 'active_order' : ''}
+          on:click={() => updateOrder(orders[1].id)}
+        />
+      </div>
 
       <Button
         kind="ghost"
@@ -149,6 +156,16 @@
     justify-content: start;
     padding-left: calc(var(--default_padding) / 2);
     gap: calc(var(--default_padding) / 2);
+  }
+
+  .order_buttons {
+    display: flex;
+    gap: 0;
+  }
+
+  :global(.bx--btn.active_order) {
+    color: green;
+    border-color: green;
   }
 
   :global(.memorandum_search_bar) {
