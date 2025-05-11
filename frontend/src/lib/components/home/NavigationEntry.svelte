@@ -1,6 +1,5 @@
 <script>
   import { languageStore } from '$lib/util/stores/store-language';
-  import { Icon } from '@smui/common';
 
   export let appKey;
   export let app;
@@ -12,11 +11,11 @@
 
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
   <span class="navRow">
-    <Icon
-      class="material-icons"
-      style="cursor: pointer;font-size: 1.2rem;"
-      on:click={() => window.open(app.path, '_self')}>{app.icon}</Icon
-    >
+    {#await import(
+      `/node_modules/carbon-icons-svelte/lib/${app?.cicon}.svelte`
+    ) then icon}
+      <svelte:component this={icon.default} />
+    {/await}
     <a href={app.path}>{app.name[locale]}</a>
   </span>
 </li>
