@@ -19,12 +19,10 @@
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
-  import IconButton from '@smui/icon-button';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
   import Textfield from '@smui/textfield';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
   import { Button } from 'carbon-components-svelte';
-  import { ChangeCatalog } from 'carbon-icons-svelte';
+  import { ChangeCatalog, Information } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
@@ -106,14 +104,11 @@
       </Textfield>
 
       <div class="info_buttons">
-        <Wrapper>
-          <IconButton style="color: white" size="mini">
-            <Icon class="material-icons">info</Icon>
-          </IconButton>
-          <Tooltip xPos="end" yPos="above">
-            {$t('page.memorandum.doubleClickInfo')}
-          </Tooltip>
-        </Wrapper>
+        <Button
+          kind="ghost"
+          iconDescription={$t('page.memorandum.doubleClickInfo')}
+          icon={Information}
+        />
       </div>
     </div>
 
