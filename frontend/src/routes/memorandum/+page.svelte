@@ -20,8 +20,7 @@
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { Icon } from '@smui/common';
   import SegmentedButton, { Segment } from '@smui/segmented-button';
-  import Textfield from '@smui/textfield';
-  import { Button } from 'carbon-components-svelte';
+  import { Button, Search } from 'carbon-components-svelte';
   import { ChangeCatalog, Information } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
@@ -92,16 +91,12 @@
         on:click={showPresetOverlay}
       />
 
-      <Textfield
-        variant="standard"
+      <Search
+        placeholder={$t('page.memorandum.searchPlaceholder')}
         bind:value={searchQuery}
-        label={$t('page.memorandum.searchPlaceholder')}
+        searchClass="memorandum_search_bar"
         autofocus
-      >
-        <Icon class="material-icons search_icon" slot="trailingIcon"
-          >search</Icon
-        >
-      </Textfield>
+      />
 
       <div class="info_buttons">
         <Button
@@ -154,6 +149,10 @@
     justify-content: start;
     padding-left: calc(var(--default_padding) / 2);
     gap: calc(var(--default_padding) / 2);
+  }
+
+  :global(.memorandum_search_bar) {
+    max-width: 33vw;
   }
 
   .info_buttons {
