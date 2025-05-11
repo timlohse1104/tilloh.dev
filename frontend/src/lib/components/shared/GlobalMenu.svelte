@@ -11,14 +11,12 @@
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
-    cicon: route.cicon,
   }));
   $: utilLinks = Object.values(utilityRoutes).map((route) => ({
     id: route.id,
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
-    cicon: route.cicon,
   }));
 </script>
 
@@ -41,7 +39,7 @@
       {#each appLinks as link}
         <li>
           {#await import(
-            `/node_modules/carbon-icons-svelte/lib/${link.cicon}.svelte`
+            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
           ) then icon}
             <svelte:component this={icon.default} />
           {/await}
@@ -56,7 +54,7 @@
       {#each utilLinks as link}
         <li>
           {#await import(
-            `/node_modules/carbon-icons-svelte/lib/${link.cicon}.svelte`
+            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
           ) then icon}
             <svelte:component this={icon.default} />
           {/await}

@@ -42,7 +42,7 @@
     <div class="headline_box">
       <h2>
         {#await import(
-          `/node_modules/carbon-icons-svelte/lib/${currentPage?.cicon}.svelte`
+          `/node_modules/carbon-icons-svelte/lib/${currentPage?.icon}.svelte`
         ) then icon}
           <svelte:component this={icon.default} />
         {/await}

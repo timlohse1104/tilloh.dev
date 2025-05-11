@@ -12,7 +12,7 @@
 <li aria-current={appKey === 'home' ? 'page' : undefined}>
   <span class="navRow">
     {#await import(
-      `/node_modules/carbon-icons-svelte/lib/${app?.cicon}.svelte`
+      `/node_modules/carbon-icons-svelte/lib/${app?.icon}.svelte`
     ) then icon}
       <svelte:component this={icon.default} />
     {/await}
