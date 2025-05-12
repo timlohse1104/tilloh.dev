@@ -16,7 +16,8 @@
     Text,
   } from '@smui/list';
   import Switch from '@smui/switch';
-  import Textfield from '@smui/textfield';
+  import { Button, TextInput } from 'carbon-components-svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
@@ -77,22 +78,21 @@
         {$t('page.admin.toggles.title')}
         <span>({$adminTogglesStore.length})</span>
       </h2>
-      <Textfield
-        style="margin-left:2rem;width: 75%;"
-        bind:value={newToogleName}
-        label={$t('page.admin.toggles.newToggle')}
-        on:keyup={(event) => {
-          if (isEnter(event)) addToggle();
-        }}
-      >
-        <IconButton
-          class="material-icons"
-          style="position:absolute;right:0;"
+      <div style="display: flex;">
+        <TextInput
+          placeholder={$t('page.admin.toggles.newToggle')}
+          bind:value={newToogleName}
+          on:keyup={(event) => {
+            if (isEnter(event)) addToggle();
+          }}
+        />
+        <Button
+          kind="tertiary"
+          size="field"
           on:click={() => addToggle()}
-        >
-          add
-        </IconButton>
-      </Textfield>
+          icon={Add}
+        />
+      </div>
     </div>
     <List threeLine avatarList singleSelection class="admin_sections_list">
       {#each $adminTogglesStore as toggle, i}
