@@ -10,7 +10,6 @@
   const getCurrentPage = () => {
     const plainPage = applicationRoutes[pageName] || utilityRoutes[pageName];
     if (!plainPage && pageName) {
-      console.log('pageName', pageName);
       const pageNameParts = pageName.split('/');
       if (pageNameParts.length > 1) {
         const routeKey = pageNameParts[0];

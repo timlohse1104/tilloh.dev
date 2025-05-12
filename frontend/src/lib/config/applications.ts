@@ -87,6 +87,13 @@ export const utilityRoutes = {
 };
 
 export const adminSubRoutes = {
+  activities: {
+    id: 'activities',
+    name: { en: 'Activities', de: 'Aktivitäten' },
+    path: '/admin/',
+    icon: 'Bullhorn',
+    toggle: () => true,
+  },
   idenfiers: {
     id: 'idenfiers',
     name: { en: 'Identifiers', de: 'Identifikatoren' },
