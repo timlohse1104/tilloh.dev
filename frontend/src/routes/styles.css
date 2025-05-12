@@ -128,3 +128,11 @@ button:focus:not(:focus-visible) {
 .save_button:hover {
   color: lightgreen;
 }
+
+/* Notification Overrides  */
+.inline_notification {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}

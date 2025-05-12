@@ -4,11 +4,11 @@
   import { initialized, t } from '$lib/util/translations';
   import {
     Button,
+    InlineNotification,
     Select,
     SelectItem,
     TextArea,
     Tile,
-    ToastNotification,
   } from 'carbon-components-svelte';
   import { CloudDownload, Save } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
@@ -101,13 +101,12 @@
 
     {#if showNotification}
       <div transition:fade>
-        <ToastNotification
+        <InlineNotification
           {timeout}
           kind="success"
-          fullWidth
           lowContrast
           subtitle={$t('page.jokes.jokeCreatedSnackbar')}
-          caption={new Date().toLocaleString()}
+          class="inline_notification"
           on:close={(e) => {
             timeout = undefined;
             console.log(e.detail.timeout);

@@ -21,7 +21,11 @@
         value={$sharedIdentifierStore.id}
       />
 
-      <CopyButton text={$sharedIdentifierStore.id} />
+      <CopyButton
+        text={$sharedIdentifierStore.id}
+        feedback="👍"
+        iconDescription="TODO"
+      />
     </div>
   </section>
 {:else}

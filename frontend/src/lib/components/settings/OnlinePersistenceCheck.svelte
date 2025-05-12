@@ -10,10 +10,10 @@
   import type { Identifier } from '$lib/util/types';
   import {
     Button,
+    InlineNotification,
     Modal,
     TextInput,
     Tile,
-    ToastNotification,
     Toggle,
   } from 'carbon-components-svelte';
   import { Information, Save } from 'carbon-icons-svelte';
@@ -52,7 +52,7 @@
     }
   };
 
-  const triggerSnackbar = (message: string) => {
+  const triggerNotification = (message: string) => {
     snackbarMessage = message;
     timeout = 3_000;
   };
@@ -93,14 +93,14 @@
 
           $sharedIdentifierStore = identifier;
           name = data.name;
-          triggerSnackbar(
+          triggerNotification(
             $t('page.settings.onlinePersistence.snackbarIdentifierCreated', {
               identifierName: name,
             }),
           );
         })
         .catch((error) => {
-          triggerSnackbar(error);
+          triggerNotification(error);
         });
     }
   };
@@ -108,7 +108,9 @@
   const connectOnlineIdentifier = async () => {
     const loginId = $identifierStore;
     if (!loginId) {
-      triggerSnackbar($t('page.settings.onlinePersistence.snackbarNoLoginId'));
+      triggerNotification(
+        $t('page.settings.onlinePersistence.snackbarNoLoginId'),
+      );
       return;
     }
 
@@ -116,7 +118,7 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.statusCode === 404) {
-          triggerSnackbar(
+          triggerNotification(
             $t('page.settings.onlinePersistence.snackbarNoIdentifierFound', {
               identifier: loginId,
             }),
@@ -131,14 +133,14 @@
 
         $sharedIdentifierStore = identifier;
         name = data.name;
-        triggerSnackbar(
+        triggerNotification(
           $t('page.settings.onlinePersistence.snackbarLoadedIdentifier', {
             identifier: $sharedIdentifierStore.id,
           }),
         );
       })
       .catch((error) => {
-        triggerSnackbar(error);
+        triggerNotification(error);
       });
   };
 </script>
@@ -222,13 +224,12 @@
 
     {#if showNotification}
       <div transition:fade>
-        <ToastNotification
+        <InlineNotification
           {timeout}
           kind="info-square"
-          fullWidth
           lowContrast
           subtitle={snackbarMessage}
-          caption={new Date().toLocaleString()}
+          class="inline_notification"
           on:close={(e) => {
             timeout = undefined;
             console.log(e.detail.timeout);

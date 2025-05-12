@@ -3,7 +3,7 @@
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { t } from '$lib/util/translations';
-  import { PasswordInput, ToastNotification } from 'carbon-components-svelte';
+  import { InlineNotification, PasswordInput } from 'carbon-components-svelte';
   import { fade } from 'svelte/transition';
 
   export let token: string = '';
@@ -61,13 +61,12 @@
 
 {#if showNotification}
   <div transition:fade>
-    <ToastNotification
+    <InlineNotification
       {timeout}
       kind="error"
-      fullWidth
       lowContrast
       subtitle={verificationError}
-      caption={new Date().toLocaleString()}
+      class="inline_notification"
       on:close={(e) => {
         timeout = undefined;
         console.log(e.detail.timeout);
