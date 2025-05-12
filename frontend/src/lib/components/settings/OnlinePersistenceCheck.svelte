@@ -16,7 +16,8 @@
     Tile,
     Toggle,
   } from 'carbon-components-svelte';
-  import { Information, Save } from 'carbon-icons-svelte';
+  import Information from 'carbon-icons-svelte/lib/Information.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import IdentifierInformation from './IdentifierInformation.svelte';

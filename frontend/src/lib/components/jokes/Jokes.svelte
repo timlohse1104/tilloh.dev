@@ -10,7 +10,8 @@
     TextArea,
     Tile,
   } from 'carbon-components-svelte';
-  import { CloudDownload, Save } from 'carbon-icons-svelte';
+  import CloudDownload from 'carbon-icons-svelte/lib/CloudDownload.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 

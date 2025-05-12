@@ -31,7 +31,7 @@
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
   import { Button } from 'carbon-components-svelte';
-  import { Renew } from 'carbon-icons-svelte';
+  import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
   import { onMount, setContext } from 'svelte';
 
   let chats: ChatDto[] = [];

@@ -7,7 +7,7 @@
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { initialized, t } from '$lib/util/translations';
   import { Button } from 'carbon-components-svelte';
-  import { Add } from 'carbon-icons-svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';

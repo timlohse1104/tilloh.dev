@@ -19,7 +19,8 @@
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { Button, Search } from 'carbon-components-svelte';
-  import { ChangeCatalog, Information } from 'carbon-icons-svelte';
+  import ChangeCatalog from 'carbon-icons-svelte/lib/ChangeCatalog.svelte';
+  import Information from 'carbon-icons-svelte/lib/Information.svelte';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;

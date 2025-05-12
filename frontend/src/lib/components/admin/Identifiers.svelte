@@ -14,7 +14,9 @@
     InlineNotification,
     TextInput,
   } from 'carbon-components-svelte';
-  import { Add, FingerprintRecognition, TrashCan } from 'carbon-icons-svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();

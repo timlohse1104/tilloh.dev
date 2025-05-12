@@ -12,12 +12,10 @@
     CopyButton,
     InlineNotification,
   } from 'carbon-components-svelte';
-  import {
-    FaceActivated,
-    TaskApproved,
-    ThumbsUp,
-    TrashCan,
-  } from 'carbon-icons-svelte';
+  import FaceActivated from 'carbon-icons-svelte/lib/FaceActivated.svelte';
+  import TaskApproved from 'carbon-icons-svelte/lib/TaskApproved.svelte';
+  import ThumbsUp from 'carbon-icons-svelte/lib/ThumbsUp.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();

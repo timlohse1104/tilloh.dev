@@ -19,7 +19,7 @@
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
   import { Button as CButton } from 'carbon-components-svelte';
-  import { TableOfContents } from 'carbon-icons-svelte';
+  import TableOfContents from 'carbon-icons-svelte/libTableOfContents/TableOfContents.svelte';
   import { onMount } from 'svelte';
 
   const { chat: chatRoute } = applicationRoutes;
