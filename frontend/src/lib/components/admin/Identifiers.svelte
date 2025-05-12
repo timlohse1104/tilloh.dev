@@ -6,16 +6,15 @@
     adminTokenStore,
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
-  import Textfield from '@smui/textfield';
   import {
     Accordion,
     AccordionItem,
     Button,
     CopyButton,
     InlineNotification,
+    TextInput,
   } from 'carbon-components-svelte';
-  import { FingerprintRecognition, TrashCan } from 'carbon-icons-svelte';
+  import { Add, FingerprintRecognition, TrashCan } from 'carbon-icons-svelte';
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();
@@ -63,22 +62,21 @@
         {$t('page.admin.identifiers.title')}
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
-      <Textfield
-        style="margin-left:2rem;width: 75%;"
-        bind:value={newIdentifierName}
-        label={$t('page.admin.toggles.newIdentifier')}
-        on:keyup={(event) => {
-          if (isEnter(event)) addIdentifier();
-        }}
-      >
-        <IconButton
-          class="material-icons"
-          style="position:absolute;right:0;"
+      <div class="identifier_input_area">
+        <TextInput
+          placeholder={$t('page.admin.toggles.newIdentifier')}
+          bind:value={newIdentifierName}
+          on:keyup={(event) => {
+            if (isEnter(event)) addIdentifier();
+          }}
+        />
+        <Button
+          kind="tertiary"
+          size="field"
           on:click={() => addIdentifier()}
-        >
-          add
-        </IconButton>
-      </Textfield>
+          icon={Add}
+        />
+      </div>
     </div>
     <Accordion class="mt1">
       {#each $adminIdentifiersStore as identifier}
@@ -111,10 +109,12 @@
                 size="field"
                 iconDescription="TODO"
                 icon={TrashCan}
-                on:click={() =>
+                on:click={() => {
                   dispatch('removeIdentifier', {
                     identifierId: identifier._id,
-                  })}
+                  });
+                  triggerNotification('delete', identifier._id);
+                }}
               />
             </div>
           </div>
@@ -162,6 +162,10 @@
     padding-left: calc(var(--default_padding) / 2);
     padding-right: calc(var(--default_padding) / 2);
     width: calc(100vw - var(--default_padding) * 2);
+  }
+
+  .identifier_input_area {
+    display: flex;
   }
 
   .list_button_group {
