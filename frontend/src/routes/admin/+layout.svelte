@@ -30,7 +30,8 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
-  import Fab, { Icon } from '@smui/fab';
+  import { Button } from 'carbon-components-svelte';
+  import { Renew } from 'carbon-icons-svelte';
   import { onMount, setContext } from 'svelte';
 
   let chats: ChatDto[] = [];
@@ -178,13 +179,14 @@
     </section>
   </main>
 
-  <Fab
-    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
-    color="secondary"
+  <Button
+    kind="tertiary"
+    iconDescription="TODO"
+    icon={Renew}
+    id="update_admin_info_button"
+    tooltipPosition="left"
     on:click={updateDashboard}
-  >
-    <Icon style="font-size:2rem;" class="material-icons">refresh</Icon>
-  </Fab>
+  />
 
   <ConfirmOverlay
     open={$confirmDeleteToggleOpenOverlayStore}
@@ -280,5 +282,12 @@
   }
   :global(.admin_list_items_button) {
     flex-grow: 1;
+  }
+
+  :global(#update_admin_info_button) {
+    position: fixed;
+    bottom: var(--default_padding);
+    right: var(--default_padding);
+    z-index: 100;
   }
 </style>
