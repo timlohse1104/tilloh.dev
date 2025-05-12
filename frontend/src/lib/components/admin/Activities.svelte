@@ -80,7 +80,6 @@
         <InlineNotification
           {timeout}
           kind="info-square"
-          lowContrast
           subtitle={$t('page.admin.copiedToClipboard', {
             id: copiedId,
           })}

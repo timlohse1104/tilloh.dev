@@ -43,15 +43,9 @@
   };
 
   const triggerNotification = (type: string, id: string) => {
-    if (type === 'copy') {
-      notificationInfoText = $t('page.admin.copiedToClipboard', {
-        id,
-      });
-    } else if (type === 'delete') {
-      notificationInfoText = $t('page.admin.jokes.jokeDeleted', {
-        id,
-      });
-    }
+    notificationInfoText = $t('page.admin.copiedToClipboard', {
+      id,
+    });
     timeout = 3_000;
   };
 </script>
@@ -107,10 +101,9 @@
                 iconDescription="TODO"
                 icon={TrashCan}
                 on:click={() => {
-                  dispatch('removeIdentifier', {
-                    identifierId: joke._id,
+                  dispatch('removeJoke', {
+                    jokeId: joke._id,
                   });
-                  triggerNotification('delete', joke._id);
                 }}
               />
             </div>
@@ -124,7 +117,6 @@
         <InlineNotification
           {timeout}
           kind="info-square"
-          lowContrast
           subtitle={notificationInfoText}
           class="inline_notification"
           on:close={(e) => {

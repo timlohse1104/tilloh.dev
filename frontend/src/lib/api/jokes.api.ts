@@ -57,6 +57,8 @@ export const deleteJoke = async (
 ): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/${id}`, {
     method: 'DELETE',
-    headers: createHeaders(token),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }).then((res) => res.json());
 };

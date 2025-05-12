@@ -42,15 +42,9 @@
   };
 
   const triggerNotification = (type: string, id: string) => {
-    if (type === 'copy') {
-      notificationInfoText = $t('page.admin.copiedToClipboard', {
-        id,
-      });
-    } else if (type === 'delete') {
-      notificationInfoText = $t('page.admin.identifiers.identifierDeleted', {
-        id,
-      });
-    }
+    notificationInfoText = $t('page.admin.copiedToClipboard', {
+      id,
+    });
     timeout = 3_000;
   };
 </script>
@@ -113,7 +107,6 @@
                   dispatch('removeIdentifier', {
                     identifierId: identifier._id,
                   });
-                  triggerNotification('delete', identifier._id);
                 }}
               />
             </div>
@@ -127,7 +120,6 @@
         <InlineNotification
           {timeout}
           kind="info-square"
-          lowContrast
           subtitle={notificationInfoText}
           class="inline_notification"
           on:close={(e) => {
