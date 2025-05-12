@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
@@ -30,7 +32,7 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import { Button, ContentSwitcher, Switch } from 'carbon-components-svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
   import { onMount, setContext } from 'svelte';
 
@@ -41,13 +43,14 @@
 
   const { admin: adminRoute } = utilityRoutes;
 
+  let selectedIndex = 0;
+
   $: locale = $languageStore;
   $: isVerified = false;
   $: getFolderAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     return $allPresetFoldersStore.length;
   };
-
   $: getLinksAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
@@ -55,17 +58,14 @@
       .flat();
     return allLinks.length;
   };
-
   $: getJokesAmount = (): number => {
     if ($adminJokesStore.length === 0) return 0;
     return $adminJokesStore.length;
   };
-
   $: getChatsAmount = (): number => {
     if (chats.length === 0) return 0;
     return chats.length;
   };
-
   $: getDuplicateFoldersAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const folderNames = $allPresetFoldersStore.map(
@@ -74,7 +74,6 @@
     const uniqueFolders = new Set(folderNames);
     return folderNames.length - uniqueFolders.size;
   };
-
   $: getDuplicateLinksAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
@@ -84,12 +83,15 @@
     const uniqueLinks = new Set(linkUrls);
     return linkUrls.length - uniqueLinks.size;
   };
-
   $: getDuplicateJokesAmount = (): number => {
     if ($adminJokesStore.length === 0) return 0;
     const jokeTexts = $adminJokesStore.map((joke) => joke.text);
     const uniqueJokes = new Set(jokeTexts);
     return jokeTexts.length - uniqueJokes.size;
+  };
+
+  const navigateAdminPage = (path: string) => {
+    goto(path);
   };
 
   const loadChats = async () => {
@@ -136,6 +138,9 @@
 
   onMount(async () => {
     await setLocale($languageStore);
+    selectedIndex = Object.values(adminSubRoutes).findIndex(
+      (route) => route.path === $page.url.pathname,
+    );
   });
 </script>
 
@@ -154,6 +159,17 @@
 {:else}
   <div class="admin_overview">
     <Navigation routes={adminSubRoutes} />
+    <ContentSwitcher bind:selectedIndex class="mb2">
+      {#each Object.values(adminSubRoutes) as route}
+        {#await import(`/node_modules/carbon-icons-svelte/lib/${route?.icon}.svelte`) then icon}
+          <Switch on:click={() => navigateAdminPage(route.path)}>
+            <svelte:component this={icon.default} />
+            {route.name[locale]}
+          </Switch>
+        {/await}
+      {/each}
+    </ContentSwitcher>
+
     <Dashboard
       metrics={{
         identifierAmount: $adminIdentifiersStore.length,

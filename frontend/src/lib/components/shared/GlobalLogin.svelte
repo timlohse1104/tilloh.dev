@@ -17,7 +17,6 @@
   $: showNotification = timeout !== undefined;
 
   const verify = async () => {
-    console.log('verifing');
     const verifyResponse = await verifyId(
       token,
       isAdminLogin ? 'admin' : 'user',

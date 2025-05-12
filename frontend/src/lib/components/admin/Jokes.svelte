@@ -40,7 +40,7 @@
     dispatch('updateDashboard');
   };
 
-  const triggerNotification = (type: string, id: string) => {
+  const triggerNotification = (id: string) => {
     notificationInfoText = $t('page.admin.copiedToClipboard', {
       id,
     });
@@ -92,7 +92,7 @@
                 feedback="✅"
                 feedbackTimeout={0}
                 iconDescription="TODO"
-                on:click={() => triggerNotification('copy', joke._id)}
+                on:click={() => triggerNotification(joke._id)}
               />
               <Button
                 kind="danger"

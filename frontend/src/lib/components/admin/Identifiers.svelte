@@ -43,7 +43,7 @@
     dispatch('updateDashboard');
   };
 
-  const triggerNotification = (type: string, id: string) => {
+  const triggerNotification = (id: string) => {
     notificationInfoText = $t('page.admin.copiedToClipboard', {
       id,
     });
@@ -93,13 +93,13 @@
                 🆔{identifier._id}
               </p>
             </div>
-            <div class="list_button_group">
+            <div class="admin_list_button_group">
               <CopyButton
                 text={identifier._id}
                 feedback="✅"
                 feedbackTimeout={0}
                 iconDescription="TODO"
-                on:click={() => triggerNotification('copy', identifier._id)}
+                on:click={() => triggerNotification(identifier._id)}
               />
               <Button
                 kind="danger"

@@ -7,21 +7,27 @@
   import { isEnter } from '$lib/util/helper';
   import { adminTogglesStore } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
-  import List, {
-    Graphic,
-    Item,
-    PrimaryText,
-    SecondaryText,
-    Text,
-  } from '@smui/list';
-  import Switch from '@smui/switch';
-  import { Button, TextInput } from 'carbon-components-svelte';
+  import {
+    Accordion,
+    AccordionItem,
+    Button,
+    CopyButton,
+    InlineNotification,
+    TextInput,
+    Toggle,
+  } from 'carbon-components-svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import RadioButtonChecked from 'carbon-icons-svelte/lib/RadioButtonChecked.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();
 
   let newToogleName = '';
+  let notificationInfoText = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
 
   const addToggle = async () => {
     if (!newToogleName) {
@@ -69,6 +75,13 @@
   };
 
   const isToggleActive = (toggle: KeystoreKeyDto) => toggle.value === 'true';
+
+  const triggerNotification = (id: string) => {
+    notificationInfoText = $t('page.admin.copiedToClipboard', {
+      id,
+    });
+    timeout = 3_000;
+  };
 </script>
 
 {#if $initialized}
@@ -94,34 +107,65 @@
         />
       </div>
     </div>
-    <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each $adminTogglesStore as toggle, i}
-        <Item class="admin_list_items">
-          <Graphic class="material-icons admin_list_items_icon"
-            >toggle_on</Graphic
-          >
-          <Text class="admin_list_items_text">
-            <PrimaryText>{toggle.key}</PrimaryText>
-            <SecondaryText>🆔{toggle._id}</SecondaryText>
-            <SecondaryText
-              >🔧{new Date(toggle.updated).toLocaleString(
-                'de-DE',
-              )}</SecondaryText
-            >
-          </Text>
-
-          <Switch
-            on:click={() => switchToggle(toggle._id)}
-            checked={isToggleActive(toggle)}
-          />
-          <IconButton
-            class="material-icons admin_list_items_button"
-            on:click={() => dispatch('removeToggle', { id: toggle._id })}
-            >delete</IconButton
-          >
-        </Item>
+    <Accordion class="mt1">
+      {#each $adminTogglesStore as toggle}
+        <AccordionItem>
+          <svelte:fragment slot="title">
+            <div class="admin_list_item_headline">
+              <svelte:component this={RadioButtonChecked} />
+              {toggle.key}
+            </div>
+          </svelte:fragment>
+          <div class="admin_list_item_content">
+            <div>
+              <p>
+                ✨{new Date(toggle.created).toLocaleString('de-DE')}
+                📅{new Date(toggle.updated).toLocaleString('de-DE')}
+              </p>
+              <p>
+                🆔{toggle._id}
+              </p>
+            </div>
+            <div class="admin_list_button_group">
+              <Toggle
+                toggled={isToggleActive(toggle)}
+                on:click={() => switchToggle(toggle._id)}
+              />
+              <CopyButton
+                text={toggle._id}
+                feedback="✅"
+                feedbackTimeout={0}
+                iconDescription="TODO"
+                on:click={() => triggerNotification(toggle._id)}
+              />
+              <Button
+                kind="danger"
+                size="field"
+                iconDescription="TODO"
+                icon={TrashCan}
+                on:click={() => dispatch('removeToggle', { id: toggle._id })}
+              />
+            </div>
+          </div>
+        </AccordionItem>
       {/each}
-    </List>
+    </Accordion>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          subtitle={notificationInfoText}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+            notificationInfoText = undefined;
+            console.log(e.detail.timeout);
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>

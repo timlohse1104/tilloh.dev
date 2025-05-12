@@ -20,7 +20,7 @@
 
   $: showNotification = timeout !== undefined;
 
-  const triggerNotification = (type: string, id: string) => {
+  const triggerNotification = (id: string) => {
     notificationInfoText = $t('page.admin.copiedToClipboard', {
       id,
     });
@@ -64,7 +64,7 @@
                 feedback="✅"
                 feedbackTimeout={0}
                 iconDescription="TODO"
-                on:click={() => triggerNotification('copy', linkPreset._id)}
+                on:click={() => triggerNotification(linkPreset._id)}
               />
               <Button
                 kind="danger"
