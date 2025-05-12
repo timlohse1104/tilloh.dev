@@ -89,7 +89,8 @@
               {/if}
               <CopyButton
                 text={joke._id}
-                feedback="👍"
+                feedback="✅"
+                feedbackTimeout={0}
                 iconDescription="TODO"
                 on:click={() => triggerNotification('copy', joke._id)}
               />

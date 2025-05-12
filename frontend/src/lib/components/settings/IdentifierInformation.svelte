@@ -23,7 +23,8 @@
 
       <CopyButton
         text={$sharedIdentifierStore.id}
-        feedback="👍"
+        feedback="✅"
+        feedbackTimeout={0}
         iconDescription="TODO"
       />
     </div>

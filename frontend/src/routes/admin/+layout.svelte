@@ -180,7 +180,7 @@
   </main>
 
   <Button
-    kind="tertiary"
+    kind="primary"
     iconDescription="TODO"
     icon={Renew}
     id="update_admin_info_button"

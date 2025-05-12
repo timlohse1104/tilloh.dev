@@ -96,7 +96,8 @@
             <div class="list_button_group">
               <CopyButton
                 text={identifier._id}
-                feedback="👍"
+                feedback="✅"
+                feedbackTimeout={0}
                 iconDescription="TODO"
                 on:click={() => triggerNotification('copy', identifier._id)}
               />

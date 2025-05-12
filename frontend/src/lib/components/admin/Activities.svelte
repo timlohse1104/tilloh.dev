@@ -66,7 +66,8 @@
             </div>
             <CopyButton
               text={activity.id}
-              feedback="👍"
+              feedback="✅"
+              feedbackTimeout={0}
               iconDescription="TODO"
               on:click={() => triggerNotification(activity.id)}
             />

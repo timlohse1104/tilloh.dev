@@ -172,6 +172,7 @@
   "page.admin.linkPresets.title": "Link Voreinstellungen",
   "page.admin.linkPresets.deleteTitle": "Link Voreinstellung löschen",
   "page.admin.linkPresets.deleteQuestion": "Möchtest du diese Link Voreinstellung wirklich löschen?",
+  "page.admin.linkPresets.linkPresetDeleted": "Link Voreinstellung mit ID '{{id}}' wurde gelöscht.",
   "page.admin.jokes.title": "Witze",
   "page.admin.jokes.deleteTitle": "Witz löschen",
   "page.admin.jokes.deleteQuestion": "Möchtest du diesen Witz wirklich löschen?",

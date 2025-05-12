@@ -172,6 +172,7 @@
   "page.admin.linkPresets.title": "Link Presets",
   "page.admin.linkPresets.deleteTitle": "Delete link preset",
   "page.admin.linkPresets.deleteQuestion": "Do you really want to delete this link preset?",
+  "page.admin.linkPresets.linkPresetDeleted": "Link preset with ID '{{id}}' got deleted.",
   "page.admin.jokes.title": "Jokes",
   "page.admin.jokes.deleteTitle": "Delete joke",
   "page.admin.jokes.deleteQuestion": "Do you really want to delete this joke?",
