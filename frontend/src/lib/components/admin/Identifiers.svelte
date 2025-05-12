@@ -62,7 +62,7 @@
         {$t('page.admin.identifiers.title')}
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
-      <div class="identifier_input_area">
+      <div style="display: flex;">
         <TextInput
           placeholder={$t('page.admin.toggles.newIdentifier')}
           bind:value={newIdentifierName}
@@ -82,12 +82,12 @@
       {#each $adminIdentifiersStore as identifier}
         <AccordionItem>
           <svelte:fragment slot="title">
-            <div class="list_item_headline">
+            <div class="admin_list_item_headline">
               <svelte:component this={FingerprintRecognition} />
               {identifier.name}
             </div>
           </svelte:fragment>
-          <div class="list_item_content">
+          <div class="admin_list_item_content">
             <div>
               <p>
                 ✨{new Date(identifier.created).toLocaleString('de-DE')}
@@ -144,30 +144,6 @@
 {/if}
 
 <style lang="scss">
-  p {
-    text-align: left;
-  }
-
-  .list_item_headline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding-left: calc(var(--default_padding) / 2);
-  }
-
-  .list_item_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: calc(var(--default_padding) / 2);
-    padding-right: calc(var(--default_padding) / 2);
-    width: calc(100vw - var(--default_padding) * 2);
-  }
-
-  .identifier_input_area {
-    display: flex;
-  }
-
   .list_button_group {
     display: flex;
     gap: 0.25rem;

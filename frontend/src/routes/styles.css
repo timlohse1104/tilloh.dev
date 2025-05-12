@@ -136,3 +136,26 @@ button:focus:not(:focus-visible) {
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Carbon Accordion Overrides - Admin Lists*/
+.admin_list_item_headline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: calc(var(--default_padding) / 2);
+}
+
+.admin_list_item_content {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: calc(var(--default_padding) / 2);
+  padding-right: calc(var(--default_padding) / 2);
+  width: calc(100vw - var(--default_padding) * 2);
+}
+
+.admin_list_button_group {
+  display: flex;
+  gap: 0.25rem;
+}

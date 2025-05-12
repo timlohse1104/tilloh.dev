@@ -175,6 +175,7 @@
   "page.admin.jokes.title": "Witze",
   "page.admin.jokes.deleteTitle": "Witz löschen",
   "page.admin.jokes.deleteQuestion": "Möchtest du diesen Witz wirklich löschen?",
+  "page.admin.jokes.jokeDeleted": "Witz mit ID '{{id}}' wurde gelöscht.",
   "page.admin.identifiers.title": "Identifikatoren",
   "page.admin.identifiers.deleteTitle": "Identifikator löschen",
   "page.admin.identifiers.deleteQuestion": "Möchtest du diesen Identifikator wirklich löschen?",

@@ -50,12 +50,12 @@
       {#each activities as activity}
         <AccordionItem>
           <svelte:fragment slot="title">
-            <div class="list_item_headline">
+            <div class="admin_list_item_headline">
               <svelte:component this={getActivityTypeIcon(activity.type)} />
               {activity.description}
             </div>
           </svelte:fragment>
-          <div class="list_item_content">
+          <div class="admin_list_item_content">
             <div>
               <p>
                 📅{new Date(activity.updated).toLocaleString('de-DE')}
@@ -97,25 +97,3 @@
 {:else}
   <section>Locale initializing...</section>
 {/if}
-
-<style lang="scss">
-  p {
-    text-align: left;
-  }
-
-  .list_item_headline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding-left: calc(var(--default_padding) / 2);
-  }
-
-  .list_item_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: calc(var(--default_padding) / 2);
-    padding-right: calc(var(--default_padding) / 2);
-    width: calc(100vw - var(--default_padding) * 2);
-  }
-</style>

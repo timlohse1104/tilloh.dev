@@ -175,6 +175,7 @@
   "page.admin.jokes.title": "Jokes",
   "page.admin.jokes.deleteTitle": "Delete joke",
   "page.admin.jokes.deleteQuestion": "Do you really want to delete this joke?",
+  "page.admin.jokes.jokeDeleted": "Joke with ID '{{id}}' got deleted.",
   "page.admin.identifiers.title": "Identifiers",
   "page.admin.identifiers.deleteTitle": "Delete identifier",
   "page.admin.identifiers.deleteQuestion": "Do you really want to delete this identifier?",

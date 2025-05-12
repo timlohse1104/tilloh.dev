@@ -5,16 +5,27 @@
     adminTokenStore,
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
-  import List, {
-    Graphic,
-    Item,
-    PrimaryText,
-    SecondaryText,
-    Text,
-  } from '@smui/list';
+  import {
+    Accordion,
+    AccordionItem,
+    Button,
+    CopyButton,
+    InlineNotification,
+  } from 'carbon-components-svelte';
+  import {
+    FaceActivated,
+    TaskApproved,
+    ThumbsUp,
+    TrashCan,
+  } from 'carbon-icons-svelte';
   import { createEventDispatcher } from 'svelte';
+  import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();
+
+  let notificationInfoText = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
 
   const verifyJoke = async (jokeId: string) => {
     console.log({ jokeId }, 'Verifying joke...');
@@ -30,6 +41,19 @@
 
     dispatch('updateDashboard');
   };
+
+  const triggerNotification = (type: string, id: string) => {
+    if (type === 'copy') {
+      notificationInfoText = $t('page.admin.copiedToClipboard', {
+        id,
+      });
+    } else if (type === 'delete') {
+      notificationInfoText = $t('page.admin.jokes.jokeDeleted', {
+        id,
+      });
+    }
+    timeout = 3_000;
+  };
 </script>
 
 {#if $initialized}
@@ -39,38 +63,78 @@
         {$t('page.admin.jokes.title')} <span>({$adminJokesStore.length})</span>
       </h2>
     </div>
-    <List threeLine avatarList singleSelection class="admin_sections_list">
+    <Accordion class="mt1">
       {#each $adminJokesStore as joke}
-        <Item class="admin_list_items">
-          <Graphic class="material-icons admin_list_items_icon">😂</Graphic>
-          <Text class="admin_list_items_text">
-            <PrimaryText>{joke.text}</PrimaryText>
-            <SecondaryText
-              >{joke.verified === undefined || joke.verified
-                ? '✅'
-                : '⌛️'}🆔{joke._id}</SecondaryText
-            >
-            <SecondaryText
-              >✨{new Date(joke.created).toLocaleString('de-DE')} 🔧{new Date(
-                joke.updated,
-              ).toLocaleString('de-DE')}</SecondaryText
-            >
-          </Text>
-
-          {#if !joke.verified && joke.verified !== undefined}
-            <IconButton
-              class="material-icons admin_list_items_button"
-              on:click={() => verifyJoke(joke._id)}>thumb_up</IconButton
-            >
-          {/if}
-          <IconButton
-            class="material-icons admin_list_items_button"
-            on:click={() => dispatch('removeJoke', { jokeId: joke._id })}
-            >delete</IconButton
-          >
-        </Item>
+        <AccordionItem>
+          <svelte:fragment slot="title">
+            <div class="admin_list_item_headline">
+              <svelte:component this={FaceActivated} />
+              {#if !joke.verified && joke.verified !== undefined}
+                <TaskApproved />
+              {/if}
+              {joke.text}
+            </div>
+          </svelte:fragment>
+          <div class="admin_list_item_content">
+            <div>
+              <p>
+                ✨{new Date(joke.created).toLocaleString('de-DE')}
+                📅{new Date(joke.updated).toLocaleString('de-DE')}
+              </p>
+              <p>
+                🆔{joke._id}
+              </p>
+            </div>
+            <div class="admin_list_button_group">
+              {#if !joke.verified && joke.verified !== undefined}
+                <Button
+                  kind="tertiary"
+                  size="field"
+                  iconDescription="TODO"
+                  icon={ThumbsUp}
+                  on:click={() => verifyJoke(joke._id)}
+                />
+              {/if}
+              <CopyButton
+                text={joke._id}
+                feedback="👍"
+                iconDescription="TODO"
+                on:click={() => triggerNotification('copy', joke._id)}
+              />
+              <Button
+                kind="danger"
+                size="field"
+                iconDescription="TODO"
+                icon={TrashCan}
+                on:click={() => {
+                  dispatch('removeIdentifier', {
+                    identifierId: joke._id,
+                  });
+                  triggerNotification('delete', joke._id);
+                }}
+              />
+            </div>
+          </div>
+        </AccordionItem>
       {/each}
-    </List>
+    </Accordion>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          lowContrast
+          subtitle={notificationInfoText}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+            notificationInfoText = undefined;
+            console.log(e.detail.timeout);
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
