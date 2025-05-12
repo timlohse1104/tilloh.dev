@@ -7,18 +7,24 @@
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import IconButton from '@smui/icon-button';
-  import List, {
-    Graphic,
-    Item,
-    PrimaryText,
-    SecondaryText,
-    Text,
-  } from '@smui/list';
   import Textfield from '@smui/textfield';
+  import {
+    Accordion,
+    AccordionItem,
+    Button,
+    CopyButton,
+    InlineNotification,
+  } from 'carbon-components-svelte';
+  import { FingerprintRecognition, TrashCan } from 'carbon-icons-svelte';
   import { createEventDispatcher } from 'svelte';
+  import { fade } from 'svelte/transition';
   const dispatch = createEventDispatcher();
 
   let newIdentifierName = '';
+  let notificationInfoText = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
 
   const addIdentifier = async () => {
     if (!newIdentifierName) {
@@ -34,6 +40,19 @@
 
     newIdentifierName = '';
     dispatch('updateDashboard');
+  };
+
+  const triggerNotification = (type: string, id: string) => {
+    if (type === 'copy') {
+      notificationInfoText = $t('page.admin.copiedToClipboard', {
+        id,
+      });
+    } else if (type === 'delete') {
+      notificationInfoText = $t('page.admin.identifiers.identifierDeleted', {
+        id,
+      });
+    }
+    timeout = 3_000;
   };
 </script>
 
@@ -61,31 +80,92 @@
         </IconButton>
       </Textfield>
     </div>
-    <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each $adminIdentifiersStore as identifier, i}
-        <Item class="admin_list_items">
-          <Graphic class="material-icons admin_list_items_icon"
-            >fingerprint</Graphic
-          >
-          <Text class="admin_list_items_text">
-            <PrimaryText>{identifier.name}</PrimaryText>
-            <SecondaryText>🆔{identifier._id}</SecondaryText>
-            <SecondaryText
-              >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
-                identifier.updated,
-              ).toLocaleString('de-DE')}</SecondaryText
-            >
-          </Text>
-          <IconButton
-            class="material-icons admin_list_items_button"
-            on:click={() =>
-              dispatch('removeIdentifier', { identifierId: identifier._id })}
-            >delete</IconButton
-          >
-        </Item>
+    <Accordion class="mt1">
+      {#each $adminIdentifiersStore as identifier}
+        <AccordionItem>
+          <svelte:fragment slot="title">
+            <div class="list_item_headline">
+              <svelte:component this={FingerprintRecognition} />
+              {identifier.name}
+            </div>
+          </svelte:fragment>
+          <div class="list_item_content">
+            <div>
+              <p>
+                ✨{new Date(identifier.created).toLocaleString('de-DE')}
+                📅{new Date(identifier.updated).toLocaleString('de-DE')}
+              </p>
+              <p>
+                🆔{identifier._id}
+              </p>
+            </div>
+            <div class="list_button_group">
+              <CopyButton
+                text={identifier._id}
+                feedback="👍"
+                iconDescription="TODO"
+                on:click={() => triggerNotification('copy', identifier._id)}
+              />
+              <Button
+                kind="danger"
+                size="field"
+                iconDescription="TODO"
+                icon={TrashCan}
+                on:click={() =>
+                  dispatch('removeIdentifier', {
+                    identifierId: identifier._id,
+                  })}
+              />
+            </div>
+          </div>
+        </AccordionItem>
       {/each}
-    </List>
+    </Accordion>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          lowContrast
+          subtitle={notificationInfoText}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+            notificationInfoText = undefined;
+            console.log(e.detail.timeout);
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
 {/if}
+
+<style lang="scss">
+  p {
+    text-align: left;
+  }
+
+  .list_item_headline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: calc(var(--default_padding) / 2);
+  }
+
+  .list_item_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: calc(var(--default_padding) / 2);
+    padding-right: calc(var(--default_padding) / 2);
+    width: calc(100vw - var(--default_padding) * 2);
+  }
+
+  .list_button_group {
+    display: flex;
+    gap: 0.25rem;
+  }
+</style>

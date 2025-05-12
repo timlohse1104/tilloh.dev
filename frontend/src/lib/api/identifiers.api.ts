@@ -39,6 +39,8 @@ export const updateIdentifier = async (id: string, name: string) => {
 export const deleteIdentifier = async (token: string, id: string) => {
   return await fetch(`${apiURL}/identifiers/${id}`, {
     method: 'DELETE',
-    headers: createHeaders(token),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }).then((res) => res.json());
 };

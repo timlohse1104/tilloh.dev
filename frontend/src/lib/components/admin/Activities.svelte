@@ -46,34 +46,16 @@
         {$t('page.admin.activities.title')} <span>({activities.length})</span>
       </h2>
     </div>
-    {#if showNotification}
-      <div transition:fade>
-        <InlineNotification
-          {timeout}
-          kind="info-square"
-          lowContrast
-          subtitle={$t('page.admin.activities.copiedToClipboard', {
-            id: copiedId,
-          })}
-          class="inline_notification"
-          on:close={(e) => {
-            timeout = undefined;
-            copiedId = undefined;
-            console.log(e.detail.timeout);
-          }}
-        />
-      </div>
-    {/if}
     <Accordion class="mt1">
       {#each activities as activity}
-        <AccordionItem title={activity.description}>
+        <AccordionItem>
           <svelte:fragment slot="title">
-            <div class="activity_list_item_headline">
+            <div class="list_item_headline">
               <svelte:component this={getActivityTypeIcon(activity.type)} />
               {activity.description}
             </div>
           </svelte:fragment>
-          <div class="activity_list_item_content">
+          <div class="list_item_content">
             <div>
               <p>
                 📅{new Date(activity.updated).toLocaleString('de-DE')}
@@ -92,6 +74,25 @@
         </AccordionItem>
       {/each}
     </Accordion>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          lowContrast
+          subtitle={$t('page.admin.copiedToClipboard', {
+            id: copiedId,
+          })}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+            copiedId = undefined;
+            console.log(e.detail.timeout);
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -102,14 +103,14 @@
     text-align: left;
   }
 
-  .activity_list_item_headline {
+  .list_item_headline {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding-left: calc(var(--default_padding) / 2);
   }
 
-  .activity_list_item_content {
+  .list_item_content {
     display: flex;
     align-items: center;
     justify-content: space-between;
