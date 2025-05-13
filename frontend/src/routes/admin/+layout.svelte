@@ -1,13 +1,11 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
   import Dashboard from '$lib/components/admin/Dashboard.svelte';
-  import Navigation from '$lib/components/home/Navigation.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
+  import Navigation from '$lib/components/shared/Navigation.svelte';
   import { adminSubRoutes, utilityRoutes } from '$lib/config/applications';
   import type { ChatDto } from '$lib/types/chats.dto';
   import { TOGGLE_KEY_IDENTIFIER } from '$lib/types/keystore.dto';
@@ -32,7 +30,7 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
-  import { Button, ContentSwitcher, Switch } from 'carbon-components-svelte';
+  import { Button } from 'carbon-components-svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
   import { onMount, setContext } from 'svelte';
 
@@ -43,10 +41,9 @@
 
   const { admin: adminRoute } = utilityRoutes;
 
-  let selectedIndex = 0;
-
   $: locale = $languageStore;
   $: isVerified = false;
+  $: adminRoutesArray = Object.values(adminSubRoutes);
   $: getFolderAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     return $allPresetFoldersStore.length;
@@ -88,10 +85,6 @@
     const jokeTexts = $adminJokesStore.map((joke) => joke.text);
     const uniqueJokes = new Set(jokeTexts);
     return jokeTexts.length - uniqueJokes.size;
-  };
-
-  const navigateAdminPage = (path: string) => {
-    goto(path);
   };
 
   const loadChats = async () => {
@@ -138,9 +131,6 @@
 
   onMount(async () => {
     await setLocale($languageStore);
-    selectedIndex = Object.values(adminSubRoutes).findIndex(
-      (route) => route.path === $page.url.pathname,
-    );
   });
 </script>
 
@@ -158,17 +148,7 @@
   />
 {:else}
   <div class="admin_overview">
-    <Navigation routes={adminSubRoutes} />
-    <ContentSwitcher bind:selectedIndex class="mb2">
-      {#each Object.values(adminSubRoutes) as route}
-        {#await import(`/node_modules/carbon-icons-svelte/lib/${route?.icon}.svelte`) then icon}
-          <Switch on:click={() => navigateAdminPage(route.path)}>
-            <svelte:component this={icon.default} />
-            {route.name[locale]}
-          </Switch>
-        {/await}
-      {/each}
-    </ContentSwitcher>
+    <Navigation routes={adminRoutesArray} />
 
     <Dashboard
       metrics={{
@@ -260,6 +240,7 @@
     display: grid;
     width: 100%;
     margin-top: 1rem;
+    gap: 2rem;
   }
 
   :global(.admin_sections) {

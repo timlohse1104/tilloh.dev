@@ -1,7 +1,7 @@
 <script lang="ts">
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
-  import Navigation from '$lib/components/home/Navigation.svelte';
   import SearchBar from '$lib/components/home/SearchBar.svelte';
+  import Navigation from '$lib/components/shared/Navigation.svelte';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
@@ -32,7 +32,7 @@
 </svelte:head>
 
 <section>
-  <Navigation routes={applicationRoutes} />
+  <Navigation routes={Object.values(applicationRoutes)} />
   <SearchBar />
 
   <div>

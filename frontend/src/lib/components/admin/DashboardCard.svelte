@@ -49,11 +49,14 @@
     flex-grow: 9;
 
     h2 {
+      text-align: center;
       font-size: 1.25rem;
-      margin: 0;
+      margin-bottom: 0.25rem;
+      margin-top: 1rem;
     }
 
     p {
+      text-align: center;
       font-size: 0.65rem;
       margin: 0;
     }

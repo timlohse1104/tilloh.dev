@@ -129,12 +129,26 @@ button:focus:not(:focus-visible) {
   color: lightgreen;
 }
 
-/* Notification Overrides  */
+/* Carbon Notification Overrides  */
 .inline_notification {
   position: absolute;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* Carbon Content Switcher Overrides */
+.bx--content-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.bx--content-switcher-btn {
+  max-width: 225px;
+  border: 0.0625rem solid var(--cds-border-inverse, #161616);
 }
 
 /* Carbon Accordion Overrides - Admin Lists*/
