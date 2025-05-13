@@ -27,8 +27,8 @@
 
 <style lang="scss">
   :global(.admin_dashboard_card) {
-    width: 11rem;
-    height: 11rem;
+    width: 9rem;
+    height: 9rem;
     display: flex;
   }
 
@@ -50,14 +50,14 @@
 
     h2 {
       text-align: center;
-      font-size: 1.25rem;
+      font-size: 1rem;
       margin-bottom: 0.25rem;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
 
     p {
       text-align: center;
-      font-size: 0.65rem;
+      font-size: 0.5rem;
       margin: 0;
     }
   }
@@ -73,7 +73,7 @@
 
   .card_value {
     font-size: 2.25rem;
-    margin: 1rem;
+    margin: 0.5rem;
     flex-grow: 1;
     text-align: center;
   }
