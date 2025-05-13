@@ -33,7 +33,6 @@
     if (!searchQuery) return true;
     return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
   });
-
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
@@ -249,7 +248,7 @@
     margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
       calc(var(--default_padding) / 2);
     grid-template-columns: calc(100% - 50px) 50px;
-    grid-template-rows: 2.5rem auto 2rem;
+    grid-template-rows: 2.5rem 250px 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
@@ -315,5 +314,7 @@
     box-sizing: border-box;
     overflow: auto;
     background-color: var(--black30);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 </style>

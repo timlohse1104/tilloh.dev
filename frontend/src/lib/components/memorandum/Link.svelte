@@ -56,8 +56,7 @@
     padding: 0;
     width: 25px;
     height: 25px;
-    padding: calc(var(--default_padding) / 4) 0 calc(var(--default_padding) / 4)
-      0;
+    padding: calc(var(--default_padding) / 4);
   }
 
   a {
