@@ -30,7 +30,7 @@
   "page.memorandum.link.nameOfLink": "Name of link",
   "page.memorandum.link.urlOfLink": "URL of link",
   "page.memorandum.link.editTitle": "Edit link: {{linkName}}",
-  "page.memorandum.link.editInfo": "Edit the link '{{linkName}}' in the folder '{{folderName}}'.",
+  "page.memorandum.link.editInfo": "Edit the link <strong>{{linkName}}</strong> in the folder <strong>{{folderName}}</strong>.",
   "page.memorandum.presetOverlay.title": "Setting the link and folder configuration",
   "page.memorandum.presetOverlay.description": "Here you can configure the links and folders. You can also import and export the configuration.",
   "page.memorandum.presetOverlay.currentConfigTitle": "This is your current configuration",

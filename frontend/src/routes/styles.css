@@ -135,6 +135,7 @@ button:focus:not(:focus-visible) {
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 9999;
 }
 
 /* Carbon Content Switcher Overrides */

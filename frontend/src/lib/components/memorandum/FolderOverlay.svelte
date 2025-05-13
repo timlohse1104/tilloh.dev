@@ -57,7 +57,6 @@
     $folderOverlayOptionsStore.showOverlay = false;
     $folderOverlayOptionsStore.currentFolderId = undefined;
   };
-
   const editFolder = () => {
     if (submittable) {
       let currentPreset = $localPresetStore;
@@ -74,7 +73,6 @@
       closeOverlay();
     }
   };
-
   const duplicateFolder = () => {
     if (submittable) {
       let currentPreset = $localPresetStore;
@@ -96,7 +94,6 @@
       closeOverlay();
     }
   };
-
   const copyColorToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(customColor.getRGBAValues());
@@ -105,7 +102,6 @@
       console.error('Could not copy text: ', err);
     }
   };
-
   const updateCustomColorFromInput = () => {
     const splitted = customColorInput.split(',');
     if (splitted.length === 4) {

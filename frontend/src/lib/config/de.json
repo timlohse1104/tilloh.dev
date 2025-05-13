@@ -30,7 +30,7 @@
   "page.memorandum.link.nameOfLink": "Name des Links",
   "page.memorandum.link.urlOfLink": "URL des Links",
   "page.memorandum.link.editTitle": "Bearbeite den Link: {{linkName}}",
-  "page.memorandum.link.editInfo": "Bearbeite den Link '{{linkName}}' im Ordner '{{folderName}}'.",
+  "page.memorandum.link.editInfo": "Bearbeite den Link <strong>{{linkName}}</strong> im Ordner <strong>{{folderName}}</strong>.",
   "page.memorandum.presetOverlay.title": "Einstellung der Link und Ordner Konfiguration",
   "page.memorandum.presetOverlay.description": "Sichere hier deine aktuellen Links und Ordner lokal als Datei, um sie auf einem beliebigen Gerät weiter zu verwenden.",
   "page.memorandum.presetOverlay.currentConfigTitle": "Das ist deine aktuelle Konfiguration",

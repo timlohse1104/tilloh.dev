@@ -42,11 +42,9 @@
   const closeOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = false;
   };
-
   const triggerFileSelect = () => {
     configFileInput.click();
   };
-
   const triggerFileDownload = () => {
     const dataStr =
       'data:text/json;charset=utf-8,' +
