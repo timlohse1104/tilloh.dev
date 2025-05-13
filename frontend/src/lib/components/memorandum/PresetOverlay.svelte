@@ -2,25 +2,23 @@
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { presetOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
-  import Accordion, { Content, Header, Panel } from '@smui-extra/accordion';
-  import Button, { Label } from '@smui/button';
-  import Dialog, {
-    Actions as DialogActions,
-    Content as DialogContent,
-    Title,
-  } from '@smui/dialog';
-  import { Icon } from '@smui/fab';
-  import IconButton from '@smui/icon-button';
-  import List, { Graphic, Item, Text } from '@smui/list';
-  import Snackbar, { Actions } from '@smui/snackbar';
-  import { CodeSnippet } from 'carbon-components-svelte';
+  import {
+    Accordion,
+    AccordionItem,
+    CodeSnippet,
+    InlineNotification,
+    Modal,
+    Tag,
+  } from 'carbon-components-svelte';
+  import { Folder, Link, Upload } from 'carbon-icons-svelte';
+  import { fade } from 'svelte/transition';
 
   let codeElement;
   let files: FileList;
-  let presetUploadSnackbar: Snackbar;
-  let detailOpen = false;
   let configFileInput: HTMLInputElement;
+  let timeout = undefined;
 
+  $: showNotification = timeout !== undefined;
   $: if (files) {
     const file = files[0];
 
@@ -33,10 +31,9 @@
         codeElement.innerHTML = JSON.stringify(json, null, 2);
       };
       reader.readAsText(file);
-      presetUploadSnackbar.open();
+      timeout = 3_000;
     }
   }
-
   $: folderAmount = $localPresetStore.Folders.length;
   $: linkAmount = [
     ...$localPresetStore.Folders.map((folder) => folder.links.length),
@@ -67,102 +64,69 @@
   };
 </script>
 
-<Dialog
+<Modal
   bind:open={$presetOverlayOptionsStore.showOverlay}
-  aria-labelledby="large-scroll-title"
-  aria-describedby="large-scroll-content"
-  surface$style="width: 50vw; max-width: calc(100vw - 32px);"
+  modalHeading={$t('page.memorandum.presetOverlay.title')}
+  primaryButtonText="Import"
+  primaryButtonIcon={Upload}
+  secondaryButtonText="Export"
+  hasScrollingContent
+  class="preset_modal"
+  on:click:button--primary={() => {
+    triggerFileSelect();
+    event.stopPropagation();
+  }}
+  on:click:button--secondary={triggerFileDownload}
 >
   {#if $initialized}
-    <Title id="large-scroll-title">
-      {$t('page.memorandum.presetOverlay.title')}
+    <p class="mb1">{$t('page.memorandum.presetOverlay.description')}</p>
+    <h5>{$t('page.memorandum.presetOverlay.currentConfigTitle')}</h5>
 
-      <p class="large_scroll_subtitle">
-        {$t('page.memorandum.presetOverlay.description')}
-      </p>
-    </Title>
+    <div class="preset_info_area">
+      <Tag icon={Folder} type="teal">
+        {$t('page.memorandum.presetOverlay.folderAmount', {
+          amount: folderAmount,
+        })}
+      </Tag>
+      <Tag icon={Link} type="green">
+        {$t('page.memorandum.presetOverlay.linkAmount', {
+          amount: linkAmount,
+        })}
+      </Tag>
+    </div>
 
-    <Title>
-      {$t('page.memorandum.presetOverlay.currentConfigTitle')}
-    </Title>
-
-    <List dense>
-      <Item style="margin-left:calc(var(--default_padding)/2);">
-        <Graphic class="material-icons">folder</Graphic>
-        <Text>
-          {$t('page.memorandum.presetOverlay.folderAmount', {
-            amount: folderAmount,
-          })}
-        </Text>
-      </Item>
-      <Item style="margin-left:calc(var(--default_padding)/2);">
-        <Graphic class="material-icons">link</Graphic>
-        <Text>
-          {$t('page.memorandum.presetOverlay.linkAmount', {
-            amount: linkAmount,
-          })}
-        </Text>
-      </Item>
-    </List>
-
-    <DialogContent id="large-scroll-content">
-      <div>
-        <Accordion>
-          <Panel bind:open={detailOpen}>
-            <Header>
-              {$t('page.memorandum.presetOverlay.technicalInfoTitle')}
-
-              <IconButton slot="icon" toggle pressed={detailOpen}>
-                <Icon class="material-icons" on>expand_less</Icon>
-                <Icon class="material-icons">expand_more</Icon>
-              </IconButton>
-            </Header>
-            <Content>
-              <CodeSnippet
-                type="multi"
-                code={JSON.stringify($localPresetStore, null, 2)}
-                hideCopyButton
-                expanded
-              />
-            </Content>
-          </Panel>
-        </Accordion>
-      </div>
-    </DialogContent>
-
-    <DialogActions>
-      <Button
-        on:click={() => {
-          triggerFileSelect();
-          event.stopPropagation();
-        }}
-        variant="outlined"
+    <Accordion class="mt2">
+      <AccordionItem
+        title={$t('page.memorandum.presetOverlay.technicalInfoTitle')}
+        class="preset_code_accordion_content"
       >
-        <Icon class="material-icons">file_upload</Icon>
-        <Label>Import</Label>
-      </Button>
-      <Button
-        on:click={triggerFileDownload}
-        color="secondary"
-        variant="outlined"
-      >
-        <Icon class="material-icons">file_download</Icon>
-        <Label>Export</Label>
-      </Button>
-    </DialogActions>
+        <CodeSnippet
+          type="multi"
+          code={JSON.stringify($localPresetStore, null, 2)}
+          copyLabel={$t('page.memorandum.presetOverlay.copyButtonDescription')}
+        />
+      </AccordionItem>
+    </Accordion>
   {:else}
-    <Title id="large-scroll-title">Locale initializing...</Title>
+    <p>Locale initializing...</p>
   {/if}
-</Dialog>
+</Modal>
 
-<Snackbar bind:this={presetUploadSnackbar}>
-  <Label>
-    {$t('page.memorandum.presetOverlay.configImportedLabel')}
-  </Label>
-  <Actions>
-    <IconButton class="material-icons" title="Dismiss">close</IconButton>
-  </Actions>
-</Snackbar>
+{#if showNotification}
+  <div transition:fade>
+    <InlineNotification
+      {timeout}
+      kind="info-square"
+      lowContrast
+      subtitle={$t('page.memorandum.presetOverlay.configImportedLabel')}
+      class="inline_notification"
+      on:close={(e) => {
+        timeout = undefined;
+        console.log(e.detail.timeout);
+      }}
+    />
+  </div>
+{/if}
 
 <input
   bind:this={configFileInput}
@@ -176,23 +140,16 @@
 />
 
 <style lang="scss">
-  .code_container {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: var(--trans);
-
-    code {
-      line-height: 1.5;
-      font-size: 12px;
-      font-family: var(--font_mono);
-      border-radius: 3px;
-      padding: 0.5em;
-      overflow-x: auto;
-    }
+  .preset_info_area {
+    display: flex;
+    margin-top: 1rem;
   }
 
-  .large_scroll_subtitle {
-    font-size: 1rem;
+  :global(.preset_code_accordion_content .bx--accordion__content) {
+    padding: 0;
+  }
+
+  :global(.preset_modal .bx--modal-content) {
+    margin: 0;
   }
 </style>

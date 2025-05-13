@@ -66,10 +66,8 @@
         selectedIndexSecondHalf = Object.values(
           activeRoutesSecondHalf,
         ).findIndex((route) => route.path === path);
-        console.log('selectedIndexSecondHalf', selectedIndexSecondHalf);
       } else if (selectedIndexSecondHalf === -1) {
         selectedIndexFirstHalf = 0;
-        console.log('foo');
       } else {
         selectedIndexSecondHalf = -1;
         console.log('bar');

@@ -38,6 +38,7 @@
   "page.memorandum.presetOverlay.linkAmount": "{{amount}} links",
   "page.memorandum.presetOverlay.technicalInfoTitle": "Technical data",
   "page.memorandum.presetOverlay.configImportedLabel": "Configuration successfully imported.",
+  "page.memorandum.presetOverlay.copyButtonDescription": "Copied link and folder preset to clipboard.",
   "page.memorandum.startup.createEmptyFolder": "Create an empty folder",
   "page.memorandum.startup.createEmptyFolderAlt": "Click to create an empty folder",
   "page.memorandum.startup.loadPreset": "Load a preset",

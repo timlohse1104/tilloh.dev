@@ -38,6 +38,7 @@
   "page.memorandum.presetOverlay.linkAmount": "{{amount}} Links",
   "page.memorandum.presetOverlay.technicalInfoTitle": "Technische Daten",
   "page.memorandum.presetOverlay.configImportedLabel": "Konfiguration erfolgreich importiert.",
+  "page.memorandum.presetOverlay.copyButtonDescription": "Link und Ordner Konfiguration in Zwischenablage kopiert.",
   "page.memorandum.startup.createEmptyFolder": "Erstelle einen leeren Ordner",
   "page.memorandum.startup.createEmptyFolderAlt": "Klicke um einen leeren Ordner zu erstellen",
   "page.memorandum.startup.loadPreset": "Lade eine Voreinstellung",
