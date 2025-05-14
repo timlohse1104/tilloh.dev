@@ -1,7 +1,8 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.ts';
   import { chatStore } from '$lib/util/stores/store-chat';
-  import Autocomplete from '@smui-extra/autocomplete';
+  import { Button, TextInput } from 'carbon-components-svelte';
+  import { Add } from 'carbon-icons-svelte';
 
   export let listIndex;
 
@@ -28,21 +29,22 @@
   };
 </script>
 
-<Autocomplete
-  options={$chatStore[listIndex]?.history || []}
-  bind:value={newChatName}
-  bind:text={newChatName}
-  label="Neuer Eintrag"
-  style="margin-top: 1rem; width: 100%;"
-  textfield$style="width: 100%;"
-  on:SMUIAutocomplete:selected={(event) => {
-    newChatName = event.detail;
-    saveChat();
-  }}
-  on:SMUIAutocomplete:noMatchesAction={saveChat}
-  on:keyup={(event) => {
-    if (isEnter(event)) {
-      saveChat();
-    }
-  }}
-/>
+<section>
+  <TextInput
+    bind:value={newChatName}
+    placeholder="Neuer Eintrag"
+    on:keyup={(event) => {
+      if (isEnter(event)) {
+        saveChat();
+      }
+    }}
+  />
+  <Button kind="tertiary" size="field" icon={Add} on:click={saveChat} />
+</section>
+
+<style>
+  section {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
