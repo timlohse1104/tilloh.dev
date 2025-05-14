@@ -4,7 +4,6 @@
     TOGGLE_KEY_IDENTIFIER,
     type KeystoreKeyDto,
   } from '$lib/types/keystore.dto';
-  import { isEnter } from '$lib/util/helper';
   import { adminTogglesStore } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
   import {
@@ -13,7 +12,6 @@
     Button,
     CopyButton,
     InlineNotification,
-    TextInput,
     Toggle,
   } from 'carbon-components-svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
@@ -21,6 +19,7 @@
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
   const dispatch = createEventDispatcher();
 
   let newToogleName = '';
@@ -91,21 +90,12 @@
         {$t('page.admin.toggles.title')}
         <span>({$adminTogglesStore.length})</span>
       </h2>
-      <div style="display: flex;">
-        <TextInput
-          placeholder={$t('page.admin.toggles.newToggle')}
-          bind:value={newToogleName}
-          on:keyup={(event) => {
-            if (isEnter(event)) addToggle();
-          }}
-        />
-        <Button
-          kind="tertiary"
-          size="field"
-          on:click={() => addToggle()}
-          icon={Add}
-        />
-      </div>
+      <InputWithButton
+        value={newToogleName}
+        placeholder={$t('page.admin.toggles.newToggle')}
+        icon={Add}
+        action={addToggle}
+      />
     </div>
     <Accordion class="mt1">
       {#each $adminTogglesStore as toggle}

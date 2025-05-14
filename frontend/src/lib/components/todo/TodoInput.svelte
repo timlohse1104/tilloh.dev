@@ -37,7 +37,6 @@
       labelText={$t('page.todos.newTodo')}
       icon={Add}
       action={saveTodo}
-      kind="tertiary"
     />
   </section>
 {:else}

@@ -34,7 +34,6 @@
     placeholder="Neuer Eintrag"
     icon={Add}
     action={saveChat}
-    kind="tertiary"
     customClasses="mt2"
   />
 </section>

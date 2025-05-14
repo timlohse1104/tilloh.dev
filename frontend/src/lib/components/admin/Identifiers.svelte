@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createIdentifier } from '$lib/api/identifiers.api';
-  import { isEnter } from '$lib/util/helper';
   import {
     adminIdentifiersStore,
     adminTokenStore,
@@ -12,13 +11,13 @@
     Button,
     CopyButton,
     InlineNotification,
-    TextInput,
   } from 'carbon-components-svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
   const dispatch = createEventDispatcher();
 
   let newIdentifierName = '';
@@ -58,21 +57,12 @@
         {$t('page.admin.identifiers.title')}
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
-      <div style="display: flex;">
-        <TextInput
-          placeholder={$t('page.admin.toggles.newIdentifier')}
-          bind:value={newIdentifierName}
-          on:keyup={(event) => {
-            if (isEnter(event)) addIdentifier();
-          }}
-        />
-        <Button
-          kind="tertiary"
-          size="field"
-          on:click={() => addIdentifier()}
-          icon={Add}
-        />
-      </div>
+      <InputWithButton
+        value={newIdentifierName}
+        placeholder={$t('page.admin.toggles.newIdentifier')}
+        icon={Add}
+        action={addIdentifier}
+      />
     </div>
     <Accordion class="mt1">
       {#each $adminIdentifiersStore as identifier}

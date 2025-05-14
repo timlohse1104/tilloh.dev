@@ -17,7 +17,7 @@
     | 'ghost'
     | 'danger'
     | 'danger-tertiary'
-    | 'danger-ghost' = 'primary';
+    | 'danger-ghost' = 'tertiary';
   export let customClasses = '';
   export let customStyle = '';
 </script>
