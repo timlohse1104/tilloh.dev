@@ -6,7 +6,11 @@
   import { ContentSwitcher, Switch } from 'carbon-components-svelte';
   import { onMount } from 'svelte';
 
+  // EXPORT LET
   export let routes: Route[];
+  export let customClass = '';
+
+  // CONST
   const activeRoutes = routes.filter((routes) => routes.toggle);
   const routeHalfAmount = Math.floor(activeRoutes.length / 2);
   const activeRoutesFirstHalf = [...activeRoutes.slice(0, routeHalfAmount)];
@@ -18,6 +22,7 @@
   ];
   const activeRoutesThirdThird = [...activeRoutes.slice(routesThirdAmount * 2)];
 
+  // LET
   let selectedIndex = 0;
   let selectedIndexFirstHalf = 0;
   let selectedIndexSecondHalf = undefined;
@@ -26,17 +31,33 @@
   let selectedIndexThirdThird = undefined;
   let currentWidth;
 
+  // $
   $: locale = $languageStore;
 
+  // MOUNTING
+  onMount(() => {
+    updateWidth();
+    updateIndexes();
+    window.addEventListener('resize', () => {
+      updateWidth();
+      updateIndexes();
+    });
+    return () => {
+      window.removeEventListener('resize', () => {
+        updateWidth();
+        updateIndexes();
+      });
+    };
+  });
+
+  // FUNCTIONS
   const navigatePage = (path: string) => {
     goto(path);
     updateIndexes(path);
   };
-
   const updateWidth = () => {
     currentWidth = window.innerWidth;
   };
-
   const resetIndexes = () => {
     selectedIndex = 0;
     selectedIndexFirstHalf = 0;
@@ -45,7 +66,6 @@
     selectedIndexSecondThird = undefined;
     selectedIndexThirdThird = undefined;
   };
-
   const updateIndexes = (inputPath?: string) => {
     const path = inputPath || $page.url.pathname;
     resetIndexes();
@@ -99,27 +119,15 @@
       selectedIndexSecondHalf = undefined;
     }
   };
-
-  onMount(() => {
-    updateWidth();
-    updateIndexes();
-    window.addEventListener('resize', () => {
-      updateWidth();
-      updateIndexes();
-    });
-    return () => {
-      window.removeEventListener('resize', () => {
-        updateWidth();
-        updateIndexes();
-      });
-    };
-  });
 </script>
 
-<section>
+<section class={customClass}>
   <ContentSwitcher {selectedIndex}>
     {#each Object.values(activeRoutes) as route}
-      {#await import(`/node_modules/carbon-icons-svelte/lib/${route?.icon}.svelte`) then icon}
+      {#await import(
+        /* @vite-ignore */
+        `/node_modules/carbon-icons-svelte/lib/${route?.icon}.svelte`
+        ) then icon}
         <Switch on:click={() => navigatePage(route.path)}>
           <div class="navigation_item_content">
             <svelte:component this={icon.default} />

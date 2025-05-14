@@ -31,18 +31,18 @@
   <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-<section>
+<section class="mt1">
   <Navigation routes={Object.values(applicationRoutes)} />
   <SearchBar />
 
-  <div>
+  <div class="mt2">
     <Button kind="tertiary" href={settings.path} icon={Settings}>
       {settings.name[locale]}
     </Button>
   </div>
 
   {#if randomJokeToggle}
-    <JokeOfTheDay />
+    <JokeOfTheDay customClass="mt2" />
   {/if}
 </section>
 
@@ -53,10 +53,6 @@
     justify-content: center;
     align-items: center;
     flex: 0.2;
-
-    div {
-      margin-top: 1rem;
-    }
   }
 
   a {

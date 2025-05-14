@@ -1,8 +1,8 @@
 <script lang="ts">
   import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
-  import Card from '@smui/card';
   import Select, { Option } from '@smui/select';
+  import { Tile } from 'carbon-components-svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
@@ -37,14 +37,14 @@
   </Select>
 
   <p>{$t('page.foodScan.debug.systemPrompt')}</p>
-  <Card padded>
+  <Tile>
     {systemPromptText}
-  </Card>
+  </Tile>
 
   <p>{$t('page.foodScan.debug.userPrompt')}</p>
-  <Card padded>
+  <Tile>
     {userPromptText}
-  </Card>
+  </Tile>
 
   <p>{$t('page.foodScan.debug.stats.title')}</p>
   <table>

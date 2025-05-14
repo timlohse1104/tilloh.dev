@@ -39,6 +39,7 @@
       {#each appLinks as link}
         <li>
           {#await import(
+            /* @vite-ignore */
             `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
           ) then icon}
             <svelte:component this={icon.default} />
@@ -54,6 +55,7 @@
       {#each utilLinks as link}
         <li>
           {#await import(
+            /* @vite-ignore */
             `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
           ) then icon}
             <svelte:component this={icon.default} />

@@ -5,6 +5,8 @@
   import { Tile } from 'carbon-components-svelte';
   import { onMount } from 'svelte';
 
+  export let customClass = '';
+
   let joke: JokeDto | null = null;
 
   onMount(async () => {
@@ -13,7 +15,7 @@
 </script>
 
 {#if $initialized}
-  <section>
+  <section class={customClass}>
     {#if joke}
       <Tile style="padding:2rem;">
         <h3>{$t('page.home.jokeTitle')}</h3>
@@ -33,7 +35,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
   }
 
   h3 {

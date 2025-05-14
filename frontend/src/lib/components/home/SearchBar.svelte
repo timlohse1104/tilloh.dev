@@ -2,11 +2,13 @@
   import { initialized, t } from '$lib/util/translations';
   import { Form, Search } from 'carbon-components-svelte';
 
+  export let customClass = '';
+
   let value = '';
 </script>
 
 {#if $initialized}
-  <div class="search_container">
+  <section class={customClass}>
     <Form
       on:submit={(e) => {
         e.preventDefault();
@@ -20,19 +22,29 @@
         bind:value
       />
     </Form>
-  </div>
+  </section>
 {:else}
-  <div class="search_container">Locale initializing...</div>
+  <section>Locale initializing...</section>
 {/if}
 
 <style lang="scss">
-  .search_container {
+  @import '../../styles/variables.scss';
+
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 36px 18px;
-    margin-top: 1em;
+    // padding: 36px 18px;
     width: 80vw;
+    margin-top: 5rem;
+
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$tablet} {
+      margin-top: 8rem;
+    }
   }
   :global(.global_search_form) {
     width: 100%;
