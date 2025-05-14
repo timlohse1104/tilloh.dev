@@ -1,7 +1,7 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import { Button as CButton, Tag } from 'carbon-components-svelte';
+  import { Button, Tag } from 'carbon-components-svelte';
   import { List, Menu, TrashCan } from 'carbon-icons-svelte';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
@@ -121,13 +121,16 @@
                       type={selectRandomTagColor()}
                       on:close={removeEntryFromHistory}
                     >
-                      <p on:click={readdTodoFromHistory}>
+                      <button
+                        on:click={readdTodoFromHistory}
+                        class="tag_button"
+                      >
                         {entry}
-                      </p>
+                      </button>
                     </Tag>
                   {/each}
                 </div>
-                <CButton
+                <Button
                   kind="danger"
                   size="small"
                   iconDescription="TODO"
@@ -231,6 +234,22 @@
 
   .history_entry_list {
     display: flex;
+  }
+
+  .tag_button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: inherit;
+    text-decoration: none;
+    display: inline;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 
   hr {

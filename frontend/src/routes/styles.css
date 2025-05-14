@@ -120,6 +120,11 @@ button:focus:not(:focus-visible) {
 .ml2 {
   margin-left: 2rem;
 }
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Carbon Buttons Overrides */
 .save_button {

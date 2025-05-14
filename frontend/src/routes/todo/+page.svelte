@@ -7,8 +7,7 @@
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import Button from '@smui/button';
-  import { Icon, Label } from '@smui/common';
+  import { Icon } from '@smui/common';
   import Drawer, {
     AppContent,
     Content,
@@ -19,6 +18,8 @@
   } from '@smui/drawer';
   import IconButton from '@smui/icon-button';
   import List, { Item, Text } from '@smui/list';
+  import { Button, Button as CButton } from 'carbon-components-svelte';
+  import { Catalog, TaskAdd } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
   const { todo: todoRoute } = applicationRoutes;
@@ -28,6 +29,10 @@
   let openMenu = false;
 
   $: locale = $languageStore;
+
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
 
   const showListOverlay = (type: 'new' | 'edit', index?: number) => {
     if (type === 'new') {
@@ -40,15 +45,10 @@
       $listOverlayOptionsStore.type = type;
     }
   };
-
   const setActiveList = (index: number) => {
     currentListIndex = index;
     openMenu = false;
   };
-
-  onMount(async () => {
-    await setLocale($languageStore);
-  });
 </script>
 
 <svelte:head>
@@ -79,10 +79,7 @@
         <Content>
           <List>
             {#if $todoStore.length === 0}
-              <div
-                style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
-              >
-                <Icon class="material-icons">search_off</Icon>
+              <div class="centered mb1">
                 <Text>{$t('page.todos.sideMenu.emptyInfo')}</Text>
               </div>
             {:else}
@@ -106,16 +103,15 @@
                 <hr style="border-color:var(--darkgrey80);width:95%" />
               {/each}
             {/if}
-            <div style="display:flex;justify-content:center;">
-              <Button
-                color={$todoStore.length === 0 ? 'primary' : 'secondary'}
-                variant="outlined"
+            <div class="centered">
+              <CButton
+                kind="tertiary"
+                iconDescription="TODO"
+                icon={TaskAdd}
                 on:click={() => showListOverlay('new')}
-                style="margin: var(--default_padding);"
               >
-                <Icon class="material-icons">playlist_add</Icon>
-                <Label>{$t('page.todos.sideMenu.createNewList')}</Label>
-              </Button>
+                {$t('page.todos.sideMenu.createNewList')}
+              </CButton>
             </div>
           </List>
         </Content>
@@ -124,14 +120,14 @@
       <Scrim />
       <AppContent class="app_content">
         <main class="main_content">
-          <IconButton
-            color="secondary"
-            style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
-            size="button"
+          <Button
+            kind="tertiary"
+            iconDescription="TODO"
+            icon={Catalog}
+            id="list_menu_button"
+            tooltipPosition="left"
             on:click={() => (openMenu = !openMenu)}
-          >
-            <Icon class="material-icons">menu</Icon>
-          </IconButton>
+          />
           <TodoListComponent listIndex={currentListIndex} />
         </main>
       </AppContent>
@@ -175,5 +171,12 @@
     text-align: left;
     margin: 0 0 var(--default_padding) 0;
     padding-left: calc(var(--default_padding) / 2);
+  }
+
+  :global(#list_menu_button) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: calc(var(--default_padding) / 10);
   }
 </style>
