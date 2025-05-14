@@ -1,7 +1,7 @@
 <script lang="ts">
   import { chatStore } from '$lib/util/stores/store-chat';
-  import { Icon } from '@smui/icon-button';
   import { Button, Tooltip } from 'carbon-components-svelte';
+  import { Chat as ChatIcon, Menu as MenuIcon } from 'carbon-icons-svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import Chat from './Chat.svelte';
   import ChatInput from './ChatInput.svelte';
@@ -22,7 +22,6 @@
       return list;
     });
   };
-
   const clearHistory = () => {
     chatStore.update((list) => {
       list[listIndex].history = [];
@@ -72,12 +71,12 @@
     <div class="list_content">
       {#if !currentList || currentList?.chats?.length === 0}
         <h1 style="margin-top:2rem;">
-          Wähle einen <Icon class="material-icons">chat</Icon> Chat aus.
+          Wähle einen <ChatIcon /> Chat aus.
         </h1>
         <div style="display:flex;flex-direction:column;align-items:center;">
           <p style="margin-top:2rem;">
             Klicke oben rechts auf den Menü-Button.
-            <Icon class="material-icons">menu</Icon>
+            <MenuIcon />
           </p>
         </div>
       {:else}
