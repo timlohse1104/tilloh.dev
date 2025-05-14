@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { isEnter } from '$lib/util/helper.ts';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import Autocomplete from '@smui-extra/autocomplete';
+  import { Add } from 'carbon-icons-svelte';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
   export let listIndex;
 
@@ -30,41 +30,16 @@
 </script>
 
 {#if $initialized}
-  <Autocomplete
-    options={$todoStore[listIndex]?.history || []}
-    bind:value={newTodoName}
-    bind:text={newTodoName}
-    label={$t('page.todos.newTodo')}
-    style="margin-top: 1rem; width: 100%;"
-    textfield$style="width: 100%;"
-    on:SMUIAutocomplete:selected={(event) => {
-      newTodoName = event.detail;
-      saveTodo();
-    }}
-    on:SMUIAutocomplete:noMatchesAction={saveTodo}
-    on:keyup={(event) => {
-      if (isEnter(event)) {
-        saveTodo();
-      }
-    }}
-  />
+  <section>
+    <InputWithButton
+      value={newTodoName}
+      placeholder="Neuer Eintrag"
+      labelText={$t('page.todos.newTodo')}
+      icon={Add}
+      action={saveTodo}
+      kind="tertiary"
+    />
+  </section>
 {:else}
-  <Autocomplete
-    options={$todoStore[listIndex]?.history || []}
-    bind:value={newTodoName}
-    bind:text={newTodoName}
-    label="Locale initializing..."
-    style="margin-top: 1rem; width: 100%;"
-    textfield$style="width: 100%;"
-    on:SMUIAutocomplete:selected={(event) => {
-      newTodoName = event.detail;
-      saveTodo();
-    }}
-    on:SMUIAutocomplete:noMatchesAction={saveTodo}
-    on:keyup={(event) => {
-      if (isEnter(event)) {
-        saveTodo();
-      }
-    }}
-  />
+  <section>Locale initializing...</section>
 {/if}

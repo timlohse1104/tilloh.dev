@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { isEnter } from '$lib/util/helper.ts';
   import { chatStore } from '$lib/util/stores/store-chat';
-  import { Button, TextInput } from 'carbon-components-svelte';
   import { Add } from 'carbon-icons-svelte';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
   export let listIndex;
 
@@ -30,21 +29,12 @@
 </script>
 
 <section>
-  <TextInput
-    bind:value={newChatName}
+  <InputWithButton
+    value={newChatName}
     placeholder="Neuer Eintrag"
-    on:keyup={(event) => {
-      if (isEnter(event)) {
-        saveChat();
-      }
-    }}
+    icon={Add}
+    action={saveChat}
+    kind="tertiary"
+    customClasses="mt2"
   />
-  <Button kind="tertiary" size="field" icon={Add} on:click={saveChat} />
 </section>
-
-<style>
-  section {
-    display: flex;
-    justify-content: space-between;
-  }
-</style>
