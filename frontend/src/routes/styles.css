@@ -174,3 +174,10 @@ button:focus:not(:focus-visible) {
   display: flex;
   gap: 0.25rem;
 }
+
+/* Carbon Drop Container Overrides*/
+.bx--file__drop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

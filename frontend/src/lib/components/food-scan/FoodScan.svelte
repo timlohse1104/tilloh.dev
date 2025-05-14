@@ -194,7 +194,6 @@
         labelText={$t('page.foodScan.chooseFile')}
         accept={['.jpg', '.jpeg', '.png']}
         bind:files={inputFiles}
-        class="file_input"
       />
 
       {#if inputFiles?.length > 0}
@@ -276,15 +275,5 @@
   .warning_sign {
     font-size: 2rem;
     margin: 0;
-  }
-
-  .file_input {
-    width: 100%;
-  }
-
-  :global(.file_input .bx--file__drop-container) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 </style>
