@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { Todo } from '$lib/types/todo.ts';
-  import Checkbox from '@smui/checkbox';
-  import FormField from '@smui/form-field';
-  import IconButton, { Icon } from '@smui/icon-button';
+  import { Button, Checkbox } from 'carbon-components-svelte';
+  import { TrashCan } from 'carbon-icons-svelte';
 
   export let todo: Todo;
   export let deleteTodo;
@@ -10,25 +9,26 @@
 </script>
 
 <section>
-  <div class="todo">
-    <FormField>
-      <Checkbox bind:checked={todo['done']} on:click={todoChecked} />
-      <span slot="label" class={todo?.done ? 'striked' : ''}>{todo?.title}</span
-      >
-    </FormField>
-    <IconButton
-      color="secondary"
-      style="margin-left: auto;"
-      size="button"
-      on:click={deleteTodo}
-    >
-      <Icon class="material-icons">delete</Icon>
-    </IconButton>
-  </div>
+  <Checkbox
+    bind:checked={todo['done']}
+    labelText="Label text"
+    on:click={todoChecked}
+  >
+    <span slot="labelText" class={todo?.done ? 'ml1 striked' : 'ml1'}>
+      {todo?.title}
+    </span>
+  </Checkbox>
+  <Button
+    kind="danger"
+    size="small"
+    iconDescription="TODO"
+    icon={TrashCan}
+    on:click={deleteTodo}
+  />
 </section>
 
 <style>
-  .todo {
+  section {
     display: flex;
     justify-content: space-between;
     align-items: center;
