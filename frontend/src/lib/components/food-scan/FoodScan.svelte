@@ -4,7 +4,10 @@
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
   import Chip, { Set, Text } from '@smui/chips';
-  import { Checkbox } from 'carbon-components-svelte';
+  import {
+    Checkbox,
+    FileUploaderDropContainer,
+  } from 'carbon-components-svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 
@@ -187,36 +190,12 @@
       </Card>
     {:else}
       <h3>{$t('page.foodScan.introduction')}</h3>
-      <div class="file_inputs">
-        <form>
-          <label for="file_upload" class="custom_file_label">
-            {$t('page.foodScan.chooseFile')}
-          </label>
-          <input
-            id="file_upload"
-            class="file_input"
-            type="file"
-            accept="image/*"
-            bind:files={inputFiles}
-          />
-        </form>
-
-        <p>{$t('page.foodScan.or')}</p>
-
-        <form>
-          <label for="camera_upload" class="custom_file_label"
-            >{$t('page.foodScan.takePicture')}</label
-          >
-          <input
-            id="camera_upload"
-            class="file_input"
-            type="file"
-            accept="image/*"
-            bind:files={inputFiles}
-            capture
-          />
-        </form>
-      </div>
+      <FileUploaderDropContainer
+        labelText={$t('page.foodScan.chooseFile')}
+        accept={['.jpg', '.jpeg', '.png']}
+        bind:files={inputFiles}
+        class="file_input"
+      />
 
       <Checkbox
         bind:checked={debugInfoActive}
@@ -274,7 +253,6 @@
     gap: 2rem;
     align-items: center;
     flex-direction: column;
-    // height: 80vh;
     overflow: auto;
     text-align: center;
   }
@@ -292,27 +270,13 @@
     margin: 0;
   }
 
-  .file_inputs {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
-
-    @media #{$phone} {
-      gap: 1rem;
-    }
-  }
-
   .file_input {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
+    width: 100%;
   }
 
-  .custom_file_label {
-    display: inline-block;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+  :global(.file_input .bx--file__drop-container) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
