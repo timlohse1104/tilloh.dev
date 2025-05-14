@@ -2,12 +2,11 @@
   import { executeOcrProcess } from '$lib/api/ocr.api';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
-  import Card from '@smui/card';
-  import { Set } from '@smui/chips';
   import {
     Checkbox,
     FileUploaderDropContainer,
     Tag,
+    Tile,
   } from 'carbon-components-svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
@@ -174,21 +173,21 @@
 {#if $initialized}
   <section>
     {#if isWebGPUNotAvailableError}
-      <Card padded class="warning_hint">
+      <Tile class="warning_hint">
         <h2>
           {$t('page.foodScan.webGPUNotAvailableTitle')}
         </h2>
         <p>
           {$t('page.foodScan.webGPUNotAvailableError')}
         </p>
-      </Card>
+      </Tile>
     {:else if !engineReady}
-      <Card padded class="warning_hint">
+      <Tile class="warning_hint">
         <h2>{$t('page.foodScan.loadingHint')}</h2>
         <p class="warning_sign">⚠️</p>
         <p>{@html $t('page.foodScan.warning')}</p>
         <p>{loadModelInfo}</p>
-      </Card>
+      </Tile>
     {:else}
       <h3>{$t('page.foodScan.introduction')}</h3>
       <FileUploaderDropContainer
@@ -197,6 +196,29 @@
         bind:files={inputFiles}
         class="file_input"
       />
+
+      {#if inputFiles?.length > 0}
+        <ContentOutput
+          {imagePreviewSrc}
+          {loading}
+          {inputFiles}
+          {llmResult}
+          {diet}
+        />
+
+        {#if llmResult}
+          <div class="followup_tags">
+            {#each followUpQuestions as question}
+              <Tag
+                on:click={() => askFollowUpQuestion(question)}
+                class="followup_question_tags"
+              >
+                {question}
+              </Tag>
+            {/each}
+          </div>
+        {/if}
+      {/if}
 
       <Checkbox
         bind:checked={debugInfoActive}
@@ -219,24 +241,6 @@
           on:reloadModel={reloadModel}
         />
       {/if}
-
-      {#if inputFiles?.length > 0}
-        <ContentOutput
-          {imagePreviewSrc}
-          {loading}
-          {inputFiles}
-          {llmResult}
-          {diet}
-        />
-
-        {#if llmResult}
-          <Set chips={followUpQuestions} let:chip>
-            <Tag on:click={() => askFollowUpQuestion(chip)}>
-              {chip}
-            </Tag>
-          </Set>
-        {/if}
-      {/if}
     {/if}
   </section>
 {:else}
@@ -258,10 +262,15 @@
 
   :global(.warning_hint) {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 0 2rem;
     padding: 2rem;
+  }
+
+  :global(.followup_question_tags:hover) {
+    cursor: pointer;
   }
 
   .warning_sign {
