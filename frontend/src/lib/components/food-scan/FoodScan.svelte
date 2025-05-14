@@ -3,9 +3,8 @@
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
-  import Checkbox from '@smui/checkbox';
   import Chip, { Set, Text } from '@smui/chips';
-  import FormField from '@smui/form-field';
+  import { Checkbox } from 'carbon-components-svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 
@@ -219,10 +218,10 @@
         </form>
       </div>
 
-      <FormField>
-        <Checkbox bind:checked={debugInfoActive} />
-        <p slot="label">{$t('page.foodScan.technicalInfo')}</p>
-      </FormField>
+      <Checkbox
+        bind:checked={debugInfoActive}
+        labelText={$t('page.foodScan.technicalInfo')}
+      />
 
       {#if debugInfoActive}
         <DebugInformation
@@ -275,7 +274,7 @@
     gap: 2rem;
     align-items: center;
     flex-direction: column;
-    height: 80vh;
+    // height: 80vh;
     overflow: auto;
     text-align: center;
   }
