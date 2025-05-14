@@ -7,19 +7,8 @@
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
-  import Drawer, {
-    AppContent,
-    Content,
-    Header,
-    Scrim,
-    Subtitle,
-    Title,
-  } from '@smui/drawer';
-  import IconButton from '@smui/icon-button';
-  import List, { Item, Text } from '@smui/list';
-  import { Button, Button as CButton } from 'carbon-components-svelte';
-  import { Catalog, TaskAdd } from 'carbon-icons-svelte';
+  import { Button, ClickableTile, Modal } from 'carbon-components-svelte';
+  import { Catalog, Edit, TaskAdd } from 'carbon-icons-svelte';
   import { onMount } from 'svelte';
 
   const { todo: todoRoute } = applicationRoutes;
@@ -35,6 +24,7 @@
   });
 
   const showListOverlay = (type: 'new' | 'edit', index?: number) => {
+    openMenu = false;
     if (type === 'new') {
       newListIndex = $todoStore.length;
       $listOverlayOptionsStore.showOverlay = true;
@@ -59,67 +49,63 @@
 {#if todoRoute.toggle}
   {#if $initialized}
     <section>
-      <Drawer
-        variant="modal"
+      <Modal
+        passiveModal
         bind:open={openMenu}
-        style="width:25%;max-width:max-content;height:max-content;overflow:auto;"
+        modalHeading={$t('page.todos.sideMenu.title')}
+        class="todo_list_modal"
       >
-        <Header>
-          <Title
-            style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
-            >{$t('page.todos.sideMenu.title')}</Title
-          >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.description')}</Subtitle
-          >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
-          >
-        </Header>
-        <Content>
-          <List>
-            {#if $todoStore.length === 0}
-              <div class="centered mb1">
-                <Text>{$t('page.todos.sideMenu.emptyInfo')}</Text>
-              </div>
-            {:else}
-              <!-- List all todos -->
-              {#each $todoStore as list, i (i)}
-                <Item
-                  href="javascript:void(0)"
-                  style="padding-left: calc(var(--default_padding) / 1.5);"
-                  on:click={() => setActiveList(i)}
-                >
-                  <Text>{list.emoji} {list.name}</Text>
-                  <IconButton
-                    color="secondary"
-                    style="margin-left: auto;"
-                    size="button"
-                    on:click={() => showListOverlay('edit', i)}
-                  >
-                    <Icon class="material-icons">edit</Icon>
-                  </IconButton>
-                </Item>
-                <hr style="border-color:var(--darkgrey80);width:95%" />
-              {/each}
-            {/if}
-            <div class="centered">
-              <CButton
-                kind="tertiary"
-                iconDescription="TODO"
-                icon={TaskAdd}
-                on:click={() => showListOverlay('new')}
-              >
-                {$t('page.todos.sideMenu.createNewList')}
-              </CButton>
-            </div>
-          </List>
-        </Content>
-      </Drawer>
+        <p>
+          {$t('page.todos.sideMenu.description')}
+        </p>
 
-      <Scrim />
-      <AppContent class="app_content">
-        <main class="main_content">
+        <p class="mt1">
+          {$t('page.todos.sideMenu.persistenceInfo')}
+        </p>
+
+        {#if $todoStore.length === 0}
+          <div class="centered mb1">
+            <p class="mt1">{$t('page.todos.sideMenu.emptyInfo')}</p>
+          </div>
+        {:else}
+          <div class="mt1">
+            {#each $todoStore as list, i (i)}
+              <ClickableTile on:click={() => setActiveList(i)}>
+                <div class="todo_list_entry">
+                  <h4>
+                    {list.emoji}
+                    {list.name}
+                  </h4>
+                  <Button
+                    kind="tertiary"
+                    iconDescription="TODO"
+                    icon={Edit}
+                    size="field"
+                    on:click={() => showListOverlay('edit', i)}
+                  />
+                </div>
+              </ClickableTile>
+            {/each}
+          </div>
+        {/if}
+
+        <hr style="border-color:var(--darkgrey80);width:95%" />
+
+        <div class="centered">
+          <Button
+            kind="tertiary"
+            iconDescription="TODO"
+            icon={TaskAdd}
+            on:click={() => showListOverlay('new')}
+            class="mt1"
+          >
+            {$t('page.todos.sideMenu.createNewList')}
+          </Button>
+        </div>
+      </Modal>
+
+      <div class="app_content">
+        <div class="main_content">
           <Button
             kind="tertiary"
             iconDescription="TODO"
@@ -129,8 +115,8 @@
             on:click={() => (openMenu = !openMenu)}
           />
           <TodoListComponent listIndex={currentListIndex} />
-        </main>
-      </AppContent>
+        </div>
+      </div>
 
       {#if $listOverlayOptionsStore.showOverlay}
         <TodoListOverlay
@@ -154,7 +140,17 @@
     z-index: 0;
   }
 
-  * :global(.app_content) {
+  :global(.todo_list_modal .bx--modal-container .bx--modal-content) {
+    margin-bottom: 2rem;
+  }
+
+  .todo_list_entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .app_content {
     flex: auto;
     overflow: auto;
     position: relative;
@@ -165,12 +161,6 @@
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
-  }
-
-  :global(.todos_side_menu_description) {
-    text-align: left;
-    margin: 0 0 var(--default_padding) 0;
-    padding-left: calc(var(--default_padding) / 2);
   }
 
   :global(#list_menu_button) {
