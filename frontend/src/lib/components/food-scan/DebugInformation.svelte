@@ -1,8 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
-  import Select, { Option } from '@smui/select';
-  import { Tile } from 'carbon-components-svelte';
+  import { ComboBox, Tile } from 'carbon-components-svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
@@ -18,35 +17,55 @@
   export let totalTokens: string = '';
   export let prefillTokensPerS: string = '';
   export let decodeTokensPerS: string = '';
+
+  $: availableModelsComboList = availableModels.map((model, i) => ({
+    id: i,
+    text: `${model.model_id} (${model.vram_required_MB}MB VRAM / ${model?.overrides?.context_window_size} window size)`,
+  }));
+  $: selectedModelId = selectedModel
+    ? availableModels.findIndex((model) => model === selectedModel)
+    : undefined;
+
+  $: if (selectedModel) console.log('selectedModel', selectedModel);
+  $: if (selectedModelId) console.log('selectedModelId', selectedModelId);
+
+  const selectModel = (event) => {
+    const { selectedId } = event.detail;
+    if (selectedId) {
+      selectedModel = availableModels[selectedId];
+    } else {
+      console.warn('No model selected.');
+    }
+  };
 </script>
 
 <section>
   <h3>{$t('page.foodScan.debug.title')}</h3>
-  <Select
-    class="select_model"
-    bind:value={selectedModel}
-    label="Select Model"
-    on:SMUISelect:change={() => dispatch('reloadModel')}
-  >
-    {#each availableModels as model}
-      <Option value={model}
-        >{model?.model_id} ({model.vram_required_MB}MB VRAM / {model?.overrides
-          ?.context_window_size} window size)</Option
-      >
-    {/each}
-  </Select>
 
-  <p>{$t('page.foodScan.debug.systemPrompt')}</p>
+  <p class="mt1">Model</p>
+  <ComboBox
+    title="Select Model"
+    placeholder="Select a model"
+    items={availableModelsComboList}
+    selectedId={selectedModelId}
+    on:select={(event) => {
+      selectModel(event);
+      dispatch('reloadModel');
+    }}
+    class="select_model"
+  />
+
+  <p class="mt1">{$t('page.foodScan.debug.systemPrompt')}</p>
   <Tile>
     {systemPromptText}
   </Tile>
 
-  <p>{$t('page.foodScan.debug.userPrompt')}</p>
+  <p class="mt1">{$t('page.foodScan.debug.userPrompt')}</p>
   <Tile>
     {userPromptText}
   </Tile>
 
-  <p>{$t('page.foodScan.debug.stats.title')}</p>
+  <p class="mt1">{$t('page.foodScan.debug.stats.title')}</p>
   <table>
     <tr>
       <th>{$t('page.foodScan.debug.stats.ocr')}</th>

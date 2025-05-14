@@ -78,7 +78,6 @@
       );
     }
   }
-
   async function generateUserPrompt() {
     console.log('Generating user prompt with ocr.');
     const ocrResponse = await executeOcrProcess(inputFiles[0]);
@@ -91,7 +90,6 @@
     });
     userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
-
   async function promptLLM(followUpQuestion: string = '') {
     console.log('Prompting LLM...');
     const promptStartTime = Date.now();
@@ -144,7 +142,6 @@
 
     loading = false;
   }
-
   async function reloadModel() {
     console.log('Reloading model.');
     engineReady = false;
@@ -163,7 +160,6 @@
       console.error('Failed to create MLCEngine:', error);
     }
   }
-
   async function askFollowUpQuestion(question: string) {
     loading = true;
     promptLLM(question);
@@ -223,6 +219,28 @@
         </form>
       </div>
 
+      <FormField>
+        <Checkbox bind:checked={debugInfoActive} />
+        <p slot="label">{$t('page.foodScan.technicalInfo')}</p>
+      </FormField>
+
+      {#if debugInfoActive}
+        <DebugInformation
+          bind:selectedModel
+          {availableModels}
+          {systemPromptText}
+          {userPromptText}
+          {ocrResponseTimeText}
+          {llmResponseTimeText}
+          {completionTokens}
+          {promptTokens}
+          {totalTokens}
+          {prefillTokensPerS}
+          {decodeTokensPerS}
+          on:reloadModel={reloadModel}
+        />
+      {/if}
+
       {#if inputFiles?.length > 0}
         <ContentOutput
           {imagePreviewSrc}
@@ -240,28 +258,6 @@
               </Text>
             </Chip>
           </Set>
-        {/if}
-
-        <FormField>
-          <Checkbox bind:checked={debugInfoActive} />
-          <p slot="label">{$t('page.foodScan.technicalInfo')}</p>
-        </FormField>
-
-        {#if debugInfoActive}
-          <DebugInformation
-            {selectedModel}
-            {availableModels}
-            {systemPromptText}
-            {userPromptText}
-            {ocrResponseTimeText}
-            {llmResponseTimeText}
-            {completionTokens}
-            {promptTokens}
-            {totalTokens}
-            {prefillTokensPerS}
-            {decodeTokensPerS}
-            on:reloadModel={reloadModel}
-          />
         {/if}
       {/if}
     {/if}
