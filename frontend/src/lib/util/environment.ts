@@ -7,7 +7,7 @@ export const environment = {
 async function fetchBackendUrl(): Promise<string> {
   let configResponse;
   try {
-    configResponse = await fetch('/config.json');
+    configResponse = await fetch('/config/config.json');
     if (!configResponse.ok) {
       console.warn(
         `Failed to fetch backend URL from config.json. This is no issue at all. The application will use the default URL instead.`,

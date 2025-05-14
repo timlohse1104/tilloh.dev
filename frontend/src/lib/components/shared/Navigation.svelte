@@ -90,7 +90,6 @@
         selectedIndexFirstHalf = 0;
       } else {
         selectedIndexSecondHalf = -1;
-        console.log('bar');
       }
       selectedIndex = 0;
       selectedIndexOneThird = 0;

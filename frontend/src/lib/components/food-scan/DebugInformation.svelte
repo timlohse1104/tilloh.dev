@@ -26,9 +26,6 @@
     ? availableModels.findIndex((model) => model === selectedModel)
     : undefined;
 
-  $: if (selectedModel) console.log('selectedModel', selectedModel);
-  $: if (selectedModelId) console.log('selectedModelId', selectedModelId);
-
   const selectModel = (event) => {
     const { selectedId } = event.detail;
     if (selectedId) {

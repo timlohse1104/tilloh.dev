@@ -20,8 +20,6 @@
     | 'danger-ghost' = 'tertiary';
   export let customClasses = '';
   export let customStyle = '';
-
-  $: if (value) console.log('value changed to', value);
 </script>
 
 {#if $initialized}

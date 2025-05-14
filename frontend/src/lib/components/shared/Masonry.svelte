@@ -13,7 +13,6 @@
   }
 
   export const refreshLayout = async () => {
-    // console.log("REFRESHING LAYOUT")
     grids.forEach(async (grid) => {
       /* get the post relayout number of columns */
       let ncol = getComputedStyle(grid._el).gridTemplateColumns.split(

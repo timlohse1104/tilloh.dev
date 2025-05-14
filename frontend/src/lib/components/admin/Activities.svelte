@@ -88,7 +88,6 @@
           on:close={(e) => {
             timeout = undefined;
             copiedId = undefined;
-            console.log(e.detail.timeout);
           }}
         />
       </div>

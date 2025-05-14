@@ -151,7 +151,6 @@
           on:close={(e) => {
             timeout = undefined;
             notificationInfoText = undefined;
-            console.log(e.detail.timeout);
           }}
         />
       </div>

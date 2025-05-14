@@ -116,15 +116,6 @@
     justify-content: center;
   }
 
-  button {
-    all: unset;
-    cursor: pointer;
-    display: block;
-    margin: 0;
-    padding: 0.5rem;
-    line-height: 0;
-  }
-
   aside {
     background-color: var(--cds-ui-background);
     color: var(--cds-text-01);

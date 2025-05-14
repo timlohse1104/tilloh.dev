@@ -104,7 +104,6 @@
   };
 
   const dropLink = (originLinkId) => {
-    console.log('originLinkId', originLinkId);
     let currPreset = $localPresetStore;
     let originFolderIndex;
     let originLinkIndex;
@@ -118,9 +117,6 @@
         return true;
       }
     });
-
-    console.log('originFolderIndex', originFolderIndex);
-    console.log('originLinkIndex', originLinkIndex);
 
     const originLink = currPreset.Folders[originFolderIndex].links.splice(
       originLinkIndex,

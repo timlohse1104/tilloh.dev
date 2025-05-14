@@ -54,9 +54,4 @@
     align-items: center;
     flex: 0.2;
   }
-
-  a {
-    text-decoration: none;
-    color: black;
-  }
 </style>

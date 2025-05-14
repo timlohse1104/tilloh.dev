@@ -68,7 +68,6 @@
       class="inline_notification"
       on:close={(e) => {
         timeout = undefined;
-        console.log(e.detail.timeout);
         token = '';
       }}
     />
