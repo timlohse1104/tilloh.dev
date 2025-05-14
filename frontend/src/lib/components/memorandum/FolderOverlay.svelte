@@ -8,8 +8,8 @@
   import {
     Checkbox,
     CopyButton,
-    Slider as CSlider,
     Modal,
+    Slider,
     TextInput,
   } from 'carbon-components-svelte';
   import { PaintBrush, Save } from 'carbon-icons-svelte';
@@ -133,28 +133,28 @@
     </Checkbox>
 
     {#if customColorActive}
-      <CSlider
+      <Slider
         bind:value={customColor.r}
         labelText={$t('page.shared.red')}
         min={0}
         max={255}
         fullWidth
       />
-      <CSlider
+      <Slider
         bind:value={customColor.g}
         labelText={$t('page.shared.green')}
         min={0}
         max={255}
         fullWidth
       />
-      <CSlider
+      <Slider
         bind:value={customColor.b}
         labelText={$t('page.shared.blue')}
         min={0}
         max={255}
         fullWidth
       />
-      <CSlider
+      <Slider
         bind:value={customColor.a}
         labelText="Alpha"
         min={0}
