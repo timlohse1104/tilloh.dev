@@ -8,7 +8,7 @@
   export let helperText = '';
   export let labelText = '';
   export let icon;
-  export let iconDescription = '';
+  export let iconDescription = 'TODO';
   export let action;
   export let kind:
     | 'primary'
@@ -20,6 +20,8 @@
     | 'danger-ghost' = 'tertiary';
   export let customClasses = '';
   export let customStyle = '';
+
+  $: if (value) console.log('value changed to', value);
 </script>
 
 {#if $initialized}

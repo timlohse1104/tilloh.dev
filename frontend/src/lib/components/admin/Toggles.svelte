@@ -91,7 +91,7 @@
         <span>({$adminTogglesStore.length})</span>
       </h2>
       <InputWithButton
-        value={newToogleName}
+        bind:value={newToogleName}
         placeholder={$t('page.admin.toggles.newToggle')}
         icon={Add}
         action={addToggle}

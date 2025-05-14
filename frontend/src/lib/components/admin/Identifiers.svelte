@@ -58,7 +58,7 @@
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
       <InputWithButton
-        value={newIdentifierName}
+        bind:value={newIdentifierName}
         placeholder={$t('page.admin.toggles.newIdentifier')}
         icon={Add}
         action={addIdentifier}

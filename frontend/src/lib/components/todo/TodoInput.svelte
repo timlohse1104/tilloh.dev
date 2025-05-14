@@ -8,7 +8,10 @@
 
   let newTodoName = '';
 
+  $: if (newTodoName) console.log('value changed to', newTodoName);
+
   const saveTodo = () => {
+    console.log('saving todo', newTodoName);
     if (newTodoName) {
       todoStore.update((n) => {
         n[listIndex].todos.push({ title: newTodoName, done: false });
@@ -18,7 +21,6 @@
       newTodoName = '';
     }
   };
-
   const addToHistory = (todoName) => {
     todoStore.update((n) => {
       n[listIndex].history = Array.from(
@@ -32,11 +34,12 @@
 {#if $initialized}
   <section>
     <InputWithButton
-      value={newTodoName}
+      bind:value={newTodoName}
       placeholder="Neuer Eintrag"
       labelText={$t('page.todos.newTodo')}
       icon={Add}
       action={saveTodo}
+      customClasses="mt2"
     />
   </section>
 {:else}
