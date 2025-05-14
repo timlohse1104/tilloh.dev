@@ -1,9 +1,8 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import Button, { Label } from '@smui/button';
-  import IconButton, { Icon } from '@smui/icon-button';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import { Button as CButton, Tag } from 'carbon-components-svelte';
+  import { List, Menu, TrashCan } from 'carbon-icons-svelte';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
@@ -23,11 +22,76 @@
       return list;
     });
   };
-
   const clearHistory = () => {
     todoStore.update((list) => {
       list[listIndex].history = [];
       return list;
+    });
+  };
+  const selectRandomTagColor = ():
+    | 'red'
+    | 'magenta'
+    | 'purple'
+    | 'blue'
+    | 'cyan'
+    | 'teal'
+    | 'green'
+    | 'gray'
+    | 'cool-gray'
+    | 'warm-gray'
+    | 'high-contrast'
+    | 'outline' => {
+    const colors: (
+      | 'red'
+      | 'magenta'
+      | 'purple'
+      | 'blue'
+      | 'cyan'
+      | 'teal'
+      | 'green'
+      | 'gray'
+      | 'cool-gray'
+      | 'warm-gray'
+      | 'high-contrast'
+      | 'outline'
+    )[] = [
+      'red',
+      'magenta',
+      'purple',
+      'blue',
+      'cyan',
+      'teal',
+      'green',
+      'gray',
+      'cool-gray',
+      'warm-gray',
+      'high-contrast',
+      'outline',
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+  const removeEntryFromHistory = (event) => {
+    const tagText =
+      event.explicitOriginalTarget.parentElement.parentElement.textContent.trim() ||
+      '';
+
+    if (!tagText) return;
+
+    todoStore.update((list) => {
+      list[listIndex].history = list[listIndex].history.filter((entry) => {
+        return entry !== tagText;
+      });
+      return list;
+    });
+  };
+  const readdTodoFromHistory = (event) => {
+    const tagText = event.target.textContent.trim() || '';
+
+    if (!tagText) return;
+
+    todoStore.update((n) => {
+      n[listIndex].todos.push({ title: tagText, done: false });
+      return [...n];
     });
   };
 </script>
@@ -47,24 +111,29 @@
           <hr />
           <div class="history_area">
             {#if currentList?.history?.length > 0}
+              <h4 class="mt1">{$t('page.todos.list.history')}</h4>
               <div class="history_list">
-                <Wrapper>
-                  <Button color="secondary" variant="outlined">
-                    <Icon class="material-icons">info</Icon>
-                    <Label>{$t('page.todos.list.history')}</Label>
-                    <Tooltip xPos="end" yPos="detected">
-                      {currentList?.history}
-                    </Tooltip>
-                  </Button>
-                </Wrapper>
-                <IconButton
-                  color="secondary"
-                  style="margin-left: auto;"
-                  size="button"
+                <div class="history_entry_list">
+                  {#each currentList?.history as entry}
+                    <Tag
+                      filter
+                      interactive
+                      type={selectRandomTagColor()}
+                      on:close={removeEntryFromHistory}
+                    >
+                      <p on:click={readdTodoFromHistory}>
+                        {entry}
+                      </p>
+                    </Tag>
+                  {/each}
+                </div>
+                <CButton
+                  kind="danger"
+                  size="small"
+                  iconDescription="TODO"
+                  icon={TrashCan}
                   on:click={clearHistory}
-                >
-                  <Icon class="material-icons">delete</Icon>
-                </IconButton>
+                />
               </div>
             {:else}
               <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
@@ -78,13 +147,13 @@
         {#if !currentList}
           <h1 style="margin-top:2rem;">
             {$t('page.todos.list.emptyTitle1')}
-            <Icon class="material-icons">list</Icon>
+            <List />
             {$t('page.todos.list.emptyTitle2')}
           </h1>
           <div style="display:flex;flex-direction:column;align-items:center;">
             <p style="margin-top:2rem;">
               {$t('page.todos.list.emptySubtitle')}
-              <Icon class="material-icons">menu</Icon>
+              <Menu />
             </p>
           </div>
         {:else}
@@ -157,7 +226,11 @@
   .history_list {
     display: flex;
     align-items: center;
-    margin-top: var(--default_padding);
+    justify-content: space-between;
+  }
+
+  .history_entry_list {
+    display: flex;
   }
 
   hr {

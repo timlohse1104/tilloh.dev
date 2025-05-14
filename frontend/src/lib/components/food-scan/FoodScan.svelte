@@ -208,10 +208,7 @@
         {#if llmResult}
           <div class="followup_tags">
             {#each followUpQuestions as question}
-              <Tag
-                on:click={() => askFollowUpQuestion(question)}
-                class="followup_question_tags"
-              >
+              <Tag interactive on:click={() => askFollowUpQuestion(question)}>
                 {question}
               </Tag>
             {/each}
@@ -266,10 +263,6 @@
     justify-content: center;
     margin: 0 2rem;
     padding: 2rem;
-  }
-
-  :global(.followup_question_tags:hover) {
-    cursor: pointer;
   }
 
   .warning_sign {

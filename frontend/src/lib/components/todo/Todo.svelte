@@ -32,7 +32,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 0.5rem;
   }
 
   .striked {
