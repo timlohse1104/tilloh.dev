@@ -3,10 +3,11 @@
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
   import Card from '@smui/card';
-  import Chip, { Set, Text } from '@smui/chips';
+  import { Set } from '@smui/chips';
   import {
     Checkbox,
     FileUploaderDropContainer,
+    Tag,
   } from 'carbon-components-svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
@@ -230,11 +231,9 @@
 
         {#if llmResult}
           <Set chips={followUpQuestions} let:chip>
-            <Chip {chip} on:click={() => askFollowUpQuestion(chip)}>
-              <Text>
-                {chip}
-              </Text>
-            </Chip>
+            <Tag on:click={() => askFollowUpQuestion(chip)}>
+              {chip}
+            </Tag>
           </Set>
         {/if}
       {/if}

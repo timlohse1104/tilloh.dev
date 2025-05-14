@@ -39,8 +39,9 @@ export class SharedOcrService {
     const body = new FormData();
     body.set('scale', 'true');
     // body.set('isTable', 'true'); // TODO: Enable table extraction
-    body.set('OCREngine', '2');
-    body.set('filetype', file.mimetype);
+    body.set('OCREngine', '1');
+    // body.set('filetype', file.mimetype);
+    console.log('filetype', file.mimetype);
     body.set(
       'file',
       new Blob([file.buffer], { type: file.mimetype }),
