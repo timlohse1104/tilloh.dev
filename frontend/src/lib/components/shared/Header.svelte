@@ -27,7 +27,9 @@
 <section>
   <div class="header_box">
     <Button
-      kind="tertiary"
+      kind="ghost"
+      iconDescription="TODO"
+      tooltipAlignment="end"
       href={applicationRoutes.home.path}
       class="home_button"
     >
@@ -66,7 +68,7 @@
   .header_box {
     display: flex;
     justify-content: space-between;
-    padding: 1em 1em;
+    padding: 1rem 1rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: var(--white30) 1px solid;
   }

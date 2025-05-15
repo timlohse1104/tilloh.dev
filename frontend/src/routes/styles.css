@@ -33,12 +33,12 @@ p {
 }
 
 a {
-  color: green;
+  color: darkgreen;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: green;
 }
 
 h1 {
