@@ -64,24 +64,28 @@
 
   <p class="mt1">{$t('page.foodScan.debug.stats.title')}</p>
   <table>
-    <tr>
-      <th>{$t('page.foodScan.debug.stats.ocr')}</th>
-      <th>{$t('page.foodScan.debug.stats.llm')}</th>
-      <th>{$t('page.foodScan.debug.stats.completion')}</th>
-      <th>{$t('page.foodScan.debug.stats.prompt')}</th>
-      <th>{$t('page.foodScan.debug.stats.total')}</th>
-      <th>{$t('page.foodScan.debug.stats.prefill')}</th>
-      <th>{$t('page.foodScan.debug.stats.decode')}</th>
-    </tr>
-    <tr>
-      <td>{ocrResponseTimeText}</td>
-      <td>{llmResponseTimeText}</td>
-      <td>{completionTokens}</td>
-      <td>{promptTokens}</td>
-      <td>{totalTokens}</td>
-      <td>{prefillTokensPerS}</td>
-      <td>{decodeTokensPerS}</td>
-    </tr>
+    <thead>
+      <tr>
+        <th>{$t('page.foodScan.debug.stats.ocr')}</th>
+        <th>{$t('page.foodScan.debug.stats.llm')}</th>
+        <th>{$t('page.foodScan.debug.stats.completion')}</th>
+        <th>{$t('page.foodScan.debug.stats.prompt')}</th>
+        <th>{$t('page.foodScan.debug.stats.total')}</th>
+        <th>{$t('page.foodScan.debug.stats.prefill')}</th>
+        <th>{$t('page.foodScan.debug.stats.decode')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{ocrResponseTimeText}</td>
+        <td>{llmResponseTimeText}</td>
+        <td>{completionTokens}</td>
+        <td>{promptTokens}</td>
+        <td>{totalTokens}</td>
+        <td>{prefillTokensPerS}</td>
+        <td>{decodeTokensPerS}</td>
+      </tr>
+    </tbody>
   </table>
 </section>
 

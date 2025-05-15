@@ -126,10 +126,3 @@
 {:else}
   <section>Locale initializing...</section>
 {/if}
-
-<style lang="scss">
-  .list_button_group {
-    display: flex;
-    gap: 0.25rem;
-  }
-</style>

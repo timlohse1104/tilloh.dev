@@ -131,15 +131,6 @@
     gap: 1rem;
   }
 
-  .sort_info_icon {
-    display: none;
-    cursor: pointer;
-
-    @media #{$phone} {
-      display: block;
-    }
-  }
-
   .uno_menu {
     display: flex;
     justify-content: space-between;
