@@ -59,9 +59,11 @@
     refreshPresetStore();
 
     orderFixedIcon = await import(
+      /* @vite-ignore */
       `/node_modules/carbon-icons-svelte/lib/${orders[0].icon}.svelte`
     ).then((icon) => icon.default);
     orderDynamicIcon = await import(
+      /* @vite-ignore */
       `/node_modules/carbon-icons-svelte/lib/${orders[1].icon}.svelte`
     ).then((icon) => icon.default);
   });
