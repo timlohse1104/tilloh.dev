@@ -14,14 +14,6 @@
   $: modalStates = () => {
     let classes = '';
 
-    console.log('newListName', newListName);
-    console.log('!newListName', !newListName);
-    console.log('newListEmoji', newListEmoji);
-    console.log('isEmoji(newListEmoji)', isEmoji(newListEmoji));
-    console.log(
-      "(!isEmoji(newListEmoji) && newListEmoji !== '')",
-      !isEmoji(newListEmoji) && newListEmoji !== '',
-    );
     if (!newListName || (!isEmoji(newListEmoji) && newListEmoji !== ''))
       classes += 'modal_unsavable';
     if ($listOverlayOptionsStore.type === 'new')
