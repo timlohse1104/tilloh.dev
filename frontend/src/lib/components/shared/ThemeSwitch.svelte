@@ -11,7 +11,7 @@
     <Theme
       render="toggle"
       toggle={{
-        themes: ['g10', 'g80'],
+        themes: ['g10', 'g100'],
         labelA: '',
         labelB: '',
         hideLabel: true,

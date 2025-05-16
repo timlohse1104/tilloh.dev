@@ -213,6 +213,7 @@
     text-decoration: none;
     display: block;
     padding: 1rem;
+    color: var(--cds-text-01);
   }
 
   footer {

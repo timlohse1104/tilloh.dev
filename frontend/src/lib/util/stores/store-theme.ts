@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
 const localStorageKey = '__carbon-theme';
-const defaultValue = 'g80';
+const defaultValue = 'g100';
 
 const getInitialValue = () => {
   if (browser) {
