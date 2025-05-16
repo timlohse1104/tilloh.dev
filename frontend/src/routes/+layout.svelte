@@ -5,7 +5,7 @@
   import { backgroundStore } from '$lib/util/stores/store-background';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
-  import { themeStore } from '$lib/util/stores/store-theme';
+  import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
   import 'carbon-components-svelte/css/all.css';
   import './styles.css';
 
@@ -14,7 +14,7 @@
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
   $: theme = $themeStore;
   $: document.documentElement.setAttribute('theme', theme);
-  $: getAppClasses = `app background-${$backgroundStore}`;
+  $: getAppClasses = `app background_${$backgroundStore}_${$themeStore === darkThemeValue ? 'dark' : 'light'}`;
 </script>
 
 <div class={getAppClasses}>

@@ -1,4 +1,9 @@
 <script lang="ts">
+  import {
+    darkThemeValue,
+    lightThemeValue,
+    themeStore,
+  } from '$lib/util/stores/store-theme';
   import { initialized } from '$lib/util/translations';
   import Theme from 'carbon-components-svelte/src/Theme/Theme.svelte';
 
@@ -9,9 +14,10 @@
   <section style={customStyle}>
     <span>☀️</span>
     <Theme
+      bind:theme={$themeStore}
       render="toggle"
       toggle={{
-        themes: ['g10', 'g100'],
+        themes: [lightThemeValue, darkThemeValue],
         labelA: '',
         labelB: '',
         hideLabel: true,

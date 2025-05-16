@@ -10,11 +10,37 @@
   --trans: rgba(0, 0, 0, 0);
   --default_padding: 1.2rem;
   --menu_left: 2rem;
+
+  --color_bg_0: rgb(0, 42, 82);
+  --color_bg_1: hsl(208, 100%, 8%);
+  --color_bg_2: hsl(223, 100%, 1%);
+  --color_bg_light_1: rgb(220, 220, 230);
+  --color_bg_light_0: hsl(220, 50%, 60%);
+  --color_bg_light_2: hsl(220, 0%, 100%);
 }
 
 body {
   margin: 0;
   overflow: hidden;
+}
+
+.background_gradient_dark {
+  background-size: 100vw 100vh !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--color_bg_0) 0%,
+    var(--color_bg_1) 25%,
+    var(--color_bg_2) 75%
+  ) !important;
+}
+.background_gradient_light {
+  background-size: 100vw 100vh !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--color_bg_light_0) 0%,
+    var(--color_bg_light_1) 40%,
+    var(--color_bg_light_2) 100%
+  ) !important;
 }
 
 h1,
