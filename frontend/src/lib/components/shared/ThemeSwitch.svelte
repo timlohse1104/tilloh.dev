@@ -36,7 +36,6 @@
   section {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
     font-size: 0.9rem;
 
     span {

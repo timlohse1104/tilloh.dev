@@ -27,14 +27,14 @@
 
 <style lang="scss">
   :global(.admin_dashboard_card) {
-    width: 9rem;
-    height: 9rem;
+    width: 10rem;
+    height: 10rem;
     display: flex;
   }
 
   :global(.admin_dashboard_card_content) {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 40% 60%;
     width: 100%;
     height: 100%;
     padding: 0;
