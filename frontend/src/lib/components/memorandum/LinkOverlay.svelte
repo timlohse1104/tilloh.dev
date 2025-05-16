@@ -2,6 +2,7 @@
   import { isEnter } from '$lib/util/helper.ts';
   import { HyperlinkClass } from '$lib/util/memorandum/classes.js';
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { linkOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
@@ -11,15 +12,9 @@
   export let newLinkName = '';
   export let newLinkUrl = '';
 
-  let addLinkButton;
   let type = $linkOverlayOptionsStore.currLinkName ? 'edit' : 'new';
 
   $: submittable = newLinkName && newLinkUrl;
-  $: if (addLinkButton) {
-    addLinkButton.$$set({
-      disabled: !submittable,
-    });
-  }
 
   const closeOverlay = () => {
     $linkOverlayOptionsStore.showOverlay = false;
@@ -42,6 +37,7 @@
 
       $localPresetStore = currPreset;
       closeOverlay();
+      celebrate();
     }
   };
   const editLink = () => {

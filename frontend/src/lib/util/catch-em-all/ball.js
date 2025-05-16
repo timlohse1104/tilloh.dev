@@ -63,6 +63,7 @@ export default class Ball {
     }
 
     if (detectCollision(this, this.game.paddle)) {
+      this.increaseBallSpeed();
       this.speed.y = -this.speed.y;
       this.position.y = this.game.paddle.position.y - this.size;
       this.collisions.paddle++;
@@ -75,7 +76,15 @@ export default class Ball {
       this.position.x,
       this.position.y,
       this.size,
-      this.size
+      this.size,
     );
+  }
+
+  increaseBallSpeed() {
+    const randomSpeedIncreaseFactor = getRandomNumberBetween(1, 9);
+    const multiplier = Number(`1.0${randomSpeedIncreaseFactor}`);
+
+    this.speed.x *= multiplier;
+    this.speed.y *= multiplier;
   }
 }

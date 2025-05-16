@@ -5,7 +5,7 @@ export default class Paddle {
     this.width = 75;
     this.height = 20;
 
-    this.maxSpeed = 20;
+    this.maxSpeed = 50;
     this.speed = 0;
 
     this.position = {
@@ -24,7 +24,7 @@ export default class Paddle {
     ctx.fillText(
       `${this.game.lifes} Versuche`,
       this.position.x + this.width / 2,
-      this.position.y + this.height - 5
+      this.position.y + this.height - 5,
     );
   }
 

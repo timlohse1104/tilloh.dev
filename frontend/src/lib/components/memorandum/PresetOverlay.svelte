@@ -1,9 +1,6 @@
 <script lang="ts">
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
-  import {
-    isConfettiVisibleStore,
-    resetConfettiStore,
-  } from '$lib/util/stores/stores-global';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { presetOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
@@ -22,7 +19,7 @@
   let timeout = undefined;
 
   $: showNotification = timeout !== undefined;
-  $: showNotification ? ($isConfettiVisibleStore = true) : resetConfettiStore();
+  $: if (showNotification) celebrate();
   $: if (files) {
     const file = files[0];
 

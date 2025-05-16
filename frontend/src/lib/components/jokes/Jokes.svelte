@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createJoke, getRandomJoke } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
@@ -37,6 +38,7 @@
 
     if (createResponse?._id) {
       timeout = 3_000;
+      celebrate();
     }
 
     newJokeText = '';

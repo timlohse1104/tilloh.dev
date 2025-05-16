@@ -3,6 +3,7 @@
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
@@ -36,6 +37,7 @@
     });
 
     closeOverlay();
+    celebrate();
   };
   const updateList = () => {
     todoStore.update((n) => {

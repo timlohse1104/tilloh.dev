@@ -9,6 +9,7 @@
   import {
     confettiAmount,
     confettiDuration,
+    confettiGravity,
     isConfettiVisibleStore,
   } from '$lib/util/stores/stores-global';
   import { confetti } from '@neoconfetti/svelte';
@@ -32,6 +33,7 @@
           stageWidth: window.visualViewport.width,
           duration: confettiDuration,
           particleCount: confettiAmount,
+          force: confettiGravity,
         }}
       ></div>
     </div>
