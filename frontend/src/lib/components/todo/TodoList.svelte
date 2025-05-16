@@ -1,6 +1,8 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
+  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
+  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
   import List from 'carbon-icons-svelte/lib/List.svelte';
@@ -100,10 +102,7 @@
 </script>
 
 {#if $initialized}
-  <section
-    class="todo_list"
-    style="overflow:hidden;display:flex;align-items:center;"
-  >
+  <section>
     <div class="list_area">
       {#if currentList || currentList?.todos?.length > 0}
         <div class="list_header">
@@ -113,52 +112,55 @@
           </h2>
           <hr />
           <div class="history_area">
-            {#if currentList?.history?.length > 0}
-              <h4 class="mt1">{$t('page.todos.list.history')}</h4>
-              <div class="history_list">
-                <div class="history_entry_list">
-                  {#each currentList?.history as entry}
-                    <Tag
-                      filter
-                      interactive
-                      type={selectRandomTagColor()}
-                      on:close={removeEntryFromHistory}
-                    >
-                      <button
-                        on:click={readdTodoFromHistory}
-                        class="tag_button"
-                      >
-                        {entry}
-                      </button>
-                    </Tag>
-                  {/each}
-                </div>
-                <Button
-                  kind="danger"
-                  size="small"
-                  iconDescription={$t('page.todos.deleteHistroy')}
-                  tooltipAlignment="end"
-                  icon={TrashCan}
-                  on:click={clearHistory}
-                />
-              </div>
-            {:else}
-              <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
-            {/if}
+            <Accordion>
+              <AccordionItem title={$t('page.todos.list.history')}>
+                {#if currentList?.history?.length > 0}
+                  <div class="history_list">
+                    <div class="history_entry_list">
+                      {#each currentList?.history as entry}
+                        <Tag
+                          filter
+                          interactive
+                          type={selectRandomTagColor()}
+                          on:close={removeEntryFromHistory}
+                        >
+                          <button
+                            on:click={readdTodoFromHistory}
+                            class="tag_button"
+                          >
+                            {entry}
+                          </button>
+                        </Tag>
+                      {/each}
+                    </div>
+                    <Button
+                      kind="danger"
+                      size="small"
+                      iconDescription={$t('page.todos.deleteHistroy')}
+                      tooltipAlignment="end"
+                      icon={TrashCan}
+                      on:click={clearHistory}
+                    />
+                  </div>
+                {:else}
+                  <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
+                {/if}
+              </AccordionItem>
+            </Accordion>
           </div>
           <TodoInput {listIndex} />
         </div>
       {/if}
 
-      <div class="list_content">
+      <div class="mt1 list_content">
         {#if !currentList}
-          <h1 style="margin-top:2rem;">
+          <h1 class="mt2">
             {$t('page.todos.list.emptyTitle1')}
             <List />
             {$t('page.todos.list.emptyTitle2')}
           </h1>
           <div style="display:flex;flex-direction:column;align-items:center;">
-            <p style="margin-top:2rem;">
+            <p class="mt2">
               {$t('page.todos.list.emptySubtitle')}
               <Menu />
             </p>
@@ -188,9 +190,11 @@
     padding: 0;
   }
 
-  .todo_list {
-    display: flex;
+  section {
     flex-direction: column;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
   }
 
   .list_area {
@@ -212,9 +216,6 @@
   .list_content {
     display: flex;
     flex-direction: column;
-    margin-top: calc(var(--default_padding) * 2);
-    height: 75vh;
-    overflow-y: auto;
 
     @media #{$tablet} {
       height: 65vh;

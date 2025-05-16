@@ -38,7 +38,7 @@
       tooltipAlignment="end"
       icon={Add}
       action={saveTodo}
-      customClasses="mt2"
+      customClasses="mt1"
     />
   </section>
 {:else}
