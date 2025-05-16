@@ -177,10 +177,12 @@ button:focus:not(:focus-visible) {
   align-items: stretch;
   justify-content: center;
 }
-
 .bx--content-switcher-btn {
   max-width: 225px;
   border: 0.0625rem solid var(--cds-border-inverse, #161616);
+}
+.bx--content-switcher-btn::before {
+  display: none;
 }
 
 /* Carbon Accordion Overrides - Admin Lists*/
@@ -190,7 +192,6 @@ button:focus:not(:focus-visible) {
   gap: 1rem;
   padding-left: calc(var(--default_padding) / 2);
 }
-
 .admin_list_item_content {
   text-align: left;
   display: flex;
@@ -200,7 +201,6 @@ button:focus:not(:focus-visible) {
   padding-right: calc(var(--default_padding) / 2);
   width: calc(100vw - var(--default_padding) * 2);
 }
-
 .admin_list_button_group {
   display: flex;
   gap: 0.25rem;

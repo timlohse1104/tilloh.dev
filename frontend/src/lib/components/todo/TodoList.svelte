@@ -194,14 +194,14 @@
   }
 
   .list_area {
-    width: 50%;
+    width: 75%;
 
     @media #{$tablet} {
-      width: 75%;
+      width: 100%;
     }
 
     @media #{$phone} {
-      width: 80%;
+      width: 100%;
     }
   }
 
@@ -232,12 +232,13 @@
 
   .history_list {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
   }
 
   .history_entry_list {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .tag_button {
