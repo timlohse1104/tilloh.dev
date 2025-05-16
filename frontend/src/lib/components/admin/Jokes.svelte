@@ -80,7 +80,7 @@
                 <Button
                   kind="tertiary"
                   size="field"
-                  iconDescription="TODO"
+                  iconDescription={$t('page.admin.jokes.approval')}
                   icon={ThumbsUp}
                   on:click={() => verifyJoke(joke._id)}
                 />
@@ -89,13 +89,14 @@
                 text={joke._id}
                 feedback="✅"
                 feedbackTimeout={0}
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.jokes.idCopy')}
                 on:click={() => triggerNotification(joke._id)}
               />
               <Button
                 kind="danger"
                 size="field"
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.jokes.deleteTitle')}
+                tooltipAlignment="end"
                 icon={TrashCan}
                 on:click={() => {
                   dispatch('removeJoke', {

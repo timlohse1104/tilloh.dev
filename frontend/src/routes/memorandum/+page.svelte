@@ -81,14 +81,16 @@
       <div class="order_buttons">
         <Button
           kind="ghost"
-          iconDescription="TODO"
+          iconDescription={$t('page.memorandum.orders.fixed')}
+          tooltipAlignment="start"
           icon={orderFixedIcon}
           class={order === orders[0] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[0].id)}
         />
         <Button
           kind="ghost"
-          iconDescription="TODO"
+          iconDescription={$t('page.memorandum.orders.dynamic')}
+          tooltipAlignment="start"
           icon={orderDynamicIcon}
           class={order === orders[1] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[1].id)}
@@ -97,7 +99,7 @@
 
       <Button
         kind="ghost"
-        iconDescription="TODO"
+        iconDescription={$t('page.memorandum.openPresetMenu')}
         icon={ChangeCatalog}
         on:click={showPresetOverlay}
       />

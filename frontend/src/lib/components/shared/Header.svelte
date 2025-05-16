@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
+  import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import GlobalMenu from './GlobalMenu.svelte';
 
@@ -28,7 +29,7 @@
   <div class="header_box">
     <Button
       kind="ghost"
-      iconDescription="TODO"
+      iconDescription={$t('page.shared.toggledSiteBackButtonText')}
       tooltipAlignment="end"
       href={applicationRoutes.home.path}
       class="home_button"

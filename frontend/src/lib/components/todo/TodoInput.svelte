@@ -34,6 +34,8 @@
       bind:value={newTodoName}
       placeholder="Neuer Eintrag"
       labelText={$t('page.todos.newTodo')}
+      iconDescription={$t('page.todos.addTodo')}
+      tooltipAlignment="end"
       icon={Add}
       action={saveTodo}
       customClasses="mt2"

@@ -170,7 +170,10 @@
             placeholder={$t('page.memorandum.folder.currentValues')}
             helperText="Format: 'r,g,b,a'"
           />
-          <CopyButton text={customColorString} iconDescription="TODO" />
+          <CopyButton
+            text={customColorString}
+            iconDescription={$t('page.memorandum.folder.copyColorValues')}
+          />
         </div>
         <TextInput
           bind:value={customColorInput}

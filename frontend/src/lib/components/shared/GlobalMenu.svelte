@@ -22,7 +22,7 @@
 
 <Button
   kind="tertiary"
-  iconDescription="TODO"
+  iconDescription={$t('page.shared.button.globalMenu')}
   icon={Menu}
   popovertarget="hamburger-menu"
   tooltipPosition="left"
@@ -68,6 +68,7 @@
     <footer>
       <Button
         kind="tertiary"
+        iconDescription={$t('page.shared.button.github')}
         href="https://github.com/timlohse1104"
         target="_blank"
         class="global_menu_footer_buttons"
@@ -77,6 +78,7 @@
       <p>{$t('page.shared.madeByText')}</p>
       <Button
         kind="tertiary"
+        iconDescription={$t('page.shared.button.stadtwerk')}
         href="https://stadtwerk.org"
         target="_blank"
         class="global_menu_footer_buttons"

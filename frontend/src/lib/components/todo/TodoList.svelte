@@ -136,7 +136,8 @@
                 <Button
                   kind="danger"
                   size="small"
-                  iconDescription="TODO"
+                  iconDescription={$t('page.todos.deleteHistroy')}
+                  tooltipAlignment="end"
                   icon={TrashCan}
                   on:click={clearHistory}
                 />

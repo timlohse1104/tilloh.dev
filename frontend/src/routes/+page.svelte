@@ -5,7 +5,7 @@
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
-  import { setLocale } from '$lib/util/translations';
+  import { setLocale, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
   import { onMount } from 'svelte';
@@ -36,7 +36,12 @@
   <SearchBar />
 
   <div class="mt2">
-    <Button kind="tertiary" href={settings.path} icon={Settings}>
+    <Button
+      kind="tertiary"
+      iconDescription={$t('page.shared.button.settings')}
+      href={settings.path}
+      icon={Settings}
+    >
       {settings.name[locale]}
     </Button>
   </div>

@@ -1,7 +1,6 @@
 @use '../lib/styles/variables.scss' as *;
 
 /* My variables */
-/* TODO: Add global variables for page sizing*/
 :root {
   --white30: rgba(255, 255, 255, 0.3);
   --lightgrey80: rgba(150, 150, 150, 0.8);
@@ -11,10 +10,6 @@
   --trans: rgba(0, 0, 0, 0);
   --default_padding: 1.2rem;
   --menu_left: 2rem;
-}
-
-/* General styling */
-:root {
 }
 
 body {

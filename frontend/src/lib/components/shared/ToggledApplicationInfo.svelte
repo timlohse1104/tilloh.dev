@@ -12,7 +12,12 @@
       <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
       <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
       <div class="mt2">
-        <Button kind="tertiary" icon={Home} href="/">
+        <Button
+          iconDescription={$t('page.shared.toggledSiteBackButtonText')}
+          kind="tertiary"
+          icon={Home}
+          href="/"
+        >
           {$t('page.shared.toggledSiteBackButtonText')}
         </Button>
       </div>

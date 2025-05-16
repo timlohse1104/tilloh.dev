@@ -91,6 +91,8 @@
       <InputWithButton
         bind:value={newToogleName}
         placeholder={$t('page.admin.toggles.newToggle')}
+        iconDescription={$t('page.admin.toggles.addToggle')}
+        tooltipAlignment="end"
         icon={Add}
         action={addToggle}
       />
@@ -123,13 +125,14 @@
                 text={toggle._id}
                 feedback="✅"
                 feedbackTimeout={0}
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.toggles.idCopy')}
                 on:click={() => triggerNotification(toggle._id)}
               />
               <Button
                 kind="danger"
                 size="field"
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.toggles.deleteTitle')}
+                tooltipAlignment="end"
                 icon={TrashCan}
                 on:click={() => dispatch('removeToggle', { id: toggle._id })}
               />

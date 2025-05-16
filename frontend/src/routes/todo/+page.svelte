@@ -82,7 +82,8 @@
                   </h4>
                   <Button
                     kind="tertiary"
-                    iconDescription="TODO"
+                    iconDescription={$t('page.todos.overlay.editTitle')}
+                    tooltipAlignment="end"
                     icon={Edit}
                     size="field"
                     on:click={() => showListOverlay('edit', i)}
@@ -98,7 +99,7 @@
         <div class="centered">
           <Button
             kind="tertiary"
-            iconDescription="TODO"
+            iconDescription={$t('page.todos.overlay.createTitle')}
             icon={TaskAdd}
             on:click={() => showListOverlay('new')}
             class="mt1"
@@ -112,7 +113,7 @@
         <div class="main_content">
           <Button
             kind="tertiary"
-            iconDescription="TODO"
+            iconDescription={$t('page.shared.button.globalMenu')}
             icon={Catalog}
             id="list_menu_button"
             tooltipPosition="left"

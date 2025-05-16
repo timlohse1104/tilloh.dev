@@ -66,7 +66,7 @@
               text={activity.id}
               feedback="✅"
               feedbackTimeout={0}
-              iconDescription="TODO"
+              iconDescription={$t('page.shared.button.idCopy')}
               on:click={() => triggerNotification(activity.id)}
             />
           </div>

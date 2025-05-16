@@ -167,6 +167,9 @@
     {#if $sharedIdentifierStore.id}
       <Button
         kind="ghost"
+        iconDescription={$t(
+          'page.settings.onlinePersistence.showConnectionData',
+        )}
         icon={Information}
         class="save_button mt2"
         on:click={() => (openIdentifierInfo = true)}
@@ -205,6 +208,9 @@
 
             <Button
               kind="ghost"
+              iconDescription={$t(
+                'page.settings.onlinePersistence.editConnectionData',
+              )}
               icon={Save}
               class="save_button"
               disabled={!saveSubmittable}

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Todo } from '$lib/types/todo.ts';
+  import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
@@ -22,7 +23,8 @@
   <Button
     kind="danger"
     size="small"
-    iconDescription="TODO"
+    iconDescription={$t('page.todos.deleteTodo')}
+    tooltipAlignment="end"
     icon={TrashCan}
     on:click={deleteTodo}
   />

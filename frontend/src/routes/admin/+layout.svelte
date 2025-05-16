@@ -177,10 +177,10 @@
 
   <Button
     kind="primary"
-    iconDescription="TODO"
+    iconDescription={$t('page.admin.updateInfo')}
+    tooltipPosition="left"
     icon={Renew}
     id="update_admin_info_button"
-    tooltipPosition="left"
     on:click={updateDashboard}
   />
 

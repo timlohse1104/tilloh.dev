@@ -61,13 +61,14 @@
                 text={linkPreset._id}
                 feedback="✅"
                 feedbackTimeout={0}
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.linkPresets.idCopy')}
                 on:click={() => triggerNotification(linkPreset._id)}
               />
               <Button
                 kind="danger"
                 size="field"
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.linkPresets.deleteTitle')}
+                tooltipAlignment="end"
                 icon={TrashCan}
                 on:click={() =>
                   dispatch('removeLinkPresets', {

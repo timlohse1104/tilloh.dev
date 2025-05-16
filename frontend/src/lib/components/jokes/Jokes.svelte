@@ -53,7 +53,12 @@
     <h1>{$t('page.jokes.titleRandomJoke')}</h1>
     <p>{$t('page.jokes.descriptionRandomJoke')}</p>
 
-    <Button icon={CloudDownload} on:click={setRandomJoke} class="mt2">
+    <Button
+      iconDescription={$t('page.jokes.loadRandomJoke')}
+      icon={CloudDownload}
+      on:click={setRandomJoke}
+      class="mt2"
+    >
       {$t('page.jokes.newRandomJoke')}
     </Button>
 
@@ -90,6 +95,7 @@
 
     <Button
       kind="ghost"
+      iconDescription={$t('page.jokes.saveJoke')}
       icon={Save}
       on:click={createNewJoke}
       disabled={!submittable}

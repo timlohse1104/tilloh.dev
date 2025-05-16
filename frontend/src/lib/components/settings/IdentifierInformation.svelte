@@ -26,7 +26,7 @@
         text={$sharedIdentifierStore.id}
         feedback="✅"
         feedbackTimeout={0}
-        iconDescription="TODO"
+        iconDescription={$t('page.shared.button.idCopy')}
       />
     </div>
   </section>

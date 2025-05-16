@@ -116,7 +116,7 @@
 
   <Button
     kind="tertiary"
-    iconDescription="TODO"
+    iconDescription={$t('page.memorandum.startup.createEmptyFolder')}
     icon={Add}
     id="add_folder_button"
     tooltipPosition="left"

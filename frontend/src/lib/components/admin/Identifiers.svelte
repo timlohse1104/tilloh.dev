@@ -58,6 +58,8 @@
       <InputWithButton
         bind:value={newIdentifierName}
         placeholder={$t('page.admin.toggles.newIdentifier')}
+        iconDescription={$t('page.admin.toggles.addIdentifier')}
+        tooltipAlignment="end"
         icon={Add}
         action={addIdentifier}
       />
@@ -86,13 +88,14 @@
                 text={identifier._id}
                 feedback="✅"
                 feedbackTimeout={0}
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.identifiers.idCopy')}
                 on:click={() => triggerNotification(identifier._id)}
               />
               <Button
                 kind="danger"
                 size="field"
-                iconDescription="TODO"
+                iconDescription={$t('page.admin.identifiers.deleteTitle')}
+                tooltipAlignment="end"
                 icon={TrashCan}
                 on:click={() => {
                   dispatch('removeIdentifier', {

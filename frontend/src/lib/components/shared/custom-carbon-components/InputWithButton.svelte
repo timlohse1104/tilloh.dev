@@ -10,6 +10,7 @@
   export let labelText = '';
   export let icon;
   export let iconDescription = 'TODO';
+  export let tooltipAlignment: 'center' | 'start' | 'end' = 'center';
   export let action;
   export let kind:
     | 'primary'
@@ -40,6 +41,7 @@
       {kind}
       size="field"
       {iconDescription}
+      {tooltipAlignment}
       {icon}
       on:click={action}
       disabled={value ? false : true}
