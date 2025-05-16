@@ -4,7 +4,8 @@
   import { UnoSort } from '$lib/types/uno-sort';
   import { languageStore } from '$lib/util/stores/store-language';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import { Button, NumberInput } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;

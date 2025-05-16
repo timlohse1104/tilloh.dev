@@ -2,12 +2,10 @@
   import { executeOcrProcess } from '$lib/api/ocr.api';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
-  import {
-    Checkbox,
-    FileUploaderDropContainer,
-    Tag,
-    Tile,
-  } from 'carbon-components-svelte';
+  import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import FileUploaderDropContainer from 'carbon-components-svelte/src/FileUploader/FileUploaderDropContainer.svelte';
+  import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 

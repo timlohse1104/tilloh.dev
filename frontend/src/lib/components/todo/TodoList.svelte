@@ -1,8 +1,11 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import { Button, Tag } from 'carbon-components-svelte';
-  import { List, Menu, TrashCan } from 'carbon-icons-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
+  import List from 'carbon-icons-svelte/lib/List.svelte';
+  import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 

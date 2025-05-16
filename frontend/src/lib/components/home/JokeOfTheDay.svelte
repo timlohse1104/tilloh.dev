@@ -2,7 +2,7 @@
   import { getJokeOfTheDay } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
   import { initialized, t } from '$lib/util/translations';
-  import { Tile } from 'carbon-components-svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import { onMount } from 'svelte';
 
   export let customClass = '';

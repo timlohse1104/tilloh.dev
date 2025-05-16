@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Tile } from 'carbon-components-svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
 
   export let header: string;
   export let description: string;

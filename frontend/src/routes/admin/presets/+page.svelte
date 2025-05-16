@@ -9,7 +9,7 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { t } from '$lib/util/translations';
-  import { InlineNotification } from 'carbon-components-svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import { fade } from 'svelte/transition';
 
   let notificationInfoText = '';

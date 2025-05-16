@@ -2,15 +2,15 @@
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { presetOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
-  import {
-    Accordion,
-    AccordionItem,
-    CodeSnippet,
-    InlineNotification,
-    Modal,
-    Tag,
-  } from 'carbon-components-svelte';
-  import { Folder, Link, Upload } from 'carbon-icons-svelte';
+  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
+  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
+  import CodeSnippet from 'carbon-components-svelte/src/CodeSnippet/CodeSnippet.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
+  import Folder from 'carbon-icons-svelte/lib/Folder.svelte';
+  import Link from 'carbon-icons-svelte/lib/Link.svelte';
+  import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
   import { fade } from 'svelte/transition';
 
   let codeElement;

@@ -5,14 +5,13 @@
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { folderOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
-  import {
-    Checkbox,
-    CopyButton,
-    Modal,
-    Slider,
-    TextInput,
-  } from 'carbon-components-svelte';
-  import { PaintBrush, Save } from 'carbon-icons-svelte';
+  import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import Slider from 'carbon-components-svelte/src/Slider/Slider.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import PaintBrush from 'carbon-icons-svelte/lib/PaintBrush.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
 
   export let folderName = '';

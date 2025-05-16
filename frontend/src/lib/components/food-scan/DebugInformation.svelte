@@ -1,7 +1,8 @@
 <script lang="ts">
   import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
-  import { ComboBox, Tile } from 'carbon-components-svelte';
+  import ComboBox from 'carbon-components-svelte/src/ComboBox/ComboBox.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();

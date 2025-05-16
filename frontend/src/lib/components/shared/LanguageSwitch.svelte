@@ -1,7 +1,7 @@
 <script lang="ts">
   import { languageStore } from '$lib/util/stores/store-language';
   import { initialized } from '$lib/util/translations';
-  import { Toggle } from 'carbon-components-svelte';
+  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import { onMount } from 'svelte';
 
   export let customStyle = '';

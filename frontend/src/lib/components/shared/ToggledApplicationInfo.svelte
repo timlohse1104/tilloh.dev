@@ -1,6 +1,6 @@
 <script lang="ts">
   import { initialized, t } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Construction from 'carbon-icons-svelte/lib/Construction.svelte';
   import Home from 'carbon-icons-svelte/lib/Home.svelte';
 </script>

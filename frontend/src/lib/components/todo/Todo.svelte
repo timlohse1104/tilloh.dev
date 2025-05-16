@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Todo } from '$lib/types/todo.ts';
-  import { Button, Checkbox } from 'carbon-components-svelte';
-  import { TrashCan } from 'carbon-icons-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   export let todo: Todo;
   export let deleteTodo;
@@ -27,7 +28,7 @@
   />
 </section>
 
-<style>
+<style lang="scss">
   section {
     display: flex;
     justify-content: space-between;

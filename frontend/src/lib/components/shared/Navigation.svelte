@@ -3,7 +3,8 @@
   import { page } from '$app/stores';
   import type { Route } from '$lib/types/route';
   import { languageStore } from '$lib/util/stores/store-language';
-  import { ContentSwitcher, Switch } from 'carbon-components-svelte';
+  import ContentSwitcher from 'carbon-components-svelte/src/ContentSwitcher/ContentSwitcher.svelte';
+  import Switch from 'carbon-components-svelte/src/ContentSwitcher/Switch.svelte';
   import { onMount } from 'svelte';
 
   // EXPORT LET

@@ -5,13 +5,11 @@
     adminTokenStore,
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
-  import {
-    Accordion,
-    AccordionItem,
-    Button,
-    CopyButton,
-    InlineNotification,
-  } from 'carbon-components-svelte';
+  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
+  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import FaceActivated from 'carbon-icons-svelte/lib/FaceActivated.svelte';
   import TaskApproved from 'carbon-icons-svelte/lib/TaskApproved.svelte';
   import ThumbsUp from 'carbon-icons-svelte/lib/ThumbsUp.svelte';

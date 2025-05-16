@@ -6,7 +6,7 @@
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { initialized, t } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';

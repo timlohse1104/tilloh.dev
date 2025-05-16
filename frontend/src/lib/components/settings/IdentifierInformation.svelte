@@ -1,7 +1,8 @@
 <script lang="ts">
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
-  import { CopyButton, TextInput } from 'carbon-components-svelte';
+  import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
 </script>
 
 {#if $initialized}

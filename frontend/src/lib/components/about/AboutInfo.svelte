@@ -1,6 +1,6 @@
 <script lang="ts">
   import { initialized, t } from '$lib/util/translations';
-  import { CodeSnippet } from 'carbon-components-svelte';
+  import CodeSnippet from 'carbon-components-svelte/src/CodeSnippet/CodeSnippet.svelte';
 
   const code1 = `
 function genNumber&lpar;number&rpar; &lcub;

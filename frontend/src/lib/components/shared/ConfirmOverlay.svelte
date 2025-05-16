@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Modal } from 'carbon-components-svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();

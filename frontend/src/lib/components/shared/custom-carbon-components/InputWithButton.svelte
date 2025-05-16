@@ -1,7 +1,8 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper';
   import { initialized } from '$lib/util/translations';
-  import { Button, TextInput } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
 
   export let value;
   export let placeholder = '';

@@ -3,7 +3,8 @@
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { t } from '$lib/util/translations';
-  import { InlineNotification, PasswordInput } from 'carbon-components-svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import PasswordInput from 'carbon-components-svelte/src/TextInput/PasswordInput.svelte';
   import { fade } from 'svelte/transition';
 
   export let token: string = '';

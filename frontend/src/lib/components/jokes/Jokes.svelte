@@ -2,14 +2,12 @@
   import { createJoke, getRandomJoke } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
   import { initialized, t } from '$lib/util/translations';
-  import {
-    Button,
-    InlineNotification,
-    Select,
-    SelectItem,
-    TextArea,
-    Tile,
-  } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Select from 'carbon-components-svelte/src/Select/Select.svelte';
+  import SelectItem from 'carbon-components-svelte/src/Select/SelectItem.svelte';
+  import TextArea from 'carbon-components-svelte/src/TextArea/TextArea.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import CloudDownload from 'carbon-icons-svelte/lib/CloudDownload.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';

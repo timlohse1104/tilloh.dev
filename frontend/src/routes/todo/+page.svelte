@@ -7,8 +7,12 @@
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import { Button, ClickableTile, Modal } from 'carbon-components-svelte';
-  import { Catalog, Edit, TaskAdd } from 'carbon-icons-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import ClickableTile from 'carbon-components-svelte/src/Tile/ClickableTile.svelte';
+  import Catalog from 'carbon-icons-svelte/lib/Catalog.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import TaskAdd from 'carbon-icons-svelte/lib/TaskAdd.svelte';
   import { onMount } from 'svelte';
 
   const { todo: todoRoute } = applicationRoutes;

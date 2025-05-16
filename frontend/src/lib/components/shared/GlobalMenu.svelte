@@ -1,7 +1,7 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { initialized, t } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
 
   export let locale;

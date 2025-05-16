@@ -6,7 +6,7 @@
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
   import { setLocale } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import { Add } from 'carbon-icons-svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
   export let listIndex;

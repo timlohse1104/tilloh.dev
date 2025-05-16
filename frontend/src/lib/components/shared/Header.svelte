@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import GlobalMenu from './GlobalMenu.svelte';
 
   export let locale;

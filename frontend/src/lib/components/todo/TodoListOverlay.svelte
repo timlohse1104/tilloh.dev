@@ -4,8 +4,10 @@
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import { Modal, TextInput, Tooltip } from 'carbon-components-svelte';
-  import { Save } from 'carbon-icons-svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
   export let listIndex: number;
   export let newListName = '';

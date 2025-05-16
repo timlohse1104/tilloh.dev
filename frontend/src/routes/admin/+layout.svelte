@@ -30,7 +30,7 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
-  import { Button } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
   import { onMount, setContext } from 'svelte';
 

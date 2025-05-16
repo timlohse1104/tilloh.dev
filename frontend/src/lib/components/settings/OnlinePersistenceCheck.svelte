@@ -8,14 +8,12 @@
   } from '$lib/util/stores/store-other';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
-  import {
-    Button,
-    InlineNotification,
-    Modal,
-    TextInput,
-    Tile,
-    Toggle,
-  } from 'carbon-components-svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import Information from 'carbon-icons-svelte/lib/Information.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';

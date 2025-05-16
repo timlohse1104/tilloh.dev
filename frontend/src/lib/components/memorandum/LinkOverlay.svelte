@@ -4,8 +4,9 @@
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { linkOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
-  import { Modal, TextInput } from 'carbon-components-svelte';
-  import { Save } from 'carbon-icons-svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
   export let newLinkName = '';
   export let newLinkUrl = '';

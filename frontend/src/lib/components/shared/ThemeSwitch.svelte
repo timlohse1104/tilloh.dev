@@ -1,6 +1,6 @@
 <script lang="ts">
   import { initialized } from '$lib/util/translations';
-  import { Theme } from 'carbon-components-svelte';
+  import Theme from 'carbon-components-svelte/src/Theme/Theme.svelte';
 
   export let customStyle = '';
 </script>

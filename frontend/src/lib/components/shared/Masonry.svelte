@@ -133,7 +133,7 @@ $w: var(--col-width); // minmax(Min(20em, 100%), 1fr);
 $s: var(--grid-gap); // .5em;
 -->
 
-<style>
+<style lang="scss">
   :global(.__grid--masonry) {
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--col-width));
