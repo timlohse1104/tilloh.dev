@@ -6,6 +6,7 @@
     resetSharedIdentifier,
     sharedIdentifierStore,
   } from '$lib/util/stores/store-other';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
@@ -50,12 +51,10 @@
       connectOnlineIdentifier();
     }
   };
-
   const triggerNotification = (message: string) => {
     snackbarMessage = message;
     timeout = 3_000;
   };
-
   const saveOnlineIdentifier = async () => {
     if ($sharedIdentifierStore.id) {
       await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
@@ -103,7 +102,6 @@
         });
     }
   };
-
   const connectOnlineIdentifier = async () => {
     const loginId = $identifierStore;
     if (!loginId) {
@@ -137,6 +135,7 @@
             identifier: $sharedIdentifierStore.id,
           }),
         );
+        celebrate();
       })
       .catch((error) => {
         triggerNotification(error);

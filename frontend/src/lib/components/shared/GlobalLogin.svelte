@@ -2,6 +2,7 @@
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/stores/store-identifier';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { t } from '$lib/util/translations';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import PasswordInput from 'carbon-components-svelte/src/TextInput/PasswordInput.svelte';
@@ -41,7 +42,10 @@
       return;
     }
 
-    if (!isAdminLogin) $identifierStore = token;
+    if (!isAdminLogin) {
+      $identifierStore = token;
+      celebrate();
+    }
     await callback();
   };
 </script>
