@@ -164,6 +164,11 @@ button:focus:not(:focus-visible) {
   z-index: 9999;
 }
 
+/* Carbon Code Snippet Overrides */
+.bx--snippet--multi {
+  max-width: unset;
+}
+
 /* Carbon Content Switcher Overrides */
 .bx--content-switcher {
   display: flex;

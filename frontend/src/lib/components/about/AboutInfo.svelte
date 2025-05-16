@@ -65,13 +65,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
     </p>
 
     <div class="code_snippet">
-      <CodeSnippet
-        type="multi"
-        code={code2}
-        class="code_snippet"
-        hideCopyButton
-        expanded
-      />
+      <CodeSnippet type="multi" code={code2} hideCopyButton expanded />
     </div>
 
     <p>
