@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/util/translations';
   import DashboardCard from '../admin/DashboardCard.svelte';
+  import BackgroundSwitch from '../shared/BackgroundSwitch.svelte';
   import LanguageSwitch from '../shared/LanguageSwitch.svelte';
   import ThemeSwitch from '../shared/ThemeSwitch.svelte';
 </script>
@@ -17,6 +18,12 @@
     description={$t('page.settings.dashboard.language.description')}
   >
     <LanguageSwitch />
+  </DashboardCard>
+  <DashboardCard
+    header={$t('page.settings.dashboard.background.header')}
+    description={$t('page.settings.dashboard.background.description')}
+  >
+    <BackgroundSwitch />
   </DashboardCard>
 </section>
 

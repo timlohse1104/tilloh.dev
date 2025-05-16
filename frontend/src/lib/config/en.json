@@ -69,6 +69,8 @@
   "page.settings.dashboard.theme.description": "Switch light and dark theme.",
   "page.settings.dashboard.language.header": "Language",
   "page.settings.dashboard.language.description": "Switch between available languages.",
+  "page.settings.dashboard.background.header": "Background",
+  "page.settings.dashboard.background.description": "Switch between available background options.",
   "page.jokes.titleRandomJoke": "Already laughed today? 😂",
   "page.jokes.descriptionRandomJoke": "Press the button to get a new joke. Have fun!",
   "page.jokes.titleNewJoke": "Make others laugh! 😃",

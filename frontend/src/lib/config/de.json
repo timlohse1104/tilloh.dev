@@ -69,6 +69,8 @@
   "page.settings.dashboard.theme.description": "Wähle einen Farbmodus.",
   "page.settings.dashboard.language.header": "Sprache",
   "page.settings.dashboard.language.description": "Wähle eine verfügbare Sprache.",
+  "page.settings.dashboard.background.header": "Hintergrund",
+  "page.settings.dashboard.background.description": "Wähle eine verfügbare Hintergrundoption.",
   "page.jokes.titleRandomJoke": "Heute schon gelacht? 😂",
   "page.jokes.descriptionRandomJoke": "Drücke auf den Knopf und erhalte einen zufälligen Witz. Viel Spaß!",
   "page.jokes.titleNewJoke": "Bring andere zum lachen! 😃",

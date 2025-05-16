@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
+  import { backgroundStore } from '$lib/util/stores/store-background';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
   import { themeStore } from '$lib/util/stores/store-theme';
@@ -13,9 +14,10 @@
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
   $: theme = $themeStore;
   $: document.documentElement.setAttribute('theme', theme);
+  $: getAppClasses = `app background-${$backgroundStore}`;
 </script>
 
-<div class="app">
+<div class={getAppClasses}>
   <Header {locale} />
 
   {#if !isVerified}
