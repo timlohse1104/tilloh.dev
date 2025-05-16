@@ -6,6 +6,12 @@
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
   import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
+  import {
+    confettiAmount,
+    confettiDuration,
+    isConfettiVisibleStore,
+  } from '$lib/util/stores/stores-global';
+  import { confetti } from '@neoconfetti/svelte';
   import 'carbon-components-svelte/css/all.css';
   import './styles.css';
 
@@ -18,6 +24,19 @@
 </script>
 
 <div class={getAppClasses}>
+  {#if $isConfettiVisibleStore}
+    <div class="confetti_container">
+      <div
+        use:confetti={{
+          stageHeight: window.visualViewport.height - 5,
+          stageWidth: window.visualViewport.width,
+          duration: confettiDuration,
+          particleCount: confettiAmount,
+        }}
+      ></div>
+    </div>
+  {/if}
+
   <Header {locale} />
 
   {#if !isVerified}
@@ -75,5 +94,11 @@
     align-items: center;
     justify-content: center;
     height: 80vh;
+  }
+
+  .confetti_container {
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
   }
 </style>

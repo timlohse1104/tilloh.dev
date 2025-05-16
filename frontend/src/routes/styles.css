@@ -54,7 +54,7 @@ p {
 }
 
 a {
-  color: darkgreen;
+  color: var(--cds-text-01);
   text-decoration: none;
 }
 
