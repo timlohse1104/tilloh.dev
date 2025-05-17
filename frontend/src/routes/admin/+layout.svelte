@@ -3,9 +3,9 @@
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
   import Dashboard from '$lib/components/admin/Dashboard.svelte';
-  import Navigation from '$lib/components/home/Navigation.svelte';
   import ConfirmOverlay from '$lib/components/shared/ConfirmOverlay.svelte';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
+  import Navigation from '$lib/components/shared/Navigation.svelte';
   import { adminSubRoutes, utilityRoutes } from '$lib/config/applications';
   import type { ChatDto } from '$lib/types/chats.dto';
   import { TOGGLE_KEY_IDENTIFIER } from '$lib/types/keystore.dto';
@@ -30,7 +30,8 @@
     updateLinkPresets,
   } from '$lib/util/stores/stores-admin';
   import { setLocale, t } from '$lib/util/translations';
-  import Fab, { Icon } from '@smui/fab';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
   import { onMount, setContext } from 'svelte';
 
   let chats: ChatDto[] = [];
@@ -42,11 +43,11 @@
 
   $: locale = $languageStore;
   $: isVerified = false;
+  $: adminRoutesArray = Object.values(adminSubRoutes);
   $: getFolderAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     return $allPresetFoldersStore.length;
   };
-
   $: getLinksAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
@@ -54,17 +55,14 @@
       .flat();
     return allLinks.length;
   };
-
   $: getJokesAmount = (): number => {
     if ($adminJokesStore.length === 0) return 0;
     return $adminJokesStore.length;
   };
-
   $: getChatsAmount = (): number => {
     if (chats.length === 0) return 0;
     return chats.length;
   };
-
   $: getDuplicateFoldersAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const folderNames = $allPresetFoldersStore.map(
@@ -73,7 +71,6 @@
     const uniqueFolders = new Set(folderNames);
     return folderNames.length - uniqueFolders.size;
   };
-
   $: getDuplicateLinksAmount = (): number => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
@@ -83,7 +80,6 @@
     const uniqueLinks = new Set(linkUrls);
     return linkUrls.length - uniqueLinks.size;
   };
-
   $: getDuplicateJokesAmount = (): number => {
     if ($adminJokesStore.length === 0) return 0;
     const jokeTexts = $adminJokesStore.map((joke) => joke.text);
@@ -152,7 +148,8 @@
   />
 {:else}
   <div class="admin_overview">
-    <Navigation routes={adminSubRoutes} />
+    <Navigation routes={adminRoutesArray} />
+
     <Dashboard
       metrics={{
         identifierAmount: $adminIdentifiersStore.length,
@@ -178,13 +175,14 @@
     </section>
   </main>
 
-  <Fab
-    style="position:fixed;bottom: var(--default_padding);right: var(--default_padding);z-index: 100;"
-    color="secondary"
+  <Button
+    kind="primary"
+    iconDescription={$t('page.admin.updateInfo')}
+    tooltipPosition="left"
+    icon={Renew}
+    id="update_admin_info_button"
     on:click={updateDashboard}
-  >
-    <Icon style="font-size:2rem;" class="material-icons">refresh</Icon>
-  </Fab>
+  />
 
   <ConfirmOverlay
     open={$confirmDeleteToggleOpenOverlayStore}
@@ -242,6 +240,7 @@
     display: grid;
     width: 100%;
     margin-top: 1rem;
+    gap: 2rem;
   }
 
   :global(.admin_sections) {
@@ -260,7 +259,6 @@
 
   :global(.admin_sections_headline h2 span) {
     font-size: 0.8rem;
-    color: var(--color_text-secondary);
   }
 
   :global(.admin_sections_list) {
@@ -281,5 +279,12 @@
   }
   :global(.admin_list_items_button) {
     flex-grow: 1;
+  }
+
+  :global(#update_admin_info_button) {
+    position: fixed;
+    bottom: var(--default_padding);
+    right: var(--default_padding);
+    z-index: 100;
   }
 </style>

@@ -1,27 +1,32 @@
 <script lang="ts">
-  import { themeStore, toggleTheme } from '$lib/util/stores/store-theme';
+  import {
+    darkThemeValue,
+    lightThemeValue,
+    themeStore,
+  } from '$lib/util/stores/store-theme';
   import { initialized } from '$lib/util/translations';
-  import Switch from '@smui/switch';
-  import { onMount } from 'svelte';
+  import Theme from 'carbon-components-svelte/src/Theme/Theme.svelte';
 
   export let customStyle = '';
-  let themeSwitch = false;
-
-  onMount(() => {
-    themeSwitch = $themeStore === 'light';
-  });
 </script>
 
 {#if initialized}
   <section style={customStyle}>
-    <span>🌙</span>
-    <Switch
-      bind:checked={themeSwitch}
-      on:SMUISwitch:change={toggleTheme}
-      color="secondary"
-      icons={false}
-    />
     <span>☀️</span>
+    <Theme
+      bind:theme={$themeStore}
+      render="toggle"
+      toggle={{
+        themes: [lightThemeValue, darkThemeValue],
+        labelA: '',
+        labelB: '',
+        hideLabel: true,
+        size: 'sm',
+      }}
+      persist
+      persistKey="__carbon-theme"
+    />
+    <span>🌙</span>
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -31,8 +36,11 @@
   section {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
     font-size: 0.9rem;
-    color: var(--lightgrey80);
+
+    span {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
   }
 </style>

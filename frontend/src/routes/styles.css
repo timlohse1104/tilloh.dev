@@ -1,98 +1,46 @@
-@use '@fontsource/fira-mono' as *;
 @use '../lib/styles/variables.scss' as *;
 
 /* My variables */
-/* TODO: Add global variables for page sizing*/
 :root {
-  --font_body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font_mono: 'Fira Mono', monospace;
+  --white30: rgba(255, 255, 255, 0.3);
+  --lightgrey80: rgba(150, 150, 150, 0.8);
+  --darkgrey80: rgba(34, 34, 34, 0.8);
+  --black30: rgba(0, 0, 0, 0.3);
+  --black80: rgba(0, 0, 0, 0.8);
+  --trans: rgba(0, 0, 0, 0);
+  --default_padding: 1.2rem;
+  --menu_left: 2rem;
+
   --color_bg_0: rgb(0, 42, 82);
   --color_bg_1: hsl(208, 100%, 8%);
   --color_bg_2: hsl(223, 100%, 1%);
   --color_bg_light_1: rgb(220, 220, 230);
   --color_bg_light_0: hsl(220, 50%, 60%);
   --color_bg_light_2: hsl(220, 0%, 100%);
-  --color_theme_1: rgba(252, 255, 86, 1);
-  --color_theme_1_50: rgba(252, 255, 86, 0.5);
-  --color_theme_2: rgba(64, 117, 166, 1);
-  --color_theme_2_50: rgba(64, 117, 166, 0.5);
-  --color_text: rgba(255, 255, 255, 0.7);
-  --color_text_light: rgba(0, 0, 0, 0.7);
-  --column_width: 42rem;
-  --column_margin_top: 4rem;
-  --pre_background: rgba(50, 50, 50, 0.5);
-
-  --green: rgb(0, 210, 53);
-  --red: rgb(210, 0, 30);
-  --red70: rgba(210, 0, 30, 0.7);
-  --white30: rgba(255, 255, 255, 0.3);
-  --light80: rgba(250, 250, 250, 0.8);
-  --lightgrey80: rgba(150, 150, 150, 0.8);
-  --darkgrey80: rgba(34, 34, 34, 0.8);
-  --black30: rgba(0, 0, 0, 0.3);
-  --black80: rgba(0, 0, 0, 0.8);
-  --sharpen: 2px 2px var(--black80);
-  --trans: rgba(0, 0, 0, 0);
-  --default_padding: 1.2rem;
-  --menu_left: 2rem;
-}
-
-/* General styling */
-:root {
-  font-family: var(--font_body);
-  color: var(--color_text);
 }
 
 body {
   margin: 0;
   overflow: hidden;
-  background-size: 100vw 100vh;
+}
+
+.background_gradient_dark {
+  background-size: 100vw 100vh !important;
   background-image: linear-gradient(
     180deg,
     var(--color_bg_0) 0%,
     var(--color_bg_1) 25%,
     var(--color_bg_2) 75%
-  );
+  ) !important;
 }
-
-body.light-theme {
+.background_gradient_light {
+  background-size: 100vw 100vh !important;
   background-image: linear-gradient(
     180deg,
     var(--color_bg_light_0) 0%,
     var(--color_bg_light_1) 40%,
     var(--color_bg_light_2) 100%
-  );
-
-  --mdc-theme-primary: var(--light80);
-  --mdc-theme-secondary: #676778;
-  --mdc-theme-background: var(--light80);
-  --mdc-theme-surface: var(--light80);
-  --mdc-theme-error: #b71c1c;
-  --mdc-theme-on-primary: var(--light80);
-  --mdc-theme-on-secondary: var(--light80);
-  --mdc-theme-on-surface: var(--black80);
-  --mdc-theme-on-error: var(--light80);
-  --mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
-  --mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
-  --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
-  --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
-  --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-primary-on-dark: var(--light80);
-  --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
-  --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
-  --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
-  --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
-
-  * {
-    color: var(--black80) !important;
-    text-shadow: none !important;
-  }
+  ) !important;
 }
 
 h1,
@@ -106,12 +54,15 @@ p {
 }
 
 a {
-  color: var(--color_theme_1);
+  color: var(--cds-text-01);
   text-decoration: none;
+}
+.tooltip_link {
+  color: var(--cds-text-05);
 }
 
 a:hover {
-  text-decoration: underline;
+  color: green;
 }
 
 h1 {
@@ -126,11 +77,9 @@ h2 {
 pre {
   font-size: 16px;
   font-family: var(--font_mono);
-  background-color: var(--pre_background);
   border-radius: 3px;
   padding: 0.5em;
   overflow-x: auto;
-  color: var(--color_text);
 }
 
 .text-column {
@@ -168,4 +117,104 @@ button:focus:not(:focus-visible) {
   position: absolute;
   width: 1px;
   white-space: nowrap;
+}
+
+/* Helper classes for spacing and layout */
+.mt1 {
+  margin-top: 1rem;
+}
+.mr1 {
+  margin-right: 1rem;
+}
+.mb1 {
+  margin-bottom: 1rem;
+}
+.ml1 {
+  margin-left: 1rem;
+}
+.mt2 {
+  margin-top: 2rem;
+}
+.mr2 {
+  margin-right: 2rem;
+}
+.mb2 {
+  margin-bottom: 2rem;
+}
+.ml2 {
+  margin-left: 2rem;
+}
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Carbon Buttons Overrides */
+.save_button {
+  color: green;
+}
+.save_button:hover {
+  color: lightgreen;
+}
+
+/* Carbon Notification Overrides  */
+.inline_notification {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+/* Carbon Code Snippet Overrides */
+.bx--snippet--multi {
+  max-width: unset;
+}
+
+/* Carbon Content Switcher Overrides */
+.bx--content-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+  align-items: stretch;
+  justify-content: center;
+}
+.bx--content-switcher-btn {
+  max-width: 225px;
+  border: 0.0625rem solid var(--cds-border-inverse, #161616);
+}
+.bx--content-switcher-btn::before {
+  display: none;
+}
+
+/* Carbon Accordion Overrides - Admin Lists*/
+.admin_list_item_headline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: calc(var(--default_padding) / 2);
+}
+.admin_list_item_content {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: calc(var(--default_padding) / 2);
+  padding-right: calc(var(--default_padding) / 2);
+  width: calc(100vw - var(--default_padding) * 2);
+}
+.admin_list_button_group {
+  display: flex;
+  gap: 0.25rem;
+}
+.custom_accordion_content .bx--accordion__content {
+  padding-right: 0;
+}
+
+/* Carbon Drop Container Overrides*/
+.bx--file__drop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -8,7 +8,7 @@ This monorepo is divided into two main parts: frontend and backend and is powere
 
 The frontend is a single-page application that serves as a portfolio for my projects and useful features for Friends and Family. Furthermore it is a place for me to experiment with new technologies and ideas. At the moment it consists of the memorandum, a joke library, a chat, a todo list a brick breaker game, a food scanner and a showcase how to sort uno cards.
 
-It is built with SvelteKit and Svelte Material UI.
+It is built with SvelteKit and Carbon Design System.
 
 ### Run with docker
 

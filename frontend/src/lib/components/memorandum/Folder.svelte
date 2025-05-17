@@ -33,7 +33,6 @@
     if (!searchQuery) return true;
     return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
   });
-
   $: if (folderBackground) {
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
@@ -105,7 +104,6 @@
   };
 
   const dropLink = (originLinkId) => {
-    console.log('originLinkId', originLinkId);
     let currPreset = $localPresetStore;
     let originFolderIndex;
     let originLinkIndex;
@@ -119,9 +117,6 @@
         return true;
       }
     });
-
-    console.log('originFolderIndex', originFolderIndex);
-    console.log('originLinkIndex', originLinkIndex);
 
     const originLink = currPreset.Folders[originFolderIndex].links.splice(
       originLinkIndex,
@@ -249,7 +244,7 @@
     margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
       calc(var(--default_padding) / 2);
     grid-template-columns: calc(100% - 50px) 50px;
-    grid-template-rows: 2.5rem auto 2rem;
+    grid-template-rows: 2.5rem 250px 2rem;
     grid-template-areas:
       'header delBtn'
       'content content'
@@ -276,7 +271,6 @@
     background-color: transparent;
     border: none;
     color: var(--white);
-    text-shadow: var(--sharpen);
     padding: 0;
   }
 
@@ -286,7 +280,6 @@
     align-items: center;
     font-weight: bolder;
     padding-left: var(--default_padding);
-    text-shadow: var(--sharpen);
     font-size: 18px;
   }
 
@@ -295,10 +288,9 @@
     @include mem_button;
     text-align: center;
     font-weight: bolder;
-    text-shadow: var(--sharpen);
 
     &:hover {
-      background-color: var(--red);
+      background-color: red;
     }
   }
 
@@ -311,7 +303,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    text-shadow: var(--sharpen);
   }
 
   .box_content {
@@ -319,5 +310,7 @@
     box-sizing: border-box;
     overflow: auto;
     background-color: var(--black30);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 </style>

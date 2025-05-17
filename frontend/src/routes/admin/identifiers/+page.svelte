@@ -10,11 +10,18 @@
     confirmDeleteIdentifierOpenOverlayStore,
     updateIdentifiers,
   } from '$lib/util/stores/stores-admin';
+  import { t } from '$lib/util/translations';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import { getContext } from 'svelte';
+  import { fade } from 'svelte/transition';
 
   const { admin: adminRoute } = utilityRoutes;
   const updateDashboard = getContext<() => void>('updateDashboard');
 
+  let notificationInfoText = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
   $: locale = $languageStore;
 
   const removeIdentifier = async (event) => {
@@ -33,9 +40,17 @@
       );
       console.log({ deletedIdentifier }, 'Identifier deleted.');
       await updateIdentifiers($adminTokenStore);
+      triggerNotification(identifierId);
     };
 
     $confirmDeleteIdentifierOpenOverlayStore = true;
+  };
+
+  const triggerNotification = (id: string) => {
+    notificationInfoText = $t('page.admin.identifiers.identifierDeleted', {
+      id,
+    });
+    timeout = 3_000;
   };
 </script>
 
@@ -48,3 +63,18 @@
   on:removeIdentifier={removeIdentifier}
   on:updateDashboard={updateDashboard}
 />
+
+{#if showNotification}
+  <div transition:fade>
+    <InlineNotification
+      {timeout}
+      kind="info-square"
+      subtitle={notificationInfoText}
+      class="inline_notification"
+      on:close={(e) => {
+        timeout = undefined;
+        notificationInfoText = undefined;
+      }}
+    />
+  </div>
+{/if}

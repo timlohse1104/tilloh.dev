@@ -2,15 +2,15 @@
   import { page } from '$app/stores';
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
-  import IconButton, { Icon } from '@smui/icon-button';
-  import BurgerMenu from './BurgerMenu.svelte';
+  import { t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import GlobalMenu from './GlobalMenu.svelte';
 
   export let locale;
 
   const getCurrentPage = () => {
     const plainPage = applicationRoutes[pageName] || utilityRoutes[pageName];
     if (!plainPage && pageName) {
-      console.log('pageName', pageName);
       const pageNameParts = pageName.split('/');
       if (pageNameParts.length > 1) {
         const routeKey = pageNameParts[0];
@@ -22,36 +22,46 @@
 
   $: pageName = $page.url.pathname.replace('/', '') || 'home';
   $: currentPage = getCurrentPage();
-
   $: if (pageName) currentPage = getCurrentPage();
 </script>
 
 <section>
   <div class="header_box">
-    <div class="me_info">
-      <IconButton class="tilloh_logo" href={applicationRoutes.home.path}>
-        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </IconButton>
-    </div>
+    <Button
+      kind="ghost"
+      iconDescription={$t('page.shared.toggledSiteBackButtonText')}
+      tooltipAlignment="end"
+      href={applicationRoutes.home.path}
+      class="home_button"
+    >
+      <img
+        src={'/images/logo.png'}
+        alt="tilloh.dev logo"
+        style="height: 3em;"
+      />
+    </Button>
 
     <div class="headline_box">
       <h2>
-        <Icon class="material-icons">{currentPage?.icon}</Icon>
+        {#await import(
+          /* @vite-ignore */
+          `/node_modules/carbon-icons-svelte/lib/${currentPage?.icon}.svelte`
+        ) then icon}
+          <svelte:component this={icon.default} />
+        {/await}
         {currentPage?.name?.[locale]}
       </h2>
 
       <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: var(--green) !important">🌐 Cloud</span>
+          <span style="color: green !important">🌐 Cloud</span>
         {:else}
-          <span style="color: var(--red) !important">📴 Lokal</span>
+          <span style="color: red !important">📴 Lokal</span>
         {/if}
       </p>
     </div>
 
-    <div class="corner">
-      <BurgerMenu {locale} />
-    </div>
+    <GlobalMenu {locale} />
   </div>
 </section>
 
@@ -59,20 +69,9 @@
   .header_box {
     display: flex;
     justify-content: space-between;
-    padding: 0.5em 1em;
+    padding: 1rem 1rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-bottom: var(--white30) 1px solid;
-  }
-
-  :global(.tilloh_logo) {
-    width: 3em;
-    height: 3em;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
   }
 
   .headline_box {
@@ -80,7 +79,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--light80);
 
     h2 {
       margin: 0;
@@ -88,15 +86,14 @@
     }
   }
 
-  .corner {
-    height: 3em;
-    margin: 0.25em 0.5em;
+  :global(.bx--btn.home_button) {
+    padding: 0;
+    margin: 0;
+    height: 3rem;
+    width: 3rem;
     display: flex;
-  }
-
-  .me_info {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   p {

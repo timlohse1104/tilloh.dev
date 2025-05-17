@@ -1,43 +1,18 @@
 <script lang="ts">
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
-</script>
+  import CodeSnippet from 'carbon-components-svelte/src/CodeSnippet/CodeSnippet.svelte';
 
-{#if $initialized}
-  <section>
-    <p>
-      <span class="capital_word">Moin</span>
-      {$t('page.about.introduction')}
-    </p>
-
-    <p>
-      {@html $t('page.about.weirdJsText1')}:
-    </p>
-
-    <pre
-      style={$themeStore === 'dark'
-        ? 'background-color: var(--color_bg_2)'
-        : 'background-color: var(--color_bg_light_2)'}>
-      <code>
+  const code1 = `
 function genNumber&lpar;number&rpar; &lcub;
   sdaif &lpar;number === 0&rpar; return this.numbers&lsqb;'0'&rsqb;;
   return Array.from&lpar;&lcub; length: number &rcub;, &lpar;&rpar; =&gt; this.numbers&lsqb;'1'&rsqb;&rpar;.join&lpar;' + '&rpar;;
 &rcub;
 
 alphabet = [];
-alphabet&lsqb;'i'&rsqb; = `&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;`;
-      </code>
-  </pre>
+alphabet&lsqb;'i'&rsqb; = \`&lpar;+!!&lsqb;&rsqb; / +&lsqb;&rsqb; + &lsqb;&rsqb;)&lsqb;$&lcub;this.genNumber&lpar;3&rpar;&rcub;&rsqb;\`;
+`;
 
-    <p>
-      {@html $t('page.about.weirdJsText2')}:
-    </p>
-
-    <pre
-      style={$themeStore === 'dark'
-        ? 'background-color: var(--color_bg_2)'
-        : 'background-color: var(--color_bg_light_2)'}>
-      <code>
+  const code2 = `
 const f = input
   .split(&apos;\n&apos;)
   .map((l, i, a) =&gt; &lcub;
@@ -67,8 +42,31 @@ const f = input
     return d;
   &rcub;);
 console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
-    </code>
-  </pre>
+`;
+</script>
+
+{#if $initialized}
+  <section>
+    <p>
+      <span class="capital_word">Moin</span>
+      {$t('page.about.introduction')}
+    </p>
+
+    <p>
+      {@html $t('page.about.weirdJsText1')}:
+    </p>
+
+    <div class="code_snippet">
+      <CodeSnippet type="multi" code={code1} hideCopyButton expanded />
+    </div>
+
+    <p>
+      {@html $t('page.about.weirdJsText2')}:
+    </p>
+
+    <div class="code_snippet">
+      <CodeSnippet type="multi" code={code2} hideCopyButton expanded />
+    </div>
 
     <p>
       {@html $t('page.about.usefulWorkText')}
@@ -84,7 +82,6 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
   section {
     max-width: 80vw;
     margin: 0 auto;
-    color: var(--light80);
     height: 88vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -92,5 +89,10 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
 
   .capital_word {
     font-size: 3rem;
+  }
+
+  .code_snippet {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 </style>

@@ -7,48 +7,47 @@
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import Button from '@smui/button';
-  import { Icon, Label } from '@smui/common';
-  import Drawer, {
-    AppContent,
-    Content,
-    Header,
-    Scrim,
-    Subtitle,
-    Title,
-  } from '@smui/drawer';
-  import IconButton from '@smui/icon-button';
-  import List, { Item, Text } from '@smui/list';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import ClickableTile from 'carbon-components-svelte/src/Tile/ClickableTile.svelte';
+  import Catalog from 'carbon-icons-svelte/lib/Catalog.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import TaskAdd from 'carbon-icons-svelte/lib/TaskAdd.svelte';
   import { onMount } from 'svelte';
 
   const { todo: todoRoute } = applicationRoutes;
 
-  let currentListIndex = 0;
-  let newListIndex = 0;
+  let currentListId = '';
+  let newListId = '';
   let openMenu = false;
 
   $: locale = $languageStore;
 
-  const showListOverlay = (type: 'new' | 'edit', index?: number) => {
+  onMount(async () => {
+    await setLocale($languageStore);
+  });
+
+  const showListOverlay = (type: 'new' | 'edit', id?: string) => {
+    openMenu = false;
     if (type === 'new') {
-      newListIndex = $todoStore.length;
+      newListId = crypto.randomUUID();
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     } else {
-      currentListIndex = index;
+      currentListId = id;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     }
   };
-
-  const setActiveList = (index: number) => {
-    currentListIndex = index;
+  const setActiveList = (id: string) => {
+    currentListId = id;
     openMenu = false;
   };
-
-  onMount(async () => {
-    await setLocale($languageStore);
-  });
+  const getListInformation = (id: string): { name: string; emoji: string } => {
+    const list = $todoStore.find((list) => list.id === id);
+    if (list) return { name: list.name, emoji: list.emoji };
+    return { name: undefined, emoji: undefined };
+  };
 </script>
 
 <svelte:head>
@@ -59,88 +58,93 @@
 {#if todoRoute.toggle}
   {#if $initialized}
     <section>
-      <Drawer
-        variant="modal"
+      <Modal
+        passiveModal
         bind:open={openMenu}
-        style="width:25%;max-width:max-content;height:max-content;overflow:auto;"
+        modalHeading={$t('page.todos.sideMenu.title')}
+        class="todo_list_modal"
       >
-        <Header>
-          <Title
-            style="text-align:left;margin:0;padding-left: calc(var(--default_padding)/2)"
-            >{$t('page.todos.sideMenu.title')}</Title
-          >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.description')}</Subtitle
-          >
-          <Subtitle class="todos_side_menu_description"
-            >{$t('page.todos.sideMenu.persistenceInfo')}</Subtitle
-          >
-        </Header>
-        <Content>
-          <List>
-            {#if $todoStore.length === 0}
-              <div
-                style="display:flex;gap: var(--default_padding);padding: var(--default_padding);margin:0 0 0 0.5rem;"
-              >
-                <Icon class="material-icons">search_off</Icon>
-                <Text>{$t('page.todos.sideMenu.emptyInfo')}</Text>
-              </div>
-            {:else}
-              <!-- List all todos -->
-              {#each $todoStore as list, i (i)}
-                <Item
-                  href="javascript:void(0)"
-                  style="padding-left: calc(var(--default_padding) / 1.5);"
-                  on:click={() => setActiveList(i)}
-                >
-                  <Text>{list.emoji} {list.name}</Text>
-                  <IconButton
-                    color="secondary"
-                    style="margin-left: auto;"
-                    size="button"
-                    on:click={() => showListOverlay('edit', i)}
-                  >
-                    <Icon class="material-icons">edit</Icon>
-                  </IconButton>
-                </Item>
-                <hr style="border-color:var(--darkgrey80);width:95%" />
-              {/each}
-            {/if}
-            <div style="display:flex;justify-content:center;">
-              <Button
-                color={$todoStore.length === 0 ? 'primary' : 'secondary'}
-                variant="outlined"
-                on:click={() => showListOverlay('new')}
-                style="margin: var(--default_padding);"
-              >
-                <Icon class="material-icons">playlist_add</Icon>
-                <Label>{$t('page.todos.sideMenu.createNewList')}</Label>
-              </Button>
-            </div>
-          </List>
-        </Content>
-      </Drawer>
+        <p>
+          {$t('page.todos.sideMenu.description')}
+        </p>
 
-      <Scrim />
-      <AppContent class="app_content">
-        <main class="main_content">
-          <IconButton
-            color="secondary"
-            style="position: absolute;right: 0;top: 0;margin: calc(var(--default_padding)/ 10);"
-            size="button"
-            on:click={() => (openMenu = !openMenu)}
+        <p class="mt1">
+          {$t('page.todos.sideMenu.persistenceInfo')}
+        </p>
+
+        {#if $todoStore.length === 0}
+          <div class="centered mb1">
+            <p class="mt1">{$t('page.todos.sideMenu.emptyInfo')}</p>
+          </div>
+        {:else}
+          <div class="mt1">
+            {#each $todoStore as list}
+              <ClickableTile on:click={() => setActiveList(list.id)}>
+                <div class="todo_list_entry">
+                  <h4>
+                    {list.emoji}
+                    {list.name}
+                  </h4>
+                  <Button
+                    kind="tertiary"
+                    iconDescription={$t('page.todos.overlay.editTitle')}
+                    tooltipAlignment="end"
+                    icon={Edit}
+                    size="field"
+                    on:click={() => showListOverlay('edit', list.id)}
+                  />
+                </div>
+              </ClickableTile>
+            {/each}
+          </div>
+        {/if}
+
+        <hr style="border-color:var(--darkgrey80);width:95%" />
+
+        <div class="centered">
+          <Button
+            kind="tertiary"
+            iconDescription={$t('page.todos.overlay.createTitle')}
+            icon={TaskAdd}
+            on:click={() => showListOverlay('new')}
+            class="mt1"
           >
-            <Icon class="material-icons">menu</Icon>
-          </IconButton>
-          <TodoListComponent listIndex={currentListIndex} />
-        </main>
-      </AppContent>
+            {$t('page.todos.sideMenu.createNewList')}
+          </Button>
+        </div>
+      </Modal>
+
+      <div class="app_content">
+        <div class="main_content">
+          <Button
+            kind="tertiary"
+            iconDescription={$t('page.shared.button.globalMenu')}
+            icon={Catalog}
+            id="list_menu_button"
+            tooltipPosition="left"
+            on:click={() => (openMenu = !openMenu)}
+          />
+          {#if $todoStore.length === 0}
+            <h1 class="mt2">
+              {$t('page.todos.list.emptyTitle')}
+            </h1>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <p class="mt2">
+                {$t('page.todos.list.emptySubtitle')}
+                <Catalog />
+              </p>
+            </div>
+          {:else}
+            <TodoListComponent listId={currentListId || $todoStore[0].id} />
+          {/if}
+        </div>
+      </div>
 
       {#if $listOverlayOptionsStore.showOverlay}
         <TodoListOverlay
-          listIndex={newListIndex}
-          newListName={$todoStore[newListIndex]?.name}
-          newListEmoji={$todoStore[newListIndex]?.emoji}
+          listId={newListId}
+          listName={getListInformation(newListId).name}
+          listEmoji={getListInformation(newListId).emoji}
         />
       {/if}
     </section>
@@ -158,7 +162,17 @@
     z-index: 0;
   }
 
-  * :global(.app_content) {
+  :global(.todo_list_modal .bx--modal-container .bx--modal-content) {
+    margin-bottom: 2rem;
+  }
+
+  .todo_list_entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .app_content {
     flex: auto;
     overflow: auto;
     position: relative;
@@ -171,9 +185,10 @@
     box-sizing: border-box;
   }
 
-  :global(.todos_side_menu_description) {
-    text-align: left;
-    margin: 0 0 var(--default_padding) 0;
-    padding-left: calc(var(--default_padding) / 2);
+  :global(#list_menu_button) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: calc(var(--default_padding) / 10);
   }
 </style>

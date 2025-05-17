@@ -1,12 +1,11 @@
 <script lang="ts">
   import { executeOcrProcess } from '$lib/api/ocr.api';
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
-  import Card from '@smui/card';
-  import Checkbox from '@smui/checkbox';
-  import Chip, { Set, Text } from '@smui/chips';
-  import FormField from '@smui/form-field';
+  import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import FileUploaderDropContainer from 'carbon-components-svelte/src/FileUploader/FileUploaderDropContainer.svelte';
+  import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 
@@ -79,7 +78,6 @@
       );
     }
   }
-
   async function generateUserPrompt() {
     console.log('Generating user prompt with ocr.');
     const ocrResponse = await executeOcrProcess(inputFiles[0]);
@@ -92,7 +90,6 @@
     });
     userPromptText = ocrResponse?.ParsedResults?.[0]?.ParsedText;
   }
-
   async function promptLLM(followUpQuestion: string = '') {
     console.log('Prompting LLM...');
     const promptStartTime = Date.now();
@@ -145,7 +142,6 @@
 
     loading = false;
   }
-
   async function reloadModel() {
     console.log('Reloading model.');
     engineReady = false;
@@ -164,7 +160,6 @@
       console.error('Failed to create MLCEngine:', error);
     }
   }
-
   async function askFollowUpQuestion(question: string) {
     loading = true;
     promptLLM(question);
@@ -176,70 +171,28 @@
 {#if $initialized}
   <section>
     {#if isWebGPUNotAvailableError}
-      <Card
-        padded
-        class="warning_hint"
-        style={$themeStore === 'dark'
-          ? 'background-color: var(--color_bg_2)'
-          : 'background-color: var(--color_bg_light_2)'}
-      >
+      <Tile class="warning_hint">
         <h2>
           {$t('page.foodScan.webGPUNotAvailableTitle')}
         </h2>
         <p>
           {$t('page.foodScan.webGPUNotAvailableError')}
         </p>
-      </Card>
+      </Tile>
     {:else if !engineReady}
-      <Card
-        padded
-        class="warning_hint"
-        style={$themeStore === 'dark'
-          ? 'background-color: var(--color_bg_2)'
-          : 'background-color: var(--color_bg_light_2)'}
-      >
+      <Tile class="warning_hint">
         <h2>{$t('page.foodScan.loadingHint')}</h2>
         <p class="warning_sign">⚠️</p>
         <p>{@html $t('page.foodScan.warning')}</p>
         <p>{loadModelInfo}</p>
-      </Card>
+      </Tile>
     {:else}
       <h3>{$t('page.foodScan.introduction')}</h3>
-      <div class="file_inputs">
-        <form>
-          <label
-            for="file_upload"
-            class="custom_file_label"
-            style={$themeStore === 'dark'
-              ? 'background-color: var(--color_bg_1)'
-              : 'background-color: var(--color_bg_light_1)'}
-            >{$t('page.foodScan.chooseFile')}</label
-          >
-          <input
-            id="file_upload"
-            class="file_input"
-            type="file"
-            accept="image/*"
-            bind:files={inputFiles}
-          />
-        </form>
-
-        <p>{$t('page.foodScan.or')}</p>
-
-        <form>
-          <label for="camera_upload" class="custom_file_label"
-            >{$t('page.foodScan.takePicture')}</label
-          >
-          <input
-            id="camera_upload"
-            class="file_input"
-            type="file"
-            accept="image/*"
-            bind:files={inputFiles}
-            capture
-          />
-        </form>
-      </div>
+      <FileUploaderDropContainer
+        labelText={$t('page.foodScan.chooseFile')}
+        accept={['.jpg', '.jpeg', '.png']}
+        bind:files={inputFiles}
+      />
 
       {#if inputFiles?.length > 0}
         <ContentOutput
@@ -251,39 +204,36 @@
         />
 
         {#if llmResult}
-          <Set chips={followUpQuestions} let:chip>
-            <Chip
-              {chip}
-              style={$themeStore === 'dark'
-                ? 'background-color: var(--color_bg_1)'
-                : 'background-color: var(--color_bg_light_1)'}
-              on:click={() => askFollowUpQuestion(chip)}
-              ><Text>{chip}</Text></Chip
-            >
-          </Set>
+          <div class="followup_tags">
+            {#each followUpQuestions as question}
+              <Tag interactive on:click={() => askFollowUpQuestion(question)}>
+                {question}
+              </Tag>
+            {/each}
+          </div>
         {/if}
+      {/if}
 
-        <FormField>
-          <Checkbox bind:checked={debugInfoActive} />
-          <p slot="label">{$t('page.foodScan.technicalInfo')}</p>
-        </FormField>
+      <Checkbox
+        bind:checked={debugInfoActive}
+        labelText={$t('page.foodScan.technicalInfo')}
+      />
 
-        {#if debugInfoActive}
-          <DebugInformation
-            {selectedModel}
-            {availableModels}
-            {systemPromptText}
-            {userPromptText}
-            {ocrResponseTimeText}
-            {llmResponseTimeText}
-            {completionTokens}
-            {promptTokens}
-            {totalTokens}
-            {prefillTokensPerS}
-            {decodeTokensPerS}
-            on:reloadModel={reloadModel}
-          />
-        {/if}
+      {#if debugInfoActive}
+        <DebugInformation
+          bind:selectedModel
+          {availableModels}
+          {systemPromptText}
+          {userPromptText}
+          {ocrResponseTimeText}
+          {llmResponseTimeText}
+          {completionTokens}
+          {promptTokens}
+          {totalTokens}
+          {prefillTokensPerS}
+          {decodeTokensPerS}
+          on:reloadModel={reloadModel}
+        />
       {/if}
     {/if}
   </section>
@@ -300,13 +250,13 @@
     gap: 2rem;
     align-items: center;
     flex-direction: column;
-    height: 80vh;
     overflow: auto;
     text-align: center;
   }
 
   :global(.warning_hint) {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 0 2rem;
@@ -316,29 +266,5 @@
   .warning_sign {
     font-size: 2rem;
     margin: 0;
-  }
-
-  .file_inputs {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
-
-    @media #{$phone} {
-      gap: 1rem;
-    }
-  }
-
-  .file_input {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-  }
-
-  .custom_file_label {
-    display: inline-block;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
   }
 </style>

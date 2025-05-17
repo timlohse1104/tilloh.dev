@@ -7,7 +7,7 @@ export const environment = {
 async function fetchBackendUrl(): Promise<string> {
   let configResponse;
   try {
-    configResponse = await fetch('/config.json');
+    configResponse = await fetch('/config/config.json');
     if (!configResponse.ok) {
       console.warn(
         `Failed to fetch backend URL from config.json. This is no issue at all. The application will use the default URL instead.`,
@@ -15,7 +15,10 @@ async function fetchBackendUrl(): Promise<string> {
       return undefined;
     }
   } catch (error) {
-    console.warn('Network error: Failed to fetch backend URL from config.');
+    console.warn(
+      'Network error: Failed to fetch backend URL from config.',
+      error,
+    );
     return undefined;
   }
 
@@ -23,7 +26,10 @@ async function fetchBackendUrl(): Promise<string> {
   try {
     jsonConfig = await configResponse?.json();
   } catch (error) {
-    console.warn('Could not parse config as JSON. Using default URL instead.');
+    console.warn(
+      'Could not parse config as JSON. Using default URL instead.',
+      error,
+    );
     return undefined;
   }
   return jsonConfig?.backendUrl;

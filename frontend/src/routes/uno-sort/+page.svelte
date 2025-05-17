@@ -4,10 +4,8 @@
   import { UnoSort } from '$lib/types/uno-sort';
   import { languageStore } from '$lib/util/stores/store-language';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import Button, { Label } from '@smui/button';
-  import { Icon } from '@smui/common';
-  import Textfield from '@smui/textfield';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import { onMount } from 'svelte';
 
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
@@ -57,32 +55,24 @@
 
         <div class="sort_header">
           <h2>{$t('page.unoSort.title')}</h2>
-          <div class="sort_info_icon">
-            <Wrapper>
-              <Icon class="material-icons">info</Icon>
-              <Tooltip xPos="start" yPos="below">
-                {@html $t('page.unoSort.rules')}
-              </Tooltip>
-            </Wrapper>
-          </div>
         </div>
 
         <p class="rule_info">
           {@html $t('page.unoSort.rules')}
         </p>
         <div class="uno_menu">
-          <Textfield
+          <NumberInput
+            min={0}
+            max={stackSize}
+            label={`Karte${pickAmount > 1 ? 'n' : ''}`}
             bind:value={pickAmount}
-            type="number"
-            input$max={stackSize}
-            input$min="0"
-            suffix={`Karte${pickAmount > 1 ? 'n' : ''}`}
           />
-          <Button on:click={() => pickCards(pickAmount)} variant="raised">
-            <Label>{$t('page.unoSort.draw')}</Label>
+
+          <Button size="field" on:click={() => pickCards(pickAmount)}>
+            {$t('page.unoSort.draw')}
           </Button>
-          <Button on:click={reset} variant="outlined">
-            <Label>{$t('page.shared.reset')}</Label>
+          <Button size="field" kind="tertiary" on:click={reset}>
+            {$t('page.shared.reset')}
           </Button>
         </div>
       </div>
@@ -142,20 +132,10 @@
     gap: 1rem;
   }
 
-  .sort_info_icon {
-    display: none;
-    cursor: pointer;
-    color: var(--light80);
-
-    @media #{$phone} {
-      display: block;
-    }
-  }
-
   .uno_menu {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     margin: 1rem;
     gap: 1rem;
   }
@@ -203,7 +183,6 @@
   }
 
   :global(.uno_card) {
-    box-shadow: var(--sharpen);
     border: 5px solid white;
     border-radius: 10px;
     padding: 0.5rem;
@@ -219,8 +198,8 @@
 
   :global(.card_title_background) {
     position: relative;
-    width: 90px;
-    height: 100px;
+    width: 60px;
+    height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;

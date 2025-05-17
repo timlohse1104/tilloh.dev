@@ -1,61 +1,53 @@
 <script lang="ts">
   import { initialized, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
-  import Paper from '@smui/paper';
-  import { Input } from '@smui/textfield';
+  import Form from 'carbon-components-svelte/src/Form/Form.svelte';
+  import Search from 'carbon-components-svelte/src/Search/Search.svelte';
+
+  export let customClass = '';
 
   let value = '';
 </script>
 
 {#if $initialized}
-  <div class="search_container">
-    <form action="https://duckduckgo.com/">
-      <Paper class="solo_paper" elevation={6}>
-        <Icon class="material-icons">search</Icon>
-        <Input
-          style="width: 250em;"
-          bind:value
-          placeholder={$t('page.home.searchPlaceholder')}
-          class="solo_input"
-          type="text"
-          name="q"
-          autofocus
-        />
-      </Paper>
-    </form>
-  </div>
+  <section class={customClass}>
+    <Form
+      on:submit={(e) => {
+        e.preventDefault();
+        window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(value)}`;
+      }}
+      class="global_search_form"
+    >
+      <Search
+        placeholder={$t('page.home.searchPlaceholder')}
+        autofocus
+        bind:value
+      />
+    </Form>
+  </section>
 {:else}
-  <div class="search_container">Locale initializing...</div>
+  <section>Locale initializing...</section>
 {/if}
 
 <style lang="scss">
-  .search_container {
+  @use '../../styles/variables.scss' as *;
+
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 36px 18px;
-    margin-top: 1em;
-  }
-
-  * :global(.solo_paper) {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
+    // padding: 36px 18px;
     width: 80vw;
-    margin: 0 12px;
-    padding: 0 12px;
-    height: 48px;
+    margin-top: 5rem;
+
+    @media #{$tablet} {
+      margin-top: 2rem;
+    }
+
+    @media #{$tablet} {
+      margin-top: 8rem;
+    }
   }
-  * :global(.solo_paper > *) {
-    display: inline-block;
-    margin: 0 12px;
-  }
-  * :global(.solo_input) {
-    flex-grow: 1;
-    color: var(--mdc-theme-on-surface, #fff);
-  }
-  * :global(.solo_input::placeholder) {
-    color: var(--mdc-theme-on-surface, #fff);
-    opacity: 0.6;
+  :global(.global_search_form) {
+    width: 100%;
   }
 </style>

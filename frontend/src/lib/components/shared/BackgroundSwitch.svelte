@@ -1,33 +1,33 @@
 <script lang="ts">
-  import { languageStore } from '$lib/util/stores/store-language';
+  import { backgroundStore } from '$lib/util/stores/store-background';
   import { initialized } from '$lib/util/translations';
   import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import { onMount } from 'svelte';
 
   export let customStyle = '';
-  let languageSwitch = false;
+  let backgroundSwitch = false;
 
-  const changeLanguage = () => {
-    languageStore.set(languageSwitch ? 'en' : 'de');
+  const changeBackground = () => {
+    backgroundStore.set(backgroundSwitch ? 'gradient' : 'default');
   };
 
   onMount(() => {
-    languageSwitch = $languageStore === 'en' ? true : false;
+    backgroundSwitch = $backgroundStore === 'gradient' ? true : false;
   });
 </script>
 
 {#if initialized}
   <section style={customStyle}>
-    <span>🇩🇪</span>
+    <span>🎨</span>
     <Toggle
       size="sm"
-      bind:toggled={languageSwitch}
-      on:change={changeLanguage}
+      bind:toggled={backgroundSwitch}
+      on:change={changeBackground}
       labelA=""
       labelB=""
       hideLabel
     />
-    <span>🇬🇧</span>
+    <span>🌈</span>
   </section>
 {:else}
   <section>Locale initializing...</section>

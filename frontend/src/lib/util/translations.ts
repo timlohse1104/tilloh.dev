@@ -20,12 +20,14 @@ const config: Config<Partial<Params>> = {
     {
       locale: 'en',
       key: '',
-      loader: async () => (await import('../config/en.json')).default,
+      loader: async () =>
+        (await import(/* @vite-ignore */ '../config/en.json')).default,
     },
     {
       locale: 'de',
       key: '',
-      loader: async () => (await import('../config/de.json')).default,
+      loader: async () =>
+        (await import(/* @vite-ignore */ '../config/de.json')).default,
     },
   ],
 };

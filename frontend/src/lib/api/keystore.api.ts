@@ -57,6 +57,8 @@ export const deleteKey = async (
   const { identifier, key } = inputKeystoreDto;
   return await fetch(`${apiURL}/keystore/${identifier}/${key}`, {
     method: 'DELETE',
-    headers: createHeaders(token),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }).then((res) => res.json());
 };

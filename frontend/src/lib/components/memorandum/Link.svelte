@@ -56,16 +56,13 @@
     padding: 0;
     width: 25px;
     height: 25px;
-    padding: calc(var(--default_padding) / 4) 0 calc(var(--default_padding) / 4)
-      0;
+    padding: calc(var(--default_padding) / 4);
   }
 
   a {
     grid-area: link;
     display: block;
     padding-left: var(--default_padding);
-    color: var(--light80);
-    text-shadow: var(--sharpen);
     font-size: 14px;
   }
 
@@ -73,11 +70,10 @@
     grid-area: delBtn;
     @include mem_button;
     background-color: var(--trans);
-    text-shadow: var(--sharpen);
 
     &:hover {
       background-color: var(--black30);
-      color: var(--red);
+      color: red;
       text-shadow: none;
     }
   }

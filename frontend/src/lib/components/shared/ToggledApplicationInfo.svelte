@@ -1,24 +1,24 @@
 <script lang="ts">
   import { initialized, t } from '$lib/util/translations';
-  import Button, { Label } from '@smui/button';
-  import Icon from '@smui/textfield/icon';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Construction from 'carbon-icons-svelte/lib/Construction.svelte';
+  import Home from 'carbon-icons-svelte/lib/Home.svelte';
 </script>
 
 {#if $initialized}
   <div class="toggled_application_info_outer">
     <div class="toggled_application_info_inner">
-      <Icon class="material-icons toggled_application_icon">construction</Icon>
+      <Construction size={64} class="mb1" />
       <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
       <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
-      <div class="back_button">
+      <div class="mt2">
         <Button
-          color="secondary"
-          variant="outlined"
+          iconDescription={$t('page.shared.toggledSiteBackButtonText')}
+          kind="tertiary"
+          icon={Home}
           href="/"
-          style="text-decoration: none;"
         >
-          <Icon class="material-icons">home</Icon>
-          <Label>{$t('page.shared.toggledSiteBackButtonText')}</Label>
+          {$t('page.shared.toggledSiteBackButtonText')}
         </Button>
       </div>
     </div>
@@ -44,10 +44,5 @@
 
   :global(.toggled_application_icon) {
     font-size: 5rem;
-    color: var(--light80);
-  }
-
-  .back_button {
-    margin-top: 3rem;
   }
 </style>

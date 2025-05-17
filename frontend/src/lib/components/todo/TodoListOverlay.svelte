@@ -3,39 +3,35 @@
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
   import { todoStore } from '$lib/util/stores/store-todo';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
-  import Button, { Label } from '@smui/button';
-  import Dialog, { Actions, Content, Title } from '@smui/dialog';
-  import IconButton from '@smui/icon-button';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
-  import Icon from '@smui/textfield/icon';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
-  export let listIndex: number;
-  export let newListName = '';
-  export let newListEmoji = '';
+  export let listId;
+  export let listName = '';
+  export let listEmoji = '';
 
-  let newListEmojiInput: Textfield;
-  let saveButton: Button;
+  $: listIndex = $todoStore.findIndex((list) => list.id === listId);
 
-  $: if (saveButton) {
-    saveButton.$$set({
-      disabled: !newListName || (!isEmoji(newListEmoji) && newListEmoji !== ''),
-    });
-  }
-  $: if (newListEmojiInput) {
-    if (!isEmoji(newListEmojiInput)) {
-      newListEmojiInput.$$set({ invalid: true });
-    } else {
-      newListEmojiInput.$$set({ invalid: false });
-    }
-  }
+  $: modalStates = () => {
+    let classes = '';
+
+    if (!listName || (!isEmoji(listEmoji) && listEmoji !== ''))
+      classes += 'modal_unsavable';
+    if ($listOverlayOptionsStore.type === 'new')
+      classes += ' modal_undeletable';
+
+    return classes;
+  };
 
   const createList = () => {
     const list: TodoList = {
-      name: newListName,
-      emoji: newListEmoji || '📝',
+      id: listId || crypto.randomUUID(),
+      name: listName,
+      emoji: listEmoji || '📝',
       history: [],
       todos: [],
     };
@@ -44,137 +40,110 @@
     });
 
     closeOverlay();
+    celebrate();
   };
-
   const updateList = () => {
     todoStore.update((n) => {
       console.log(listIndex);
       console.log(n);
-      n[listIndex].name = newListName;
-      n[listIndex].emoji = newListEmoji || '📝';
+      n[listIndex].name = listName;
+      n[listIndex].emoji = listEmoji || '📝';
       return n;
     });
 
     closeOverlay();
   };
-
-  const deleteList = () => {
+  const deleteList = (listId) => {
+    const deletionTodoListIndex = $todoStore.findIndex(
+      (todoList) => todoList.id === listId,
+    );
     todoStore.update((n) => {
-      n.splice(listIndex, 1);
+      n.splice(deletionTodoListIndex, 1);
       return n;
     });
     closeOverlay();
   };
-
   const proceedOnEnter = (event) => {
     if (isEnter(event)) {
-      if (newListName && (isEmoji(newListEmoji) || newListEmoji === '')) {
+      if (listName && (isEmoji(listEmoji) || listEmoji === '')) {
         $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }
     }
   };
-
   const closeOverlay = () => {
     $listOverlayOptionsStore.showOverlay = false;
     $listOverlayOptionsStore.type = undefined;
+    listId = undefined;
     listIndex = undefined;
-    newListName = '';
-    newListEmoji = '';
+    listName = '';
+    listEmoji = '';
   };
 </script>
 
-<Dialog
+<Modal
   bind:open={$listOverlayOptionsStore.showOverlay}
-  aria-labelledby="simple-title"
-  aria-describedby="simple-content"
+  modalHeading={$listOverlayOptionsStore.type === 'new'
+    ? $t('page.todos.overlay.createTitle')
+    : $t('page.todos.overlay.editTitle')}
+  primaryButtonText={$listOverlayOptionsStore.type === 'new'
+    ? $t('page.shared.append')
+    : $t('page.shared.save')}
+  primaryButtonIcon={Save}
+  secondaryButtons={[
+    { text: $t('page.shared.abort') },
+    { text: $t('page.shared.delete') },
+  ]}
+  on:click:button--primary={$listOverlayOptionsStore.type === 'new'
+    ? createList
+    : updateList}
+  on:click:button--secondary={({ detail }) => {
+    if (detail.text === $t('page.shared.abort')) closeOverlay();
+    if (detail.text === $t('page.shared.delete')) deleteList(listIndex);
+  }}
+  class={modalStates()}
 >
   {#if $initialized}
     {#if $listOverlayOptionsStore.type === 'new'}
-      <Title id="simple-title">
-        {$t('page.todos.overlay.createTitle')}
-        <p class="subtitle">
-          {$t('page.todos.overlay.createSubtitle')}
-        </p>
-      </Title>
+      <p class="subtitle">
+        {$t('page.todos.overlay.createSubtitle')}
+      </p>
     {:else}
-      <Title id="simple-title">
-        {$t('page.todos.overlay.editTitle')}
-        <p class="subtitle">
-          <b
-            >{$t('page.todos.overlay.createSubtitle', {
-              listName: newListName,
-            })}</b
-          >.
-        </p>
-      </Title>
+      <p class="subtitle">
+        <b
+          >{$t('page.todos.overlay.createSubtitle', {
+            listName: listName,
+          })}</b
+        >.
+      </p>
     {/if}
-    <Content id="simple-content">
-      <div class="create_list_section">
-        <Textfield
-          variant="outlined"
-          bind:value={newListName}
-          label={$t('page.todos.overlay.listName')}
-          required
+
+    <div class="create_list_section">
+      <TextInput
+        bind:value={listName}
+        labelText={$t('page.todos.overlay.listName')}
+        placeholder={$t('page.todos.overlay.listName')}
+        autofocus
+        class="mb1"
+        on:keyup={(event) => proceedOnEnter(event)}
+      />
+      <div>
+        <TextInput
+          bind:value={listEmoji}
+          placeholder={$t('page.todos.overlay.listEmoji')}
+          labelText={$t('page.todos.overlay.listEmojiDescription')}
+          class="mb1"
           on:keyup={(event) => proceedOnEnter(event)}
         />
-        <div>
-          <Textfield
-            variant="outlined"
-            bind:this={newListEmojiInput}
-            bind:value={newListEmoji}
-            label={$t('page.todos.overlay.listEmoji')}
-            on:keyup={(event) => proceedOnEnter(event)}
-          >
-            <HelperText persistent slot="helper"
-              >{$t('page.todos.overlay.listEmojiDescription')}</HelperText
-            >
-            <Wrapper>
-              <IconButton
-                style="position:absolute;color: white;right:0;top:0"
-                size="mini"
-              >
-                <Icon class="material-icons">info</Icon>
-              </IconButton>
-              <Tooltip xPos="center" yPos="above"
-                >{$t('page.todos.overlay.emojiTooltip')}</Tooltip
-              >
-            </Wrapper>
-          </Textfield>
-        </div>
-      </div>
-    </Content>
 
-    <Actions>
-      <Button on:click={deleteList} color="secondary">
-        <Icon class="material-icons">delete</Icon>
-        <Label>{$t('page.shared.delete')}</Label>
-      </Button>
-      <Button on:click={closeOverlay} color="secondary">
-        <Icon class="material-icons">playlist_remove</Icon>
-        <Label>{$t('page.shared.abort')}</Label>
-      </Button>
-      <Button
-        on:click={$listOverlayOptionsStore.type === 'new'
-          ? createList
-          : updateList}
-        bind:this={saveButton}
-      >
-        <Icon class="material-icons"
-          >{$listOverlayOptionsStore.type === 'new'
-            ? 'playlist_add'
-            : 'save'}</Icon
-        >
-        <Label
-          >{$listOverlayOptionsStore.type === 'new'
-            ? $t('page.shared.append')
-            : $t('page.shared.save')}</Label
-        >
-      </Button>
-    </Actions>
+        <Tooltip triggerText="Emoji Info" direction="top">
+          <p>{@html $t('page.todos.overlay.emojiTooltip')}</p>
+        </Tooltip>
+      </div>
+    </div>
   {:else}
-    <Title id="simple-title">Locale initializing...</Title>
+    <p>Locale initializing...</p>
   {/if}
-</Dialog>
+</Modal>
 
 <svelte:window
   on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
@@ -189,5 +158,27 @@
     flex-direction: row;
     gap: var(--default_padding);
     margin-top: var(--default_padding);
+  }
+
+  :global(
+    .modal_unsavable
+      > .bx--modal-container
+      > .bx--modal-footer
+      > .bx--btn--primary
+  ) {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  :global(
+    .modal_undeletable
+      > .bx--modal-container
+      > .bx--modal-footer
+      > .bx--btn--secondary:nth-child(2)
+  ) {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 </style>

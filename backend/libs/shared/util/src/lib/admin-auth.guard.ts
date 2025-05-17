@@ -16,7 +16,7 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 export class AdminGuard implements CanActivate {
   constructor(
     private configService: ConfigService,
-    private reflector: Reflector
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -33,19 +33,16 @@ export class AdminGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without token.`,
-        { description: `Provided no bearer token.` }
+        { description: `Provided no bearer token.` },
       );
     }
 
     const adminIdentifier = this.configService.get('ADMIN_IDENTIFIER');
-    console.log(token);
-    console.log(adminIdentifier);
     const isValid = token === adminIdentifier;
-    console.log(isValid);
     if (!isValid) {
       throw new UnauthorizedException(
         `Unauthorized to ${request.method} request ressource ${request.url} without permission.`,
-        { description: `Provided bearer token: ${token}` }
+        { description: `Provided bearer token: ${token}` },
       );
     }
     return isValid;

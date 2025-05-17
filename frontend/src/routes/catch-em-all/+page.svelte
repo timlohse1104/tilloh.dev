@@ -116,7 +116,6 @@
   .mobile_message {
     display: none;
     text-align: center;
-    color: var(--light80);
 
     img {
       width: 50vw;

@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [global]  Upgraded to fastify version 5 and updated corresponding dependencies.
+- [global] Upgraded to fastify version 5 and updated corresponding dependencies.
+- [global] Replaced svelte material ui with carbon components.
 
 ### Fixed
 

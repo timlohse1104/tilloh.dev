@@ -11,7 +11,7 @@ import {
   LoggerMiddleware,
 } from '@backend/util';
 import fastifyCors from '@fastify/cors';
-import { FastifyMulterModule } from '@nest-lab/fastify-multer';
+import fastifyMultipart from '@fastify/multipart';
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, HttpAdapterHost, NestFactory } from '@nestjs/core';
@@ -29,7 +29,6 @@ import { EnvironmentVariables, validate } from './env.validation';
 
 @Module({
   imports: [
-    FastifyMulterModule,
     PrometheusModule.register({
       controller: metricsControllerFactory(),
       path: '',
@@ -100,6 +99,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  app.register(fastifyMultipart);
   await app.register(fastifyCors, {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   });
