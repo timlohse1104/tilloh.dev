@@ -6,8 +6,8 @@ import { ensureTodoListUUID } from '../uuid';
 const localStorageKey = 'todos';
 const defaultValue: TodoList[] = [];
 
-export const sortDoneLast = (todoListArray: TodoList[]): TodoList[] => {
-  console.log('unsorted', JSON.parse(JSON.stringify(todoListArray)));
+// TODO: Fix this to not falsy set todos done
+const sortDoneLast = (todoListArray: TodoList[]): TodoList[] => {
   const sorted = JSON.parse(
     JSON.stringify(
       todoListArray.map((todoList) => ({
@@ -16,7 +16,6 @@ export const sortDoneLast = (todoListArray: TodoList[]): TodoList[] => {
       })),
     ),
   );
-  console.log('sorted', sorted);
   return sorted;
 };
 
@@ -35,9 +34,7 @@ export const todoStore = writable(getInitialValue());
 
 if (browser) {
   todoStore.subscribe((value: TodoList[]) =>
-    localStorage.setItem(
-      localStorageKey,
-      JSON.stringify(sortDoneLast(ensureTodoListUUID(value))),
-    ),
+    // localStorage.setItem(localStorageKey, JSON.stringify(sortDoneLast(value))),
+    localStorage.setItem(localStorageKey, JSON.stringify(value)),
   );
 }

@@ -5,34 +5,29 @@
   import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
-  import List from 'carbon-icons-svelte/lib/List.svelte';
-  import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { onMount } from 'svelte';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
   export let listId;
 
-  let list;
+  $: list = $todoStore.find((list) => list.id === listId);
   $: if (listId) console.log('listId', listId);
   $: if (list) console.log('list', list);
 
-  onMount(() => {
-    list = $todoStore.find((list) => list.id === listId);
-  });
-
-  const deleteTodo = (index) => {
+  const deleteTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
       const list = todoListArray.find((list) => list.id === listId);
-      list.todos.splice(index, 1);
+      const todoIndex = list.todos.findIndex((todo) => todo.id === todoId);
+      list.todos.splice(todoIndex, 1);
       return todoListArray;
     });
   };
-  const checkTodo = (index) => {
+  const checkTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
       const list = todoListArray.find((list) => list.id === listId);
-      list.todos[index].done = !list.todos[index].done;
+      const todoIndex = list.todos.findIndex((todo) => todo.id === todoId);
+      list.todos[todoIndex].done = !list.todos[todoIndex].done;
       return todoListArray;
     });
   };
@@ -115,79 +110,67 @@
 
 {#if $initialized}
   <section>
-    <div class="list_area">
-      {#if list?.todos?.length > 0}
-        <div class="list_header">
-          <h2>
-            {list.emoji || $t('page.todos.list.noEmoji')}
-            {list.name || $t('page.todos.list.noEmoji')}
-          </h2>
-          <hr />
-          <div class="history_area">
-            <Accordion>
-              <AccordionItem title={$t('page.todos.list.history')}>
-                {#if list?.history?.length > 0}
-                  <div class="history_list">
-                    <div class="history_entry_list">
-                      {#each list.history as entry}
-                        <Tag
-                          filter
-                          interactive
-                          type={selectRandomTagColor()}
-                          on:close={removeEntryFromHistory}
+    <div class="mt2 list_area">
+      <div class="list_header">
+        <h2>
+          {list?.emoji || $t('page.todos.list.noEmoji')}
+          {list?.name || $t('page.todos.list.noEmoji')}
+        </h2>
+        <hr />
+        <div class="history_area">
+          <Accordion>
+            <AccordionItem
+              title={$t('page.todos.list.history')}
+              class="custom_accordion_content"
+            >
+              {#if list?.history?.length > 0}
+                <div class="history_list">
+                  <div class="history_entry_list">
+                    {#each list?.history as entry}
+                      <Tag
+                        filter
+                        interactive
+                        type={selectRandomTagColor()}
+                        on:close={removeEntryFromHistory}
+                      >
+                        <button
+                          on:click={readdTodoFromHistory}
+                          class="tag_button"
                         >
-                          <button
-                            on:click={readdTodoFromHistory}
-                            class="tag_button"
-                          >
-                            {entry}
-                          </button>
-                        </Tag>
-                      {/each}
-                    </div>
-                    <Button
-                      kind="danger"
-                      size="small"
-                      iconDescription={$t('page.todos.deleteHistroy')}
-                      tooltipAlignment="end"
-                      icon={TrashCan}
-                      on:click={clearHistory}
-                    />
+                          {entry}
+                        </button>
+                      </Tag>
+                    {/each}
                   </div>
-                {:else}
-                  <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
-                {/if}
-              </AccordionItem>
-            </Accordion>
-          </div>
-          <TodoInput {listId} />
+                  <Button
+                    kind="danger"
+                    size="small"
+                    iconDescription={$t('page.todos.deleteHistroy')}
+                    tooltipAlignment="end"
+                    icon={TrashCan}
+                    on:click={clearHistory}
+                    class="history_delete_button"
+                  />
+                </div>
+              {:else}
+                <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
+              {/if}
+            </AccordionItem>
+          </Accordion>
         </div>
-      {/if}
+        <TodoInput {listId} />
+      </div>
 
       <div class="mt1 list_content">
-        {#if !list}
-          <h1 class="mt2">
-            {$t('page.todos.list.emptyTitle1')}
-            <List />
-            {$t('page.todos.list.emptyTitle2')}
-          </h1>
-          <div style="display:flex;flex-direction:column;align-items:center;">
-            <p class="mt2">
-              {$t('page.todos.list.emptySubtitle')}
-              <Menu />
-            </p>
-          </div>
-        {:else}
-          {#each list.todos as todo, i (i)}
-            {#if todo}
-              <Todo
-                {todo}
-                deleteTodo={() => deleteTodo(i)}
-                todoChecked={() => checkTodo(i)}
-              />
-            {/if}
-          {/each}
-        {/if}
+        {#each list?.todos as todo}
+          {#if todo}
+            <Todo
+              {todo}
+              deleteTodo={() => deleteTodo(todo.id)}
+              todoChecked={() => checkTodo(todo.id)}
+            />
+          {/if}
+        {/each}
       </div>
     </div>
   </section>
@@ -241,12 +224,18 @@
   .history_area {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .history_list {
     display: flex;
     align-items: start;
     justify-content: space-between;
+    width: 100%;
+  }
+
+  .history_delete_button {
+    padding-right: var(--default_padding);
   }
 
   .history_entry_list {

@@ -129,8 +129,8 @@
       <div>
         <TextInput
           bind:value={listEmoji}
-          labelText={$t('page.todos.overlay.listEmoji')}
-          placeholder={$t('page.todos.overlay.listEmojiDescription')}
+          placeholder={$t('page.todos.overlay.listEmoji')}
+          labelText={$t('page.todos.overlay.listEmojiDescription')}
           class="mb1"
           on:keyup={(event) => proceedOnEnter(event)}
         />

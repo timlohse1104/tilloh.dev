@@ -124,7 +124,19 @@
             tooltipPosition="left"
             on:click={() => (openMenu = !openMenu)}
           />
-          <TodoListComponent listId={currentListId || $todoStore[0].id} />
+          {#if $todoStore.length === 0}
+            <h1 class="mt2">
+              {$t('page.todos.list.emptyTitle')}
+            </h1>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <p class="mt2">
+                {$t('page.todos.list.emptySubtitle')}
+                <Catalog />
+              </p>
+            </div>
+          {:else}
+            <TodoListComponent listId={currentListId || $todoStore[0].id} />
+          {/if}
         </div>
       </div>
 

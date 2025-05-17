@@ -97,7 +97,7 @@
       <Accordion class="mt2">
         <AccordionItem
           title={$t('page.memorandum.presetOverlay.technicalInfoTitle')}
-          class="preset_code_accordion_content"
+          class="custom_accordion_content"
         >
           <CodeSnippet
             type="multi"
@@ -144,10 +144,6 @@
   .preset_info_area {
     display: flex;
     margin-top: 1rem;
-  }
-
-  :global(.preset_code_accordion_content .bx--accordion__content) {
-    padding: 0;
   }
 
   :global(.preset_modal .bx--modal-content) {
