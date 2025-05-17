@@ -57,6 +57,9 @@ a {
   color: var(--cds-text-01);
   text-decoration: none;
 }
+.tooltip_link {
+  color: var(--cds-text-05);
+}
 
 a:hover {
   color: green;

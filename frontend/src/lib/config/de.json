@@ -99,7 +99,7 @@
   "page.todos.overlay.listName": "Name der Liste",
   "page.todos.overlay.listEmoji": "Emoji für die Liste",
   "page.todos.overlay.listEmojiDescription": "Vergibst du kein Emoji erhältst du 📝",
-  "page.todos.overlay.emojiTooltip": "Emojis kann man z.B. hier https://emojipedia.org/ und hier https://emojifinder.com/ finden.",
+  "page.todos.overlay.emojiTooltip": "Emojis kann man z.B. bei <a class='tooltip_link' target='blank' href='https://emojipedia.org/'>Emojipedia</a> und bei <a class='tooltip_link' target='blank' href='https://emojifinder.com/'>EmojiFinder</a> finden.",
   "page.todos.list.noEmoji": "Kein Emoji vorhanden...",
   "page.todos.list.noListTitle": "Kein Listentitel vorhanden...",
   "page.todos.list.history": "Verlauf",

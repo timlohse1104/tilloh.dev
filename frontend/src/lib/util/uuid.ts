@@ -1,4 +1,5 @@
 import type { LinkDto, MemorandumDto } from '$lib/types/memorandum.dto';
+import type { Todo, TodoList } from '$lib/types/todo';
 
 const isUUID = (str) => {
   const uuidRegex =
@@ -6,6 +7,7 @@ const isUUID = (str) => {
   return uuidRegex.test(str);
 };
 
+// Memorandum
 const ensureLinkUUID = (links: LinkDto[]): LinkDto[] => {
   links.forEach((link) => {
     if (!isUUID(link.id)) {
@@ -24,4 +26,24 @@ export const ensureFolderUUID = (linkPreset: MemorandumDto) => {
     }
   });
   return linkPreset;
+};
+
+// Todo
+const ensureTodoUUID = (todos: Todo[]): Todo[] => {
+  todos.forEach((todo) => {
+    if (!isUUID(todo.id)) {
+      todo.id = crypto.randomUUID();
+    }
+  });
+  return todos;
+};
+
+export const ensureTodoListUUID = (todoListArray: TodoList[]) => {
+  todoListArray.forEach((todoList) => {
+    if (!isUUID(todoList.id)) {
+      todoList.id = crypto.randomUUID();
+      todoList.todos = ensureTodoUUID(todoList.todos);
+    }
+  });
+  return todoListArray;
 };

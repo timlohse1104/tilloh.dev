@@ -10,14 +10,16 @@
   import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
-  export let listIndex: number;
-  export let newListName = '';
-  export let newListEmoji = '';
+  export let listId;
+  export let listName = '';
+  export let listEmoji = '';
+
+  $: listIndex = $todoStore.findIndex((list) => list.id === listId);
 
   $: modalStates = () => {
     let classes = '';
 
-    if (!newListName || (!isEmoji(newListEmoji) && newListEmoji !== ''))
+    if (!listName || (!isEmoji(listEmoji) && listEmoji !== ''))
       classes += 'modal_unsavable';
     if ($listOverlayOptionsStore.type === 'new')
       classes += ' modal_undeletable';
@@ -27,8 +29,9 @@
 
   const createList = () => {
     const list: TodoList = {
-      name: newListName,
-      emoji: newListEmoji || '📝',
+      id: listId || crypto.randomUUID(),
+      name: listName,
+      emoji: listEmoji || '📝',
       history: [],
       todos: [],
     };
@@ -43,23 +46,26 @@
     todoStore.update((n) => {
       console.log(listIndex);
       console.log(n);
-      n[listIndex].name = newListName;
-      n[listIndex].emoji = newListEmoji || '📝';
+      n[listIndex].name = listName;
+      n[listIndex].emoji = listEmoji || '📝';
       return n;
     });
 
     closeOverlay();
   };
-  const deleteList = () => {
+  const deleteList = (listId) => {
+    const deletionTodoListIndex = $todoStore.findIndex(
+      (todoList) => todoList.id === listId,
+    );
     todoStore.update((n) => {
-      n.splice(listIndex, 1);
+      n.splice(deletionTodoListIndex, 1);
       return n;
     });
     closeOverlay();
   };
   const proceedOnEnter = (event) => {
     if (isEnter(event)) {
-      if (newListName && (isEmoji(newListEmoji) || newListEmoji === '')) {
+      if (listName && (isEmoji(listEmoji) || listEmoji === '')) {
         $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }
     }
@@ -67,9 +73,10 @@
   const closeOverlay = () => {
     $listOverlayOptionsStore.showOverlay = false;
     $listOverlayOptionsStore.type = undefined;
+    listId = undefined;
     listIndex = undefined;
-    newListName = '';
-    newListEmoji = '';
+    listName = '';
+    listEmoji = '';
   };
 </script>
 
@@ -91,7 +98,7 @@
     : updateList}
   on:click:button--secondary={({ detail }) => {
     if (detail.text === $t('page.shared.abort')) closeOverlay();
-    if (detail.text === $t('page.shared.delete')) deleteList();
+    if (detail.text === $t('page.shared.delete')) deleteList(listIndex);
   }}
   class={modalStates()}
 >
@@ -104,7 +111,7 @@
       <p class="subtitle">
         <b
           >{$t('page.todos.overlay.createSubtitle', {
-            listName: newListName,
+            listName: listName,
           })}</b
         >.
       </p>
@@ -112,7 +119,7 @@
 
     <div class="create_list_section">
       <TextInput
-        bind:value={newListName}
+        bind:value={listName}
         labelText={$t('page.todos.overlay.listName')}
         placeholder={$t('page.todos.overlay.listName')}
         autofocus
@@ -121,7 +128,7 @@
       />
       <div>
         <TextInput
-          bind:value={newListEmoji}
+          bind:value={listEmoji}
           labelText={$t('page.todos.overlay.listEmoji')}
           placeholder={$t('page.todos.overlay.listEmojiDescription')}
           class="mb1"
@@ -129,7 +136,7 @@
         />
 
         <Tooltip triggerText="Emoji Info" direction="top">
-          <p>{$t('page.todos.overlay.emojiTooltip')}</p>
+          <p>{@html $t('page.todos.overlay.emojiTooltip')}</p>
         </Tooltip>
       </div>
     </div>

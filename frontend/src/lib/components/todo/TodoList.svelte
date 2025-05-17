@@ -8,29 +8,39 @@
   import List from 'carbon-icons-svelte/lib/List.svelte';
   import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+  import { onMount } from 'svelte';
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
-  export let listIndex;
+  export let listId;
 
-  $: currentList = $todoStore[listIndex] || $todoStore[0];
+  let list;
+  $: if (listId) console.log('listId', listId);
+  $: if (list) console.log('list', list);
+
+  onMount(() => {
+    list = $todoStore.find((list) => list.id === listId);
+  });
 
   const deleteTodo = (index) => {
-    todoStore.update((list) => {
-      list[listIndex].todos.splice(index, 1);
-      return list;
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.todos.splice(index, 1);
+      return todoListArray;
     });
   };
   const checkTodo = (index) => {
-    todoStore.update((list) => {
-      list[listIndex].todos[index].done = !list[listIndex].todos[index].done;
-      return list;
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.todos[index].done = !list.todos[index].done;
+      return todoListArray;
     });
   };
   const clearHistory = () => {
-    todoStore.update((list) => {
-      list[listIndex].history = [];
-      return list;
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.history = [];
+      return todoListArray;
     });
   };
   const selectRandomTagColor = ():
@@ -82,11 +92,12 @@
 
     if (!tagText) return;
 
-    todoStore.update((list) => {
-      list[listIndex].history = list[listIndex].history.filter((entry) => {
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.history = list.history.filter((entry) => {
         return entry !== tagText;
       });
-      return list;
+      return todoListArray;
     });
   };
   const readdTodoFromHistory = (event) => {
@@ -94,9 +105,10 @@
 
     if (!tagText) return;
 
-    todoStore.update((n) => {
-      n[listIndex].todos.push({ title: tagText, done: false });
-      return [...n];
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.todos.push({ id: crypto.randomUUID(), title: tagText, done: false });
+      return [...todoListArray];
     });
   };
 </script>
@@ -104,20 +116,20 @@
 {#if $initialized}
   <section>
     <div class="list_area">
-      {#if currentList || currentList?.todos?.length > 0}
+      {#if list?.todos?.length > 0}
         <div class="list_header">
           <h2>
-            {currentList?.emoji || $t('page.todos.list.noEmoji')}
-            {currentList?.name || $t('page.todos.list.noEmoji')}
+            {list.emoji || $t('page.todos.list.noEmoji')}
+            {list.name || $t('page.todos.list.noEmoji')}
           </h2>
           <hr />
           <div class="history_area">
             <Accordion>
               <AccordionItem title={$t('page.todos.list.history')}>
-                {#if currentList?.history?.length > 0}
+                {#if list?.history?.length > 0}
                   <div class="history_list">
                     <div class="history_entry_list">
-                      {#each currentList?.history as entry}
+                      {#each list.history as entry}
                         <Tag
                           filter
                           interactive
@@ -148,12 +160,12 @@
               </AccordionItem>
             </Accordion>
           </div>
-          <TodoInput {listIndex} />
+          <TodoInput {listId} />
         </div>
       {/if}
 
       <div class="mt1 list_content">
-        {#if !currentList}
+        {#if !list}
           <h1 class="mt2">
             {$t('page.todos.list.emptyTitle1')}
             <List />
@@ -166,7 +178,7 @@
             </p>
           </div>
         {:else}
-          {#each currentList?.todos as todo, i (i)}
+          {#each list.todos as todo, i (i)}
             {#if todo}
               <Todo
                 {todo}

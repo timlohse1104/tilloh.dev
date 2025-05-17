@@ -4,26 +4,30 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
-  export let listIndex;
+  export let listId;
 
   let newTodoName = '';
 
   const saveTodo = () => {
     if (newTodoName) {
-      todoStore.update((n) => {
-        n[listIndex].todos.push({ title: newTodoName, done: false });
-        return [...n];
+      todoStore.update((todoListArray) => {
+        const list = todoListArray.find((list) => list.id === listId);
+        list.todos.push({
+          id: crypto.randomUUID(),
+          title: newTodoName,
+          done: false,
+        });
+        return [...todoListArray];
       });
       addToHistory(newTodoName);
       newTodoName = '';
     }
   };
   const addToHistory = (todoName) => {
-    todoStore.update((n) => {
-      n[listIndex].history = Array.from(
-        new Set(n[listIndex].history).add(todoName),
-      );
-      return n;
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.history = Array.from(new Set(list.history).add(todoName));
+      return todoListArray;
     });
   };
 </script>

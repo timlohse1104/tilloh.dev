@@ -17,8 +17,8 @@
 
   const { todo: todoRoute } = applicationRoutes;
 
-  let currentListIndex = 0;
-  let newListIndex = 0;
+  let currentListId = '';
+  let newListId = '';
   let openMenu = false;
 
   $: locale = $languageStore;
@@ -27,21 +27,26 @@
     await setLocale($languageStore);
   });
 
-  const showListOverlay = (type: 'new' | 'edit', index?: number) => {
+  const showListOverlay = (type: 'new' | 'edit', id?: string) => {
     openMenu = false;
     if (type === 'new') {
-      newListIndex = $todoStore.length;
+      newListId = crypto.randomUUID();
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     } else {
-      currentListIndex = index;
+      currentListId = id;
       $listOverlayOptionsStore.showOverlay = true;
       $listOverlayOptionsStore.type = type;
     }
   };
-  const setActiveList = (index: number) => {
-    currentListIndex = index;
+  const setActiveList = (id: string) => {
+    currentListId = id;
     openMenu = false;
+  };
+  const getListInformation = (id: string): { name: string; emoji: string } => {
+    const list = $todoStore.find((list) => list.id === id);
+    if (list) return { name: list.name, emoji: list.emoji };
+    return { name: undefined, emoji: undefined };
   };
 </script>
 
@@ -73,8 +78,8 @@
           </div>
         {:else}
           <div class="mt1">
-            {#each $todoStore as list, i (i)}
-              <ClickableTile on:click={() => setActiveList(i)}>
+            {#each $todoStore as list}
+              <ClickableTile on:click={() => setActiveList(list.id)}>
                 <div class="todo_list_entry">
                   <h4>
                     {list.emoji}
@@ -86,7 +91,7 @@
                     tooltipAlignment="end"
                     icon={Edit}
                     size="field"
-                    on:click={() => showListOverlay('edit', i)}
+                    on:click={() => showListOverlay('edit', list.id)}
                   />
                 </div>
               </ClickableTile>
@@ -119,15 +124,15 @@
             tooltipPosition="left"
             on:click={() => (openMenu = !openMenu)}
           />
-          <TodoListComponent listIndex={currentListIndex} />
+          <TodoListComponent listId={currentListId || $todoStore[0].id} />
         </div>
       </div>
 
       {#if $listOverlayOptionsStore.showOverlay}
         <TodoListOverlay
-          listIndex={newListIndex}
-          newListName={$todoStore[newListIndex]?.name}
-          newListEmoji={$todoStore[newListIndex]?.emoji}
+          listId={newListId}
+          listName={getListInformation(newListId).name}
+          listEmoji={getListInformation(newListId).emoji}
         />
       {/if}
     </section>
