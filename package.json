@@ -22,8 +22,5 @@
   },
   "workspaces": [
     "packages/*"
-  ],
-  "dependencies": {
-    "@fastify/multipart": "^9.0.3"
-  }
+  ]
 }

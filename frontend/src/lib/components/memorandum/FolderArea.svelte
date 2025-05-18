@@ -1,6 +1,6 @@
 <script lang="ts">
   import Masonry from '$lib/components/shared/Masonry.svelte';
-  import { fetchJson } from '$lib/util/memorandum/async.js';
+  import { defaultPreset } from '$lib/config/default-preset.ts';
   import { FolderClass } from '$lib/util/memorandum/classes.js';
   import { defaultColor } from '$lib/util/memorandum/constants.js';
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
@@ -43,11 +43,7 @@
     $localPresetStore = currentPreset;
   };
 
-  const loadPreset = async () => {
-    const DEFAUL_PRESET_URL = '/config/default-preset.json';
-
-    let defaultPreset = await fetchJson(DEFAUL_PRESET_URL);
-
+  const loadPreset = () => {
     $localPresetStore = defaultPreset;
   };
 
