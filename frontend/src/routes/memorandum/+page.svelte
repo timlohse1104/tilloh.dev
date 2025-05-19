@@ -114,7 +114,7 @@
       <div class="info_buttons">
         <Button
           kind="ghost"
-          iconDescription={$t('page.memorandum.doubleClickInfo')}
+          iconDescription={$t('page.memorandum.rightClickInfo')}
           tooltipPosition="left"
           icon={Information}
         />

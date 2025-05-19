@@ -9,6 +9,12 @@
     linkOverlayOptionsStore,
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
+  import {
+    ContextMenu,
+    ContextMenuDivider,
+    ContextMenuOption,
+  } from 'carbon-components-svelte';
+  import { Add, CopyFile, Edit, Launch, TrashCan } from 'carbon-icons-svelte';
   import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
@@ -19,6 +25,7 @@
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
+  let folderObject;
 
   let confirmDeleteLinkOpenOverlay = false;
   let confirmDeleteLinkAction;
@@ -37,7 +44,7 @@
     folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
   }
 
-  const showOverlay = (event) => {
+  const showLinkOverlay = (event) => {
     $linkOverlayOptionsStore.showOverlay =
       !$linkOverlayOptionsStore.showOverlay;
     $linkOverlayOptionsStore.currentFolderId = folderId;
@@ -49,7 +56,6 @@
       $linkOverlayOptionsStore.currLinkUrl = event.detail.linkUrl;
     }
   };
-
   const deleteLink = (event) => {
     const linkId = event.detail;
     console.log(`Deleting link with ID: ${linkId}`);
@@ -66,7 +72,6 @@
 
     confirmDeleteLinkOpenOverlay = true;
   };
-
   const showFolderOverlay = () => {
     $folderOverlayOptionsStore.showOverlay =
       !$folderOverlayOptionsStore.showOverlay;
@@ -77,7 +82,6 @@
         (f) => f.id === folderId,
       ).customBackgroundColor;
   };
-
   const openFolderLinks = () => {
     let currentPreset = $localPresetStore;
     let folder = currentPreset.Folders.find((folder) => (folder.id = folderId));
@@ -88,7 +92,6 @@
       });
     }
   };
-
   const dropFolder = (originFolderId) => {
     if (originFolderId !== folderId) {
       let currPreset = $localPresetStore;
@@ -102,7 +105,6 @@
       $localPresetStore = currPreset;
     }
   };
-
   const dropLink = (originLinkId) => {
     let currPreset = $localPresetStore;
     let originFolderIndex;
@@ -126,7 +128,6 @@
     currPreset.Folders[currentFolderIndex].links.splice(0, 0, originLink);
     $localPresetStore = currPreset;
   };
-
   const provideLinkFaviconUrl = (linkUrl) => {
     const url = new URL(linkUrl);
     const baseUrl = url.hostname;
@@ -135,10 +136,29 @@
     let faviconLink = `https://www.google.com/s2/favicons?domain=${mainUrl}`;
     return faviconLink;
   };
+  const duplicateFolder = () => {
+    let currentPreset = $localPresetStore;
+    let currentFolder = {
+      ...currentPreset.Folders.find(
+        (folder) => folder.id === $folderOverlayOptionsStore.currentFolderId,
+      ),
+    };
+
+    const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
+    duplicatedFolder.id = crypto.randomUUID();
+    duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
+      folderName: folderHeader,
+    });
+
+    currentPreset.Folders.push(duplicatedFolder);
+
+    $localPresetStore = currentPreset;
+  };
 </script>
 
 {#if $initialized}
   <section
+    bind:this={folderObject}
     class={$folderOrderFolder === 'fixed'
       ? 'link_box_fixed'
       : 'link_box_flexible'}
@@ -163,23 +183,10 @@
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
         : 'var(--darkgrey80)'}
-      on:dblclick={showFolderOverlay}
       role="presentation"
     >
-      <button on:click={openFolderLinks} class="folder_header_button">
-        {folderHeader}
-      </button>
+      {folderHeader}
     </div>
-
-    <button
-      class="box_delete_button"
-      style={folderBackgroundColor
-        ? `background-color: ${folderBackgroundColor}`
-        : 'var(--darkgrey80)'}
-      on:click={() => dispatch('delFolder', folderId)}
-    >
-      -
-    </button>
 
     <div class="box_content">
       {#await $localPresetStore}
@@ -191,7 +198,7 @@
           {#each filteredLinks as { id: linkId, linkName, linkUrl, faviconLink }}
             <Link
               on:delLink={deleteLink}
-              on:editLink={showOverlay}
+              on:editLink={showLinkOverlay}
               {linkId}
               {folderId}
               {linkName}
@@ -209,18 +216,6 @@
       {/await}
     </div>
 
-    <button
-      class="link_add_button"
-      style={folderBackgroundColor
-        ? `background-color: ${folderBackgroundColor}`
-        : 'var(--darkgrey80)'}
-      on:click={showOverlay}
-    >
-      <span>{$t('page.memorandum.newLink')}</span>
-
-      <span>+</span>
-    </button>
-
     <ConfirmOverlay
       open={confirmDeleteLinkOpenOverlay}
       questionHeader={$t('page.memorandum.link.deleteTitle')}
@@ -232,6 +227,46 @@
       on:close={() => (confirmDeleteLinkOpenOverlay = false)}
     />
   </section>
+
+  <ContextMenu target={folderObject}>
+    <ContextMenuOption
+      indented
+      labelText={$t('page.memorandum.folder.newLink')}
+      icon={Add}
+      on:click={showLinkOverlay}
+    />
+    <ContextMenuOption
+      indented
+      labelText={$t('page.memorandum.folder.openLinks', {
+        amount: filteredLinks.length,
+      })}
+      icon={Launch}
+      on:click={openFolderLinks}
+    />
+    <ContextMenuDivider />
+    <ContextMenuOption
+      indented
+      labelText={$t('page.memorandum.folder.editTitle')}
+      icon={Edit}
+      on:click={showFolderOverlay}
+    />
+    <ContextMenuOption
+      indented
+      labelText={$t('page.memorandum.folder.duplicate')}
+      icon={CopyFile}
+      on:click={duplicateFolder}
+    />
+    <ContextMenuDivider />
+    <ContextMenuOption
+      indented
+      kind="danger"
+      labelText={$t('page.memorandum.folder.deleteTitle', {
+        amount: filteredLinks.length,
+      })}
+      icon={TrashCan}
+      on:click={() => dispatch('delFolder', folderId)}
+    />
+  </ContextMenu>
 {:else}
   <section>Locale initializing...</section>
 {/if}
@@ -243,35 +278,23 @@
     display: grid;
     margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
       calc(var(--default_padding) / 2);
-    grid-template-columns: calc(100% - 50px) 50px;
-    grid-template-rows: 2.5rem 250px 2rem;
+    grid-template-rows: 2.5rem 250px;
     grid-template-areas:
-      'header delBtn'
-      'content content'
-      'addLinkBtn addLinkBtn';
+      'header'
+      'content';
   }
   .link_box_flexible {
     display: grid;
     width: 100%;
-    grid-template-columns: calc(100% - 50px) 50px;
-    grid-template-rows: 2.5rem auto 2rem;
+    grid-template-rows: 2.5rem auto;
     grid-template-areas:
-      'header delBtn'
-      'content content'
-      'addLinkBtn addLinkBtn';
+      'header'
+      'content';
     box-shadow: unset;
 
     &:hover {
       box-shadow: 0 0 20px var(--white30);
     }
-  }
-
-  .folder_header_button {
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    color: var(--white);
-    padding: 0;
   }
 
   .box_header {
@@ -281,28 +304,6 @@
     font-weight: bolder;
     padding-left: var(--default_padding);
     font-size: 18px;
-  }
-
-  .box_delete_button {
-    grid-area: delBtn;
-    @include mem_button;
-    text-align: center;
-    font-weight: bolder;
-
-    &:hover {
-      background-color: red;
-    }
-  }
-
-  .link_add_button {
-    grid-area: addLinkBtn;
-    @include mem_button;
-    text-align: left;
-    padding-left: var(--default_padding);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
   }
 
   .box_content {

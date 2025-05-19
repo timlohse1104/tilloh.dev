@@ -61,27 +61,6 @@
       closeOverlay();
     }
   };
-  const duplicateFolder = () => {
-    if (submittable) {
-      let currentPreset = $localPresetStore;
-      let currentFolder = {
-        ...currentPreset.Folders.find(
-          (folder) => folder.id === $folderOverlayOptionsStore.currentFolderId,
-        ),
-      };
-
-      const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
-      duplicatedFolder.id = crypto.randomUUID();
-      duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
-        folderName,
-      });
-
-      currentPreset.Folders.push(duplicatedFolder);
-
-      $localPresetStore = currentPreset;
-      closeOverlay();
-    }
-  };
   const updateCustomColorFromInput = () => {
     const splitted = customColorInput.split(',');
     if (splitted.length === 4) {
@@ -99,15 +78,9 @@
   modalHeading={$t('page.memorandum.folder.editTitle', { folderName })}
   primaryButtonText={$t('page.shared.save')}
   primaryButtonIcon={Save}
-  secondaryButtons={[
-    { text: $t('page.shared.abort') },
-    { text: $t('page.shared.duplicate') },
-  ]}
+  secondaryButtonText={$t('page.shared.abort')}
   on:click:button--primary={editFolder}
-  on:click:button--secondary={({ detail }) => {
-    if (detail.text === $t('page.shared.abort')) closeOverlay();
-    if (detail.text === $t('page.shared.duplicate')) duplicateFolder();
-  }}
+  on:click:button--secondary={closeOverlay}
   style="background-color:{customColor.getRGBA()}"
 >
   {#if $initialized}
