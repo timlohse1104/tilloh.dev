@@ -7,7 +7,7 @@ const localStorageKey = 'todos';
 const defaultValue: TodoList[] = [];
 
 // TODO: Fix this to not falsy set todos done
-const sortDoneLast = (todoListArray: TodoList[]): TodoList[] => {
+export const sortDoneLast = (todoListArray: TodoList[]): TodoList[] => {
   const sorted = JSON.parse(
     JSON.stringify(
       todoListArray.map((todoList) => ({
