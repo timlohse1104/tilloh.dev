@@ -57,40 +57,19 @@
       closeOverlay();
     }
   };
-  const duplicateLink = () => {
-    if (submittable) {
-      let currPreset = $localPresetStore;
-      let currLinks = currPreset.Folders.find(
-        (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
-      ).links;
-
-      currLinks.push(
-        new HyperlinkClass(crypto.randomUUID(), newLinkName, newLinkUrl),
-      );
-
-      $localPresetStore = currPreset;
-      closeOverlay();
-    }
-  };
 </script>
 
 <Modal
   bind:open={$linkOverlayOptionsStore.showOverlay}
   modalHeading={type === 'new'
     ? $t('page.memorandum.link.createTitle')
-    : $t('page.memorandum.link.editTitle', { linkName: newLinkName })}
+    : $t('page.memorandum.link.editTitle')}
   primaryButtonText={$t('page.shared.save')}
   primaryButtonIcon={Save}
-  secondaryButtons={[
-    { text: $t('page.shared.abort') },
-    { text: $t('page.shared.duplicate') },
-  ]}
+  secondaryButtonText={$t('page.shared.abort')}
   class={type === 'edit' ? 'edit_link' : 'new_link'}
   on:click:button--primary={type === 'new' ? addLink : editLink}
-  on:click:button--secondary={({ detail }) => {
-    if (detail.text === $t('page.shared.abort')) closeOverlay();
-    if (detail.text === $t('page.shared.duplicate')) duplicateLink();
-  }}
+  on:click:button--secondary={closeOverlay}
 >
   {#if $initialized}
     {#if type === 'new'}

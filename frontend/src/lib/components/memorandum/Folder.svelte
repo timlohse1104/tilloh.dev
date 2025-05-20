@@ -9,12 +9,14 @@
     linkOverlayOptionsStore,
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, t } from '$lib/util/translations';
-  import {
-    ContextMenu,
-    ContextMenuDivider,
-    ContextMenuOption,
-  } from 'carbon-components-svelte';
-  import { Add, CopyFile, Edit, Launch, TrashCan } from 'carbon-icons-svelte';
+  import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
+  import ContextMenuDivider from 'carbon-components-svelte/src/ContextMenu/ContextMenuDivider.svelte';
+  import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import CopyFile from 'carbon-icons-svelte/lib/CopyFile.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
@@ -25,7 +27,7 @@
   export let folderHeader;
   export let folderBackground;
   export let folderBackgroundColor = '';
-  let folderObject;
+  let folderHeaderObject;
 
   let confirmDeleteLinkOpenOverlay = false;
   let confirmDeleteLinkAction;
@@ -158,7 +160,6 @@
 
 {#if $initialized}
   <section
-    bind:this={folderObject}
     class={$folderOrderFolder === 'fixed'
       ? 'link_box_fixed'
       : 'link_box_flexible'}
@@ -179,6 +180,7 @@
     role="presentation"
   >
     <div
+      bind:this={folderHeaderObject}
       class="box_header"
       style={folderBackgroundColor
         ? `background-color: ${folderBackgroundColor}`
@@ -226,47 +228,47 @@
       yesAction={confirmDeleteLinkAction}
       on:close={() => (confirmDeleteLinkOpenOverlay = false)}
     />
-  </section>
 
-  <ContextMenu target={folderObject}>
-    <ContextMenuOption
-      indented
-      labelText={$t('page.memorandum.folder.newLink')}
-      icon={Add}
-      on:click={showLinkOverlay}
-    />
-    <ContextMenuOption
-      indented
-      labelText={$t('page.memorandum.folder.openLinks', {
-        amount: filteredLinks.length,
-      })}
-      icon={Launch}
-      on:click={openFolderLinks}
-    />
-    <ContextMenuDivider />
-    <ContextMenuOption
-      indented
-      labelText={$t('page.memorandum.folder.editTitle')}
-      icon={Edit}
-      on:click={showFolderOverlay}
-    />
-    <ContextMenuOption
-      indented
-      labelText={$t('page.memorandum.folder.duplicate')}
-      icon={CopyFile}
-      on:click={duplicateFolder}
-    />
-    <ContextMenuDivider />
-    <ContextMenuOption
-      indented
-      kind="danger"
-      labelText={$t('page.memorandum.folder.deleteTitle', {
-        amount: filteredLinks.length,
-      })}
-      icon={TrashCan}
-      on:click={() => dispatch('delFolder', folderId)}
-    />
-  </ContextMenu>
+    <ContextMenu target={folderHeaderObject}>
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.folder.newLink')}
+        icon={Add}
+        on:click={showLinkOverlay}
+      />
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.folder.openLinks', {
+          amount: filteredLinks.length,
+        })}
+        icon={Launch}
+        on:click={openFolderLinks}
+      />
+      <ContextMenuDivider />
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.folder.editTitle')}
+        icon={Edit}
+        on:click={showFolderOverlay}
+      />
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.folder.duplicate')}
+        icon={CopyFile}
+        on:click={duplicateFolder}
+      />
+      <ContextMenuDivider />
+      <ContextMenuOption
+        indented
+        kind="danger"
+        labelText={$t('page.memorandum.folder.deleteTitle', {
+          amount: filteredLinks.length,
+        })}
+        icon={TrashCan}
+        on:click={() => dispatch('delFolder', folderId)}
+      />
+    </ContextMenu>
+  </section>
 {:else}
   <section>Locale initializing...</section>
 {/if}

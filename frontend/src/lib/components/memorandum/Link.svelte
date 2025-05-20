@@ -1,42 +1,90 @@
 <script lang="ts">
   import { draggable } from '$lib/util/drag-and-drop';
+  import { HyperlinkClass } from '$lib/util/memorandum/classes.js';
+  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
+  import { initialized, t } from '$lib/util/translations';
+  import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
+  import ContextMenuDivider from 'carbon-components-svelte/src/ContextMenu/ContextMenuDivider.svelte';
+  import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
+  import CopyFile from 'carbon-icons-svelte/lib/CopyFile.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { bounceInOut } from 'svelte/easing';
   import { blur } from 'svelte/transition';
 
   const dispatch = createEventDispatcher();
+
   export let linkId;
   export let folderId;
   export let linkName;
   export let linkUrl;
   export let faviconLink;
+
+  let linkObject;
+
+  const duplicateLink = () => {
+    let currPreset = $localPresetStore;
+    console.log('currPreset', currPreset);
+    let currLinks = currPreset.Folders.find(
+      (folder) => folder.id === folderId,
+    ).links;
+
+    currLinks.push(new HyperlinkClass(crypto.randomUUID(), linkName, linkUrl));
+
+    $localPresetStore = currPreset;
+  };
 </script>
 
-<div
-  id="link"
-  use:draggable={`{ "type": "link", "linkId": "${linkId}", "originFolderId": "${folderId}" }`}
-  on:dblclick={() =>
-    dispatch('editLink', {
-      linkId: linkId,
-      linkName: linkName,
-      linkUrl: linkUrl,
-    })}
-  role="presentation"
-  transition:blur={{ duration: 1000, easing: bounceInOut }}
->
-  <img alt="Website logo of {linkName}" src={faviconLink} />
+{#if $initialized}
+  <section
+    bind:this={linkObject}
+    use:draggable={`{ "type": "link", "linkId": "${linkId}", "originFolderId": "${folderId}" }`}
+    role="presentation"
+    transition:blur={{ duration: 1000, easing: bounceInOut }}
+  >
+    <img alt="Website logo of {linkName}" src={faviconLink} />
 
-  <a href={linkUrl}>
-    {linkName}
-  </a>
+    <a href={linkUrl}>
+      {linkName}
+    </a>
 
-  <button on:click={() => dispatch('delLink', linkId)}> - </button>
-</div>
+    <ContextMenu target={linkObject}>
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.link.editTitle')}
+        icon={Edit}
+        on:click={() =>
+          dispatch('editLink', {
+            linkId: linkId,
+            linkName: linkName,
+            linkUrl: linkUrl,
+          })}
+      />
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.link.duplicate')}
+        icon={CopyFile}
+        on:click={duplicateLink}
+      />
+      <ContextMenuDivider />
+      <ContextMenuOption
+        indented
+        kind="danger"
+        labelText={$t('page.memorandum.link.deleteTitle')}
+        icon={TrashCan}
+        on:click={() => dispatch('delLink', linkId)}
+      />
+    </ContextMenu>
+  </section>
+{:else}
+  <section>Locale initializing...</section>
+{/if}
 
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
-  div {
+  section {
     display: grid;
     grid-template-columns: 20px calc(100% - 70px) 50px;
     height: auto;
