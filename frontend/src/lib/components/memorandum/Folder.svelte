@@ -141,9 +141,7 @@
   const duplicateFolder = () => {
     let currentPreset = $localPresetStore;
     let currentFolder = {
-      ...currentPreset.Folders.find(
-        (folder) => folder.id === $folderOverlayOptionsStore.currentFolderId,
-      ),
+      ...currentPreset.Folders.find((folder) => folder.id === folderId),
     };
 
     const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));

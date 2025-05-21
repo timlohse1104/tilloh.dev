@@ -234,10 +234,6 @@
     width: 100%;
   }
 
-  .history_delete_button {
-    padding-right: var(--default_padding);
-  }
-
   .history_entry_list {
     display: flex;
     flex-wrap: wrap;

@@ -25,7 +25,6 @@
 
   const duplicateLink = () => {
     let currPreset = $localPresetStore;
-    console.log('currPreset', currPreset);
     let currLinks = currPreset.Folders.find(
       (folder) => folder.id === folderId,
     ).links;

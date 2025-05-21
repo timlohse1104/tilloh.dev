@@ -6,6 +6,8 @@
 
   export let locale;
 
+  let globalMenuObject;
+
   $: appLinks = Object.values(applicationRoutes).map((route) => ({
     id: route.id,
     title: route.name[locale],
@@ -18,6 +20,10 @@
     link: route.path,
     icon: route.icon,
   }));
+
+  const togglePopover = () => {
+    if (globalMenuObject) globalMenuObject.togglePopover();
+  };
 </script>
 
 <Button
@@ -29,7 +35,7 @@
   class="global_menu"
 />
 
-<aside popover id="hamburger-menu">
+<aside popover bind:this={globalMenuObject} id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
       <h2 class="mt1">{$t('page.shared.burgerMenuTitle')}</h2>
@@ -44,7 +50,7 @@
           ) then icon}
             <svelte:component this={icon.default} />
           {/await}
-          <a href={link.link}>{link.title} </a>
+          <a href={link.link} on:click={togglePopover}>{link.title} </a>
         </li>
       {/each}
     </ul>
@@ -60,7 +66,7 @@
           ) then icon}
             <svelte:component this={icon.default} />
           {/await}
-          <a href={link.link}>{link.title}</a>
+          <a href={link.link} on:click={togglePopover}>{link.title}</a>
         </li>
       {/each}
     </ul>
