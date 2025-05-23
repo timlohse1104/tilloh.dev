@@ -6,19 +6,19 @@
     resetSharedIdentifier,
     sharedIdentifierStore,
   } from '$lib/util/stores/store-other';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
   import type { Identifier } from '$lib/util/types';
-  import Button, { Label } from '@smui/button';
-  import Card from '@smui/card';
-  import Dialog, { Content } from '@smui/dialog';
-  import FormField from '@smui/form-field';
-  import IconButton from '@smui/icon-button';
-  import Snackbar, { Actions } from '@smui/snackbar';
-  import Switch from '@smui/switch';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
-  import Icon from '@smui/textfield/icon';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
+  import Information from 'carbon-icons-svelte/lib/Information.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
   const apiURL = dev
@@ -26,18 +26,13 @@
     : environment.productionApiBaseUrl;
   let shareDataOnline;
   let name = '';
-  let saveButton;
   let openIdentifierInfo = false;
-  let snackbar: Snackbar;
   let snackbarMessage = '';
+  let timeout = undefined;
 
+  $: showNotification = timeout !== undefined;
   $: sameName = $sharedIdentifierStore.name === name;
   $: saveSubmittable = name && !sameName;
-  $: if (saveButton) {
-    saveButton.$$set({
-      disabled: !saveSubmittable,
-    });
-  }
 
   onMount(() => {
     if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
@@ -56,12 +51,10 @@
       connectOnlineIdentifier();
     }
   };
-
-  const triggerSnackbar = (message: string) => {
+  const triggerNotification = (message: string) => {
     snackbarMessage = message;
-    snackbar.open();
+    timeout = 3_000;
   };
-
   const saveOnlineIdentifier = async () => {
     if ($sharedIdentifierStore.id) {
       await fetch(`${apiURL}/identifiers/${$sharedIdentifierStore.id}`, {
@@ -98,22 +91,23 @@
 
           $sharedIdentifierStore = identifier;
           name = data.name;
-          triggerSnackbar(
+          triggerNotification(
             $t('page.settings.onlinePersistence.snackbarIdentifierCreated', {
               identifierName: name,
             }),
           );
         })
         .catch((error) => {
-          triggerSnackbar(error);
+          triggerNotification(error);
         });
     }
   };
-
   const connectOnlineIdentifier = async () => {
     const loginId = $identifierStore;
     if (!loginId) {
-      triggerSnackbar($t('page.settings.onlinePersistence.snackbarNoLoginId'));
+      triggerNotification(
+        $t('page.settings.onlinePersistence.snackbarNoLoginId'),
+      );
       return;
     }
 
@@ -121,7 +115,7 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.statusCode === 404) {
-          triggerSnackbar(
+          triggerNotification(
             $t('page.settings.onlinePersistence.snackbarNoIdentifierFound', {
               identifier: loginId,
             }),
@@ -136,14 +130,15 @@
 
         $sharedIdentifierStore = identifier;
         name = data.name;
-        triggerSnackbar(
+        triggerNotification(
           $t('page.settings.onlinePersistence.snackbarLoadedIdentifier', {
             identifier: $sharedIdentifierStore.id,
           }),
         );
+        celebrate();
       })
       .catch((error) => {
-        triggerSnackbar(error);
+        triggerNotification(error);
       });
   };
 </script>
@@ -157,44 +152,42 @@
       {@html $t('page.settings.onlinePersistence.description1')}
     </p>
 
-    <FormField>
-      <Switch
-        bind:checked={shareDataOnline}
-        on:click={triggerCloudPersistence}
-        icons={false}
-        color="secondary"
-      />
-      <span slot="label"
-        >{$t(
-          'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
-        )}</span
-      >
-    </FormField>
+    <Toggle
+      bind:toggled={shareDataOnline}
+      on:click={triggerCloudPersistence}
+      labelA={$t('page.shared.no')}
+      labelB={$t('page.shared.yes')}
+      labelText={$t(
+        'page.settings.onlinePersistence.activateOnlinePersistenceQuestion',
+      )}
+      class="mt2"
+    />
 
     {#if $sharedIdentifierStore.id}
       <Button
+        kind="ghost"
+        iconDescription={$t(
+          'page.settings.onlinePersistence.showConnectionData',
+        )}
+        icon={Information}
+        class="save_button mt2"
         on:click={() => (openIdentifierInfo = true)}
-        style="margin-top: 2rem;color: var(--color_theme_1);"
       >
-        <Icon class="material-icons">info</Icon>
-        <Label>{$t('page.settings.onlinePersistence.connectionData')}</Label>
+        {$t('page.settings.onlinePersistence.connectionData')}
       </Button>
 
-      <Dialog
+      <Modal
+        passiveModal
         bind:open={openIdentifierInfo}
-        sheet
-        aria-describedby="sheet-content"
+        modalHeading={$t('page.settings.identifiers.title')}
       >
-        <Content id="sheet-content">
-          <IconButton action="close" class="material-icons">close</IconButton>
-          <IdentifierInformation />
-        </Content>
-      </Dialog>
+        <IdentifierInformation />
+      </Modal>
     {/if}
 
     {#if shareDataOnline && $sharedIdentifierStore.id}
       <div class="input_area">
-        <Card padded class="connection_card">
+        <Tile class="connection_card">
           <h3>{$t('page.settings.onlinePersistence.editConnection')}</h3>
 
           <p>
@@ -202,46 +195,51 @@
           </p>
 
           <div class="button_group">
-            <div>
-              <Textfield
-                bind:value={name}
-                label={!$sharedIdentifierStore.id
-                  ? $t('page.settings.onlinePersistence.yourName')
-                  : $t('page.settings.onlinePersistence.yourCurrentName')}
-              >
-                <Icon class="material-icons" slot="leadingIcon">badge</Icon>
-                <HelperText slot="helper"
-                  >{$t(
-                    'page.settings.onlinePersistence.yourNameQuestion',
-                  )}</HelperText
-                >
-              </Textfield>
-            </div>
+            <TextInput
+              labelText={!$sharedIdentifierStore.id
+                ? $t('page.settings.onlinePersistence.yourName')
+                : $t('page.settings.onlinePersistence.yourCurrentName')}
+              helperText={$t(
+                'page.settings.onlinePersistence.yourNameQuestion',
+              )}
+              bind:value={name}
+            />
 
             <Button
+              kind="ghost"
+              iconDescription={$t(
+                'page.settings.onlinePersistence.editConnectionData',
+              )}
+              icon={Save}
+              class="save_button"
+              disabled={!saveSubmittable}
               on:click={saveOnlineIdentifier}
-              style={saveSubmittable ? 'color:var(--green);' : ''}
-              bind:this={saveButton}
-              color="secondary"
             >
-              <Icon class="material-icons">save</Icon>
               {#if !$sharedIdentifierStore.id}
-                <Label>{$t('page.shared.establish')}</Label>
+                {$t('page.shared.establish')}
               {:else}
-                <Label>{$t('page.shared.save')}</Label>
+                {$t('page.shared.save')}
               {/if}
             </Button>
           </div>
-        </Card>
+        </Tile>
       </div>
     {/if}
 
-    <Snackbar bind:this={snackbar}>
-      <Label>{snackbarMessage}</Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          lowContrast
+          subtitle={snackbarMessage}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -255,11 +253,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    color: var(--color_text);
-
-    span {
-      color: var(--color_text);
-    }
   }
 
   .input_area {
@@ -286,6 +279,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin-top: 1rem;
     gap: 1rem;
   }
 </style>

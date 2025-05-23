@@ -1,12 +1,13 @@
 <script lang="ts">
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
-  import Navigation from '$lib/components/home/Navigation.svelte';
   import SearchBar from '$lib/components/home/SearchBar.svelte';
+  import Navigation from '$lib/components/shared/Navigation.svelte';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
-  import { setLocale } from '$lib/util/translations';
-  import Button, { Icon, Label } from '@smui/button';
+  import { setLocale, t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
 
@@ -30,24 +31,23 @@
   <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-<section>
-  <Navigation routes={applicationRoutes} />
+<section class="mt1">
+  <Navigation routes={Object.values(applicationRoutes)} />
   <SearchBar />
 
-  <div>
+  <div class="mt2">
     <Button
-      color="secondary"
-      variant="outlined"
+      kind="tertiary"
+      iconDescription={$t('page.shared.button.settings')}
       href={settings.path}
-      style="text-decoration: none;"
+      icon={Settings}
     >
-      <Icon class="material-icons">{settings.icon}</Icon>
-      <Label>{settings.name[locale]}</Label>
+      {settings.name[locale]}
     </Button>
   </div>
 
   {#if randomJokeToggle}
-    <JokeOfTheDay />
+    <JokeOfTheDay customClass="mt2" />
   {/if}
 </section>
 
@@ -58,9 +58,5 @@
     justify-content: center;
     align-items: center;
     flex: 0.2;
-
-    div {
-      margin-top: 1rem;
-    }
   }
 </style>

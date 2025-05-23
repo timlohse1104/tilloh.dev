@@ -1,3 +1,4 @@
+import { celebrate } from '../stores/stores-global.js';
 import Ball from './ball.js';
 import InputHandler from './input.js';
 import {
@@ -384,6 +385,8 @@ export default class Game {
       this.gameWidth / 3.5,
       this.gameHeight / 2 + 270,
     );
+
+    celebrate();
   }
 
   togglePause() {

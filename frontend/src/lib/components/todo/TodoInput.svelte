@@ -1,70 +1,50 @@
 <script lang="ts">
-  import { isEnter } from '$lib/util/helper.ts';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import Autocomplete from '@smui-extra/autocomplete';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
-  export let listIndex;
+  export let listId;
 
   let newTodoName = '';
 
   const saveTodo = () => {
     if (newTodoName) {
-      todoStore.update((n) => {
-        n[listIndex].todos.push({ title: newTodoName, done: false });
-        return [...n];
+      todoStore.update((todoListArray) => {
+        const list = todoListArray.find((list) => list.id === listId);
+        list.todos.push({
+          id: crypto.randomUUID(),
+          title: newTodoName,
+          done: false,
+        });
+        return [...todoListArray];
       });
       addToHistory(newTodoName);
       newTodoName = '';
     }
   };
-
   const addToHistory = (todoName) => {
-    todoStore.update((n) => {
-      n[listIndex].history = Array.from(
-        new Set(n[listIndex].history).add(todoName),
-      );
-      return n;
+    todoStore.update((todoListArray) => {
+      const list = todoListArray.find((list) => list.id === listId);
+      list.history = Array.from(new Set(list.history).add(todoName));
+      return todoListArray;
     });
   };
 </script>
 
 {#if $initialized}
-  <Autocomplete
-    options={$todoStore[listIndex]?.history || []}
-    bind:value={newTodoName}
-    bind:text={newTodoName}
-    label={$t('page.todos.newTodo')}
-    style="margin-top: 1rem; width: 100%;"
-    textfield$style="width: 100%;"
-    on:SMUIAutocomplete:selected={(event) => {
-      newTodoName = event.detail;
-      saveTodo();
-    }}
-    on:SMUIAutocomplete:noMatchesAction={saveTodo}
-    on:keyup={(event) => {
-      if (isEnter(event)) {
-        saveTodo();
-      }
-    }}
-  />
+  <section>
+    <InputWithButton
+      bind:value={newTodoName}
+      placeholder="Neuer Eintrag"
+      labelText={$t('page.todos.newTodo')}
+      iconDescription={$t('page.todos.addTodo')}
+      tooltipAlignment="end"
+      icon={Add}
+      action={saveTodo}
+      customClasses="mt1"
+    />
+  </section>
 {:else}
-  <Autocomplete
-    options={$todoStore[listIndex]?.history || []}
-    bind:value={newTodoName}
-    bind:text={newTodoName}
-    label="Locale initializing..."
-    style="margin-top: 1rem; width: 100%;"
-    textfield$style="width: 100%;"
-    on:SMUIAutocomplete:selected={(event) => {
-      newTodoName = event.detail;
-      saveTodo();
-    }}
-    on:SMUIAutocomplete:noMatchesAction={saveTodo}
-    on:keyup={(event) => {
-      if (isEnter(event)) {
-        saveTodo();
-      }
-    }}
-  />
+  <section>Locale initializing...</section>
 {/if}

@@ -2,31 +2,43 @@
   import { page } from '$app/stores';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
+  import { backgroundStore } from '$lib/util/stores/store-background';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
-  import { themeStore } from '$lib/util/stores/store-theme';
-  import { onMount } from 'svelte';
+  import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
+  import {
+    confettiAmount,
+    confettiDuration,
+    confettiGravity,
+    isConfettiVisibleStore,
+  } from '$lib/util/stores/stores-global';
+  import { confetti } from '@neoconfetti/svelte';
+  import 'carbon-components-svelte/css/all.css';
   import './styles.css';
 
   $: isVerified = $identifierStore ? true : false;
   $: locale = $languageStore;
-  $: theme = $themeStore;
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
-
-  onMount(() => {
-    document.body.classList.toggle('light-theme', theme === 'light');
-  });
-
-  $: {
-    if (theme === 'light') {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
-  }
+  $: theme = $themeStore;
+  $: document.documentElement.setAttribute('theme', theme);
+  $: getAppClasses = `app background_${$backgroundStore}_${$themeStore === darkThemeValue ? 'dark' : 'light'}`;
 </script>
 
-<div class="app">
+<div class={getAppClasses}>
+  {#if $isConfettiVisibleStore}
+    <div class="confetti_container">
+      <div
+        use:confetti={{
+          stageHeight: window.visualViewport.height - 5,
+          stageWidth: window.visualViewport.width,
+          duration: confettiDuration,
+          particleCount: confettiAmount,
+          force: confettiGravity,
+        }}
+      ></div>
+    </div>
+  {/if}
+
   <Header {locale} />
 
   {#if !isVerified}
@@ -72,10 +84,10 @@
   :global(::-webkit-scrollbar-thumb) {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: var(--color_theme_2_50);
+    background-color: lightgreen;
 
     &:hover {
-      background-color: var(--color_theme_2);
+      background-color: green;
     }
   }
 
@@ -84,5 +96,11 @@
     align-items: center;
     justify-content: center;
     height: 80vh;
+  }
+
+  .confetti_container {
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
   }
 </style>

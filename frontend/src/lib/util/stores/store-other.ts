@@ -15,16 +15,16 @@ let sharedIdentifierDefault = '{}';
 
 if (browser) {
   const localIdentifier = localStorage.getItem(sharedIdentifierKey);
-  let resetIdentifier = false;
+  let identifierResetted = false;
 
   if (!localIdentifier) {
     localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
-    resetIdentifier = true;
+    identifierResetted = true;
   } else {
     sharedIdentifierDefault = localIdentifier;
   }
 
-  if (resetIdentifier) {
+  if (!identifierResetted) {
     let remoteIdentifier;
     try {
       remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);

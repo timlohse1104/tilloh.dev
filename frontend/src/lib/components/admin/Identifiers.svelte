@@ -1,24 +1,28 @@
 <script lang="ts">
   import { createIdentifier } from '$lib/api/identifiers.api';
-  import { isEnter } from '$lib/util/helper';
   import {
     adminIdentifiersStore,
     adminTokenStore,
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
-  import IconButton from '@smui/icon-button';
-  import List, {
-    Graphic,
-    Item,
-    PrimaryText,
-    SecondaryText,
-    Text,
-  } from '@smui/list';
-  import Textfield from '@smui/textfield';
+  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
+  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
   const dispatch = createEventDispatcher();
 
   let newIdentifierName = '';
+  let notificationInfoText = '';
+  let timeout = undefined;
+
+  $: showNotification = timeout !== undefined;
 
   const addIdentifier = async () => {
     if (!newIdentifierName) {
@@ -35,6 +39,13 @@
     newIdentifierName = '';
     dispatch('updateDashboard');
   };
+
+  const triggerNotification = (id: string) => {
+    notificationInfoText = $t('page.admin.copiedToClipboard', {
+      id,
+    });
+    timeout = 3_000;
+  };
 </script>
 
 {#if $initialized}
@@ -44,47 +55,74 @@
         {$t('page.admin.identifiers.title')}
         <span>({$adminIdentifiersStore.length})</span>
       </h2>
-      <Textfield
-        style="margin-left:2rem;width: 75%;"
+      <InputWithButton
         bind:value={newIdentifierName}
-        label={$t('page.admin.toggles.newIdentifier')}
-        on:keyup={(event) => {
-          if (isEnter(event)) addIdentifier();
-        }}
-      >
-        <IconButton
-          class="material-icons"
-          style="position:absolute;right:0;"
-          on:click={() => addIdentifier()}
-        >
-          add
-        </IconButton>
-      </Textfield>
+        placeholder={$t('page.admin.toggles.newIdentifier')}
+        iconDescription={$t('page.admin.toggles.addIdentifier')}
+        tooltipAlignment="end"
+        icon={Add}
+        action={addIdentifier}
+      />
     </div>
-    <List threeLine avatarList singleSelection class="admin_sections_list">
-      {#each $adminIdentifiersStore as identifier, i}
-        <Item class="admin_list_items">
-          <Graphic class="material-icons admin_list_items_icon"
-            >fingerprint</Graphic
-          >
-          <Text class="admin_list_items_text">
-            <PrimaryText>{identifier.name}</PrimaryText>
-            <SecondaryText>🆔{identifier._id}</SecondaryText>
-            <SecondaryText
-              >✨{new Date(identifier.created).toLocaleString('de-DE')} 🔧{new Date(
-                identifier.updated,
-              ).toLocaleString('de-DE')}</SecondaryText
-            >
-          </Text>
-          <IconButton
-            class="material-icons admin_list_items_button"
-            on:click={() =>
-              dispatch('removeIdentifier', { identifierId: identifier._id })}
-            >delete</IconButton
-          >
-        </Item>
+    <Accordion class="mt1">
+      {#each $adminIdentifiersStore as identifier}
+        <AccordionItem>
+          <svelte:fragment slot="title">
+            <div class="admin_list_item_headline">
+              <svelte:component this={FingerprintRecognition} />
+              {identifier.name}
+            </div>
+          </svelte:fragment>
+          <div class="admin_list_item_content">
+            <div>
+              <p>
+                ✨{new Date(identifier.created).toLocaleString('de-DE')}
+                📅{new Date(identifier.updated).toLocaleString('de-DE')}
+              </p>
+              <p>
+                🆔{identifier._id}
+              </p>
+            </div>
+            <div class="admin_list_button_group">
+              <CopyButton
+                text={identifier._id}
+                feedback="✅"
+                feedbackTimeout={0}
+                iconDescription={$t('page.admin.identifiers.idCopy')}
+                on:click={() => triggerNotification(identifier._id)}
+              />
+              <Button
+                kind="danger"
+                size="field"
+                iconDescription={$t('page.admin.identifiers.deleteTitle')}
+                tooltipAlignment="end"
+                icon={TrashCan}
+                on:click={() => {
+                  dispatch('removeIdentifier', {
+                    identifierId: identifier._id,
+                  });
+                }}
+              />
+            </div>
+          </div>
+        </AccordionItem>
       {/each}
-    </List>
+    </Accordion>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="info-square"
+          subtitle={notificationInfoText}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+            notificationInfoText = undefined;
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
