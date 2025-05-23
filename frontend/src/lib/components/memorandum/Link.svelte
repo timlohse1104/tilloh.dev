@@ -112,16 +112,4 @@
     padding-left: var(--default_padding);
     font-size: 14px;
   }
-
-  button {
-    grid-area: delBtn;
-    @include mem_button;
-    background-color: var(--trans);
-
-    &:hover {
-      background-color: var(--black30);
-      color: red;
-      text-shadow: none;
-    }
-  }
 </style>
