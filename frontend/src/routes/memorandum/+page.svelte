@@ -21,7 +21,9 @@
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Search from 'carbon-components-svelte/src/Search/Search.svelte';
   import ChangeCatalog from 'carbon-icons-svelte/lib/ChangeCatalog.svelte';
+  import Grid from 'carbon-icons-svelte/lib/Grid.svelte';
   import Information from 'carbon-icons-svelte/lib/Information.svelte';
+  import Workspace from 'carbon-icons-svelte/lib/Workspace.svelte';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
@@ -29,18 +31,16 @@
     {
       id: 'fixed',
       name: $t('page.memorandum.orders.fixed'),
-      icon: 'Grid',
+      icon: Grid,
     },
     {
       id: 'flexible',
       name: $t('page.memorandum.orders.dynamic'),
-      icon: 'Workspace',
+      icon: Workspace,
     },
   ];
 
   let searchQuery = '';
-  let orderFixedIcon;
-  let orderDynamicIcon;
 
   $: locale = $languageStore;
   $: order = $folderOrderFolder
@@ -58,15 +58,6 @@
   onMount(async () => {
     await setLocale($languageStore);
     refreshPresetStore();
-
-    orderFixedIcon = await import(
-      /* @vite-ignore */
-      `/node_modules/carbon-icons-svelte/lib/${orders[0].icon}.svelte`
-    ).then((icon) => icon.default);
-    orderDynamicIcon = await import(
-      /* @vite-ignore */
-      `/node_modules/carbon-icons-svelte/lib/${orders[1].icon}.svelte`
-    ).then((icon) => icon.default);
   });
 </script>
 
@@ -83,7 +74,7 @@
           kind="ghost"
           iconDescription={$t('page.memorandum.orders.fixed')}
           tooltipAlignment="start"
-          icon={orderFixedIcon}
+          icon={orders[0].icon}
           class={order === orders[0] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[0].id)}
         />
@@ -91,7 +82,7 @@
           kind="ghost"
           iconDescription={$t('page.memorandum.orders.dynamic')}
           tooltipAlignment="start"
-          icon={orderDynamicIcon}
+          icon={orders[1].icon}
           class={order === orders[1] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[1].id)}
         />
