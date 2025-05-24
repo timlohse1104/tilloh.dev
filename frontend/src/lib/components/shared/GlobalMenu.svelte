@@ -44,12 +44,7 @@
     <ul>
       {#each appLinks as link}
         <li>
-          {#await import(
-            /* @vite-ignore */
-            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
-          ) then icon}
-            <svelte:component this={icon.default} />
-          {/await}
+          <svelte:component this={link.icon} />
           <a href={link.link} on:click={togglePopover}>{link.title} </a>
         </li>
       {/each}
@@ -60,12 +55,7 @@
     <ul>
       {#each utilLinks as link}
         <li>
-          {#await import(
-            /* @vite-ignore */
-            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
-          ) then icon}
-            <svelte:component this={icon.default} />
-          {/await}
+          <svelte:component this={link.icon} />
           <a href={link.link} on:click={togglePopover}>{link.title}</a>
         </li>
       {/each}
