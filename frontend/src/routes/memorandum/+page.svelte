@@ -31,10 +31,12 @@
     {
       id: 'fixed',
       name: $t('page.memorandum.orders.fixed'),
+      icon: Grid,
     },
     {
       id: 'flexible',
       name: $t('page.memorandum.orders.dynamic'),
+      icon: Workspace,
     },
   ];
 
@@ -72,7 +74,7 @@
           kind="ghost"
           iconDescription={$t('page.memorandum.orders.fixed')}
           tooltipAlignment="start"
-          icon={Grid}
+          icon={orders[0].icon}
           class={order === orders[0] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[0].id)}
         />
@@ -80,7 +82,7 @@
           kind="ghost"
           iconDescription={$t('page.memorandum.orders.dynamic')}
           tooltipAlignment="start"
-          icon={Workspace}
+          icon={orders[1].icon}
           class={order === orders[1] ? 'active_order' : ''}
           on:click={() => updateOrder(orders[1].id)}
         />
