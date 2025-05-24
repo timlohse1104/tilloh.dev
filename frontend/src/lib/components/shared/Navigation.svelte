@@ -124,17 +124,12 @@
 <section class={customClass}>
   <ContentSwitcher {selectedIndex}>
     {#each Object.values(activeRoutes) as route}
-      {#await import(
-        /* @vite-ignore */
-        `/node_modules/carbon-icons-svelte/lib/${route?.icon}.svelte`
-        ) then icon}
-        <Switch on:click={() => navigatePage(route.path)}>
-          <div class="navigation_item_content">
-            <svelte:component this={icon.default} />
-            {route.name[locale]}
-          </div>
-        </Switch>
-      {/await}
+      <Switch on:click={() => navigatePage(route.path)}>
+        <div class="navigation_item_content">
+          <svelte:component this={route?.icon as any} />
+          {route.name[locale]}
+        </div>
+      </Switch>
     {/each}
   </ContentSwitcher>
 </section>
