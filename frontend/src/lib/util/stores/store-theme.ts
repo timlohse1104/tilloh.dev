@@ -1,8 +1,11 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-const localStorageKey = 'theme';
-const defaultValue = 'dark';
+export const lightThemeValue = 'g10';
+export const darkThemeValue = 'g100';
+
+const localStorageKey = '__carbon-theme';
+const defaultValue = darkThemeValue;
 
 const getInitialValue = () => {
   if (browser) {
@@ -12,16 +15,12 @@ const getInitialValue = () => {
   }
 };
 
-export const themeStore = writable(getInitialValue()); // Default theme is light
+export const themeStore = writable(
+  getInitialValue() as 'white' | 'g10' | 'g80' | 'g90' | 'g100',
+);
 
 if (browser) {
-  themeStore.subscribe((value) => {
+  themeStore.subscribe((value: 'white' | 'g10' | 'g80' | 'g90' | 'g100') => {
     localStorage.setItem(localStorageKey, value);
   });
-}
-
-export function toggleTheme() {
-  themeStore.update((currentTheme) =>
-    currentTheme === 'light' ? 'dark' : 'light',
-  );
 }

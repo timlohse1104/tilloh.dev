@@ -1,6 +1,5 @@
 <script lang="ts">
-  import Button, { Label } from '@smui/button';
-  import Dialog, { Actions, Content, Title } from '@smui/dialog';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
@@ -28,19 +27,15 @@
   };
 </script>
 
-<Dialog
+<Modal
   bind:open
-  aria-labelledby="question_title"
-  aria-describedby="question_content"
+  modalHeading={questionHeader}
+  primaryButtonText={yesActionText}
+  secondaryButtonText={noActionText}
+  on:click:button--primary={executeYesAction}
+  on:click:button--secondary={executeNoAction}
 >
-  <Title id="question_title">{questionHeader}</Title>
-  <Content id="question_content">{questionContent}</Content>
-  <Actions>
-    <Button on:click={executeNoAction}>
-      <Label>{noActionText}</Label>
-    </Button>
-    <Button on:click={executeYesAction}>
-      <Label>{yesActionText}</Label>
-    </Button>
-  </Actions>
-</Dialog>
+  <p class="mb1">
+    {questionContent}
+  </p>
+</Modal>

@@ -18,11 +18,12 @@
     presetOverlayOptionsStore,
   } from '$lib/util/stores/stores-memorandum';
   import { initialized, setLocale, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
-  import IconButton from '@smui/icon-button';
-  import SegmentedButton, { Segment } from '@smui/segmented-button';
-  import Textfield from '@smui/textfield';
-  import Tooltip, { Wrapper } from '@smui/tooltip';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Search from 'carbon-components-svelte/src/Search/Search.svelte';
+  import ChangeCatalog from 'carbon-icons-svelte/lib/ChangeCatalog.svelte';
+  import Grid from 'carbon-icons-svelte/lib/Grid.svelte';
+  import Information from 'carbon-icons-svelte/lib/Information.svelte';
+  import Workspace from 'carbon-icons-svelte/lib/Workspace.svelte';
   import { onMount } from 'svelte';
 
   const { memorandum: memorandumRoute } = applicationRoutes;
@@ -30,34 +31,32 @@
     {
       id: 'fixed',
       name: $t('page.memorandum.orders.fixed'),
-      icon: 'border_all',
     },
     {
       id: 'flexible',
       name: $t('page.memorandum.orders.dynamic'),
-      icon: 'expand',
     },
   ];
 
-  let order = $folderOrderFolder
-    ? orders.find((o) => o.id === $folderOrderFolder)
-    : orders[0];
   let searchQuery = '';
 
   $: locale = $languageStore;
-
-  onMount(async () => {
-    await setLocale($languageStore);
-    refreshPresetStore();
-  });
+  $: order = $folderOrderFolder
+    ? orders.find((o) => o.id === $folderOrderFolder)
+    : orders[0];
 
   const showPresetOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = true;
   };
 
-  const updateOrder = (order: Order) => {
-    $folderOrderFolder = order.id;
-  };
+  function updateOrder(orderId: string) {
+    $folderOrderFolder = orderId;
+  }
+
+  onMount(async () => {
+    await setLocale($languageStore);
+    refreshPresetStore();
+  });
 </script>
 
 <svelte:head>
@@ -68,47 +67,46 @@
 {#if memorandumRoute.toggle}
   {#if $initialized}
     <div class="menu_line">
-      <SegmentedButton
-        segments={orders}
-        let:segment
-        singleSelect
-        bind:selected={order}
-        style="background-color: var(--trans);"
-      >
-        <Segment
-          {segment}
-          style={segment !== order ? 'background-color: var(--trans);' : ''}
-        >
-          <Icon class="material-icons" on:click={() => updateOrder(segment)}
-            >{segment.icon}</Icon
-          >
-        </Segment>
-      </SegmentedButton>
+      <div class="order_buttons">
+        <Button
+          kind="ghost"
+          iconDescription={$t('page.memorandum.orders.fixed')}
+          tooltipAlignment="start"
+          icon={Grid}
+          class={order === orders[0] ? 'active_order' : ''}
+          on:click={() => updateOrder(orders[0].id)}
+        />
+        <Button
+          kind="ghost"
+          iconDescription={$t('page.memorandum.orders.dynamic')}
+          tooltipAlignment="start"
+          icon={Workspace}
+          class={order === orders[1] ? 'active_order' : ''}
+          on:click={() => updateOrder(orders[1].id)}
+        />
+      </div>
 
-      <IconButton on:click={showPresetOverlay} class="material-icons"
-        >swap_vert</IconButton
-      >
+      <Button
+        kind="ghost"
+        iconDescription={$t('page.memorandum.openPresetMenu')}
+        icon={ChangeCatalog}
+        on:click={showPresetOverlay}
+      />
 
-      <Textfield
-        variant="standard"
+      <Search
+        placeholder={$t('page.memorandum.searchPlaceholder')}
         bind:value={searchQuery}
-        label={$t('page.memorandum.searchPlaceholder')}
+        searchClass="memorandum_search_bar"
         autofocus
-      >
-        <Icon class="material-icons search_icon" slot="trailingIcon"
-          >search</Icon
-        >
-      </Textfield>
+      />
 
       <div class="info_buttons">
-        <Wrapper>
-          <IconButton style="color: white" size="mini">
-            <Icon class="material-icons">info</Icon>
-          </IconButton>
-          <Tooltip xPos="end" yPos="above">
-            {$t('page.memorandum.doubleClickInfo')}
-          </Tooltip>
-        </Wrapper>
+        <Button
+          kind="ghost"
+          iconDescription={$t('page.memorandum.rightClickInfo')}
+          tooltipPosition="left"
+          icon={Information}
+        />
       </div>
     </div>
 
@@ -154,6 +152,20 @@
     justify-content: start;
     padding-left: calc(var(--default_padding) / 2);
     gap: calc(var(--default_padding) / 2);
+  }
+
+  .order_buttons {
+    display: flex;
+    gap: 0;
+  }
+
+  :global(.bx--btn.active_order) {
+    color: green;
+    border-color: green;
+  }
+
+  :global(.memorandum_search_bar) {
+    max-width: 33vw;
   }
 
   .info_buttons {

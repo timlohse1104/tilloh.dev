@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { Todo } from '$lib/types/todo.ts';
-  import Checkbox from '@smui/checkbox';
-  import FormField from '@smui/form-field';
-  import IconButton, { Icon } from '@smui/icon-button';
+  import { t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   export let todo: Todo;
   export let deleteTodo;
@@ -10,29 +11,31 @@
 </script>
 
 <section>
-  <div class="todo">
-    <FormField>
-      <Checkbox bind:checked={todo['done']} on:click={todoChecked} />
-      <span slot="label" class={todo?.done ? 'striked' : ''}>{todo?.title}</span
-      >
-    </FormField>
-    <IconButton
-      color="secondary"
-      style="margin-left: auto;"
-      size="button"
-      on:click={deleteTodo}
-    >
-      <Icon class="material-icons">delete</Icon>
-    </IconButton>
-  </div>
+  <Checkbox
+    bind:checked={todo['done']}
+    labelText="Label text"
+    on:click={todoChecked}
+  >
+    <span slot="labelText" class={todo?.done ? 'ml1 striked' : 'ml1'}>
+      {todo?.title}
+    </span>
+  </Checkbox>
+  <Button
+    kind="danger"
+    size="small"
+    iconDescription={$t('page.todos.deleteTodo')}
+    tooltipAlignment="end"
+    icon={TrashCan}
+    on:click={deleteTodo}
+  />
 </section>
 
-<style>
-  .todo {
+<style lang="scss">
+  section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 0.5rem;
   }
 
   .striked {

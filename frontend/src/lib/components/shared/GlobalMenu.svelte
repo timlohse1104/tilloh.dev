@@ -1,63 +1,56 @@
 <script lang="ts">
   import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
-  import { themeStore } from '$lib/util/stores/store-theme';
   import { initialized, t } from '$lib/util/translations';
-  import { Icon } from '@smui/common';
-  import IconButton from '@smui/icon-button';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
 
   export let locale;
 
+  let globalMenuObject;
+
   $: appLinks = Object.values(applicationRoutes).map((route) => ({
+    id: route.id,
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
   }));
   $: utilLinks = Object.values(utilityRoutes).map((route) => ({
+    id: route.id,
     title: route.name[locale],
     link: route.path,
     icon: route.icon,
   }));
+
+  const togglePopover = () => {
+    if (globalMenuObject) globalMenuObject.togglePopover();
+  };
 </script>
 
-<IconButton>
-  <button popovertarget="hamburger-menu">
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      ><path
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M5 8h22M5 16h22M5 24h22"
-      /></svg
-    >
-  </button>
-</IconButton>
+<Button
+  kind="tertiary"
+  iconDescription={$t('page.shared.button.globalMenu')}
+  icon={Menu}
+  popovertarget="hamburger-menu"
+  tooltipPosition="left"
+  class="global_menu"
+/>
 
-<aside
-  popover
-  id="hamburger-menu"
-  style={$themeStore === 'dark'
-    ? 'background-color: var(--color_bg_2);'
-    : 'background-color: var(--color_bg_light_2);'}
->
+<aside popover bind:this={globalMenuObject} id="hamburger-menu">
   {#if $initialized}
     <div class="burger-menu-header">
-      <IconButton class="tilloh-logo" href={applicationRoutes.home.path}>
-        <img src={'/images/logo.png'} alt="tilloh.dev logo" />
-      </IconButton>
-      <h2>{$t('page.shared.burgerMenuTitle')}</h2>
+      <h2 class="mt1">{$t('page.shared.burgerMenuTitle')}</h2>
     </div>
     <hr />
     <ul>
       {#each appLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link}>{link.title} </a>
+          {#await import(
+            /* @vite-ignore */
+            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
+          ) then icon}
+            <svelte:component this={icon.default} />
+          {/await}
+          <a href={link.link} on:click={togglePopover}>{link.title} </a>
         </li>
       {/each}
     </ul>
@@ -67,20 +60,41 @@
     <ul>
       {#each utilLinks as link}
         <li>
-          <Icon class="material-icons menu-icons">{link.icon}</Icon>
-          <a href={link.link}>{link.title}</a>
+          {#await import(
+            /* @vite-ignore */
+            `/node_modules/carbon-icons-svelte/lib/${link.icon}.svelte`
+          ) then icon}
+            <svelte:component this={icon.default} />
+          {/await}
+          <a href={link.link} on:click={togglePopover}>{link.title}</a>
         </li>
       {/each}
     </ul>
 
     <footer>
-      <IconButton href="https://github.com/timlohse1104" target="_blank">
-        <img src={'/images/links/github-light.svg'} alt="GitHub" />
-      </IconButton>
+      <Button
+        kind="tertiary"
+        iconDescription={$t('page.shared.button.github')}
+        href="https://github.com/timlohse1104"
+        target="_blank"
+        class="global_menu_footer_buttons"
+      >
+        <img src={'/images/links/github-dark.svg'} alt="GitHub" />
+      </Button>
       <p>{$t('page.shared.madeByText')}</p>
-      <IconButton href="https://stadtwerk.org" target="_blank">
-        <img src={'/images/links/stadtwerk-logo.svg'} alt="stadtwerk" />
-      </IconButton>
+      <Button
+        kind="tertiary"
+        iconDescription={$t('page.shared.button.stadtwerk')}
+        href="https://stadtwerk.org"
+        target="_blank"
+        class="global_menu_footer_buttons"
+      >
+        <img
+          src={'/images/links/stadtwerk-logo.svg'}
+          style="height: 3em;"
+          alt="stadtwerk"
+        />
+      </Button>
     </footer>
   {:else}
     <section>Locale initializing...</section>
@@ -90,16 +104,29 @@
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
-  button {
-    all: unset;
-    cursor: pointer;
-    display: block;
+  :global(.bx--btn.global_menu) {
+    padding: 0;
     margin: 0;
-    padding: 0.5rem;
-    line-height: 0;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.bx--btn.global_menu_footer_buttons) {
+    padding: 0;
+    margin: 0;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   aside {
+    background-color: var(--cds-ui-background);
+    color: var(--cds-text-01);
     position: fixed;
     width: 30%;
     height: 100%;
@@ -129,7 +156,7 @@
     }
 
     &::backdrop {
-      background-color: var(--black30);
+      background-color: var(--black80);
       opacity: 1;
       transition:
         opacity var(--duration),
@@ -146,23 +173,10 @@
 
   h2 {
     text-align: left;
-    color: var(--color_text);
     font-size: 2.5rem;
 
     @media #{$phone} {
       font-size: x-large;
-    }
-  }
-
-  :global(.tilloh-logo) {
-    width: 2em;
-    height: 2em;
-    margin-right: 1rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
     }
   }
 
@@ -202,10 +216,10 @@
   }
 
   a {
-    color: var(--color_text);
     text-decoration: none;
     display: block;
     padding: 1rem;
+    color: var(--cds-text-01);
   }
 
   footer {
@@ -214,7 +228,6 @@
     left: 0;
     width: 100%;
     text-align: center;
-    color: var(--color_text);
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -241,9 +254,5 @@
     aside::backdrop {
       opacity: 0;
     }
-  }
-
-  :global(.menu-icons) {
-    color: var(--color_text);
   }
 </style>

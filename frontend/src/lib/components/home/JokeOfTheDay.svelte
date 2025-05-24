@@ -2,8 +2,10 @@
   import { getJokeOfTheDay } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
   import { initialized, t } from '$lib/util/translations';
-  import Card from '@smui/card';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import { onMount } from 'svelte';
+
+  export let customClass = '';
 
   let joke: JokeDto | null = null;
 
@@ -13,13 +15,13 @@
 </script>
 
 {#if $initialized}
-  <section>
+  <section class={customClass}>
     {#if joke}
-      <Card style="padding:2rem;">
+      <Tile style="padding:2rem;">
         <h3>{$t('page.home.jokeTitle')}</h3>
         <i>{joke.text}</i>
         <p>📅{new Date(joke.created).toLocaleString('DE-de')}</p>
-      </Card>
+      </Tile>
     {:else}
       <p>{$t('page.home.jokeLoading')}</p>
     {/if}
@@ -33,7 +35,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
   }
 
   h3 {

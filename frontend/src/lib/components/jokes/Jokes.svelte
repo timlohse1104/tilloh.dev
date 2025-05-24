@@ -1,31 +1,28 @@
 <script lang="ts">
   import { createJoke, getRandomJoke } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
-  import Button from '@smui/button';
-  import Card from '@smui/card';
-  import Fab, { Icon, Label } from '@smui/fab';
-  import IconButton from '@smui/icon-button';
-  import Select, { Option } from '@smui/select';
-  import Snackbar, { Actions } from '@smui/snackbar';
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Select from 'carbon-components-svelte/src/Select/Select.svelte';
+  import SelectItem from 'carbon-components-svelte/src/Select/SelectItem.svelte';
+  import TextArea from 'carbon-components-svelte/src/TextArea/TextArea.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import CloudDownload from 'carbon-icons-svelte/lib/CloudDownload.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
   const languages = ['de', 'en'];
 
   let randomJoke: JokeDto | null = null;
   let newJokeText: string = '';
   let newJokeLanguage: string = 'de';
-  let saveButton;
-  let createJokeSnackbar: Snackbar;
+  let timeout = undefined;
 
+  $: showNotification = timeout !== undefined;
   $: submittable = newJokeText && newJokeLanguage;
-  $: if (saveButton) {
-    saveButton.$$set({
-      disabled: !submittable,
-    });
-  }
 
   const setRandomJoke = async () => {
     randomJoke = await getRandomJoke();
@@ -40,7 +37,8 @@
     });
 
     if (createResponse?._id) {
-      createJokeSnackbar.open();
+      timeout = 3_000;
+      celebrate();
     }
 
     newJokeText = '';
@@ -57,61 +55,71 @@
     <h1>{$t('page.jokes.titleRandomJoke')}</h1>
     <p>{$t('page.jokes.descriptionRandomJoke')}</p>
 
-    <Fab class="random_joke_button" on:click={setRandomJoke} extended>
-      <Icon class="material-icons">refresh</Icon>
-      <Label>{$t('page.jokes.newRandomJoke')}</Label>
-    </Fab>
-
-    {#if randomJoke}
-      <Card class="random_joke">
-        <i>{randomJoke.text}</i>
-        <p>📅{new Date(randomJoke.created).toLocaleString('DE-de')}</p>
-      </Card>
-    {/if}
-
-    <h2>{$t('page.jokes.titleNewJoke')}</h2>
-    <p>{$t('page.jokes.descriptionNewJoke')}</p>
-
-    <Textfield
-      textarea
-      bind:value={newJokeText}
-      label={$t('page.jokes.newJokeTextInput')}
-      input$rows={4}
-      input$cols={50}
-      input$resizable={false}
-    >
-      <HelperText slot="helper">{$t('page.jokes.newJokeHelperText')}</HelperText
-      >
-    </Textfield>
-
-    <Select
-      bind:value={newJokeLanguage}
-      label={$t('page.jokes.newJokeLanguage')}
-    >
-      {#each languages as language}
-        <Option value={language}>{language}</Option>
-      {/each}
-    </Select>
-
     <Button
-      class="create_joke_button"
-      bind:this={saveButton}
-      on:click={createNewJoke}
+      iconDescription={$t('page.jokes.loadRandomJoke')}
+      icon={CloudDownload}
+      on:click={setRandomJoke}
+      class="mt2"
     >
-      <Icon class="material-icons">save</Icon>
-      <Label>
-        {$t('page.jokes.createJokeButtonText')}
-      </Label>
+      {$t('page.jokes.newRandomJoke')}
     </Button>
 
-    <Snackbar bind:this={createJokeSnackbar}>
-      <Label>
-        {$t('page.jokes.jokeCreatedSnackbar')}
-      </Label>
-      <Actions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-      </Actions>
-    </Snackbar>
+    {#if randomJoke}
+      <Tile class="random_joke mt2">
+        <i>{randomJoke.text}</i>
+        <p>📅{new Date(randomJoke.created).toLocaleString('DE-de')}</p>
+      </Tile>
+    {/if}
+
+    <h2 class="mt2">{$t('page.jokes.titleNewJoke')}</h2>
+    <p>{$t('page.jokes.descriptionNewJoke')}</p>
+
+    <div class="mt1">
+      <TextArea
+        helperText={$t('page.jokes.newJokeHelperText')}
+        placeholder={$t('page.jokes.newJokeTextInput')}
+        rows={5}
+        cols={60}
+        bind:value={newJokeText}
+      />
+    </div>
+
+    <div class="mt2">
+      <Select
+        labelText={$t('page.jokes.newJokeLanguage')}
+        bind:selected={newJokeLanguage}
+      >
+        {#each languages as language}
+          <SelectItem value={language} />
+        {/each}
+      </Select>
+    </div>
+
+    <Button
+      kind="ghost"
+      iconDescription={$t('page.jokes.saveJoke')}
+      icon={Save}
+      on:click={createNewJoke}
+      disabled={!submittable}
+      class="save_button mt2"
+    >
+      {$t('page.jokes.createJokeButtonText')}
+    </Button>
+
+    {#if showNotification}
+      <div transition:fade>
+        <InlineNotification
+          {timeout}
+          kind="success"
+          lowContrast
+          subtitle={$t('page.jokes.jokeCreatedSnackbar')}
+          class="inline_notification"
+          on:close={(e) => {
+            timeout = undefined;
+          }}
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -126,7 +134,6 @@
     align-items: center;
     max-width: 90vw;
     margin: 0 auto 3rem auto;
-    color: var(--light80);
     height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -140,16 +147,7 @@
     }
   }
 
-  :global(.random_joke_button) {
-    margin-top: 2rem;
-  }
-
   :global(.random_joke) {
     padding: 2rem;
-    margin-top: 3rem;
-  }
-
-  :global(.create_joke_button) {
-    margin-top: 2rem;
   }
 </style>

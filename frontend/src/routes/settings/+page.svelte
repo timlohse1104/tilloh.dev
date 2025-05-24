@@ -28,7 +28,6 @@
 <style lang="scss">
   section {
     margin: 0;
-    color: var(--light80);
     height: 88vh;
     overflow-y: auto;
     overflow-x: hidden;
