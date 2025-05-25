@@ -1,10 +1,7 @@
-import { dev } from '$app/environment';
 import type { OcrSpaceResponseDto } from '$lib/types/ocr-space.dto';
 import { environment } from '$lib/util/environment';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const executeOcrProcess = async (
   file: File,

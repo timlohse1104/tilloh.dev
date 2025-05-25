@@ -1,4 +1,3 @@
-import { dev } from '$app/environment';
 import type {
   InputKeystoreDto,
   InputKeystoreUpdateDto,
@@ -7,9 +6,7 @@ import type {
 import { environment } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const getKeystore = async (token: string) => {
   return await fetch(`${apiURL}/keystore`, {

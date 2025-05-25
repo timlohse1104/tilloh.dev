@@ -1,14 +1,11 @@
-import { browser, dev } from '$app/environment';
+import { browser } from '$app/environment';
 import { environment } from '$lib/util/environment';
 import { sharedIdentifierStore } from '$lib/util/stores/store-other';
 import { writable } from 'svelte/store';
 import { defaultColor } from '../memorandum/constants';
 import { ensureFolderUUID } from '../uuid';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
-
+const apiURL = environment.apiBaseUrl;
 const linkPresetDefault = '{"Folders": []}';
 const linkPresetKey = 'memorandum.link-preset';
 

@@ -1,11 +1,8 @@
-import { dev } from '$app/environment';
 import type { JokeDto, JokeEditDto } from '$lib/types/jokes.dto';
 import { environment } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const getRandomJoke = async (): Promise<JokeDto> => {
   return await fetch(`${apiURL}/jokes/random`).then((res) => res.json());

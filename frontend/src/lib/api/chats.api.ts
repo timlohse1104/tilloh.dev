@@ -1,11 +1,8 @@
-import { dev } from '$app/environment';
 import type { ChatDto } from '$lib/types/chats.dto';
 import { environment } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const getChats = async (token: string): Promise<ChatDto[]> => {
   return await fetch(`${apiURL}/chats`, {

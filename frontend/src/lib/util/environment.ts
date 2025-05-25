@@ -1,7 +1,9 @@
+import { dev } from '$app/environment';
+
 export const environment = {
-  localApiBaseUrl: (await fetchBackendUrl()) || 'http://localhost:61154/v1',
-  productionApiBaseUrl:
-    (await fetchBackendUrl()) || 'https://api.tilloh.dev/v1',
+  apiBaseUrl: dev
+    ? 'http://localhost:61154/v1'
+    : (await fetchBackendUrl()) || 'https://api.tilloh.dev/v1',
 };
 
 async function fetchBackendUrl(): Promise<string> {

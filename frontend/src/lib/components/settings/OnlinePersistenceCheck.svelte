@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { dev } from '$app/environment';
   import { environment } from '$lib/util/environment';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import {
@@ -21,9 +20,7 @@
   import { fade } from 'svelte/transition';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
-  const apiURL = dev
-    ? environment.localApiBaseUrl
-    : environment.productionApiBaseUrl;
+  const apiURL = environment.apiBaseUrl;
   let shareDataOnline;
   let name = '';
   let openIdentifierInfo = false;

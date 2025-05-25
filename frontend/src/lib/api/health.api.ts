@@ -1,10 +1,7 @@
-import { dev } from '$app/environment';
 import { environment } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const getMetrics = async (adminToken: string) => {
   return await fetch(`${apiURL}/metrics`, {

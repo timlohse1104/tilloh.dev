@@ -1,9 +1,6 @@
-import { dev } from '$app/environment';
 import { environment } from '$lib/util/environment';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
+const apiURL = environment.apiBaseUrl;
 
 export const verifyId = async (id: string, type: 'user' | 'admin') => {
   return await fetch(`${apiURL}/admin/verify`, {
