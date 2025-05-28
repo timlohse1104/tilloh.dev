@@ -274,6 +274,11 @@
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
+  section {
+    color: white;
+    text-shadow: 0.5px 0.5px black;
+  }
+
   .link_box_fixed {
     display: grid;
     margin: 0 calc(var(--default_padding) / 2) var(--default_padding)

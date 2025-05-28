@@ -1,9 +1,9 @@
 <script lang="ts">
   import { t } from '$lib/util/translations';
   import DashboardCard from '../admin/DashboardCard.svelte';
-  import BackgroundSwitch from '../shared/BackgroundSwitch.svelte';
-  import LanguageSwitch from '../shared/LanguageSwitch.svelte';
-  import ThemeSwitch from '../shared/ThemeSwitch.svelte';
+  import BackgroundSwitch from './BackgroundSwitch.svelte';
+  import LanguageSwitch from './LanguageSwitch.svelte';
+  import ThemeSwitch from './ThemeSwitch.svelte';
 </script>
 
 <section>
