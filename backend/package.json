@@ -62,7 +62,7 @@
     "@swc/core": "~1.11.0",
     "@swc/helpers": "~0.5.11",
     "@types/jest": "^29.5.12",
-    "@types/node": "22.15.3",
+    "@types/node": "22.15.21",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "~9.27.0",
