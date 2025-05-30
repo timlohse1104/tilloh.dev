@@ -210,6 +210,8 @@
     display: block;
     padding: 1rem;
     color: var(--cds-text-01);
+    font-size: 1.5rem;
+    text-shadow: 0.5px 0.5px black;
   }
 
   footer {

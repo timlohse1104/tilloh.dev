@@ -110,6 +110,10 @@
     grid-area: link;
     display: block;
     padding-left: var(--default_padding);
-    font-size: 14px;
+    font-size: 1rem;
+
+    &:hover {
+      color: white;
+    }
   }
 </style>
