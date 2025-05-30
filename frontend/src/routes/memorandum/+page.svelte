@@ -69,6 +69,13 @@
 {#if memorandumRoute.toggle}
   {#if $initialized}
     <div class="menu_line">
+      <Search
+        placeholder={$t('page.memorandum.searchPlaceholder')}
+        bind:value={searchQuery}
+        searchClass="memorandum_search_bar"
+        autofocus
+      />
+
       <div class="order_buttons">
         <Button
           kind="ghost"
@@ -93,13 +100,6 @@
         iconDescription={$t('page.memorandum.openPresetMenu')}
         icon={ChangeCatalog}
         on:click={showPresetOverlay}
-      />
-
-      <Search
-        placeholder={$t('page.memorandum.searchPlaceholder')}
-        bind:value={searchQuery}
-        searchClass="memorandum_search_bar"
-        autofocus
       />
 
       <div class="info_buttons">

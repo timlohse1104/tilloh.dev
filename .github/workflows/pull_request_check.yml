@@ -15,7 +15,7 @@ jobs:
       - name: Use Node.js 20.11.1 LTS version
         uses: actions/setup-node@v2
         with:
-          node-version: 22.15.0
+          node-version: 22.16.0
 
       - name: Check for changelog updates
         uses: actions/github-script@v7
