@@ -7,6 +7,6 @@ export type Route = {
   id: string;
   name: RouteName;
   path: string;
-  icon: string;
+  icon: unknown;
   toggle: boolean;
 };
