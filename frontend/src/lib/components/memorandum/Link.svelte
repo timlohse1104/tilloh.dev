@@ -86,9 +86,10 @@
   section {
     display: grid;
     grid-template-columns: 20px calc(100% - 70px) 50px;
-    height: auto;
     grid-template-areas: 'icon link delBtn';
-    padding-left: var(--default_padding);
+    padding-left: 0.75rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
     box-sizing: border-box;
     align-items: center;
 

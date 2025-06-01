@@ -316,7 +316,8 @@
     box-sizing: border-box;
     overflow: auto;
     background-color: var(--black30);
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
   }
 </style>
