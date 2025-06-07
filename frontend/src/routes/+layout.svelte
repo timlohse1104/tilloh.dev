@@ -23,7 +23,7 @@
   $: theme = $themeStore;
   $: document.documentElement.setAttribute('theme', theme);
   $: getAppClasses = `app background_${$backgroundStore}_${$themeStore === darkThemeValue ? 'dark' : 'light'}`;
-  $: if (backgroundColorStore) {
+  $: if ($backgroundColorStore?.r) {
     const value = `rgba(${$backgroundColorStore.r}, ${$backgroundColorStore.g}, ${$backgroundColorStore.b}, ${$backgroundColorStore.a})`;
     document.documentElement.style.setProperty('--cds-ui-background', value);
   }
