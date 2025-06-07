@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [global] Added new setting to adjust background color if plain style is selected.
+
 ### Changed
 
 - [global] Upgraded to fastify version 5 and updated corresponding dependencies.
