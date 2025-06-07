@@ -3,6 +3,7 @@
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
   import { backgroundStore } from '$lib/util/stores/store-background';
+  import { backgroundColorStore } from '$lib/util/stores/store-background-color';
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { languageStore } from '$lib/util/stores/store-language';
   import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
@@ -22,6 +23,10 @@
   $: theme = $themeStore;
   $: document.documentElement.setAttribute('theme', theme);
   $: getAppClasses = `app background_${$backgroundStore}_${$themeStore === darkThemeValue ? 'dark' : 'light'}`;
+  $: if (backgroundColorStore) {
+    const value = `rgba(${$backgroundColorStore.r}, ${$backgroundColorStore.g}, ${$backgroundColorStore.b}, ${$backgroundColorStore.a})`;
+    document.documentElement.style.setProperty('--cds-ui-background', value);
+  }
 </script>
 
 <div class={getAppClasses}>
