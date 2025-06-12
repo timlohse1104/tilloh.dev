@@ -6,6 +6,7 @@ export enum TogglesEnum {
   jokes = 'TOGGLE_NAV_JOKES',
   chat = 'TOGGLE_NAV_CHAT',
   catchEmAll = 'TOGGLE_NAV_CATCH_EM_ALL',
+  flappyPikachu = 'TOGGLE_NAV_FLAPPY_PIKACHU',
   unoSort = 'TOGGLE_NAV_UNO_SORT',
   about = 'TOGGLE_NAV_ABOUT',
   adminDashboard = 'TOGGLE_ADMIN_DASHBOARD',

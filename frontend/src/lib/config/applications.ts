@@ -71,6 +71,13 @@ const loadApplications = async () => ({
     icon: GameConsole,
     toggle: await getToggleValue(TogglesEnum.unoSort),
   },
+  'flappy-pikachu': {
+    id: 'flappy-pikachu',
+    name: { en: 'Flappy Pikachu', de: 'Flappy Pikachu' },
+    path: '/flappy-pikachu',
+    icon: GameConsole,
+    toggle: await getToggleValue(TogglesEnum.flappyPikachu),
+  },
   about: {
     id: 'about',
     name: { en: 'About me', de: 'Über mich' },
