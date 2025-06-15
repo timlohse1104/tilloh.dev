@@ -40,7 +40,7 @@
     max-width: 400px;
     margin: 0 auto;
     padding: 40px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--cds-ui-01);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     color: var(--text-color);
@@ -50,12 +50,12 @@
   h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #333;
+    color: var(--cds-text-01);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .score-display {
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--cds-ui-02);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 30px;
@@ -64,7 +64,7 @@
 
   .highlight {
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--cds-text-01);
   }
 
   .start-button {

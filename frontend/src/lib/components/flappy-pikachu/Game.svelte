@@ -34,7 +34,6 @@
   let doubleJumpBoost: number = 1;
   let gravityIncreaseFactor: number = 1;
   let speedPercentage: number = 0;
-  let gravityBoostActive: boolean = false;
 
   const pikachuX = 50;
   const pikachuWidth = 60;
@@ -60,7 +59,6 @@
     jumpHeight = baseJumpHeight * doubleJumpBoost;
     gravity = baseGravity;
     gravityIncreaseFactor = 1;
-    gravityBoostActive = false;
     setTimeout(resetJumpBoost, jumpBoostDuration);
   }
 
@@ -76,12 +74,10 @@
       if (increaseCount > gravityIncreaseFactor - 1) {
         gravityIncreaseFactor = increaseCount + 1;
         gravity = baseGravity * gravityIncreaseFactor;
-        gravityBoostActive = true;
       }
     } else {
       gravity = baseGravity;
       gravityIncreaseFactor = 1;
-      gravityBoostActive = false;
     }
   }
 
@@ -227,11 +223,6 @@
   <div class="score">Score: {score}</div>
   <div class="speed-display">Speed: {speedPercentage.toFixed(0)}%</div>
   <div class="time">Time: {gameTime.toFixed(2)}</div>
-  {#if gravityBoostActive}
-    <div class="gravity-warning">
-      Gravitation erhöht! (+{Math.round((gravityIncreaseFactor - 1) * 100)}%)
-    </div>
-  {/if}
   <div
     class="game-area"
     style={`width: ${gameWidth}px; height: ${gameHeight}px;`}
@@ -260,9 +251,9 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: skyblue;
+    background-color: var(--cds-ui-background);
     overflow: hidden;
-    border: 2px solid #333;
+    border: 2px solid var(--cds-text-01);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -275,7 +266,7 @@
     top: 10px;
     left: 10px;
     font-size: 20px;
-    color: var(--text-color);
+    color: var(--cds-text-01);
     z-index: 10;
   }
 
@@ -285,7 +276,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 20px;
-    color: var(--text-color);
+    color: var(--cds-text-01);
     z-index: 10;
   }
 
@@ -294,21 +285,8 @@
     top: 10px;
     right: 10px;
     font-size: 20px;
-    color: var(--text-color);
+    color: var(--cds-text-01);
     z-index: 10;
-  }
-
-  .gravity-warning {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 18px;
-    color: var(--danger-color);
-    z-index: 10;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px 10px;
-    border-radius: 5px;
   }
 
   .game-area {
@@ -333,7 +311,7 @@
   .pikachu.collision {
     border: 3px solid red;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 10px var(--cds-danger-01);
   }
 
   .pipe-top,

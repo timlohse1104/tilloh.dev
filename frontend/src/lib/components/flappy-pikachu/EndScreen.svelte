@@ -81,10 +81,10 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 40px;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+    background: var(--cds-ui-01);
     border-radius: 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    color: var(--text-color);
+    color: var(--cds-text-01);
     font-family: 'Roboto', sans-serif;
   }
 
@@ -99,7 +99,7 @@
   h1 {
     font-size: 2.5rem;
     margin-bottom: 30px;
-    color: #333;
+    color: var(--cds-text-01);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
 
@@ -111,7 +111,7 @@
   }
 
   .score-box {
-    background: white;
+    background: var(--cds-ui-02);
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -119,7 +119,7 @@
   }
 
   .score-box h3 {
-    color: #777;
+    color: var(--cds-text-02);
     font-size: 1rem;
     margin-bottom: 10px;
   }
@@ -127,22 +127,26 @@
   .big-number {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--cds-support-03);
     margin: 0;
   }
 
   .best-score {
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--cds-ui-02);
     padding: 15px;
     border-radius: 10px;
     margin: 20px 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  }
 
-  .best-score h3 {
-    color: #777;
-    font-size: 1rem;
-    margin-bottom: 5px;
+    h3 {
+      color: var(--cds-text-02);
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    p {
+      color: var(--cds-support-02);
+    }
   }
 
   .congrats,
@@ -160,7 +164,7 @@
 
   .restart-button {
     background: linear-gradient(to right, #ff6b6b, #ff8e53);
-    color: white;
+    color: var(---cds-text-01);
     border: none;
     padding: 15px 40px;
     font-size: 1.2rem;
@@ -184,7 +188,7 @@
   .instruction {
     margin-top: 20px;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--cds-text-01);
     font-style: italic;
   }
 </style>

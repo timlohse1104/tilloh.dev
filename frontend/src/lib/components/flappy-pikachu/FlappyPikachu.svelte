@@ -59,7 +59,7 @@
   loadBestScore();
 </script>
 
-<main>
+<section>
   {#if gameState === 'start'}
     <StartScreen {bestScore} onStart={startGame} />
   {:else if gameState === 'playing'}
@@ -67,29 +67,14 @@
   {:else if gameState === 'end'}
     <EndScreen {score} {time} {bestScore} onRestart={restartGame} />
   {/if}
-</main>
+</section>
 
 <style>
-  :global(*) {
-    --primary-color: #ffcc00;
-    --secondary-color: #ff6600;
-    --background-color: #87ceeb;
-    --text-color: #333;
-    --success-color: #4caf50;
-    --info-color: #2196f3;
-    --warning-color: #ff9800;
-    --danger-color: #f44336;
-    --light-gray: #f5f5f5;
-    --medium-gray: #e0e0e0;
-    --dark-gray: #757575;
-  }
-
-  main {
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--background-color);
-    font-family: 'Roboto', sans-serif;
+    background-color: var(--cds-ui-background);
   }
 </style>
