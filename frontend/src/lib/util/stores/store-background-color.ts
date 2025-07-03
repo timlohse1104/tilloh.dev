@@ -3,13 +3,17 @@ import { setLocale } from '$lib/util/translations';
 import { writable } from 'svelte/store';
 
 const localStorageKey = 'background-color';
-const defaultValue = '{r: 22, g: 22, b: 22, a: 1}';
+const defaultValue = '{"r": 22, "g": 22, "b": 22, "a": 1}';
 
 const getInitialValue = () => {
   if (browser) {
     const savedBackgroundColor = localStorage.getItem(localStorageKey);
-    if (savedBackgroundColor) {
-      return savedBackgroundColor;
+    console.log('savedBackgroundColor', savedBackgroundColor);
+    if (!savedBackgroundColor || savedBackgroundColor === 'undefined') {
+      localStorage.setItem(localStorageKey, defaultValue);
+      return JSON.parse(defaultValue);
+    } else {
+      return JSON.parse(savedBackgroundColor);
     }
   } else {
     return JSON.parse(defaultValue);
