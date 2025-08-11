@@ -8,6 +8,7 @@
   import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
   import CopyFile from 'carbon-icons-svelte/lib/CopyFile.svelte';
   import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { bounceInOut } from 'svelte/easing';
@@ -52,7 +53,7 @@
       <ContextMenuOption
         indented
         labelText={$t('page.memorandum.link.openInTab')}
-        icon={Edit}
+        icon={Launch}
         on:click={() => window.open(linkUrl, '_blank')}
       />
       <ContextMenuOption
