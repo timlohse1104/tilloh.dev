@@ -76,6 +76,7 @@
   "page.settings.dashboard.background.description": "Wähle eine verfügbare Hintergrundoption.",
   "page.settings.dashboard.background.color.header": "Farbe",
   "page.settings.dashboard.background.color.description": "Wähle eine Hintergrundfarbe.",
+  "page.settings.dashboard.background.color.reset": "Setze die Hintergrundfarbe auf Basis des Farbmodus zurück.",
   "page.jokes.titleRandomJoke": "Heute schon gelacht? 😂",
   "page.jokes.descriptionRandomJoke": "Drücke auf den Knopf und erhalte einen zufälligen Witz. Viel Spaß!",
   "page.jokes.titleNewJoke": "Bring andere zum lachen! 😃",

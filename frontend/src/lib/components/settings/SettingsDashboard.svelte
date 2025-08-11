@@ -1,13 +1,10 @@
 <script lang="ts">
-  import { backgroundStore } from '$lib/util/stores/store-background';
   import { t } from '$lib/util/translations';
   import DashboardCard from '../admin/DashboardCard.svelte';
   import BackgroundColorPicker from './BackgroundColorPicker.svelte';
   import BackgroundSwitch from './BackgroundSwitch.svelte';
   import LanguageSwitch from './LanguageSwitch.svelte';
   import ThemeSwitch from './ThemeSwitch.svelte';
-
-  $: isBackgroundPlain = $backgroundStore === 'default' ? true : false;
 </script>
 
 <section>
@@ -30,14 +27,12 @@
     <BackgroundSwitch />
   </DashboardCard>
 
-  {#if isBackgroundPlain}
-    <DashboardCard
-      header={$t('page.settings.dashboard.background.color.header')}
-      description={$t('page.settings.dashboard.background.color.description')}
-    >
-      <BackgroundColorPicker />
-    </DashboardCard>
-  {/if}
+  <DashboardCard
+    header={$t('page.settings.dashboard.background.color.header')}
+    description={$t('page.settings.dashboard.background.color.description')}
+  >
+    <BackgroundColorPicker />
+  </DashboardCard>
 </section>
 
 <style lang="scss">

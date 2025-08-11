@@ -1,9 +1,16 @@
 import { browser } from '$app/environment';
+import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
 import { setLocale } from '$lib/util/translations';
 import { writable } from 'svelte/store';
 
 const localStorageKey = 'background-color';
-const defaultValue = '{"r": 22, "g": 22, "b": 22, "a": 1}';
+export const defaultDarkValue = '{"r": 22, "g": 22, "b": 22, "a": 1}';
+export const defaultLightValue = '{"r": 222, "g": 222, "b": 250, "a": 1}';
+export let defaultValue = defaultDarkValue;
+themeStore.subscribe((value) => {
+  defaultValue =
+    value === darkThemeValue ? defaultDarkValue : defaultLightValue;
+});
 
 const getInitialValue = () => {
   if (browser) {

@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { backgroundColorStore } from '$lib/util/stores/store-background-color';
+  import {
+    backgroundColorStore,
+    defaultValue,
+  } from '$lib/util/stores/store-background-color';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Popover from 'carbon-components-svelte/src/Popover/Popover.svelte';
   import PaintBrush from 'carbon-icons-svelte/lib/PaintBrush.svelte';
+  import Reset from 'carbon-icons-svelte/lib/Reset.svelte';
   import ColorPicker from '../shared/ColorPicker.svelte';
 
   export let customStyle = '';
@@ -54,7 +58,7 @@
       iconDescription={$t(
         'page.settings.dashboard.background.color.description',
       )}
-      tooltipPosition="right"
+      tooltipPosition="left"
       tooltipAlignment="end"
       on:click={() => (open = !open)}
       icon={PaintBrush}
@@ -80,6 +84,15 @@
           : '#161616'}
       />
     </Popover>
+    <Button
+      kind="tertiary"
+      iconDescription={$t('page.settings.dashboard.background.color.reset')}
+      tooltipPosition="right"
+      tooltipAlignment="end"
+      on:click={() =>
+        changeBackgroundColor({ detail: JSON.parse(defaultValue) })}
+      icon={Reset}
+    ></Button>
   </section>
 {:else}
   <section>Locale initializing...</section>

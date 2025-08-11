@@ -76,6 +76,7 @@
   "page.settings.dashboard.background.description": "Switch between available background options.",
   "page.settings.dashboard.background.color.header": "Color",
   "page.settings.dashboard.background.color.description": "Pick your background color.",
+  "page.settings.dashboard.background.color.reset": "Reset background color based on color mode.",
   "page.jokes.titleRandomJoke": "Already laughed today? 😂",
   "page.jokes.descriptionRandomJoke": "Press the button to get a new joke. Have fun!",
   "page.jokes.titleNewJoke": "Make others laugh! 😃",

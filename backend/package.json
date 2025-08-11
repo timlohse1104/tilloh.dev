@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "npm run start:db; nx serve tilloh-dev | npx pino-pretty",
+    "dev": "npm run start:db; nx serve tilloh-dev | npx pino-pretty@13.0.0",
     "lint": "nx lint tilloh-dev",
     "build": "nx build tilloh-dev",
     "build:db": "docker pull mongo && docker run -d -p 27017:27017 --name mongodb mongo",

@@ -635,6 +635,7 @@
     height: 22px;
     vertical-align: middle;
     position: relative;
+    color: black;
   }
 
   .color-picked {
