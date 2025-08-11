@@ -34,6 +34,7 @@
   "page.memorandum.link.nameOfLink": "Name des Links",
   "page.memorandum.link.urlOfLink": "URL des Links",
   "page.memorandum.link.editTitle": "Link bearbeiten",
+  "page.memorandum.link.openInTab": "Link in neuem Tab öffnen",
   "page.memorandum.link.editInfo": "Bearbeite den Link <strong>{{linkName}}</strong> im Ordner <strong>{{folderName}}</strong>.",
   "page.memorandum.link.duplicate": "Duplikat des Links erstellen",
   "page.memorandum.presetOverlay.title": "Einstellung der Link und Ordner Konfiguration",

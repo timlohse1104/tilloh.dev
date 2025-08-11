@@ -34,6 +34,7 @@
   "page.memorandum.link.nameOfLink": "Name of link",
   "page.memorandum.link.urlOfLink": "URL of link",
   "page.memorandum.link.editTitle": "Edit link",
+  "page.memorandum.link.openInTab": "Open link in new tab",
   "page.memorandum.link.editInfo": "Edit the link <strong>{{linkName}}</strong> in the folder <strong>{{folderName}}</strong>.",
   "page.memorandum.link.duplicate": "Creata a duplicate of this link",
   "page.memorandum.presetOverlay.title": "Setting the link and folder configuration",

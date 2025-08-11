@@ -51,6 +51,12 @@
     <ContextMenu target={linkObject}>
       <ContextMenuOption
         indented
+        labelText={$t('page.memorandum.link.openInTab')}
+        icon={Edit}
+        on:click={() => window.open(linkUrl, '_blank')}
+      />
+      <ContextMenuOption
+        indented
         labelText={$t('page.memorandum.link.editTitle')}
         icon={Edit}
         on:click={() =>
