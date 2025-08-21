@@ -25,8 +25,7 @@ There are a few usable toggles in the frontend. These can be created in the admi
 1. Install npm dependencies.
 
 ```
-cd frontend
-npm install
+cd frontend && npm install
 ```
 
 2. Start the development server.
