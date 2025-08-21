@@ -67,8 +67,7 @@ jobs:
 
       - name: Create staging config file
         run: |
-          cd frontend/static/config
-          echo '{ "backendUrl": "https://api-staging.tilloh.dev/v1" }' > config.json
+          echo '{ "backendUrl": "https://api-staging.tilloh.dev/v1" }' > frontend/static/config/config.json
 
       - name: Build frontend
         run: cd frontend && npm run build
@@ -89,5 +88,5 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push tilloh/tilloh-dev-frontend:latest
           docker push tilloh/tilloh-dev-frontend:${{ steps.vars.outputs.sha_short }}
+          docker push tilloh/tilloh-dev-frontend:latest
