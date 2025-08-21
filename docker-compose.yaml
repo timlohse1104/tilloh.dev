@@ -18,5 +18,8 @@ services:
       - MONGO_DB_URL=mongodb://mongodb:27017/tilloh-dev
   mongodb:
     image: mongo:latest
+    restart: unless-stopped
     ports:
       - "27017:27017"
+    volumes:
+      - ./mongodb_data:/data/db
