@@ -62,8 +62,8 @@ The frontend uses the `sveltekit-i18n` library for internationalization. The tra
 ## Automatically
 
 1. Make changes to the frontend code under `/frontend`.
-2. Push the changes to the repository `main` branch.
-3. The changes will be automatically deployed to the server.
+2. Push the changes to the repository `develop` branch.
+3. The changes will be automatically deployed to the homelab server.
 
 ## Manually
 
