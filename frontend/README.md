@@ -15,11 +15,12 @@ There are a few usable toggles in the frontend. These can be created in the admi
 5. **TOGGLE_NAV_CATCH_EM_ALL**: Show the catch em all button in the navigation bar and activate route.
 6. **TOGGLE_NAV_UNO_SORT**: Show the uno sort button in the navigation bar and activate route.
 7. **TOGGLE_NAV_ABOUT**: Show the about button in the navigation bar and activate route.
-8. **TOGGLE_ADMIN_DASHBOARD**: Show the dashboard in admin panel.
-9. **TOGGLE_ADMIN_ACTIVITIES**: Show the activities in admin panel.
-10. **TOGGLE_ADMIN_IDENTIFIERS**: Show the identifiers in admin panel.
-11. **TOGGLE_ADMIN_LINK_PRESETS**: Show the link presets in admin panel.
-12. **TOGGLE_NAV_FOOD_SCAN**: Show the food scan button in the navigation bar and activate route.
+8. **TOGGLE_NAV_JOKES**: Show the jokes button in the navigation bar and activate route.
+9. **TOGGLE_ADMIN_DASHBOARD**: Show the dashboard in admin panel.
+10. **TOGGLE_ADMIN_ACTIVITIES**: Show the activities in admin panel.
+11. **TOGGLE_ADMIN_IDENTIFIERS**: Show the identifiers in admin panel.
+12. **TOGGLE_ADMIN_LINK_PRESETS**: Show the link presets in admin panel.
+13. **TOGGLE_NAV_FOOD_SCAN**: Show the food scan button in the navigation bar and activate route.
 
 ## Development
 
