@@ -65,6 +65,11 @@ jobs:
         if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
         run: cd frontend && npm i --legacy-peer-deps --verbose
 
+      - name: Create staging config file
+        run: |
+          cd frontend/static/config
+          echo '{ "backendUrl": "https://api-staging.tilloh.dev/v1" }' > config.json
+
       - name: Build frontend
         run: cd frontend && npm run build
 
