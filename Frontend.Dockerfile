@@ -19,7 +19,7 @@ WORKDIR /static
 
 COPY --chown=nginx frontend/dist/. /usr/share/nginx/html/
 
-COPY --chown=nginx frontend/config-template.json /usr/share/nginx/html/config/config.json
+# COPY --chown=nginx frontend/config-template.json /usr/share/nginx/html/config/config.json
 
 COPY --chown=nginx frontend-nginx.conf /etc/nginx/conf.d/default.conf
 

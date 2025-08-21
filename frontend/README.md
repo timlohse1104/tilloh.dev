@@ -31,8 +31,7 @@ cd frontend && npm install
 2. Start the development server.
 
 ```
-cd frontend
-npm run dev
+cd frontend && npm run dev
 ```
 
 3. Open the browser at `http://localhost:5173`.
