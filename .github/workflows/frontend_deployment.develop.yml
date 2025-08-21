@@ -74,8 +74,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t tilloh/tilloh-public/tilloh-dev-frontend:latest -f Frontend.Dockerfile .
-          docker tag tilloh/tilloh-public/tilloh-dev-frontend:latest tilloh/tilloh-public/tilloh-dev-frontend:${{ steps.vars.outputs.sha_short }}
+          docker build -t tilloh/tilloh-dev-frontend:latest -f Frontend.Dockerfile .
+          docker tag tilloh/tilloh-dev-frontend:latest tilloh/tilloh-dev-frontend:${{ steps.vars.outputs.sha_short }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -84,4 +84,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push tilloh/tilloh-public/tilloh-dev-frontend:${{ steps.vars.outputs.sha_short }}
+        run: docker push tilloh/tilloh-dev-frontend:${{ steps.vars.outputs.sha_short }}
