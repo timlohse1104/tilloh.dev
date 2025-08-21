@@ -19,6 +19,7 @@ There are a few usable toggles in the frontend. These can be created in the admi
 9. **TOGGLE_ADMIN_ACTIVITIES**: Show the activities in admin panel.
 10. **TOGGLE_ADMIN_IDENTIFIERS**: Show the identifiers in admin panel.
 11. **TOGGLE_ADMIN_LINK_PRESETS**: Show the link presets in admin panel.
+12. **TOGGLE_NAV_FOOD_SCAN**: Show the food scan button in the navigation bar and activate route.
 
 ## Development
 
