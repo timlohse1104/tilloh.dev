@@ -32,7 +32,6 @@ jobs:
       - name: Npm audit
         run: cd frontend && npm audit --audit-level=critical --omit=dev
 
-
   build:
     name: Build and deploy
     needs: test
