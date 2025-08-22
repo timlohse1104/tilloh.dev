@@ -65,6 +65,7 @@ The frontend uses the `sveltekit-i18n` library for internationalization. The tra
 2. Push the changes to the repository `develop` branch.
 3. The changes will be automatically deployed to the homelab server.
 4. Create pull request from `develop` to `main` branch.
+5. The changes will be automatically deployed to uberspace server.
 
 ## Manually
 

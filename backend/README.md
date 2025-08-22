@@ -25,7 +25,7 @@ The API documentation is available at `https://api.tilloh.dev/v1`
 Create a `.env` file in the root of the backend folder with the following variables:
 
 ```env
-SERVER_ADDRESS="<address-identifier>" # default localhost, has to be 0.0.0.0 in docker-compose setup!
+SERVER_ADDRESS="<address-identifier>" # default localhost, NEEDS TO BE 0.0.0.0 in docker-compose setup
 GLOBAL_PREFIX="v1" # default v1
 PORT="<port-number>" # default 61154
 MONGO_DB_URL="<mongodb-url>" # default mongodb://localhost/tilloh-dev
