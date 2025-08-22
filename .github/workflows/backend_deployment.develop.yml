@@ -132,7 +132,7 @@ jobs:
           NX_BRANCH=${{ github.head_ref }} npx nx run ${{ matrix.project }}:test --parallel --silent
 
   build:
-    name: Build
+    name: Build and deploy
     needs: [test, verify]
     runs-on: ubuntu-latest
     steps:
@@ -155,92 +155,26 @@ jobs:
 
       - name: Npm install
         if: steps.node_modules.outputs.cache-hit != 'true' # Skip if cache hit
-        run: |
-          cd backend
-          npm i --legacy-peer-deps
+        run: cd backend && npm i --legacy-peer-deps
 
       - name: Build backend
+        run: cd backend && npm run build
+
+      - name: Get commit hash
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
         run: |
-          cd backend
-          npm run build
+          docker build -t tilloh/tilloh-dev-backend:latest -t tilloh/tilloh-dev-backend:${{ steps.vars.outputs.sha_short }} -f Backend.Dockerfile .
 
-      - name: Copy package.json to dist
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image
         run: |
-          cd backend
-          cp package.json dist/apps/tilloh-dev
-
-      - name: Zip backend artifact
-        run: |
-          cd backend/dist/apps
-          zip -r dist.zip tilloh-dev
-
-      - name: Upload zipped backend artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: backend/dist/apps/dist.zip
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: artifact
-          path: backend/dist/apps
-
-      - name: Unzip backend to target directory
-        run: |
-          mkdir -p backend_target
-          unzip backend/dist/apps/dist.zip -d backend_temp
-          mv backend_temp/tilloh-dev/* backend_target/
-          rm -rf backend_temp
-
-      - name: Recursivly upload built backend files to uberspace
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSHHOST }}
-          username: ${{ secrets.SSHUSER }}
-          password: ${{ secrets.SSHPASS }}
-          port: ${{ secrets.SSHPORT }}
-          source: "backend_target/*"
-          target: /home/${{ secrets.SSHUSER }}/api
-          overwrite: true
-
-      - name: SSH into the remote server and move files
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSHHOST }}
-          username: ${{ secrets.SSHUSER }}
-          password: ${{ secrets.SSHPASS }}
-          port: ${{ secrets.SSHPORT }}
-          script: |
-            cp -rf api/backend_target/. api/
-            rm -rf api/backend_target
-
-      - name: Install dependencies in server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSHHOST }}
-          username: ${{ secrets.SSHUSER }}
-          password: ${{ secrets.SSHPASS }}
-          port: ${{ secrets.SSHPORT }}
-          script: |
-            cd api
-            rm -rf node_modules
-            npm i --legacy-peer-deps
-
-      - name: Restart backend service
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSHHOST }}
-          username: ${{ secrets.SSHUSER }}
-          password: ${{ secrets.SSHPASS }}
-          port: ${{ secrets.SSHPORT }}
-          script: |
-            cd api
-            supervisorctl stop tilloh-api-daemon
-            supervisorctl start tilloh-api-daemon
-            supervisorctl tail tilloh-api-daemon | npx pino-pretty
+          docker push tilloh/tilloh-dev-backend:${{ steps.vars.outputs.sha_short }}
+          docker push tilloh/tilloh-dev-backend:latest
