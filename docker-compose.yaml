@@ -23,12 +23,3 @@ services:
       - "27017:27017"
     volumes:
       - ./mongodb_data:/data/db
-
-  watchtower:
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_POLL_INTERVAL=60  # Prüft alle 60 Sekunden auf Updates
-      - WATCHTOWER_CLEANUP=true      # Entfernt alte Images nach dem Update
-    restart: unless-stopped
