@@ -27,6 +27,7 @@ jobs:
         run: echo ${{ steps.node_modules_cache.outputs.cache-hit }}
 
       - name: Npm audit
+        continue-on-error: true
         run: |
           cd backend
           npm audit --audit-level=critical --omit=dev

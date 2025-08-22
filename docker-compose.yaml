@@ -2,6 +2,8 @@ version: '3'
 services:
   frontend:
     image: tilloh-dev-frontend:latest
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "5173:5173"
     depends_on:
@@ -10,6 +12,8 @@ services:
       - BACKEND_URL=http://localhost:61154/v1
   backend:
     image: tilloh-dev-backend:latest
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "61154:61154"
     depends_on:
@@ -23,12 +27,3 @@ services:
       - "27017:27017"
     volumes:
       - ./mongodb_data:/data/db
-
-  watchtower:
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_POLL_INTERVAL=60  # Prüft alle 60 Sekunden auf Updates
-      - WATCHTOWER_CLEANUP=true      # Entfernt alte Images nach dem Update
-    restart: unless-stopped
