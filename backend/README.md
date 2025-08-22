@@ -6,6 +6,10 @@
 
 The API that powers tilloh.dev Memorandum. Consists of generated identifiers for user sessions and a key-value store to store link information.
 
+### OCR API
+
+The API that powers tilloh.dev OCR and utilizes OCRSpace API.
+
 ### (future) Chat API
 
 The API that powers tilloh.dev Chat.
