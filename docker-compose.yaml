@@ -1,7 +1,7 @@
 version: '3'
 services:
   frontend:
-    image: tilloh-dev-frontend:latest
+    image: tilloh/tilloh-dev-frontend:latest
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     ports:
@@ -9,9 +9,13 @@ services:
     depends_on:
       - backend
     environment:
-      - BACKEND_URL=http://localhost:61154/v1
+      - BACKEND_URL=http://backend:61154/v1
+    networks:
+      network:
+        ipv4_address: 192.168.32.3
+
   backend:
-    image: tilloh-dev-backend:latest
+    image: tilloh/tilloh-dev-backend:latest
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     ports:
@@ -19,7 +23,17 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGO_DB_URL=mongodb://mongodb:27017/test
+      - SERVER_ADDRESS=${SERVER_ADDRESS}
+      - MONGO_DB_URL=mongodb://mongodb:27017/${DB_NAME}
+      - GLOBAL_PREFIX=${GLOBAL_PREFIX}
+      - PORT=${PORT}
+      - ADMIN_IDENTIFIER=${ADMIN_IDENTIFIER}
+      - OCR_SPACE_URL=${OCR_SPACE_URL}
+      - OCR_SPACE_API_KEY=${OCR_SPACE_API_KEY}
+    networks:
+      network:
+        ipv4_address: 192.168.32.2
+
   mongodb:
     image: mongo:latest
     restart: unless-stopped
@@ -27,3 +41,13 @@ services:
       - "27017:27017"
     volumes:
       - ./mongodb_data:/data/db
+    networks:
+      network:
+        ipv4_address: 192.168.32.4
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.32.0/20
