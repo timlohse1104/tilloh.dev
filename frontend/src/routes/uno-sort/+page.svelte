@@ -198,7 +198,7 @@
 
   :global(.card_title_background) {
     position: relative;
-    width: 60px;
+    width: 45px;
     height: 90px;
     display: flex;
     justify-content: center;

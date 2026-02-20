@@ -51,7 +51,6 @@
     "carbon-components-svelte": "^0.89.2",
     "carbon-icons-svelte": "^13.3.0",
     "socket.io-client": "^4.8.1",
-    "svelte-masonry": "^0.1.5",
     "sveltekit-i18n": "^2.4.2"
   }
 }
