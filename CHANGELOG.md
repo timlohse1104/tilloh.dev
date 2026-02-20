@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [memorandum] Added context menu for folders.
 - [global] Global menu now closes on link click.
 
+### Removed
+
+- [global] Removed Renovate bot - dependencies will be managed manually going forward.
+
 ### Fixed
 
 - [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
