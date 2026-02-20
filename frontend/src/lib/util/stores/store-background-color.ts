@@ -14,7 +14,6 @@ themeStore.subscribe((value) => {
 const getInitialValue = () => {
   if (browser) {
     const savedBackgroundColor = localStorage.getItem(localStorageKey);
-    console.log('savedBackgroundColor', savedBackgroundColor);
     if (!savedBackgroundColor || savedBackgroundColor === 'undefined') {
       localStorage.setItem(localStorageKey, defaultValue);
       return JSON.parse(defaultValue);
