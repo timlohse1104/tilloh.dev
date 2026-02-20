@@ -89,7 +89,28 @@ Adds Gitmoji emoji based on commit message keywords:
 - Default → 🚀
 
 ### PR Requirements
-All PRs must update CHANGELOG.md (enforced by GitHub Actions).
+**All PRs must update CHANGELOG.md** (enforced by GitHub Actions).
+
+### CHANGELOG Updates (Required)
+**Always update CHANGELOG.md** when implementing:
+- New features or functionality
+- Bug fixes
+- Breaking changes
+- Significant refactoring or improvements
+
+**Format**: Add entries under `## [Unreleased]` section:
+```markdown
+### Added
+- [module] Description of new feature.
+
+### Changed
+- [module] Description of changes.
+
+### Fixed
+- [module] Description of bug fix.
+```
+
+**Example modules**: `[memorandum]`, `[global]`, `[admin]`, `[backend]`, `[frontend]`
 
 ## Environment Setup
 
