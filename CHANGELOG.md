@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
+- [memorandum] Added arrow-based reordering system with up/down buttons and "Move to Top/Bottom" context menu options for folders and links.
 - [global] Added new setting to adjust background color if plain style is selected.
 
 ### Changed
@@ -16,15 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [global] Upgraded to fastify version 5 and updated corresponding dependencies.
 - [global] Replaced svelte material ui with carbon components.
 - [memorandum] Added context menu for folders.
+- [memorandum] Replaced drag-and-drop with arrow-based reordering for better reliability and mobile support.
 - [global] Global menu now closes on link click.
 
 ### Removed
 
 - [global] Removed Renovate bot - dependencies will be managed manually going forward.
+- [memorandum] Removed drag-and-drop functionality for folders and links.
 
 ### Fixed
 
 - [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
+- [memorandum] Fixed folder ID duplication issues caused by drag-and-drop.
+- [memorandum] Fixed incorrect folder and link positioning when reordering.
 
 ## [1.0.3] - 2025-03-12
 
