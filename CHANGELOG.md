@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [frontend] Updated all dependencies to latest versions: Svelte 5.53.0, TypeScript 5.9.3, Vite 7.3.1, ESLint 9.39.3, Vitest 4.0.18, NX 22.5.2, SvelteKit 2.53.0, Carbon Components 0.101.0.
 - [global] Upgraded to fastify version 5 and updated corresponding dependencies.
 - [global] Replaced svelte material ui with carbon components.
 - [memorandum] Added context menu for folders.
@@ -28,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [global] Fixed erroneous setLocale call in background color store causing i18n warnings.
 - [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
 - [memorandum] Fixed folder ID duplication issues caused by drag-and-drop.
 - [memorandum] Fixed incorrect folder and link positioning when reordering.
