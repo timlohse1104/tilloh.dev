@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
 - [global] Added new setting to adjust background color if plain style is selected.
 
 ### Changed

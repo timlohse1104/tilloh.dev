@@ -9,6 +9,7 @@
   import CopyFile from 'carbon-icons-svelte/lib/CopyFile.svelte';
   import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
   import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
+  import Link from 'carbon-icons-svelte/lib/Link.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { createEventDispatcher } from 'svelte';
   import { bounceInOut } from 'svelte/easing';
@@ -34,6 +35,14 @@
 
     $localPresetStore = currPreset;
   };
+
+  const copyLinkUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(linkUrl);
+    } catch (err) {
+      console.error('Failed to copy URL:', err);
+    }
+  };
 </script>
 
 {#if $initialized}
@@ -55,6 +64,12 @@
         labelText={$t('page.memorandum.link.openInTab')}
         icon={Launch}
         on:click={() => window.open(linkUrl, '_blank')}
+      />
+      <ContextMenuOption
+        indented
+        labelText={$t('page.memorandum.link.copyUrl')}
+        icon={Link}
+        on:click={copyLinkUrl}
       />
       <ContextMenuOption
         indented
