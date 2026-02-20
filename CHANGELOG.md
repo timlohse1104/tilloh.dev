@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
 - [memorandum] Added arrow-based reordering system with up/down buttons and "Move to Top/Bottom" context menu options for folders and links.
+- [memorandum] Added editable preset overlay with JSON validation, allowing direct editing of preset configuration with real-time validation and sync to localStorage/cloud.
 - [global] Added new setting to adjust background color if plain style is selected.
 
 ### Changed
