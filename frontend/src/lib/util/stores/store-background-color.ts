@@ -1,6 +1,5 @@
 import { browser } from '$app/environment';
 import { darkThemeValue, themeStore } from '$lib/util/stores/store-theme';
-import { setLocale } from '$lib/util/translations';
 import { writable } from 'svelte/store';
 
 const localStorageKey = 'background-color';
@@ -15,7 +14,6 @@ themeStore.subscribe((value) => {
 const getInitialValue = () => {
   if (browser) {
     const savedBackgroundColor = localStorage.getItem(localStorageKey);
-    console.log('savedBackgroundColor', savedBackgroundColor);
     if (!savedBackgroundColor || savedBackgroundColor === 'undefined') {
       localStorage.setItem(localStorageKey, defaultValue);
       return JSON.parse(defaultValue);
@@ -32,6 +30,5 @@ export const backgroundColorStore = writable(getInitialValue());
 if (browser) {
   backgroundColorStore.subscribe((value) => {
     localStorage.setItem(localStorageKey, JSON.stringify(value));
-    setLocale(value);
   });
 }

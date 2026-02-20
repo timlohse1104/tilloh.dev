@@ -20,7 +20,6 @@
   };
 
   const rgbaToHex = (r, g, b, a) => {
-    console.log('hexColor input', r, g, b, a);
     // Ensure RGBA values are within the correct range
     r = Math.min(255, Math.max(0, Math.round(r)));
     g = Math.min(255, Math.max(0, Math.round(g)));
