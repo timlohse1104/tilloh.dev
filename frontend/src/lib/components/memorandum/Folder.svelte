@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { FolderDto } from '$lib/types/memorandum.dto';
-  import { draggable, dropzone } from '$lib/util/drag-and-drop';
   import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
@@ -13,6 +12,10 @@
   import ContextMenuDivider from 'carbon-components-svelte/src/ContextMenu/ContextMenuDivider.svelte';
   import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import ChevronUp from 'carbon-icons-svelte/lib/ChevronUp.svelte';
+  import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
+  import ArrowUp from 'carbon-icons-svelte/lib/ArrowUp.svelte';
+  import ArrowDown from 'carbon-icons-svelte/lib/ArrowDown.svelte';
   import CopyFile from 'carbon-icons-svelte/lib/CopyFile.svelte';
   import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
   import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
@@ -94,41 +97,41 @@
       });
     }
   };
-  const dropFolder = (originFolderId) => {
-    if (originFolderId !== folderId) {
+  const moveFolderUp = () => {
+    if (currentFolderIndex > 0) {
       let currPreset = $localPresetStore;
-      const originFolderIndex = currPreset.Folders.findIndex(
-        (folder) => folder.id === originFolderId,
-      );
-      const originFolder = currPreset.Folders.splice(originFolderIndex, 1)[0];
-
-      currPreset.Folders.splice(currentFolderIndex, 0, originFolder);
-
+      const folder = currPreset.Folders[currentFolderIndex];
+      currPreset.Folders.splice(currentFolderIndex, 1);
+      currPreset.Folders.splice(currentFolderIndex - 1, 0, folder);
       $localPresetStore = currPreset;
     }
   };
-  const dropLink = (originLinkId) => {
-    let currPreset = $localPresetStore;
-    let originFolderIndex;
-    let originLinkIndex;
-
-    currPreset.Folders.some((folder) => {
-      originLinkIndex = folder.links.findIndex((link) => {
-        return link.id === originLinkId;
-      });
-      if (originLinkIndex !== -1) {
-        originFolderIndex = currPreset.Folders.indexOf(folder);
-        return true;
-      }
-    });
-
-    const originLink = currPreset.Folders[originFolderIndex].links.splice(
-      originLinkIndex,
-      1,
-    )[0];
-
-    currPreset.Folders[currentFolderIndex].links.splice(0, 0, originLink);
-    $localPresetStore = currPreset;
+  const moveFolderDown = () => {
+    if (currentFolderIndex < $localPresetStore.Folders.length - 1) {
+      let currPreset = $localPresetStore;
+      const folder = currPreset.Folders[currentFolderIndex];
+      currPreset.Folders.splice(currentFolderIndex, 1);
+      currPreset.Folders.splice(currentFolderIndex + 1, 0, folder);
+      $localPresetStore = currPreset;
+    }
+  };
+  const moveFolderToTop = () => {
+    if (currentFolderIndex > 0) {
+      let currPreset = $localPresetStore;
+      const folder = currPreset.Folders[currentFolderIndex];
+      currPreset.Folders.splice(currentFolderIndex, 1);
+      currPreset.Folders.unshift(folder);
+      $localPresetStore = currPreset;
+    }
+  };
+  const moveFolderToBottom = () => {
+    if (currentFolderIndex < $localPresetStore.Folders.length - 1) {
+      let currPreset = $localPresetStore;
+      const folder = currPreset.Folders[currentFolderIndex];
+      currPreset.Folders.splice(currentFolderIndex, 1);
+      currPreset.Folders.push(folder);
+      $localPresetStore = currPreset;
+    }
   };
   const provideLinkFaviconUrl = (linkUrl) => {
     const url = new URL(linkUrl);
@@ -162,19 +165,6 @@
       ? 'link_box_fixed'
       : 'link_box_flexible'}
     style={`border: solid 0.1em ${folderBackgroundColor};`}
-    use:draggable={`{ "type": "folder", "originFolderId": "${folderId}" }`}
-    use:dropzone={{
-      onDrop(input, event) {
-        event.stopPropagation();
-        const { type, linkId, originFolderId } = JSON.parse(input);
-
-        if (type === 'folder') {
-          dropFolder(originFolderId);
-        } else if (type === 'link') {
-          dropLink(linkId);
-        }
-      },
-    }}
     role="presentation"
   >
     <div
@@ -185,7 +175,25 @@
         : 'var(--darkgrey80)'}
       role="presentation"
     >
-      {folderHeader}
+      <span class="folder_title">{folderHeader}</span>
+      <div class="folder_controls">
+        <button
+          class="arrow_button"
+          on:click={moveFolderUp}
+          disabled={currentFolderIndex === 0}
+          title={$t('page.memorandum.folder.moveUp')}
+        >
+          <ChevronUp size={20} />
+        </button>
+        <button
+          class="arrow_button"
+          on:click={moveFolderDown}
+          disabled={currentFolderIndex === $localPresetStore.Folders.length - 1}
+          title={$t('page.memorandum.folder.moveDown')}
+        >
+          <ChevronDown size={20} />
+        </button>
+      </div>
     </div>
 
     <div class="box_content">
@@ -242,6 +250,37 @@
         icon={Launch}
         on:click={openFolderLinks}
       />
+      {#if $localPresetStore.Folders.length > 1}
+        <ContextMenuDivider />
+        {#if currentFolderIndex > 0}
+          <ContextMenuOption
+            indented
+            labelText={$t('page.memorandum.folder.moveUp')}
+            icon={ChevronUp}
+            on:click={moveFolderUp}
+          />
+          <ContextMenuOption
+            indented
+            labelText={$t('page.memorandum.folder.moveToTop')}
+            icon={ArrowUp}
+            on:click={moveFolderToTop}
+          />
+        {/if}
+        {#if currentFolderIndex < $localPresetStore.Folders.length - 1}
+          <ContextMenuOption
+            indented
+            labelText={$t('page.memorandum.folder.moveDown')}
+            icon={ChevronDown}
+            on:click={moveFolderDown}
+          />
+          <ContextMenuOption
+            indented
+            labelText={$t('page.memorandum.folder.moveToBottom')}
+            icon={ArrowDown}
+            on:click={moveFolderToBottom}
+          />
+        {/if}
+      {/if}
       <ContextMenuDivider />
       <ContextMenuOption
         indented
@@ -306,9 +345,52 @@
     grid-area: header;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     font-weight: bolder;
     padding-left: var(--default_padding);
+    padding-right: calc(var(--default_padding) / 2);
     font-size: 18px;
+  }
+
+  .folder_title {
+    flex: 1;
+  }
+
+  .folder_controls {
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    @media #{$phone}, #{$tablet} {
+      display: none;
+    }
+  }
+
+  .box_header:hover .folder_controls {
+    opacity: 1;
+  }
+
+  .arrow_button {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--white30);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
   }
 
   .box_content {
