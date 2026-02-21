@@ -20,37 +20,46 @@
   import WarningAlt from 'carbon-icons-svelte/lib/WarningAlt.svelte';
   import { fade } from 'svelte/transition';
 
-  let files: FileList;
-  let configFileInput: HTMLInputElement;
-  let timeout = undefined;
-  let isEditMode = false;
-  let editedJson = '';
-  let jsonError = '';
-  let isValidJson = true;
-  let successTimeout = undefined;
+  let files: FileList = $state();
+  let configFileInput: HTMLInputElement = $state();
+  let timeout = $state(undefined);
+  let isEditMode = $state(false);
+  let editedJson = $state('');
+  let jsonError = $state('');
+  let isValidJson = $state(true);
+  let successTimeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
-  $: showSuccessNotification = successTimeout !== undefined;
-  $: if (showNotification) celebrate();
-  $: if (showSuccessNotification) celebrate();
-  $: if (files) {
-    const file = files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target.result.toString();
-        const json = JSON.parse(result);
-        $localPresetStore = json;
-      };
-      reader.readAsText(file);
-      timeout = 3_000;
-    }
-  }
-  $: folderAmount = $localPresetStore.Folders.length;
-  $: linkAmount = [
+  const showNotification = $derived(timeout !== undefined);
+  const showSuccessNotification = $derived(successTimeout !== undefined);
+  const folderAmount = $derived($localPresetStore.Folders.length);
+  const linkAmount = $derived([
     ...$localPresetStore.Folders.map((folder) => folder.links.length),
-  ].reduce((a, b) => a + b, 0);
+  ].reduce((a, b) => a + b, 0));
+
+  $effect(() => {
+    if (showNotification) celebrate();
+  });
+
+  $effect(() => {
+    if (showSuccessNotification) celebrate();
+  });
+
+  $effect(() => {
+    if (files) {
+      const file = files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const result = event.target.result.toString();
+          const json = JSON.parse(result);
+          $localPresetStore = json;
+        };
+        reader.readAsText(file);
+        timeout = 3_000;
+      }
+    }
+  });
 
   const closeOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = false;
@@ -257,7 +266,7 @@
 />
 
 <svelte:window
-  on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
+  onkeyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
 
 <style lang="scss">

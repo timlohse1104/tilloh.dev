@@ -12,25 +12,26 @@
   import Folder from './Folder.svelte';
   import Startup from './Startup.svelte';
 
-  export let searchQuery;
+  let { searchQuery } = $props();
 
-  let refreshLayout;
-  let confirmDeleteFolderOpenOverlay = false;
-  let confirmDeleteFolderAction;
+  let confirmDeleteFolderOpenOverlay = $state(false);
+  let confirmDeleteFolderAction = $state();
 
   // Filter folders and links based on search query
-  $: filteredFolders = $localPresetStore.Folders.filter((folder) => {
-    if (!searchQuery) return true;
-    return folder.links.some((link) =>
-      link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  });
+  const filteredFolders = $derived(
+    $localPresetStore.Folders.filter((folder) => {
+      if (!searchQuery) return true;
+      return folder.links.some((link) =>
+        link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }),
+  );
 
   const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
     // we need to create a copy and set the store again, so that the stores set method gets called
     // that happens because there is no localstorage update function, only get, set, remove and clear
-    let currentPreset = $localPresetStore;
+    const currentPreset = structuredClone($localPresetStore);
 
     currentPreset.Folders.push(
       new FolderClass(
@@ -47,10 +48,9 @@
     $localPresetStore = defaultPreset;
   };
 
-  const deleteFolder = (event) => {
-    const folderId = event.detail;
+  const deleteFolder = (folderId) => {
     confirmDeleteFolderAction = () => {
-      let currentPreset = $localPresetStore;
+      const currentPreset = structuredClone($localPresetStore);
       const folderToBeDeletedIndex = currentPreset.Folders.findIndex(
         (folder) => folder.id === folderId,
       );
@@ -69,13 +69,13 @@
     {#if value.Folders.length > 0}
       {#if $folderOrderFolder === 'fixed'}
         <section class="content_area_fixed">
-          {#each filteredFolders as { folderName, customBackgroundColor, id }}
+          {#each filteredFolders as { folderName, customBackgroundColor, id } (id)}
             <Folder
               {searchQuery}
               folderId={id}
               folderHeader={folderName}
               folderBackground={customBackgroundColor}
-              on:delFolder={deleteFolder}
+              onDeleteFolder={deleteFolder}
             />
           {/each}
         </section>
@@ -84,23 +84,24 @@
           <Masonry
             reset
             gridGap={'0.75rem'}
+            colWidth={'minmax(min(350px, 100%), 450px)'}
+            justifyContent={'start'}
             items={filteredFolders}
-            bind:refreshLayout
           >
-            {#each filteredFolders as { folderName, customBackgroundColor, id }}
+            {#each filteredFolders as { folderName, customBackgroundColor, id } (id)}
               <Folder
                 {searchQuery}
                 folderId={id}
                 folderHeader={folderName}
                 folderBackground={customBackgroundColor}
-                on:delFolder={deleteFolder}
+                onDeleteFolder={deleteFolder}
               />
             {/each}
           </Masonry>
         </section>
       {/if}
     {:else}
-      <Startup on:new={createFolder} on:default={loadPreset} />
+      <Startup onNew={createFolder} onDefault={loadPreset} />
     {/if}
   {:catch error}
     <p>
@@ -120,14 +121,14 @@
   />
 
   <ConfirmOverlay
-    open={confirmDeleteFolderOpenOverlay}
+    bind:open={confirmDeleteFolderOpenOverlay}
     questionHeader={$t('page.memorandum.folder.deleteTitle')}
     questionContent={$t('page.memorandum.folder.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => (confirmDeleteFolderOpenOverlay = false)}
     yesActionText={$t('page.shared.yes')}
     yesAction={confirmDeleteFolderAction}
-    on:close={() => (confirmDeleteFolderOpenOverlay = false)}
+    onClose={() => (confirmDeleteFolderOpenOverlay = false)}
   />
 {:else}
   <section>Locale initializing...</section>

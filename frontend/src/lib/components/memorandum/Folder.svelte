@@ -20,52 +20,49 @@
   import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
   import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { createEventDispatcher } from 'svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Link from './Link.svelte';
-  const dispatch = createEventDispatcher();
 
-  export let folderId;
-  export let searchQuery = '';
-  export let folderHeader;
-  export let folderBackground;
-  export let folderBackgroundColor = '';
-  let folderHeaderObject;
+  let { folderId, searchQuery = '', folderHeader, folderBackground, onDeleteFolder } = $props();
 
-  let confirmDeleteLinkOpenOverlay = false;
-  let confirmDeleteLinkAction;
+  let folderHeaderObject: HTMLElement | undefined = $state(undefined);
+  let folderBackgroundColor = $state('');
+  let confirmDeleteLinkOpenOverlay = $state(false);
+  let confirmDeleteLinkAction = $state();
 
-  $: currentFolder = $localPresetStore?.Folders.find(
+  const currentFolder = $derived($localPresetStore?.Folders.find(
     (folder) => folder.id === folderId,
-  );
-  $: currentFolderIndex = $localPresetStore?.Folders.findIndex(
+  ));
+  const currentFolderIndex = $derived($localPresetStore?.Folders.findIndex(
     (folder) => folder.id === folderId,
-  );
-  $: filteredLinks = currentFolder?.links?.filter((link) => {
+  ));
+  const filteredLinks = $derived(currentFolder?.links?.filter((link) => {
     if (!searchQuery) return true;
     return link.linkName?.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-  $: if (folderBackground) {
-    folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
-  }
+  }));
 
-  const showLinkOverlay = (event) => {
+  $effect(() => {
+    if (folderBackground) {
+      folderBackgroundColor = new RGBBackgroundClass(folderBackground).getRGBA();
+    }
+  });
+
+  const showLinkOverlay = (linkId = null, linkName = null, linkUrl = null) => {
     $linkOverlayOptionsStore.showOverlay =
       !$linkOverlayOptionsStore.showOverlay;
     $linkOverlayOptionsStore.currentFolderId = folderId;
     $linkOverlayOptionsStore.currentFolder = folderHeader;
 
-    if (event.detail) {
-      $linkOverlayOptionsStore.currLinkId = event.detail.linkId;
-      $linkOverlayOptionsStore.currLinkName = event.detail.linkName;
-      $linkOverlayOptionsStore.currLinkUrl = event.detail.linkUrl;
+    if (linkId) {
+      $linkOverlayOptionsStore.currLinkId = linkId;
+      $linkOverlayOptionsStore.currLinkName = linkName;
+      $linkOverlayOptionsStore.currLinkUrl = linkUrl;
     }
   };
-  const deleteLink = (event) => {
-    const linkId = event.detail;
+  const deleteLink = (linkId) => {
     console.log(`Deleting link with ID: ${linkId}`);
     confirmDeleteLinkAction = () => {
-      let currentPreset = $localPresetStore;
+      const currentPreset = structuredClone($localPresetStore);
 
       currentPreset.Folders.forEach((folder: FolderDto) => {
         const linkIndex = folder.links.findIndex((link) => link.id === linkId);
@@ -99,7 +96,7 @@
   };
   const moveFolderUp = () => {
     if (currentFolderIndex > 0) {
-      let currPreset = $localPresetStore;
+      const currPreset = structuredClone($localPresetStore);
       const folder = currPreset.Folders[currentFolderIndex];
       currPreset.Folders.splice(currentFolderIndex, 1);
       currPreset.Folders.splice(currentFolderIndex - 1, 0, folder);
@@ -108,7 +105,7 @@
   };
   const moveFolderDown = () => {
     if (currentFolderIndex < $localPresetStore.Folders.length - 1) {
-      let currPreset = $localPresetStore;
+      const currPreset = structuredClone($localPresetStore);
       const folder = currPreset.Folders[currentFolderIndex];
       currPreset.Folders.splice(currentFolderIndex, 1);
       currPreset.Folders.splice(currentFolderIndex + 1, 0, folder);
@@ -117,7 +114,7 @@
   };
   const moveFolderToTop = () => {
     if (currentFolderIndex > 0) {
-      let currPreset = $localPresetStore;
+      const currPreset = structuredClone($localPresetStore);
       const folder = currPreset.Folders[currentFolderIndex];
       currPreset.Folders.splice(currentFolderIndex, 1);
       currPreset.Folders.unshift(folder);
@@ -126,7 +123,7 @@
   };
   const moveFolderToBottom = () => {
     if (currentFolderIndex < $localPresetStore.Folders.length - 1) {
-      let currPreset = $localPresetStore;
+      const currPreset = structuredClone($localPresetStore);
       const folder = currPreset.Folders[currentFolderIndex];
       currPreset.Folders.splice(currentFolderIndex, 1);
       currPreset.Folders.push(folder);
@@ -142,12 +139,10 @@
     return faviconLink;
   };
   const duplicateFolder = () => {
-    let currentPreset = $localPresetStore;
-    let currentFolder = {
-      ...currentPreset.Folders.find((folder) => folder.id === folderId),
-    };
+    const currentPreset = structuredClone($localPresetStore);
+    const currentFolder = currentPreset.Folders.find((folder) => folder.id === folderId);
 
-    const duplicatedFolder = JSON.parse(JSON.stringify(currentFolder));
+    const duplicatedFolder = structuredClone(currentFolder);
     duplicatedFolder.id = crypto.randomUUID();
     duplicatedFolder.folderName = $t('page.memorandum.folder.copiedName', {
       folderName: folderHeader,
@@ -179,7 +174,7 @@
       <div class="folder_controls">
         <button
           class="arrow_button"
-          on:click={moveFolderUp}
+          onclick={() => moveFolderUp()}
           disabled={currentFolderIndex === 0}
           title={$t('page.memorandum.folder.moveUp')}
         >
@@ -187,7 +182,7 @@
         </button>
         <button
           class="arrow_button"
-          on:click={moveFolderDown}
+          onclick={() => moveFolderDown()}
           disabled={currentFolderIndex === $localPresetStore.Folders.length - 1}
           title={$t('page.memorandum.folder.moveDown')}
         >
@@ -203,10 +198,10 @@
         </p>
       {:then value}
         {#if filteredLinks?.length > 0}
-          {#each filteredLinks as { id: linkId, linkName, linkUrl, faviconLink }}
+          {#each filteredLinks as { id: linkId, linkName, linkUrl, faviconLink } (linkId)}
             <Link
-              on:delLink={deleteLink}
-              on:editLink={showLinkOverlay}
+              onDeleteLink={deleteLink}
+              onEditLink={showLinkOverlay}
               {linkId}
               {folderId}
               {linkName}
@@ -225,17 +220,17 @@
     </div>
 
     <ConfirmOverlay
-      open={confirmDeleteLinkOpenOverlay}
+      bind:open={confirmDeleteLinkOpenOverlay}
       questionHeader={$t('page.memorandum.link.deleteTitle')}
       questionContent={$t('page.memorandum.link.deleteQuestion')}
       noActionText={$t('page.shared.no')}
       noAction={() => (confirmDeleteLinkOpenOverlay = false)}
       yesActionText={$t('page.shared.yes')}
       yesAction={confirmDeleteLinkAction}
-      on:close={() => (confirmDeleteLinkOpenOverlay = false)}
+      onClose={() => (confirmDeleteLinkOpenOverlay = false)}
     />
 
-    <ContextMenu target={folderHeaderObject}>
+    <ContextMenu target={folderHeaderObject ? [folderHeaderObject] : []}>
       <ContextMenuOption
         indented
         labelText={$t('page.memorandum.folder.newLink')}
@@ -302,7 +297,7 @@
           amount: filteredLinks.length,
         })}
         icon={TrashCan}
-        on:click={() => dispatch('delFolder', folderId)}
+        on:click={() => onDeleteFolder(folderId)}
       />
     </ContextMenu>
   </section>

@@ -14,17 +14,20 @@
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
 
-  export let folderName = '';
+  let { folderName = $bindable('') } = $props();
 
-  let customColorActive = false;
-  let customColor = defaultColor;
-  let customColorInput = '';
+  let customColorActive = $state(false);
+  let customColor = $state(defaultColor);
+  let customColorInput = $state('');
 
-  $: submittable = folderName;
-  $: if (!customColorActive) {
-    customColor = defaultColor;
-  }
-  $: customColorString = customColor.getRGBAValues();
+  const submittable = $derived(folderName);
+  const customColorString = $derived(customColor.getRGBAValues());
+
+  $effect(() => {
+    if (!customColorActive) {
+      customColor = defaultColor;
+    }
+  });
 
   onMount(() => {
     if ($folderOverlayOptionsStore.currentFolderBackgroundColor) {
@@ -47,7 +50,7 @@
   };
   const editFolder = () => {
     if (submittable) {
-      let currentPreset = $localPresetStore;
+      const currentPreset = structuredClone($localPresetStore);
 
       currentPreset.Folders.find(
         (f) => f.id === $folderOverlayOptionsStore.currentFolderId,
@@ -138,7 +141,8 @@
       <div class="mb1 folder_color_value_fields">
         <div class="folder_color_value_setting_fields">
           <TextInput
-            bind:value={customColorString}
+            value={customColorString}
+            readonly
             labelText={$t('page.memorandum.folder.currentValues')}
             placeholder={$t('page.memorandum.folder.currentValues')}
             helperText="Format: 'r,g,b,a'"
@@ -167,7 +171,7 @@
 </Modal>
 
 <svelte:window
-  on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
+  onkeyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
 
 <style lang="scss">

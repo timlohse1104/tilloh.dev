@@ -1,13 +1,12 @@
 <script>
   import { initialized, t } from '$lib/util/translations';
-  import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
+  const { onNew, onDefault } = $props();
 </script>
 
 {#if $initialized}
   <section>
-    <button on:click={() => dispatch('new')}>
+    <button onclick={() => onNew()}>
       <img
         id="firstFolderImg"
         alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
@@ -18,7 +17,7 @@
       </p>
     </button>
 
-    <button on:click={() => dispatch('default')}>
+    <button onclick={() => onDefault()}>
       <img
         id="loadPresetImg"
         alt={$t('page.memorandum.startup.loadPresetAlt')}

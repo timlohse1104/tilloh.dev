@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [memorandum] Migrated all memorandum components to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [frontend] Updated all dependencies to latest versions: Svelte 5.53.0, TypeScript 5.9.3, Vite 7.3.1, ESLint 9.39.3, Vitest 4.0.18, NX 22.5.2, SvelteKit 2.53.0, Carbon Components 0.101.0.
 - [global] Upgraded to fastify version 5 and updated corresponding dependencies.
 - [global] Replaced svelte material ui with carbon components.
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
 - [memorandum] Fixed folder ID duplication issues caused by drag-and-drop.
 - [memorandum] Fixed incorrect folder and link positioning when reordering.
+- [memorandum] Fixed masonry layout issue where folders stretched to full screen width when search resulted in a single folder.
 
 ## [1.0.3] - 2025-03-12
 
