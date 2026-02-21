@@ -18,12 +18,14 @@
   let confirmDeleteFolderAction = $state();
 
   // Filter folders and links based on search query
-  const filteredFolders = $derived($localPresetStore.Folders.filter((folder) => {
-    if (!searchQuery) return true;
-    return folder.links.some((link) =>
-      link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  }));
+  const filteredFolders = $derived(
+    $localPresetStore.Folders.filter((folder) => {
+      if (!searchQuery) return true;
+      return folder.links.some((link) =>
+        link.linkName?.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }),
+  );
 
   const createFolder = () => {
     // svelte stores using html5 localstorage with stringified objects cannot be updated directly
@@ -82,6 +84,8 @@
           <Masonry
             reset
             gridGap={'0.75rem'}
+            colWidth={'minmax(min(350px, 100%), 450px)'}
+            justifyContent={'start'}
             items={filteredFolders}
           >
             {#each filteredFolders as { folderName, customBackgroundColor, id } (id)}

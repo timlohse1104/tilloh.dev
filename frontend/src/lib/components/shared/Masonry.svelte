@@ -7,6 +7,7 @@
     colWidth = 'minmax(Min(25em, 100%), 1fr)',
     items = [],
     reset = $bindable(),
+    justifyContent = 'center',
     children
   } = $props();
 
@@ -149,7 +150,7 @@
 <div
   bind:this={masonryElement}
   class={`__grid--masonry ${stretchFirst ? '__stretch-first' : ''}`}
-  style={`--grid-gap: ${gridGap}; --col-width: ${colWidth};`}
+  style={`--grid-gap: ${gridGap}; --col-width: ${colWidth}; --justify-content: ${justifyContent};`}
 >
   {@render children()}
 </div>
@@ -164,7 +165,7 @@ $s: var(--grid-gap); // .5em;
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--col-width));
     grid-template-rows: masonry;
-    justify-content: center;
+    justify-content: var(--justify-content);
     grid-gap: var(--grid-gap);
     padding: var(--grid-gap);
   }
