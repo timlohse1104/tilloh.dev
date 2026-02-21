@@ -76,6 +76,69 @@ Feature modules follow NX library pattern with `@backend/` path aliases:
 
 **Tooling**: NX monorepo, TypeScript 5.8, ESLint, Prettier (singleQuote: true), Jest/Vitest
 
+## Coding Best Practices
+
+### Frontend Organization
+- **API calls**: Always place in `/frontend/src/lib/api/`
+- **Type definitions**: Always place in `/frontend/src/lib/types/`
+- **Functions**: Always define as lambda const (e.g., `const myFunction = () => { ... }`)
+
+### Naming Conventions
+- **Service functions** (business logic): Use descriptive names (e.g., `listIdentifiers`, `removeMessage`, `createFolder`)
+- **MongoDB functions** (database layer): Use generic CRUD names (e.g., `findAll`, `findById`, `update`, `remove`)
+
+### Svelte 5 Component Structure
+Components using Svelte 5 runes should follow this order in the `<script>` section:
+
+```svelte
+<script lang="ts">
+  // 1. IMPORTS
+  import Component from './Component.svelte';
+  import type { MyType } from '$lib/types';
+
+  // 2. PROPS
+  let { prop1, prop2 = 'default', bindableProp = $bindable() } = $props();
+
+  // 3. CONST (non-reactive constants)
+  const CONSTANT_VALUE = 42;
+
+  // 4. STATE
+  let myState = $state(initialValue);
+  let anotherState = $state({ nested: 'value' });
+
+  // 5. DERIVED
+  const computed = $derived(myState * 2);
+  const filtered = $derived(items.filter(item => item.active));
+
+  // 6. EFFECTS
+  $effect(() => {
+    // Side effects here
+  });
+
+  // 7. LIFECYCLE
+  onMount(() => {
+    // Initialization logic
+  });
+
+  // 8. FUNCTIONS
+  const handleClick = () => {
+    // Handler logic
+  };
+
+  const processData = (data) => {
+    // Processing logic
+  };
+</script>
+```
+
+**Note**: For components not yet migrated to Svelte 5, use the legacy structure:
+1. `export let` (props)
+2. `const` (constants)
+3. `let` (non-reactive variables)
+4. `$:` (reactive declarations)
+5. `onMount` (lifecycle)
+6. `const` functions
+
 ## Git Workflow
 
 ### Pre-commit Hook (Automatic)
