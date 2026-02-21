@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { verifyId } from '$lib/api/admin.api';
   import { isEnter } from '$lib/util/helper';
   import { identifierStore } from '$lib/util/stores/store-identifier';
@@ -8,16 +9,22 @@
   import PasswordInput from 'carbon-components-svelte/src/TextInput/PasswordInput.svelte';
   import { fade } from 'svelte/transition';
 
-  export let token: string = '';
-  export let isVerified: boolean = false;
-  export let isAdminLogin: boolean = false;
-  export let callback: () => Promise<void> = async () => {};
+  // 2. PROPS
+  let {
+    token = $bindable(''),
+    isVerified = $bindable(false),
+    isAdminLogin = false,
+    callback = async () => {}
+  } = $props();
 
-  let verificationError: string = '';
-  let timeout = undefined;
+  // 3. STATE
+  let verificationError = $state('');
+  let timeout = $state<number | undefined>(undefined);
 
-  $: showNotification = timeout !== undefined;
+  // 4. DERIVED
+  const showNotification = $derived(timeout !== undefined);
 
+  // 5. FUNCTIONS
   const verify = async () => {
     const verifyResponse = await verifyId(
       token,
