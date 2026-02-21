@@ -185,44 +185,44 @@
   />
 
   <ConfirmOverlay
-    open={$confirmDeleteToggleOpenOverlayStore}
+    bind:open={$confirmDeleteToggleOpenOverlayStore}
     questionHeader={$t('page.admin.toggles.deleteTitle')}
     questionContent={$t('page.admin.toggles.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => ($confirmDeleteToggleOpenOverlayStore = false)}
     yesActionText={$t('page.shared.yes')}
     yesAction={$confirmDeleteToggleActionStore}
-    on:close={() => ($confirmDeleteToggleOpenOverlayStore = false)}
+    onClose={() => ($confirmDeleteToggleOpenOverlayStore = false)}
   />
   <ConfirmOverlay
-    open={$confirmDeleteIdentifierOpenOverlayStore}
+    bind:open={$confirmDeleteIdentifierOpenOverlayStore}
     questionHeader={$t('page.admin.identifiers.deleteTitle')}
     questionContent={$t('page.admin.identifiers.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => ($confirmDeleteIdentifierOpenOverlayStore = false)}
     yesActionText={$t('page.shared.yes')}
     yesAction={$confirmDeleteIdentifierActionStore}
-    on:close={() => ($confirmDeleteIdentifierOpenOverlayStore = false)}
+    onClose={() => ($confirmDeleteIdentifierOpenOverlayStore = false)}
   />
   <ConfirmOverlay
-    open={$confirmDeletePresetOpenOverlayStore}
+    bind:open={$confirmDeletePresetOpenOverlayStore}
     questionHeader={$t('page.admin.linkPresets.deleteTitle')}
     questionContent={$t('page.admin.linkPresets.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => ($confirmDeletePresetOpenOverlayStore = false)}
     yesActionText={$t('page.shared.yes')}
     yesAction={$confirmDeletePresetActionStore}
-    on:close={() => ($confirmDeletePresetOpenOverlayStore = false)}
+    onClose={() => ($confirmDeletePresetOpenOverlayStore = false)}
   />
   <ConfirmOverlay
-    open={$confirmDeleteJokeOpenOverlayStore}
+    bind:open={$confirmDeleteJokeOpenOverlayStore}
     questionHeader={$t('page.admin.jokes.deleteTitle')}
     questionContent={$t('page.admin.jokes.deleteQuestion')}
     noActionText={$t('page.shared.no')}
     noAction={() => ($confirmDeleteJokeOpenOverlayStore = false)}
     yesActionText={$t('page.shared.yes')}
     yesAction={$confirmDeleteJokeActionStore}
-    on:close={() => ($confirmDeleteJokeOpenOverlayStore = false)}
+    onClose={() => ($confirmDeleteJokeOpenOverlayStore = false)}
   />
 {/if}
 

@@ -1,18 +1,19 @@
 <script>
   import { onDestroy, onMount, tick } from 'svelte';
-  export let stretchFirst = false,
+
+  let {
+    stretchFirst = false,
     gridGap = '0.5em',
     colWidth = 'minmax(Min(25em, 100%), 1fr)',
-    items = []; // pass in data if it's dynamically updated
+    items = [],
+    reset = $bindable(),
+    children
+  } = $props();
+
   let grids = [],
     masonryElement;
 
-  export let reset;
-  $: if (reset) {
-    masonryElement = masonryElement;
-  }
-
-  export const refreshLayout = async () => {
+  const refreshLayout = async () => {
     grids.forEach(async (grid) => {
       /* get the post relayout number of columns */
       let ncol = getComputedStyle(grid._el).gridTemplateColumns.split(
@@ -89,14 +90,39 @@
     }
   });
 
-  $: if (masonryElement) {
-    calcGrid([masonryElement]);
-  }
+  $effect(() => {
+    if (masonryElement) {
+      calcGrid([masonryElement]);
+    }
+  });
 
-  $: if (items) {
-    // update if items are changed
-    masonryElement = masonryElement; // refresh masonryElement
-  }
+  $effect(() => {
+    // Trigger refresh when items array changes (order or content)
+    if (items && masonryElement) {
+      // Track the actual items array, not just length
+      const itemIds = items.map(item => item.id || item).join(',');
+
+      // Use requestAnimationFrame to wait for browser repaint
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Force recalculation by marking all grids as modified
+          grids.forEach(grid => grid.mod = 1);
+          calcGrid([masonryElement]);
+          refreshLayout();
+        });
+      });
+    }
+  });
+
+  $effect(() => {
+    // Trigger refresh when reset changes
+    if (reset && masonryElement) {
+      requestAnimationFrame(() => {
+        calcGrid([masonryElement]);
+        refreshLayout();
+      });
+    }
+  });
 </script>
 
 <!--
@@ -125,7 +151,7 @@
   class={`__grid--masonry ${stretchFirst ? '__stretch-first' : ''}`}
   style={`--grid-gap: ${gridGap}; --col-width: ${colWidth};`}
 >
-  <slot></slot>
+  {@render children()}
 </div>
 
 <!--

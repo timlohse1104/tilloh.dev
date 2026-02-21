@@ -40,12 +40,12 @@
     },
   ];
 
-  let searchQuery = '';
+  let searchQuery = $state('');
 
-  $: locale = $languageStore;
-  $: order = $folderOrderFolder
+  const locale = $derived($languageStore);
+  const order = $derived($folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
-    : orders[0];
+    : orders[0]);
 
   const showPresetOverlay = () => {
     $presetOverlayOptionsStore.showOverlay = true;
@@ -113,21 +113,19 @@
     </div>
 
     <div class="box_area">
-      {#key $localPresetStore}
-        <BoxArea bind:searchQuery />
-      {/key}
+      <BoxArea {searchQuery} />
     </div>
 
     {#if $folderOverlayOptionsStore.showOverlay}
       <FolderOverlay
-        folderName={$folderOverlayOptionsStore.currentFolderName}
+        bind:folderName={$folderOverlayOptionsStore.currentFolderName}
       />
     {/if}
 
     {#if $linkOverlayOptionsStore.showOverlay}
       <LinkOverlay
-        newLinkName={$linkOverlayOptionsStore.currLinkName}
-        newLinkUrl={$linkOverlayOptionsStore.currLinkUrl}
+        bind:newLinkName={$linkOverlayOptionsStore.currLinkName}
+        bind:newLinkUrl={$linkOverlayOptionsStore.currLinkUrl}
       />
     {/if}
 

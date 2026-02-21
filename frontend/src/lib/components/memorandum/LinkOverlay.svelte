@@ -9,12 +9,11 @@
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
-  export let newLinkName = '';
-  export let newLinkUrl = '';
+  let { newLinkName = $bindable(''), newLinkUrl = $bindable('') } = $props();
 
-  let type = $linkOverlayOptionsStore.currLinkName ? 'edit' : 'new';
+  let type = $state($linkOverlayOptionsStore.currLinkName ? 'edit' : 'new');
 
-  $: submittable = newLinkName && newLinkUrl;
+  const submittable = $derived(newLinkName && newLinkUrl);
 
   const closeOverlay = () => {
     $linkOverlayOptionsStore.showOverlay = false;
@@ -26,8 +25,8 @@
   };
   const addLink = () => {
     if (submittable) {
-      let currPreset = $localPresetStore;
-      let currLinks = currPreset.Folders.find(
+      const currPreset = structuredClone($localPresetStore);
+      const currLinks = currPreset.Folders.find(
         (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
       ).links;
 
@@ -42,11 +41,11 @@
   };
   const editLink = () => {
     if (submittable) {
-      let currPreset = $localPresetStore;
-      let currLinks = currPreset.Folders.find(
+      const currPreset = structuredClone($localPresetStore);
+      const currLinks = currPreset.Folders.find(
         (folder) => folder.id === $linkOverlayOptionsStore.currentFolderId,
       ).links;
-      let currLink = currLinks.find(
+      const currLink = currLinks.find(
         (link) => link.id === $linkOverlayOptionsStore.currLinkId,
       );
 
@@ -115,7 +114,7 @@
 </Modal>
 
 <svelte:window
-  on:keyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
+  onkeyup={(event) => (event.code === 'Escape' ? closeOverlay() : 'foo')}
 />
 
 <style lang="scss">

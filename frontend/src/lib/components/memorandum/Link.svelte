@@ -14,30 +14,23 @@
   import Launch from 'carbon-icons-svelte/lib/Launch.svelte';
   import Link from 'carbon-icons-svelte/lib/Link.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { createEventDispatcher } from 'svelte';
   import { bounceInOut } from 'svelte/easing';
   import { blur } from 'svelte/transition';
 
-  const dispatch = createEventDispatcher();
+  const { linkId, folderId, linkName, linkUrl, faviconLink, onEditLink, onDeleteLink } = $props();
 
-  export let linkId;
-  export let folderId;
-  export let linkName;
-  export let linkUrl;
-  export let faviconLink;
+  let linkObject: HTMLElement | undefined = $state(undefined);
 
-  let linkObject;
-
-  $: currentFolder = $localPresetStore?.Folders.find(
+  const currentFolder = $derived($localPresetStore?.Folders.find(
     (folder) => folder.id === folderId,
-  );
-  $: currentLinkIndex = currentFolder?.links.findIndex(
+  ));
+  const currentLinkIndex = $derived(currentFolder?.links.findIndex(
     (link) => link.id === linkId,
-  ) ?? -1;
+  ) ?? -1);
 
   const duplicateLink = () => {
-    let currPreset = $localPresetStore;
-    let currLinks = currPreset.Folders.find(
+    const currPreset = structuredClone($localPresetStore);
+    const currLinks = currPreset.Folders.find(
       (folder) => folder.id === folderId,
     ).links;
 
@@ -56,8 +49,8 @@
 
   const moveLinkUp = () => {
     if (currentLinkIndex > 0) {
-      let currPreset = $localPresetStore;
-      let folder = currPreset.Folders.find((f) => f.id === folderId);
+      const currPreset = structuredClone($localPresetStore);
+      const folder = currPreset.Folders.find((f) => f.id === folderId);
       const link = folder.links[currentLinkIndex];
       folder.links.splice(currentLinkIndex, 1);
       folder.links.splice(currentLinkIndex - 1, 0, link);
@@ -67,8 +60,8 @@
 
   const moveLinkDown = () => {
     if (currentLinkIndex < currentFolder.links.length - 1) {
-      let currPreset = $localPresetStore;
-      let folder = currPreset.Folders.find((f) => f.id === folderId);
+      const currPreset = structuredClone($localPresetStore);
+      const folder = currPreset.Folders.find((f) => f.id === folderId);
       const link = folder.links[currentLinkIndex];
       folder.links.splice(currentLinkIndex, 1);
       folder.links.splice(currentLinkIndex + 1, 0, link);
@@ -78,8 +71,8 @@
 
   const moveLinkToTop = () => {
     if (currentLinkIndex > 0) {
-      let currPreset = $localPresetStore;
-      let folder = currPreset.Folders.find((f) => f.id === folderId);
+      const currPreset = structuredClone($localPresetStore);
+      const folder = currPreset.Folders.find((f) => f.id === folderId);
       const link = folder.links[currentLinkIndex];
       folder.links.splice(currentLinkIndex, 1);
       folder.links.unshift(link);
@@ -89,8 +82,8 @@
 
   const moveLinkToBottom = () => {
     if (currentLinkIndex < currentFolder.links.length - 1) {
-      let currPreset = $localPresetStore;
-      let folder = currPreset.Folders.find((f) => f.id === folderId);
+      const currPreset = structuredClone($localPresetStore);
+      const folder = currPreset.Folders.find((f) => f.id === folderId);
       const link = folder.links[currentLinkIndex];
       folder.links.splice(currentLinkIndex, 1);
       folder.links.push(link);
@@ -114,7 +107,7 @@
     <div class="link_controls">
       <button
         class="arrow_button"
-        on:click={moveLinkUp}
+        onclick={() => moveLinkUp()}
         disabled={currentLinkIndex === 0}
         title={$t('page.memorandum.link.moveUp')}
       >
@@ -122,7 +115,7 @@
       </button>
       <button
         class="arrow_button"
-        on:click={moveLinkDown}
+        onclick={() => moveLinkDown()}
         disabled={currentLinkIndex === currentFolder?.links.length - 1}
         title={$t('page.memorandum.link.moveDown')}
       >
@@ -130,7 +123,7 @@
       </button>
     </div>
 
-    <ContextMenu target={linkObject}>
+    <ContextMenu target={linkObject ? [linkObject] : []}>
       <ContextMenuOption
         indented
         labelText={$t('page.memorandum.link.openInTab')}
@@ -179,12 +172,7 @@
         indented
         labelText={$t('page.memorandum.link.editTitle')}
         icon={Edit}
-        on:click={() =>
-          dispatch('editLink', {
-            linkId: linkId,
-            linkName: linkName,
-            linkUrl: linkUrl,
-          })}
+        on:click={() => onEditLink(linkId, linkName, linkUrl)}
       />
       <ContextMenuOption
         indented
@@ -198,7 +186,7 @@
         kind="danger"
         labelText={$t('page.memorandum.link.deleteTitle')}
         icon={TrashCan}
-        on:click={() => dispatch('delLink', linkId)}
+        on:click={() => onDeleteLink(linkId)}
       />
     </ContextMenu>
   </section>

@@ -1,29 +1,29 @@
 <script lang="ts">
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
-  import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
-
-  export let open = false;
-  export let questionHeader;
-  export let questionContent;
-  export let noActionText;
-  export let noAction = undefined;
-  export let yesActionText;
-  export let yesAction = undefined;
+  let {
+    open = $bindable(false),
+    questionHeader,
+    questionContent,
+    noActionText,
+    noAction = undefined,
+    yesActionText,
+    yesAction = undefined,
+    onClose
+  } = $props();
 
   const executeNoAction = () => {
     if (noAction) {
       noAction();
     }
-    dispatch('close');
+    onClose();
   };
 
   const executeYesAction = () => {
     if (yesAction) {
       yesAction();
     }
-    dispatch('close');
+    onClose();
   };
 </script>
 
