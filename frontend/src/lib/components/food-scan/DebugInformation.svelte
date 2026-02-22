@@ -1,32 +1,51 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { t } from '$lib/util/translations';
   import type { ModelRecord } from '@mlc-ai/web-llm';
   import ComboBox from 'carbon-components-svelte/src/ComboBox/ComboBox.svelte';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import { createEventDispatcher } from 'svelte';
 
+  // 2. CONST (non-reactive constants)
   const dispatch = createEventDispatcher();
 
-  export let selectedModel: ModelRecord | undefined;
-  export let availableModels: ModelRecord[];
-  export let systemPromptText: string = '';
-  export let userPromptText: string = '';
-  export let ocrResponseTimeText: string = '';
-  export let llmResponseTimeText: string = '';
-  export let completionTokens: string = '';
-  export let promptTokens: string = '';
-  export let totalTokens: string = '';
-  export let prefillTokensPerS: string = '';
-  export let decodeTokensPerS: string = '';
+  // 3. PROPS
+  let {
+    selectedModel,
+    availableModels,
+    systemPromptText,
+    userPromptText,
+    ocrResponseTimeText,
+    llmResponseTimeText,
+    completionTokens,
+    promptTokens,
+    totalTokens,
+    prefillTokensPerS,
+    decodeTokensPerS,
+  } = $props<{
+    selectedModel: ModelRecord | undefined;
+    availableModels: ModelRecord[];
+    systemPromptText: string;
+    userPromptText: string;
+    ocrResponseTimeText: string;
+    llmResponseTimeText: string;
+    completionTokens: string;
+    promptTokens: string;
+    totalTokens: string;
+    prefillTokensPerS: string;
+    decodeTokensPerS: string;
+  }>();
 
-  $: availableModelsComboList = availableModels.map((model, i) => ({
+  // 5. DERIVED
+  const availableModelsComboList = $derived(availableModels.map((model, i) => ({
     id: i,
     text: `${model.model_id} (${model.vram_required_MB}MB VRAM / ${model?.overrides?.context_window_size} window size)`,
-  }));
-  $: selectedModelId = selectedModel
+  })));
+  const selectedModelId = $derived(selectedModel
     ? availableModels.findIndex((model) => model === selectedModel)
-    : undefined;
+    : undefined);
 
+  // 8. FUNCTIONS
   const selectModel = (event) => {
     const { selectedId } = event.detail;
     if (selectedId) {
