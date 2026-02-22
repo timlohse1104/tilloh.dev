@@ -188,7 +188,6 @@
         passiveModal
         bind:open={openIdentifierInfo}
         modalHeading={$t('page.settings.identifiers.title')}
-        hasScrollingContent="false"
       >
         <IdentifierInformation
           onCopySuccess={(id) => {
@@ -198,6 +197,19 @@
             }, 3000);
           }}
         />
+
+        {#if showIdentifierNotification}
+          <div class="modal_notification" transition:fade>
+            <InlineNotification
+              timeout={3000}
+              kind="info-square"
+              lowContrast
+              subtitle={$t('page.settings.identifiers.idCopied', {
+                id: identifierCopiedId,
+              })}
+            />
+          </div>
+        {/if}
       </Modal>
     {/if}
 
@@ -256,22 +268,7 @@
         />
       </div>
     {/if}
-
   </section>
-
-  {#if showIdentifierNotification}
-    <div class="identifier_notification_container" transition:fade>
-      <InlineNotification
-        timeout={3000}
-        kind="info-square"
-        lowContrast
-        subtitle={$t('page.settings.identifiers.idCopied', {
-          id: identifierCopiedId,
-        })}
-        class="inline_notification"
-      />
-    </div>
-  {/if}
 {:else}
   <section>Locale initializing...</section>
 {/if}
@@ -283,6 +280,12 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
+  }
+
+  .online_persistence_toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   .input_area {
@@ -313,12 +316,7 @@
     gap: 1rem;
   }
 
-  .identifier_notification_container {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    width: fit-content;
+  :global(.modal_notification) {
+    margin-top: 1rem;
   }
 </style>
