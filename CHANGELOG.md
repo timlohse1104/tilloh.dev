@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [todo] Migrated todo route and all corresponding components (TodoList, TodoInput, Todo, TodoListOverlay, +page) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
+- [todo] Enhanced Todo component with improved UI/UX including clickable rows, better visual feedback, and proper accessibility.
+- [todo] Improved TodoList with sorted todos (unchecked first), better state management using $derived, and enhanced history management.
+- [todo] Enhanced TodoListOverlay with better form handling, proper state management, and automatic list selection after creation.
+- [todo] Updated translations for global menu button text to be more descriptive.
 - [food-scan] Migrated food-scan route and all corresponding components (FoodScan, ContentOutput, DebugInformation) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [uno-sort] Migrated uno-sort route and ToggledApplicationInfo component to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [settings] Migrated settings route and all corresponding components (+page, SettingsDashboard, OnlinePersistenceCheck, ThemeSwitch, LanguageSwitch, BackgroundSwitch, IdentifierInformation) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
