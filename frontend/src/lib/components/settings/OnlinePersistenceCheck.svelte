@@ -33,11 +33,13 @@
   let openIdentifierInfo = $state(false);
   let snackbarMessage = $state('');
   let timeout = $state(undefined);
+  let identifierCopiedId = $state('');
 
   // 5. DERIVED
   const showNotification = $derived(timeout !== undefined);
   const sameName = $derived($sharedIdentifierStore.name === name);
   const saveSubmittable = $derived(name && !sameName);
+  const showIdentifierNotification = $derived(!!identifierCopiedId);
 
   // 7. LIFECYCLE
   onMount(() => {
@@ -187,7 +189,12 @@
         bind:open={openIdentifierInfo}
         modalHeading={$t('page.settings.identifiers.title')}
       >
-        <IdentifierInformation />
+        <IdentifierInformation onCopySuccess={(id) => {
+          identifierCopiedId = id;
+          setTimeout(() => {
+            identifierCopiedId = '';
+          }, 3000);
+        }} />
       </Modal>
     {/if}
 
@@ -246,6 +253,20 @@
         />
       </div>
     {/if}
+
+    {#if showIdentifierNotification}
+      <div class="identifier_notification_container" transition:fade>
+        <InlineNotification
+          timeout={3000}
+          kind="info-square"
+          lowContrast
+          subtitle={$t('page.settings.identifiers.idCopied', {
+            id: identifierCopiedId,
+          })}
+          class="inline_notification"
+        />
+      </div>
+    {/if}
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -286,5 +307,14 @@
     align-items: center;
     margin-top: 1rem;
     gap: 1rem;
+  }
+
+  .identifier_notification_container {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: fit-content;
   }
 </style>

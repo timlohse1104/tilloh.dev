@@ -3,25 +3,14 @@
   import { initialized, t } from '$lib/util/translations';
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
-  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
-  import { fade } from 'svelte/transition';
 
-  let snackbarMessage = $state('');
-  let timeout = $state(undefined);
-
-  const showNotification = $derived(timeout !== undefined);
-
-  const triggerNotification = (message: string) => {
-    snackbarMessage = message;
-    timeout = 3_000;
-  };
+  // 3. PROPS
+  let { onCopySuccess } = $props();
 
   const handleCopySuccess = () => {
-    triggerNotification(
-      $t('page.settings.identifiers.idCopied', {
-        id: $sharedIdentifierStore.id,
-      })
-    );
+    if (onCopySuccess) {
+      onCopySuccess($sharedIdentifierStore.id);
+    }
   };
 </script>
 
@@ -51,21 +40,6 @@
       />
     </div>
   </section>
-
-  {#if showNotification}
-    <div class="notification_container" transition:fade>
-      <InlineNotification
-        {timeout}
-        kind="info-square"
-        lowContrast
-        subtitle={snackbarMessage}
-        class="inline_notification"
-        on:close={(e) => {
-          timeout = undefined;
-        }}
-      />
-    </div>
-  {/if}
 {:else}
   <section>Locale initializing...</section>
 {/if}
@@ -76,14 +50,5 @@
     justify-content: space-between;
     align-items: end;
     margin-top: 1rem;
-  }
-
-  .notification_container {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    width: fit-content;
   }
 </style>
