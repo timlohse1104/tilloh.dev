@@ -1,13 +1,17 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
+  // 2. PROPS
   export let listId;
 
-  let newTodoName = '';
+  // 4. STATE
+  let newTodoName = $state('');
 
+  // 5. FUNCTIONS
   const saveTodo = () => {
     if (newTodoName) {
       todoStore.update((todoListArray) => {

@@ -1,10 +1,12 @@
 <script lang="ts">
+  // 1. IMPORTS
   import type { Todo } from '$lib/types/todo.ts';
   import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
+  // 2. PROPS
   export let todo: Todo;
   export let deleteTodo;
   export let todoChecked;

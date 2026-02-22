@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import type { TodoList } from '$lib/types/todo.ts';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
@@ -10,13 +11,21 @@
   import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
+  // 2. PROPS
   export let listId;
   export let listName = '';
   export let listEmoji = '';
 
-  $: listIndex = $todoStore.findIndex((list) => list.id === listId);
+  // 4. STATE
+  let listIndex = $state<number>(-1);
+  let modalStates = $state<string>('');
 
-  $: modalStates = () => {
+  // 8. EFFECTS
+  $effect(() => {
+    listIndex = $todoStore.findIndex((list) => list.id === listId);
+  });
+
+  $effect(() => {
     let classes = '';
 
     if (!listName || (!isEmoji(listEmoji) && listEmoji !== ''))
@@ -24,9 +33,11 @@
     if ($listOverlayOptionsStore.type === 'new')
       classes += ' modal_undeletable';
 
-    return classes;
-  };
+    modalStates = classes;
+  });
 
+  // 5. FUNCTIONS
+  // 5. FUNCTIONS
   const createList = () => {
     const list: TodoList = {
       id: listId || crypto.randomUUID(),

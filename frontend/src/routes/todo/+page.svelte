@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import TodoListComponent from '$lib/components/todo/TodoList.svelte';
   import TodoListOverlay from '$lib/components/todo/TodoListOverlay.svelte';
@@ -15,18 +16,26 @@
   import TaskAdd from 'carbon-icons-svelte/lib/TaskAdd.svelte';
   import { onMount } from 'svelte';
 
+  // 2. CONST (non-reactive constants)
   const { todo: todoRoute } = applicationRoutes;
 
-  let currentListId = '';
-  let newListId = '';
-  let openMenu = false;
+  // 4. STATE
+  let currentListId = $state('');
+  let newListId = $state('');
+  let openMenu = $state(false);
+  let locale = $state($languageStore);
 
-  $: locale = $languageStore;
-
+  // 7. LIFECYCLE
   onMount(async () => {
     await setLocale($languageStore);
   });
 
+  // 8. EFFECTS
+  $effect(() => {
+    locale = $languageStore;
+  });
+
+  // 5. FUNCTIONS
   const showListOverlay = (type: 'new' | 'edit', id?: string) => {
     openMenu = false;
     if (type === 'new') {

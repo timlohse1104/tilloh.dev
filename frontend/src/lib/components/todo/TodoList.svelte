@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
@@ -9,12 +10,19 @@
   import Todo from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
+  // 2. PROPS
   export let listId;
 
-  $: list = $todoStore.find((list) => list.id === listId);
-  $: if (listId) console.log('listId', listId);
-  $: if (list) console.log('list', list);
+  // 4. STATE
+  let list = $state<any>(undefined);
 
+  // 8. EFFECTS
+  $effect(() => {
+    if (listId) console.log('listId', listId);
+    if (list) console.log('list', list);
+  });
+
+  // 5. FUNCTIONS
   const deleteTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
       const list = todoListArray.find((list) => list.id === listId);
@@ -106,6 +114,11 @@
       return [...todoListArray];
     });
   };
+
+  // 8. EFFECTS
+  $effect(() => {
+    list = $todoStore.find((list) => list.id === listId);
+  });
 </script>
 
 {#if $initialized}
