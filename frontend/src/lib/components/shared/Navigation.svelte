@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import type { Route } from '$lib/types/route';
@@ -7,35 +8,33 @@
   import Switch from 'carbon-components-svelte/src/ContentSwitcher/Switch.svelte';
   import { onMount } from 'svelte';
 
-  // EXPORT LET
-  export let routes: Route[];
-  export let customClass = '';
+  // 2. PROPS
+  let { routes, customClass = '' }: { routes: Route[]; customClass?: string } = $props();
 
-  // CONST
-  const activeRoutes = routes.filter((routes) => routes.toggle);
-  const routeHalfAmount = Math.floor(activeRoutes.length / 2);
-  const activeRoutesFirstHalf = [...activeRoutes.slice(0, routeHalfAmount)];
-  const activeRoutesSecondHalf = [...activeRoutes.slice(routeHalfAmount)];
-  const routesThirdAmount = Math.floor(activeRoutes.length / 3);
-  const activeRoutesOneThird = [...activeRoutes.slice(0, routesThirdAmount)];
-  const activeRoutesSecondThird = [
+  // 3. DERIVED
+  const activeRoutes = $derived(routes.filter((routes) => routes.toggle));
+  const routeHalfAmount = $derived(Math.floor(activeRoutes.length / 2));
+  const activeRoutesFirstHalf = $derived([...activeRoutes.slice(0, routeHalfAmount)]);
+  const activeRoutesSecondHalf = $derived([...activeRoutes.slice(routeHalfAmount)]);
+  const routesThirdAmount = $derived(Math.floor(activeRoutes.length / 3));
+  const activeRoutesOneThird = $derived([...activeRoutes.slice(0, routesThirdAmount)]);
+  const activeRoutesSecondThird = $derived([
     ...activeRoutes.slice(routesThirdAmount, routesThirdAmount * 2),
-  ];
-  const activeRoutesThirdThird = [...activeRoutes.slice(routesThirdAmount * 2)];
+  ]);
+  const activeRoutesThirdThird = $derived([...activeRoutes.slice(routesThirdAmount * 2)]);
 
-  // LET
-  let selectedIndex = 0;
-  let selectedIndexFirstHalf = 0;
-  let selectedIndexSecondHalf = undefined;
-  let selectedIndexOneThird = 0;
-  let selectedIndexSecondThird = undefined;
-  let selectedIndexThirdThird = undefined;
-  let currentWidth;
+  // 4. STATE
+  let selectedIndex = $state(0);
+  let selectedIndexFirstHalf = $state(0);
+  let selectedIndexSecondHalf = $state<number | undefined>(undefined);
+  let selectedIndexOneThird = $state(0);
+  let selectedIndexSecondThird = $state<number | undefined>(undefined);
+  let selectedIndexThirdThird = $state<number | undefined>(undefined);
+  let currentWidth = $state<number | undefined>(undefined);
 
-  // $
-  $: locale = $languageStore;
+  const locale = $derived($languageStore);
 
-  // MOUNTING
+  // 5. LIFECYCLE
   onMount(() => {
     updateWidth();
     updateIndexes();
@@ -51,14 +50,16 @@
     };
   });
 
-  // FUNCTIONS
+  // 6. FUNCTIONS
   const navigatePage = (path: string) => {
     goto(path);
     updateIndexes(path);
   };
+
   const updateWidth = () => {
     currentWidth = window.innerWidth;
   };
+
   const resetIndexes = () => {
     selectedIndex = 0;
     selectedIndexFirstHalf = 0;
@@ -67,10 +68,11 @@
     selectedIndexSecondThird = undefined;
     selectedIndexThirdThird = undefined;
   };
+
   const updateIndexes = (inputPath?: string) => {
     const path = inputPath || $page.url.pathname;
     resetIndexes();
-    if (currentWidth > 1400) {
+    if (currentWidth && currentWidth > 1400) {
       selectedIndex = Object.values(activeRoutes).findIndex(
         (route) => route.path === path,
       );
@@ -79,7 +81,7 @@
       selectedIndexOneThird = 0;
       selectedIndexSecondThird = undefined;
       selectedIndexThirdThird = undefined;
-    } else if (currentWidth > 850) {
+    } else if (currentWidth && currentWidth > 850) {
       selectedIndexFirstHalf = Object.values(activeRoutesFirstHalf).findIndex(
         (route) => route.path === path,
       );
@@ -96,7 +98,7 @@
       selectedIndexOneThird = 0;
       selectedIndexSecondThird = undefined;
       selectedIndexThirdThird = undefined;
-    } else if (currentWidth < 850) {
+    } else if (currentWidth && currentWidth < 850) {
       selectedIndexOneThird = Object.values(activeRoutesOneThird).findIndex(
         (route) => route.path === path,
       );
@@ -126,7 +128,10 @@
     {#each Object.values(activeRoutes) as route}
       <Switch on:click={() => navigatePage(route.path)}>
         <div class="navigation_item_content">
-          <svelte:component this={route?.icon as any} />
+          {#if route?.icon}
+            {@const Icon = route.icon}
+            <Icon />
+          {/if}
           {route.name[locale]}
         </div>
       </Switch>

@@ -14,14 +14,12 @@
   import TaskApproved from 'carbon-icons-svelte/lib/TaskApproved.svelte';
   import ThumbsUp from 'carbon-icons-svelte/lib/ThumbsUp.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
-  const dispatch = createEventDispatcher();
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const verifyJoke = async (jokeId: string) => {
     console.log({ jokeId }, 'Verifying joke...');
@@ -35,7 +33,7 @@
       console.error('Joke verification failed.');
     }
 
-    dispatch('updateDashboard');
+    onUpdateDashboard();
   };
 
   const triggerNotification = (id: string) => {
@@ -44,6 +42,11 @@
     });
     timeout = 3_000;
   };
+
+  let {
+    onUpdateDashboard = () => {},
+    onRemoveJoke = (jokeId: string) => {}
+  } = $props();
 </script>
 
 {#if $initialized}
@@ -58,7 +61,7 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              <svelte:component this={FaceActivated} />
+              <FaceActivated />
               {#if !joke.verified && joke.verified !== undefined}
                 <TaskApproved />
               {/if}
@@ -98,10 +101,8 @@
                 iconDescription={$t('page.admin.jokes.deleteTitle')}
                 tooltipAlignment="end"
                 icon={TrashCan}
-                on:click={() => {
-                  dispatch('removeJoke', {
-                    jokeId: joke._id,
-                  });
+                onclick={() => {
+                  onRemoveJoke(joke._id);
                 }}
               />
             </div>

@@ -18,15 +18,14 @@
   const { admin: adminRoute } = utilityRoutes;
   const updateDashboard = getContext<() => void>('updateDashboard');
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
-  $: locale = $languageStore;
+  const showNotification = $derived(timeout !== undefined);
+  const locale = $derived($languageStore);
 
-  const removeIdentifier = async (event) => {
+  const removeIdentifier = async (identifierId: string) => {
     $confirmDeleteIdentifierActionStore = async () => {
-      const { identifierId } = event.detail;
       console.log('removing identifier', { identifierId }, '...');
       try {
         await deleteIdentifier($adminTokenStore, identifierId);
@@ -60,8 +59,8 @@
 </svelte:head>
 
 <Identifiers
-  on:removeIdentifier={removeIdentifier}
-  on:updateDashboard={updateDashboard}
+  onRemoveIdentifier={removeIdentifier}
+  onUpdateDashboard={updateDashboard}
 />
 
 {#if showNotification}

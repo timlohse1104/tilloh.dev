@@ -1,22 +1,30 @@
 <script lang="ts">
+  // 1. IMPORTS
   import type { AdminDashboardPropsDto } from '$lib/types/admin.dto';
   import { initialized, t } from '$lib/util/translations';
   import DashboardCard from './DashboardCard.svelte';
 
-  export let metrics: AdminDashboardPropsDto = {
-    identifierAmount: 0,
-    presetAmounts: 0,
-    presetFolderAmount: 0,
-    presetLinksAmount: 0,
-    jokesAmount: 0,
-    chatsAmount: 0,
-    apiIsHealthy: false,
-    jokesIsHealthy: false,
-    mongoIsHealthy: false,
-    duplicateJokesAmount: 0,
-    duplicateFoldersAmount: 0,
-    duplicateLinksAmount: 0,
-  };
+  // 2. PROPS
+  let {
+    metrics = {
+      identifierAmount: 0,
+      presetAmounts: 0,
+      presetFolderAmount: 0,
+      presetLinksAmount: 0,
+      jokesAmount: 0,
+      chatsAmount: 0,
+      apiIsHealthy: false,
+      jokesIsHealthy: false,
+      mongoIsHealthy: false,
+      duplicateJokesAmount: 0,
+      duplicateFoldersAmount: 0,
+      duplicateLinksAmount: 0,
+    },
+    onUpdateDashboard = () => {}
+  } = $props<{
+    metrics?: AdminDashboardPropsDto;
+    onUpdateDashboard?: () => void;
+  }>();
 </script>
 
 {#if $initialized}

@@ -15,14 +15,13 @@
 
   const updateDashboard = getContext<() => void>('updateDashboard');
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
-  const removeJoke = async (event) => {
+  const removeJoke = async (jokeId: string) => {
     $confirmDeleteJokeActionStore = async () => {
-      const { jokeId } = event.detail;
       console.log('removing joke', { jokeId }, '...');
       try {
         await deleteJoke($adminTokenStore, jokeId);
@@ -48,7 +47,7 @@
   };
 </script>
 
-<Jokes on:removeJoke={removeJoke} on:updateDashboard={updateDashboard} />
+<Jokes onRemoveJoke={removeJoke} onUpdateDashboard={updateDashboard} />
 
 {#if showNotification}
   <div transition:fade>

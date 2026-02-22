@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
@@ -32,46 +33,54 @@
   import { setLocale, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
-  import { onMount, setContext } from 'svelte';
 
-  let chats: ChatDto[] = [];
-  let apiIsHealthy = false;
-  let jokesIsHealthy = false;
-  let mongoIsHealthy = false;
-
+  // 2. CONST
   const { admin: adminRoute } = utilityRoutes;
 
-  $: locale = $languageStore;
-  $: isVerified = false;
-  $: adminRoutesArray = Object.values(adminSubRoutes);
-  $: getFolderAmount = (): number => {
+  // 3. STATE
+  let chats = $state<ChatDto[]>([]);
+  let apiIsHealthy = $state(false);
+  let jokesIsHealthy = $state(false);
+  let mongoIsHealthy = $state(false);
+  let isVerified = $state(false);
+
+  // 4. DERIVED
+  const locale = $derived($languageStore);
+  const adminRoutesArray = $derived(Object.values(adminSubRoutes));
+
+  const getFolderAmount = $derived(() => {
     if ($allPresetFoldersStore.length === 0) return 0;
     return $allPresetFoldersStore.length;
-  };
-  $: getLinksAmount = (): number => {
+  });
+
+  const getLinksAmount = $derived(() => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
       .map((folder) => folder.links)
       .flat();
     return allLinks.length;
-  };
-  $: getJokesAmount = (): number => {
+  });
+
+  const getJokesAmount = $derived(() => {
     if ($adminJokesStore.length === 0) return 0;
     return $adminJokesStore.length;
-  };
-  $: getChatsAmount = (): number => {
+  });
+
+  const getChatsAmount = $derived(() => {
     if (chats.length === 0) return 0;
     return chats.length;
-  };
-  $: getDuplicateFoldersAmount = (): number => {
+  });
+
+  const getDuplicateFoldersAmount = $derived(() => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const folderNames = $allPresetFoldersStore.map(
       (folder) => folder.folderName,
     );
     const uniqueFolders = new Set(folderNames);
     return folderNames.length - uniqueFolders.size;
-  };
-  $: getDuplicateLinksAmount = (): number => {
+  });
+
+  const getDuplicateLinksAmount = $derived(() => {
     if ($allPresetFoldersStore.length === 0) return 0;
     const allLinks = $allPresetFoldersStore
       .map((folder) => folder.links)
@@ -79,14 +88,16 @@
     const linkUrls = allLinks.map((link) => link.linkUrl);
     const uniqueLinks = new Set(linkUrls);
     return linkUrls.length - uniqueLinks.size;
-  };
-  $: getDuplicateJokesAmount = (): number => {
+  });
+
+  const getDuplicateJokesAmount = $derived(() => {
     if ($adminJokesStore.length === 0) return 0;
     const jokeTexts = $adminJokesStore.map((joke) => joke.text);
     const uniqueJokes = new Set(jokeTexts);
     return jokeTexts.length - uniqueJokes.size;
-  };
+  });
 
+  // 5. FUNCTIONS
   const loadChats = async () => {
     chats = await getChats($adminTokenStore);
     console.log({ allChats: chats }, 'Chats reloaded.');
@@ -127,9 +138,13 @@
     await loadHealthChecks();
     console.log('Dashboard updated.');
   };
+
+  // 6. LIFECYCLE
+  import { setContext } from 'svelte';
+
   setContext('updateDashboard', updateDashboard);
 
-  onMount(async () => {
+  $effect.root(async () => {
     await setLocale($languageStore);
   });
 </script>
@@ -165,7 +180,7 @@
         duplicateLinksAmount: getDuplicateLinksAmount(),
         duplicateFoldersAmount: getDuplicateFoldersAmount(),
       }}
-      on:updateDashboard={updateDashboard}
+      onUpdateDashboard={updateDashboard}
     />
   </div>
 
@@ -181,7 +196,7 @@
     tooltipPosition="left"
     icon={Renew}
     id="update_admin_info_button"
-    on:click={updateDashboard}
+    onclick={updateDashboard}
   />
 
   <ConfirmOverlay

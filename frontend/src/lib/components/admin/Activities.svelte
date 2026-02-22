@@ -11,12 +11,10 @@
   import User from 'carbon-icons-svelte/lib/User.svelte';
   import { fade } from 'svelte/transition';
 
-  export let activities: ActivityDto[] = [];
+  let copiedId = $state('');
+  let timeout = $state(undefined);
 
-  let copiedId = '';
-  let timeout = undefined;
-
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const getActivityTypeIcon = (type: string) => {
     switch (type) {
@@ -35,6 +33,8 @@
     copiedId = activityId;
     timeout = 3_000;
   };
+
+  let { activities = [] } = $props<{ activities?: ActivityDto[] }>();
 </script>
 
 {#if $initialized}
