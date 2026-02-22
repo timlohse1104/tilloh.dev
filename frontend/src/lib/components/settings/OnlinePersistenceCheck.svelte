@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { dev } from '$app/environment';
   import { environment } from '$lib/util/environment';
   import { identifierStore } from '$lib/util/stores/store-identifier';
@@ -21,19 +22,26 @@
   import { fade } from 'svelte/transition';
   import IdentifierInformation from './IdentifierInformation.svelte';
 
+  // 2. CONST (non-reactive constants)
   const apiURL = dev
     ? environment.localApiBaseUrl
     : environment.productionApiBaseUrl;
-  let shareDataOnline;
-  let name = '';
-  let openIdentifierInfo = false;
-  let snackbarMessage = '';
-  let timeout = undefined;
 
-  $: showNotification = timeout !== undefined;
-  $: sameName = $sharedIdentifierStore.name === name;
-  $: saveSubmittable = name && !sameName;
+  // 4. STATE
+  let shareDataOnline = $state(false);
+  let name = $state('');
+  let openIdentifierInfo = $state(false);
+  let snackbarMessage = $state('');
+  let timeout = $state(undefined);
+  let identifierCopiedId = $state('');
 
+  // 5. DERIVED
+  const showNotification = $derived(timeout !== undefined);
+  const sameName = $derived($sharedIdentifierStore.name === name);
+  const saveSubmittable = $derived(name && !sameName);
+  const showIdentifierNotification = $derived(!!identifierCopiedId);
+
+  // 7. LIFECYCLE
   onMount(() => {
     if ($sharedIdentifierStore.id && $sharedIdentifierStore.name) {
       name = $sharedIdentifierStore.name || '';
@@ -181,7 +189,27 @@
         bind:open={openIdentifierInfo}
         modalHeading={$t('page.settings.identifiers.title')}
       >
-        <IdentifierInformation />
+        <IdentifierInformation
+          onCopySuccess={(id) => {
+            identifierCopiedId = id;
+            setTimeout(() => {
+              identifierCopiedId = '';
+            }, 3000);
+          }}
+        />
+
+        {#if showIdentifierNotification}
+          <div class="modal_notification" transition:fade>
+            <InlineNotification
+              timeout={3000}
+              kind="info-square"
+              lowContrast
+              subtitle={$t('page.settings.identifiers.idCopied', {
+                id: identifierCopiedId,
+              })}
+            />
+          </div>
+        {/if}
       </Modal>
     {/if}
 
@@ -247,12 +275,17 @@
 
 <style lang="scss">
   section {
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
+  }
+
+  .online_persistence_toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
   .input_area {
@@ -281,5 +314,9 @@
     align-items: center;
     margin-top: 1rem;
     gap: 1rem;
+  }
+
+  :global(.modal_notification) {
+    margin-top: 1rem;
   }
 </style>

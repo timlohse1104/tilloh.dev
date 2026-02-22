@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import OnlinePersistenceCheck from '$lib/components/settings/OnlinePersistenceCheck.svelte';
   import SettingsDashboard from '$lib/components/settings/SettingsDashboard.svelte';
   import { utilityRoutes } from '$lib/config/applications';
@@ -6,12 +7,24 @@
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
+  // 2. CONST (non-reactive constants)
   const { settings: settingsRoute } = utilityRoutes;
 
-  $: locale = $languageStore;
+  // 4. STATE
+  let locale = $state($languageStore);
 
+  // 7. LIFECYCLE
   onMount(async () => {
     await setLocale($languageStore);
+  });
+
+  // 8. FUNCTIONS
+  const updateLocale = () => {
+    locale = $languageStore;
+  };
+
+  $effect(() => {
+    updateLocale();
   });
 </script>
 

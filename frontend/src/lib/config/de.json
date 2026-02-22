@@ -72,6 +72,7 @@
   "page.settings.identifiers.description1": "Hier findest du deine persönliche ID. Um auf deine Zwischenstände von anderen Geräten zugreifen zu können, musst du diese ID kopieren und auf dem anderen Gerät eintragen.",
   "page.settings.identifiers.description2": "Bitte beachte, dass diese ID nur für dich bestimmt ist. Solltest du sie an andere weitergeben, können diese Personen deine Zwischenstände verändern!",
   "page.settings.identifiers.personalId": "Deine persönliche ID",
+  "page.settings.identifiers.idCopied": "ID '{{id}}' in die Zwischenablage kopiert!",
   "page.settings.onlinePersistence.snackbarIdentifierCreated": "Neue Verbindung für den Namen '{{identifierName}}' erzeugt.",
   "page.settings.onlinePersistence.snackbarNoIdentifierFound": "Keine Verbindung mit der ID '{{identifier}}' gefunden.",
   "page.settings.onlinePersistence.snackbarLoadedIdentifier": "Verbindung mit der ID: '{{identifier}}' geladen.",

@@ -3,6 +3,15 @@
   import { initialized, t } from '$lib/util/translations';
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
+
+  // 3. PROPS
+  let { onCopySuccess } = $props();
+
+  const handleCopySuccess = () => {
+    if (onCopySuccess) {
+      onCopySuccess($sharedIdentifierStore.id);
+    }
+  };
 </script>
 
 {#if $initialized}
@@ -27,6 +36,7 @@
         feedback="✅"
         feedbackTimeout={0}
         iconDescription={$t('page.shared.button.idCopy')}
+        on:click={handleCopySuccess}
       />
     </div>
   </section>

@@ -72,6 +72,7 @@
   "page.settings.identifiers.description1": "Here you will find your personal ID. To be able to access your interim results from other devices, you must copy this ID and enter it on the other device.",
   "page.settings.identifiers.description2": "Please note that this ID is only intended for you. If you pass it on to others, they can change your intermediate scores!",
   "page.settings.identifiers.personalId": "Your personal ID",
+  "page.settings.identifiers.idCopied": "ID '{{id}}' copied to clipboard!",
   "page.settings.onlinePersistence.snackbarIdentifierCreated": "New connection for the name '{{identifierName}}' created.",
   "page.settings.onlinePersistence.snackbarNoIdentifierFound": "No connection found for the name '{{identifierName}}'.",
   "page.settings.onlinePersistence.snackbarLoadedIdentifier": "Connection with the ID: '{{identifier}}' loaded.",

@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import {
     darkThemeValue,
     lightThemeValue,
@@ -7,7 +8,8 @@
   import { initialized } from '$lib/util/translations';
   import Theme from 'carbon-components-svelte/src/Theme/Theme.svelte';
 
-  export let customStyle = '';
+  // 2. PROPS
+  let { customStyle = '' } = $props();
 </script>
 
 {#if initialized}
