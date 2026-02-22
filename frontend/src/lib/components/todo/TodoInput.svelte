@@ -25,6 +25,7 @@
                   id: crypto.randomUUID(),
                   title: newTodoName,
                   done: false,
+                  amount: '1x',
                 },
               ],
               history: Array.from(new Set([...list.history, newTodoName])),

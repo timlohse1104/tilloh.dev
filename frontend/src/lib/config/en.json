@@ -112,6 +112,7 @@
   "page.todos.newTodo": "New entry",
   "page.todos.addTodo": "Add entry",
   "page.todos.deleteTodo": "Delete entry",
+  "page.todos.renameTodo": "Rename entry",
   "page.todos.deleteHistroy": "Delete history",
   "page.todos.sideMenu.title": "Your lists",
   "page.todos.sideMenu.description": "Shopping, tasks and much more. Create your own lists and manage your todos. 📝",

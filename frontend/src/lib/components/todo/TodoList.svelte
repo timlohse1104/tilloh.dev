@@ -1,5 +1,6 @@
 <script lang="ts">
   // 1. IMPORTS
+  import { onMount } from 'svelte';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
@@ -20,10 +21,16 @@
 
     if (foundList) {
       // Sort todos: unchecked first, checked last
-      const sortedTodos = [...foundList.todos].sort((a, b) => {
-        if (a.done === b.done) return 0;
-        return a.done ? 1 : -1;
-      });
+      // Also ensure backwards compatibility: add amount if missing
+      const sortedTodos = [...foundList.todos]
+        .map((todo) => ({
+          ...todo,
+          amount: todo.amount || '1x',
+        }))
+        .sort((a, b) => {
+          if (a.done === b.done) return 0;
+          return a.done ? 1 : -1;
+        });
 
       return {
         ...foundList,
@@ -34,7 +41,33 @@
     return undefined;
   });
 
+  // 7. LIFECYCLE
+  onMount(() => {
+    // Listen for rename events from Todo components
+    window.addEventListener('rename', ((e: CustomEvent) => {
+      renameTodo(e.detail.id, e.detail.title, e.detail.amount);
+    }) as EventListener);
+  });
+
   // 8. FUNCTIONS
+  const renameTodo = (todoId: string, newTitle: string, newAmount: string) => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            todos: list.todos.map((todo) =>
+              todo.id === todoId
+                ? { ...todo, title: newTitle, amount: newAmount }
+                : todo,
+            ),
+          };
+        }
+        return list;
+      });
+    });
+  };
+
   const deleteTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
@@ -119,30 +152,20 @@
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  const removeEntryFromHistory = (event) => {
-    const tagText =
-      event.explicitOriginalTarget.parentElement.parentElement.textContent.trim() ||
-      '';
-
-    if (!tagText) return;
-
+  const removeEntryFromHistory = (entry: string) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
           return {
             ...list,
-            history: list.history.filter((entry) => entry !== tagText),
+            history: list.history.filter((e) => e !== entry),
           };
         }
         return list;
       });
     });
   };
-  const readdTodoFromHistory = (event) => {
-    const tagText = event.target.textContent.trim() || '';
-
-    if (!tagText) return;
-
+  const readdTodoFromHistory = (entry: string) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
@@ -150,7 +173,12 @@
             ...list,
             todos: [
               ...list.todos,
-              { id: crypto.randomUUID(), title: tagText, done: false },
+              {
+                id: crypto.randomUUID(),
+                title: entry,
+                done: false,
+                amount: '1x',
+              },
             ],
           };
         }
@@ -179,19 +207,24 @@
                 <div class="history_list">
                   <div class="history_entry_list">
                     {#each list.history as entry (entry)}
-                      <Tag
-                        filter
-                        interactive
-                        type={selectRandomTagColor()}
-                        on:close={removeEntryFromHistory}
-                      >
+                      <div class="history_tag_wrapper">
                         <button
-                          on:click={readdTodoFromHistory}
-                          class="tag_button"
+                          onclick={() => readdTodoFromHistory(entry)}
+                          class="history_tag"
                         >
                           {entry}
                         </button>
-                      </Tag>
+                        <button
+                          onclick={(e) => {
+                            e.stopPropagation();
+                            removeEntryFromHistory(entry);
+                          }}
+                          class="history_delete_btn"
+                          title="Remove from history"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     {/each}
                   </div>
                   <Button
@@ -289,23 +322,46 @@
     flex-wrap: wrap;
   }
 
-  .tag_button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    text-align: inherit;
-    text-decoration: none;
-    display: inline;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
-
   hr {
     width: 100%;
+  }
+
+  .history_tag_wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0.25rem;
+    background: #393939;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: #525252;
+    }
+  }
+
+  .history_tag {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .history_delete_btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #da1e28;
+    }
   }
 </style>

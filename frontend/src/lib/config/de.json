@@ -112,6 +112,7 @@
   "page.todos.newTodo": "Neuer Eintrag",
   "page.todos.addTodo": "Eintrag hinzufügen",
   "page.todos.deleteTodo": "Eintrag löschen",
+  "page.todos.renameTodo": "Eintrag umbenennen",
   "page.todos.deleteHistroy": "Verlauf löschen",
   "page.todos.sideMenu.title": "Deine Listen",
   "page.todos.sideMenu.description": "Einkaufen, Aufgaben und vieles mehr. Erstelle und bearbeite deine Listen hier. 📝",

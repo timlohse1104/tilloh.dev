@@ -23,8 +23,8 @@
   } = $props();
 
   // 4. STATE
-  let localListName = $state<string>(listName);
-  let localListEmoji = $state<string>(listEmoji);
+  let localListName = $state<string>('');
+  let localListEmoji = $state<string>('');
 
   // 5. DERIVED
   let listIndex = $derived($todoStore.findIndex((list) => list.id === listId));
