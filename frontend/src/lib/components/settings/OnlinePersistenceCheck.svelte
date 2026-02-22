@@ -188,13 +188,16 @@
         passiveModal
         bind:open={openIdentifierInfo}
         modalHeading={$t('page.settings.identifiers.title')}
+        hasScrollingContent="false"
       >
-        <IdentifierInformation onCopySuccess={(id) => {
-          identifierCopiedId = id;
-          setTimeout(() => {
-            identifierCopiedId = '';
-          }, 3000);
-        }} />
+        <IdentifierInformation
+          onCopySuccess={(id) => {
+            identifierCopiedId = id;
+            setTimeout(() => {
+              identifierCopiedId = '';
+            }, 3000);
+          }}
+        />
       </Modal>
     {/if}
 
@@ -254,20 +257,21 @@
       </div>
     {/if}
 
-    {#if showIdentifierNotification}
-      <div class="identifier_notification_container" transition:fade>
-        <InlineNotification
-          timeout={3000}
-          kind="info-square"
-          lowContrast
-          subtitle={$t('page.settings.identifiers.idCopied', {
-            id: identifierCopiedId,
-          })}
-          class="inline_notification"
-        />
-      </div>
-    {/if}
   </section>
+
+  {#if showIdentifierNotification}
+    <div class="identifier_notification_container" transition:fade>
+      <InlineNotification
+        timeout={3000}
+        kind="info-square"
+        lowContrast
+        subtitle={$t('page.settings.identifiers.idCopied', {
+          id: identifierCopiedId,
+        })}
+        class="inline_notification"
+      />
+    </div>
+  {/if}
 {:else}
   <section>Locale initializing...</section>
 {/if}
