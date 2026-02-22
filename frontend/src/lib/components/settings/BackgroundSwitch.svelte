@@ -1,19 +1,25 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { backgroundStore } from '$lib/util/stores/store-background';
   import { initialized } from '$lib/util/translations';
   import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import { onMount } from 'svelte';
 
-  export let customStyle = '';
-  let backgroundSwitch = false;
+  // 2. PROPS
+  let { customStyle = '' } = $props();
 
-  const changeBackground = () => {
-    backgroundStore.set(backgroundSwitch ? 'gradient' : 'default');
-  };
+  // 4. STATE
+  let backgroundSwitch = $state(false);
 
+  // 7. LIFECYCLE
   onMount(() => {
     backgroundSwitch = $backgroundStore === 'gradient' ? true : false;
   });
+
+  // 8. FUNCTIONS
+  const changeBackground = () => {
+    backgroundStore.set(backgroundSwitch ? 'gradient' : 'default');
+  };
 </script>
 
 {#if initialized}
