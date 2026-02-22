@@ -21,6 +21,5 @@ export const backgroundStore = writable(getInitialValue());
 if (browser) {
   backgroundStore.subscribe((value) => {
     localStorage.setItem(localStorageKey, value);
-    setLocale(value);
   });
 }
