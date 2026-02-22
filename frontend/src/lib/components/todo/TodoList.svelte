@@ -13,14 +13,13 @@
   // 2. PROPS
   let { listId } = $props();
 
-  // 4. STATE
-  let list = $state<any>(undefined);
+  // 5. DERIVED
+  const list = $derived(listId ? $todoStore.find((l) => l.id === listId) : undefined);
 
   // 8. EFFECTS
   $effect(() => {
     if (listId) {
       console.log('listId', $inspect(listId));
-      list = $todoStore.find((l) => l.id === listId);
       if (list) console.log('list', $inspect(list));
     }
   });
