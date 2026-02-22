@@ -15,7 +15,6 @@
 <section>
   <Checkbox
     bind:checked={todo['done']}
-    labelText="Label text"
     on:click={todoChecked}
   >
     <span slot="labelText" class={todo?.done ? 'ml1 striked' : 'ml1'}>
