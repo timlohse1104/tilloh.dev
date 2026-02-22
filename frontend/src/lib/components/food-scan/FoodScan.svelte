@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { executeOcrProcess } from '$lib/api/ocr.api';
   import { initialized, t } from '$lib/util/translations';
   import * as webllm from '@mlc-ai/web-llm';
@@ -9,50 +10,56 @@
   import ContentOutput from './ContentOutput.svelte';
   import DebugInformation from './DebugInformation.svelte';
 
+  // 2. CONST (non-reactive constants)
   const { prebuiltAppConfig } = webllm;
   const { model_list: availableModels } = prebuiltAppConfig;
-  // console.log(availableModels.map((model, i) => `${i} ${model.model_id}`));
   const defaultSystemPrompt = `Du erhältst einen Text der auf der Rückseite der Verpackung eines Nahrungsmittels steht. Du antwortest darauf ausschließlich mit der Bezeichnung des Lebensmittels und ob es vegan ist (ja / nein)! Trenne die beiden Informationen durch ein Semikolon.`;
   const followUpQuestionSystemPrompt = `Du erhältst eine Frage zum Lebensmittel, das du vorhin analysiert hast. Du antwortest darauf ausschließlich mit einer klaren und prägnanten Antwort.`;
 
-  let engine: webllm.MLCEngineInterface;
-  let selectedModel = availableModels[4]; // Llama-3.2-3B-Instruct-q4f32_1-MLC
-  let systemPromptText = defaultSystemPrompt;
-  let userPromptText = '';
-  let llmResult = '';
-  let promptResStats: any = {};
-  let inputFiles: File[] = [];
-  let imagePreviewSrc = '';
-  let loadModelInfo = '';
-  let debugInfoActive = false;
-  let ocrResponseTime = 0;
-  let llmResponseTime = 0;
-  let loading = false;
-  let engineReady = false;
-  let isWebGPUNotAvailableError = false;
+  // 4. STATE
+  let engine = $state<webllm.MLCEngineInterface>(undefined);
+  let selectedModel = $state(availableModels[4]); // Llama-3.2-3B-Instruct-q4f32_1-MLC
+  let systemPromptText = $state(defaultSystemPrompt);
+  let userPromptText = $state('');
+  let llmResult = $state('');
+  let promptResStats = $state<any>({});
+  let inputFiles = $state<File[]>([]);
+  let imagePreviewSrc = $state('');
+  let loadModelInfo = $state('');
+  let debugInfoActive = $state(false);
+  let ocrResponseTime = $state(0);
+  let llmResponseTime = $state(0);
+  let loading = $state(false);
+  let engineReady = $state(false);
+  let isWebGPUNotAvailableError = $state(false);
 
-  $: ocrResponseTimeText = ocrResponseTime ? `${ocrResponseTime} s` : '-';
-  $: llmResponseTimeText = llmResponseTime ? `${llmResponseTime} s` : '-';
-  $: completionTokens = promptResStats?.completion_tokens || '-';
-  $: promptTokens = promptResStats?.prompt_tokens || '-';
-  $: totalTokens = promptResStats?.total_tokens || '-';
-  $: prefillTokensPerS = promptResStats?.extra?.prefill_tokens_per_s || '-';
-  $: decodeTokensPerS = promptResStats?.extra?.decode_tokens_per_s || '-';
-  $: if (inputFiles?.length > 0) {
-    imagePreviewSrc = URL.createObjectURL(inputFiles[0]);
-    generateUserPrompt();
-  }
-  $: if (userPromptText) promptLLM();
-  $: diet =
-    llmResult?.split(';')?.[1]?.toLowerCase() === 'ja'
-      ? 'vegan'
-      : 'nicht vegan';
-  $: followUpQuestions = [
+  // 5. DERIVED
+  const ocrResponseTimeText = $derived(ocrResponseTime ? `${ocrResponseTime} s` : '-');
+  const llmResponseTimeText = $derived(llmResponseTime ? `${llmResponseTime} s` : '-');
+  const completionTokens = $derived(promptResStats?.completion_tokens || '-');
+  const promptTokens = $derived(promptResStats?.prompt_tokens || '-');
+  const totalTokens = $derived(promptResStats?.total_tokens || '-');
+  const prefillTokensPerS = $derived(promptResStats?.extra?.prefill_tokens_per_s || '-');
+  const decodeTokensPerS = $derived(promptResStats?.extra?.decode_tokens_per_s || '-');
+  const diet = $derived(llmResult?.split(';')?.[1]?.toLowerCase() === 'ja' ? 'vegan' : 'nicht vegan');
+  const followUpQuestions = $derived([
     `Warum ist dieses Lebensmittel ${diet}?`,
     'Ist das Lebensmittel gesund?',
     'Ist das Lebensmittel laktosefrei?',
     'Ist das Lebensmittel glutenfrei?',
-  ];
+  ]);
+
+  // 6. EFFECTS
+  $effect(() => {
+    if (inputFiles?.length > 0) {
+      imagePreviewSrc = URL.createObjectURL(inputFiles[0]);
+      generateUserPrompt();
+    }
+  });
+
+  $effect(() => {
+    if (userPromptText) promptLLM();
+  });
 
   const modelInitProgressCallback = (report: webllm.InitProgressReport) => {
     loadModelInfo = report.text;

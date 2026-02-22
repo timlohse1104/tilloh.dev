@@ -1,13 +1,18 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { t } from '$lib/util/translations';
 
-  export let imagePreviewSrc: string = '';
-  export let loading: boolean = false;
-  export let inputFiles = [];
-  export let llmResult = '';
-  export let diet = '';
+  // 3. PROPS
+  let { imagePreviewSrc, loading, inputFiles, llmResult, diet } = $props<{
+    imagePreviewSrc: string;
+    loading: boolean;
+    inputFiles: any[];
+    llmResult: string;
+    diet: string;
+  }>();
 
-  $: llmResults = llmResult.split(';');
+  // 5. DERIVED
+  const llmResults = $derived(llmResult.split(';'));
 </script>
 
 <section>
