@@ -18,8 +18,11 @@
 
   // 8. EFFECTS
   $effect(() => {
-    if (listId) console.log('listId', $inspect(listId));
-    if (list) console.log('list', $inspect(list));
+    if (listId) {
+      console.log('listId', $inspect(listId));
+      list = $todoStore.find((l) => l.id === listId);
+      if (list) console.log('list', $inspect(list));
+    }
   });
 
   // 5. FUNCTIONS
