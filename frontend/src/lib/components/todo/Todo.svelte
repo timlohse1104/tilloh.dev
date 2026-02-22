@@ -7,9 +7,7 @@
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   // 2. PROPS
-  export let todo: Todo;
-  export let deleteTodo;
-  export let todoChecked;
+  let { todo, deleteTodo, todoChecked } = $props();
 </script>
 
 <section>

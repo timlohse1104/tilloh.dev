@@ -11,7 +11,7 @@
   import TodoInput from './TodoInput.svelte';
 
   // 2. PROPS
-  export let listId;
+  let { listId } = $props();
 
   // 4. STATE
   let list = $state<any>(undefined);

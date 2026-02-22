@@ -6,7 +6,7 @@
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
   // 2. PROPS
-  export let listId;
+  let { listId } = $props();
 
   // 4. STATE
   let newTodoName = $state('');

@@ -12,9 +12,7 @@
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
   // 2. PROPS
-  export let listId;
-  export let listName = '';
-  export let listEmoji = '';
+  let { listId, listName = '', listEmoji = '' } = $props();
 
   // 4. STATE
   let listIndex = $state<number>(-1);
