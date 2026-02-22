@@ -12,14 +12,13 @@
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import { fade } from 'svelte/transition';
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
-  const removeLinkPreset = async (event) => {
+  const removeLinkPreset = async (identifier: string, key: string, keyId: string) => {
     $confirmDeletePresetActionStore = async () => {
-      const { identifier, key, keyId } = event.detail;
       console.log('removing link preset', { identifier, key }, '...');
       try {
         await deleteKey($adminTokenStore, { identifier, key });
@@ -47,7 +46,7 @@
   };
 </script>
 
-<LinkPresets on:removeLinkPresets={removeLinkPreset} />
+<LinkPresets onRemoveLinkPresets={removeLinkPreset} />
 
 {#if showNotification}
   <div transition:fade>

@@ -21,10 +21,10 @@
       duplicateLinksAmount: 0,
     },
     onUpdateDashboard = () => {}
-  }: {
+  } = $props<{
     metrics?: AdminDashboardPropsDto;
     onUpdateDashboard?: () => void;
-  } = $props();
+  }>();
 </script>
 
 {#if $initialized}

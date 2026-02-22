@@ -15,16 +15,14 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import RadioButtonChecked from 'carbon-icons-svelte/lib/RadioButtonChecked.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
-  const dispatch = createEventDispatcher();
 
-  let newToogleName = '';
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let newToogleName = $state('');
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const addToggle = async () => {
     if (!newToogleName) {
@@ -44,7 +42,7 @@
     console.log({ newToggle }, 'New toggle added.');
 
     newToogleName = '';
-    dispatch('updateDashboard');
+    onUpdateDashboard();
   };
 
   const switchToggle = async (id: string) => {
@@ -79,6 +77,11 @@
     });
     timeout = 3_000;
   };
+
+  let {
+    onUpdateDashboard = () => {},
+    onRemoveToggle = (id: string) => {}
+  } = $props();
 </script>
 
 {#if $initialized}
@@ -134,7 +137,7 @@
                 iconDescription={$t('page.admin.toggles.deleteTitle')}
                 tooltipAlignment="end"
                 icon={TrashCan}
-                on:click={() => dispatch('removeToggle', { id: toggle._id })}
+                onclick={() => onRemoveToggle(toggle._id)}
               />
             </div>
           </div>

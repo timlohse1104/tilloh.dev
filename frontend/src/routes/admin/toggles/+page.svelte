@@ -13,16 +13,15 @@
   import { getContext } from 'svelte';
   import { fade } from 'svelte/transition';
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const updateDashboard = getContext<() => void>('updateDashboard');
 
-  const removeToggle = async (event) => {
+  const removeToggle = async (id: string) => {
     $confirmDeleteToggleActionStore = async () => {
-      const { id } = event.detail;
       const toggle = $adminTogglesStore.find((t) => t._id === id);
       console.log({ toggle }, 'Removing toggle...');
 
@@ -51,7 +50,7 @@
   };
 </script>
 
-<Toggles on:updateDashboard={updateDashboard} on:removeToggle={removeToggle} />
+<Toggles onUpdateDashboard={updateDashboard} onRemoveToggle={removeToggle} />
 
 {#if showNotification}
   <div transition:fade>

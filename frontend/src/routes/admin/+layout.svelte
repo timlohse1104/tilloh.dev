@@ -33,7 +33,6 @@
   import { setLocale, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
-  import { onMount, setContext } from 'svelte';
 
   // 2. CONST
   const { admin: adminRoute } = utilityRoutes;
@@ -141,9 +140,11 @@
   };
 
   // 6. LIFECYCLE
+  import { setContext } from 'svelte';
+
   setContext('updateDashboard', updateDashboard);
 
-  onMount(async () => {
+  $effect.root(async () => {
     await setLocale($languageStore);
   });
 </script>
@@ -185,7 +186,7 @@
 
   <main>
     <section>
-      <slot />
+      {@render children()}
     </section>
   </main>
 

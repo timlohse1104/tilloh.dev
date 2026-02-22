@@ -9,14 +9,12 @@
   import Link from 'carbon-icons-svelte/lib/Link.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import User from 'carbon-icons-svelte/lib/User.svelte';
-  import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
-  const dispatch = createEventDispatcher();
 
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const triggerNotification = (id: string) => {
     notificationInfoText = $t('page.admin.copiedToClipboard', {
@@ -24,6 +22,10 @@
     });
     timeout = 3_000;
   };
+
+  let {
+    onRemoveLinkPresets = (identifier: string, key: string, keyId: string) => {}
+  } = $props();
 </script>
 
 {#if $initialized}
@@ -39,10 +41,10 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              <svelte:component this={Link} />
+              <Link />
               {linkPreset.key}
               -
-              <svelte:component this={User} />
+              <User />
               {linkPreset.identifier}
             </div>
           </svelte:fragment>
@@ -70,12 +72,9 @@
                 iconDescription={$t('page.admin.linkPresets.deleteTitle')}
                 tooltipAlignment="end"
                 icon={TrashCan}
-                on:click={() =>
-                  dispatch('removeLinkPresets', {
-                    identifier: linkPreset.identifier,
-                    key: linkPreset.key,
-                    keyId: linkPreset._id,
-                  })}
+                onclick={() =>
+                  onRemoveLinkPresets(linkPreset.identifier, linkPreset.key, linkPreset._id)
+                }
               />
             </div>
           </div>

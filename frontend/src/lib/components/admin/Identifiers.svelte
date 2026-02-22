@@ -13,16 +13,13 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
-  const dispatch = createEventDispatcher();
 
-  let newIdentifierName = '';
-  let notificationInfoText = '';
-  let timeout = undefined;
+  let newIdentifierName = $state('');
+  let notificationInfoText = $state('');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
+  const showNotification = $derived(timeout !== undefined);
 
   const addIdentifier = async () => {
     if (!newIdentifierName) {
@@ -37,7 +34,7 @@
     console.log({ newIdentifier }, 'New identifier created.');
 
     newIdentifierName = '';
-    dispatch('updateDashboard');
+    onUpdateDashboard();
   };
 
   const triggerNotification = (id: string) => {
@@ -46,6 +43,11 @@
     });
     timeout = 3_000;
   };
+
+  let {
+    onUpdateDashboard = () => {},
+    onRemoveIdentifier = (identifierId: string) => {}
+  } = $props();
 </script>
 
 {#if $initialized}
@@ -69,7 +71,7 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              <svelte:component this={FingerprintRecognition} />
+              <FingerprintRecognition />
               {identifier.name}
             </div>
           </svelte:fragment>
@@ -97,10 +99,8 @@
                 iconDescription={$t('page.admin.identifiers.deleteTitle')}
                 tooltipAlignment="end"
                 icon={TrashCan}
-                on:click={() => {
-                  dispatch('removeIdentifier', {
-                    identifierId: identifier._id,
-                  });
+                onclick={() => {
+                  onRemoveIdentifier(identifier._id);
                 }}
               />
             </div>

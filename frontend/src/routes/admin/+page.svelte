@@ -8,7 +8,7 @@
   import { t } from '$lib/util/translations';
   import Activities from '../../lib/components/admin/Activities.svelte';
 
-  $: getLatestActivities = () => {
+  const getLatestActivities = $derived(() => {
     const activities = [
       ...$adminLinkPresetStore.map((preset) => ({
         type: ActivityTypeDto.PRESET,
@@ -36,7 +36,7 @@
     return activities.sort(
       (a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime(),
     );
-  };
+  });
 </script>
 
 <section>
