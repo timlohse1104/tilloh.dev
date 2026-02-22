@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [home] Migrated home route and all corresponding components (+page, JokeOfTheDay, SearchBar) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [jokes] Migrated jokes route and all corresponding components (Jokes, admin/Jokes, admin/jokes/+page) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [admin] Migrated admin route and all corresponding components (Identifiers, Jokes, LinkPresets, Toggles, Activities, Dashboard) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [admin] Converted event-based communication to callback props pattern for better type safety and maintainability.

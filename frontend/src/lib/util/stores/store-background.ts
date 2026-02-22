@@ -1,5 +1,4 @@
 import { browser } from '$app/environment';
-import { setLocale } from '$lib/util/translations';
 import { writable } from 'svelte/store';
 
 const localStorageKey = 'background';
@@ -21,6 +20,5 @@ export const backgroundStore = writable(getInitialValue());
 if (browser) {
   backgroundStore.subscribe((value) => {
     localStorage.setItem(localStorageKey, value);
-    setLocale(value);
   });
 }

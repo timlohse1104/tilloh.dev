@@ -1,11 +1,14 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { initialized, t } from '$lib/util/translations';
   import Form from 'carbon-components-svelte/src/Form/Form.svelte';
   import Search from 'carbon-components-svelte/src/Search/Search.svelte';
 
-  export let customClass = '';
+  // 2. PROPS
+  let { customClass = '' } = $props();
 
-  let value = '';
+  // 4. STATE
+  let value = $state('');
 </script>
 
 {#if $initialized}
