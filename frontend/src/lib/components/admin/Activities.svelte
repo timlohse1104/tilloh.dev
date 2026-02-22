@@ -49,7 +49,7 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              {@render getActivityTypeIcon(activity.type)()}
+              <svelte:component this={getActivityTypeIcon(activity.type)} />
               {activity.description}
             </div>
           </svelte:fragment>

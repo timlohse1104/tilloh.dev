@@ -186,7 +186,7 @@
 
   <main>
     <section>
-      {@render children()}
+      <slot />
     </section>
   </main>
 
