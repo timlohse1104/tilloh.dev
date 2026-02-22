@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { createJoke, getRandomJoke } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
   import { celebrate } from '$lib/util/stores/stores-global';
@@ -14,16 +15,25 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  // 2. CONST (non-reactive constants)
   const languages = ['de', 'en'];
 
-  let randomJoke: JokeDto | null = null;
-  let newJokeText: string = '';
-  let newJokeLanguage: string = 'de';
-  let timeout = undefined;
+  // 4. STATE
+  let randomJoke = $state<JokeDto | null>(null);
+  let newJokeText = $state('');
+  let newJokeLanguage = $state('de');
+  let timeout = $state(undefined);
 
-  $: showNotification = timeout !== undefined;
-  $: submittable = newJokeText && newJokeLanguage;
+  // 5. DERIVED
+  const showNotification = $derived(timeout !== undefined);
+  const submittable = $derived(newJokeText && newJokeLanguage);
 
+  // 7. LIFECYCLE
+  onMount(() => {
+    setRandomJoke();
+  });
+
+  // 8. FUNCTIONS
   const setRandomJoke = async () => {
     randomJoke = await getRandomJoke();
   };
@@ -44,10 +54,6 @@
     newJokeText = '';
     newJokeLanguage = 'de';
   };
-
-  onMount(() => {
-    setRandomJoke();
-  });
 </script>
 
 {#if $initialized}
