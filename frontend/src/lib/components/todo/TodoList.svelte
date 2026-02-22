@@ -18,8 +18,8 @@
 
   // 8. EFFECTS
   $effect(() => {
-    if (listId) console.log('listId', listId);
-    if (list) console.log('list', list);
+    if (listId) console.log('listId', $inspect(listId));
+    if (list) console.log('list', $inspect(list));
   });
 
   // 5. FUNCTIONS
