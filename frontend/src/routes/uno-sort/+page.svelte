@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import ToggledApplicationInfo from '$lib/components/shared/ToggledApplicationInfo.svelte';
   import { applicationRoutes } from '$lib/config/applications';
   import { UnoSort } from '$lib/types/uno-sort';
@@ -8,24 +9,28 @@
   import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import { onMount } from 'svelte';
 
+  // 2. CONST (non-reactive constants)
   const { 'uno-sort': unoSortRoute } = applicationRoutes;
 
-  let handSizeElement;
-  let stackSizeElement;
-  let handDivElement;
-  let unoSort;
-  let pickAmount = 1;
+  // 4. STATE
+  let handSizeElement = $state(undefined);
+  let stackSizeElement = $state(undefined);
+  let handDivElement = $state(undefined);
+  let unoSort = $state(undefined);
+  let pickAmount = $state(1);
+  let locale = $state($languageStore);
 
-  $: locale = $languageStore;
+  // 5. DERIVED
+  const stackSize = $derived(unoSort?.getStackSize());
 
-  $: stackSize = unoSort?.getStackSize();
-
+  // 7. LIFECYCLE
   onMount(async () => {
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
     await setLocale($languageStore);
   });
 
+  // 8. FUNCTIONS
   const pickCards = (amount: number) => {
     unoSort.pickCards(amount);
     unoSort.sortHand();
@@ -40,6 +45,11 @@
     unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
     unoSort.start(7);
   };
+
+  // Update locale when language store changes
+  $effect(() => {
+    locale = $languageStore;
+  });
 </script>
 
 <svelte:head>
@@ -198,7 +208,7 @@
 
   :global(.card_title_background) {
     position: relative;
-    width: 45px;
+    width: 42px;
     height: 90px;
     display: flex;
     justify-content: center;

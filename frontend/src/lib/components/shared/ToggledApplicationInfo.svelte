@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Construction from 'carbon-icons-svelte/lib/Construction.svelte';
