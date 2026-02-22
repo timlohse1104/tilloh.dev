@@ -25,17 +25,22 @@
   let openMenu = $state(false);
   let locale = $state($languageStore);
 
-  // 7. LIFECYCLE
-  onMount(async () => {
-    await setLocale($languageStore);
-  });
-
-  // 8. EFFECTS
+  // 6. EFFECTS
   $effect(() => {
     locale = $languageStore;
   });
 
-  // 5. FUNCTIONS
+  // 7. LIFECYCLE
+  onMount(async () => {
+    await setLocale($languageStore);
+
+    // Listen for list creation events
+    window.addEventListener('list-created', ((e: CustomEvent) => {
+      currentListId = e.detail.id;
+    }) as EventListener);
+  });
+
+  // 8. FUNCTIONS
   const showListOverlay = (type: 'new' | 'edit', id?: string) => {
     openMenu = false;
     if (type === 'new') {
@@ -127,7 +132,7 @@
         <div class="main_content">
           <Button
             kind="tertiary"
-            iconDescription={$t('page.shared.button.globalMenu')}
+            iconDescription={$t('page.todos.sideMenu.title')}
             icon={Catalog}
             id="list_menu_button"
             tooltipPosition="left"
@@ -151,9 +156,15 @@
 
       {#if $listOverlayOptionsStore.showOverlay}
         <TodoListOverlay
-          listId={newListId}
-          listName={getListInformation(newListId).name}
-          listEmoji={getListInformation(newListId).emoji}
+          listId={$listOverlayOptionsStore.type === 'new'
+            ? newListId
+            : currentListId}
+          listName={getListInformation(
+            $listOverlayOptionsStore.type === 'new' ? newListId : currentListId,
+          ).name}
+          listEmoji={getListInformation(
+            $listOverlayOptionsStore.type === 'new' ? newListId : currentListId,
+          ).emoji}
         />
       {/if}
     </section>

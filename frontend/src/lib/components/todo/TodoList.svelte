@@ -11,41 +11,69 @@
   import TodoInput from './TodoInput.svelte';
 
   // 2. PROPS
-  let { listId } = $props();
+  let { listId }: { listId: string } = $props();
 
   // 5. DERIVED
-  const list = $derived(listId ? $todoStore.find((l) => l.id === listId) : undefined);
+  let list = $derived.by(() => {
+    const allLists = $todoStore;
+    const foundList = listId ? allLists.find((l) => l.id === listId) : undefined;
 
-  // 8. EFFECTS
-  $effect(() => {
-    if (listId) {
-      console.log('listId', $inspect(listId));
-      if (list) console.log('list', $inspect(list));
+    if (foundList) {
+      // Sort todos: unchecked first, checked last
+      const sortedTodos = [...foundList.todos].sort((a, b) => {
+        if (a.done === b.done) return 0;
+        return a.done ? 1 : -1;
+      });
+
+      return {
+        ...foundList,
+        todos: sortedTodos,
+      };
     }
+
+    return undefined;
   });
 
-  // 5. FUNCTIONS
+  // 8. FUNCTIONS
   const deleteTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      const todoIndex = list.todos.findIndex((todo) => todo.id === todoId);
-      list.todos.splice(todoIndex, 1);
-      return todoListArray;
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            todos: list.todos.filter((todo) => todo.id !== todoId),
+          };
+        }
+        return list;
+      });
     });
   };
   const checkTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      const todoIndex = list.todos.findIndex((todo) => todo.id === todoId);
-      list.todos[todoIndex].done = !list.todos[todoIndex].done;
-      return todoListArray;
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            todos: list.todos.map((todo) =>
+              todo.id === todoId ? { ...todo, done: !todo.done } : todo,
+            ),
+          };
+        }
+        return list;
+      });
     });
   };
   const clearHistory = () => {
     todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      list.history = [];
-      return todoListArray;
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            history: [],
+          };
+        }
+        return list;
+      });
     });
   };
   const selectRandomTagColor = ():
@@ -90,6 +118,7 @@
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
+
   const removeEntryFromHistory = (event) => {
     const tagText =
       event.explicitOriginalTarget.parentElement.parentElement.textContent.trim() ||
@@ -98,11 +127,15 @@
     if (!tagText) return;
 
     todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      list.history = list.history.filter((entry) => {
-        return entry !== tagText;
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            history: list.history.filter((entry) => entry !== tagText),
+          };
+        }
+        return list;
       });
-      return todoListArray;
     });
   };
   const readdTodoFromHistory = (event) => {
@@ -111,16 +144,20 @@
     if (!tagText) return;
 
     todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      list.todos.push({ id: crypto.randomUUID(), title: tagText, done: false });
-      return [...todoListArray];
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            todos: [
+              ...list.todos,
+              { id: crypto.randomUUID(), title: tagText, done: false },
+            ],
+          };
+        }
+        return list;
+      });
     });
   };
-
-  // 8. EFFECTS
-  $effect(() => {
-    list = $todoStore.find((list) => list.id === listId);
-  });
 </script>
 
 {#if $initialized}
@@ -141,7 +178,7 @@
               {#if list?.history?.length > 0}
                 <div class="history_list">
                   <div class="history_entry_list">
-                    {#each list?.history as entry}
+                    {#each list.history as entry (entry)}
                       <Tag
                         filter
                         interactive
@@ -177,14 +214,12 @@
       </div>
 
       <div class="mt1 list_content">
-        {#each list?.todos as todo}
-          {#if todo}
-            <Todo
-              {todo}
-              deleteTodo={() => deleteTodo(todo.id)}
-              todoChecked={() => checkTodo(todo.id)}
-            />
-          {/if}
+        {#each list?.todos || [] as todo (todo.id)}
+          <Todo
+            {todo}
+            deleteTodo={() => deleteTodo(todo.id)}
+            todoChecked={() => checkTodo(todo.id)}
+          />
         {/each}
       </div>
     </div>
