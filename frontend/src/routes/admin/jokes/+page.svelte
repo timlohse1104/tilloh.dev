@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { deleteJoke } from '$lib/api/jokes.api';
   import Jokes from '$lib/components/admin/Jokes.svelte';
   import {
@@ -13,13 +14,17 @@
   import { getContext } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  // 2. CONST (non-reactive constants)
   const updateDashboard = getContext<() => void>('updateDashboard');
 
+  // 4. STATE
   let notificationInfoText = $state('');
   let timeout = $state(undefined);
 
+  // 5. DERIVED
   const showNotification = $derived(timeout !== undefined);
 
+  // 8. FUNCTIONS
   const removeJoke = async (jokeId: string) => {
     $confirmDeleteJokeActionStore = async () => {
       console.log('removing joke', { jokeId }, '...');

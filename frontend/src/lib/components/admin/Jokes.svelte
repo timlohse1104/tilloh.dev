@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { updateJoke } from '$lib/api/jokes.api';
   import {
     adminJokesStore,
@@ -16,11 +17,20 @@
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { fade } from 'svelte/transition';
 
+  // 2. PROPS
+  let {
+    onUpdateDashboard = () => {},
+    onRemoveJoke = (jokeId: string) => {}
+  } = $props();
+
+  // 4. STATE
   let notificationInfoText = $state('');
   let timeout = $state(undefined);
 
+  // 5. DERIVED
   const showNotification = $derived(timeout !== undefined);
 
+  // 8. FUNCTIONS
   const verifyJoke = async (jokeId: string) => {
     console.log({ jokeId }, 'Verifying joke...');
     const updateJokeResponse = await updateJoke($adminTokenStore, jokeId, {
@@ -42,11 +52,6 @@
     });
     timeout = 3_000;
   };
-
-  let {
-    onUpdateDashboard = () => {},
-    onRemoveJoke = (jokeId: string) => {}
-  } = $props();
 </script>
 
 {#if $initialized}
