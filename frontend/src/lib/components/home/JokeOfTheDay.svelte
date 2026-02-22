@@ -1,14 +1,18 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { getJokeOfTheDay } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
   import { initialized, t } from '$lib/util/translations';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import { onMount } from 'svelte';
 
-  export let customClass = '';
+  // 2. PROPS
+  let { customClass = '' } = $props();
 
-  let joke: JokeDto | null = null;
+  // 4. STATE
+  let joke = $state<JokeDto | null>(null);
 
+  // 7. LIFECYCLE
   onMount(async () => {
     joke = await getJokeOfTheDay();
   });

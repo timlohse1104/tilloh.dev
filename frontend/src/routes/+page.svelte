@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
   import SearchBar from '$lib/components/home/SearchBar.svelte';
   import Navigation from '$lib/components/shared/Navigation.svelte';
@@ -11,18 +12,27 @@
   import { onMount } from 'svelte';
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
 
-  setLocale($languageStore);
-
+  // 2. CONST (non-reactive constants)
   const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;
 
-  let randomJokeToggle = true;
+  // 4. STATE
+  let locale = $state($languageStore);
+  let randomJokeToggle = $state(true);
 
-  $: locale = $languageStore;
-
+  // 7. LIFECYCLE
   onMount(async () => {
     await setLocale($languageStore);
     randomJokeToggle = await getToggleValue(TogglesEnum.randomJoke);
+  });
+
+  // 8. FUNCTIONS
+  const updateLocale = () => {
+    locale = $languageStore;
+  };
+
+  $effect(() => {
+    updateLocale();
   });
 </script>
 
