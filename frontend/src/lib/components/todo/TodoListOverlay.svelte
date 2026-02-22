@@ -109,7 +109,7 @@
     if (detail.text === $t('page.shared.abort')) closeOverlay();
     if (detail.text === $t('page.shared.delete')) deleteList(listIndex);
   }}
-  class={modalStates()}
+  class={modalStates}
 >
   {#if $initialized}
     {#if $listOverlayOptionsStore.type === 'new'}
