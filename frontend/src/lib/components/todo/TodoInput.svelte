@@ -1,34 +1,40 @@
 <script lang="ts">
+  // 1. IMPORTS
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
-  export let listId;
+  // 2. PROPS
+  let { listId }: { listId: string } = $props();
 
-  let newTodoName = '';
+  // 4. STATE
+  let newTodoName = $state('');
 
+  // 8. FUNCTIONS
   const saveTodo = () => {
     if (newTodoName) {
       todoStore.update((todoListArray) => {
-        const list = todoListArray.find((list) => list.id === listId);
-        list.todos.push({
-          id: crypto.randomUUID(),
-          title: newTodoName,
-          done: false,
+        return todoListArray.map((list) => {
+          if (list.id === listId) {
+            return {
+              ...list,
+              todos: [
+                ...list.todos,
+                {
+                  id: crypto.randomUUID(),
+                  title: newTodoName,
+                  done: false,
+                },
+              ],
+              history: Array.from(new Set([...list.history, newTodoName])),
+            };
+          }
+          return list;
         });
-        return [...todoListArray];
       });
-      addToHistory(newTodoName);
       newTodoName = '';
     }
-  };
-  const addToHistory = (todoName) => {
-    todoStore.update((todoListArray) => {
-      const list = todoListArray.find((list) => list.id === listId);
-      list.history = Array.from(new Set(list.history).add(todoName));
-      return todoListArray;
-    });
   };
 </script>
 

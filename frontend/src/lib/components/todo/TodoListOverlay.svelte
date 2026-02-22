@@ -1,4 +1,5 @@
 <script lang="ts">
+  // 1. IMPORTS
   import type { TodoList } from '$lib/types/todo.ts';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
@@ -10,62 +11,82 @@
   import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
 
-  export let listId;
-  export let listName = '';
-  export let listEmoji = '';
+  // 2. PROPS
+  let {
+    listId,
+    listName = '',
+    listEmoji = '',
+  }: {
+    listId: string;
+    listName?: string;
+    listEmoji?: string;
+  } = $props();
 
-  $: listIndex = $todoStore.findIndex((list) => list.id === listId);
+  // 4. STATE
+  let localListName = $state<string>(listName);
+  let localListEmoji = $state<string>(listEmoji);
 
-  $: modalStates = () => {
+  // 5. DERIVED
+  let listIndex = $derived($todoStore.findIndex((list) => list.id === listId));
+  let modalStates = $derived.by(() => {
     let classes = '';
-
-    if (!listName || (!isEmoji(listEmoji) && listEmoji !== ''))
+    if (!localListName || (!isEmoji(localListEmoji) && localListEmoji !== ''))
       classes += 'modal_unsavable';
     if ($listOverlayOptionsStore.type === 'new')
       classes += ' modal_undeletable';
-
     return classes;
-  };
+  });
 
+  // 6. EFFECTS
+  $effect(() => {
+    localListName = listName || '';
+    localListEmoji = listEmoji || '';
+  });
+
+  // 8. FUNCTIONS
   const createList = () => {
-    const list: TodoList = {
+    const newList: TodoList = {
       id: listId || crypto.randomUUID(),
-      name: listName,
-      emoji: listEmoji || '📝',
+      name: localListName,
+      emoji: localListEmoji || '📝',
       history: [],
       todos: [],
     };
     todoStore.update((n) => {
-      return [...n, list];
+      return [...n, newList];
     });
 
     closeOverlay();
     celebrate();
+
+    // Dispatch event to parent to set this as active list
+    window.dispatchEvent(new CustomEvent('list-created', { detail: { id: newList.id } }));
   };
   const updateList = () => {
     todoStore.update((n) => {
-      console.log(listIndex);
-      console.log(n);
-      n[listIndex].name = listName;
-      n[listIndex].emoji = listEmoji || '📝';
-      return n;
+      return n.map((list, index) => {
+        if (index === listIndex) {
+          return {
+            ...list,
+            name: localListName,
+            emoji: localListEmoji || '📝',
+          };
+        }
+        return list;
+      });
     });
 
     closeOverlay();
   };
-  const deleteList = (listId) => {
-    const deletionTodoListIndex = $todoStore.findIndex(
-      (todoList) => todoList.id === listId,
-    );
+  const deleteList = () => {
     todoStore.update((n) => {
-      n.splice(deletionTodoListIndex, 1);
-      return n;
+      return n.filter((list) => list.id !== listId);
     });
     closeOverlay();
   };
-  const proceedOnEnter = (event) => {
+  const proceedOnEnter = (event: KeyboardEvent) => {
     if (isEnter(event)) {
-      if (listName && (isEmoji(listEmoji) || listEmoji === '')) {
+      if (localListName && (isEmoji(localListEmoji) || localListEmoji === '')) {
         $listOverlayOptionsStore.type === 'new' ? createList() : updateList();
       }
     }
@@ -73,10 +94,9 @@
   const closeOverlay = () => {
     $listOverlayOptionsStore.showOverlay = false;
     $listOverlayOptionsStore.type = undefined;
-    listId = undefined;
-    listIndex = undefined;
-    listName = '';
-    listEmoji = '';
+    listIndex = -1;
+    localListName = '';
+    localListEmoji = '';
   };
 </script>
 
@@ -98,9 +118,9 @@
     : updateList}
   on:click:button--secondary={({ detail }) => {
     if (detail.text === $t('page.shared.abort')) closeOverlay();
-    if (detail.text === $t('page.shared.delete')) deleteList(listIndex);
+    if (detail.text === $t('page.shared.delete')) deleteList();
   }}
-  class={modalStates()}
+  class={modalStates}
 >
   {#if $initialized}
     {#if $listOverlayOptionsStore.type === 'new'}
@@ -111,7 +131,7 @@
       <p class="subtitle">
         <b
           >{$t('page.todos.overlay.createSubtitle', {
-            listName: listName,
+            listName: localListName,
           })}</b
         >.
       </p>
@@ -119,7 +139,7 @@
 
     <div class="create_list_section">
       <TextInput
-        bind:value={listName}
+        bind:value={localListName}
         labelText={$t('page.todos.overlay.listName')}
         placeholder={$t('page.todos.overlay.listName')}
         autofocus
@@ -128,7 +148,7 @@
       />
       <div>
         <TextInput
-          bind:value={listEmoji}
+          bind:value={localListEmoji}
           placeholder={$t('page.todos.overlay.listEmoji')}
           labelText={$t('page.todos.overlay.listEmojiDescription')}
           class="mb1"
