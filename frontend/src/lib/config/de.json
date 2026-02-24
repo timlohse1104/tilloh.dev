@@ -291,5 +291,8 @@
   "page.shared.button.stadtwerk": "stadt.werk Seite öffnen",
   "page.shared.verificationError": "ID Verifikation ist fehlgeschlagen.",
   "page.shared.admin.verificationError": "Admin ID konnte nicht verifiziert werden.",
-  "page.shared.user.verificationError": "User ID konnte nicht verifiziert werden."
+  "page.shared.user.verificationError": "User ID konnte nicht verifiziert werden.",
+  "page.shared.selectEmoji": "Emoji auswählen",
+  "page.shared.searchEmoji": "Emoji suchen...",
+  "page.shared.noEmojisFound": "Keine Emojis gefunden"
 }

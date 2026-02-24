@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [shared] Added reusable EmojiPicker component with inline expandable dropdown, bilingual keyword search (EN/DE), scrollable grid view, and categorized emoji selection covering 200+ common emojis.
+- [todo] Integrated EmojiPicker into todo list creation and edit modals with vertical layout for easier emoji selection.
 - [todo] Added shared todo list functionality enabling collaborative editing via unique shared IDs.
 - [todo] Added API module (`todo.api.ts`) for shared list operations following project patterns.
 - [todo] Added "Make local" button to convert shared lists back to local-only mode.
@@ -25,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [shared] Refactored emoji data (keywords and categories) from inline component code into separate utility module (`frontend/src/lib/util/emoji-data.ts`) for better organization and reusability.
+- [todo] Refactored backend architecture into three-layer design: `todo-persistence` (database layer), `todo-provider` (business logic), and `todo-controller` (API endpoints) for better separation of concerns and testability.
+- [todo] Added comprehensive unit test coverage (39 tests) for all three layers with proper mocking and error handling.
+- [todo] Renamed `TodoMongoDbService` to `TodoPersistenceService` and `TodoService` to `TodoProviderService` for clearer naming conventions.
+- [todo] Cleaned up duplicate naming in module files: renamed `todo-todo-*.module.ts` to `todo-*.module.ts` and updated all class names and imports (e.g., `TodoTodoControllerModule` → `TodoControllerModule`).
 - [todo] Replaced hardcoded "Uncategorized" category string with empty string throughout codebase - UI displays localized "General" / "Allgemein" label.
 - [todo] Improved shared ID copy UI: icon-only button integrated with input field, success notification displayed at bottom of modal.
 - [todo] Changed default view to category view (was: classic view) for better organization of todos.
@@ -64,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [shared] Fixed EmojiPicker modal integration issues by replacing Carbon's Popover with a custom inline expandable dropdown that works reliably within modal constraints.
 - [todo] Fixed missing sync when re-adding todos from history - now properly syncs to shared lists.
 - [todo] Fixed bi-directional sync issue where changes in one browser didn't appear in other browsers - converted sync setup from onMount to reactive $effect.
 - [todo] Fixed Toggle component error by converting `isCategoryView` from derived to state variable, enabling proper two-way binding.

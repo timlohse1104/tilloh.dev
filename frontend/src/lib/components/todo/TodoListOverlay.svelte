@@ -17,6 +17,7 @@
   import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
   import Copy from 'carbon-icons-svelte/lib/Copy.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
+  import EmojiPicker from '$lib/components/shared/EmojiPicker.svelte';
 
   // 2. PROPS
   let {
@@ -264,18 +265,11 @@
         class="mb1"
         on:keyup={(event) => proceedOnEnter(event)}
       />
-      <div>
-        <TextInput
-          bind:value={localListEmoji}
-          placeholder={$t('page.todos.overlay.listEmoji')}
-          labelText={$t('page.todos.overlay.listEmojiDescription')}
-          class="mb1"
-          on:keyup={(event) => proceedOnEnter(event)}
-        />
-
-        <Tooltip triggerText="Emoji Info" direction="top">
-          <p>{@html $t('page.todos.overlay.emojiTooltip')}</p>
-        </Tooltip>
+      <div class="emoji_picker_section">
+        <span class="emoji_picker_label">
+          {$t('page.todos.overlay.listEmojiDescription')}
+        </span>
+        <EmojiPicker bind:selectedEmoji={localListEmoji} placeholder="📝" />
       </div>
     </div>
 
@@ -347,9 +341,22 @@
   }
   .create_list_section {
     display: flex;
-    flex-direction: row;
-    gap: var(--default_padding);
+    flex-direction: column;
+    gap: 1rem;
     margin-top: var(--default_padding);
+  }
+
+  .emoji_picker_section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .emoji_picker_label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--cds-text-secondary);
+    margin-bottom: 0.25rem;
   }
 
   .share_section {

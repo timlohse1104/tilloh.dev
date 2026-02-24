@@ -291,5 +291,8 @@
   "page.shared.button.settings": "Open settings",
   "page.shared.verificationError": "Verification of ID failed.",
   "page.shared.admin.verificationError": "Admin ID could not be verified.",
-  "page.shared.user.verificationError": "User ID could not be verified."
+  "page.shared.user.verificationError": "User ID could not be verified.",
+  "page.shared.selectEmoji": "Select emoji",
+  "page.shared.searchEmoji": "Search emoji...",
+  "page.shared.noEmojisFound": "No emojis found"
 }
