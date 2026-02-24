@@ -144,8 +144,8 @@
 
   setContext('updateDashboard', updateDashboard);
 
-  $effect.root(async () => {
-    await setLocale($languageStore);
+  $effect.root(() => {
+    setLocale($languageStore);
   });
 </script>
 

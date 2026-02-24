@@ -57,7 +57,7 @@
         key,
         value: 'false',
       });
-      dispatch('updateDashboard');
+      onUpdateDashboard();
     } else {
       console.log('Switching toggle to "true"...');
       await updateKey({
@@ -65,7 +65,7 @@
         key,
         value: 'true',
       });
-      dispatch('updateDashboard');
+      onUpdateDashboard();
     }
   };
 

@@ -9,7 +9,7 @@
 {#if $initialized}
   <div class="toggled_application_info_outer">
     <div class="toggled_application_info_inner">
-      <Construction size={64} class="mb1" />
+      <Construction size={32} class="mb1" />
       <h2>{$t('page.shared.toggledSiteHeadline')}</h2>
       <p>{$t('page.shared.toggledSiteTryAgainText')}</p>
       <div class="mt2">

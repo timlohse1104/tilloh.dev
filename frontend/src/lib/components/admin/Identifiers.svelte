@@ -5,6 +5,7 @@
     adminTokenStore,
   } from '$lib/util/stores/stores-admin';
   import { initialized, t } from '$lib/util/translations';
+  import { fade } from 'svelte/transition';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
   import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';

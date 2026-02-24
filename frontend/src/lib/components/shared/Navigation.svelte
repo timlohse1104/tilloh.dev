@@ -129,8 +129,7 @@
       <Switch on:click={() => navigatePage(route.path)}>
         <div class="navigation_item_content">
           {#if route?.icon}
-            {@const Icon = route.icon}
-            <Icon />
+            <svelte:component this={route.icon} />
           {/if}
           {route.name[locale]}
         </div>
