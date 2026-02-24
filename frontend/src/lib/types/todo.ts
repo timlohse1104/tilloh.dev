@@ -3,6 +3,7 @@ export type Todo = {
   title: string;
   done?: boolean;
   amount?: string;
+  category?: string;
 };
 
 export type TodoList = {

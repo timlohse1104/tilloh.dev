@@ -1,91 +1,118 @@
 <script lang="ts">
   // 1. IMPORTS
-  import type { Todo } from '$lib/types/todo.ts';
   import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
+  import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
+  import Close from 'carbon-icons-svelte/lib/Close.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   // 2. PROPS
   let {
-    todo,
+    id,
+    title,
+    done,
+    amount,
+    category,
     deleteTodo,
     todoChecked,
   }: {
-    todo: Todo;
+    id: string;
+    title: string;
+    done?: boolean;
+    amount?: string;
+    category?: string;
     deleteTodo: () => void;
     todoChecked: () => void;
   } = $props();
 
   // 4. STATE
-  let showContextMenu = $state(false);
-  let contextMenuX = $state(0);
-  let contextMenuY = $state(0);
   let isRenaming = $state(false);
   let newTitle = $state('');
   let newAmount = $state('');
+  let newCategory = $state('');
+  let todoObject: HTMLElement | undefined = $state(undefined);
 
   // 5. DERIVED
-  let todoTitle = $derived(todo.title);
-  let todoAmount = $derived(todo.amount || '1x');
-  let isDone = $derived(todo.done);
+  let todoTitle = $derived(title);
+  let todoAmount = $derived(amount || '1x');
+  let todoCategory = $derived(category || 'Uncategorized');
+  let isDone = $derived(done);
 
   // 8. FUNCTIONS
-  const handleContextMenu = (e: MouseEvent) => {
-    e.preventDefault();
-    contextMenuX = e.clientX;
-    contextMenuY = e.clientY;
-    showContextMenu = true;
-  };
 
-  const handleLongPress = (e: TouchEvent) => {
-    const touch = e.touches[0];
-    contextMenuX = touch.clientX;
-    contextMenuY = touch.clientY;
-    showContextMenu = true;
-  };
-
-  const startRename = () => {
+  const startEdit = () => {
     newTitle = todoTitle;
     newAmount = todoAmount;
+    newCategory = todoCategory;
     isRenaming = true;
-    showContextMenu = false;
   };
 
-  const saveRename = () => {
+  const saveEdit = () => {
     if (newTitle.trim()) {
       // Emit rename event to parent
       const event = new CustomEvent('rename', {
-        detail: { id: todo.id, title: newTitle, amount: newAmount },
+        detail: {
+          id: id,
+          title: newTitle,
+          amount: newAmount,
+          category: newCategory,
+        },
       });
       window.dispatchEvent(event);
     }
     isRenaming = false;
   };
 
-  const cancelRename = () => {
+  const cancelEdit = () => {
     isRenaming = false;
     newTitle = '';
     newAmount = '';
+    newCategory = '';
   };
+
+  // 7. LIFECYCLE
+  $effect(() => {
+    if (isRenaming) {
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          cancelEdit();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  });
 </script>
 
 <section
+  bind:this={todoObject}
   onclick={isRenaming ? undefined : todoChecked}
-  oncontextmenu={handleContextMenu}
-  ontouchstart={handleLongPress}
   role="button"
   tabindex="0"
   onkeydown={(e) => !isRenaming && e.key === 'Enter' && todoChecked()}
 >
   {#if isRenaming}
-    <div class="rename-container" onclick={(e) => e.stopPropagation()} role="form">
+    <div
+      class="edit-container"
+      onclick={(e) => e.stopPropagation()}
+      role="form"
+    >
       <input
         type="text"
         bind:value={newAmount}
         placeholder="Amount"
         maxlength="10"
         class="amount-input"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            saveEdit();
+          }
+        }}
       />
       <input
         type="text"
@@ -95,12 +122,38 @@
         onkeydown={(e) => {
           if (e.key === 'Enter') {
             e.stopPropagation();
-            saveRename();
+            saveEdit();
           }
         }}
       />
-      <button onclick={saveRename} class="save-btn">✓</button>
-      <button onclick={cancelRename} class="cancel-btn">✗</button>
+      <input
+        type="text"
+        bind:value={newCategory}
+        placeholder="Category"
+        class="category-input"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            saveEdit();
+          }
+        }}
+      />
+      <Button
+        kind="primary"
+        size="small"
+        on:click={saveEdit}
+        class="save-btn"
+        icon={Save}
+        iconDescription="Save"
+      />
+      <Button
+        kind="tertiary"
+        size="small"
+        on:click={cancelEdit}
+        class="cancel-btn"
+        icon={Close}
+        iconDescription="Cancel"
+      />
     </div>
   {:else}
     <label class="checkbox-wrapper">
@@ -135,24 +188,14 @@
   </div>
 </section>
 
-{#if showContextMenu}
-  <div
-    class="context-menu"
-    style="left: {contextMenuX}px; top: {contextMenuY}px;"
-    role="menu"
-  >
-    <button onclick={startRename} class="context-menu-item" role="menuitem">
-      {$t('page.todos.renameTodo')}
-    </button>
-  </div>
-  <div
-    class="context-menu-overlay"
-    onclick={() => (showContextMenu = false)}
-    onkeydown={(e) => e.key === 'Escape' && (showContextMenu = false)}
-    role="button"
-    tabindex="-1"
-  ></div>
-{/if}
+<ContextMenu target={todoObject ? [todoObject] : []}>
+  <ContextMenuOption
+    indented
+    labelText={$t('page.todos.editTodo')}
+    icon={Edit}
+    on:click={startEdit}
+  />
+</ContextMenu>
 
 <style lang="scss">
   section {
@@ -164,7 +207,10 @@
     padding: 0.5rem;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     background-color: transparent;
 
     &:hover {
@@ -212,91 +258,34 @@
     text-align: right;
   }
 
-  .context-menu {
-    position: fixed;
-    background: #262626;
-    border: 1px solid #393939;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-    overflow: hidden;
-  }
-
-  .context-menu-item {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: transparent;
-    border: none;
-    color: white;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  .context-menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
-  }
-
-  .rename-container {
+  .edit-container {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
+    align-items: flex-end;
     flex: 1;
   }
 
   .amount-input {
-    width: 4rem;
-    padding: 0.25rem 0.5rem;
-    background: #393939;
-    border: 1px solid #525252;
-    border-radius: 4px;
-    color: white;
-    font-size: 0.875rem;
+    flex: 0 0 6rem;
   }
 
   .title-input {
+    flex: 2;
+  }
+
+  .category-input {
     flex: 1;
-    padding: 0.25rem 0.5rem;
-    background: #393939;
-    border: 1px solid #525252;
-    border-radius: 4px;
-    color: white;
   }
 
   .save-btn,
   .cancel-btn {
-    padding: 0.25rem 0.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
+    flex-shrink: 0;
   }
 
-  .save-btn {
-    background: #24a148;
-    color: white;
-
-    &:hover {
-      background: #198038;
-    }
-  }
-
-  .cancel-btn {
-    background: #da1e28;
-    color: white;
-
-    &:hover {
-      background: #a2191f;
-    }
+  /* Style for yellow cancel button */
+  .cancel-btn :global(.bx--btn) {
+    --cds-button-secondary: #f1c21b;
+    --cds-button-secondary-hover: #d6ab00;
+    color: #161616;
   }
 </style>
