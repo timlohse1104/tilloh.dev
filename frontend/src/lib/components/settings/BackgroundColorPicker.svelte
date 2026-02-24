@@ -102,10 +102,5 @@
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-
-    span {
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
   }
 </style>

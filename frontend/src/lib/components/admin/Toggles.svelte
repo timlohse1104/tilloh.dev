@@ -105,7 +105,7 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              <svelte:component this={RadioButtonChecked} />
+              <RadioButtonChecked />
               {toggle.key}
             </div>
           </svelte:fragment>

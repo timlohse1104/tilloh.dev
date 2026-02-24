@@ -102,8 +102,4 @@
     flex: 1;
   }
 
-  .add-button {
-    flex-shrink: 0;
-    height: 2.5rem;
-  }
 </style>

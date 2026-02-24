@@ -100,7 +100,7 @@
       <input
         type="text"
         bind:value={newAmount}
-        placeholder="Amount"
+        placeholder={$t('page.todos.amount')}
         maxlength="10"
         class="amount-input"
         onkeydown={(e) => {
@@ -273,15 +273,4 @@
     flex: 1;
   }
 
-  .save-btn,
-  .cancel-btn {
-    flex-shrink: 0;
-  }
-
-  /* Style for yellow cancel button */
-  .cancel-btn :global(.bx--btn) {
-    --cds-button-secondary: #f1c21b;
-    --cds-button-secondary-hover: #d6ab00;
-    color: #161616;
-  }
 </style>

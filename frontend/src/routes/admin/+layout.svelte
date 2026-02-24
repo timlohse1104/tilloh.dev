@@ -1,5 +1,6 @@
 <script lang="ts">
   // 1. IMPORTS
+  import type { Snippet } from 'svelte';
   import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
@@ -34,17 +35,20 @@
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Renew from 'carbon-icons-svelte/lib/Renew.svelte';
 
-  // 2. CONST
+  // 2. PROPS
+  let { children }: { children: Snippet } = $props();
+
+  // 3. CONST
   const { admin: adminRoute } = utilityRoutes;
 
-  // 3. STATE
+  // 4. STATE
   let chats = $state<ChatDto[]>([]);
   let apiIsHealthy = $state(false);
   let jokesIsHealthy = $state(false);
   let mongoIsHealthy = $state(false);
   let isVerified = $state(false);
 
-  // 4. DERIVED
+  // 5. DERIVED
   const locale = $derived($languageStore);
   const adminRoutesArray = $derived(Object.values(adminSubRoutes));
 
@@ -97,7 +101,7 @@
     return jokeTexts.length - uniqueJokes.size;
   });
 
-  // 5. FUNCTIONS
+  // 6. FUNCTIONS
   const loadChats = async () => {
     chats = await getChats($adminTokenStore);
     console.log({ allChats: chats }, 'Chats reloaded.');
@@ -139,7 +143,7 @@
     console.log('Dashboard updated.');
   };
 
-  // 6. LIFECYCLE
+  // 7. LIFECYCLE
   import { setContext } from 'svelte';
 
   setContext('updateDashboard', updateDashboard);
@@ -186,7 +190,7 @@
 
   <main>
     <section>
-      <slot />
+      {@render children()}
     </section>
   </main>
 

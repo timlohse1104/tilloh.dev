@@ -371,10 +371,6 @@
     margin-top: 0.5rem;
   }
 
-  .shared_id_input {
-    flex: 1;
-  }
-
   .copy_button {
     display: flex;
     align-items: center;

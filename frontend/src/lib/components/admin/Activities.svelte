@@ -48,8 +48,9 @@
       {#each activities as activity}
         <AccordionItem>
           <svelte:fragment slot="title">
+            {@const Icon = getActivityTypeIcon(activity.type)}
             <div class="admin_list_item_headline">
-              <svelte:component this={getActivityTypeIcon(activity.type)} />
+              <Icon />
               {activity.description}
             </div>
           </svelte:fragment>
