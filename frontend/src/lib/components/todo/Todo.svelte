@@ -1,42 +1,174 @@
 <script lang="ts">
   // 1. IMPORTS
-  import type { Todo } from '$lib/types/todo.ts';
   import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
+  import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
+  import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
+  import Close from 'carbon-icons-svelte/lib/Close.svelte';
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+  import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   // 2. PROPS
   let {
-    todo,
+    id,
+    title,
+    done,
+    amount,
+    category,
     deleteTodo,
     todoChecked,
   }: {
-    todo: Todo;
+    id: string;
+    title: string;
+    done?: boolean;
+    amount?: string;
+    category?: string;
     deleteTodo: () => void;
     todoChecked: () => void;
   } = $props();
 
+  // 4. STATE
+  let isRenaming = $state(false);
+  let newTitle = $state('');
+  let newAmount = $state('');
+  let newCategory = $state('');
+  let todoObject: HTMLElement | undefined = $state(undefined);
+
   // 5. DERIVED
-  let todoTitle = $derived(todo.title);
-  let isDone = $derived(todo.done);
+  let todoTitle = $derived(title);
+  let todoAmount = $derived(amount || '1x');
+  let todoCategory = $derived(category || '');
+  let isDone = $derived(done);
+
+  // 8. FUNCTIONS
+
+  const startEdit = () => {
+    newTitle = todoTitle;
+    newAmount = todoAmount;
+    newCategory = todoCategory;
+    isRenaming = true;
+  };
+
+  const saveEdit = () => {
+    if (newTitle.trim()) {
+      // Emit rename event to parent
+      const event = new CustomEvent('rename', {
+        detail: {
+          id: id,
+          title: newTitle,
+          amount: newAmount,
+          category: newCategory,
+        },
+      });
+      window.dispatchEvent(event);
+    }
+    isRenaming = false;
+  };
+
+  const cancelEdit = () => {
+    isRenaming = false;
+    newTitle = '';
+    newAmount = '';
+    newCategory = '';
+  };
+
+  // 7. LIFECYCLE
+  $effect(() => {
+    if (isRenaming) {
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          cancelEdit();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  });
 </script>
 
-<section onclick={todoChecked}>
-  <label class="checkbox-wrapper">
-    <input
-      type="checkbox"
-      checked={isDone}
-      onchange={todoChecked}
-      class="hidden-checkbox"
-    />
-    <Checkbox checked={isDone} readonly />
-    <span class={isDone ? 'striked todo-label' : 'todo-label'}>
-      {todoTitle}
-    </span>
-  </label>
+<section
+  bind:this={todoObject}
+  onclick={isRenaming ? undefined : todoChecked}
+  role="button"
+  tabindex="0"
+  onkeydown={(e) => !isRenaming && e.key === 'Enter' && todoChecked()}
+>
+  {#if isRenaming}
+    <div class="edit-container">
+      <input
+        type="text"
+        bind:value={newAmount}
+        placeholder={$t('page.todos.amount')}
+        maxlength="10"
+        class="amount-input"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            saveEdit();
+          }
+        }}
+      />
+      <input
+        type="text"
+        bind:value={newTitle}
+        placeholder="Title"
+        class="title-input"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            saveEdit();
+          }
+        }}
+      />
+      <input
+        type="text"
+        bind:value={newCategory}
+        placeholder={$t('page.todos.categoryPlaceholder')}
+        class="category-input"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            saveEdit();
+          }
+        }}
+      />
+      <Button
+        kind="primary"
+        size="small"
+        on:click={saveEdit}
+        class="save-btn"
+        icon={Save}
+        iconDescription="Save"
+      />
+      <Button
+        kind="tertiary"
+        size="small"
+        on:click={cancelEdit}
+        class="cancel-btn"
+        icon={Close}
+        iconDescription="Cancel"
+      />
+    </div>
+  {:else}
+    <label class="checkbox-wrapper">
+      <input
+        type="checkbox"
+        checked={isDone}
+        onchange={todoChecked}
+        class="hidden-checkbox"
+      />
+      <Checkbox checked={isDone} readonly />
+      <span class="amount-label">{todoAmount}</span>
+      <span class={isDone ? 'striked todo-label' : 'todo-label'}>
+        {todoTitle}
+      </span>
+    </label>
+  {/if}
   <div
     onclick={(e) => e.stopPropagation()}
+    onkeydown={(e) => e.key === 'Enter' && e.stopPropagation()}
     role="button"
     tabindex="-1"
     style="display: contents;"
@@ -52,6 +184,15 @@
   </div>
 </section>
 
+<ContextMenu target={todoObject ? [todoObject] : []}>
+  <ContextMenuOption
+    indented
+    labelText={$t('page.todos.editTodo')}
+    icon={Edit}
+    on:click={startEdit}
+  />
+</ContextMenu>
+
 <style lang="scss">
   section {
     display: flex;
@@ -62,7 +203,10 @@
     padding: 0.5rem;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     background-color: transparent;
 
     &:hover {
@@ -101,4 +245,32 @@
     opacity: 0.6;
     font-weight: 100;
   }
+
+  .amount-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 0.5rem;
+    min-width: 3rem;
+    text-align: right;
+  }
+
+  .edit-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    flex: 1;
+  }
+
+  .amount-input {
+    flex: 0 0 6rem;
+  }
+
+  .title-input {
+    flex: 2;
+  }
+
+  .category-input {
+    flex: 1;
+  }
+
 </style>

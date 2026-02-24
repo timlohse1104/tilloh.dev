@@ -282,11 +282,6 @@
     margin-top: 1rem;
   }
 
-  .online_persistence_toggle {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
 
   .input_area {
     display: flex;

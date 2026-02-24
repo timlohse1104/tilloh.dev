@@ -19,6 +19,11 @@ export class Card {
   getValue() {
     return this.value;
   }
+
+  showInHand() {
+    // Default implementation - can be overridden by child classes
+    console.warn('showInHand() not implemented for base Card class');
+  }
 }
 
 type NumberRange<T extends number> = number extends T ? number : _Range<T, []>;

@@ -36,6 +36,10 @@
       "@backend/shared-texts": ["libs/shared/common/texts/src/index.ts"],
       "@backend/shared-types": ["libs/shared/common/types/src/index.ts"],
       "@backend/todo": ["libs/todo/src/index.ts"],
+      "@backend/todo-controller": ["libs/todo/todo-controller/src/index.ts"],
+      "@backend/todo-persistence": ["libs/todo/todo-persistence/src/index.ts"],
+      "@backend/todo-provider": ["libs/todo/todo-provider/src/index.ts"],
+      "@backend/shared-todo": ["libs/shared/provider/todo/src/index.ts"],
       "@backend/util": ["libs/shared/util/src/index.ts"],
       "@backend/shared-identifiers": [
         "libs/shared/provider/identifiers/src/index.ts"

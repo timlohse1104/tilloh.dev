@@ -4,6 +4,7 @@ import { JokesModule } from '@backend/jokes';
 import { MemorandumModule } from '@backend/memorandum';
 import { OcrModule } from '@backend/ocr';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
+import { TodoControllerModule } from '@backend/todo-controller';
 import { metricsControllerFactory } from '@backend/shared-metrics-controller';
 import {
   AdminGuard,
@@ -72,6 +73,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     JokesModule,
     ChatModule,
     OcrModule,
+    TodoControllerModule,
   ],
   providers: [
     Logger,

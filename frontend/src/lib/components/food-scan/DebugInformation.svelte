@@ -11,7 +11,7 @@
 
   // 3. PROPS
   let {
-    selectedModel,
+    selectedModel = $bindable(),
     availableModels,
     systemPromptText,
     userPromptText,

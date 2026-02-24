@@ -1,5 +1,5 @@
 {
-  "name": "todo-todo-provider",
+  "name": "todo-provider",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/todo/todo-provider/src",
   "projectType": "library",

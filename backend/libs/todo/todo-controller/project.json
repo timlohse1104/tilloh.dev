@@ -1,5 +1,5 @@
 {
-  "name": "todo-todo-controller",
+  "name": "todo-controller",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/todo/todo-controller/src",
   "projectType": "library",

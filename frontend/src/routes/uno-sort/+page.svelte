@@ -74,7 +74,7 @@
           <NumberInput
             min={0}
             max={stackSize}
-            label={`Karte${pickAmount > 1 ? 'n' : ''}`}
+            labelText={`Karte${pickAmount > 1 ? 'n' : ''}`}
             bind:value={pickAmount}
           />
 

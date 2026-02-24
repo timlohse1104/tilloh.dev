@@ -57,7 +57,7 @@
         key,
         value: 'false',
       });
-      dispatch('updateDashboard');
+      onUpdateDashboard();
     } else {
       console.log('Switching toggle to "true"...');
       await updateKey({
@@ -65,7 +65,7 @@
         key,
         value: 'true',
       });
-      dispatch('updateDashboard');
+      onUpdateDashboard();
     }
   };
 
@@ -105,7 +105,7 @@
         <AccordionItem>
           <svelte:fragment slot="title">
             <div class="admin_list_item_headline">
-              <svelte:component this={RadioButtonChecked} />
+              <RadioButtonChecked />
               {toggle.key}
             </div>
           </svelte:fragment>
