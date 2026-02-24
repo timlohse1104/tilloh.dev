@@ -11,3 +11,4 @@ export * from './lib/message.entity';
 export * from './lib/ocr-space.dto';
 export * from './lib/typing.dto';
 export * from './lib/update-message.dto';
+export * from './lib/todo.dto';

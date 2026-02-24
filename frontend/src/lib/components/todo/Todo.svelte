@@ -39,7 +39,7 @@
   // 5. DERIVED
   let todoTitle = $derived(title);
   let todoAmount = $derived(amount || '1x');
-  let todoCategory = $derived(category || 'Uncategorized');
+  let todoCategory = $derived(category || '');
   let isDone = $derived(done);
 
   // 8. FUNCTIONS
@@ -129,7 +129,7 @@
       <input
         type="text"
         bind:value={newCategory}
-        placeholder="Category"
+        placeholder={$t('page.todos.categoryPlaceholder')}
         class="category-input"
         onkeydown={(e) => {
           if (e.key === 'Enter') {

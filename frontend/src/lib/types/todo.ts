@@ -12,4 +12,18 @@ export type TodoList = {
   emoji: string;
   todos: Todo[];
   history: string[];
+  isShared?: boolean;
+  sharedId?: string;
+  version?: number;
+};
+
+export type SharedTodoListResponse = {
+  _id: string;
+  name: string;
+  emoji: string;
+  todos: Todo[];
+  history: string[];
+  version: number;
+  created: string;
+  updated: string;
 };

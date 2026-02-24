@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
+import { TodoController } from './todo.controller';
+import { SharedTodoModule } from '@backend/shared-todo';
 
 @Module({
-  controllers: [],
+  imports: [SharedTodoModule],
+  controllers: [TodoController],
   providers: [],
   exports: [],
 })

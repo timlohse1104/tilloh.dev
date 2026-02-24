@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [todo] Added shared todo list functionality enabling collaborative editing via unique shared IDs.
+- [todo] Added API module (`todo.api.ts`) for shared list operations following project patterns.
+- [todo] Added "Make local" button to convert shared lists back to local-only mode.
+- [todo] Added conflict resolution notifications when shared list is updated by another user.
+- [todo] Added duplicate detection when importing already-imported shared lists.
+- [todo] Added error notifications for failed shared list imports with localized messages.
+- [todo] Added confirmation modal before deleting todo lists with separate warnings for local vs shared lists.
+- [todo] Added server-side deletion for shared lists - when a shared list is deleted, it's removed from the backend.
+- [todo] Added cross-user deletion detection - automatically removes shared lists from all users when deleted by another user.
+- [todo] Added notification when a shared list is deleted by another user, with automatic list selection fallback.
 - [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
 - [memorandum] Added arrow-based reordering system with up/down buttons and "Move to Top/Bottom" context menu options for folders and links.
 - [memorandum] Added editable preset overlay with JSON validation, allowing direct editing of preset configuration with real-time validation and sync to localStorage/cloud.
@@ -15,6 +25,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [todo] Replaced hardcoded "Uncategorized" category string with empty string throughout codebase - UI displays localized "General" / "Allgemein" label.
+- [todo] Improved shared ID copy UI: icon-only button integrated with input field, success notification displayed at bottom of modal.
+- [todo] Changed default view to category view (was: classic view) for better organization of todos.
+- [todo] Added persistence for last viewed todo list - page reload now returns to the previously viewed list.
+- [todo] Updated "Uncategorized" category label to more user-friendly "General" (EN) / "Allgemein" (DE).
+- [todo] Improved TodoListOverlay modal UX by moving share/unshare button to modal action buttons and styling delete button as danger/red.
+- [todo] Refactored shared list sync from push-based to pull-based polling (5-second intervals) for better conflict detection.
+- [todo] Enhanced shared list creation to immediately push existing todos to server after creating shared list.
+- [todo] Updated shared list endpoints to be public (no authentication required) for GET, POST, PUT, and DELETE operations.
+- [todo] Improved sync logic with debounced updates and automatic conflict resolution via server-side version merging.
+- [todo] Replaced inline fetch() calls with dedicated API module following project conventions.
+- [todo] Updated API functions to return status codes for better error handling and 404 detection.
 - [todo] Migrated todo route and all corresponding components (TodoList, TodoInput, Todo, TodoListOverlay, +page) to Svelte 5 runes syntax ($props, $state, $derived, $effect) for improved reactivity and type safety.
 - [todo] Enhanced Todo component with improved UI/UX including clickable rows, better visual feedback, and proper accessibility.
 - [todo] Improved TodoList with sorted todos (unchecked first), better state management using $derived, and enhanced history management.
@@ -42,6 +64,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [todo] Fixed missing sync when re-adding todos from history - now properly syncs to shared lists.
+- [todo] Fixed bi-directional sync issue where changes in one browser didn't appear in other browsers - converted sync setup from onMount to reactive $effect.
+- [todo] Fixed Toggle component error by converting `isCategoryView` from derived to state variable, enabling proper two-way binding.
+- [todo] Fixed blank display in category view when list has no entries - now shows helpful empty state message.
+- [todo] Fixed issue where no list was selected after deleting a list - now automatically selects the first remaining list.
+- [todo] Fixed TOCTOU race condition in shared list updates by implementing atomic `findOneAndUpdate` with version check in query filter.
+- [todo] Fixed generic error responses by replacing `throw new Error()` with NestJS HTTP exceptions (`NotFoundException`, `ConflictException`).
+- [todo] Fixed missing history field persistence by adding to update DTO and MongoDB service signature.
+- [todo] Fixed shared list deletion 400 error by removing manual UUID assignment and letting MongoDB auto-generate ObjectIds.
+- [todo] Fixed DELETE request 400 error by removing Content-Type header from requests without body.
+- [todo] Fixed cross-user deletion detection by adding global polling for all shared lists (every 10 seconds) in addition to per-list polling.
+- [todo] Removed duplicate CSS blocks in TodoListOverlay component (`.share_section`, `.shared_id_container`, `.copy_button`, `.copied_notification`).
+- [todo] Removed unused `importSharedId` state variable from TodoListOverlay component.
+- [todo] Removed unused `selectRandomTagColor` function from TodoList component.
 - [global] Fixed erroneous setLocale call in background color store causing i18n warnings.
 - [memorandum] Fixed an issue where editing a folder in memorandum changed the wrong folders settings.
 - [memorandum] Fixed folder ID duplication issues caused by drag-and-drop.

@@ -7,7 +7,7 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
 
   // 2. PROPS
-  let { listId }: { listId: string } = $props();
+  let { listId, onTodoAdded }: { listId: string; onTodoAdded?: () => void } = $props();
 
   // 4. STATE
   let newTodoName = $state('');
@@ -29,7 +29,7 @@
                   title: newTodoName,
                   done: false,
                   amount: newTodoAmount || '1x',
-                  category: newTodoCategory || 'Uncategorized',
+                  category: newTodoCategory || '',
                 },
               ],
               history: Array.from(new Set([...list.history, newTodoName])),
@@ -41,6 +41,9 @@
       newTodoName = '';
       newTodoAmount = '1x';
       newTodoCategory = '';
+    }
+    if (onTodoAdded) {
+      onTodoAdded();
     }
   };
 </script>

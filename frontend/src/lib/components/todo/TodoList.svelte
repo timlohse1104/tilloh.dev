@@ -1,29 +1,36 @@
 <script lang="ts">
   // 1. IMPORTS
-  import { onMount } from 'svelte';
+  import { getSharedTodoList, updateSharedTodoList } from '$lib/api/todo.api';
+  import type { Todo } from '$lib/types/todo';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import type { Todo } from '$lib/types/todo';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
   import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
-  import Tag from 'carbon-components-svelte/src/Tag/Tag.svelte';
+  import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+  import { onMount } from 'svelte';
   import TodoComponent from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
-  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
 
   // 2. PROPS
   let { listId }: { listId: string } = $props();
 
   // 3. STATE
-  let viewMode = $state('classic'); // 'classic' or 'byCategory'
-  let isCategoryView = $derived.by(() => viewMode === 'byCategory');
+  let isCategoryView = $state(true); // false = classic, true = byCategory (default: category view)
+
+  // 4. STATE
+  let syncTimeout = $state<any>(null);
+  let showConflictNotification = $state(false);
+  let showDeletedNotification = $state(false);
 
   // 5. DERIVED
   let list = $derived.by(() => {
     const allLists = $todoStore;
-    const foundList = listId ? allLists.find((l) => l.id === listId) : undefined;
+    const foundList = listId
+      ? allLists.find((l) => l.id === listId)
+      : undefined;
 
     if (foundList) {
       // Sort todos: unchecked first, checked last
@@ -32,7 +39,7 @@
         .map((todo) => ({
           ...todo,
           amount: todo.amount || '1x',
-          category: todo.category || 'Uncategorized',
+          category: todo.category || '',
         }))
         .sort((a, b) => {
           if (a.done === b.done) return 0;
@@ -48,30 +55,32 @@
     return undefined;
   });
 
+  let isSharedList = $derived(list?.isShared || false);
+
   // 6. DERIVED - Categorized view
   let categorizedTodos = $derived.by(() => {
     if (!list || !isCategoryView) return {};
-    
+
     const categories: Record<string, Todo[]> = {};
-    
+
     // Group by category, but separate done and undone items
-    const undoneTodos = list.todos.filter(todo => !todo.done);
-    const doneTodos = list.todos.filter(todo => todo.done);
-    
+    const undoneTodos = list.todos.filter((todo) => !todo.done);
+    const doneTodos = list.todos.filter((todo) => todo.done);
+
     // Group undone todos by category
-    undoneTodos.forEach(todo => {
-      const category = todo.category || 'Uncategorized';
+    undoneTodos.forEach((todo) => {
+      const category = todo.category || '';
       if (!categories[category]) {
         categories[category] = [];
       }
       categories[category].push(todo);
     });
-    
+
     // Add "Done" category for completed items
     if (doneTodos.length > 0) {
       categories['Done'] = doneTodos;
     }
-    
+
     return categories;
   });
 
@@ -79,16 +88,140 @@
   onMount(() => {
     // Listen for rename events from Todo components
     window.addEventListener('rename', ((e: CustomEvent) => {
-      renameTodo(e.detail.id, e.detail.title, e.detail.amount, e.detail.category);
+      renameTodo(
+        e.detail.id,
+        e.detail.title,
+        e.detail.amount,
+        e.detail.category,
+      );
     }) as EventListener);
   });
 
-  const toggleViewMode = (event) => {
-    viewMode = event.detail.toggled ? 'byCategory' : 'classic';
-  };
+  // Reactive sync setup - automatically starts/stops based on isSharedList
+  $effect(() => {
+    if (!isSharedList || !list?.sharedId) return;
+
+    // Fetch immediately to check if list still exists
+    fetchAndMergeSharedList();
+
+    // Set up periodic polling every 5 seconds to pull updates from server
+    const interval = setInterval(() => {
+      fetchAndMergeSharedList();
+    }, 5000);
+
+    // Cleanup function runs when effect re-runs or component unmounts
+    return () => clearInterval(interval);
+  });
 
   // 8. FUNCTIONS
-  const renameTodo = (todoId: string, newTitle: string, newAmount: string, newCategory?: string) => {
+  const syncSharedList = async () => {
+    if (!isSharedList || !list?.sharedId || !list?.version) return;
+
+    // Clear any existing timeout
+    if (syncTimeout) {
+      clearTimeout(syncTimeout);
+    }
+
+    // Debounce sync to avoid too many requests
+    syncTimeout = setTimeout(async () => {
+      try {
+        const result = await updateSharedTodoList(list.sharedId, {
+          name: list.name,
+          emoji: list.emoji,
+          todos: list.todos,
+          history: list.history,
+          version: list.version,
+        });
+
+        if (result.status === 200 && result.data) {
+          // Success - update local version to match server
+          todoStore.update((todoListArray) => {
+            return todoListArray.map((l) => {
+              if (l.id === listId) {
+                return {
+                  ...l,
+                  version: result.data!.version,
+                };
+              }
+              return l;
+            });
+          });
+        } else if (result.status === 409) {
+          // Conflict - pull server state and show notification
+          await fetchAndMergeSharedList();
+          showConflictNotification = true;
+          setTimeout(() => {
+            showConflictNotification = false;
+          }, 5000);
+        } else {
+          console.error('Sync failed with status:', result.status);
+        }
+      } catch (error) {
+        console.error('Error syncing shared list:', error);
+      }
+    }, 1000); // Debounce by 1 second
+  };
+
+  const fetchAndMergeSharedList = async () => {
+    if (!isSharedList || !list?.sharedId) return;
+
+    try {
+      const result = await getSharedTodoList(list.sharedId);
+
+      if (result.status === 404) {
+        console.log('List deleted by another user, removing locally:', list.name);
+        // List was deleted by another user - remove from local store
+        todoStore.update((todoListArray) => {
+          return todoListArray.filter((l) => l.id !== listId);
+        });
+
+        // Show notification that list was deleted
+        showDeletedNotification = true;
+        setTimeout(() => {
+          showDeletedNotification = false;
+        }, 5000);
+
+        // Dispatch event to parent to select a new list
+        window.dispatchEvent(new CustomEvent('list-deleted'));
+        return;
+      }
+
+      if (result.status === 200 && result.data) {
+        const serverList = result.data;
+
+        // Only update if server has a newer version
+        if (serverList.version > (list.version || 0)) {
+          console.log('Syncing updates from server for list:', list.name);
+          todoStore.update((todoListArray) => {
+            return todoListArray.map((l) => {
+              if (l.id === listId) {
+                return {
+                  ...l,
+                  name: serverList.name,
+                  emoji: serverList.emoji,
+                  todos: serverList.todos,
+                  history: serverList.history,
+                  version: serverList.version,
+                };
+              }
+              return l;
+            });
+          });
+        }
+      } else if (result.status !== 200) {
+        console.warn('Unexpected status from server:', result.status);
+      }
+    } catch (error) {
+      console.error('Error fetching shared list:', error);
+    }
+  };
+
+  const renameTodo = (
+    todoId: string,
+    newTitle: string,
+    newAmount: string,
+    newCategory?: string,
+  ) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
@@ -96,11 +229,12 @@
             ...list,
             todos: list.todos.map((todo) =>
               todo.id === todoId
-                ? { 
-                    ...todo, 
-                    title: newTitle, 
+                ? {
+                    ...todo,
+                    title: newTitle,
                     amount: newAmount,
-                    category: newCategory !== undefined ? newCategory : todo.category
+                    category:
+                      newCategory !== undefined ? newCategory : todo.category,
                   }
                 : todo,
             ),
@@ -109,6 +243,7 @@
         return list;
       });
     });
+    syncSharedList();
   };
 
   const deleteTodo = (todoId: string) => {
@@ -123,6 +258,7 @@
         return list;
       });
     });
+    syncSharedList();
   };
   const checkTodo = (todoId: string) => {
     todoStore.update((todoListArray) => {
@@ -138,6 +274,7 @@
         return list;
       });
     });
+    syncSharedList();
   };
   const clearHistory = () => {
     todoStore.update((todoListArray) => {
@@ -151,48 +288,7 @@
         return list;
       });
     });
-  };
-  const selectRandomTagColor = ():
-    | 'red'
-    | 'magenta'
-    | 'purple'
-    | 'blue'
-    | 'cyan'
-    | 'teal'
-    | 'green'
-    | 'gray'
-    | 'cool-gray'
-    | 'warm-gray'
-    | 'high-contrast'
-    | 'outline' => {
-    const colors: (
-      | 'red'
-      | 'magenta'
-      | 'purple'
-      | 'blue'
-      | 'cyan'
-      | 'teal'
-      | 'green'
-      | 'gray'
-      | 'cool-gray'
-      | 'warm-gray'
-      | 'high-contrast'
-      | 'outline'
-    )[] = [
-      'red',
-      'magenta',
-      'purple',
-      'blue',
-      'cyan',
-      'teal',
-      'green',
-      'gray',
-      'cool-gray',
-      'warm-gray',
-      'high-contrast',
-      'outline',
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
+    syncSharedList();
   };
 
   const removeEntryFromHistory = (entry: string) => {
@@ -221,6 +317,7 @@
                 title: entry,
                 done: false,
                 amount: '1x',
+                category: '',
               },
             ],
           };
@@ -228,11 +325,32 @@
         return list;
       });
     });
+    syncSharedList();
   };
 </script>
 
 {#if $initialized}
   <section>
+    {#if showConflictNotification}
+      <InlineNotification
+        kind="info"
+        title={$t('page.todos.share.conflictResolved')}
+        subtitle={$t('page.todos.share.conflictDescription')}
+        hideCloseButton={false}
+        lowContrast
+        on:close={() => (showConflictNotification = false)}
+      />
+    {/if}
+    {#if showDeletedNotification}
+      <InlineNotification
+        kind="warning"
+        title={$t('page.todos.share.listDeleted')}
+        subtitle={$t('page.todos.share.listDeletedDescription')}
+        hideCloseButton={false}
+        lowContrast
+        on:close={() => (showDeletedNotification = false)}
+      />
+    {/if}
     <div class="mt2 list_area">
       <div class="list_header">
         <h2>
@@ -291,31 +409,40 @@
             bind:toggled={isCategoryView}
             labelA={$t('page.todos.view.classic')}
             labelB={$t('page.todos.view.byCategory')}
-            on:change={toggleViewMode}
             size="sm"
           />
         </div>
-        <TodoInput {listId} />
+        <TodoInput {listId} onTodoAdded={syncSharedList} />
       </div>
 
       <div class="mt1 list_content">
         {#if !isCategoryView}
-          {#each list?.todos || [] as todo (todo.id)}
-            <TodoComponent
-              id={todo.id}
-              title={todo.title}
-              done={todo.done}
-              amount={todo.amount}
-              category={todo.category}
-              deleteTodo={() => deleteTodo(todo.id)}
-              todoChecked={() => checkTodo(todo.id)}
-            />
-          {/each}
+          {#if Object.keys(list?.todos).length === 0}
+            <pre class="status">{$t('page.todos.list.emptyList')}</pre>
+          {:else}
+            {#each list?.todos || [] as todo (todo.id)}
+              <TodoComponent
+                id={todo.id}
+                title={todo.title}
+                done={todo.done}
+                amount={todo.amount}
+                category={todo.category}
+                deleteTodo={() => deleteTodo(todo.id)}
+                todoChecked={() => checkTodo(todo.id)}
+              />
+            {/each}
+          {/if}
+        {:else if Object.keys(categorizedTodos).length === 0}
+          <pre class="status">{$t('page.todos.list.emptyList')}</pre>
         {:else}
           {#each Object.entries(categorizedTodos) as [category, todos]}
             <div class="category-section">
               <h3 class="category-header">
-                {category === 'Done' ? $t('page.todos.doneCategory') : category}
+                {category === 'Done'
+                  ? $t('page.todos.doneCategory')
+                  : category === ''
+                    ? $t('page.todos.uncategorized')
+                    : category}
               </h3>
               {#each todos as todo (todo.id)}
                 <TodoComponent
