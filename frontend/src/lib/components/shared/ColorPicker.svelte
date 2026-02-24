@@ -432,6 +432,12 @@
         <div id="colorsquare-picker"></div>
         <div
           id="colorsquare-event"
+          role="slider"
+          tabindex="0"
+          aria-label="Color saturation and value picker"
+          aria-valuenow={Math.round(s * 100)}
+          aria-valuemin="0"
+          aria-valuemax="100"
           on:mousedown={csDown}
           on:touchstart={csDownTouch}
         ></div>
@@ -443,6 +449,12 @@
     <div id="hue-picker"></div>
     <div
       id="hue-event"
+      role="slider"
+      tabindex="0"
+      aria-label="Hue selector"
+      aria-valuenow={Math.round(h * 360)}
+      aria-valuemin="0"
+      aria-valuemax="360"
       on:mousedown={hueDown}
       on:touchstart={hueDownTouch}
     ></div>
@@ -453,6 +465,12 @@
     <div id="alpha-picker"></div>
     <div
       id="alpha-event"
+      role="slider"
+      tabindex="0"
+      aria-label="Alpha transparency selector"
+      aria-valuenow={Math.round(a * 100)}
+      aria-valuemin="0"
+      aria-valuemax="100"
       on:mousedown={alphaDown}
       on:touchstart={alphaDownTouch}
     ></div>
