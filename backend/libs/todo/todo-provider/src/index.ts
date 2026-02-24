@@ -1,1 +1,2 @@
-export * from './lib/todo-todo-provider.module';
+export * from './lib/todo-provider.module';
+export * from './lib/todo-provider.service';

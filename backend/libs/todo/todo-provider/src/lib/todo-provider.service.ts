@@ -11,13 +11,12 @@ import {
 } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
-import { TodoMongoDbService } from './todo-mongodb.service';
-import { SharedTodoListDocument } from './schema/todo.schema';
+import { TodoPersistenceService, SharedTodoListDocument } from '@backend/todo-persistence';
 
 @Injectable()
-export class TodoService {
-  private readonly logger = new Logger(TodoService.name);
-  constructor(private todoMongoDbService: TodoMongoDbService) {}
+export class TodoProviderService {
+  private readonly logger = new Logger(TodoProviderService.name);
+  constructor(private todoPersistenceService: TodoPersistenceService) {}
 
   /**
    * Fetches all shared todo lists.
@@ -29,7 +28,7 @@ export class TodoService {
     filter: FilterQuery<SharedTodoListDocument> = {},
   ): Promise<GetSharedTodoListsOutputDto[]> {
     this.logger.log('Return a list of all shared todo lists.');
-    return (await this.todoMongoDbService.findAll()) as any;
+    return await this.todoPersistenceService.findAll() as any;
   }
 
   /**
@@ -42,13 +41,9 @@ export class TodoService {
     getSharedTodoListInput: GetSharedTodoListInputDto,
   ): Promise<GetSharedTodoListOutputDto> {
     this.logger.log('Returns a single shared todo list.');
-    const result = await this.todoMongoDbService.findOne(
-      getSharedTodoListInput.id,
-    );
+    const result = await this.todoPersistenceService.findOne(getSharedTodoListInput.id);
     if (!result) {
-      throw new NotFoundException(
-        `Shared todo list with id ${getSharedTodoListInput.id} not found`,
-      );
+      throw new NotFoundException(`Shared todo list with id ${getSharedTodoListInput.id} not found`);
     }
     return result as any;
   }
@@ -63,10 +58,10 @@ export class TodoService {
     createSharedTodoListInputDto: CreateSharedTodoListInputDto,
   ): Promise<CreateSharedTodoListOutputDto> {
     this.logger.log('Creates a new shared todo list.');
-    return (await this.todoMongoDbService.create(
+    return await this.todoPersistenceService.create(
       createSharedTodoListInputDto.name,
       createSharedTodoListInputDto.emoji,
-    )) as any;
+    ) as any;
   }
 
   /**
@@ -79,14 +74,14 @@ export class TodoService {
     updateSharedTodoListInputDto: UpdateSharedTodoListInputDto,
   ): Promise<UpdateSharedTodoListOutputDto> {
     this.logger.log('Updates a shared todo list.');
-    return (await this.todoMongoDbService.update(
+    return await this.todoPersistenceService.update(
       updateSharedTodoListInputDto.id,
       updateSharedTodoListInputDto.name,
       updateSharedTodoListInputDto.emoji,
       updateSharedTodoListInputDto.todos,
       updateSharedTodoListInputDto.history || [],
       updateSharedTodoListInputDto.version,
-    )) as any;
+    ) as any;
   }
 
   /**
@@ -99,13 +94,9 @@ export class TodoService {
     removeSharedTodoListInputDto: RemoveSharedTodoListInputDto,
   ): Promise<RemoveSharedTodoListOutputDto> {
     this.logger.log('Removes a shared todo list.');
-    const result = await this.todoMongoDbService.remove(
-      removeSharedTodoListInputDto.id,
-    );
+    const result = await this.todoPersistenceService.remove(removeSharedTodoListInputDto.id);
     if (!result) {
-      throw new NotFoundException(
-        `Shared todo list with id ${removeSharedTodoListInputDto.id} not found`,
-      );
+      throw new NotFoundException(`Shared todo list with id ${removeSharedTodoListInputDto.id} not found`);
     }
     return result as any;
   }

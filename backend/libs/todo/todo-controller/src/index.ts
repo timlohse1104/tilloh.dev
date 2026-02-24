@@ -1,1 +1,1 @@
-export * from './lib/todo-todo-controller.module';
+export * from './lib/todo-controller.module';

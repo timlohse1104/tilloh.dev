@@ -29,12 +29,12 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { TodoService } from '@backend/shared-todo';
+import { TodoProviderService } from '@backend/todo-provider';
 
 @ApiTags('shared-todo-lists')
 @Controller('/shared-todo-lists')
 export class TodoController {
-  constructor(private todoService: TodoService) {}
+  constructor(private todoProviderService: TodoProviderService) {}
 
   @ApiBearerAuth()
   @ApiOkResponse({
@@ -46,7 +46,7 @@ export class TodoController {
   @Get()
   getSharedTodoLists(@Query() filter?: any) {
     const filterQuery = filter || {};
-    return this.todoService.listSharedTodoLists(filterQuery);
+    return this.todoProviderService.listSharedTodoLists(filterQuery);
   }
 
   @Public()
@@ -58,7 +58,7 @@ export class TodoController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get(':id')
   getSharedTodoList(@Param() getSharedTodoListInput: GetSharedTodoListInputDto) {
-    return this.todoService.getSharedTodoList(getSharedTodoListInput);
+    return this.todoProviderService.getSharedTodoList(getSharedTodoListInput);
   }
 
   @Public()
@@ -71,7 +71,7 @@ export class TodoController {
   createSharedTodoList(
     @Body() createSharedTodoListInputDto: CreateSharedTodoListInputDto,
   ) {
-    return this.todoService.createSharedTodoList(createSharedTodoListInputDto);
+    return this.todoProviderService.createSharedTodoList(createSharedTodoListInputDto);
   }
 
   @Public()
@@ -87,7 +87,7 @@ export class TodoController {
     @Param('id') id: string,
     @Body() updateSharedTodoListInputDto: UpdateSharedTodoListInputDto,
   ) {
-    return this.todoService.updateSharedTodoList({
+    return this.todoProviderService.updateSharedTodoList({
       ...updateSharedTodoListInputDto,
       id,
     });
@@ -104,6 +104,6 @@ export class TodoController {
   removeSharedTodoList(
     @Param() removeSharedTodoListInputDto: RemoveSharedTodoListInputDto,
   ) {
-    return this.todoService.removeSharedTodoList(removeSharedTodoListInputDto);
+    return this.todoProviderService.removeSharedTodoList(removeSharedTodoListInputDto);
   }
 }

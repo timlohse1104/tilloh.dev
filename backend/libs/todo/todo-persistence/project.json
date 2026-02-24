@@ -1,5 +1,5 @@
 {
-  "name": "todo-todo-persistence",
+  "name": "todo-persistence",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/todo/todo-persistence/src",
   "projectType": "library",
