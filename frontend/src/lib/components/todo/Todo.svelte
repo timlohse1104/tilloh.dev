@@ -96,11 +96,7 @@
   onkeydown={(e) => !isRenaming && e.key === 'Enter' && todoChecked()}
 >
   {#if isRenaming}
-    <div
-      class="edit-container"
-      onclick={(e) => e.stopPropagation()}
-      role="form"
-    >
+    <div class="edit-container">
       <input
         type="text"
         bind:value={newAmount}
