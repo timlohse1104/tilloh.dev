@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [backend] Updated all backend dependencies to latest compatible versions: NX 20.8.2 → 22.5.2, TypeScript 5.8.3 → 5.9.3, @swc/core 1.11.x → 1.15.13, NestJS packages to 11.1.14, Fastify 5.0.0 → 5.7.4, pino-http 10.2.0 → 11.0.0, cron 3.x → 4.4.0, and 50+ other packages.
+- [backend] Upgraded Mongoose from 8.1.1 to 9.2.2 with complete API migration (FilterQuery → mongodb.Filter) across 10 files.
+- [backend] Upgraded Jest from 29.7.0 to 30.2.0 with API migration (toThrowError → toThrow).
+- [backend] Updated ESLint from 9.28.0 to 9.39.3 (latest 9.x compatible with NX).
+- [backend] Updated @fastify/static from 8.3.0 to 9.0.0, @types/node from 22.15.21 to 22.19.11, and class-validator from 0.14.3 to 0.14.4.
 - [shared] Refactored emoji data (keywords and categories) from inline component code into separate utility module (`frontend/src/lib/util/emoji-data.ts`) for better organization and reusability.
 - [todo] Refactored backend architecture into three-layer design: `todo-persistence` (database layer), `todo-provider` (business logic), and `todo-controller` (API endpoints) for better separation of concerns and testability.
 - [todo] Added comprehensive unit test coverage (39 tests) for all three layers with proper mocking and error handling.
@@ -71,6 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [backend] Fixed 5 security vulnerabilities through dependency updates (21 → 16 vulnerabilities, 24% reduction).
+- [backend] Fixed TypeScript 5.9 stricter type checking in OCR service (Buffer → Uint8Array conversion for Blob constructor).
 - [shared] Fixed EmojiPicker modal integration issues by replacing Carbon's Popover with a custom inline expandable dropdown that works reliably within modal constraints.
 - [todo] Fixed missing sync when re-adding todos from history - now properly syncs to shared lists.
 - [todo] Fixed bi-directional sync issue where changes in one browser didn't appear in other browsers - converted sync setup from onMount to reactive $effect.
