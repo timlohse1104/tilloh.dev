@@ -41,7 +41,7 @@ export class SharedOcrService {
     body.set('OCREngine', '1');
     body.set(
       'file',
-      new Blob([file.buffer], { type: file.mimetype }),
+      new Blob([new Uint8Array(file.buffer)], { type: file.mimetype }),
       fileName,
     );
 
