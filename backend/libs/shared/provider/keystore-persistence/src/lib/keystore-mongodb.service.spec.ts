@@ -56,7 +56,7 @@ describe('KeystoreMongoDbService', () => {
         mockKeystoreDto({ identifier: '1', key: 'key1' }),
         mockKeystoreDto({ identifier: '2', key: 'key2' }),
       ];
-      jest.spyOn(keystoreModel, 'find').mockResolvedValue(expectedKeys);
+      jest.spyOn(keystoreModel, 'find').mockResolvedValue(expectedKeys as any);
 
       // act
       const keys = await service.findAll();

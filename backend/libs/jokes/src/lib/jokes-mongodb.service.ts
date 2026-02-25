@@ -2,7 +2,8 @@ import { JokeTexts } from '@backend/shared-texts';
 import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { Filter } from 'mongodb';
+import { Model } from 'mongoose';
 import { Joke, JokeDocument } from './schema/jokes.schema';
 
 @Injectable()
@@ -89,9 +90,9 @@ export class JokesMongoDbService {
    * @param filter Optional param to filter for specific joke results.
    * @returns An array of joke objects.
    */
-  async findAll(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
+  async findAll(filter: Filter<JokeDocument> = {}): Promise<JokeDto[]> {
     this.logger.debug({ input: { filter } }, JokeTexts.ATTEMPT_FIND_ALL);
-    const jokes = await this.jokeModel.find(filter).exec();
+    const jokes = await this.jokeModel.find(filter as any).exec();
     this.logger.debug({ output: jokes }, JokeTexts.FOUND_ALL);
     return jokes.map((joke) => joke.toObject());
   }

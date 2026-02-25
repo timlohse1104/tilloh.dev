@@ -2,7 +2,7 @@ import { JokeDto, ModifyJokeDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { FilterQuery } from 'mongoose';
+import { Filter } from 'mongodb';
 import { firstValueFrom } from 'rxjs';
 import { JokesMongoDbService } from './jokes-mongodb.service';
 import { JokeDocument } from './schema/jokes.schema';
@@ -74,7 +74,7 @@ export class JokesService {
    * @param filter Optional param to filter for specific joke results.
    * @returns An array of jokes.
    */
-  async listJokes(filter: FilterQuery<JokeDocument> = {}): Promise<JokeDto[]> {
+  async listJokes(filter: Filter<JokeDocument> = {}): Promise<JokeDto[]> {
     this.logger.log('Getting all jokes.');
     return await this.jokesMongoDbService.findAll(filter);
   }

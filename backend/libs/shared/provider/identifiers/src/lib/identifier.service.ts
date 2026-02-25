@@ -9,7 +9,7 @@ import {
   UpdateIdentifierOutputDto,
 } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { Filter } from 'mongodb';
 import { IdentifiersMongoDbService } from './identifiers-mongodb.service';
 import { IdentifierDocument } from './schema/identifiers.schema';
 
@@ -25,7 +25,7 @@ export class IdentifiersService {
    * @returns An array of identifier objects.
    */
   async listIdentifiers(
-    filter: FilterQuery<IdentifierDocument> = {},
+    filter: Filter<IdentifierDocument> = {},
   ): Promise<GetIdentifiersOutputDto[]> {
     this.logger.log('Return a list of all identifiers.');
     return await this.identifiersMongoDbService.findAll(filter);

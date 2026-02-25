@@ -3,7 +3,8 @@ import { ChatEntityDto } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
-import { FilterQuery, Model } from 'mongoose';
+import { Filter } from 'mongodb';
+import { Model } from 'mongoose';
 import { Chat, ChatDocument } from './schema/chat.schema';
 
 @Injectable()
@@ -22,10 +23,10 @@ export class ChatMongoDbService {
    * @returns An array of chat objects.
    */
   async findAll(
-    filter: FilterQuery<ChatDocument> = {},
+    filter: Filter<ChatDocument> = {},
   ): Promise<ChatEntityDto[]> {
     this.logger.debug({ input: { filter } }, ChatTexts.DB_ATTEMPT_FIND_ALL);
-    const chats = await this.chatModel.find(filter).exec();
+    const chats = await this.chatModel.find(filter as any).exec();
     const chatEntities = chats.map((chat) => chat.toObject() as ChatEntityDto);
     this.logger.debug(
       { output: { chats } },

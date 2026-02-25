@@ -1,7 +1,7 @@
 import { ChatTexts } from '@backend/shared-texts';
 import { ChatEntityDto } from '@backend/shared-types';
 import { Injectable, Logger } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { Filter } from 'mongodb';
 import { ChatMongoDbService } from './chat.mongodb.service';
 import { ChatDocument } from './schema/chat.schema';
 
@@ -31,7 +31,7 @@ export class ChatService {
    * @returns An array of chat objects.
    */
   async listChats(
-    filter: FilterQuery<ChatDocument> = {},
+    filter: Filter<ChatDocument> = {},
   ): Promise<ChatEntityDto[]> {
     this.logger.verbose(ChatTexts.ATTEMPT_FIND_ALL);
     const chats = await this.chatMongoDbService.findAll(filter);

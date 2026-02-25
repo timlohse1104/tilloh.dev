@@ -10,7 +10,7 @@ import {
   UpdateSharedTodoListOutputDto,
 } from '@backend/shared-types';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { Filter } from 'mongodb';
 import { TodoMongoDbService } from './todo-mongodb.service';
 import { SharedTodoListDocument } from './schema/todo.schema';
 
@@ -26,7 +26,7 @@ export class TodoService {
    * @returns An array of shared todo list objects.
    */
   async listSharedTodoLists(
-    filter: FilterQuery<SharedTodoListDocument> = {},
+    filter: Filter<SharedTodoListDocument> = {},
   ): Promise<GetSharedTodoListsOutputDto[]> {
     this.logger.log('Return a list of all shared todo lists.');
     return (await this.todoMongoDbService.findAll()) as any;

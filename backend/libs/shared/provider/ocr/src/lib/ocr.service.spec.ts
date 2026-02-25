@@ -94,7 +94,7 @@ describe('SharedOcrService', () => {
       .spyOn(httpService, 'post')
       .mockReturnValueOnce(throwError(() => new Error(errorMsgMock)));
 
-    await expect(service.executeOcrProcess(fileMock)).rejects.toThrowError(
+    await expect(service.executeOcrProcess(fileMock)).rejects.toThrow(
       errorMsgMock,
     );
   });
