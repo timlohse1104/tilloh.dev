@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [frontend] Fixed Safari/iPhone "Cannot access uninitialized variable" error by refactoring applications.ts to eliminate top-level await and use Proxy pattern with async initialization.
 - [backend] Fixed 5 security vulnerabilities through dependency updates (21 → 16 vulnerabilities, 24% reduction).
 - [backend] Fixed TypeScript 5.9 stricter type checking in OCR service (Buffer → Uint8Array conversion for Blob constructor).
 - [shared] Fixed EmojiPicker modal integration issues by replacing Carbon's Popover with a custom inline expandable dropdown that works reliably within modal constraints.
