@@ -115,7 +115,7 @@ loadApplications().then(routes => {
 // Export a Proxy that provides access to routes once loaded
 // This maintains backwards compatibility while avoiding top-level await
 export const applicationRoutes = new Proxy({} as Awaited<ReturnType<typeof loadApplications>>, {
-  get(target, prop) {
+  get(_target, prop) {
     if (cachedRoutes) {
       return cachedRoutes[prop];
     }
@@ -123,10 +123,10 @@ export const applicationRoutes = new Proxy({} as Awaited<ReturnType<typeof loadA
     // This prevents errors while loading
     return { toggle: false };
   },
-  ownKeys(target) {
+  ownKeys(_target) {
     return cachedRoutes ? Reflect.ownKeys(cachedRoutes) : [];
   },
-  getOwnPropertyDescriptor(target, prop) {
+  getOwnPropertyDescriptor(_target, prop) {
     if (cachedRoutes) {
       return Reflect.getOwnPropertyDescriptor(cachedRoutes, prop);
     }
