@@ -44,6 +44,16 @@
   let todoCategory = $derived(category || '');
   let isDone = $derived(done);
 
+  let categoryAutocomplete = $derived.by(() => {
+    if (!newCategory || newCategory.length === 0 || !isRenaming) return null;
+
+    const matches = categories.filter((cat) =>
+      cat.toLowerCase().startsWith(newCategory.toLowerCase()),
+    );
+
+    return matches.length > 0 ? matches[0] : null;
+  });
+
   // 8. FUNCTIONS
   const autocompleteCategory = () => {
     if (!newCategory) return;
@@ -145,13 +155,20 @@
           }
         }}
       />
-      <input
-        type="text"
-        bind:value={newCategory}
-        placeholder={$t('page.todos.categoryPlaceholder')}
-        class="category-input"
-        onkeydown={handleCategoryKeydown}
-      />
+      <div class="category-input-wrapper">
+        <input
+          type="text"
+          bind:value={newCategory}
+          placeholder={$t('page.todos.categoryPlaceholder')}
+          class="category-input"
+          onkeydown={handleCategoryKeydown}
+        />
+        {#if categoryAutocomplete && categoryAutocomplete !== newCategory}
+          <div class="autocomplete-hint">
+            <kbd>Tab</kbd> → {categoryAutocomplete}
+          </div>
+        {/if}
+      </div>
       <Button
         kind="primary"
         size="small"
@@ -287,8 +304,41 @@
     flex: 2;
   }
 
-  .category-input {
+  .category-input-wrapper {
+    position: relative;
     flex: 1;
+  }
+
+  .category-input {
+    width: 100%;
+  }
+
+  .autocomplete-hint {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .autocomplete-hint kbd {
+    display: inline-block;
+    padding: 0.125rem 0.375rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    font-weight: 600;
+    margin-right: 0.25rem;
   }
 
 </style>
