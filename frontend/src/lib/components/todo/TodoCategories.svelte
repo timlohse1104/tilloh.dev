@@ -16,6 +16,19 @@
     onClearCategories: () => void;
     onRemoveCategory: (category: string) => void;
   } = $props();
+
+  // 8. FUNCTIONS
+  const handleCategoryMouseDown = (e: MouseEvent) => {
+    // Prevent the button from stealing focus from the input
+    e.preventDefault();
+  };
+
+  const selectCategory = (category: string) => {
+    // Dispatch event that category inputs can listen to
+    window.dispatchEvent(
+      new CustomEvent('category-selected', { detail: { category } }),
+    );
+  };
 </script>
 
 {#if $initialized}
@@ -29,9 +42,14 @@
             <div class="category_entry_list">
               {#each categories as category (category)}
                 <div class="category_tag_wrapper">
-                  <span class="category_tag">
+                  <button
+                    class="category_tag"
+                    onmousedown={handleCategoryMouseDown}
+                    onclick={() => selectCategory(category)}
+                    title="Click to use this category"
+                  >
                     {category}
-                  </span>
+                  </button>
                   <button
                     onclick={(e) => {
                       e.stopPropagation();
@@ -96,6 +114,7 @@
     color: white;
     padding: 0;
     font-size: 0.875rem;
+    cursor: pointer;
   }
 
   .category_delete_btn {

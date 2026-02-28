@@ -109,8 +109,30 @@
 
   // 7. LIFECYCLE
   $effect(() => {
+    // Listen for category selection from category history
+    const handleCategorySelected = ((e: CustomEvent) => {
+      const activeElement = document.activeElement as HTMLInputElement;
+
+      // Check if the focused element is inside this component's category input wrapper
+      const wrapper = activeElement?.closest(
+        '[data-category-input="edit-todo"]',
+      );
+
+      if (wrapper && isRenaming) {
+        newCategory = e.detail.category;
+      }
+    }) as EventListener;
+
+    window.addEventListener('category-selected', handleCategorySelected);
+
+    return () => {
+      window.removeEventListener('category-selected', handleCategorySelected);
+    };
+  });
+
+  $effect(() => {
     if (isRenaming) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           cancelEdit();
         }
@@ -136,7 +158,7 @@
         placeholder={$t('page.todos.amount')}
         maxlength="10"
         class="amount-input"
-        onkeydown={(e) => {
+        onkeydown={(e: KeyboardEvent) => {
           if (e.key === 'Enter') {
             e.stopPropagation();
             saveEdit();
@@ -155,7 +177,7 @@
           }
         }}
       />
-      <div class="category-input-wrapper">
+      <div class="category-input-wrapper" data-category-input="edit-todo">
         <input
           type="text"
           bind:value={newCategory}

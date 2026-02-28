@@ -5,6 +5,7 @@
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import { onMount } from 'svelte';
 
   // 2. PROPS
   let {
@@ -27,6 +28,27 @@
     );
 
     return matches.length > 0 ? matches[0] : null;
+  });
+
+  // 7. LIFECYCLE
+  onMount(() => {
+    // Listen for category selection from category history
+    const handleCategorySelected = ((e: CustomEvent) => {
+      const activeElement = document.activeElement as HTMLInputElement;
+
+      // Check if the focused element is inside this component's category input wrapper
+      const wrapper = activeElement?.closest('[data-category-input="new-todo"]');
+
+      if (wrapper) {
+        newTodoCategory = e.detail.category;
+      }
+    }) as EventListener;
+
+    window.addEventListener('category-selected', handleCategorySelected);
+
+    return () => {
+      window.removeEventListener('category-selected', handleCategorySelected);
+    };
   });
 
   // 8. FUNCTIONS
@@ -108,7 +130,7 @@
         labelText={$t('page.todos.newTodo')}
         on:keydown={(e) => e.key === 'Enter' && saveTodo()}
       />
-      <div class="category-input-wrapper">
+      <div class="category-input-wrapper" data-category-input="new-todo">
         <TextInput
           bind:value={newTodoCategory}
           placeholder={$t('page.todos.categoryPlaceholder')}
