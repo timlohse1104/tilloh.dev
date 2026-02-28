@@ -53,6 +53,11 @@ export class SharedTodoListDto {
   @IsArray()
   history?: string[];
 
+  @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
+  @IsOptional()
+  @IsArray()
+  categories?: string[];
+
   @ApiProperty({ description: 'Version for optimistic locking' })
   @IsNumber()
   version: number;
@@ -115,6 +120,11 @@ export class UpdateSharedTodoListInputDto {
   @IsOptional()
   @IsArray()
   history?: string[];
+
+  @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
+  @IsOptional()
+  @IsArray()
+  categories?: string[];
 
   @ApiProperty({ description: 'Current version for optimistic locking' })
   @IsNumber()

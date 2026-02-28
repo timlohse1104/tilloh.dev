@@ -81,6 +81,7 @@
       name: localListName,
       emoji: localListEmoji || '📝',
       history: [],
+      categories: [],
       todos: [],
       isShared: false,
     };
@@ -166,6 +167,7 @@
             emoji: localListEmoji || '📝',
             todos: currentList.todos,
             history: currentList.history || [],
+            categories: currentList.categories || [],
             version: sharedList.version,
           });
         }

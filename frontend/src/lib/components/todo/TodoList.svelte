@@ -11,6 +11,7 @@
   import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { onMount } from 'svelte';
+  import TodoCategories from './TodoCategories.svelte';
   import TodoComponent from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
 
@@ -49,6 +50,7 @@
       return {
         ...foundList,
         todos: sortedTodos,
+        categories: foundList.categories || [],
       };
     }
 
@@ -130,6 +132,7 @@
           emoji: list.emoji,
           todos: list.todos,
           history: list.history,
+          categories: list.categories || [],
           version: list.version,
         });
 
@@ -201,6 +204,7 @@
                   emoji: serverList.emoji,
                   todos: serverList.todos,
                   history: serverList.history,
+                  categories: serverList.categories || [],
                   version: serverList.version,
                 };
               }
@@ -214,6 +218,25 @@
     } catch (error) {
       console.error('Error fetching shared list:', error);
     }
+  };
+
+  const updateCategories = (listId: string, newCategory?: string) => {
+    if (!newCategory) return;
+
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          const categories = list.categories || [];
+          if (!categories.includes(newCategory)) {
+            return {
+              ...list,
+              categories: [...categories, newCategory],
+            };
+          }
+        }
+        return list;
+      });
+    });
   };
 
   const renameTodo = (
@@ -243,6 +266,12 @@
         return list;
       });
     });
+
+    // Update categories if a new category was added
+    if (newCategory) {
+      updateCategories(listId, newCategory);
+    }
+
     syncSharedList();
   };
 
@@ -304,6 +333,37 @@
       });
     });
   };
+
+  const clearCategories = () => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            categories: [],
+          };
+        }
+        return list;
+      });
+    });
+    syncSharedList();
+  };
+
+  const removeCategory = (category: string) => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            categories: list.categories.filter((c) => c !== category),
+          };
+        }
+        return list;
+      });
+    });
+    syncSharedList();
+  };
+
   const readdTodoFromHistory = (entry: string) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
@@ -358,51 +418,60 @@
           {list?.name || $t('page.todos.list.noEmoji')}
         </h2>
         <hr />
-        <div class="history_area">
-          <Accordion>
-            <AccordionItem
-              title={$t('page.todos.list.history')}
-              class="custom_accordion_content"
-            >
-              {#if list?.history?.length > 0}
-                <div class="history_list">
-                  <div class="history_entry_list">
-                    {#each list.history as entry (entry)}
-                      <div class="history_tag_wrapper">
-                        <button
-                          onclick={() => readdTodoFromHistory(entry)}
-                          class="history_tag"
-                        >
-                          {entry}
-                        </button>
-                        <button
-                          onclick={(e) => {
-                            e.stopPropagation();
-                            removeEntryFromHistory(entry);
-                          }}
-                          class="history_delete_btn"
-                          title="Remove from history"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    {/each}
+        <div class="history_categories_container">
+          <div class="history_area">
+            <Accordion>
+              <AccordionItem
+                title={$t('page.todos.list.history')}
+                class="custom_accordion_content"
+              >
+                {#if list?.history?.length > 0}
+                  <div class="history_list">
+                    <div class="history_entry_list">
+                      {#each list.history as entry (entry)}
+                        <div class="history_tag_wrapper">
+                          <button
+                            onclick={() => readdTodoFromHistory(entry)}
+                            class="history_tag"
+                          >
+                            {entry}
+                          </button>
+                          <button
+                            onclick={(e) => {
+                              e.stopPropagation();
+                              removeEntryFromHistory(entry);
+                            }}
+                            class="history_delete_btn"
+                            title="Remove from history"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      {/each}
+                    </div>
+                    <Button
+                      kind="danger"
+                      size="small"
+                      iconDescription={$t('page.todos.deleteHistroy')}
+                      tooltipAlignment="end"
+                      icon={TrashCan}
+                      on:click={clearHistory}
+                      class="history_delete_button"
+                    />
                   </div>
-                  <Button
-                    kind="danger"
-                    size="small"
-                    iconDescription={$t('page.todos.deleteHistroy')}
-                    tooltipAlignment="end"
-                    icon={TrashCan}
-                    on:click={clearHistory}
-                    class="history_delete_button"
-                  />
-                </div>
-              {:else}
-                <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
-              {/if}
-            </AccordionItem>
-          </Accordion>
+                {:else}
+                  <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
+                {/if}
+              </AccordionItem>
+            </Accordion>
+          </div>
+          <div class="categories_area">
+            <TodoCategories
+              categories={list?.categories || []}
+              onClearCategories={clearCategories}
+              onRemoveCategory={removeCategory}
+            />
+          </div>
         </div>
         <div class="view-toggle-container">
           <Toggle
@@ -412,7 +481,13 @@
             size="sm"
           />
         </div>
-        <TodoInput {listId} onTodoAdded={syncSharedList} />
+        <TodoInput
+          {listId}
+          categories={list?.categories || []}
+          onTodoAdded={() => {
+            syncSharedList();
+          }}
+        />
       </div>
 
       <div class="mt1 list_content">
@@ -427,6 +502,7 @@
                 done={todo.done}
                 amount={todo.amount}
                 category={todo.category}
+                categories={list?.categories || []}
                 deleteTodo={() => deleteTodo(todo.id)}
                 todoChecked={() => checkTodo(todo.id)}
               />
@@ -451,6 +527,7 @@
                   done={todo.done}
                   amount={todo.amount}
                   category={todo.category}
+                  categories={list?.categories || []}
                   deleteTodo={() => deleteTodo(todo.id)}
                   todoChecked={() => checkTodo(todo.id)}
                 />
@@ -508,10 +585,35 @@
     }
   }
 
+  .history_categories_container {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+
+    @media #{$phone} {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
   .history_area {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex: 1;
+
+    @media #{$phone} {
+      width: 100%;
+    }
+  }
+
+  .categories_area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media #{$phone} {
+      width: 100%;
+    }
   }
 
   .history_list {

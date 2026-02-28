@@ -17,6 +17,7 @@
     done,
     amount,
     category,
+    categories,
     deleteTodo,
     todoChecked,
   }: {
@@ -25,6 +26,7 @@
     done?: boolean;
     amount?: string;
     category?: string;
+    categories: string[];
     deleteTodo: () => void;
     todoChecked: () => void;
   } = $props();
@@ -43,6 +45,27 @@
   let isDone = $derived(done);
 
   // 8. FUNCTIONS
+  const autocompleteCategory = () => {
+    if (!newCategory) return;
+
+    const matches = categories.filter((cat) =>
+      cat.toLowerCase().startsWith(newCategory.toLowerCase()),
+    );
+
+    if (matches.length > 0) {
+      newCategory = matches[0];
+    }
+  };
+
+  const handleCategoryKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      autocompleteCategory();
+    } else if (e.key === 'Enter') {
+      e.stopPropagation();
+      saveEdit();
+    }
+  };
 
   const startEdit = () => {
     newTitle = todoTitle;
@@ -127,12 +150,7 @@
         bind:value={newCategory}
         placeholder={$t('page.todos.categoryPlaceholder')}
         class="category-input"
-        onkeydown={(e) => {
-          if (e.key === 'Enter') {
-            e.stopPropagation();
-            saveEdit();
-          }
-        }}
+        onkeydown={handleCategoryKeydown}
       />
       <Button
         kind="primary"

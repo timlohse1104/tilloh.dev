@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [todo] Added server-side deletion for shared lists - when a shared list is deleted, it's removed from the backend.
 - [todo] Added cross-user deletion detection - automatically removes shared lists from all users when deleted by another user.
 - [todo] Added notification when a shared list is deleted by another user, with automatic list selection fallback.
+- [todo] Added categories history tracking - all used categories are now stored in a persistent list similar to todo history.
+- [todo] Added TodoCategories component displaying all categories with individual delete buttons and clear all functionality, positioned side-by-side with history on larger screens and stacked on mobile.
+- [todo] Added Tab key autocomplete for category input fields using existing categories.
 - [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
 - [memorandum] Added arrow-based reordering system with up/down buttons and "Move to Top/Bottom" context menu options for folders and links.
 - [memorandum] Added editable preset overlay with JSON validation, allowing direct editing of preset configuration with real-time validation and sync to localStorage/cloud.

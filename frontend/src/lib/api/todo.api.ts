@@ -38,6 +38,7 @@ export const updateSharedTodoList = async (
     emoji: string;
     todos: any[];
     history: string[];
+    categories: string[];
     version: number;
   },
 ): Promise<{ status: number; data: SharedTodoListResponse | null }> => {

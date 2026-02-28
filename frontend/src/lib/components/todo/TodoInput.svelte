@@ -7,7 +7,11 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
 
   // 2. PROPS
-  let { listId, onTodoAdded }: { listId: string; onTodoAdded?: () => void } = $props();
+  let {
+    listId,
+    categories,
+    onTodoAdded,
+  }: { listId: string; categories: string[]; onTodoAdded?: () => void } = $props();
 
   // 4. STATE
   let newTodoName = $state('');
@@ -15,11 +19,38 @@
   let newTodoCategory = $state('');
 
   // 8. FUNCTIONS
+  const autocompleteCategory = () => {
+    if (!newTodoCategory) return;
+
+    const matches = categories.filter((cat) =>
+      cat.toLowerCase().startsWith(newTodoCategory.toLowerCase()),
+    );
+
+    if (matches.length > 0) {
+      newTodoCategory = matches[0];
+    }
+  };
+
+  const handleCategoryKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      autocompleteCategory();
+    } else if (e.key === 'Enter') {
+      saveTodo();
+    }
+  };
+
   const saveTodo = () => {
     if (newTodoName) {
       todoStore.update((todoListArray) => {
         return todoListArray.map((list) => {
           if (list.id === listId) {
+            const currentCategories = list.categories || [];
+            const updatedCategories =
+              newTodoCategory && !currentCategories.includes(newTodoCategory)
+                ? [...currentCategories, newTodoCategory]
+                : currentCategories;
+
             return {
               ...list,
               todos: [
@@ -33,6 +64,7 @@
                 },
               ],
               history: Array.from(new Set([...list.history, newTodoName])),
+              categories: updatedCategories,
             };
           }
           return list;
@@ -69,7 +101,7 @@
         bind:value={newTodoCategory}
         placeholder={$t('page.todos.categoryPlaceholder')}
         labelText={$t('page.todos.category')}
-        on:keydown={(e) => e.key === 'Enter' && saveTodo()}
+        on:keydown={handleCategoryKeydown}
       />
       <Button
         kind="primary"

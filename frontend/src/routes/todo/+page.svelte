@@ -163,6 +163,7 @@
         emoji: sharedList.emoji,
         todos: sharedList.todos,
         history: sharedList.history || [],
+        categories: sharedList.categories || [],
         isShared: true,
         sharedId: sharedList._id,
         version: sharedList.version,
