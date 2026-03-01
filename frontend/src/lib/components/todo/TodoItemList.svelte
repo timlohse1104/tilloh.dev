@@ -1,6 +1,6 @@
 <script lang="ts">
   // 1. IMPORTS
-  import { initialized, t } from '$lib/util/translations';
+  import { initialized } from '$lib/util/translations';
   import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
   import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
 

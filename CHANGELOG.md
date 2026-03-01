@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [todo] Refactored history and categories into a reusable TodoItemList component, reducing code duplication and improving maintainability.
+- [todo] Created TodoInputSection component wrapping view toggle and new todo inputs in an accordion for consistent UI structure.
 - [todo] Redesigned clear history and clear categories buttons - moved to accordion title next to component name as simple "×" with red hover effect for cleaner UI.
 - [backend] Updated all backend dependencies to latest compatible versions: NX 20.8.2 → 22.5.2, TypeScript 5.8.3 → 5.9.3, @swc/core 1.11.x → 1.15.13, NestJS packages to 11.1.14, Fastify 5.0.0 → 5.7.4, pino-http 10.2.0 → 11.0.0, cron 3.x → 4.4.0, and 50+ other packages.
 - [backend] Upgraded Mongoose from 8.1.1 to 9.2.2 with complete API migration (FilterQuery → mongodb.Filter) across 10 files.

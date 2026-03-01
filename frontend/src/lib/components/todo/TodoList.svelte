@@ -5,10 +5,9 @@
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
-  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import { onMount } from 'svelte';
   import TodoComponent from './Todo.svelte';
-  import TodoInput from './TodoInput.svelte';
+  import TodoInputSection from './TodoInputSection.svelte';
   import TodoItemList from './TodoItemList.svelte';
 
   // 2. PROPS
@@ -444,17 +443,10 @@
             />
           </div>
         </div>
-        <div class="view-toggle-container">
-          <Toggle
-            bind:toggled={isCategoryView}
-            labelA={$t('page.todos.view.classic')}
-            labelB={$t('page.todos.view.byCategory')}
-            size="sm"
-          />
-        </div>
-        <TodoInput
+        <TodoInputSection
           {listId}
           categories={list?.categories || []}
+          bind:isCategoryView
           onTodoAdded={() => {
             syncSharedList();
           }}
@@ -589,12 +581,6 @@
 
   hr {
     width: 100%;
-  }
-
-  .view-toggle-container {
-    margin: 1rem 0;
-    display: flex;
-    justify-content: flex-end;
   }
 
   .category-section {
