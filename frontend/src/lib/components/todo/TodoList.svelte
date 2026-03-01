@@ -4,16 +4,12 @@
   import type { Todo } from '$lib/types/todo';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
-  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
-  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
-  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { onMount } from 'svelte';
-  import TodoCategories from './TodoCategories.svelte';
   import TodoComponent from './Todo.svelte';
   import TodoInput from './TodoInput.svelte';
+  import TodoItemList from './TodoItemList.svelte';
 
   // 2. PROPS
   let { listId }: { listId: string } = $props();
@@ -420,56 +416,31 @@
         <hr />
         <div class="history_categories_container">
           <div class="history_area">
-            <Accordion>
-              <AccordionItem
-                title={$t('page.todos.list.history')}
-                class="custom_accordion_content"
-              >
-                {#if list?.history?.length > 0}
-                  <div class="history_list">
-                    <div class="history_entry_list">
-                      {#each list.history as entry (entry)}
-                        <div class="history_tag_wrapper">
-                          <button
-                            onclick={() => readdTodoFromHistory(entry)}
-                            class="history_tag"
-                          >
-                            {entry}
-                          </button>
-                          <button
-                            onclick={(e) => {
-                              e.stopPropagation();
-                              removeEntryFromHistory(entry);
-                            }}
-                            class="history_delete_btn"
-                            title="Remove from history"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      {/each}
-                    </div>
-                    <Button
-                      kind="danger"
-                      size="small"
-                      iconDescription={$t('page.todos.deleteHistroy')}
-                      tooltipAlignment="end"
-                      icon={TrashCan}
-                      on:click={clearHistory}
-                      class="history_delete_button"
-                    />
-                  </div>
-                {:else}
-                  <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
-                {/if}
-              </AccordionItem>
-            </Accordion>
+            <TodoItemList
+              title={$t('page.todos.list.history')}
+              items={list?.history || []}
+              emptyMessage={$t('page.todos.list.historyEmpty')}
+              clearTooltip={$t('page.todos.deleteHistroy')}
+              onItemClick={readdTodoFromHistory}
+              onRemoveItem={removeEntryFromHistory}
+              onClearAll={clearHistory}
+            />
           </div>
           <div class="categories_area">
-            <TodoCategories
-              categories={list?.categories || []}
-              onClearCategories={clearCategories}
-              onRemoveCategory={removeCategory}
+            <TodoItemList
+              title={$t('page.todos.list.categories')}
+              items={list?.categories || []}
+              emptyMessage={$t('page.todos.list.categoriesEmpty')}
+              clearTooltip={$t('page.todos.deleteCategories')}
+              itemClickTooltip="Click to use this category"
+              onItemClick={(category) => {
+                window.dispatchEvent(
+                  new CustomEvent('category-selected', { detail: { category } }),
+                );
+              }}
+              onRemoveItem={removeCategory}
+              onClearAll={clearCategories}
+              preventFocusSteal={true}
             />
           </div>
         </div>
@@ -616,59 +587,8 @@
     }
   }
 
-  .history_list {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .history_entry_list {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   hr {
     width: 100%;
-  }
-
-  .history_tag_wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin: 0.25rem;
-    background: #393939;
-    border-radius: 4px;
-    padding: 0.25rem 0.5rem;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background: #525252;
-    }
-  }
-
-  .history_tag {
-    background: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0;
-    font-size: 0.875rem;
-  }
-
-  .history_delete_btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1rem;
-    line-height: 1;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: #da1e28;
-    }
   }
 
   .view-toggle-container {
