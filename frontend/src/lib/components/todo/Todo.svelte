@@ -111,14 +111,11 @@
   $effect(() => {
     // Listen for category selection from category history
     const handleCategorySelected = ((e: CustomEvent) => {
+      const context = e.detail.context;
       const activeElement = document.activeElement as HTMLInputElement;
+      const wrapper = activeElement?.closest('[data-category-input="edit-todo"]');
 
-      // Check if the focused element is inside this component's category input wrapper
-      const wrapper = activeElement?.closest(
-        '[data-category-input="edit-todo"]',
-      );
-
-      if (wrapper && isRenaming) {
+      if (isRenaming && (context === 'edit-todo' || wrapper)) {
         newCategory = e.detail.category;
       }
     }) as EventListener;
@@ -209,19 +206,13 @@
       />
     </div>
   {:else}
-    <label class="checkbox-wrapper">
-      <input
-        type="checkbox"
-        checked={isDone}
-        onchange={todoChecked}
-        class="hidden-checkbox"
-      />
+    <div class="checkbox-wrapper">
       <Checkbox checked={isDone} readonly />
       <span class="amount-label">{todoAmount}</span>
       <span class={isDone ? 'striked todo-label' : 'todo-label'}>
         {todoTitle}
       </span>
-    </label>
+    </div>
   {/if}
   <div
     onclick={(e) => e.stopPropagation()}
@@ -283,13 +274,6 @@
     margin: 0;
     flex-shrink: 0;
     pointer-events: none;
-  }
-
-  .hidden-checkbox {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
   }
 
   .todo-label {

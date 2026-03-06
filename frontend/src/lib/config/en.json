@@ -148,6 +148,8 @@
   "page.todos.changeCategory": "Change category",
   "page.todos.view.classic": "Classic view",
   "page.todos.view.byCategory": "View by category",
+  "page.todos.collapseInput": "Collapse input area",
+  "page.todos.expandInput": "Expand input area",
   "page.todos.share.shareList": "Share list",
   "page.todos.share.importList": "Import shared list",
   "page.todos.share.shareTitle": "Share this list",

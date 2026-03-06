@@ -1,21 +1,12 @@
 <script lang="ts">
   // 1. IMPORTS
   import { initialized } from '$lib/util/translations';
-  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
-  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
+  import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
+  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   // 2. PROPS
-  let {
-    title,
-    items,
-    emptyMessage,
-    clearTooltip,
-    itemClickTooltip,
-    onItemClick,
-    onRemoveItem,
-    onClearAll,
-    preventFocusSteal = false,
-  }: {
+  interface Props {
+    open: boolean;
     title: string;
     items: string[];
     emptyMessage: string;
@@ -24,8 +15,23 @@
     onItemClick: (item: string) => void;
     onRemoveItem: (item: string) => void;
     onClearAll: () => void;
+    onClose: () => void;
     preventFocusSteal?: boolean;
-  } = $props();
+  }
+
+  let {
+    open = $bindable(),
+    title,
+    items,
+    emptyMessage,
+    clearTooltip,
+    itemClickTooltip,
+    onItemClick,
+    onRemoveItem,
+    onClearAll,
+    onClose,
+    preventFocusSteal = false,
+  }: Props = $props();
 
   // 8. FUNCTIONS
   const handleItemMouseDown = (e: MouseEvent) => {
@@ -37,23 +43,17 @@
 </script>
 
 {#if $initialized}
-  <Accordion>
-    <AccordionItem class="custom_accordion_content">
-      <div slot="title" class="accordion_title_wrapper">
-        <span>{title}</span>
-        {#if items?.length > 0}
-          <button
-            onclick={(e) => {
-              e.stopPropagation();
-              onClearAll();
-            }}
-            class="clear_button"
-            title={clearTooltip}
-          >
-            ✕
-          </button>
-        {/if}
-      </div>
+  <Modal
+    bind:open
+    modalHeading={title}
+    danger
+    primaryButtonText={clearTooltip}
+    primaryButtonIcon={TrashCan}
+    primaryButtonDisabled={!items?.length}
+    on:click:button--primary={onClearAll}
+    on:close={onClose}
+  >
+    <div class="modal_content">
       {#if items?.length > 0}
         <div class="item_entry_list">
           {#each items as item (item)}
@@ -80,14 +80,25 @@
           {/each}
         </div>
       {:else}
-        <pre class="status">{emptyMessage}</pre>
+        <p class="empty_message">{emptyMessage}</p>
       {/if}
-    </AccordionItem>
-  </Accordion>
+    </div>
+  </Modal>
 {/if}
 
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
+
+  .modal_content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .empty_message {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+  }
 
   .item_entry_list {
     display: flex;
@@ -95,30 +106,6 @@
 
     @media #{$phone} {
       width: 100%;
-    }
-  }
-
-  .accordion_title_wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .clear_button {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1.25rem;
-    line-height: 1;
-    transition: color 0.2s ease;
-    margin-left: auto;
-    margin-right: var(--default_padding);
-
-    &:hover {
-      color: #da1e28;
     }
   }
 

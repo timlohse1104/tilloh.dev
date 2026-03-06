@@ -34,12 +34,11 @@
   onMount(() => {
     // Listen for category selection from category history
     const handleCategorySelected = ((e: CustomEvent) => {
+      const context = e.detail.context;
       const activeElement = document.activeElement as HTMLInputElement;
-
-      // Check if the focused element is inside this component's category input wrapper
       const wrapper = activeElement?.closest('[data-category-input="new-todo"]');
 
-      if (wrapper) {
+      if (context === 'new-todo' || wrapper) {
         newTodoCategory = e.detail.category;
       }
     }) as EventListener;

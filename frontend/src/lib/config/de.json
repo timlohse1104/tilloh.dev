@@ -148,6 +148,8 @@
   "page.todos.changeCategory": "Kategorie ändern",
   "page.todos.view.classic": "Klassische Ansicht",
   "page.todos.view.byCategory": "Nach Kategorie anzeigen",
+  "page.todos.collapseInput": "Eingabebereich einklappen",
+  "page.todos.expandInput": "Eingabebereich ausklappen",
   "page.todos.share.shareList": "Liste teilen",
   "page.todos.share.importList": "Geteilte Liste importieren",
   "page.todos.share.shareTitle": "Liste teilen",

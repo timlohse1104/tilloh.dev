@@ -357,6 +357,7 @@
   section {
     position: relative;
     display: flex;
+    height: 100%;
     z-index: 0;
   }
 
@@ -385,13 +386,14 @@
 
   .app_content {
     flex: auto;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     flex-grow: 1;
+    height: 100%;
   }
 
   .main_content {
-    overflow: auto;
+    overflow: hidden;
     height: 100%;
     box-sizing: border-box;
   }

@@ -1,64 +1,73 @@
 <script lang="ts">
   // 1. IMPORTS
   import { initialized, t } from '$lib/util/translations';
-  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
-  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
-  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Calendar from 'carbon-icons-svelte/lib/Calendar.svelte';
+  import Tag from 'carbon-icons-svelte/lib/Tag.svelte';
   import TodoInput from './TodoInput.svelte';
 
   // 2. PROPS
+  interface Props {
+    listId: string;
+    categories: string[];
+    onTodoAdded?: () => void;
+    onOpenHistory: () => void;
+    onOpenCategories: () => void;
+  }
+
   let {
     listId,
     categories,
-    isCategoryView = $bindable(),
     onTodoAdded,
-  }: {
-    listId: string;
-    categories: string[];
-    isCategoryView: boolean;
-    onTodoAdded?: () => void;
-  } = $props();
+    onOpenHistory,
+    onOpenCategories,
+  }: Props = $props();
 </script>
 
 {#if $initialized}
-  <Accordion>
-    <AccordionItem open class="custom_accordion_content">
-      <div slot="title" class="accordion_title_wrapper">
-        <span>{$t('page.todos.newTodo')}</span>
-      </div>
-      <div class="input_section_content">
-        <div class="view-toggle-container">
-          <Toggle
-            bind:toggled={isCategoryView}
-            labelA={$t('page.todos.view.classic')}
-            labelB={$t('page.todos.view.byCategory')}
-            size="sm"
-          />
-        </div>
-        <TodoInput {listId} {categories} {onTodoAdded} />
-      </div>
-    </AccordionItem>
-  </Accordion>
+  <div class="input_section">
+    <div class="modal_buttons">
+      <Button
+        kind="tertiary"
+        size="small"
+        icon={Calendar}
+        iconDescription={$t('page.todos.list.history')}
+        on:click={onOpenHistory}
+      >
+        {$t('page.todos.list.history')}
+      </Button>
+      <Button
+        kind="tertiary"
+        size="small"
+        icon={Tag}
+        iconDescription={$t('page.todos.list.categories')}
+        on:click={onOpenCategories}
+      >
+        {$t('page.todos.list.categories')}
+      </Button>
+    </div>
+    <TodoInput {listId} {categories} {onTodoAdded} />
+  </div>
 {/if}
 
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
-  .accordion_title_wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .input_section_content {
+  .input_section {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem 0;
   }
 
-  .view-toggle-container {
+  .modal_buttons {
     display: flex;
-    justify-content: flex-end;
+    gap: 0.5rem;
+
+    @media #{$phone} {
+      :global(.bx--btn) {
+        flex: 1;
+      }
+    }
   }
 </style>

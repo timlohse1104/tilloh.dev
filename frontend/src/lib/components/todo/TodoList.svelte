@@ -5,6 +5,10 @@
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import Category from 'carbon-icons-svelte/lib/Category.svelte';
+  import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
+  import ChevronUp from 'carbon-icons-svelte/lib/ChevronUp.svelte';
+  import List from 'carbon-icons-svelte/lib/List.svelte';
   import { onMount } from 'svelte';
   import TodoComponent from './Todo.svelte';
   import TodoInputSection from './TodoInputSection.svelte';
@@ -20,6 +24,10 @@
   let syncTimeout = $state<any>(null);
   let showConflictNotification = $state(false);
   let showDeletedNotification = $state(false);
+  let historyModalOpen = $state(false);
+  let categoriesModalOpen = $state(false);
+  let lastCategoryInputContext = $state<'new-todo' | 'edit-todo' | null>(null);
+  let headerExpanded = $state(true);
 
   // 5. DERIVED
   let list = $derived.by(() => {
@@ -167,7 +175,10 @@
       const result = await getSharedTodoList(list.sharedId);
 
       if (result.status === 404) {
-        console.log('List deleted by another user, removing locally:', list.name);
+        console.log(
+          'List deleted by another user, removing locally:',
+          list.name,
+        );
         // List was deleted by another user - remove from local store
         todoStore.update((todoListArray) => {
           return todoListArray.filter((l) => l.id !== listId);
@@ -406,54 +417,68 @@
         on:close={() => (showDeletedNotification = false)}
       />
     {/if}
-    <div class="mt2 list_area">
+    <div class="list_area">
       <div class="list_header">
-        <h2>
-          {list?.emoji || $t('page.todos.list.noEmoji')}
-          {list?.name || $t('page.todos.list.noEmoji')}
-        </h2>
-        <hr />
-        <div class="history_categories_container">
-          <div class="history_area">
-            <TodoItemList
-              title={$t('page.todos.list.history')}
-              items={list?.history || []}
-              emptyMessage={$t('page.todos.list.historyEmpty')}
-              clearTooltip={$t('page.todos.deleteHistroy')}
-              onItemClick={readdTodoFromHistory}
-              onRemoveItem={removeEntryFromHistory}
-              onClearAll={clearHistory}
-            />
+        <div class="list_title_row">
+          <h2>
+            {list?.emoji || $t('page.todos.list.noEmoji')}
+            {list?.name || $t('page.todos.list.noEmoji')}
+          </h2>
+          <div class="view_toggle">
+            <button
+              class="view_btn"
+              class:active={!isCategoryView}
+              onclick={() => (isCategoryView = false)}
+              title={$t('page.todos.view.classic')}
+              aria-label={$t('page.todos.view.classic')}
+            >
+              <List size={16} />
+            </button>
+            <button
+              class="view_btn"
+              class:active={isCategoryView}
+              onclick={() => (isCategoryView = true)}
+              title={$t('page.todos.view.byCategory')}
+              aria-label={$t('page.todos.view.byCategory')}
+            >
+              <Category size={16} />
+            </button>
           </div>
-          <div class="categories_area">
-            <TodoItemList
-              title={$t('page.todos.list.categories')}
-              items={list?.categories || []}
-              emptyMessage={$t('page.todos.list.categoriesEmpty')}
-              clearTooltip={$t('page.todos.deleteCategories')}
-              itemClickTooltip="Click to use this category"
-              onItemClick={(category) => {
-                window.dispatchEvent(
-                  new CustomEvent('category-selected', { detail: { category } }),
-                );
-              }}
-              onRemoveItem={removeCategory}
-              onClearAll={clearCategories}
-              preventFocusSteal={true}
-            />
-          </div>
+          <button
+            class="header_toggle_btn"
+            onclick={() => (headerExpanded = !headerExpanded)}
+            aria-label={headerExpanded ? $t('page.todos.collapseInput') : $t('page.todos.expandInput')}
+          >
+            {#if headerExpanded}
+              <ChevronUp size={20} />
+            {:else}
+              <ChevronDown size={20} />
+            {/if}
+          </button>
         </div>
-        <TodoInputSection
-          {listId}
-          categories={list?.categories || []}
-          bind:isCategoryView
-          onTodoAdded={() => {
-            syncSharedList();
-          }}
-        />
+        {#if headerExpanded}
+          <TodoInputSection
+            {listId}
+            categories={list?.categories || []}
+            onTodoAdded={() => {
+              syncSharedList();
+            }}
+            onOpenHistory={() => { categoriesModalOpen = false; historyModalOpen = true; }}
+            onOpenCategories={() => {
+              historyModalOpen = false;
+              const activeEl = document.activeElement;
+              if (activeEl?.closest('[data-category-input="edit-todo"]')) {
+                lastCategoryInputContext = 'edit-todo';
+              } else {
+                lastCategoryInputContext = 'new-todo';
+              }
+              categoriesModalOpen = true;
+            }}
+          />
+        {/if}
       </div>
 
-      <div class="mt1 list_content">
+      <div class="list_content">
         {#if !isCategoryView}
           {#if Object.keys(list?.todos).length === 0}
             <pre class="status">{$t('page.todos.list.emptyList')}</pre>
@@ -500,6 +525,40 @@
         {/if}
       </div>
     </div>
+
+    <!-- History Modal -->
+    <TodoItemList
+      bind:open={historyModalOpen}
+      title={$t('page.todos.list.history')}
+      items={list?.history || []}
+      emptyMessage={$t('page.todos.list.historyEmpty')}
+      clearTooltip={$t('page.todos.deleteHistroy')}
+      onItemClick={readdTodoFromHistory}
+      onRemoveItem={removeEntryFromHistory}
+      onClearAll={clearHistory}
+      onClose={() => (historyModalOpen = false)}
+    />
+
+    <!-- Categories Modal -->
+    <TodoItemList
+      bind:open={categoriesModalOpen}
+      title={$t('page.todos.list.categories')}
+      items={list?.categories || []}
+      emptyMessage={$t('page.todos.list.categoriesEmpty')}
+      clearTooltip={$t('page.todos.deleteCategories')}
+      itemClickTooltip="Click to use this category"
+      onItemClick={(category) => {
+        window.dispatchEvent(
+          new CustomEvent('category-selected', {
+            detail: { category, context: lastCategoryInputContext },
+          }),
+        );
+      }}
+      onRemoveItem={removeCategory}
+      onClearAll={clearCategories}
+      onClose={() => (categoriesModalOpen = false)}
+      preventFocusSteal={true}
+    />
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -510,17 +569,20 @@
 
   section {
     padding: 0;
-  }
-
-  section {
     flex-direction: column;
     overflow: hidden;
     display: flex;
     align-items: center;
+    height: 100%;
   }
 
   .list_area {
     width: 75%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem 0;
+    box-sizing: border-box;
 
     @media #{$tablet} {
       width: 100%;
@@ -533,54 +595,83 @@
 
   .list_header {
     margin: 0;
+    flex-shrink: 0;
+    padding-bottom: 1rem;
+  }
+
+  .list_title_row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    @media #{$phone} {
+      // Leave space for the absolutely positioned #list_menu_button (approx 3rem wide)
+      padding-right: 3.5rem;
+    }
+  }
+
+  .header_toggle_btn {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 0;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media #{$phone} {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .view_toggle {
+    display: flex;
+    gap: 2px;
+    margin-left: auto;
+
+    @media #{$phone} {
+      margin-left: 0;
+    }
+  }
+
+  .view_btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 0;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
   }
 
   .list_content {
     display: flex;
     flex-direction: column;
-
-    @media #{$tablet} {
-      height: 65vh;
-    }
-
-    @media #{$phone} {
-      height: 40vh;
-    }
-  }
-
-  .history_categories_container {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-
-    @media #{$phone} {
-      flex-direction: column;
-      gap: 0;
-    }
-  }
-
-  .history_area {
-    display: flex;
-    flex-direction: column;
     flex: 1;
-
-    @media #{$phone} {
-      width: 100%;
-    }
-  }
-
-  .categories_area {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    @media #{$phone} {
-      width: 100%;
-    }
-  }
-
-  hr {
-    width: 100%;
+    overflow-y: auto;
+    min-height: 0;
   }
 
   .category-section {
