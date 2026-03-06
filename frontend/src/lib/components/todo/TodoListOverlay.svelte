@@ -2,9 +2,10 @@
   // 1. IMPORTS
   import {
     createSharedTodoList,
-    updateSharedTodoList,
     deleteSharedTodoList,
+    updateSharedTodoList,
   } from '$lib/api/todo.api';
+  import EmojiPicker from '$lib/components/shared/EmojiPicker.svelte';
   import type { TodoList } from '$lib/types/todo.ts';
   import { isEmoji, isEnter } from '$lib/util/helper.ts';
   import { listOverlayOptionsStore } from '$lib/util/stores/store-other';
@@ -14,10 +15,8 @@
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
-  import Tooltip from 'carbon-components-svelte/src/Tooltip/Tooltip.svelte';
   import Copy from 'carbon-icons-svelte/lib/Copy.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
-  import EmojiPicker from '$lib/components/shared/EmojiPicker.svelte';
 
   // 2. PROPS
   let {
@@ -81,6 +80,7 @@
       name: localListName,
       emoji: localListEmoji || '📝',
       history: [],
+      categories: [],
       todos: [],
       isShared: false,
     };
@@ -166,6 +166,7 @@
             emoji: localListEmoji || '📝',
             todos: currentList.todos,
             history: currentList.history || [],
+            categories: currentList.categories || [],
             version: sharedList.version,
           });
         }
@@ -325,8 +326,12 @@
   {#if $initialized}
     <p>
       {isSharedList
-        ? $t('page.todos.overlay.deleteSharedWarning', { listName: localListName })
-        : $t('page.todos.overlay.deleteLocalWarning', { listName: localListName })}
+        ? $t('page.todos.overlay.deleteSharedWarning', {
+            listName: localListName,
+          })
+        : $t('page.todos.overlay.deleteLocalWarning', {
+            listName: localListName,
+          })}
     </p>
   {/if}
 </Modal>

@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [todo] Added server-side deletion for shared lists - when a shared list is deleted, it's removed from the backend.
 - [todo] Added cross-user deletion detection - automatically removes shared lists from all users when deleted by another user.
 - [todo] Added notification when a shared list is deleted by another user, with automatic list selection fallback.
+- [todo] Added categories history tracking - all used categories are now stored in a persistent list similar to todo history.
+- [todo] Added TodoCategories component displaying all categories with individual delete buttons and clear all functionality, positioned side-by-side with history on larger screens and stacked on mobile. Category tags and delete button are also responsive (side-by-side on desktop, stacked on mobile).
+- [todo] Added Tab key autocomplete for category input fields using existing categories with visual hint showing matched category.
+- [todo] Added click-to-insert functionality - clicking a category from the history inserts it into the focused category input field.
 - [memorandum] Added "Copy link URL" option to link context menu for easy URL copying to clipboard.
 - [memorandum] Added arrow-based reordering system with up/down buttons and "Move to Top/Bottom" context menu options for folders and links.
 - [memorandum] Added editable preset overlay with JSON validation, allowing direct editing of preset configuration with real-time validation and sync to localStorage/cloud.
@@ -27,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [todo] Added collapsible input section on mobile - a chevron toggle button next to the list name (visible only on phone) allows hiding/showing the History/Categories/Toggle/Input controls, giving more screen space to the todo list.
+- [todo] Refactored history and categories from inline accordions to modal dialogs for cleaner UI and better mobile experience.
+- [todo] Improved layout - todo list now takes remaining vertical space and scrolls independently with fixed header controls.
+- [todo] Redesigned TodoInputSection as static section with modal trigger buttons instead of accordion.
+- [todo] Refactored TodoItemList to display as modal component instead of inline accordion.
+- [todo] Redesigned clear history and clear categories buttons - moved to modal with dedicated "Clear all" button.
 - [backend] Updated all backend dependencies to latest compatible versions: NX 20.8.2 → 22.5.2, TypeScript 5.8.3 → 5.9.3, @swc/core 1.11.x → 1.15.13, NestJS packages to 11.1.14, Fastify 5.0.0 → 5.7.4, pino-http 10.2.0 → 11.0.0, cron 3.x → 4.4.0, and 50+ other packages.
 - [backend] Upgraded Mongoose from 8.1.1 to 9.2.2 with complete API migration (FilterQuery → mongodb.Filter) across 10 files.
 - [backend] Upgraded Jest from 29.7.0 to 30.2.0 with API migration (toThrowError → toThrow).
@@ -71,10 +81,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- [todo] Removed `amount` field from todo list entries completely - frontend types, components, input fields, translations, backend DTO, Mongoose schemas, and test data.
 - [global] Removed Renovate bot - dependencies will be managed manually going forward.
 - [memorandum] Removed drag-and-drop functionality for folders and links.
 
 ### Fixed
+
+- [todo] Fixed double checkbox in todo items - removed redundant hidden native input that caused `todoChecked` to fire twice on click.
+- [todo] Fixed History and Categories modals opening simultaneously - each modal now closes the other before opening.
+- [todo] Fixed category click-to-insert from Categories modal not working - modal focus steal caused focus-based detection to fail; replaced with explicit context tracking (`lastCategoryInputContext`) captured before the modal opens.
 
 - [frontend] Fixed Safari/iPhone "Cannot access uninitialized variable" error by refactoring applications.ts to eliminate top-level await and use Proxy pattern with async initialization.
 - [backend] Fixed 5 security vulnerabilities through dependency updates (21 → 16 vulnerabilities, 24% reduction).

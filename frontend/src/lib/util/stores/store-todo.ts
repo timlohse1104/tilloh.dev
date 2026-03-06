@@ -24,7 +24,12 @@ const getInitialValue = () => {
     const localStorageValue =
       JSON.parse(localStorage.getItem(localStorageKey)) || defaultValue;
     const backwardsCompatibleValue = ensureTodoListUUID(localStorageValue);
-    return backwardsCompatibleValue;
+    // Ensure categories property exists for backward compatibility
+    const withCategories = backwardsCompatibleValue.map((list: TodoList) => ({
+      ...list,
+      categories: list.categories || [],
+    }));
+    return withCategories;
   } else {
     return defaultValue;
   }

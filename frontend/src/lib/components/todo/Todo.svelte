@@ -15,16 +15,16 @@
     id,
     title,
     done,
-    amount,
     category,
+    categories,
     deleteTodo,
     todoChecked,
   }: {
     id: string;
     title: string;
     done?: boolean;
-    amount?: string;
     category?: string;
+    categories: string[];
     deleteTodo: () => void;
     todoChecked: () => void;
   } = $props();
@@ -32,21 +32,49 @@
   // 4. STATE
   let isRenaming = $state(false);
   let newTitle = $state('');
-  let newAmount = $state('');
   let newCategory = $state('');
   let todoObject: HTMLElement | undefined = $state(undefined);
 
   // 5. DERIVED
   let todoTitle = $derived(title);
-  let todoAmount = $derived(amount || '1x');
   let todoCategory = $derived(category || '');
   let isDone = $derived(done);
 
+  let categoryAutocomplete = $derived.by(() => {
+    if (!newCategory || newCategory.length === 0 || !isRenaming) return null;
+
+    const matches = categories.filter((cat) =>
+      cat.toLowerCase().startsWith(newCategory.toLowerCase()),
+    );
+
+    return matches.length > 0 ? matches[0] : null;
+  });
+
   // 8. FUNCTIONS
+  const autocompleteCategory = () => {
+    if (!newCategory) return;
+
+    const matches = categories.filter((cat) =>
+      cat.toLowerCase().startsWith(newCategory.toLowerCase()),
+    );
+
+    if (matches.length > 0) {
+      newCategory = matches[0];
+    }
+  };
+
+  const handleCategoryKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      autocompleteCategory();
+    } else if (e.key === 'Enter') {
+      e.stopPropagation();
+      saveEdit();
+    }
+  };
 
   const startEdit = () => {
     newTitle = todoTitle;
-    newAmount = todoAmount;
     newCategory = todoCategory;
     isRenaming = true;
   };
@@ -58,7 +86,6 @@
         detail: {
           id: id,
           title: newTitle,
-          amount: newAmount,
           category: newCategory,
         },
       });
@@ -70,14 +97,32 @@
   const cancelEdit = () => {
     isRenaming = false;
     newTitle = '';
-    newAmount = '';
     newCategory = '';
   };
 
   // 7. LIFECYCLE
   $effect(() => {
+    // Listen for category selection from category history
+    const handleCategorySelected = ((e: CustomEvent) => {
+      const context = e.detail.context;
+      const activeElement = document.activeElement as HTMLInputElement;
+      const wrapper = activeElement?.closest('[data-category-input="edit-todo"]');
+
+      if (isRenaming && (context === 'edit-todo' || wrapper)) {
+        newCategory = e.detail.category;
+      }
+    }) as EventListener;
+
+    window.addEventListener('category-selected', handleCategorySelected);
+
+    return () => {
+      window.removeEventListener('category-selected', handleCategorySelected);
+    };
+  });
+
+  $effect(() => {
     if (isRenaming) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           cancelEdit();
         }
@@ -99,19 +144,6 @@
     <div class="edit-container">
       <input
         type="text"
-        bind:value={newAmount}
-        placeholder={$t('page.todos.amount')}
-        maxlength="10"
-        class="amount-input"
-        onkeydown={(e) => {
-          if (e.key === 'Enter') {
-            e.stopPropagation();
-            saveEdit();
-          }
-        }}
-      />
-      <input
-        type="text"
         bind:value={newTitle}
         placeholder="Title"
         class="title-input"
@@ -122,18 +154,20 @@
           }
         }}
       />
-      <input
-        type="text"
-        bind:value={newCategory}
-        placeholder={$t('page.todos.categoryPlaceholder')}
-        class="category-input"
-        onkeydown={(e) => {
-          if (e.key === 'Enter') {
-            e.stopPropagation();
-            saveEdit();
-          }
-        }}
-      />
+      <div class="category-input-wrapper" data-category-input="edit-todo">
+        <input
+          type="text"
+          bind:value={newCategory}
+          placeholder={$t('page.todos.categoryPlaceholder')}
+          class="category-input"
+          onkeydown={handleCategoryKeydown}
+        />
+        {#if categoryAutocomplete && categoryAutocomplete !== newCategory}
+          <div class="autocomplete-hint">
+            <kbd>Tab</kbd> → {categoryAutocomplete}
+          </div>
+        {/if}
+      </div>
       <Button
         kind="primary"
         size="small"
@@ -152,19 +186,12 @@
       />
     </div>
   {:else}
-    <label class="checkbox-wrapper">
-      <input
-        type="checkbox"
-        checked={isDone}
-        onchange={todoChecked}
-        class="hidden-checkbox"
-      />
+    <div class="checkbox-wrapper">
       <Checkbox checked={isDone} readonly />
-      <span class="amount-label">{todoAmount}</span>
       <span class={isDone ? 'striked todo-label' : 'todo-label'}>
         {todoTitle}
       </span>
-    </label>
+    </div>
   {/if}
   <div
     onclick={(e) => e.stopPropagation()}
@@ -228,13 +255,6 @@
     pointer-events: none;
   }
 
-  .hidden-checkbox {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
   .todo-label {
     user-select: none;
     font-weight: 600;
@@ -246,14 +266,6 @@
     font-weight: 100;
   }
 
-  .amount-label {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-right: 0.5rem;
-    min-width: 3rem;
-    text-align: right;
-  }
-
   .edit-container {
     display: flex;
     gap: 0.5rem;
@@ -261,16 +273,45 @@
     flex: 1;
   }
 
-  .amount-input {
-    flex: 0 0 6rem;
-  }
-
   .title-input {
     flex: 2;
   }
 
-  .category-input {
+  .category-input-wrapper {
+    position: relative;
     flex: 1;
+  }
+
+  .category-input {
+    width: 100%;
+  }
+
+  .autocomplete-hint {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .autocomplete-hint kbd {
+    display: inline-block;
+    padding: 0.125rem 0.375rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    font-weight: 600;
+    margin-right: 0.25rem;
   }
 
 </style>

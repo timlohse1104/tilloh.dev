@@ -2,7 +2,6 @@ export type Todo = {
   id: string;
   title: string;
   done?: boolean;
-  amount?: string;
   category?: string;
 };
 
@@ -12,6 +11,7 @@ export type TodoList = {
   emoji: string;
   todos: Todo[];
   history: string[];
+  categories: string[];
   isShared?: boolean;
   sharedId?: string;
   version?: number;
@@ -23,6 +23,7 @@ export type SharedTodoListResponse = {
   emoji: string;
   todos: Todo[];
   history: string[];
+  categories: string[];
   version: number;
   created: string;
   updated: string;

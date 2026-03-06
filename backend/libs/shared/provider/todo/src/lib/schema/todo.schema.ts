@@ -14,9 +14,6 @@ class TodoItem {
   done?: boolean;
 
   @Prop({ required: false })
-  amount?: string;
-
-  @Prop({ required: false })
   category?: string;
 }
 
@@ -35,6 +32,9 @@ export class SharedTodoList {
 
   @Prop({ type: [String], required: false, default: [] })
   history?: string[];
+
+  @Prop({ type: [String], required: false, default: [] })
+  categories?: string[];
 
   @Prop({ type: Number, required: true, default: 1 })
   version!: number;

@@ -17,11 +17,6 @@ export class TodoItemDto {
   @IsBoolean()
   done?: boolean;
 
-  @ApiProperty({ description: 'Todo item amount', required: false })
-  @IsOptional()
-  @IsString()
-  amount?: string;
-
   @ApiProperty({ description: 'Todo item category', required: false })
   @IsOptional()
   @IsString()
@@ -52,6 +47,11 @@ export class SharedTodoListDto {
   @IsOptional()
   @IsArray()
   history?: string[];
+
+  @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
+  @IsOptional()
+  @IsArray()
+  categories?: string[];
 
   @ApiProperty({ description: 'Version for optimistic locking' })
   @IsNumber()
@@ -115,6 +115,11 @@ export class UpdateSharedTodoListInputDto {
   @IsOptional()
   @IsArray()
   history?: string[];
+
+  @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
+  @IsOptional()
+  @IsArray()
+  categories?: string[];
 
   @ApiProperty({ description: 'Current version for optimistic locking' })
   @IsNumber()

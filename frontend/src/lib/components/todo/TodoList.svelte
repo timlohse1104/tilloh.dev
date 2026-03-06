@@ -4,15 +4,15 @@
   import type { Todo } from '$lib/types/todo';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
-  import Accordion from 'carbon-components-svelte/src/Accordion/Accordion.svelte';
-  import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
-  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
-  import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
-  import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+  import Category from 'carbon-icons-svelte/lib/Category.svelte';
+  import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
+  import ChevronUp from 'carbon-icons-svelte/lib/ChevronUp.svelte';
+  import List from 'carbon-icons-svelte/lib/List.svelte';
   import { onMount } from 'svelte';
   import TodoComponent from './Todo.svelte';
-  import TodoInput from './TodoInput.svelte';
+  import TodoInputSection from './TodoInputSection.svelte';
+  import TodoItemList from './TodoItemList.svelte';
 
   // 2. PROPS
   let { listId }: { listId: string } = $props();
@@ -24,6 +24,10 @@
   let syncTimeout = $state<any>(null);
   let showConflictNotification = $state(false);
   let showDeletedNotification = $state(false);
+  let historyModalOpen = $state(false);
+  let categoriesModalOpen = $state(false);
+  let lastCategoryInputContext = $state<'new-todo' | 'edit-todo' | null>(null);
+  let headerExpanded = $state(true);
 
   // 5. DERIVED
   let list = $derived.by(() => {
@@ -34,11 +38,9 @@
 
     if (foundList) {
       // Sort todos: unchecked first, checked last
-      // Also ensure backwards compatibility: add amount and category if missing
       const sortedTodos = [...foundList.todos]
         .map((todo) => ({
           ...todo,
-          amount: todo.amount || '1x',
           category: todo.category || '',
         }))
         .sort((a, b) => {
@@ -49,6 +51,7 @@
       return {
         ...foundList,
         todos: sortedTodos,
+        categories: foundList.categories || [],
       };
     }
 
@@ -91,7 +94,6 @@
       renameTodo(
         e.detail.id,
         e.detail.title,
-        e.detail.amount,
         e.detail.category,
       );
     }) as EventListener);
@@ -130,6 +132,7 @@
           emoji: list.emoji,
           todos: list.todos,
           history: list.history,
+          categories: list.categories || [],
           version: list.version,
         });
 
@@ -169,7 +172,10 @@
       const result = await getSharedTodoList(list.sharedId);
 
       if (result.status === 404) {
-        console.log('List deleted by another user, removing locally:', list.name);
+        console.log(
+          'List deleted by another user, removing locally:',
+          list.name,
+        );
         // List was deleted by another user - remove from local store
         todoStore.update((todoListArray) => {
           return todoListArray.filter((l) => l.id !== listId);
@@ -201,6 +207,7 @@
                   emoji: serverList.emoji,
                   todos: serverList.todos,
                   history: serverList.history,
+                  categories: serverList.categories || [],
                   version: serverList.version,
                 };
               }
@@ -216,10 +223,28 @@
     }
   };
 
+  const updateCategories = (listId: string, newCategory?: string) => {
+    if (!newCategory) return;
+
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          const categories = list.categories || [];
+          if (!categories.includes(newCategory)) {
+            return {
+              ...list,
+              categories: [...categories, newCategory],
+            };
+          }
+        }
+        return list;
+      });
+    });
+  };
+
   const renameTodo = (
     todoId: string,
     newTitle: string,
-    newAmount: string,
     newCategory?: string,
   ) => {
     todoStore.update((todoListArray) => {
@@ -232,7 +257,6 @@
                 ? {
                     ...todo,
                     title: newTitle,
-                    amount: newAmount,
                     category:
                       newCategory !== undefined ? newCategory : todo.category,
                   }
@@ -243,6 +267,12 @@
         return list;
       });
     });
+
+    // Update categories if a new category was added
+    if (newCategory) {
+      updateCategories(listId, newCategory);
+    }
+
     syncSharedList();
   };
 
@@ -304,6 +334,37 @@
       });
     });
   };
+
+  const clearCategories = () => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            categories: [],
+          };
+        }
+        return list;
+      });
+    });
+    syncSharedList();
+  };
+
+  const removeCategory = (category: string) => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            categories: list.categories.filter((c) => c !== category),
+          };
+        }
+        return list;
+      });
+    });
+    syncSharedList();
+  };
+
   const readdTodoFromHistory = (entry: string) => {
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
@@ -316,7 +377,6 @@
                 id: crypto.randomUUID(),
                 title: entry,
                 done: false,
-                amount: '1x',
                 category: '',
               },
             ],
@@ -351,71 +411,68 @@
         on:close={() => (showDeletedNotification = false)}
       />
     {/if}
-    <div class="mt2 list_area">
+    <div class="list_area">
       <div class="list_header">
-        <h2>
-          {list?.emoji || $t('page.todos.list.noEmoji')}
-          {list?.name || $t('page.todos.list.noEmoji')}
-        </h2>
-        <hr />
-        <div class="history_area">
-          <Accordion>
-            <AccordionItem
-              title={$t('page.todos.list.history')}
-              class="custom_accordion_content"
+        <div class="list_title_row">
+          <h2>
+            {list?.emoji || $t('page.todos.list.noEmoji')}
+            {list?.name || $t('page.todos.list.noEmoji')}
+          </h2>
+          <div class="view_toggle">
+            <button
+              class="view_btn"
+              class:active={!isCategoryView}
+              onclick={() => (isCategoryView = false)}
+              title={$t('page.todos.view.classic')}
+              aria-label={$t('page.todos.view.classic')}
             >
-              {#if list?.history?.length > 0}
-                <div class="history_list">
-                  <div class="history_entry_list">
-                    {#each list.history as entry (entry)}
-                      <div class="history_tag_wrapper">
-                        <button
-                          onclick={() => readdTodoFromHistory(entry)}
-                          class="history_tag"
-                        >
-                          {entry}
-                        </button>
-                        <button
-                          onclick={(e) => {
-                            e.stopPropagation();
-                            removeEntryFromHistory(entry);
-                          }}
-                          class="history_delete_btn"
-                          title="Remove from history"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    {/each}
-                  </div>
-                  <Button
-                    kind="danger"
-                    size="small"
-                    iconDescription={$t('page.todos.deleteHistroy')}
-                    tooltipAlignment="end"
-                    icon={TrashCan}
-                    on:click={clearHistory}
-                    class="history_delete_button"
-                  />
-                </div>
-              {:else}
-                <pre class="status">{$t('page.todos.list.historyEmpty')}</pre>
-              {/if}
-            </AccordionItem>
-          </Accordion>
+              <List size={16} />
+            </button>
+            <button
+              class="view_btn"
+              class:active={isCategoryView}
+              onclick={() => (isCategoryView = true)}
+              title={$t('page.todos.view.byCategory')}
+              aria-label={$t('page.todos.view.byCategory')}
+            >
+              <Category size={16} />
+            </button>
+          </div>
+          <button
+            class="header_toggle_btn"
+            onclick={() => (headerExpanded = !headerExpanded)}
+            aria-label={headerExpanded ? $t('page.todos.collapseInput') : $t('page.todos.expandInput')}
+          >
+            {#if headerExpanded}
+              <ChevronUp size={20} />
+            {:else}
+              <ChevronDown size={20} />
+            {/if}
+          </button>
         </div>
-        <div class="view-toggle-container">
-          <Toggle
-            bind:toggled={isCategoryView}
-            labelA={$t('page.todos.view.classic')}
-            labelB={$t('page.todos.view.byCategory')}
-            size="sm"
+        {#if headerExpanded}
+          <TodoInputSection
+            {listId}
+            categories={list?.categories || []}
+            onTodoAdded={() => {
+              syncSharedList();
+            }}
+            onOpenHistory={() => { categoriesModalOpen = false; historyModalOpen = true; }}
+            onOpenCategories={() => {
+              historyModalOpen = false;
+              const activeEl = document.activeElement;
+              if (activeEl?.closest('[data-category-input="edit-todo"]')) {
+                lastCategoryInputContext = 'edit-todo';
+              } else {
+                lastCategoryInputContext = 'new-todo';
+              }
+              categoriesModalOpen = true;
+            }}
           />
-        </div>
-        <TodoInput {listId} onTodoAdded={syncSharedList} />
+        {/if}
       </div>
 
-      <div class="mt1 list_content">
+      <div class="list_content">
         {#if !isCategoryView}
           {#if Object.keys(list?.todos).length === 0}
             <pre class="status">{$t('page.todos.list.emptyList')}</pre>
@@ -425,8 +482,8 @@
                 id={todo.id}
                 title={todo.title}
                 done={todo.done}
-                amount={todo.amount}
                 category={todo.category}
+                categories={list?.categories || []}
                 deleteTodo={() => deleteTodo(todo.id)}
                 todoChecked={() => checkTodo(todo.id)}
               />
@@ -451,6 +508,7 @@
                   done={todo.done}
                   amount={todo.amount}
                   category={todo.category}
+                  categories={list?.categories || []}
                   deleteTodo={() => deleteTodo(todo.id)}
                   todoChecked={() => checkTodo(todo.id)}
                 />
@@ -460,6 +518,40 @@
         {/if}
       </div>
     </div>
+
+    <!-- History Modal -->
+    <TodoItemList
+      bind:open={historyModalOpen}
+      title={$t('page.todos.list.history')}
+      items={list?.history || []}
+      emptyMessage={$t('page.todos.list.historyEmpty')}
+      clearTooltip={$t('page.todos.deleteHistroy')}
+      onItemClick={readdTodoFromHistory}
+      onRemoveItem={removeEntryFromHistory}
+      onClearAll={clearHistory}
+      onClose={() => (historyModalOpen = false)}
+    />
+
+    <!-- Categories Modal -->
+    <TodoItemList
+      bind:open={categoriesModalOpen}
+      title={$t('page.todos.list.categories')}
+      items={list?.categories || []}
+      emptyMessage={$t('page.todos.list.categoriesEmpty')}
+      clearTooltip={$t('page.todos.deleteCategories')}
+      itemClickTooltip="Click to use this category"
+      onItemClick={(category) => {
+        window.dispatchEvent(
+          new CustomEvent('category-selected', {
+            detail: { category, context: lastCategoryInputContext },
+          }),
+        );
+      }}
+      onRemoveItem={removeCategory}
+      onClearAll={clearCategories}
+      onClose={() => (categoriesModalOpen = false)}
+      preventFocusSteal={true}
+    />
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -470,17 +562,20 @@
 
   section {
     padding: 0;
-  }
-
-  section {
     flex-direction: column;
     overflow: hidden;
     display: flex;
     align-items: center;
+    height: 100%;
   }
 
   .list_area {
     width: 75%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem 0;
+    box-sizing: border-box;
 
     @media #{$tablet} {
       width: 100%;
@@ -493,86 +588,83 @@
 
   .list_header {
     margin: 0;
+    flex-shrink: 0;
+    padding-bottom: 1rem;
+  }
+
+  .list_title_row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    @media #{$phone} {
+      // Leave space for the absolutely positioned #list_menu_button (approx 3rem wide)
+      padding-right: 3.5rem;
+    }
+  }
+
+  .header_toggle_btn {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 0;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media #{$phone} {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .view_toggle {
+    display: flex;
+    gap: 2px;
+    margin-left: auto;
+
+    @media #{$phone} {
+      margin-left: 0;
+    }
+  }
+
+  .view_btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 0;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
   }
 
   .list_content {
     display: flex;
     flex-direction: column;
-
-    @media #{$tablet} {
-      height: 65vh;
-    }
-
-    @media #{$phone} {
-      height: 40vh;
-    }
-  }
-
-  .history_area {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .history_list {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .history_entry_list {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  hr {
-    width: 100%;
-  }
-
-  .history_tag_wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin: 0.25rem;
-    background: #393939;
-    border-radius: 4px;
-    padding: 0.25rem 0.5rem;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background: #525252;
-    }
-  }
-
-  .history_tag {
-    background: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0;
-    font-size: 0.875rem;
-  }
-
-  .history_delete_btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1rem;
-    line-height: 1;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: #da1e28;
-    }
-  }
-
-  .view-toggle-container {
-    margin: 1rem 0;
-    display: flex;
-    justify-content: flex-end;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
   }
 
   .category-section {

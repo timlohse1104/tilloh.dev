@@ -18,7 +18,6 @@ describe('TodoPersistenceService', () => {
         id: 'todo-1',
         title: 'Test Todo',
         done: false,
-        amount: '1x',
         category: 'Test',
       },
     ],
