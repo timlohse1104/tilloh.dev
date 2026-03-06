@@ -112,12 +112,14 @@
 {#if $initialized}
   <section class="todo-input-container">
     <div class="input-row">
-      <TextInput
-        bind:value={newTodoName}
-        placeholder={$t('page.todos.newTodo')}
-        labelText={$t('page.todos.newTodo')}
-        on:keydown={(e) => e.key === 'Enter' && saveTodo()}
-      />
+      <div class="title-input-wrapper">
+        <TextInput
+          bind:value={newTodoName}
+          placeholder={$t('page.todos.newTodo')}
+          labelText={$t('page.todos.newTodo')}
+          on:keydown={(e) => e.key === 'Enter' && saveTodo()}
+        />
+      </div>
       <div class="category-input-wrapper" data-category-input="new-todo">
         <TextInput
           bind:value={newTodoCategory}
@@ -147,6 +149,8 @@
 {/if}
 
 <style lang="scss">
+  @use '../../styles/variables.scss' as *;
+
   .todo-input-container {
     width: 100%;
     margin-top: 1rem;
@@ -158,9 +162,15 @@
     align-items: flex-end;
   }
 
+  .title-input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
   .category-input-wrapper {
     position: relative;
     flex: 1;
+    min-width: 0;
   }
 
   .autocomplete-hint {
