@@ -38,11 +38,9 @@
 
     if (foundList) {
       // Sort todos: unchecked first, checked last
-      // Also ensure backwards compatibility: add amount and category if missing
       const sortedTodos = [...foundList.todos]
         .map((todo) => ({
           ...todo,
-          amount: todo.amount || '1x',
           category: todo.category || '',
         }))
         .sort((a, b) => {
@@ -96,7 +94,6 @@
       renameTodo(
         e.detail.id,
         e.detail.title,
-        e.detail.amount,
         e.detail.category,
       );
     }) as EventListener);
@@ -248,7 +245,6 @@
   const renameTodo = (
     todoId: string,
     newTitle: string,
-    newAmount: string,
     newCategory?: string,
   ) => {
     todoStore.update((todoListArray) => {
@@ -261,7 +257,6 @@
                 ? {
                     ...todo,
                     title: newTitle,
-                    amount: newAmount,
                     category:
                       newCategory !== undefined ? newCategory : todo.category,
                   }
@@ -382,7 +377,6 @@
                 id: crypto.randomUUID(),
                 title: entry,
                 done: false,
-                amount: '1x',
                 category: '',
               },
             ],
@@ -488,7 +482,6 @@
                 id={todo.id}
                 title={todo.title}
                 done={todo.done}
-                amount={todo.amount}
                 category={todo.category}
                 categories={list?.categories || []}
                 deleteTodo={() => deleteTodo(todo.id)}

@@ -14,9 +14,6 @@ class TodoItem {
   done?: boolean;
 
   @Prop({ required: false })
-  amount?: string;
-
-  @Prop({ required: false })
   category?: string;
 }
 

@@ -140,7 +140,6 @@
   "page.todos.list.emptyList": "Noch keine Einträge. Füge deinen ersten Eintrag hinzu!",
   "page.todos.list.emptyTitle": "Erstelle deine erste Liste.",
   "page.todos.list.emptySubtitle": "Klicke oben rechts auf den Menü-Button.",
-  "page.todos.amount": "Anzahl",
   "page.todos.category": "Kategorie",
   "page.todos.categoryPlaceholder": "Kategorie (optional)",
   "page.todos.uncategorized": "Allgemein",

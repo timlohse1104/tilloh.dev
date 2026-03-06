@@ -15,7 +15,6 @@
     id,
     title,
     done,
-    amount,
     category,
     categories,
     deleteTodo,
@@ -24,7 +23,6 @@
     id: string;
     title: string;
     done?: boolean;
-    amount?: string;
     category?: string;
     categories: string[];
     deleteTodo: () => void;
@@ -34,13 +32,11 @@
   // 4. STATE
   let isRenaming = $state(false);
   let newTitle = $state('');
-  let newAmount = $state('');
   let newCategory = $state('');
   let todoObject: HTMLElement | undefined = $state(undefined);
 
   // 5. DERIVED
   let todoTitle = $derived(title);
-  let todoAmount = $derived(amount || '1x');
   let todoCategory = $derived(category || '');
   let isDone = $derived(done);
 
@@ -79,7 +75,6 @@
 
   const startEdit = () => {
     newTitle = todoTitle;
-    newAmount = todoAmount;
     newCategory = todoCategory;
     isRenaming = true;
   };
@@ -91,7 +86,6 @@
         detail: {
           id: id,
           title: newTitle,
-          amount: newAmount,
           category: newCategory,
         },
       });
@@ -103,7 +97,6 @@
   const cancelEdit = () => {
     isRenaming = false;
     newTitle = '';
-    newAmount = '';
     newCategory = '';
   };
 
@@ -151,19 +144,6 @@
     <div class="edit-container">
       <input
         type="text"
-        bind:value={newAmount}
-        placeholder={$t('page.todos.amount')}
-        maxlength="10"
-        class="amount-input"
-        onkeydown={(e: KeyboardEvent) => {
-          if (e.key === 'Enter') {
-            e.stopPropagation();
-            saveEdit();
-          }
-        }}
-      />
-      <input
-        type="text"
         bind:value={newTitle}
         placeholder="Title"
         class="title-input"
@@ -208,7 +188,6 @@
   {:else}
     <div class="checkbox-wrapper">
       <Checkbox checked={isDone} readonly />
-      <span class="amount-label">{todoAmount}</span>
       <span class={isDone ? 'striked todo-label' : 'todo-label'}>
         {todoTitle}
       </span>
@@ -287,23 +266,11 @@
     font-weight: 100;
   }
 
-  .amount-label {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-right: 0.5rem;
-    min-width: 3rem;
-    text-align: right;
-  }
-
   .edit-container {
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
     flex: 1;
-  }
-
-  .amount-input {
-    flex: 0 0 6rem;
   }
 
   .title-input {

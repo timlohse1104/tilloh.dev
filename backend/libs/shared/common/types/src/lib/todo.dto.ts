@@ -17,11 +17,6 @@ export class TodoItemDto {
   @IsBoolean()
   done?: boolean;
 
-  @ApiProperty({ description: 'Todo item amount', required: false })
-  @IsOptional()
-  @IsString()
-  amount?: string;
-
   @ApiProperty({ description: 'Todo item category', required: false })
   @IsOptional()
   @IsString()

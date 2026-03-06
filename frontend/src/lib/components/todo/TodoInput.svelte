@@ -16,7 +16,6 @@
 
   // 4. STATE
   let newTodoName = $state('');
-  let newTodoAmount = $state('1x');
   let newTodoCategory = $state('');
 
   // 5. DERIVED
@@ -91,7 +90,6 @@
                   id: crypto.randomUUID(),
                   title: newTodoName,
                   done: false,
-                  amount: newTodoAmount || '1x',
                   category: newTodoCategory || '',
                 },
               ],
@@ -103,7 +101,6 @@
         });
       });
       newTodoName = '';
-      newTodoAmount = '1x';
       newTodoCategory = '';
     }
     if (onTodoAdded) {
@@ -115,14 +112,6 @@
 {#if $initialized}
   <section class="todo-input-container">
     <div class="input-row">
-      <div class="todo-amount-input">
-        <TextInput
-          bind:value={newTodoAmount}
-          placeholder={$t('page.todos.amount')}
-          labelText={$t('page.todos.amount')}
-          on:keydown={(e) => e.key === 'Enter' && saveTodo()}
-        />
-      </div>
       <TextInput
         bind:value={newTodoName}
         placeholder={$t('page.todos.newTodo')}
@@ -167,10 +156,6 @@
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
-  }
-
-  .todo-amount-input {
-    flex: 1;
   }
 
   .category-input-wrapper {

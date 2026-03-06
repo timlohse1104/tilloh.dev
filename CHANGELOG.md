@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- [todo] Removed `amount` field from todo list entries completely - frontend types, components, input fields, translations, backend DTO, Mongoose schemas, and test data.
 - [global] Removed Renovate bot - dependencies will be managed manually going forward.
 - [memorandum] Removed drag-and-drop functionality for folders and links.
 

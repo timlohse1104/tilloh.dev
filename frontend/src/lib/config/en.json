@@ -140,7 +140,6 @@
   "page.todos.list.emptyList": "No todos yet. Add your first entry!",
   "page.todos.list.emptyTitle": "Create your first list to start.",
   "page.todos.list.emptySubtitle": "Click the menu button in the top right corner.",
-  "page.todos.amount": "Amount",
   "page.todos.category": "Category",
   "page.todos.categoryPlaceholder": "Category (optional)",
   "page.todos.uncategorized": "General",
