@@ -309,7 +309,7 @@
         {/if}
         <div class="main_content">
           <Button
-            kind="tertiary"
+            kind="primary"
             iconDescription={$t('page.todos.sideMenu.title')}
             icon={Catalog}
             id="list_menu_button"
@@ -399,9 +399,9 @@
   }
 
   :global(#list_menu_button) {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: calc(var(--default_padding) / 10);
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 100;
   }
 </style>

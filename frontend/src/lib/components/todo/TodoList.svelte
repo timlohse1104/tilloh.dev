@@ -91,11 +91,7 @@
   onMount(() => {
     // Listen for rename events from Todo components
     window.addEventListener('rename', ((e: CustomEvent) => {
-      renameTodo(
-        e.detail.id,
-        e.detail.title,
-        e.detail.category,
-      );
+      renameTodo(e.detail.id, e.detail.title, e.detail.category);
     }) as EventListener);
   });
 
@@ -441,7 +437,9 @@
           <button
             class="header_toggle_btn"
             onclick={() => (headerExpanded = !headerExpanded)}
-            aria-label={headerExpanded ? $t('page.todos.collapseInput') : $t('page.todos.expandInput')}
+            aria-label={headerExpanded
+              ? $t('page.todos.collapseInput')
+              : $t('page.todos.expandInput')}
           >
             {#if headerExpanded}
               <ChevronUp size={20} />
@@ -457,7 +455,10 @@
             onTodoAdded={() => {
               syncSharedList();
             }}
-            onOpenHistory={() => { categoriesModalOpen = false; historyModalOpen = true; }}
+            onOpenHistory={() => {
+              categoriesModalOpen = false;
+              historyModalOpen = true;
+            }}
             onOpenCategories={() => {
               historyModalOpen = false;
               const activeEl = document.activeElement;
@@ -570,7 +571,7 @@
   }
 
   .list_area {
-    width: 75%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -597,9 +598,8 @@
     align-items: center;
     gap: 0.5rem;
 
-    @media #{$phone} {
-      // Leave space for the absolutely positioned #list_menu_button (approx 3rem wide)
-      padding-right: 3.5rem;
+    h2 {
+      flex: 1;
     }
   }
 
@@ -645,7 +645,9 @@
     padding: 0.25rem;
     line-height: 0;
     flex-shrink: 0;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.08);
@@ -664,6 +666,7 @@
     flex-direction: column;
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     min-height: 0;
   }
 
