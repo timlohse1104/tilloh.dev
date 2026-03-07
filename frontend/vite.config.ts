@@ -6,7 +6,9 @@ export default defineConfig({
   root: __dirname,
   cacheDir: './node_modules/.vite/.',
   build: {
-    target: 'esnext', //browsers can handle the latest ES features
+    // Target Safari 14+ to transpile top-level await away, avoiding WebKit bug:
+    // https://bugs.webkit.org/show_bug.cgi?id=242740
+    target: ['es2020', 'safari14'],
   },
   plugins: [nxViteTsPaths(), sveltekit()],
 
