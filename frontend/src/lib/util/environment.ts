@@ -1,8 +1,24 @@
+import { dev } from '$app/environment';
+
+// Default URLs — overridden by /config/config.json if present at runtime.
+// No top-level await is used here to ensure Safari 14 compatibility
+// (WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=242740)
 export const environment = {
-  localApiBaseUrl: (await fetchBackendUrl()) || 'http://localhost:61154/v1',
-  productionApiBaseUrl:
-    (await fetchBackendUrl()) || 'https://api.tilloh.dev/v1',
+  localApiBaseUrl: 'http://localhost:61154/v1',
+  productionApiBaseUrl: 'https://api.tilloh.dev/v1',
 };
+
+export const getApiURL = () =>
+  dev ? environment.localApiBaseUrl : environment.productionApiBaseUrl;
+
+// Eagerly start the config fetch; update environment once resolved.
+// By the time the user triggers any API call, this will have settled.
+fetchBackendUrl().then((url) => {
+  if (url) {
+    environment.localApiBaseUrl = url;
+    environment.productionApiBaseUrl = url;
+  }
+});
 
 async function fetchBackendUrl(): Promise<string> {
   let configResponse;

@@ -1,16 +1,12 @@
-import { dev } from '$app/environment';
 import type { SharedTodoListResponse } from '$lib/types/todo';
-import { environment } from '$lib/util/environment';
+import { getApiURL } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
 
 export const getSharedTodoList = async (
   sharedId: string,
 ): Promise<{ status: number; data: SharedTodoListResponse | null }> => {
-  const response = await fetch(`${apiURL}/shared-todo-lists/${sharedId}`);
+  const response = await fetch(`${getApiURL()}/shared-todo-lists/${sharedId}`);
 
   const responseData = response.ok ? await response.json() : null;
 
@@ -24,7 +20,7 @@ export const createSharedTodoList = async (
   name: string,
   emoji: string,
 ): Promise<SharedTodoListResponse> => {
-  return await fetch(`${apiURL}/shared-todo-lists`, {
+  return await fetch(`${getApiURL()}/shared-todo-lists`, {
     method: 'POST',
     headers: createHeaders(),
     body: JSON.stringify({ name, emoji }),
@@ -42,7 +38,7 @@ export const updateSharedTodoList = async (
     version: number;
   },
 ): Promise<{ status: number; data: SharedTodoListResponse | null }> => {
-  const response = await fetch(`${apiURL}/shared-todo-lists/${sharedId}`, {
+  const response = await fetch(`${getApiURL()}/shared-todo-lists/${sharedId}`, {
     method: 'PUT',
     headers: createHeaders(),
     body: JSON.stringify({ ...data, id: sharedId }),
@@ -59,7 +55,7 @@ export const updateSharedTodoList = async (
 export const deleteSharedTodoList = async (
   sharedId: string,
 ): Promise<SharedTodoListResponse> => {
-  return await fetch(`${apiURL}/shared-todo-lists/${sharedId}`, {
+  return await fetch(`${getApiURL()}/shared-todo-lists/${sharedId}`, {
     method: 'DELETE',
   }).then((res) => res.json());
 };

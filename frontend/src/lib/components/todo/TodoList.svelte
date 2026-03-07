@@ -507,7 +507,6 @@
                   id={todo.id}
                   title={todo.title}
                   done={todo.done}
-                  amount={todo.amount}
                   category={todo.category}
                   categories={list?.categories || []}
                   deleteTodo={() => deleteTodo(todo.id)}

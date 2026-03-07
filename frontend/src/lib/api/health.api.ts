@@ -1,27 +1,23 @@
-import { dev } from '$app/environment';
-import { environment } from '$lib/util/environment';
+import { getApiURL } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
 
 export const getMetrics = async (adminToken: string) => {
-  return await fetch(`${apiURL}/metrics`, {
+  return await fetch(`${getApiURL()}/metrics`, {
     method: 'GET',
     headers: createHeaders(adminToken),
   }).then((res) => res.text());
 };
 
 export const readyz = async (adminToken: string) => {
-  return await fetch(`${apiURL}/health/readyz`, {
+  return await fetch(`${getApiURL()}/health/readyz`, {
     method: 'GET',
     headers: createHeaders(adminToken),
   }).then((res) => res.text());
 };
 
 export const livez = async (adminToken: string) => {
-  return await fetch(`${apiURL}/health/livez`, {
+  return await fetch(`${getApiURL()}/health/livez`, {
     method: 'GET',
     headers: createHeaders(adminToken),
   }).then((res) => res.text());
