@@ -132,7 +132,7 @@
             {@const Icon = route.icon}
             <Icon />
           {/if}
-          {route.name[locale]}
+          <span class="nav_label">{route.name[locale]}</span>
         </div>
       </Switch>
     {/each}
@@ -158,5 +158,13 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    @media #{$phone} {
+      gap: 0;
+
+      .nav_label {
+        display: none;
+      }
+    }
   }
 </style>
