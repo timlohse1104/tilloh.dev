@@ -1,13 +1,9 @@
-import { browser, dev } from '$app/environment';
-import { environment } from '$lib/util/environment';
+import { browser } from '$app/environment';
+import { getApiURL } from '$lib/util/environment';
 import { sharedIdentifierStore } from '$lib/util/stores/store-other';
 import { writable } from 'svelte/store';
 import { defaultColor } from '../memorandum/constants';
 import { ensureFolderUUID } from '../uuid';
-
-const apiURL = dev
-  ? environment.localApiBaseUrl
-  : environment.productionApiBaseUrl;
 
 const linkPresetDefault = '{"Folders": []}';
 const linkPresetKey = 'memorandum.link-preset';
@@ -78,7 +74,7 @@ export const refreshPresetStore = async () => {
 
 // Online preset
 const getRemotePreset = (identifier, key) => {
-  return fetch(`${apiURL}/keystore/${identifier}/${key}`)
+  return fetch(`${getApiURL()}/keystore/${identifier}/${key}`)
     .then((res) => res.json())
     .then((data) => {
       return data;
@@ -86,7 +82,7 @@ const getRemotePreset = (identifier, key) => {
 };
 
 const createRemotePreset = (identifier, key, value) => {
-  return fetch(`${apiURL}/keystore`, {
+  return fetch(`${getApiURL()}/keystore`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -100,7 +96,7 @@ const createRemotePreset = (identifier, key, value) => {
 };
 
 const updateRemotePreset = (identifier, key, value) => {
-  return fetch(`${apiURL}/keystore/${identifier}/${key}`, {
+  return fetch(`${getApiURL()}/keystore/${identifier}/${key}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -118,7 +114,10 @@ let sharedIdentifier;
 sharedIdentifierStore.subscribe((val) => (sharedIdentifier = val));
 
 if (browser) {
-  await refreshPresetStore();
+  // No top-level await — wrap in async IIFE
+  (async () => {
+    await refreshPresetStore();
+  })();
 }
 
 if (browser) {
