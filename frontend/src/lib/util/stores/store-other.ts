@@ -11,40 +11,42 @@ export const listOverlayOptionsStore = writable({
 
 // Online persistence - Identifier
 const sharedIdentifierKey = 'shared.identifier';
-let sharedIdentifierDefault = '{}';
 
-if (browser) {
-  const localIdentifier = localStorage.getItem(sharedIdentifierKey);
-  let identifierResetted = false;
-
-  if (!localIdentifier) {
-    localStorage.setItem(sharedIdentifierKey, sharedIdentifierDefault);
-    identifierResetted = true;
-  } else {
-    sharedIdentifierDefault = localIdentifier;
+const getInitialIdentifier = (): string => {
+  if (!browser) return '{}';
+  const local = localStorage.getItem(sharedIdentifierKey);
+  if (!local) {
+    localStorage.setItem(sharedIdentifierKey, '{}');
+    return '{}';
   }
+  return local;
+};
 
-  if (!identifierResetted) {
-    let remoteIdentifier;
-    try {
-      remoteIdentifier = await getIdentifier(JSON.parse(localIdentifier).id);
-    } catch (error) {
-      console.error('Error while fetching remote identifier.', error);
-    }
-    if (remoteIdentifier.name === JSON.parse(localIdentifier).name) {
-      console.log('Remote identifier fetched successfully.');
-      sharedIdentifierDefault = localIdentifier;
-    } else {
-      console.log('Remote identifier not found. Resetting local identifier.');
-    }
-  }
-}
+const initialIdentifier = getInitialIdentifier();
 
 export const sharedIdentifierStore = writable<Identifier>(
-  JSON.parse(sharedIdentifierDefault),
+  JSON.parse(initialIdentifier),
 );
 
 if (browser) {
+  // Async validation of local identifier against remote (no top-level await)
+  const parsed = JSON.parse(initialIdentifier);
+  if (parsed?.id) {
+    (async () => {
+      try {
+        const remoteIdentifier = await getIdentifier(parsed.id);
+        if (remoteIdentifier?.name === parsed.name) {
+          console.log('Remote identifier fetched successfully.');
+        } else {
+          console.log('Remote identifier not found. Resetting local identifier.');
+          sharedIdentifierStore.set({} as Identifier);
+        }
+      } catch (error) {
+        console.error('Error while fetching remote identifier.', error);
+      }
+    })();
+  }
+
   sharedIdentifierStore.subscribe((val) => {
     localStorage.setItem(sharedIdentifierKey, JSON.stringify(val));
   });
