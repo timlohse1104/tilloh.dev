@@ -6,7 +6,6 @@
   import { initialized, setLocale, t } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
-  const { 'catch-em-all': catchEmAllRoute } = applicationRoutes;
   const GAME_WIDTH = 500;
   const GAME_HEIGHT = 1000;
 
@@ -14,6 +13,7 @@
   let ctx;
 
   $: locale = $languageStore;
+  $: catchEmAllRoute = $applicationRoutes['catch-em-all'];
 
   onMount(async () => {
     await setLocale($languageStore);

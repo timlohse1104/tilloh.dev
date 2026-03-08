@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [frontend] Fixed `TypeError: Cannot read properties of undefined (reading 'de')` by replacing the non-reactive Proxy in `applications.ts` with a Svelte writable store initialized with proper default route values. All consumer components updated to use reactive store access (`$applicationRoutes`).
+
 ### Added
 
 - [shared] Added reusable EmojiPicker component with inline expandable dropdown, bilingual keyword search (EN/DE), scrollable grid view, and categorized emoji selection covering 200+ common emojis.

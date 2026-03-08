@@ -1,3 +1,4 @@
+import type { Route } from '$lib/types/route';
 import { TogglesEnum } from '$lib/types/toggle.dto';
 import { getToggleValue } from '$lib/util/toggle';
 import Bookmark from 'carbon-icons-svelte/lib/Bookmark.svelte';
@@ -13,13 +14,21 @@ import RadioButtonChecked from 'carbon-icons-svelte/lib/RadioButtonChecked.svelt
 import Restaurant from 'carbon-icons-svelte/lib/Restaurant.svelte';
 import SecurityServices from 'carbon-icons-svelte/lib/SecurityServices.svelte';
 import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
+import { writable } from 'svelte/store';
 
-// Safari compatibility: Avoid top-level await by loading routes lazily
-// This object will be populated after the first access
-let cachedRoutes: any = null;
+export type ApplicationRoutes = {
+  home: Route;
+  memorandum: Route;
+  jokes: Route;
+  todo: Route;
+  'food-scan': Route;
+  chat: Route;
+  'catch-em-all': Route;
+  'uno-sort': Route;
+  about: Route;
+};
 
-const loadApplications = async () => {
-  // Load all toggle values in parallel for better performance
+const loadApplications = async (): Promise<ApplicationRoutes> => {
   const [
     memorandumToggle,
     jokesToggle,
@@ -28,7 +37,7 @@ const loadApplications = async () => {
     chatToggle,
     catchEmAllToggle,
     unoSortToggle,
-    aboutToggle
+    aboutToggle,
   ] = await Promise.all([
     getToggleValue(TogglesEnum.memorandum),
     getToggleValue(TogglesEnum.jokes),
@@ -41,98 +50,34 @@ const loadApplications = async () => {
   ]);
 
   return {
-    home: {
-      id: 'home',
-      name: { en: 'Home', de: 'Startseite' },
-      path: '/',
-      icon: Home,
-      toggle: true,
-    },
-    memorandum: {
-      id: 'memorandum',
-      name: { en: 'Memorandum', de: 'Memorandum' },
-      path: '/memorandum',
-      icon: Bookmark,
-      toggle: memorandumToggle,
-    },
-    jokes: {
-      id: 'jokes',
-      name: { en: 'Jokes', de: 'Witze' },
-      path: '/jokes',
-      icon: Cognitive,
-      toggle: jokesToggle,
-    },
-    todo: {
-      id: 'todo',
-      name: { en: 'Lists', de: 'Listen' },
-      path: '/todo',
-      icon: ListBoxes,
-      toggle: todoToggle,
-    },
-    'food-scan': {
-      id: 'food-scan',
-      name: { en: 'Food Scan', de: 'Essen-Scan' },
-      path: '/food-scan',
-      icon: Restaurant,
-      toggle: foodScanToggle,
-    },
-    chat: {
-      id: 'chat',
-      name: { en: 'Chat', de: 'Klönschnack' },
-      path: '/chat',
-      icon: Chat,
-      toggle: chatToggle,
-    },
-    'catch-em-all': {
-      id: 'catch-em-all',
-      name: { en: 'Catch-em-all', de: 'Catch-em-all' },
-      path: '/catch-em-all',
-      icon: GameConsole,
-      toggle: catchEmAllToggle,
-    },
-    'uno-sort': {
-      id: 'uno-sort',
-      name: { en: 'Uno sort', de: 'Uno Sortierung' },
-      path: '/uno-sort',
-      icon: GameConsole,
-      toggle: unoSortToggle,
-    },
-    about: {
-      id: 'about',
-      name: { en: 'About me', de: 'Über mich' },
-      path: '/about',
-      icon: Identification,
-      toggle: aboutToggle,
-    },
+    home: { id: 'home', name: { en: 'Home', de: 'Startseite' }, path: '/', icon: Home, toggle: true },
+    memorandum: { id: 'memorandum', name: { en: 'Memorandum', de: 'Memorandum' }, path: '/memorandum', icon: Bookmark, toggle: memorandumToggle },
+    jokes: { id: 'jokes', name: { en: 'Jokes', de: 'Witze' }, path: '/jokes', icon: Cognitive, toggle: jokesToggle },
+    todo: { id: 'todo', name: { en: 'Lists', de: 'Listen' }, path: '/todo', icon: ListBoxes, toggle: todoToggle },
+    'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: foodScanToggle },
+    chat: { id: 'chat', name: { en: 'Chat', de: 'Klönschnack' }, path: '/chat', icon: Chat, toggle: chatToggle },
+    'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: catchEmAllToggle },
+    'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: unoSortToggle },
+    about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: aboutToggle },
   };
 };
 
-// Initialize immediately but don't block module loading
-loadApplications().then(routes => {
-  cachedRoutes = routes;
-});
+const defaultApplicationRoutes: ApplicationRoutes = {
+  home: { id: 'home', name: { en: 'Home', de: 'Startseite' }, path: '/', icon: Home, toggle: true },
+  memorandum: { id: 'memorandum', name: { en: 'Memorandum', de: 'Memorandum' }, path: '/memorandum', icon: Bookmark, toggle: false },
+  jokes: { id: 'jokes', name: { en: 'Jokes', de: 'Witze' }, path: '/jokes', icon: Cognitive, toggle: false },
+  todo: { id: 'todo', name: { en: 'Lists', de: 'Listen' }, path: '/todo', icon: ListBoxes, toggle: false },
+  'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: false },
+  chat: { id: 'chat', name: { en: 'Chat', de: 'Klönschnack' }, path: '/chat', icon: Chat, toggle: false },
+  'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: false },
+  'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: false },
+  about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: false },
+};
 
-// Export a Proxy that provides access to routes once loaded
-// This maintains backwards compatibility while avoiding top-level await
-export const applicationRoutes = new Proxy({} as Awaited<ReturnType<typeof loadApplications>>, {
-  get(_target, prop) {
-    if (cachedRoutes) {
-      return cachedRoutes[prop];
-    }
-    // If not loaded yet, return a placeholder with default toggle false
-    // This prevents errors while loading
-    return { toggle: false };
-  },
-  ownKeys(_target) {
-    return cachedRoutes ? Reflect.ownKeys(cachedRoutes) : [];
-  },
-  getOwnPropertyDescriptor(_target, prop) {
-    if (cachedRoutes) {
-      return Reflect.getOwnPropertyDescriptor(cachedRoutes, prop);
-    }
-    return undefined;
-  }
-});
+export const applicationRoutes = writable<ApplicationRoutes>(defaultApplicationRoutes);
+
+// Load actual toggle values from backend and update store reactively
+loadApplications().then((routes) => applicationRoutes.set(routes));
 
 export const utilityRoutes = {
   settings: {

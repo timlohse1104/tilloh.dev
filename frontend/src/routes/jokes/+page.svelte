@@ -7,11 +7,11 @@
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
-  // 2. CONST (non-reactive constants)
-  const { jokes: jokesRoute } = applicationRoutes;
-
   // 4. STATE
   let locale = $state($languageStore);
+
+  // 5. DERIVED
+  const jokesRoute = $derived($applicationRoutes.jokes);
 
   // 7. LIFECYCLE
   onMount(async () => {

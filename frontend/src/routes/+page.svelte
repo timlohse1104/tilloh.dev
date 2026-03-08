@@ -13,8 +13,10 @@
   import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
 
   // 2. CONST (non-reactive constants)
-  const { home: homeRoute } = applicationRoutes;
   const { settings } = utilityRoutes;
+
+  // 5. DERIVED
+  const homeRoute = $derived($applicationRoutes.home);
 
   // 4. STATE
   let locale = $state($languageStore);
@@ -42,7 +44,7 @@
 </svelte:head>
 
 <section class="mt1">
-  <Navigation routes={Object.values(applicationRoutes)} />
+  <Navigation routes={Object.values($applicationRoutes)} />
   <SearchBar />
 
   <div class="mt2">

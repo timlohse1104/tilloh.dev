@@ -9,9 +9,6 @@
   import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import { onMount } from 'svelte';
 
-  // 2. CONST (non-reactive constants)
-  const { 'uno-sort': unoSortRoute } = applicationRoutes;
-
   // 4. STATE
   let handSizeElement = $state(undefined);
   let stackSizeElement = $state(undefined);
@@ -21,6 +18,7 @@
   let locale = $state($languageStore);
 
   // 5. DERIVED
+  const unoSortRoute = $derived($applicationRoutes['uno-sort']);
   const stackSize = $derived(unoSort?.getStackSize());
 
   // 7. LIFECYCLE

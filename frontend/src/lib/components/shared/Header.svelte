@@ -9,12 +9,12 @@
   export let locale;
 
   const getCurrentPage = () => {
-    const plainPage = applicationRoutes[pageName] || utilityRoutes[pageName];
+    const plainPage = $applicationRoutes[pageName] || utilityRoutes[pageName];
     if (!plainPage && pageName) {
       const pageNameParts = pageName.split('/');
       if (pageNameParts.length > 1) {
         const routeKey = pageNameParts[0];
-        return applicationRoutes[routeKey] || utilityRoutes[routeKey];
+        return $applicationRoutes[routeKey] || utilityRoutes[routeKey];
       }
     }
     return plainPage;
@@ -31,7 +31,7 @@
       kind="ghost"
       iconDescription={$t('page.shared.toggledSiteBackButtonText')}
       tooltipAlignment="end"
-      href={applicationRoutes.home.path}
+      href={$applicationRoutes.home.path}
       class="home_button"
     >
       <img

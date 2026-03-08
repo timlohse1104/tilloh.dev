@@ -22,7 +22,6 @@
   import { onMount } from 'svelte';
 
   // 2. CONST (non-reactive constants)
-  const { todo: todoRoute } = applicationRoutes;
   const LAST_VIEWED_LIST_KEY = 'tilloh-dev:todo:lastViewedListId';
 
   // 4. STATE
@@ -34,6 +33,9 @@
   let importSharedId = $state('');
   let importErrorMessage = $state('');
   let showImportError = $state(false);
+
+  // 5. DERIVED
+  const todoRoute = $derived($applicationRoutes.todo);
 
   // 6. EFFECTS
   $effect(() => {

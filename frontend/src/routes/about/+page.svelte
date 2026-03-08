@@ -6,9 +6,8 @@
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
-  const { about: aboutRoute } = applicationRoutes;
-
   $: locale = $languageStore;
+  $: aboutRoute = $applicationRoutes.about;
 
   onMount(async () => {
     await setLocale($languageStore);

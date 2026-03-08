@@ -8,7 +8,7 @@
 
   let globalMenuObject;
 
-  $: appLinks = Object.values(applicationRoutes).map((route) => ({
+  $: appLinks = Object.values($applicationRoutes).map((route) => ({
     id: route.id,
     title: route.name[locale],
     link: route.path,

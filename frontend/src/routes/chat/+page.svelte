@@ -5,9 +5,8 @@
   import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
 
-  const { chat: chatRoute } = applicationRoutes;
-
   $: locale = $languageStore;
+  $: chatRoute = $applicationRoutes.chat;
 
   onMount(async () => {
     await setLocale($languageStore);

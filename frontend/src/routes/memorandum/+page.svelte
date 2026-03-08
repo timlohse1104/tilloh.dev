@@ -26,7 +26,6 @@
   import Workspace from 'carbon-icons-svelte/lib/Workspace.svelte';
   import { onMount } from 'svelte';
 
-  const { memorandum: memorandumRoute } = applicationRoutes;
   const orders: Order[] = [
     {
       id: 'fixed',
@@ -42,6 +41,7 @@
 
   let searchQuery = $state('');
 
+  const memorandumRoute = $derived($applicationRoutes.memorandum);
   const locale = $derived($languageStore);
   const order = $derived($folderOrderFolder
     ? orders.find((o) => o.id === $folderOrderFolder)
