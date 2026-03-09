@@ -85,6 +85,7 @@
   on:click:button--primary={editFolder}
   on:click:button--secondary={closeOverlay}
   style="background-color:{customColor.getRGBA()}"
+  hasScrollingContent
 >
   {#if $initialized}
     <TextInput
@@ -175,11 +176,17 @@
 />
 
 <style lang="scss">
+  @use '../../styles/variables.scss' as *;
+
   .folder_color_value_fields {
     display: flex;
     justify-content: center;
     align-items: start;
     gap: 1rem;
+
+    @media #{$phone} {
+      flex-wrap: wrap;
+    }
   }
 
   .folder_color_value_setting_fields {

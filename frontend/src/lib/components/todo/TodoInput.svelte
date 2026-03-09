@@ -161,17 +161,29 @@
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
+
+    @media #{$phone} {
+      flex-wrap: wrap;
+    }
   }
 
   .title-input-wrapper {
     flex: 1;
     min-width: 0;
+
+    @media #{$phone} {
+      flex: 1 1 100%;
+    }
   }
 
   .category-input-wrapper {
     position: relative;
     flex: 1;
     min-width: 0;
+
+    @media #{$phone} {
+      flex: 1 1 100%;
+    }
   }
 
   .autocomplete-hint {
