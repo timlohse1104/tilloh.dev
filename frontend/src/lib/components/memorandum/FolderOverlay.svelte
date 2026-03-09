@@ -113,6 +113,17 @@
 
     {#if customColorActive}
       <div class="color_settings">
+        <div class="color_preview_row">
+          <div
+            class="color_preview_box"
+            style="background-color: {customColor.getRGBA()}"
+          ></div>
+          <div class="color_preview_text">
+            <p class="color_preview_label">{$t('page.memorandum.folder.colorPreviewLabel')}</p>
+            <p class="color_preview_description">{$t('page.memorandum.folder.colorPreviewDescription')}</p>
+          </div>
+        </div>
+
         <Slider
           bind:value={r}
           labelText={$t('page.shared.red')}
@@ -187,6 +198,43 @@
 
   .color_settings {
     margin-top: 1rem;
+  }
+
+  .color_preview_row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .color_preview_box {
+    width: 5rem;
+    height: 5rem;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.1s ease;
+  }
+
+  .color_preview_text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .color_preview_label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .color_preview_description {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
   }
 
   .folder_color_value_fields {

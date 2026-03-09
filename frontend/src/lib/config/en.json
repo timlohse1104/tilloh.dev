@@ -21,6 +21,8 @@
   "page.memorandum.folder.editTitle": "Edit folder",
   "page.memorandum.folder.nameOfFolderHelptext": "Name of folder",
   "page.memorandum.folder.setBackgroundColorQuestion": "Want to change the folder background color?",
+  "page.memorandum.folder.colorPreviewLabel": "Color preview",
+  "page.memorandum.folder.colorPreviewDescription": "The color updates live as you adjust the sliders.",
   "page.memorandum.folder.currentValues": "Current values",
   "page.memorandum.folder.newValues": "New values",
   "page.memorandum.folder.copyColorValues": "Copy color values.",
