@@ -65,7 +65,7 @@
   }
 
   p {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     margin-bottom: 0;
     margin-top: 0.75rem;
     opacity: 0.7;

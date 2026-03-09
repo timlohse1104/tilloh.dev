@@ -288,6 +288,7 @@
 
     @media only screen and (max-width: 767px) {
       flex: 1 1 100%;
+      font-size: 16px;
     }
   }
 
@@ -298,6 +299,10 @@
 
   .category-input {
     width: 100%;
+
+    @media only screen and (max-width: 767px) {
+      font-size: 16px;
+    }
   }
 
   .autocomplete-hint {
@@ -314,6 +319,10 @@
     white-space: nowrap;
     z-index: 10;
     pointer-events: none;
+
+    @media only screen and (max-width: 767px) {
+      display: none;
+    }
   }
 
   .autocomplete-hint kbd {

@@ -384,6 +384,11 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
+
+    @media only screen and (max-width: 767px) {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
   }
 
   .app_content {

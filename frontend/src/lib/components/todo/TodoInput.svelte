@@ -200,6 +200,10 @@
     white-space: nowrap;
     z-index: 10;
     pointer-events: none;
+
+    @media #{$phone} {
+      display: none;
+    }
   }
 
   .autocomplete-hint kbd {
