@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.
 - [memorandum] Empty state redesigned as Carbon Tile cards with title, description, and CTA buttons.
 - [memorandum] FAB add-folder button is now `kind="primary"` and hidden in empty state.
+- [memorandum] Folder and Link now show an `OverflowMenu` (kebab menu) on phone/tablet as alternative to right-click ContextMenu. Desktop keeps the existing ContextMenu unchanged.
+- [todo] Edit button (pencil icon) added to Todo items on mobile as alternative to right-click ContextMenu.
+
+### Fixed
+
+- [memorandum] `FolderOverlay` modal now has `hasScrollingContent` so sliders and inputs are scrollable on mobile.
+- [memorandum] Folder arrow buttons on phone now have `min-height: 44px` touch target (was too small).
+- [memorandum] FolderOverlay color value fields wrap on `$phone` instead of overflowing.
+- [admin] Replaced `width: 100vw` with `width: 100%` in `.admin_sections` and `.admin_list_item_content` to prevent horizontal overflow past padding.
+- [admin] FAB (`#update_admin_info_button`) now uses `env(safe-area-inset-bottom)` so it doesn't overlap the iPhone home indicator.
+- [food-scan] `ContentOutput` image preview and text output use `max-width: 100%` on phone (were too narrow at 33vw/50vw).
+- [food-scan] `DebugInformation` stats table is wrapped in `overflow-x: auto` to prevent horizontal overflow on mobile.
+- [home] `JokeOfTheDay` date font-size increased from 0.65rem (10.4px) to 0.75rem (12px) to meet minimum readability threshold.
+- [todo] `TodoInput` inputs stack vertically on phone with `flex-wrap: wrap` (were too narrow at ~147px).
+- [todo] `TodoList` view toggle buttons and header toggle button have `min-height/min-width: 44px` on phone.
+- [todo] `GenericListOverlay` delete button has `min-height/min-width: 44px` on phone.
+- [todo] `Todo.svelte` title and category inputs have `font-size: 16px` on phone to prevent iOS Safari auto-zoom.
+- [todo] Tab autocomplete hint hidden on phone (`display: none`) since mobile keyboards lack a Tab key.
+- [settings] `OnlinePersistenceCheck` edit connection form wraps on phone so TextInput stacks above the button.
+- [todo] Empty state button group (Neue Liste / Liste importieren) wraps on phone with `flex-wrap: wrap`.
+- [global] All `height: Xvh` declarations now use double-declaration `Xvh; Xdvh` pattern for iOS Safari dynamic toolbar compatibility (`+layout.svelte`, `uno-sort`, `Jokes.svelte`, `AboutInfo.svelte`, `ToggledApplicationInfo.svelte`).
+- [global] Background gradient `background-size` uses `100dvh` fallback so it covers the full dynamic viewport on iOS.
 
 ### Removed
 
