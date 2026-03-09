@@ -201,6 +201,11 @@
     tabindex="-1"
     style="display: contents;"
   >
+    {#if !isRenaming}
+      <button class="mobile-edit-btn" onclick={startEdit} title={$t('page.todos.editTodo')}>
+        <Edit size={16} />
+      </button>
+    {/if}
     <Button
       kind="danger"
       size="small"
@@ -321,6 +326,34 @@
     font-family: monospace;
     font-weight: 600;
     margin-right: 0.25rem;
+  }
+
+  .mobile-edit-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media only screen and (max-width: 767px) {
+      display: flex;
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  .edit-container :global(.bx--btn--sm) {
+    @media only screen and (max-width: 767px) {
+      min-height: 44px;
+    }
   }
 
 </style>

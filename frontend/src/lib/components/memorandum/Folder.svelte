@@ -11,6 +11,8 @@
   import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
   import ContextMenuDivider from 'carbon-components-svelte/src/ContextMenu/ContextMenuDivider.svelte';
   import ContextMenuOption from 'carbon-components-svelte/src/ContextMenu/ContextMenuOption.svelte';
+  import OverflowMenu from 'carbon-components-svelte/src/OverflowMenu/OverflowMenu.svelte';
+  import OverflowMenuItem from 'carbon-components-svelte/src/OverflowMenu/OverflowMenuItem.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import ChevronUp from 'carbon-icons-svelte/lib/ChevronUp.svelte';
   import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
@@ -188,6 +190,53 @@
         >
           <ChevronDown size={20} />
         </button>
+        <div class="mobile_overflow" onclick={(e) => e.stopPropagation()} role="presentation">
+          <OverflowMenu flipped>
+            <OverflowMenuItem
+              text={$t('page.memorandum.folder.newLink')}
+              on:click={showLinkOverlay}
+            />
+            <OverflowMenuItem
+              text={$t('page.memorandum.folder.openLinks', { amount: filteredLinks?.length ?? 0 })}
+              on:click={openFolderLinks}
+            />
+            <OverflowMenuItem
+              text={$t('page.memorandum.folder.editTitle')}
+              on:click={showFolderOverlay}
+            />
+            <OverflowMenuItem
+              text={$t('page.memorandum.folder.duplicate')}
+              on:click={duplicateFolder}
+            />
+            {#if $localPresetStore.Folders.length > 1}
+              {#if currentFolderIndex > 0}
+                <OverflowMenuItem
+                  text={$t('page.memorandum.folder.moveUp')}
+                  on:click={moveFolderUp}
+                />
+                <OverflowMenuItem
+                  text={$t('page.memorandum.folder.moveToTop')}
+                  on:click={moveFolderToTop}
+                />
+              {/if}
+              {#if currentFolderIndex < $localPresetStore.Folders.length - 1}
+                <OverflowMenuItem
+                  text={$t('page.memorandum.folder.moveDown')}
+                  on:click={moveFolderDown}
+                />
+                <OverflowMenuItem
+                  text={$t('page.memorandum.folder.moveToBottom')}
+                  on:click={moveFolderToBottom}
+                />
+              {/if}
+            {/if}
+            <OverflowMenuItem
+              danger
+              text={$t('page.memorandum.folder.deleteTitle', { amount: filteredLinks?.length ?? 0 })}
+              on:click={() => onDeleteFolder(folderId)}
+            />
+          </OverflowMenu>
+        </div>
       </div>
     </div>
 
@@ -362,6 +411,14 @@
     }
   }
 
+  .mobile_overflow {
+    display: none;
+
+    @media #{$phone}, #{$tablet} {
+      display: block;
+    }
+  }
+
   .box_header:hover .folder_controls {
     opacity: 1;
   }
@@ -377,6 +434,11 @@
     justify-content: center;
     border-radius: 4px;
     transition: background-color 0.2s;
+
+    @media #{$phone} {
+      min-height: 44px;
+      padding: 0.5rem;
+    }
 
     &:hover:not(:disabled) {
       background-color: var(--white30);
