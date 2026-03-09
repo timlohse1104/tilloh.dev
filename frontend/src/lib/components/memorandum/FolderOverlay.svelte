@@ -10,37 +10,43 @@
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import Slider from 'carbon-components-svelte/src/Slider/Slider.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
-  import PaintBrush from 'carbon-icons-svelte/lib/PaintBrush.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
   import { onMount } from 'svelte';
 
   let { folderName = $bindable('') } = $props();
 
   let customColorActive = $state(false);
-  let customColor = $state(defaultColor);
+  let r = $state(defaultColor.r);
+  let g = $state(defaultColor.g);
+  let b = $state(defaultColor.b);
+  let a = $state(defaultColor.a);
   let customColorInput = $state('');
 
   const submittable = $derived(folderName);
+  const customColor = $derived(new RGBBackgroundClass({ r, g, b, a }));
   const customColorString = $derived(customColor.getRGBAValues());
 
   $effect(() => {
     if (!customColorActive) {
-      customColor = defaultColor;
+      r = defaultColor.r;
+      g = defaultColor.g;
+      b = defaultColor.b;
+      a = defaultColor.a;
     }
   });
 
   onMount(() => {
     if ($folderOverlayOptionsStore.currentFolderBackgroundColor) {
-      customColor = new RGBBackgroundClass(
-        $folderOverlayOptionsStore.currentFolderBackgroundColor,
-      );
-      const persistedColor =
-        $folderOverlayOptionsStore.currentFolderBackgroundColor;
+      const persisted = $folderOverlayOptionsStore.currentFolderBackgroundColor;
+      r = persisted.r;
+      g = persisted.g;
+      b = persisted.b;
+      a = persisted.a;
       customColorActive =
-        persistedColor.r !== defaultColor.r ||
-        persistedColor.g !== defaultColor.g ||
-        persistedColor.b !== defaultColor.b ||
-        persistedColor.a !== defaultColor.a;
+        persisted.r !== defaultColor.r ||
+        persisted.g !== defaultColor.g ||
+        persisted.b !== defaultColor.b ||
+        persisted.a !== defaultColor.a;
     }
   });
 
@@ -58,7 +64,7 @@
 
       currentPreset.Folders.find(
         (f) => f.id === $folderOverlayOptionsStore.currentFolderId,
-      ).customBackgroundColor = { ...customColor };
+      ).customBackgroundColor = { r, g, b, a };
 
       $localPresetStore = currentPreset;
       closeOverlay();
@@ -67,11 +73,10 @@
   const updateCustomColorFromInput = () => {
     const splitted = customColorInput.split(',');
     if (splitted.length === 4) {
-      const r = parseInt(splitted[0]);
-      const g = parseInt(splitted[1]);
-      const b = parseInt(splitted[2]);
-      const a = parseFloat(splitted[3]);
-      customColor = new RGBBackgroundClass({ r, g, b, a });
+      r = parseInt(splitted[0]);
+      g = parseInt(splitted[1]);
+      b = parseInt(splitted[2]);
+      a = parseFloat(splitted[3]);
     }
   };
 </script>
@@ -99,71 +104,73 @@
       }}
     />
 
-    <Checkbox bind:checked={customColorActive}>
-      <svelte:fragment slot="labelText">
-        <PaintBrush />
-        {$t('page.memorandum.folder.setBackgroundColorQuestion', {
-          folderName,
-        })}
-      </svelte:fragment>
-    </Checkbox>
+    <Checkbox
+      bind:checked={customColorActive}
+      labelText={$t('page.memorandum.folder.setBackgroundColorQuestion', {
+        folderName,
+      })}
+    />
 
     {#if customColorActive}
-      <Slider
-        bind:value={customColor.r}
-        labelText={$t('page.shared.red')}
-        min={0}
-        max={255}
-        fullWidth
-      />
-      <Slider
-        bind:value={customColor.g}
-        labelText={$t('page.shared.green')}
-        min={0}
-        max={255}
-        fullWidth
-      />
-      <Slider
-        bind:value={customColor.b}
-        labelText={$t('page.shared.blue')}
-        min={0}
-        max={255}
-        fullWidth
-      />
-      <Slider
-        bind:value={customColor.a}
-        labelText="Alpha"
-        min={0}
-        max={1}
-        step={0.01}
-        fullWidth
-      />
-
-      <div class="mb1 folder_color_value_fields">
-        <div class="folder_color_value_setting_fields">
-          <TextInput
-            value={customColorString}
-            readonly
-            labelText={$t('page.memorandum.folder.currentValues')}
-            placeholder={$t('page.memorandum.folder.currentValues')}
-            helperText="Format: 'r,g,b,a'"
-          />
-          <CopyButton
-            text={customColorString}
-            iconDescription={$t('page.memorandum.folder.copyColorValues')}
-          />
-        </div>
-        <TextInput
-          bind:value={customColorInput}
-          labelText={$t('page.memorandum.folder.newValues')}
-          placeholder={$t('page.memorandum.folder.newValues')}
-          helperText="Format: 'r,g,b,a'"
-          on:keyup={(event) => {
-            if (isEnter(event)) {
-              updateCustomColorFromInput();
-            }
-          }}
+      <div class="color_settings">
+        <Slider
+          bind:value={r}
+          labelText={$t('page.shared.red')}
+          min={0}
+          max={255}
+          fullWidth
         />
+        <Slider
+          bind:value={g}
+          labelText={$t('page.shared.green')}
+          min={0}
+          max={255}
+          fullWidth
+        />
+        <Slider
+          bind:value={b}
+          labelText={$t('page.shared.blue')}
+          min={0}
+          max={255}
+          fullWidth
+        />
+        <Slider
+          bind:value={a}
+          labelText="Alpha"
+          min={0}
+          max={1}
+          step={0.01}
+          fullWidth
+        />
+
+        <div class="mb1 folder_color_value_fields">
+          <div class="folder_color_value_setting_fields">
+            <TextInput
+              value={customColorString}
+              readonly
+              labelText={$t('page.memorandum.folder.currentValues')}
+              placeholder={$t('page.memorandum.folder.currentValues')}
+              helperText="Format: 'r,g,b,a'"
+            />
+            <CopyButton
+              text={customColorString}
+              iconDescription={$t('page.memorandum.folder.copyColorValues')}
+            />
+          </div>
+          <div class="folder_color_value_input_fields">
+            <TextInput
+              bind:value={customColorInput}
+              labelText={$t('page.memorandum.folder.newValues')}
+              placeholder={$t('page.memorandum.folder.newValues')}
+              helperText="Format: 'r,g,b,a'"
+              on:keyup={(event) => {
+                if (isEnter(event)) {
+                  updateCustomColorFromInput();
+                }
+              }}
+            />
+          </div>
+        </div>
       </div>
     {/if}
   {:else}
@@ -178,10 +185,13 @@
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
+  .color_settings {
+    margin-top: 1rem;
+  }
+
   .folder_color_value_fields {
     display: flex;
-    justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     gap: 1rem;
 
     @media #{$phone} {
@@ -191,7 +201,11 @@
 
   .folder_color_value_setting_fields {
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex: 1;
+  }
+
+  .folder_color_value_input_fields {
+    flex: 1;
   }
 </style>
