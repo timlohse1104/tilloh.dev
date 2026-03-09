@@ -61,6 +61,8 @@
 </section>
 
 <style lang="scss">
+  @use '../../styles/variables.scss' as *;
+
   .header_box {
     display: flex;
     justify-content: space-between;
@@ -78,6 +80,10 @@
     h2 {
       margin: 0;
       font-size: 2em;
+
+      @media #{$phone} {
+        font-size: 1.2em;
+      }
     }
   }
 

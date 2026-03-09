@@ -26,6 +26,8 @@
 </Tile>
 
 <style lang="scss">
+  @use '../../styles/variables.scss' as *;
+
   :global(.admin_dashboard_card) {
     width: 10rem;
     height: 10rem;
@@ -59,6 +61,10 @@
       text-align: center;
       font-size: 0.5rem;
       margin: 0;
+
+      @media #{$phone} {
+        font-size: 0.75rem;
+      }
     }
   }
 

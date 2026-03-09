@@ -384,6 +384,11 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
+
+    @media only screen and (max-width: 767px) {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
   }
 
   .app_content {
@@ -403,7 +408,7 @@
   :global(#list_menu_button) {
     position: fixed;
     right: 1.5rem;
-    bottom: 1.5rem;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 100;
   }
 </style>

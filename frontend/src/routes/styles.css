@@ -26,6 +26,7 @@ body {
 
 .background_gradient_dark {
   background-size: 100vw 100vh !important;
+  background-size: 100vw 100dvh !important;
   background-image: linear-gradient(
     180deg,
     var(--color_bg_0) 0%,
@@ -35,6 +36,7 @@ body {
 }
 .background_gradient_light {
   background-size: 100vw 100vh !important;
+  background-size: 100vw 100dvh !important;
   background-image: linear-gradient(
     180deg,
     var(--color_bg_light_0) 0%,
@@ -179,6 +181,7 @@ button:focus:not(:focus-visible) {
   row-gap: 0.25rem;
   align-items: stretch;
   justify-content: center;
+  height: auto;
 }
 .bx--content-switcher-btn {
   max-width: 225px;
@@ -186,6 +189,18 @@ button:focus:not(:focus-visible) {
 }
 .bx--content-switcher-btn::before {
   display: none;
+}
+@media only screen and (max-width: 767px) {
+  .bx--content-switcher-btn {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    min-width: unset !important;
+    min-height: 44px;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 }
 
 /* Carbon Accordion Overrides - Admin Lists*/
@@ -202,7 +217,7 @@ button:focus:not(:focus-visible) {
   justify-content: space-between;
   padding-left: calc(var(--default_padding) / 2);
   padding-right: calc(var(--default_padding) / 2);
-  width: calc(100vw - var(--default_padding) * 2);
+  width: 100%;
 }
 .admin_list_button_group {
   display: flex;

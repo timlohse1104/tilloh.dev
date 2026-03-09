@@ -103,6 +103,17 @@
     {:else}
       <Startup onNew={createFolder} onDefault={loadPreset} />
     {/if}
+
+    {#if value.Folders.length > 0}
+      <Button
+        kind="primary"
+        iconDescription={$t('page.memorandum.startup.createEmptyFolder')}
+        icon={Add}
+        id="add_folder_button"
+        tooltipPosition="left"
+        on:click={createFolder}
+      />
+    {/if}
   {:catch error}
     <p>
       {$t('page.shared.somethingWentWrong', {
@@ -110,15 +121,6 @@
       })}
     </p>
   {/await}
-
-  <Button
-    kind="tertiary"
-    iconDescription={$t('page.memorandum.startup.createEmptyFolder')}
-    icon={Add}
-    id="add_folder_button"
-    tooltipPosition="left"
-    on:click={createFolder}
-  />
 
   <ConfirmOverlay
     bind:open={confirmDeleteFolderOpenOverlay}
@@ -169,7 +171,7 @@
 
   :global(#add_folder_button) {
     position: fixed;
-    bottom: var(--default_padding);
+    bottom: calc(var(--default_padding) + env(safe-area-inset-bottom, 0px));
     right: var(--default_padding);
     z-index: 100;
   }

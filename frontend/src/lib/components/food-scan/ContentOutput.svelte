@@ -68,6 +68,10 @@
     gap: 1rem;
     padding: 0.25rem 0.25rem 0 0;
     max-width: min(600px, 50vw);
+
+    @media #{$phone} {
+      max-width: 100%;
+    }
   }
 
   p {
@@ -82,6 +86,10 @@
 
   .image_preview {
     max-width: min(500px, 33vw);
+
+    @media #{$phone} {
+      max-width: 100%;
+    }
     box-shadow:
       0 4px 8px rgba(0, 0, 0, 0.2),
       0 6px 20px rgba(0, 0, 0, 0.19);

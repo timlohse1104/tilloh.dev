@@ -201,6 +201,11 @@
     tabindex="-1"
     style="display: contents;"
   >
+    {#if !isRenaming}
+      <button class="mobile-edit-btn" onclick={startEdit} title={$t('page.todos.editTodo')}>
+        <Edit size={16} />
+      </button>
+    {/if}
     <Button
       kind="danger"
       size="small"
@@ -272,10 +277,19 @@
     gap: 0.5rem;
     align-items: flex-end;
     flex: 1;
+
+    @media only screen and (max-width: 767px) {
+      flex-wrap: wrap;
+    }
   }
 
   .title-input {
     flex: 2;
+
+    @media only screen and (max-width: 767px) {
+      flex: 1 1 100%;
+      font-size: 16px;
+    }
   }
 
   .category-input-wrapper {
@@ -285,6 +299,10 @@
 
   .category-input {
     width: 100%;
+
+    @media only screen and (max-width: 767px) {
+      font-size: 16px;
+    }
   }
 
   .autocomplete-hint {
@@ -301,6 +319,10 @@
     white-space: nowrap;
     z-index: 10;
     pointer-events: none;
+
+    @media only screen and (max-width: 767px) {
+      display: none;
+    }
   }
 
   .autocomplete-hint kbd {
@@ -313,6 +335,34 @@
     font-family: monospace;
     font-weight: 600;
     margin-right: 0.25rem;
+  }
+
+  .mobile-edit-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media only screen and (max-width: 767px) {
+      display: flex;
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  .edit-container :global(.bx--btn--sm) {
+    @media only screen and (max-width: 767px) {
+      min-height: 44px;
+    }
   }
 
 </style>

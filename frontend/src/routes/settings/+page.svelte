@@ -42,6 +42,7 @@
   section {
     margin: 0;
     height: 88vh;
+    height: 88dvh;
     overflow-y: auto;
     overflow-x: hidden;
   }

@@ -146,11 +146,11 @@
     width: 100%;
 
     @media #{$tablet} {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     @media #{$phone} {
-      margin-bottom: 4rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -161,6 +161,9 @@
 
     @media #{$phone} {
       gap: 0;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
 
       .nav_label {
         display: none;

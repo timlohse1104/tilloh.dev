@@ -295,6 +295,7 @@
 
   :global(.connection_card) {
     width: 500px;
+    max-width: 100%;
   }
 
   .online_persistence_info_text {
@@ -306,9 +307,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-end;
     margin-top: 1rem;
     gap: 1rem;
+
+    @media only screen and (max-width: 767px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .button_group :global(.bx--form-item) {
+    @media only screen and (max-width: 767px) {
+      flex: 1 1 100%;
+    }
   }
 
   :global(.modal_notification) {

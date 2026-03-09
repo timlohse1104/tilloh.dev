@@ -4,7 +4,6 @@ export enum TogglesEnum {
   todo = 'TOGGLE_NAV_TODO',
   foodScan = 'TOGGLE_NAV_FOOD_SCAN',
   jokes = 'TOGGLE_NAV_JOKES',
-  chat = 'TOGGLE_NAV_CHAT',
   catchEmAll = 'TOGGLE_NAV_CATCH_EM_ALL',
   unoSort = 'TOGGLE_NAV_UNO_SORT',
   about = 'TOGGLE_NAV_ABOUT',

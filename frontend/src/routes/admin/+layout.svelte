@@ -1,7 +1,6 @@
 <script lang="ts">
   // 1. IMPORTS
   import type { Snippet } from 'svelte';
-  import { getChats } from '$lib/api/chats.api';
   import { livez, readyz } from '$lib/api/health.api';
   import { getKeystore } from '$lib/api/keystore.api';
   import Dashboard from '$lib/components/admin/Dashboard.svelte';
@@ -9,7 +8,6 @@
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Navigation from '$lib/components/shared/Navigation.svelte';
   import { adminSubRoutes, utilityRoutes } from '$lib/config/applications';
-  import type { ChatDto } from '$lib/types/chats.dto';
   import { TOGGLE_KEY_IDENTIFIER } from '$lib/types/keystore.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import {
@@ -42,7 +40,6 @@
   const { admin: adminRoute } = utilityRoutes;
 
   // 4. STATE
-  let chats = $state<ChatDto[]>([]);
   let apiIsHealthy = $state(false);
   let jokesIsHealthy = $state(false);
   let mongoIsHealthy = $state(false);
@@ -68,11 +65,6 @@
   const getJokesAmount = $derived(() => {
     if ($adminJokesStore.length === 0) return 0;
     return $adminJokesStore.length;
-  });
-
-  const getChatsAmount = $derived(() => {
-    if (chats.length === 0) return 0;
-    return chats.length;
   });
 
   const getDuplicateFoldersAmount = $derived(() => {
@@ -102,11 +94,6 @@
   });
 
   // 6. FUNCTIONS
-  const loadChats = async () => {
-    chats = await getChats($adminTokenStore);
-    console.log({ allChats: chats }, 'Chats reloaded.');
-  };
-
   const loadToggles = async () => {
     const keystoreResponse = await getKeystore($adminTokenStore);
     console.log({ keystoreResponse }, 'Keystore response.');
@@ -137,7 +124,6 @@
     await updateLinkPresets($adminTokenStore);
     await updateIdentifiers($adminTokenStore);
     await updateJokes($adminTokenStore);
-    await loadChats();
     await loadToggles();
     await loadHealthChecks();
     console.log('Dashboard updated.');
@@ -176,7 +162,6 @@
         presetFolderAmount: getFolderAmount(),
         presetLinksAmount: getLinksAmount(),
         jokesAmount: getJokesAmount(),
-        chatsAmount: getChatsAmount(),
         apiIsHealthy,
         jokesIsHealthy,
         mongoIsHealthy,
@@ -266,7 +251,7 @@
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
-    width: 100vw;
+    width: 100%;
   }
 
   :global(.admin_sections_headline) {
@@ -302,7 +287,7 @@
 
   :global(#update_admin_info_button) {
     position: fixed;
-    bottom: var(--default_padding);
+    bottom: calc(var(--default_padding) + env(safe-area-inset-bottom, 0px));
     right: var(--default_padding);
     z-index: 100;
   }

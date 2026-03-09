@@ -675,6 +675,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
     }
   }
 
@@ -700,6 +702,11 @@
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
+
+    @media #{$phone} {
+      min-height: 44px;
+      min-width: 44px;
+    }
 
     &:hover {
       background: rgba(255, 255, 255, 0.08);
