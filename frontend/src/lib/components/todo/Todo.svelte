@@ -272,10 +272,18 @@
     gap: 0.5rem;
     align-items: flex-end;
     flex: 1;
+
+    @media only screen and (max-width: 767px) {
+      flex-wrap: wrap;
+    }
   }
 
   .title-input {
     flex: 2;
+
+    @media only screen and (max-width: 767px) {
+      flex: 1 1 100%;
+    }
   }
 
   .category-input-wrapper {

@@ -295,6 +295,7 @@
 
   :global(.connection_card) {
     width: 500px;
+    max-width: 100%;
   }
 
   .online_persistence_info_text {

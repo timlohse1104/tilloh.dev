@@ -6,7 +6,6 @@ export enum ActivityTypeDto {
   IDENTIFIER = 'identifier',
   PRESET = 'link-preset',
   JOKE = 'joke',
-  CHAT = 'chat',
 }
 
 export class ActivityDto {
@@ -23,7 +22,6 @@ export class AdminDashboardPropsDto {
   presetFolderAmount: number;
   presetLinksAmount: number;
   jokesAmount: number;
-  chatsAmount: number;
   apiIsHealthy: boolean;
   jokesIsHealthy: boolean;
   mongoIsHealthy: boolean;

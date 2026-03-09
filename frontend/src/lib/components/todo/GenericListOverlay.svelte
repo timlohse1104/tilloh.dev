@@ -148,6 +148,11 @@
     padding: 0;
     font-size: 1rem;
     line-height: 1;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: color 0.2s ease;
 
     &:hover {

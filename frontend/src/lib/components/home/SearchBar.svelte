@@ -46,8 +46,9 @@
       margin-top: 2rem;
     }
 
-    @media #{$tablet} {
-      margin-top: 8rem;
+    @media #{$phone} {
+      margin-top: 2rem;
+      width: 95vw;
     }
   }
   :global(.global_search_form) {

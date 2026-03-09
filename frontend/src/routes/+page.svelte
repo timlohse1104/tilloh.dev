@@ -1,19 +1,13 @@
 <script lang="ts">
   // 1. IMPORTS
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
-  import SearchBar from '$lib/components/home/SearchBar.svelte';
   import Navigation from '$lib/components/shared/Navigation.svelte';
+  import { applicationRoutes } from '$lib/config/applications';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
-  import { setLocale, t } from '$lib/util/translations';
-  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
-  import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
+  import { setLocale } from '$lib/util/translations';
   import { onMount } from 'svelte';
-  import { applicationRoutes, utilityRoutes } from '../lib/config/applications';
-
-  // 2. CONST (non-reactive constants)
-  const { settings } = utilityRoutes;
 
   // 5. DERIVED
   const homeRoute = $derived($applicationRoutes.home);
@@ -45,30 +39,22 @@
 
 <section class="mt1">
   <Navigation routes={Object.values($applicationRoutes)} />
-  <SearchBar />
-
-  <div class="mt2">
-    <Button
-      kind="tertiary"
-      iconDescription={$t('page.shared.button.settings')}
-      href={settings.path}
-      icon={Settings}
-    >
-      {settings.name[locale]}
-    </Button>
-  </div>
 
   {#if randomJokeToggle}
-    <JokeOfTheDay customClass="mt2" />
+    <JokeOfTheDay />
   {/if}
 </section>
 
 <style lang="scss">
+  @use '../lib/styles/variables.scss' as *;
+
   section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 90vw;
+    margin: 0 auto 3rem auto;
     flex: 0.2;
   }
 </style>

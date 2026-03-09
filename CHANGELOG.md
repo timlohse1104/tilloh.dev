@@ -6,6 +6,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.
+- [memorandum] Empty state redesigned as Carbon Tile cards with title, description, and CTA buttons.
+- [memorandum] FAB add-folder button is now `kind="primary"` and hidden in empty state.
+
+### Removed
+
+- [global] Removed Chat application entirely (frontend route, API, stores, types and backend module/library).
+- [home] Removed web search bar (`SearchBar`) and Settings button from home page.
+
+### Changed
+
+- [home] Navigation tiles show icon-only on phone; `JokeOfTheDay` section is now prominently displayed with a Carbon Tile card.
+- [global] `GlobalMenu` footer shows GitHub/Stadtwerk buttons below "Entwickelt von..." text on phone as social buttons.
+
+### Changed
+
+- [global] Replaced `height: 100vh` with `100dvh` (dynamic viewport height) in `.app` and settings page to fix iOS Browser-UI overlap.
+- [global] Changed `main` width from `100vw` to `100%` to prevent horizontal scrollbar on mobile.
+- [home] Fixed duplicate `@media #{$tablet}` bug in `SearchBar.svelte`; phone breakpoint now sets `margin-top: 2rem` and `width: 95vw` for a wider search bar.
+- [global] `GlobalMenu` sidebar is now scrollable (`overflow-y: auto`) with padding to prevent footer overlap; footer respects safe-area-inset-bottom.
+- [memorandum] Memorandum search bar uses `max-width: 100%` on phone (was 33vw ≈ 124px); menu line wraps on phone.
+- [memorandum] Folder and link reorder buttons are always visible on phone/tablet (no longer hidden, only shown on hover).
+- [memorandum] Link reorder buttons have a minimum touch-target of 44px height on phone.
+- [todo] Edit container in `Todo.svelte` wraps on phone; title input takes full width.
+- [memorandum] FAB add-folder button respects `safe-area-inset-bottom` on iPhone.
+- [todo] FAB list-menu button respects `safe-area-inset-bottom` on iPhone.
+- [global] Header `h2` uses `font-size: 1.2em` on phone for better fit.
+- [global] Navigation touch-targets (`bx--content-switcher-btn`) have `min-height: 44px` on phone.
+- [settings] `connection_card` uses `max-width: 100%` to prevent overflow on phone.
+- [admin] Dashboard card description uses `font-size: 0.75rem` on phone (was unreadable 0.5rem/8px).
+- [todo] Delete button in `GenericListOverlay` has minimum 32×32px touch-target.
+- [home] Navigation margin-bottom reduced to `1rem` on phone/tablet (was 4rem/2rem).
+
 ### Fixed
 
 - [frontend] Fixed `TypeError: Cannot read properties of undefined (reading 'de')` by replacing the non-reactive Proxy in `applications.ts` with a Svelte writable store initialized with proper default route values. All consumer components updated to use reactive store access (`$applicationRoutes`).

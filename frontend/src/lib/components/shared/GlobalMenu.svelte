@@ -125,6 +125,8 @@
     margin: 0;
     margin-left: auto;
     transform: translateX(100%);
+    overflow-y: auto;
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
     --duration: 500ms;
     transition:
       transform var(--duration),
@@ -216,7 +218,7 @@
 
   footer {
     position: fixed;
-    bottom: 2rem;
+    bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
     left: 0;
     width: 100%;
     text-align: center;
@@ -227,11 +229,20 @@
 
     @media #{$phone} {
       font-size: 0.8rem;
+      flex-wrap: wrap;
+      gap: 0.25rem;
     }
 
     p {
       margin: 0 2rem 0 2rem;
+
+      @media #{$phone} {
+        margin: 0;
+        width: 100%;
+        order: -1;
+      }
     }
+
     img {
       width: 2em;
       height: 2em;

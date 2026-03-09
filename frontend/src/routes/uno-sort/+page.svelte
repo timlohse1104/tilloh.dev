@@ -7,6 +7,7 @@
   import { initialized, setLocale, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
+  import Reset from 'carbon-icons-svelte/lib/Reset.svelte';
   import { onMount } from 'svelte';
 
   // 4. STATE
@@ -79,8 +80,8 @@
           <Button size="field" on:click={() => pickCards(pickAmount)}>
             {$t('page.unoSort.draw')}
           </Button>
-          <Button size="field" kind="tertiary" on:click={reset}>
-            {$t('page.shared.reset')}
+          <Button size="field" kind="tertiary" icon={Reset} iconDescription={$t('page.shared.reset')} on:click={reset} class="reset_button">
+            <span class="reset_label">{$t('page.shared.reset')}</span>
           </Button>
         </div>
       </div>
@@ -156,7 +157,6 @@
     color: yellow;
     font-size: 6em;
     transition: 0.5s;
-    text-shadow: 0 0 15px black;
     transform-origin: bottom;
     transform: rotate(-25deg);
     text-shadow:
@@ -286,5 +286,24 @@
   .card_amount_info {
     font-size: 0.5em;
     font-weight: normal;
+  }
+
+  @media #{$phone} {
+    :global(.reset_button) {
+      padding: 0.875rem !important;
+      min-width: unset !important;
+      width: 3rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    :global(.reset_button .reset_label) {
+      display: none;
+    }
+
+    :global(.reset_button svg) {
+      margin: 0 !important;
+    }
   }
 </style>

@@ -1,32 +1,38 @@
-<script>
+<script lang="ts">
+  // 1. IMPORTS
   import { initialized, t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import Download from 'carbon-icons-svelte/lib/Download.svelte';
 
+  // 2. PROPS
   const { onNew, onDefault } = $props();
 </script>
 
 {#if $initialized}
   <section>
-    <button onclick={() => onNew()}>
+    <Tile class="startup_card">
       <img
-        id="firstFolderImg"
         alt={$t('page.memorandum.startup.createEmptyFolderAlt')}
         src="/images/memorandum/white_new_folder.png"
       />
-      <p>
-        {$t('page.memorandum.startup.createEmptyFolder')}
-      </p>
-    </button>
+      <p>{$t('page.memorandum.startup.createEmptyFolderDescription')}</p>
+      <Button kind="primary" icon={Add} on:click={onNew}>
+        {$t('page.memorandum.startup.createEmptyFolderCta')}
+      </Button>
+    </Tile>
 
-    <button onclick={() => onDefault()}>
+    <Tile class="startup_card">
       <img
-        id="loadPresetImg"
         alt={$t('page.memorandum.startup.loadPresetAlt')}
         src="/images/memorandum/white_download_folder.png"
       />
-      <p>
-        {$t('page.memorandum.startup.loadPreset')}
-      </p>
-    </button>
+      <p>{$t('page.memorandum.startup.loadPresetDescription')}</p>
+      <Button kind="tertiary" icon={Download} on:click={onDefault}>
+        {$t('page.memorandum.startup.loadPresetCta')}
+      </Button>
+    </Tile>
   </section>
 {:else}
   <section>Locale initializing...</section>
@@ -37,51 +43,62 @@
 
   section {
     display: flex;
-    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    justify-content: center;
+    align-items: stretch;
+
+    @media #{$tablet} {
+      gap: 1rem;
+      padding: 1.5rem;
+    }
 
     @media #{$phone} {
       flex-direction: column;
+      align-items: center;
+      padding: 1rem;
     }
   }
 
-  button {
+  :global(.startup_card) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin: 0;
-    flex-grow: 2;
-    padding: var(--default_padding);
-    border: none;
-    background-color: var(--trans);
-    color: white;
-    font-size: 30px;
-    display: inline-block;
-    transition: all 0.3s ease 0s;
-
-    &:hover {
-      background-color: var(--darkgrey80);
-    }
-
-    img {
-      width: 350px;
-    }
+    gap: 0.75rem;
+    width: 300px;
+    text-align: center;
+    padding: 2rem !important;
 
     @media #{$tablet} {
-      p {
-        font-size: 22px;
-      }
-
-      img {
-        width: 200px;
-      }
+      width: 240px;
     }
 
     @media #{$phone} {
-      img {
-        width: 100px;
-      }
+      width: 100%;
+      max-width: 400px;
     }
+  }
+
+  img {
+    width: 80px;
+    opacity: 0.85;
+
+    @media #{$tablet} {
+      width: 60px;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    opacity: 0.75;
+    line-height: 1.5;
+    flex: 1;
   }
 </style>

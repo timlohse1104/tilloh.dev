@@ -12,7 +12,6 @@
       presetFolderAmount: 0,
       presetLinksAmount: 0,
       jokesAmount: 0,
-      chatsAmount: 0,
       apiIsHealthy: false,
       jokesIsHealthy: false,
       mongoIsHealthy: false,
@@ -84,11 +83,6 @@
         header="Duplicate jokes"
         description={$t('page.admin.dashboard.duplicateJokesDescription')}
         amount={metrics.duplicateJokesAmount}
-      />
-      <DashboardCard
-        header="Chats"
-        description={$t('page.admin.dashboard.chatsDescription')}
-        amount={metrics.chatsAmount}
       />
     </div>
   </section>

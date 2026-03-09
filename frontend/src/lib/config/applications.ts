@@ -3,7 +3,6 @@ import { TogglesEnum } from '$lib/types/toggle.dto';
 import { getToggleValue } from '$lib/util/toggle';
 import Bookmark from 'carbon-icons-svelte/lib/Bookmark.svelte';
 import Bullhorn from 'carbon-icons-svelte/lib/Bullhorn.svelte';
-import Chat from 'carbon-icons-svelte/lib/Chat.svelte';
 import Cognitive from 'carbon-icons-svelte/lib/Cognitive.svelte';
 import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
 import GameConsole from 'carbon-icons-svelte/lib/GameConsole.svelte';
@@ -22,7 +21,6 @@ export type ApplicationRoutes = {
   jokes: Route;
   todo: Route;
   'food-scan': Route;
-  chat: Route;
   'catch-em-all': Route;
   'uno-sort': Route;
   about: Route;
@@ -34,7 +32,6 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     jokesToggle,
     todoToggle,
     foodScanToggle,
-    chatToggle,
     catchEmAllToggle,
     unoSortToggle,
     aboutToggle,
@@ -43,7 +40,6 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     getToggleValue(TogglesEnum.jokes),
     getToggleValue(TogglesEnum.todo),
     getToggleValue(TogglesEnum.foodScan),
-    getToggleValue(TogglesEnum.chat),
     getToggleValue(TogglesEnum.catchEmAll),
     getToggleValue(TogglesEnum.unoSort),
     getToggleValue(TogglesEnum.about),
@@ -55,7 +51,6 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     jokes: { id: 'jokes', name: { en: 'Jokes', de: 'Witze' }, path: '/jokes', icon: Cognitive, toggle: jokesToggle },
     todo: { id: 'todo', name: { en: 'Lists', de: 'Listen' }, path: '/todo', icon: ListBoxes, toggle: todoToggle },
     'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: foodScanToggle },
-    chat: { id: 'chat', name: { en: 'Chat', de: 'Klönschnack' }, path: '/chat', icon: Chat, toggle: chatToggle },
     'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: catchEmAllToggle },
     'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: unoSortToggle },
     about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: aboutToggle },
@@ -68,7 +63,6 @@ const defaultApplicationRoutes: ApplicationRoutes = {
   jokes: { id: 'jokes', name: { en: 'Jokes', de: 'Witze' }, path: '/jokes', icon: Cognitive, toggle: false },
   todo: { id: 'todo', name: { en: 'Lists', de: 'Listen' }, path: '/todo', icon: ListBoxes, toggle: false },
   'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: false },
-  chat: { id: 'chat', name: { en: 'Chat', de: 'Klönschnack' }, path: '/chat', icon: Chat, toggle: false },
   'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: false },
   'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: false },
   about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: false },

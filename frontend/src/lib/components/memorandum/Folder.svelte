@@ -358,7 +358,7 @@
     transition: opacity 0.2s;
 
     @media #{$phone}, #{$tablet} {
-      display: none;
+      opacity: 1;
     }
   }
 

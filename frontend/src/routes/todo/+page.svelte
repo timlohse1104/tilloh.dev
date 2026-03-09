@@ -403,7 +403,7 @@
   :global(#list_menu_button) {
     position: fixed;
     right: 1.5rem;
-    bottom: 1.5rem;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 100;
   }
 </style>

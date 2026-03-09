@@ -242,7 +242,7 @@
     transition: opacity 0.2s;
 
     @media #{$phone}, #{$tablet} {
-      display: none;
+      opacity: 1;
     }
   }
 
@@ -261,6 +261,11 @@
     justify-content: center;
     border-radius: 4px;
     transition: background-color 0.2s;
+
+    @media #{$phone} {
+      min-height: 44px;
+      padding: 0.5rem;
+    }
 
     &:hover:not(:disabled) {
       background-color: var(--white30);

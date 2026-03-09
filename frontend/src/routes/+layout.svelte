@@ -62,13 +62,14 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100dvh;
   }
 
   main {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    width: 100vw;
+    width: 100%;
     overflow: auto;
     flex: 1;
     margin: 0 auto;

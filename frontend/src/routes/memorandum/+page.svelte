@@ -152,6 +152,10 @@
     justify-content: start;
     padding-left: calc(var(--default_padding) / 2);
     gap: calc(var(--default_padding) / 2);
+
+    @media #{$phone} {
+      flex-wrap: wrap;
+    }
   }
 
   .order_buttons {
@@ -166,6 +170,10 @@
 
   :global(.memorandum_search_bar) {
     max-width: 33vw;
+
+    @media #{$phone} {
+      max-width: 100%;
+    }
   }
 
   .info_buttons {
