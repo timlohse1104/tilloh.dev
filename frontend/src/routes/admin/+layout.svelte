@@ -251,7 +251,7 @@
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
-    width: 100vw;
+    width: 100%;
   }
 
   :global(.admin_sections_headline) {
@@ -287,7 +287,7 @@
 
   :global(#update_admin_info_button) {
     position: fixed;
-    bottom: var(--default_padding);
+    bottom: calc(var(--default_padding) + env(safe-area-inset-bottom, 0px));
     right: var(--default_padding);
     z-index: 100;
   }
