@@ -141,6 +141,7 @@
     max-width: 90vw;
     margin: 0 auto 3rem auto;
     height: 85vh;
+    height: 85dvh;
     overflow-y: auto;
     overflow-x: hidden;
 

@@ -271,15 +271,18 @@
     overflow-y: auto;
     display: flex;
     height: 53vh;
+    height: 53dvh;
     gap: 2rem;
 
     @media #{$tablet} {
       height: 45vh;
+      height: 45dvh;
     }
 
     @media #{$phone} {
       flex-direction: column;
       height: 40vh;
+      height: 40dvh;
     }
   }
 

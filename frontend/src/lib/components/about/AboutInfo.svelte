@@ -83,6 +83,7 @@ console.log(f.reduce((a, c) =&gt; a + (c.size &lt;= 100000 ? c.size : 0), 0));
     max-width: 80vw;
     margin: 0 auto;
     height: 88vh;
+    height: 88dvh;
     overflow-y: auto;
     overflow-x: hidden;
   }

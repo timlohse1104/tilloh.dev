@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     height: 80vh;
+    height: 80dvh;
   }
 
   .toggled_application_info_inner {

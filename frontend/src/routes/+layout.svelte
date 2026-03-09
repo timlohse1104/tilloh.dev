@@ -102,6 +102,7 @@
     align-items: center;
     justify-content: center;
     height: 80vh;
+    height: 80dvh;
   }
 
   .confetti_container {
