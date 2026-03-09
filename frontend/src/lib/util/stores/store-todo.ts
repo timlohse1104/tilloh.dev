@@ -1,6 +1,14 @@
 import { browser } from '$app/environment';
-import type { TodoList } from '$lib/types/todo';
+import type { HistoryEntry, TodoList } from '$lib/types/todo';
+import { normalizeCategory } from '$lib/util/helper';
 import { writable } from 'svelte/store';
+
+export const normalizeHistoryEntries = (
+  history: (string | HistoryEntry)[],
+): HistoryEntry[] =>
+  history.map((entry) =>
+    typeof entry === 'string' ? { title: entry, category: '' } : entry,
+  );
 import { ensureTodoListUUID } from '../uuid';
 
 const localStorageKey = 'todos';
@@ -29,7 +37,23 @@ const getInitialValue = () => {
       ...list,
       categories: list.categories || [],
     }));
-    return withCategories;
+    const withHistory = withCategories.map((list: TodoList) => ({
+      ...list,
+      history: normalizeHistoryEntries(list.history || []),
+    }));
+    const withNormalizedCategories = withHistory.map((list: TodoList) => ({
+      ...list,
+      categories: list.categories.map(normalizeCategory),
+      todos: list.todos.map((todo) => ({
+        ...todo,
+        category: normalizeCategory(todo.category || ''),
+      })),
+      history: list.history.map((entry) => ({
+        ...entry,
+        category: normalizeCategory(entry.category || ''),
+      })),
+    }));
+    return withNormalizedCategories;
   } else {
     return defaultValue;
   }

@@ -1,6 +1,7 @@
 <script lang="ts">
   // 1. IMPORTS
   import { t } from '$lib/util/translations';
+  import { displayCategory, normalizeCategory } from '$lib/util/helper';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
   import ContextMenu from 'carbon-components-svelte/src/ContextMenu/ContextMenu.svelte';
@@ -86,7 +87,7 @@
         detail: {
           id: id,
           title: newTitle,
-          category: newCategory,
+          category: normalizeCategory(newCategory),
         },
       });
       window.dispatchEvent(event);
@@ -164,7 +165,7 @@
         />
         {#if categoryAutocomplete && categoryAutocomplete !== newCategory}
           <div class="autocomplete-hint">
-            <kbd>Tab</kbd> → {categoryAutocomplete}
+            <kbd>Tab</kbd> → {displayCategory(categoryAutocomplete)}
           </div>
         {/if}
       </div>

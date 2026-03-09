@@ -42,7 +42,7 @@ export class TodoPersistenceService {
     name: string,
     emoji: string,
     todos: any[],
-    history: string[],
+    history: { title: string; category: string }[],
     currentVersion: number,
   ): Promise<SharedTodoList> {
     this.logger.log(`Updating shared todo list with id: ${id}`);

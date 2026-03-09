@@ -1,3 +1,8 @@
+export type HistoryEntry = {
+  title: string;
+  category: string;
+};
+
 export type Todo = {
   id: string;
   title: string;
@@ -10,7 +15,7 @@ export type TodoList = {
   name: string;
   emoji: string;
   todos: Todo[];
-  history: string[];
+  history: HistoryEntry[];
   categories: string[];
   isShared?: boolean;
   sharedId?: string;
@@ -22,7 +27,7 @@ export type SharedTodoListResponse = {
   name: string;
   emoji: string;
   todos: Todo[];
-  history: string[];
+  history: HistoryEntry[];
   categories: string[];
   version: number;
   created: string;

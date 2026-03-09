@@ -29,7 +29,7 @@ describe('TodoController', () => {
         category: 'Test',
       },
     ],
-    history: ['Test Todo'],
+    history: [{ title: 'Test Todo', category: '' }],
     version: 1,
     created: new Date('2024-01-01'),
     updated: new Date('2024-01-01'),
@@ -159,7 +159,7 @@ describe('TodoController', () => {
             category: 'Updated',
           },
         ],
-        history: ['Updated Todo'],
+        history: [{ title: 'Updated Todo', category: '' }],
         version: 1,
       };
       const output: UpdateSharedTodoListOutputDto = {

@@ -21,7 +21,7 @@ describe('TodoPersistenceService', () => {
         category: 'Test',
       },
     ],
-    history: ['Test Todo'],
+    history: [{ title: 'Test Todo', category: '' }],
     version: 1,
     created: new Date('2024-01-01'),
     updated: new Date('2024-01-01'),
@@ -186,7 +186,7 @@ describe('TodoPersistenceService', () => {
       const name = 'Updated List';
       const emoji = '🔄';
       const todos = [{ id: 'todo-1', title: 'Updated Todo', done: true }];
-      const history = ['Updated Todo'];
+      const history = [{ title: 'Updated Todo', category: '' }];
       const currentVersion = 1;
       const updatedList = {
         ...mockTodoList,
@@ -233,7 +233,7 @@ describe('TodoPersistenceService', () => {
       const name = 'Updated List';
       const emoji = '🔄';
       const todos: any[] = [];
-      const history: string[] = [];
+      const history: { title: string; category: string }[] = [];
       const currentVersion = 1;
 
       jest.spyOn(model, 'findOneAndUpdate').mockReturnValueOnce({
@@ -255,7 +255,7 @@ describe('TodoPersistenceService', () => {
       const name = 'Updated List';
       const emoji = '🔄';
       const todos: any[] = [];
-      const history: string[] = [];
+      const history: { title: string; category: string }[] = [];
       const currentVersion = 1;
       const existingList = { ...mockTodoList, version: 2 };
 
@@ -278,7 +278,7 @@ describe('TodoPersistenceService', () => {
       const name = 'Updated List';
       const emoji = '🔄';
       const todos: any[] = [];
-      const history: string[] = [];
+      const history: { title: string; category: string }[] = [];
       const currentVersion = 1;
       const errorMsg = 'Failed to update list';
 

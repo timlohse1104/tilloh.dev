@@ -1,19 +1,24 @@
 <script lang="ts">
   // 1. IMPORTS
+  import type { HistoryEntry } from '$lib/types/todo';
   import { initialized } from '$lib/util/translations';
   import Modal from 'carbon-components-svelte/src/Modal/Modal.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
   // 2. PROPS
+  type ListItem = string | HistoryEntry;
+
   interface Props {
     open: boolean;
     title: string;
-    items: string[];
+    items: ListItem[];
     emptyMessage: string;
     clearTooltip: string;
     itemClickTooltip?: string;
-    onItemClick: (item: string) => void;
-    onRemoveItem: (item: string) => void;
+    displayText: (item: ListItem) => string;
+    itemKey: (item: ListItem) => string;
+    onItemClick: (item: ListItem) => void;
+    onRemoveItem: (item: ListItem) => void;
     onClearAll: () => void;
     onClose: () => void;
     preventFocusSteal?: boolean;
@@ -26,6 +31,8 @@
     emptyMessage,
     clearTooltip,
     itemClickTooltip,
+    displayText,
+    itemKey,
     onItemClick,
     onRemoveItem,
     onClearAll,
@@ -56,7 +63,7 @@
     <div class="modal_content">
       {#if items?.length > 0}
         <div class="item_entry_list">
-          {#each items as item (item)}
+          {#each items as item (itemKey(item))}
             <div class="item_tag_wrapper">
               <button
                 class="item_tag"
@@ -64,7 +71,7 @@
                 onclick={() => onItemClick(item)}
                 title={itemClickTooltip}
               >
-                {item}
+                {displayText(item)}
               </button>
               <button
                 onclick={(e) => {

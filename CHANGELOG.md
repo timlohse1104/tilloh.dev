@@ -12,6 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [todo] Categories are now normalized (trimmed + lowercased) on write and on app start, so "Arbeit", "ARBEIT" and "arbeit" all map to "arbeit".
+- [todo] Added `HistoryEntry` type `{ title, category }` replacing plain `string[]` history - category is now preserved when restoring from history.
+- [todo] Added cleanup button to delete all completed todos at once and move them to history.
+- [todo] History entries now show category in parentheses (e.g. `Milch (Einkaufen)`).
+- [todo] Added store migration to convert legacy `string[]` history entries to `HistoryEntry[]` format on load.
+
+### Changed
+
+- [todo] History is now populated on **deletion** (not creation) of todos - entries include the todo's category.
+- [todo] Duplicate history entries by title are replaced when re-deleted with updated category information.
+- [backend] Updated `history` field in DTOs and Mongoose schemas from `string[]` to `HistoryEntry[]` with `title` and `category` properties.
+
 - [shared] Added reusable EmojiPicker component with inline expandable dropdown, bilingual keyword search (EN/DE), scrollable grid view, and categorized emoji selection covering 200+ common emojis.
 - [todo] Integrated EmojiPicker into todo list creation and edit modals with vertical layout for easier emoji selection.
 - [todo] Added shared todo list functionality enabling collaborative editing via unique shared IDs.

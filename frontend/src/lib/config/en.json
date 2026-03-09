@@ -147,6 +147,7 @@
   "page.todos.changeCategory": "Change category",
   "page.todos.view.classic": "Classic view",
   "page.todos.view.byCategory": "View by category",
+  "page.todos.view.cleanupCompleted": "Delete all completed entries",
   "page.todos.collapseInput": "Collapse input area",
   "page.todos.expandInput": "Expand input area",
   "page.todos.share.shareList": "Share list",

@@ -1,4 +1,4 @@
-import type { SharedTodoListResponse } from '$lib/types/todo';
+import type { HistoryEntry, SharedTodoListResponse } from '$lib/types/todo';
 import { getApiURL } from '$lib/util/environment';
 import { createHeaders } from './helper';
 
@@ -33,7 +33,7 @@ export const updateSharedTodoList = async (
     name: string;
     emoji: string;
     todos: any[];
-    history: string[];
+    history: HistoryEntry[];
     categories: string[];
     version: number;
   },

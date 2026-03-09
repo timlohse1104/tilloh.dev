@@ -17,6 +17,14 @@ class TodoItem {
   category?: string;
 }
 
+class HistoryItem {
+  @Prop({ required: true })
+  title: string;
+
+  @Prop({ required: true })
+  category: string;
+}
+
 @Schema({ collection: 'shared_todo_lists' })
 export class SharedTodoList {
   _id?: Types.ObjectId;
@@ -30,8 +38,8 @@ export class SharedTodoList {
   @Prop({ type: [TodoItem], required: true, default: [] })
   todos!: TodoItem[];
 
-  @Prop({ type: [String], required: false, default: [] })
-  history?: string[];
+  @Prop({ type: [HistoryItem], required: false, default: [] })
+  history?: HistoryItem[];
 
   @Prop({ type: [String], required: false, default: [] })
   categories?: string[];

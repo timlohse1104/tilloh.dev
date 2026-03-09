@@ -1,6 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsArray, IsBoolean, IsNumber } from 'class-validator';
 
+export class HistoryEntryDto {
+  @ApiProperty({ description: 'History entry title' })
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @ApiProperty({ description: 'History entry category' })
+  @IsNotEmpty()
+  @IsString()
+  category: string;
+}
+
 export class TodoItemDto {
   @ApiProperty({ description: 'Todo item ID' })
   @IsNotEmpty()
@@ -43,10 +55,10 @@ export class SharedTodoListDto {
   @IsArray()
   todos: TodoItemDto[];
 
-  @ApiProperty({ description: 'History of changes', type: [String], required: false })
+  @ApiProperty({ description: 'History of changes', type: [HistoryEntryDto], required: false })
   @IsOptional()
   @IsArray()
-  history?: string[];
+  history?: HistoryEntryDto[];
 
   @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
   @IsOptional()
@@ -111,10 +123,10 @@ export class UpdateSharedTodoListInputDto {
   @IsArray()
   todos: TodoItemDto[];
 
-  @ApiProperty({ description: 'History of todo entries', type: [String], required: false })
+  @ApiProperty({ description: 'History of todo entries', type: [HistoryEntryDto], required: false })
   @IsOptional()
   @IsArray()
-  history?: string[];
+  history?: HistoryEntryDto[];
 
   @ApiProperty({ description: 'Categories used in todos', type: [String], required: false })
   @IsOptional()

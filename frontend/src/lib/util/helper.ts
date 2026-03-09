@@ -10,3 +10,8 @@ export const isEnter = (event) => {
   }
   return false;
 };
+
+export const normalizeCategory = (cat: string): string => cat.trim().toLowerCase();
+
+export const displayCategory = (cat: string): string =>
+  cat.split(' ').map((word) => (word ? word[0].toUpperCase() + word.slice(1) : word)).join(' ');

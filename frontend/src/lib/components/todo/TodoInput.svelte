@@ -1,6 +1,7 @@
 <script lang="ts">
   // 1. IMPORTS
   import { todoStore } from '$lib/util/stores/store-todo';
+  import { displayCategory, normalizeCategory } from '$lib/util/helper';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
@@ -73,13 +74,14 @@
 
   const saveTodo = () => {
     if (newTodoName) {
+      const normalizedCategory = normalizeCategory(newTodoCategory);
       todoStore.update((todoListArray) => {
         return todoListArray.map((list) => {
           if (list.id === listId) {
             const currentCategories = list.categories || [];
             const updatedCategories =
-              newTodoCategory && !currentCategories.includes(newTodoCategory)
-                ? [...currentCategories, newTodoCategory]
+              normalizedCategory && !currentCategories.includes(normalizedCategory)
+                ? [...currentCategories, normalizedCategory]
                 : currentCategories;
 
             return {
@@ -90,10 +92,9 @@
                   id: crypto.randomUUID(),
                   title: newTodoName,
                   done: false,
-                  category: newTodoCategory || '',
+                  category: normalizedCategory,
                 },
               ],
-              history: Array.from(new Set([...list.history, newTodoName])),
               categories: updatedCategories,
             };
           }
@@ -129,7 +130,7 @@
         />
         {#if categoryAutocomplete && categoryAutocomplete !== newTodoCategory}
           <div class="autocomplete-hint">
-            <kbd>Tab</kbd> → {categoryAutocomplete}
+            <kbd>Tab</kbd> → {displayCategory(categoryAutocomplete)}
           </div>
         {/if}
       </div>

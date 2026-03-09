@@ -1,18 +1,20 @@
 <script lang="ts">
   // 1. IMPORTS
   import { getSharedTodoList, updateSharedTodoList } from '$lib/api/todo.api';
-  import type { Todo } from '$lib/types/todo';
+  import type { HistoryEntry, Todo } from '$lib/types/todo';
+  import { displayCategory, normalizeCategory } from '$lib/util/helper';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import Category from 'carbon-icons-svelte/lib/Category.svelte';
   import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
   import ChevronUp from 'carbon-icons-svelte/lib/ChevronUp.svelte';
+  import Clean from 'carbon-icons-svelte/lib/Clean.svelte';
   import List from 'carbon-icons-svelte/lib/List.svelte';
   import { onMount } from 'svelte';
   import TodoComponent from './Todo.svelte';
   import TodoInputSection from './TodoInputSection.svelte';
-  import TodoItemList from './TodoItemList.svelte';
+  import GenericListOverlay from './GenericListOverlay.svelte';
 
   // 2. PROPS
   let { listId }: { listId: string } = $props();
@@ -226,10 +228,11 @@
       return todoListArray.map((list) => {
         if (list.id === listId) {
           const categories = list.categories || [];
-          if (!categories.includes(newCategory)) {
+          const normalized = normalizeCategory(newCategory);
+          if (!categories.includes(normalized)) {
             return {
               ...list,
-              categories: [...categories, newCategory],
+              categories: [...categories, normalized],
             };
           }
         }
@@ -276,9 +279,41 @@
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
+          const todoToDelete = list.todos.find((todo) => todo.id === todoId);
+          const updatedHistory = todoToDelete
+            ? [
+                ...list.history.filter((e) => e.title !== todoToDelete.title),
+                { title: todoToDelete.title, category: todoToDelete.category || '' },
+              ]
+            : list.history;
           return {
             ...list,
             todos: list.todos.filter((todo) => todo.id !== todoId),
+            history: updatedHistory,
+          };
+        }
+        return list;
+      });
+    });
+    syncSharedList();
+  };
+
+  const deleteCompletedTodos = () => {
+    todoStore.update((todoListArray) => {
+      return todoListArray.map((list) => {
+        if (list.id === listId) {
+          const doneTodos = list.todos.filter((todo) => todo.done);
+          let updatedHistory = [...list.history];
+          doneTodos.forEach((todo) => {
+            updatedHistory = [
+              ...updatedHistory.filter((e) => e.title !== todo.title),
+              { title: todo.title, category: todo.category || '' },
+            ];
+          });
+          return {
+            ...list,
+            todos: list.todos.filter((todo) => !todo.done),
+            history: updatedHistory,
           };
         }
         return list;
@@ -317,13 +352,14 @@
     syncSharedList();
   };
 
-  const removeEntryFromHistory = (entry: string) => {
+  const removeEntryFromHistory = (entry: string | HistoryEntry) => {
+    const entryTitle = typeof entry === 'string' ? entry : entry.title;
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
           return {
             ...list,
-            history: list.history.filter((e) => e !== entry),
+            history: list.history.filter((e) => e.title !== entryTitle),
           };
         }
         return list;
@@ -361,7 +397,9 @@
     syncSharedList();
   };
 
-  const readdTodoFromHistory = (entry: string) => {
+  const readdTodoFromHistory = (entry: string | HistoryEntry) => {
+    const title = typeof entry === 'string' ? entry : entry.title;
+    const category = typeof entry === 'string' ? '' : entry.category;
     todoStore.update((todoListArray) => {
       return todoListArray.map((list) => {
         if (list.id === listId) {
@@ -371,9 +409,9 @@
               ...list.todos,
               {
                 id: crypto.randomUUID(),
-                title: entry,
+                title,
                 done: false,
-                category: '',
+                category,
               },
             ],
           };
@@ -432,6 +470,14 @@
               aria-label={$t('page.todos.view.byCategory')}
             >
               <Category size={16} />
+            </button>
+            <button
+              class="view_btn"
+              onclick={deleteCompletedTodos}
+              title={$t('page.todos.view.cleanupCompleted')}
+              disabled={!list?.todos.some((todo) => todo.done)}
+            >
+              <Clean size={16} />
             </button>
           </div>
           <button
@@ -500,7 +546,7 @@
                   ? $t('page.todos.doneCategory')
                   : category === ''
                     ? $t('page.todos.uncategorized')
-                    : category}
+                    : displayCategory(category)}
               </h3>
               {#each todos as todo (todo.id)}
                 <TodoComponent
@@ -520,12 +566,17 @@
     </div>
 
     <!-- History Modal -->
-    <TodoItemList
+    <GenericListOverlay
       bind:open={historyModalOpen}
       title={$t('page.todos.list.history')}
       items={list?.history || []}
       emptyMessage={$t('page.todos.list.historyEmpty')}
       clearTooltip={$t('page.todos.deleteHistroy')}
+      displayText={(entry) => {
+        const e = entry as HistoryEntry;
+        return e.category ? `${e.title} (${e.category})` : e.title;
+      }}
+      itemKey={(entry) => (entry as HistoryEntry).title}
       onItemClick={readdTodoFromHistory}
       onRemoveItem={removeEntryFromHistory}
       onClearAll={clearHistory}
@@ -533,13 +584,15 @@
     />
 
     <!-- Categories Modal -->
-    <TodoItemList
+    <GenericListOverlay
       bind:open={categoriesModalOpen}
       title={$t('page.todos.list.categories')}
       items={list?.categories || []}
       emptyMessage={$t('page.todos.list.categoriesEmpty')}
       clearTooltip={$t('page.todos.deleteCategories')}
       itemClickTooltip="Click to use this category"
+      displayText={(cat) => displayCategory(cat as string)}
+      itemKey={(cat) => cat as string}
       onItemClick={(category) => {
         window.dispatchEvent(
           new CustomEvent('category-selected', {
@@ -657,6 +710,11 @@
       background: rgba(255, 255, 255, 0.12);
       color: rgba(255, 255, 255, 1);
       border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
   }
 
