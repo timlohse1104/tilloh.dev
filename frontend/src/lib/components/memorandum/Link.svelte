@@ -319,9 +319,8 @@
     border-radius: 4px;
     transition: background-color 0.2s;
 
-    @media #{$phone} {
-      min-height: 44px;
-      padding: 0.5rem;
+    @media #{$phone}, #{$tablet} {
+      display: none;
     }
 
     &:hover:not(:disabled) {
