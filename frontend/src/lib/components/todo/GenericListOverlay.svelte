@@ -155,6 +155,11 @@
     justify-content: center;
     transition: color 0.2s ease;
 
+    @media only screen and (max-width: 767px) {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
     &:hover {
       color: #da1e28;
     }
