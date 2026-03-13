@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [global] Claude Code `/commit-push` Skill für automatisierten Commit-und-Push-Workflow.
+- [global] Post-Commit Hook erweitert mit Unicode-Gitmojis und zusätzlichen Keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).
 - [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.
 - [memorandum] Empty state redesigned as Carbon Tile cards with title, description, and CTA buttons.
 - [memorandum] FAB add-folder button is now `kind="primary"` and hidden in empty state.
@@ -16,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [memorandum] Race condition in cloud storage mode: subscribe handler now skips writes during initialization (`isInitialized` guard) to prevent overwriting server data with the empty default preset.
+- [memorandum] `refreshPresetStore` was called twice on page mount (once via IIFE, once via `onMount`), causing duplicate concurrent loads and additional race conditions.
+- [memorandum] Replaced Empty State flash during cloud data loading with Carbon skeleton cards, preventing the user from accidentally interacting with the empty-state buttons before data has loaded.
 - [memorandum] `FolderOverlay` modal now has `hasScrollingContent` so sliders and inputs are scrollable on mobile.
 - [memorandum] Folder arrow buttons on phone now have `min-height: 44px` touch target (was too small).
 - [memorandum] FolderOverlay color value fields wrap on `$phone` instead of overflowing.

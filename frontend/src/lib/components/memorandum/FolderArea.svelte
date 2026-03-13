@@ -4,7 +4,12 @@
   import { FolderClass } from '$lib/util/memorandum/classes.js';
   import { defaultColor } from '$lib/util/memorandum/constants.js';
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
-  import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
+  import {
+    localPresetStore,
+    presetStoreLoading,
+  } from '$lib/util/stores/store-memorandum-preset';
+  import SkeletonPlaceholder from 'carbon-components-svelte/src/SkeletonPlaceholder/SkeletonPlaceholder.svelte';
+  import SkeletonText from 'carbon-components-svelte/src/SkeletonText/SkeletonText.svelte';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
@@ -100,6 +105,15 @@
           </Masonry>
         </section>
       {/if}
+    {:else if $presetStoreLoading}
+      <section class="content_area_fixed skeleton_area">
+        {#each Array(6) as _}
+          <div class="skeleton_card">
+            <SkeletonText heading width="60%" />
+            <SkeletonText lines={3} paragraph />
+          </div>
+        {/each}
+      </section>
     {:else}
       <Startup onNew={createFolder} onDefault={loadPreset} />
     {/if}
@@ -163,6 +177,20 @@
   .content_area_flexible {
     overflow-y: auto;
     overflow-x: hidden;
+  }
+
+  .skeleton_area {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .skeleton_card {
+    padding: 1rem;
+    background: var(--cds-ui-01, #f4f4f4);
+    min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   * :global(svg:focus) {

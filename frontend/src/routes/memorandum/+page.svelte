@@ -10,6 +10,7 @@
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import {
     localPresetStore,
+    presetStoreLoading,
     refreshPresetStore,
   } from '$lib/util/stores/store-memorandum-preset';
   import {
@@ -57,6 +58,7 @@
 
   onMount(async () => {
     await setLocale($languageStore);
+    presetStoreLoading.set(true);
     refreshPresetStore();
   });
 </script>

@@ -9,6 +9,7 @@ const linkPresetDefault = '{"Folders": []}';
 const linkPresetKey = 'memorandum.link-preset';
 
 export const localPresetStore = writable(JSON.parse(linkPresetDefault));
+export const presetStoreLoading = writable(true);
 
 // Helper functions
 const ensureFolderBackgroundColor = (linkPreset) => {
@@ -70,6 +71,7 @@ export const refreshPresetStore = async () => {
   }
 
   localPresetStore.set(backwardsCompatiblePreset);
+  presetStoreLoading.set(false);
 };
 
 // Online preset
@@ -113,15 +115,21 @@ const updateRemotePreset = (identifier, key, value) => {
 let sharedIdentifier;
 sharedIdentifierStore.subscribe((val) => (sharedIdentifier = val));
 
+let isInitialized = false;
+
 if (browser) {
   // No top-level await — wrap in async IIFE
   (async () => {
     await refreshPresetStore();
+    isInitialized = true;
   })();
 }
 
 if (browser) {
   localPresetStore.subscribe(async (val) => {
+    // Skip writes during initialization to prevent overwriting server data
+    // with the empty default before refreshPresetStore() has completed
+    if (!isInitialized) return;
     if (sharedIdentifier.id && sharedIdentifier.name) {
       await updateRemotePreset(
         sharedIdentifier.id,
