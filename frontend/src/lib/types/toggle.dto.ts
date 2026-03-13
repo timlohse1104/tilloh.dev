@@ -12,4 +12,5 @@ export enum TogglesEnum {
   adminIdentifiers = 'TOGGLE_ADMIN_IDENTIFIERS',
   adminJokes = 'TOGGLE_ADMIN_JOKES',
   adminLinkPreset = 'TOGGLE_ADMIN_LINK_PRESETS',
+  hitstar = 'TOGGLE_NAV_HITSTAR',
 }
