@@ -195,6 +195,24 @@ OCR_SPACE_API_KEY="<api-key>"
 - **WebSocket**: Chat module uses Socket.io for real-time messaging
 - **Throttling**: 500 requests per 5 minutes
 
+## Claude Code Tools (`.claude/` Submodule)
+
+The `.claude/` directory is a Git submodule pointing to [timlohse1104/claude-code-tools](https://github.com/timlohse1104/claude-code-tools). It contains reusable Claude Code commands and skills.
+
+After cloning this repository, initialize the submodule:
+
+```bash
+git clone --recurse-submodules <repo-url>
+# or if already cloned:
+git submodule update --init
+```
+
+The file `.claude/settings.local.json` is gitignored in the submodule. Copy the example to restore local permissions:
+
+```bash
+cp .claude/settings.local.json.example .claude/settings.local.json
+```
+
 ## Deployment
 
 Uses Docker + GitHub Actions CI/CD to Uberspace hosting:
