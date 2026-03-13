@@ -12,6 +12,10 @@ interface Params {
   joke: string;
   id: string;
   modelName: string;
+  score: string;
+  round: string;
+  year: string;
+  date: string;
 }
 
 const config: Config<Partial<Params>> = {

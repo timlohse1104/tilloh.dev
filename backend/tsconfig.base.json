@@ -43,7 +43,8 @@
       "@backend/util": ["libs/shared/util/src/index.ts"],
       "@backend/shared-identifiers": [
         "libs/shared/provider/identifiers/src/index.ts"
-      ]
+      ],
+      "@backend/spotify": ["libs/spotify/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [hitstar] New "Hitstar" music year guessing game: listen to a 30-second preview and guess the release year across 10 rounds.
+- [hitstar] Backend NX library `spotify` with iTunes Search API integration and random track endpoint (`GET /spotify/random-track`).
+- [hitstar] Frontend route `/hitstar` with state machine (MENU → LOADING → GUESSING → REVEAL → RESULTS).
+- [hitstar] Audio preview plays automatically in GUESSING state via iTunes preview URL.
+- [hitstar] CSS 3D flip card animation on answer reveal, confetti for correct guesses, shake animation for wrong answers.
+- [hitstar] Links to search on Spotify and open on Apple Music shown after reveal.
+- [hitstar] Best score and active game state persisted in localStorage; interrupted games can be resumed.
+- [hitstar] Abort button to cancel the current game at any time.
 - [global] Claude Code `/commit-push` Skill für automatisierten Commit-und-Push-Workflow.
 - [global] Post-Commit Hook erweitert mit Unicode-Gitmojis und zusätzlichen Keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).
 - [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.

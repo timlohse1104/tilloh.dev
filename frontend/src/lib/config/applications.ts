@@ -6,6 +6,7 @@ import Bullhorn from 'carbon-icons-svelte/lib/Bullhorn.svelte';
 import Cognitive from 'carbon-icons-svelte/lib/Cognitive.svelte';
 import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
 import GameConsole from 'carbon-icons-svelte/lib/GameConsole.svelte';
+import Music from 'carbon-icons-svelte/lib/Music.svelte';
 import Home from 'carbon-icons-svelte/lib/Home.svelte';
 import Identification from 'carbon-icons-svelte/lib/Identification.svelte';
 import ListBoxes from 'carbon-icons-svelte/lib/ListBoxes.svelte';
@@ -23,6 +24,7 @@ export type ApplicationRoutes = {
   'food-scan': Route;
   'catch-em-all': Route;
   'uno-sort': Route;
+  hitstar: Route;
   about: Route;
 };
 
@@ -34,6 +36,7 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     foodScanToggle,
     catchEmAllToggle,
     unoSortToggle,
+    hitstarToggle,
     aboutToggle,
   ] = await Promise.all([
     getToggleValue(TogglesEnum.memorandum),
@@ -42,6 +45,7 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     getToggleValue(TogglesEnum.foodScan),
     getToggleValue(TogglesEnum.catchEmAll),
     getToggleValue(TogglesEnum.unoSort),
+    getToggleValue(TogglesEnum.hitstar),
     getToggleValue(TogglesEnum.about),
   ]);
 
@@ -53,6 +57,7 @@ const loadApplications = async (): Promise<ApplicationRoutes> => {
     'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: foodScanToggle },
     'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: catchEmAllToggle },
     'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: unoSortToggle },
+    hitstar: { id: 'hitstar', name: { en: 'Hitstar', de: 'Hitstar' }, path: '/hitstar', icon: Music, toggle: hitstarToggle },
     about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: aboutToggle },
   };
 };
@@ -65,6 +70,7 @@ const defaultApplicationRoutes: ApplicationRoutes = {
   'food-scan': { id: 'food-scan', name: { en: 'Food Scan', de: 'Essen-Scan' }, path: '/food-scan', icon: Restaurant, toggle: false },
   'catch-em-all': { id: 'catch-em-all', name: { en: 'Catch-em-all', de: 'Catch-em-all' }, path: '/catch-em-all', icon: GameConsole, toggle: false },
   'uno-sort': { id: 'uno-sort', name: { en: 'Uno sort', de: 'Uno Sortierung' }, path: '/uno-sort', icon: GameConsole, toggle: false },
+  hitstar: { id: 'hitstar', name: { en: 'Hitstar', de: 'Hitstar' }, path: '/hitstar', icon: Music, toggle: false },
   about: { id: 'about', name: { en: 'About me', de: 'Über mich' }, path: '/about', icon: Identification, toggle: false },
 };
 
