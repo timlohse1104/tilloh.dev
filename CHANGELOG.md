@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [hitstar] Show current game mode (Classic / Range) as small grey label top-left, always visible even when tabs are hidden during active game.
+
+### Changed
+
+- [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
+
 - [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
 - [hitstar] Multi-mode architecture with Carbon Tabs (horizontal, compact, centered, no dropdown on any viewport) with spacing below for mode selection on the Hitstar start page.

@@ -20,6 +20,9 @@
 
 {#if $initialized}
   <div class="hitstar-container" class:game-active={gameActive}>
+    <p class="mode-label">
+      {selectedTab === 0 ? $t('page.hitstar.tabs.classic') : $t('page.hitstar.tabs.range')}
+    </p>
     <Tabs bind:selected={selectedTab}>
       <Tab label={$t('page.hitstar.tabs.classic')} />
       <Tab label={$t('page.hitstar.tabs.range')} />
@@ -43,6 +46,13 @@
     flex: 1;
     box-sizing: border-box;
     width: 100%;
+  }
+
+  .mode-label {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    color: var(--cds-text-helper, #6f6f6f);
+    margin: 0 0 0.25rem;
   }
 
   /* Tabs always visible as horizontal bar, no dropdown */

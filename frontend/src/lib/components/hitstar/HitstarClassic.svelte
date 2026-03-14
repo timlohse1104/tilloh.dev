@@ -280,7 +280,6 @@
       <div class:shake={isShaking}>
         <HitstarCard flipped={isCardFlipped} track={currentTrack} correct={isCorrect} />
       </div>
-      <HitstarSpotifyEmbed trackId={currentTrack?.id ?? ''} masked={false} />
     </div>
 
     <div class="bottom-action">
