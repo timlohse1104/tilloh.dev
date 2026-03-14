@@ -5,8 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class SpotifyService {
-  private readonly logger = new Logger(SpotifyService.name);
+export class HitstarService {
+  private readonly logger = new Logger(HitstarService.name);
   private accessToken: string | null = null;
   private tokenExpiresAt = 0;
 
@@ -21,8 +21,12 @@ export class SpotifyService {
     }
 
     const clientId = this.configService.get<string>('SPOTIFY_CLIENT_ID');
-    const clientSecret = this.configService.get<string>('SPOTIFY_CLIENT_SECRET');
-    const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+    const clientSecret = this.configService.get<string>(
+      'SPOTIFY_CLIENT_SECRET',
+    );
+    const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+      'base64',
+    );
 
     const response = await firstValueFrom(
       this.httpService.post(
@@ -38,7 +42,8 @@ export class SpotifyService {
     );
 
     this.accessToken = response.data.access_token as string;
-    this.tokenExpiresAt = Date.now() + (response.data.expires_in as number) * 1000;
+    this.tokenExpiresAt =
+      Date.now() + (response.data.expires_in as number) * 1000;
     return this.accessToken;
   }
 
@@ -46,13 +51,16 @@ export class SpotifyService {
     const maxAttempts = 10;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const offset = Math.floor(Math.random() * 50);
+      const offset = Math.floor(Math.random() * 950);
       const token = await this.getAccessToken();
 
-      this.logger.log(`Attempt ${attempt + 1}: searching Spotify (offset=${offset})`);
+      this.logger.log(
+        `Attempt ${attempt + 1}: searching Spotify (offset=${offset})`,
+      );
 
       try {
-        const searchUrl = `https://api.spotify.com/v1/search?q=*+year%3A1950-2025&type=track&market=DE&limit=1&offset=${offset}`;
+        const searchUrl = `https://api.spotify.com/v1/search?q=*+year%3A1950-2025&type=track&market=DE&limit=10&offset=${offset}`;
+        this.logger.log(`Fetching URL: ${searchUrl}`);
         const response = await firstValueFrom(
           this.httpService.get(searchUrl, {
             headers: { Authorization: `Bearer ${token}` },
@@ -61,10 +69,15 @@ export class SpotifyService {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const items: any[] = response.data?.tracks?.items ?? [];
-        const validTracks = items.filter((t) => t.preview_url && t.album?.release_date);
+        const validTracks = items.filter((t) => t.album?.release_date);
+
+        this.logger.log(
+          `Attempt ${attempt + 1}: ${items.length} tracks fetched, ${validTracks.length} usable`,
+        );
 
         if (validTracks.length > 0) {
-          const track = validTracks[0];
+          const track =
+            validTracks[Math.floor(Math.random() * validTracks.length)];
           const releaseYear = parseInt(
             (track.album.release_date as string).substring(0, 4),
             10,
@@ -74,7 +87,9 @@ export class SpotifyService {
             .map((a) => a.name)
             .join(', ');
 
-          this.logger.log(`Found: "${track.name as string}" by ${artist} (${releaseYear})`);
+          this.logger.log(
+            `Found: "${track.name as string}" by ${artist} (${releaseYear})`,
+          );
 
           return {
             id: track.id as string,
@@ -88,12 +103,21 @@ export class SpotifyService {
           };
         }
 
-        this.logger.warn(`Attempt ${attempt + 1}: no usable track found, retrying.`);
-      } catch (err) {
-        this.logger.warn(`Attempt ${attempt + 1} failed: ${err}`);
+        this.logger.warn(
+          `Attempt ${attempt + 1}: no usable track found. HTTP ${response.status}, response: ${JSON.stringify(response.data)}`,
+        );
+      } catch (err: unknown) {
+        const status = (err as { response?: { status?: number } })?.response
+          ?.status;
+        const data = (err as { response?: { data?: unknown } })?.response?.data;
+        this.logger.warn(
+          `Attempt ${attempt + 1} failed. HTTP ${status ?? 'n/a'}, response: ${JSON.stringify(data ?? err)}`,
+        );
       }
     }
 
-    throw new Error(`Could not find a random track after ${maxAttempts} attempts.`);
+    throw new Error(
+      `Could not find a random track after ${maxAttempts} attempts.`,
+    );
   }
 }

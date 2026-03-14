@@ -10,13 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
+- [hitstar] Multi-mode architecture with Carbon Tabs (horizontal, no dropdown) for mode selection on the Hitstar start page.
+- [hitstar] New "Range" game mode: set a 1–5 year range instead of guessing exactly; narrower ranges earn more points (max 50).
 
 ### Changed
 
+- [hitstar] Refactored Hitstar into shell + separate mode components (HitstarClassic, HitstarRange) with shared sub-components (HitstarRoundTracker, HitstarGameTopBar, HitstarLoadingScreen, HitstarResultsScreen).
+- [hitstar] Refactored localStorage keys to mode-specific pattern (hitstar.classic.*, hitstar.range.*) with automatic migration of existing data.
 - [hitstar] Hide best-score tile in menu when no score has been recorded yet.
 - [hitstar] Replace static ProgressIndicator with custom icon step-cards (Headphones, Calendar, CheckmarkFilled, Repeat, Trophy) for the game tutorial.
 - [hitstar] New "Hitstar" music year guessing game: listen to a 30-second preview and guess the release year across 10 rounds.
-- [hitstar] Backend NX library `spotify` with iTunes Search API integration and random track endpoint (`GET /spotify/random-track`).
+- [hitstar] Renamed backend NX library `spotify` to `hitstar`; endpoint changed from `GET /spotify/random-track` to `GET /hitstar/random-track`.
 - [hitstar] Frontend route `/hitstar` with state machine (MENU → LOADING → GUESSING → REVEAL → RESULTS).
 - [hitstar] Audio preview plays automatically in GUESSING state via iTunes preview URL.
 - [hitstar] CSS 3D flip card animation on answer reveal, confetti for correct guesses, shake animation for wrong answers.

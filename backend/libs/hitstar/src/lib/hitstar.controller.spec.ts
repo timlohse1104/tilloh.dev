@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SpotifyController } from './spotify.controller';
-import { SpotifyService } from './spotify.service';
+import { HitstarController } from './hitstar.controller';
+import { HitstarService } from './hitstar.service';
 
 const mockTrack = {
   id: 'track-id-1',
@@ -13,16 +13,16 @@ const mockTrack = {
   previewUrl: 'https://p.scdn.co/mp3-preview/abc123',
 };
 
-describe('SpotifyController', () => {
-  let controller: SpotifyController;
-  let service: SpotifyService;
+describe('HitstarController', () => {
+  let controller: HitstarController;
+  let service: HitstarService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [SpotifyController],
+      controllers: [HitstarController],
       providers: [
         {
-          provide: SpotifyService,
+          provide: HitstarService,
           useValue: {
             getRandomTrack: jest.fn().mockResolvedValue(mockTrack),
           },
@@ -30,8 +30,8 @@ describe('SpotifyController', () => {
       ],
     }).compile();
 
-    controller = module.get<SpotifyController>(SpotifyController);
-    service = module.get<SpotifyService>(SpotifyService);
+    controller = module.get<HitstarController>(HitstarController);
+    service = module.get<HitstarService>(HitstarService);
   });
 
   it('should be defined', () => {

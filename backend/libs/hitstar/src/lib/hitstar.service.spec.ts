@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { SpotifyService } from './spotify.service';
+import { HitstarService } from './hitstar.service';
 
 const mockTokenResponse = {
   data: {
@@ -32,14 +32,14 @@ const mockSpotifyResponse = {
   },
 };
 
-describe('SpotifyService', () => {
-  let service: SpotifyService;
+describe('HitstarService', () => {
+  let service: HitstarService;
   let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        SpotifyService,
+        HitstarService,
         {
           provide: HttpService,
           useValue: { get: jest.fn(), post: jest.fn() },
@@ -51,7 +51,7 @@ describe('SpotifyService', () => {
       ],
     }).compile();
 
-    service = module.get<SpotifyService>(SpotifyService);
+    service = module.get<HitstarService>(HitstarService);
     httpService = module.get<HttpService>(HttpService);
   });
 

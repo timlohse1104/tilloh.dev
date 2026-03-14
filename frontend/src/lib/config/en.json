@@ -341,5 +341,19 @@
   "page.hitstar.menu.step2": "Guess",
   "page.hitstar.menu.step3": "Reveal",
   "page.hitstar.menu.step4": "10 Rounds",
-  "page.hitstar.menu.step5": "Score"
+  "page.hitstar.menu.step5": "Score",
+  "page.hitstar.tabs.classic": "Classic",
+  "page.hitstar.tabs.range": "Range",
+  "page.hitstar.range.menu.headline": "Range Mode",
+  "page.hitstar.range.menu.description": "Set a 1–5 year range – the narrower the range, the more points you earn. Max. 50 points!",
+  "page.hitstar.range.menu.step2": "Set range",
+  "page.hitstar.range.menu.bestScoreValue": "{{score}} / 50 on {{date}}",
+  "page.hitstar.range.guessing.cardHint": "In which year range was this song released?",
+  "page.hitstar.range.guessing.fromLabel": "From",
+  "page.hitstar.range.guessing.toLabel": "To",
+  "page.hitstar.range.guessing.potentialPoints": "Potential points: {{points}}",
+  "page.hitstar.range.guessing.errorFromTo": "\"To\" must be greater than or equal to \"From\".",
+  "page.hitstar.range.guessing.errorRangeSize": "The range may span at most 5 years.",
+  "page.hitstar.range.results.yourGuess": "Your range: {{fromYear}}–{{toYear}}",
+  "page.hitstar.range.results.points": "+{{points}} pts."
 }

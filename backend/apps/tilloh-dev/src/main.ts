@@ -1,6 +1,6 @@
 import { AdminModule } from '@backend/admin';
 import { JokesModule } from '@backend/jokes';
-import { SpotifyModule } from '@backend/spotify';
+import { HitstarModule } from '@backend/hitstar';
 import { MemorandumModule } from '@backend/memorandum';
 import { OcrModule } from '@backend/ocr';
 import { SharedControllerHealthModule } from '@backend/shared-controller-health';
@@ -72,7 +72,7 @@ import { EnvironmentVariables, validate } from './env.validation';
     MemorandumModule,
     JokesModule,
     OcrModule,
-    SpotifyModule,
+    HitstarModule,
     TodoControllerModule,
   ],
   providers: [

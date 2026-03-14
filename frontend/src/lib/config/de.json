@@ -341,5 +341,19 @@
   "page.hitstar.menu.step2": "Jahr raten",
   "page.hitstar.menu.step3": "Aufdecken",
   "page.hitstar.menu.step4": "10 Runden",
-  "page.hitstar.menu.step5": "Wertung"
+  "page.hitstar.menu.step5": "Wertung",
+  "page.hitstar.tabs.classic": "Klassisch",
+  "page.hitstar.tabs.range": "Zeitraum",
+  "page.hitstar.range.menu.headline": "Der Zeitraum-Modus",
+  "page.hitstar.range.menu.description": "Setze einen Zeitraum von 1 bis 5 Jahren – je schmaler der Bereich, desto mehr Punkte. Max. 50 Punkte!",
+  "page.hitstar.range.menu.step2": "Zeitraum setzen",
+  "page.hitstar.range.menu.bestScoreValue": "{{score}} / 50 am {{date}}",
+  "page.hitstar.range.guessing.cardHint": "In welchem Zeitraum wurde dieser Song veröffentlicht?",
+  "page.hitstar.range.guessing.fromLabel": "Von",
+  "page.hitstar.range.guessing.toLabel": "Bis",
+  "page.hitstar.range.guessing.potentialPoints": "Mögliche Punkte: {{points}}",
+  "page.hitstar.range.guessing.errorFromTo": "\"Bis\" muss größer oder gleich \"Von\" sein.",
+  "page.hitstar.range.guessing.errorRangeSize": "Der Zeitraum darf maximal 5 Jahre umfassen.",
+  "page.hitstar.range.results.yourGuess": "Dein Zeitraum: {{fromYear}}–{{toYear}}",
+  "page.hitstar.range.results.points": "+{{points}} Pkt."
 }
