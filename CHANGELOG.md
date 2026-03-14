@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [hitstar] Links to search on Spotify and open on Apple Music shown after reveal.
 - [hitstar] Best score and active game state persisted in localStorage; interrupted games can be resumed.
 - [hitstar] Abort button to cancel the current game at any time.
+
+### Changed
+
+- [hitstar] Redesigned GUESSING/REVEAL UI: question headline + small danger Exit icon button in top bar, round progress tracker (gray/green/red bars), year input and submit icon button inline, submit icon centered via flex override.
 - [global] Claude Code `/commit-push` Skill für automatisierten Commit-und-Push-Workflow.
 - [global] Post-Commit Hook erweitert mit Unicode-Gitmojis und zusätzlichen Keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).
 - [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.
