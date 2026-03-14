@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
-- [hitstar] Multi-mode architecture with Carbon Tabs (horizontal, no dropdown) for mode selection on the Hitstar start page.
+- [hitstar] Multi-mode architecture with Carbon Tabs (horizontal, compact, centered, no dropdown on any viewport) with spacing below for mode selection on the Hitstar start page.
 - [hitstar] New "Range" game mode: set a 1–5 year range instead of guessing exactly; narrower ranges earn more points (max 50).
+- [hitstar] Replace Spotify iframe embed in guessing phase with Spotify iFrame API: hidden iframe controlled by custom Play/Pause and Replay buttons for a clean, maskless player UI.
 
 ### Changed
 

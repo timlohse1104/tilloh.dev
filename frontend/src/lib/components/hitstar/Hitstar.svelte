@@ -52,20 +52,57 @@
 
   .hitstar-container :global(.bx--tabs__nav--hidden) {
     display: flex !important;
+    flex-direction: row !important;
+    max-height: unset !important;
+    overflow: visible !important;
+    position: static !important;
   }
 
-  /* Full-width tab nav */
+  /* Full-width tab container, nav centered and only as wide as its items */
   .hitstar-container :global(.bx--tabs) {
     width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .hitstar-container :global(.bx--tabs__nav) {
-    width: 100%;
+    width: fit-content;
   }
 
-  /* TabContent padding */
+  .hitstar-container :global(.bx--tabs__nav-item) {
+    display: flex !important;
+    flex: unset;
+  }
+
+  /* Active tab indicator (Carbon hides selected item on mobile by default) */
+  .hitstar-container :global(.bx--tabs__nav-item--selected .bx--tabs__nav-link) {
+    border-bottom: 2px solid var(--cds-interactive-04, #0f62fe) !important;
+    color: var(--cds-text-01, #f4f4f4) !important;
+    font-weight: 600;
+  }
+
+  /* Remove focus ring on tab links — selection shown by bottom border only */
+  .hitstar-container :global(.bx--tabs__nav-link:focus),
+  .hitstar-container :global(.bx--tabs__nav-link:active) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Prevent Carbon from resizing tab links on focus/active on mobile
+     (Carbon sets width:100%, padding-left:16px, margin:0 which causes visual shift) */
+  @media (max-width: 41.9375rem) {
+    .hitstar-container :global(.bx--tabs__nav-link:focus),
+    .hitstar-container :global(.bx--tabs__nav-link:active) {
+      width: calc(100% - 32px) !important;
+      padding-left: 0 !important;
+      margin: 0 var(--cds-spacing-05, 1rem) !important;
+    }
+  }
+
+  /* Margin between tab bar and mode content */
   .hitstar-container :global(.bx--tab-content) {
     padding: 0;
+    margin-top: calc(2 * var(--default_padding));
   }
 
   /* Hide tabs during active game */
