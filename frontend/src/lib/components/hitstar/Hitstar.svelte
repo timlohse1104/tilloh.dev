@@ -17,8 +17,13 @@
   import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import ProgressBar from 'carbon-components-svelte/src/ProgressBar/ProgressBar.svelte';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import Calendar from 'carbon-icons-svelte/lib/Calendar.svelte';
+  import CheckmarkFilled from 'carbon-icons-svelte/lib/CheckmarkFilled.svelte';
   import ContinueFilled from 'carbon-icons-svelte/lib/ContinueFilled.svelte';
   import Exit from 'carbon-icons-svelte/lib/Exit.svelte';
+  import Headphones from 'carbon-icons-svelte/lib/Headphones.svelte';
+  import Repeat from 'carbon-icons-svelte/lib/Repeat.svelte';
+  import Trophy from 'carbon-icons-svelte/lib/Trophy.svelte';
   import { onMount } from 'svelte';
   import HitstarCard from './HitstarCard.svelte';
 
@@ -26,6 +31,14 @@
   type GameState = 'MENU' | 'LOADING' | 'GUESSING' | 'REVEAL' | 'RESULTS';
   const TOTAL_ROUNDS = 10;
   const roundIndices = Array(TOTAL_ROUNDS).fill(0);
+  const STEP_COUNT = 5;
+  const STEPS = [
+    { icon: Headphones },
+    { icon: Calendar },
+    { icon: CheckmarkFilled },
+    { icon: Repeat },
+    { icon: Trophy },
+  ];
 
   // 4. STATE
   let gameState = $state<GameState>('MENU');
@@ -38,6 +51,15 @@
   let isCardFlipped = $state(false);
   let errorMessage = $state('');
   let isShaking = $state(false);
+  let currentStepIndex = $state(0);
+
+  // 6. EFFECTS
+  $effect(() => {
+    const interval = setInterval(() => {
+      currentStepIndex = (currentStepIndex + 1) % STEP_COUNT;
+    }, 2000);
+    return () => clearInterval(interval);
+  });
 
   // 5. DERIVED
   const bestRound = $derived($hitstarBestRoundStore);
@@ -171,19 +193,29 @@
         <h1 class="headline">{$t('page.hitstar.menu.headline')}</h1>
         <p class="description">{$t('page.hitstar.menu.description')}</p>
 
-        <Tile class="best-score-tile">
-          <p class="best-score-label">{$t('page.hitstar.menu.bestScore')}</p>
-          {#if bestRound}
+        <div class="step-cards">
+          {#each STEPS as step, i}
+            {@const StepIcon = step.icon}
+            <div class="step-card" class:active={i === currentStepIndex}>
+              <StepIcon size={24} />
+              <span class="step-label"
+                >{$t(`page.hitstar.menu.step${i + 1}`)}</span
+              >
+            </div>
+          {/each}
+        </div>
+
+        {#if bestRound}
+          <Tile class="best-score-tile">
+            <p class="best-score-label">{$t('page.hitstar.menu.bestScore')}</p>
             <p class="best-score-value">
               {$t('page.hitstar.menu.bestScoreValue', {
                 score: String(bestRound.score),
                 date: bestRound.date,
               })}
             </p>
-          {:else}
-            <p class="best-score-empty">{$t('page.hitstar.menu.noScore')}</p>
-          {/if}
-        </Tile>
+          </Tile>
+        {/if}
 
         {#if errorMessage}
           <InlineNotification
@@ -249,7 +281,7 @@
 
         <!-- MIDDLE: Card + Audio (centered vertically) -->
         <div class="game-middle-section">
-          <HitstarCard flipped={false} track={null} />
+          <HitstarCard flipped={false} track={null} correct={false} />
           {#if currentTrack?.previewUrl}
             <audio
               controls
@@ -318,7 +350,11 @@
         <!-- MIDDLE: Card + Audio (centered vertically) -->
         <div class="game-middle-section">
           <div class:shake={isShaking}>
-            <HitstarCard flipped={isCardFlipped} track={currentTrack} correct={isCorrect} />
+            <HitstarCard
+              flipped={isCardFlipped}
+              track={currentTrack}
+              correct={isCorrect}
+            />
           </div>
 
           {#if currentTrack?.previewUrl}
@@ -563,6 +599,53 @@
     position: static;
   }
 
+  /* ── Step cards ───────────────────────────────────────── */
+  .step-cards {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 520px;
+    justify-content: center;
+  }
+
+  .step-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0.25rem;
+    border-radius: 6px;
+    border: 2px solid var(--cds-border-subtle-01, #525252);
+    background: var(--cds-layer-02, #393939);
+    flex: 1;
+    min-width: 0;
+    transition:
+      border-color 0.3s,
+      background 0.3s,
+      transform 0.3s,
+      opacity 0.3s;
+    opacity: 0.45;
+  }
+
+  .step-card.active {
+    border-color: var(--cds-interactive, #0f62fe);
+    background: var(--cds-layer-selected-01, #4c4c4c);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .step-label {
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--cds-text-secondary);
+    line-height: 1.2;
+  }
+
+  .step-card.active .step-label {
+    color: var(--cds-text-primary);
+    font-weight: 500;
+  }
+
   /* ── Menu styles ──────────────────────────────────────── */
   .headline {
     font-size: 2rem;
@@ -584,15 +667,10 @@
     margin: 0 0 0.3rem;
   }
 
-  .best-score-value,
-  .best-score-empty {
+  .best-score-value {
     font-size: 1.1rem;
     font-weight: bold;
     margin: 0;
-  }
-
-  .best-score-empty {
-    color: var(--cds-text-secondary);
   }
 
   /* ── Audio ────────────────────────────────────────────── */

@@ -306,7 +306,7 @@
   "page.shared.searchEmoji": "Emoji suchen...",
   "page.shared.noEmojisFound": "Keine Emojis gefunden",
   "page.hitstar.title": "Hitstar",
-  "page.hitstar.menu.headline": "Hitstar – Musik-Ratespiel",
+  "page.hitstar.menu.headline": "Das Musik-Ratespiel",
   "page.hitstar.menu.description": "Kannst du das Erscheinungsjahr eines zufälligen Songs erraten? Du hast 10 Runden – viel Erfolg!",
   "page.hitstar.menu.bestScore": "Beste Wertung",
   "page.hitstar.menu.bestScoreValue": "{{score}} / 10 am {{date}}",
@@ -336,5 +336,10 @@
   "page.hitstar.results.yourGuess": "Deine Antwort: {{year}}",
   "page.hitstar.results.correctYear": "Richtiges Jahr: {{year}}",
   "page.hitstar.results.playAgain": "Nochmal spielen",
-  "page.hitstar.abort": "Spiel abbrechen"
+  "page.hitstar.abort": "Spiel abbrechen",
+  "page.hitstar.menu.step1": "Song hören",
+  "page.hitstar.menu.step2": "Jahr raten",
+  "page.hitstar.menu.step3": "Aufdecken",
+  "page.hitstar.menu.step4": "10 Runden",
+  "page.hitstar.menu.step5": "Wertung"
 }

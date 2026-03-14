@@ -306,7 +306,7 @@
   "page.shared.searchEmoji": "Search emoji...",
   "page.shared.noEmojisFound": "No emojis found",
   "page.hitstar.title": "Hitstar",
-  "page.hitstar.menu.headline": "Hitstar – Music Year Game",
+  "page.hitstar.menu.headline": "The music guessing game",
   "page.hitstar.menu.description": "Can you guess the release year of a random song? You have 10 rounds – good luck!",
   "page.hitstar.menu.bestScore": "Best score",
   "page.hitstar.menu.bestScoreValue": "{{score}} / 10 on {{date}}",
@@ -336,5 +336,10 @@
   "page.hitstar.results.yourGuess": "Your guess: {{year}}",
   "page.hitstar.results.correctYear": "Correct year: {{year}}",
   "page.hitstar.results.playAgain": "Play again",
-  "page.hitstar.abort": "Abort game"
+  "page.hitstar.abort": "Abort game",
+  "page.hitstar.menu.step1": "Listen",
+  "page.hitstar.menu.step2": "Guess",
+  "page.hitstar.menu.step3": "Reveal",
+  "page.hitstar.menu.step4": "10 Rounds",
+  "page.hitstar.menu.step5": "Score"
 }
