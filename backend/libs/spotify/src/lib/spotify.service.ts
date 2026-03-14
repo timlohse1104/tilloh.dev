@@ -1,54 +1,90 @@
 import { SpotifyTrackDto } from '@backend/shared-types';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class SpotifyService {
   private readonly logger = new Logger(SpotifyService.name);
+  private accessToken: string | null = null;
+  private tokenExpiresAt = 0;
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private configService: ConfigService,
+  ) {}
+
+  private async getAccessToken(): Promise<string> {
+    if (this.accessToken && Date.now() < this.tokenExpiresAt - 60_000) {
+      return this.accessToken;
+    }
+
+    const clientId = this.configService.get<string>('SPOTIFY_CLIENT_ID');
+    const clientSecret = this.configService.get<string>('SPOTIFY_CLIENT_SECRET');
+    const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+
+    const response = await firstValueFrom(
+      this.httpService.post(
+        'https://accounts.spotify.com/api/token',
+        'grant_type=client_credentials',
+        {
+          headers: {
+            Authorization: `Basic ${credentials}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      ),
+    );
+
+    this.accessToken = response.data.access_token as string;
+    this.tokenExpiresAt = Date.now() + (response.data.expires_in as number) * 1000;
+    return this.accessToken;
+  }
 
   async getRandomTrack(): Promise<SpotifyTrackDto> {
     const maxAttempts = 10;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const char = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+      const offset = Math.floor(Math.random() * 50);
+      const token = await this.getAccessToken();
 
-      this.logger.log(`Attempt ${attempt + 1}: searching iTunes for char="${char}"`);
+      this.logger.log(`Attempt ${attempt + 1}: searching Spotify (offset=${offset})`);
 
       try {
-        const searchUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(char)}&entity=song&limit=20`;
-        const response = await firstValueFrom(this.httpService.get(searchUrl));
+        const searchUrl = `https://api.spotify.com/v1/search?q=*+year%3A1950-2025&type=track&market=DE&limit=1&offset=${offset}`;
+        const response = await firstValueFrom(
+          this.httpService.get(searchUrl, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        );
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const results: any[] = response.data?.results ?? [];
-
-        const validTracks = results.filter((track) => {
-          if (!track.previewUrl) return false;
-          if (!track.releaseDate) return false;
-          const year = parseInt((track.releaseDate as string).substring(0, 4), 10);
-          return !isNaN(year) && year >= 1950 && year <= 2026;
-        });
+        const items: any[] = response.data?.tracks?.items ?? [];
+        const validTracks = items.filter((t) => t.preview_url && t.album?.release_date);
 
         if (validTracks.length > 0) {
-          const track = validTracks[Math.floor(Math.random() * validTracks.length)];
-          const releaseYear = parseInt((track.releaseDate as string).substring(0, 4), 10);
-          const albumCover = track.artworkUrl100
-            ? (track.artworkUrl100 as string).replace('100x100bb', '600x600bb')
-            : '';
+          const track = validTracks[0];
+          const releaseYear = parseInt(
+            (track.album.release_date as string).substring(0, 4),
+            10,
+          );
+          const albumCover: string = track.album?.images?.[0]?.url ?? '';
+          const artist: string = (track.artists as { name: string }[])
+            .map((a) => a.name)
+            .join(', ');
 
-          this.logger.log(`Found: "${track.trackName}" by ${track.artistName} (${releaseYear})`);
+          this.logger.log(`Found: "${track.name as string}" by ${artist} (${releaseYear})`);
 
           return {
-            id: String(track.trackId),
-            name: track.trackName as string,
-            artist: track.artistName as string,
-            album: track.collectionName as string,
+            id: track.id as string,
+            name: track.name as string,
+            artist,
+            album: track.album.name as string,
             albumCover,
             releaseYear,
-            spotifyUrl: track.trackViewUrl as string,
-            previewUrl: track.previewUrl as string,
+            spotifyUrl: (track.external_urls?.spotify as string) ?? '',
+            previewUrl: track.preview_url as string,
           };
         }
 

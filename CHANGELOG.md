@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [hitstar] Switched backend track search from iTunes to Spotify API with OAuth2 client credentials token caching, market=DE filter, and `q=* year:1950-2025` query.
 - [hitstar] Refactored GUESSING/REVEAL layout into top/middle/bottom sections: headline+exit+tracker pinned to top, card+audio centered vertically, year input pinned to bottom.
 - [hitstar] Made HitstarCard fully responsive using `min()` and `aspect-ratio` instead of fixed pixel dimensions.
 - [hitstar] Improved mobile layout: no horizontal or vertical scrollbars; components scale smaller on small screens.

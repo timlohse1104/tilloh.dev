@@ -22,6 +22,12 @@ export class EnvironmentVariables {
 
   @IsString()
   OCR_SPACE_API_KEY: string;
+
+  @IsString()
+  SPOTIFY_CLIENT_ID: string;
+
+  @IsString()
+  SPOTIFY_CLIENT_SECRET: string;
 }
 
 export function validate(
