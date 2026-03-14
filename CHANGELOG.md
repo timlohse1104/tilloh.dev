@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [hitstar] Refactored GUESSING/REVEAL layout into top/middle/bottom sections: headline+exit+tracker pinned to top, card+audio centered vertically, year input pinned to bottom.
+- [hitstar] Made HitstarCard fully responsive using `min()` and `aspect-ratio` instead of fixed pixel dimensions.
+- [hitstar] Improved mobile layout: no horizontal or vertical scrollbars; components scale smaller on small screens.
+- [frontend] Replaced `overflow: auto` on `main` with `overflow-x: hidden; overflow-y: auto` to prevent horizontal scrollbars.
+- [jokes] Removed fixed height and margin from jokes container to avoid unwanted scroll areas.
+- [global] Reduced GlobalMenu font sizes on mobile for better fit.
 - [hitstar] Redesigned GUESSING/REVEAL UI: question headline + small danger Exit icon button in top bar, round progress tracker (gray/green/red bars), year input and submit icon button inline, submit icon centered via flex override.
 - [global] Claude Code `/commit-push` Skill für automatisierten Commit-und-Push-Workflow.
 - [global] Post-Commit Hook erweitert mit Unicode-Gitmojis und zusätzlichen Keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).

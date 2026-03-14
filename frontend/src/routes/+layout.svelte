@@ -70,7 +70,8 @@
     flex-direction: column;
     padding: 1rem;
     width: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     flex: 1;
     margin: 0 auto;
     box-sizing: border-box;

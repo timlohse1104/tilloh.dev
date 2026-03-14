@@ -31,9 +31,10 @@
 </div>
 
 <style>
+  @use '../../styles/variables.scss' as *;
   .card-scene {
-    width: 260px;
-    height: 320px;
+    width: min(25rem, 80vw);
+    aspect-ratio: 260 / 320;
     perspective: 1000px;
     margin: 0 auto;
   }
@@ -85,8 +86,8 @@
   }
 
   .album-cover {
-    width: 140px;
-    height: 140px;
+    width: min(140px, 43vw);
+    height: min(140px, 43vw);
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 0.5rem;
@@ -131,5 +132,23 @@
     font-weight: bold;
     color: #1db954;
     margin: 0.2rem 0 0;
+  }
+
+  @media (max-width: 480px) {
+    .card-scene {
+      width: min(190px, 60vw);
+    }
+
+    .question-mark {
+      font-size: 4rem;
+    }
+
+    .track-name {
+      font-size: 0.85rem;
+    }
+
+    .track-year {
+      font-size: 1.1rem;
+    }
   }
 </style>

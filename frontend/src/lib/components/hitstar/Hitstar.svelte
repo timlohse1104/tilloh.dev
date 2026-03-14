@@ -186,7 +186,11 @@
         </Tile>
 
         {#if errorMessage}
-          <InlineNotification kind="error" title={errorMessage} hideCloseButton />
+          <InlineNotification
+            kind="error"
+            title={errorMessage}
+            hideCloseButton
+          />
         {/if}
 
         {#if savedGameState}
@@ -199,7 +203,9 @@
             {$t('page.hitstar.menu.startGame')}
           </Button>
         {:else}
-          <Button on:click={startGame}>{$t('page.hitstar.menu.startGame')}</Button>
+          <Button on:click={startGame}
+            >{$t('page.hitstar.menu.startGame')}</Button
+          >
         {/if}
       </div>
 
@@ -213,45 +219,49 @@
       <!-- GUESSING STATE -->
     {:else if gameState === 'GUESSING'}
       <div class="guessing-screen" class:shake={isShaking}>
-        <!-- 1) Headline + Exit button -->
-        <div class="game-top-bar">
-          <h2 class="game-question">{$t('page.hitstar.guessing.cardHint')}</h2>
-          <Button
-            kind="danger"
-            size="small"
-            icon={Exit}
-            iconDescription={$t('page.hitstar.abort')}
-            tooltipPosition="left"
-            on:click={goToMenu}
-          />
+        <!-- TOP: Headline + Exit + Round tracker -->
+        <div class="game-top-section">
+          <div class="game-top-bar">
+            <h2 class="game-question">
+              {$t('page.hitstar.guessing.cardHint')}
+            </h2>
+            <Button
+              kind="danger"
+              size="small"
+              icon={Exit}
+              iconDescription={$t('page.hitstar.abort')}
+              tooltipPosition="left"
+              on:click={goToMenu}
+            />
+          </div>
+          <div class="round-tracker">
+            {#each roundIndices as _, i}
+              {@const roundNum = i + 1}
+              {@const result = roundResults.find((r) => r.round === roundNum)}
+              <div
+                class="round-dot"
+                class:correct={result?.correct === true}
+                class:wrong={result?.correct === false}
+              ></div>
+            {/each}
+          </div>
         </div>
 
-        <!-- 3) Round tracker -->
-        <div class="round-tracker">
-          {#each roundIndices as _, i}
-            {@const roundNum = i + 1}
-            {@const result = roundResults.find((r) => r.round === roundNum)}
-            <div
-              class="round-dot"
-              class:correct={result?.correct === true}
-              class:wrong={result?.correct === false}
-            ></div>
-          {/each}
+        <!-- MIDDLE: Card + Audio (centered vertically) -->
+        <div class="game-middle-section">
+          <HitstarCard flipped={false} track={null} />
+          {#if currentTrack?.previewUrl}
+            <audio
+              controls
+              autoplay
+              src={currentTrack.previewUrl}
+              class="audio-player"
+              aria-label={$t('page.hitstar.guessing.listeningHint')}
+            ></audio>
+          {/if}
         </div>
 
-        <HitstarCard flipped={false} track={null} />
-
-        {#if currentTrack?.previewUrl}
-          <audio
-            controls
-            autoplay
-            src={currentTrack.previewUrl}
-            class="audio-player"
-            aria-label={$t('page.hitstar.guessing.listeningHint')}
-          ></audio>
-        {/if}
-
-        <!-- 4) Input + Submit inline -->
+        <!-- BOTTOM: Year input + Submit -->
         <div class="input-submit-row">
           <div class="input-wrapper">
             <NumberInput
@@ -275,85 +285,95 @@
       <!-- REVEAL STATE -->
     {:else if gameState === 'REVEAL'}
       <div class="reveal-screen">
-        <!-- Exit button top-right -->
-        <div class="game-top-bar">
-          <h2 class="game-question">
-            {$t('page.hitstar.guessing.headline', { round: String(currentRound) })}
-          </h2>
-          <Button
-            kind="danger"
-            size="small"
-            icon={Exit}
-            iconDescription={$t('page.hitstar.abort')}
-            tooltipPosition="left"
-            on:click={goToMenu}
-          />
-        </div>
-
-        <!-- Round tracker -->
-        <div class="round-tracker">
-          {#each roundIndices as _, i}
-            {@const roundNum = i + 1}
-            {@const result = roundResults.find((r) => r.round === roundNum)}
-            <div
-              class="round-dot"
-              class:correct={result?.correct === true}
-              class:wrong={result?.correct === false}
-            ></div>
-          {/each}
-        </div>
-
-        <HitstarCard flipped={isCardFlipped} track={currentTrack} />
-
-        {#if isCorrect}
-          <InlineNotification
-            kind="success"
-            title={$t('page.hitstar.reveal.correct', {
-              year: String(currentTrack?.releaseYear ?? ''),
-            })}
-            hideCloseButton
-          />
-        {:else}
-          <InlineNotification
-            kind="error"
-            title={$t('page.hitstar.reveal.wrong', {
-              year: String(currentTrack?.releaseYear ?? ''),
-            })}
-            hideCloseButton
-          />
-        {/if}
-
-        {#if currentTrack?.previewUrl}
-          <audio
-            controls
-            src={currentTrack.previewUrl}
-            class="audio-player"
-            aria-label="Song preview"
-          ></audio>
-        {/if}
-
-        {#if currentTrack}
-          <div class="track-links">
-            <a
-              href="https://open.spotify.com/search/{encodeURIComponent(`${currentTrack.name} ${currentTrack.artist}`)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="track-link"
-            >{$t('page.hitstar.reveal.openSpotify')}</a>
-            <a
-              href={currentTrack.spotifyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="track-link"
-            >{$t('page.hitstar.reveal.openAppleMusic')}</a>
+        <!-- TOP: Headline + Exit + Round tracker -->
+        <div class="game-top-section">
+          <div class="game-top-bar">
+            <h2 class="game-question">
+              {$t('page.hitstar.guessing.headline', {
+                round: String(currentRound),
+              })}
+            </h2>
+            <Button
+              kind="danger"
+              size="small"
+              icon={Exit}
+              iconDescription={$t('page.hitstar.abort')}
+              tooltipPosition="left"
+              on:click={goToMenu}
+            />
           </div>
-        {/if}
+          <div class="round-tracker">
+            {#each roundIndices as _, i}
+              {@const roundNum = i + 1}
+              {@const result = roundResults.find((r) => r.round === roundNum)}
+              <div
+                class="round-dot"
+                class:correct={result?.correct === true}
+                class:wrong={result?.correct === false}
+              ></div>
+            {/each}
+          </div>
+        </div>
 
-        <Button on:click={nextRound}>
-          {currentRound < TOTAL_ROUNDS
-            ? $t('page.hitstar.reveal.nextRound')
-            : $t('page.hitstar.reveal.seeResults')}
-        </Button>
+        <!-- MIDDLE: Card + Notification + Audio + Links (centered vertically) -->
+        <div class="game-middle-section">
+          <HitstarCard flipped={isCardFlipped} track={currentTrack} />
+
+          {#if isCorrect}
+            <InlineNotification
+              kind="success"
+              title={$t('page.hitstar.reveal.correct', {
+                year: String(currentTrack?.releaseYear ?? ''),
+              })}
+              hideCloseButton
+            />
+          {:else}
+            <InlineNotification
+              kind="error"
+              title={$t('page.hitstar.reveal.wrong', {
+                year: String(currentTrack?.releaseYear ?? ''),
+              })}
+              hideCloseButton
+            />
+          {/if}
+
+          {#if currentTrack?.previewUrl}
+            <audio
+              controls
+              src={currentTrack.previewUrl}
+              class="audio-player"
+              aria-label="Song preview"
+            ></audio>
+          {/if}
+
+          {#if currentTrack}
+            <div class="track-links">
+              <a
+                href="https://open.spotify.com/search/{encodeURIComponent(
+                  `${currentTrack.name} ${currentTrack.artist}`,
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="track-link">{$t('page.hitstar.reveal.openSpotify')}</a
+              >
+              <a
+                href={currentTrack.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="track-link">{$t('page.hitstar.reveal.openAppleMusic')}</a
+              >
+            </div>
+          {/if}
+        </div>
+
+        <!-- BOTTOM: Next Round button -->
+        <div class="bottom-action">
+          <Button on:click={nextRound}>
+            {currentRound < TOTAL_ROUNDS
+              ? $t('page.hitstar.reveal.nextRound')
+              : $t('page.hitstar.reveal.seeResults')}
+          </Button>
+        </div>
       </div>
 
       <!-- RESULTS STATE -->
@@ -379,7 +399,9 @@
                     round: String(result.round),
                   })}</span
                 >
-                <span class="result-track">{result.track.name} – {result.track.artist}</span>
+                <span class="result-track"
+                  >{result.track.name} – {result.track.artist}</span
+                >
                 <span class="result-status">
                   {result.correct
                     ? $t('page.hitstar.results.correct')
@@ -402,7 +424,9 @@
           {/each}
         </div>
 
-        <Button on:click={goToMenu}>{$t('page.hitstar.results.playAgain')}</Button>
+        <Button on:click={goToMenu}
+          >{$t('page.hitstar.results.playAgain')}</Button
+        >
       </div>
     {/if}
   </div>
@@ -413,24 +437,55 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem;
-    min-height: 80vh;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    padding: 1.5rem 1rem;
     gap: 1.5rem;
+    flex: 1;
+    box-sizing: border-box;
   }
 
   .menu-screen,
   .loading-screen,
-  .guessing-screen,
-  .reveal-screen,
   .results-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
     width: 100%;
+  }
+
+  .guessing-screen,
+  .reveal-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+  }
+
+  /* ── Section layout within game screens ───────────────── */
+  .game-top-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .game-middle-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--default_padding);
+    width: 100%;
+  }
+
+  .bottom-action {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   /* ── Top bar: headline + exit button ─────────────────── */
@@ -463,7 +518,9 @@
     border-radius: 3px;
     background: var(--cds-layer-02, #393939);
     border: 1px solid var(--cds-border-subtle-01, #525252);
-    transition: background 0.3s, border-color 0.3s;
+    transition:
+      background 0.3s,
+      border-color 0.3s;
   }
 
   .round-dot.correct {
@@ -482,6 +539,8 @@
     align-items: flex-end;
     width: 100%;
     max-width: 360px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
   .input-wrapper {
@@ -627,25 +686,40 @@
   /* ── Mobile adjustments ───────────────────────────────── */
   @media (max-width: 480px) {
     .hitstar-container {
-      padding: 1rem 0.75rem;
-      gap: 1rem;
+      padding: 0.5rem 0.75rem;
+      gap: 0;
     }
 
-    .guessing-screen,
-    .reveal-screen {
-      gap: 1rem;
+    .game-top-section {
+      gap: 0.5rem;
+      padding-bottom: 0.25rem;
     }
 
     .game-question {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .input-submit-row {
       max-width: 100%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .bottom-action {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
     }
 
     .round-dot {
-      height: 8px;
+      height: 6px;
+    }
+
+    .audio-player {
+      max-height: 40px;
+    }
+
+    .track-links {
+      display: none;
     }
   }
 </style>
