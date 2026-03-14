@@ -68,14 +68,20 @@
 
   const togglePlay = () => {
     if (!controller) return;
-    if (isPlaying) controller.pause();
-    else controller.play();
+    try {
+      if (isPlaying) controller.pause();
+      else controller.play();
+    } catch {
+      // Preview ended and track was unloaded — reload and auto-play
+      isPlaying = false;
+      controller.loadUri(`spotify:track:${trackId}`, true, 0);
+    }
   };
 
   const replay = () => {
     if (!controller) return;
-    controller.seek(0);
-    controller.resume();
+    // loadUri reloads the 30-second preview and starts playback immediately
+    controller.loadUri(`spotify:track:${trackId}`, true, 0);
   };
 </script>
 

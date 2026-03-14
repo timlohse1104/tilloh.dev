@@ -435,7 +435,14 @@
     min-width: 0;
   }
 
-  .range-input-row :global(button) {
+  /* Carbon sets padding-right: 8rem (128px) for NumberInput controls — too large when inputs
+     are side-by-side. Override to ~4.5rem to accommodate the 2×2rem stepper buttons. */
+  .range-input-row :global(.bx--number input[type='number']) {
+    padding-right: 4.5rem;
+  }
+
+  /* Target only the Carbon submit Button (.bx--btn), not the NumberInput steppers (.bx--number__control-btn) */
+  .range-input-row :global(button.bx--btn) {
     height: 2.5rem;
     width: 2.5rem;
     min-height: unset;
@@ -446,7 +453,7 @@
     padding: 0;
   }
 
-  .range-input-row :global(button svg) {
+  .range-input-row :global(button.bx--btn svg) {
     margin: 0;
     position: static;
   }

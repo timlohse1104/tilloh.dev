@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [hitstar] New "Range" game mode: set a 1–5 year range instead of guessing exactly; narrower ranges earn more points (max 50).
 - [hitstar] Replace Spotify iframe embed in guessing phase with Spotify iFrame API: hidden iframe controlled by custom Play/Pause and Replay buttons for a clean, maskless player UI.
 
+### Fixed
+
+- [hitstar] Spotify iFrame API player no longer throws PlaybackError after the 30-second preview ends; clicking Play or Replay reloads the track via `loadUri` and starts playback automatically.
+- [hitstar] Range mode NumberInput fields now correctly display the default value (2000) by overriding Carbon's oversized `padding-right` that was truncating the 4-digit year.
+- [hitstar] CSS selector for Range submit button narrowed from `:global(button)` to `:global(button.bx--btn)` to prevent accidentally resizing the NumberInput stepper buttons.
+
 ### Changed
 
 - [hitstar] Refactored Hitstar into shell + separate mode components (HitstarClassic, HitstarRange) with shared sub-components (HitstarRoundTracker, HitstarGameTopBar, HitstarLoadingScreen, HitstarResultsScreen).
