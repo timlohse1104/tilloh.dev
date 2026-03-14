@@ -168,7 +168,7 @@
     font-size: 2.5rem;
 
     @media #{$phone} {
-      font-size: x-large;
+      font-size: large;
     }
   }
 
@@ -214,6 +214,10 @@
     color: var(--cds-text-01);
     font-size: 1.5rem;
     text-shadow: 0.5px 0.5px black;
+
+    @media #{$phone} {
+      font-size: 0.7rem;
+    }
   }
 
   footer {
@@ -228,7 +232,7 @@
     justify-content: center;
 
     @media #{$phone} {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       flex-wrap: wrap;
       gap: 0.25rem;
     }
@@ -237,6 +241,7 @@
       margin: 0 2rem 0 2rem;
 
       @media #{$phone} {
+        font-size: 0.7rem;
         margin: 0;
         width: 100%;
         order: -1;

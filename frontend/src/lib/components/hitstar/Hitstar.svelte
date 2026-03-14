@@ -17,12 +17,15 @@
   import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
   import ProgressBar from 'carbon-components-svelte/src/ProgressBar/ProgressBar.svelte';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import ContinueFilled from 'carbon-icons-svelte/lib/ContinueFilled.svelte';
+  import Exit from 'carbon-icons-svelte/lib/Exit.svelte';
   import { onMount } from 'svelte';
   import HitstarCard from './HitstarCard.svelte';
 
   // 3. CONST
   type GameState = 'MENU' | 'LOADING' | 'GUESSING' | 'REVEAL' | 'RESULTS';
   const TOTAL_ROUNDS = 10;
+  const roundIndices = Array(TOTAL_ROUNDS).fill(0);
 
   // 4. STATE
   let gameState = $state<GameState>('MENU');
@@ -215,167 +218,189 @@
 
       <!-- GUESSING STATE -->
     {:else if gameState === 'GUESSING'}
-      <div class="guessing-screen" class:shake={isShaking}>
-        <h2>
-          {$t('page.hitstar.guessing.headline', {
-            round: String(currentRound),
-          })}
-        </h2>
-        <p class="score-display">
-          {$t('page.hitstar.reveal.score', { score: String(score) })}
-        </p>
-
-        <HitstarCard flipped={false} track={null} />
-
-        {#if currentTrack?.previewUrl}
-          <audio
-            controls
-            autoplay
-            src={currentTrack.previewUrl}
-            class="audio-player"
-            aria-label={$t('page.hitstar.guessing.listeningHint')}
-          ></audio>
-        {/if}
-
-        <p class="card-hint">{$t('page.hitstar.guessing.cardHint')}</p>
-
-        <div class="year-input-row">
-          <NumberInput
-            labelText={$t('page.hitstar.guessing.yearLabel')}
-            placeholder={$t('page.hitstar.guessing.yearPlaceholder')}
-            bind:value={guessedYear}
-            min={1950}
-            max={2026}
-          />
+      <div class="guessing-screen">
+        <!-- TOP: Headline + Exit + Round tracker -->
+        <div class="game-top-section">
+          <div class="game-top-bar">
+            <h2 class="game-question">
+              {$t('page.hitstar.guessing.cardHint')}
+            </h2>
+            <Button
+              kind="danger"
+              size="small"
+              icon={Exit}
+              iconDescription={$t('page.hitstar.abort')}
+              tooltipPosition="left"
+              on:click={goToMenu}
+            />
+          </div>
+          <div class="round-tracker">
+            {#each roundIndices as _, i}
+              {@const roundNum = i + 1}
+              {@const result = roundResults.find((r) => r.round === roundNum)}
+              <div
+                class="round-dot"
+                class:correct={result?.correct === true}
+                class:wrong={result?.correct === false}
+              ></div>
+            {/each}
+          </div>
         </div>
 
-        <Button on:click={submitGuess} disabled={!guessedYear}>
-          {$t('page.hitstar.guessing.submitButton')}
-        </Button>
-        <Button kind="danger" on:click={goToMenu}>
-          {$t('page.hitstar.abort')}
-        </Button>
+        <!-- MIDDLE: Card + Audio (centered vertically) -->
+        <div class="game-middle-section">
+          <HitstarCard flipped={false} track={null} />
+          {#if currentTrack?.previewUrl}
+            <audio
+              controls
+              autoplay
+              src={currentTrack.previewUrl}
+              class="audio-player"
+              aria-label={$t('page.hitstar.guessing.listeningHint')}
+            ></audio>
+          {/if}
+        </div>
+
+        <!-- BOTTOM: Year input + Submit -->
+        <div class="input-submit-row">
+          <div class="input-wrapper">
+            <NumberInput
+              labelText={$t('page.hitstar.guessing.yearLabel')}
+              placeholder={$t('page.hitstar.guessing.yearPlaceholder')}
+              bind:value={guessedYear}
+              min={1950}
+              max={2026}
+            />
+          </div>
+          <Button
+            icon={ContinueFilled}
+            iconDescription={$t('page.hitstar.guessing.submitButton')}
+            tooltipPosition="top"
+            on:click={submitGuess}
+            disabled={!guessedYear}
+          />
+        </div>
       </div>
 
       <!-- REVEAL STATE -->
     {:else if gameState === 'REVEAL'}
       <div class="reveal-screen">
-        <h2>
-          {$t('page.hitstar.guessing.headline', {
-            round: String(currentRound),
-          })}
-        </h2>
-        <p class="score-display">
-          {$t('page.hitstar.reveal.score', { score: String(score) })}
-        </p>
-
-        <HitstarCard flipped={isCardFlipped} track={currentTrack} />
-
-        {#if isCorrect}
-          <InlineNotification
-            kind="success"
-            title={$t('page.hitstar.reveal.correct', {
-              year: String(currentTrack?.releaseYear ?? ''),
-            })}
-            hideCloseButton
-          />
-        {:else}
-          <InlineNotification
-            kind="error"
-            title={$t('page.hitstar.reveal.wrong', {
-              year: String(currentTrack?.releaseYear ?? ''),
-            })}
-            hideCloseButton
-          />
-        {/if}
-
-        {#if currentTrack?.previewUrl}
-          <audio
-            controls
-            src={currentTrack.previewUrl}
-            class="audio-player"
-            aria-label="Song preview"
-          ></audio>
-        {/if}
-
-        {#if currentTrack}
-          <div class="track-links">
-            <a
-              href="https://open.spotify.com/search/{encodeURIComponent(`${currentTrack.name} ${currentTrack.artist}`)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="track-link"
-            >{$t('page.hitstar.reveal.openSpotify')}</a>
-            <a
-              href={currentTrack.spotifyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="track-link"
-            >{$t('page.hitstar.reveal.openAppleMusic')}</a>
+        <!-- TOP: Headline + Exit + Round tracker -->
+        <div class="game-top-section">
+          <div class="game-top-bar">
+            <h2 class="game-question">
+              {$t('page.hitstar.guessing.headline', {
+                round: String(currentRound),
+              })}
+            </h2>
+            <Button
+              kind="danger"
+              size="small"
+              icon={Exit}
+              iconDescription={$t('page.hitstar.abort')}
+              tooltipPosition="left"
+              on:click={goToMenu}
+            />
           </div>
-        {/if}
+          <div class="round-tracker">
+            {#each roundIndices as _, i}
+              {@const roundNum = i + 1}
+              {@const result = roundResults.find((r) => r.round === roundNum)}
+              <div
+                class="round-dot"
+                class:correct={result?.correct === true}
+                class:wrong={result?.correct === false}
+              ></div>
+            {/each}
+          </div>
+        </div>
 
-        <Button on:click={nextRound}>
-          {currentRound < TOTAL_ROUNDS
-            ? $t('page.hitstar.reveal.nextRound')
-            : $t('page.hitstar.reveal.seeResults')}
-        </Button>
-        <Button kind="ghost" on:click={goToMenu}>
-          {$t('page.hitstar.abort')}
-        </Button>
+        <!-- MIDDLE: Card + Audio (centered vertically) -->
+        <div class="game-middle-section">
+          <div class:shake={isShaking}>
+            <HitstarCard flipped={isCardFlipped} track={currentTrack} correct={isCorrect} />
+          </div>
+
+          {#if currentTrack?.previewUrl}
+            <audio
+              controls
+              src={currentTrack.previewUrl}
+              class="audio-player"
+              aria-label="Song preview"
+            ></audio>
+          {/if}
+        </div>
+
+        <!-- BOTTOM: Next Round button -->
+        <div class="bottom-action">
+          <Button on:click={nextRound}>
+            {currentRound < TOTAL_ROUNDS
+              ? $t('page.hitstar.reveal.nextRound')
+              : $t('page.hitstar.reveal.seeResults')}
+          </Button>
+        </div>
       </div>
 
       <!-- RESULTS STATE -->
     {:else if gameState === 'RESULTS'}
       <div class="results-screen">
-        <h1>{$t('page.hitstar.results.headline')}</h1>
-        <h2>{$t('page.hitstar.results.score', { score: String(score) })}</h2>
-
-        {#if isNewBestScore && score > 0}
-          <InlineNotification
-            kind="success"
-            title={$t('page.hitstar.results.newRecord')}
-            hideCloseButton
-          />
-        {/if}
-
-        <div class="results-table">
-          {#each roundResults as result}
-            <Tile class="result-tile {result.correct ? 'correct' : 'wrong'}">
-              <div class="result-row">
-                <span class="result-round"
-                  >{$t('page.hitstar.results.round', {
-                    round: String(result.round),
-                  })}</span
-                >
-                <span class="result-track"
-                  >{result.track.name} – {result.track.artist}</span
-                >
-                <span class="result-status">
-                  {result.correct
-                    ? $t('page.hitstar.results.correct')
-                    : $t('page.hitstar.results.wrong')}
-                </span>
-              </div>
-              <div class="result-years">
-                <span
-                  >{$t('page.hitstar.results.yourGuess', {
-                    year: String(result.guessedYear),
-                  })}</span
-                >
-                <span
-                  >{$t('page.hitstar.results.correctYear', {
-                    year: String(result.track.releaseYear),
-                  })}</span
-                >
-              </div>
-            </Tile>
-          {/each}
+        <!-- TOP: Headline + optional new-record -->
+        <div class="results-top-section">
+          <h1>{$t('page.hitstar.results.headline')}</h1>
+          {#if isNewBestScore && score > 0}
+            <InlineNotification
+              kind="success"
+              title={$t('page.hitstar.results.newRecord')}
+              hideCloseButton
+            />
+          {/if}
         </div>
 
-        <Button on:click={goToMenu}
-          >{$t('page.hitstar.results.playAgain')}</Button
-        >
+        <!-- MIDDLE: Round results -->
+        <div class="results-middle-section">
+          <div class="results-table">
+            {#each roundResults as result}
+              <Tile class="result-tile {result.correct ? 'correct' : 'wrong'}">
+                <div class="result-row">
+                  <div
+                    class="result-indicator"
+                    class:indicator-correct={result.correct}
+                    class:indicator-wrong={!result.correct}
+                  ></div>
+                  <div class="result-content">
+                    <span class="result-round"
+                      >{$t('page.hitstar.results.round', {
+                        round: String(result.round),
+                      })}</span
+                    >
+                    <span class="result-track"
+                      >{result.track.name} – {result.track.artist}</span
+                    >
+                  </div>
+                </div>
+                <div class="result-years">
+                  <span
+                    >{$t('page.hitstar.results.yourGuess', {
+                      year: String(result.guessedYear),
+                    })}</span
+                  >
+                  <span
+                    >{$t('page.hitstar.results.correctYear', {
+                      year: String(result.track.releaseYear),
+                    })}</span
+                  >
+                </div>
+              </Tile>
+            {/each}
+          </div>
+        </div>
+
+        <!-- BOTTOM: Play Again -->
+        <div class="bottom-action">
+          <Button on:click={goToMenu}
+            >{$t('page.hitstar.results.playAgain')}</Button
+          >
+        </div>
       </div>
     {/if}
   </div>
@@ -386,19 +411,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem;
-    min-height: 80vh;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    padding: 1.5rem 1rem;
     gap: 1.5rem;
+    flex: 1;
+    box-sizing: border-box;
   }
 
   .menu-screen,
-  .loading-screen,
-  .guessing-screen,
-  .reveal-screen,
-  .results-screen {
+  .loading-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -406,6 +426,144 @@
     width: 100%;
   }
 
+  .results-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+  }
+
+  .results-top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding-bottom: 0.75rem;
+  }
+
+  .results-middle-section {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .guessing-screen,
+  .reveal-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+  }
+
+  /* ── Section layout within game screens ───────────────── */
+  .game-top-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .game-middle-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--default_padding);
+    width: 100%;
+  }
+
+  .bottom-action {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Top bar: headline + exit button ─────────────────── */
+  .game-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .game-question {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  /* ── Round progress tracker ───────────────────────────── */
+  .round-tracker {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .round-dot {
+    flex: 1;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--cds-layer-02, #393939);
+    border: 1px solid var(--cds-border-subtle-01, #525252);
+    transition:
+      background 0.3s,
+      border-color 0.3s;
+  }
+
+  .round-dot.correct {
+    background: var(--cds-support-success, #24a148);
+    border-color: var(--cds-support-success, #24a148);
+  }
+
+  .round-dot.wrong {
+    background: var(--cds-support-error, #da1e28);
+    border-color: var(--cds-support-error, #da1e28);
+  }
+
+  /* ── Year input + submit inline ───────────────────────── */
+  .input-submit-row {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 360px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .input-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Force submit button to match NumberInput height (40px) and center icon */
+  .input-submit-row :global(button) {
+    height: 2.5rem;
+    width: 2.5rem;
+    min-height: unset;
+    margin-left: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .input-submit-row :global(button svg) {
+    margin: 0;
+    position: static;
+  }
+
+  /* ── Menu styles ──────────────────────────────────────── */
   .headline {
     font-size: 2rem;
     font-weight: bold;
@@ -437,60 +595,62 @@
     color: var(--cds-text-secondary);
   }
 
-  .score-display {
-    font-size: 1rem;
-    color: var(--cds-text-secondary);
-    margin: 0;
-  }
-
-  .card-hint {
-    text-align: center;
-    color: var(--cds-text-secondary);
-    margin: 0;
-  }
-
+  /* ── Audio ────────────────────────────────────────────── */
   .audio-player {
     width: 100%;
     max-width: 400px;
     border-radius: 8px;
   }
 
-  .track-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .track-link {
-    font-size: 0.85rem;
-    color: var(--cds-link-primary);
-    text-decoration: underline;
-  }
-
-  .year-input-row {
-    width: 100%;
-    max-width: 300px;
-  }
-
-
+  /* ── Results ──────────────────────────────────────────── */
   .results-table {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     width: 100%;
+  }
+
+  :global(.result-tile.correct) {
+    border-left: 4px solid #24a148 !important;
+  }
+
+  :global(.result-tile.wrong) {
+    border-left: 4px solid #da1e28 !important;
   }
 
   .result-row {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
+  }
+
+  .result-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .indicator-correct {
+    background: #24a148;
+  }
+
+  .indicator-wrong {
+    background: #da1e28;
+  }
+
+  .result-content {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
   }
 
   .result-round {
     font-weight: bold;
-    min-width: 70px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .result-track {
@@ -498,10 +658,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .result-status {
-    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--cds-text-secondary);
   }
 
   .result-years {
@@ -509,9 +667,11 @@
     gap: 1rem;
     font-size: 0.8rem;
     color: var(--cds-text-secondary);
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
+    padding-left: 1.75rem;
   }
 
+  /* ── Shake animation ──────────────────────────────────── */
   @keyframes shake {
     0%,
     100% {
@@ -534,5 +694,41 @@
 
   .shake {
     animation: shake 0.5s ease-in-out;
+  }
+
+  /* ── Mobile adjustments ───────────────────────────────── */
+  @media (max-width: 480px) {
+    .hitstar-container {
+      padding: 0.5rem 0.75rem;
+      gap: 0;
+    }
+
+    .game-top-section {
+      gap: 0.5rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .game-question {
+      font-size: 0.9rem;
+    }
+
+    .input-submit-row {
+      max-width: 100%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .bottom-action {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .round-dot {
+      height: 6px;
+    }
+
+    .audio-player {
+      max-height: 40px;
+    }
   }
 </style>
