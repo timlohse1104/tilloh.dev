@@ -14,7 +14,7 @@ import RadioButtonChecked from 'carbon-icons-svelte/lib/RadioButtonChecked.svelt
 import Restaurant from 'carbon-icons-svelte/lib/Restaurant.svelte';
 import SecurityServices from 'carbon-icons-svelte/lib/SecurityServices.svelte';
 import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
 export type ApplicationRoutes = {
   home: Route;
@@ -75,6 +75,10 @@ const defaultApplicationRoutes: ApplicationRoutes = {
 };
 
 export const applicationRoutes = writable<ApplicationRoutes>(defaultApplicationRoutes);
+
+export const activeApplicationRoutes = derived(applicationRoutes, ($routes) =>
+  Object.values($routes).filter((route) => route.toggle),
+);
 
 // Load actual toggle values from backend and update store reactively
 loadApplications().then((routes) => applicationRoutes.set(routes));

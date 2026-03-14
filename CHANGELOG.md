@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] New "Hitstar" music year guessing game: listen to a 30-second preview and guess the release year across 10 rounds.
 - [hitstar] Backend NX library `spotify` with iTunes Search API integration and random track endpoint (`GET /spotify/random-track`).
 - [hitstar] Frontend route `/hitstar` with state machine (MENU → LOADING → GUESSING → REVEAL → RESULTS).

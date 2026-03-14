@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { applicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import { activeApplicationRoutes, utilityRoutes } from '$lib/config/applications';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
@@ -8,7 +8,7 @@
 
   let globalMenuObject;
 
-  $: appLinks = Object.values($applicationRoutes).map((route) => ({
+  $: appLinks = $activeApplicationRoutes.map((route) => ({
     id: route.id,
     title: route.name[locale],
     link: route.path,

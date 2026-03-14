@@ -88,12 +88,6 @@
     }
   }
 
-  h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
   p {
     margin: 0;
     font-size: 0.875rem;
