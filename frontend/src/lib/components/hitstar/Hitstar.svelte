@@ -218,7 +218,7 @@
 
       <!-- GUESSING STATE -->
     {:else if gameState === 'GUESSING'}
-      <div class="guessing-screen" class:shake={isShaking}>
+      <div class="guessing-screen">
         <!-- TOP: Headline + Exit + Round tracker -->
         <div class="game-top-section">
           <div class="game-top-bar">
@@ -315,27 +315,11 @@
           </div>
         </div>
 
-        <!-- MIDDLE: Card + Notification + Audio + Links (centered vertically) -->
+        <!-- MIDDLE: Card + Audio (centered vertically) -->
         <div class="game-middle-section">
-          <HitstarCard flipped={isCardFlipped} track={currentTrack} />
-
-          {#if isCorrect}
-            <InlineNotification
-              kind="success"
-              title={$t('page.hitstar.reveal.correct', {
-                year: String(currentTrack?.releaseYear ?? ''),
-              })}
-              hideCloseButton
-            />
-          {:else}
-            <InlineNotification
-              kind="error"
-              title={$t('page.hitstar.reveal.wrong', {
-                year: String(currentTrack?.releaseYear ?? ''),
-              })}
-              hideCloseButton
-            />
-          {/if}
+          <div class:shake={isShaking}>
+            <HitstarCard flipped={isCardFlipped} track={currentTrack} correct={isCorrect} />
+          </div>
 
           {#if currentTrack?.previewUrl}
             <audio
@@ -344,25 +328,6 @@
               class="audio-player"
               aria-label="Song preview"
             ></audio>
-          {/if}
-
-          {#if currentTrack}
-            <div class="track-links">
-              <a
-                href="https://open.spotify.com/search/{encodeURIComponent(
-                  `${currentTrack.name} ${currentTrack.artist}`,
-                )}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="track-link">{$t('page.hitstar.reveal.openSpotify')}</a
-              >
-              <a
-                href={currentTrack.spotifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="track-link">{$t('page.hitstar.reveal.openAppleMusic')}</a
-              >
-            </div>
           {/if}
         </div>
 
@@ -379,54 +344,63 @@
       <!-- RESULTS STATE -->
     {:else if gameState === 'RESULTS'}
       <div class="results-screen">
-        <h1>{$t('page.hitstar.results.headline')}</h1>
-        <h2>{$t('page.hitstar.results.score', { score: String(score) })}</h2>
-
-        {#if isNewBestScore && score > 0}
-          <InlineNotification
-            kind="success"
-            title={$t('page.hitstar.results.newRecord')}
-            hideCloseButton
-          />
-        {/if}
-
-        <div class="results-table">
-          {#each roundResults as result}
-            <Tile class="result-tile {result.correct ? 'correct' : 'wrong'}">
-              <div class="result-row">
-                <span class="result-round"
-                  >{$t('page.hitstar.results.round', {
-                    round: String(result.round),
-                  })}</span
-                >
-                <span class="result-track"
-                  >{result.track.name} – {result.track.artist}</span
-                >
-                <span class="result-status">
-                  {result.correct
-                    ? $t('page.hitstar.results.correct')
-                    : $t('page.hitstar.results.wrong')}
-                </span>
-              </div>
-              <div class="result-years">
-                <span
-                  >{$t('page.hitstar.results.yourGuess', {
-                    year: String(result.guessedYear),
-                  })}</span
-                >
-                <span
-                  >{$t('page.hitstar.results.correctYear', {
-                    year: String(result.track.releaseYear),
-                  })}</span
-                >
-              </div>
-            </Tile>
-          {/each}
+        <!-- TOP: Headline + optional new-record -->
+        <div class="results-top-section">
+          <h1>{$t('page.hitstar.results.headline')}</h1>
+          {#if isNewBestScore && score > 0}
+            <InlineNotification
+              kind="success"
+              title={$t('page.hitstar.results.newRecord')}
+              hideCloseButton
+            />
+          {/if}
         </div>
 
-        <Button on:click={goToMenu}
-          >{$t('page.hitstar.results.playAgain')}</Button
-        >
+        <!-- MIDDLE: Round results -->
+        <div class="results-middle-section">
+          <div class="results-table">
+            {#each roundResults as result}
+              <Tile class="result-tile {result.correct ? 'correct' : 'wrong'}">
+                <div class="result-row">
+                  <div
+                    class="result-indicator"
+                    class:indicator-correct={result.correct}
+                    class:indicator-wrong={!result.correct}
+                  ></div>
+                  <div class="result-content">
+                    <span class="result-round"
+                      >{$t('page.hitstar.results.round', {
+                        round: String(result.round),
+                      })}</span
+                    >
+                    <span class="result-track"
+                      >{result.track.name} – {result.track.artist}</span
+                    >
+                  </div>
+                </div>
+                <div class="result-years">
+                  <span
+                    >{$t('page.hitstar.results.yourGuess', {
+                      year: String(result.guessedYear),
+                    })}</span
+                  >
+                  <span
+                    >{$t('page.hitstar.results.correctYear', {
+                      year: String(result.track.releaseYear),
+                    })}</span
+                  >
+                </div>
+              </Tile>
+            {/each}
+          </div>
+        </div>
+
+        <!-- BOTTOM: Play Again -->
+        <div class="bottom-action">
+          <Button on:click={goToMenu}
+            >{$t('page.hitstar.results.playAgain')}</Button
+          >
+        </div>
       </div>
     {/if}
   </div>
@@ -444,13 +418,36 @@
   }
 
   .menu-screen,
-  .loading-screen,
-  .results-screen {
+  .loading-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
     width: 100%;
+  }
+
+  .results-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+  }
+
+  .results-top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding-bottom: 0.75rem;
+  }
+
+  .results-middle-section {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 2px;
   }
 
   .guessing-screen,
@@ -605,38 +602,55 @@
     border-radius: 8px;
   }
 
-  /* ── Reveal links ─────────────────────────────────────── */
-  .track-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .track-link {
-    font-size: 0.85rem;
-    color: var(--cds-link-primary);
-    text-decoration: underline;
-  }
-
   /* ── Results ──────────────────────────────────────────── */
   .results-table {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     width: 100%;
+  }
+
+  :global(.result-tile.correct) {
+    border-left: 4px solid #24a148 !important;
+  }
+
+  :global(.result-tile.wrong) {
+    border-left: 4px solid #da1e28 !important;
   }
 
   .result-row {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
+  }
+
+  .result-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .indicator-correct {
+    background: #24a148;
+  }
+
+  .indicator-wrong {
+    background: #da1e28;
+  }
+
+  .result-content {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
   }
 
   .result-round {
     font-weight: bold;
-    min-width: 70px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .result-track {
@@ -644,10 +658,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .result-status {
-    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--cds-text-secondary);
   }
 
   .result-years {
@@ -655,7 +667,8 @@
     gap: 1rem;
     font-size: 0.8rem;
     color: var(--cds-text-secondary);
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
+    padding-left: 1.75rem;
   }
 
   /* ── Shake animation ──────────────────────────────────── */
@@ -716,10 +729,6 @@
 
     .audio-player {
       max-height: 40px;
-    }
-
-    .track-links {
-      display: none;
     }
   }
 </style>

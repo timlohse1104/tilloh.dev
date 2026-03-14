@@ -6,10 +6,11 @@
   let {
     flipped = false,
     track = null,
-  }: { flipped: boolean; track: SpotifyTrackDto | null } = $props();
+    correct = null,
+  }: { flipped: boolean; track: SpotifyTrackDto | null; correct: boolean | null } = $props();
 </script>
 
-<div class="card-scene">
+<div class="card-scene" class:correct={correct === true} class:wrong={correct === false}>
   <div class="card" class:flipped>
     <!-- Front -->
     <div class="card-face card-front">
@@ -67,7 +68,8 @@
 
   .card-front {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    border: 2px solid #e94560;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 20px rgba(80, 120, 220, 0.15);
   }
 
   .question-mark {
@@ -80,9 +82,21 @@
   .card-back {
     background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
     transform: rotateY(180deg);
-    border: 2px solid #1db954;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 20px rgba(80, 120, 220, 0.15);
     gap: 0.4rem;
     overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .card-scene.correct .card-back {
+    border-color: #24a148;
+    box-shadow: 0 0 24px rgba(36, 161, 72, 0.35);
+  }
+
+  .card-scene.wrong .card-back {
+    border-color: #da1e28;
+    box-shadow: 0 0 24px rgba(218, 30, 40, 0.35);
   }
 
   .album-cover {
@@ -130,8 +144,16 @@
   .track-year {
     font-size: 1.4rem;
     font-weight: bold;
-    color: #1db954;
+    color: #ffffff;
     margin: 0.2rem 0 0;
+  }
+
+  .card-scene.correct .track-year {
+    color: #24a148;
+  }
+
+  .card-scene.wrong .track-year {
+    color: #da1e28;
   }
 
   @media (max-width: 480px) {
