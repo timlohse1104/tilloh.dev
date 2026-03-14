@@ -37,7 +37,7 @@
   <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-<section class="mt1">
+<section>
   <Navigation routes={Object.values($applicationRoutes)} />
 
   {#if randomJokeToggle}
@@ -54,7 +54,7 @@
     justify-content: center;
     align-items: center;
     max-width: 90vw;
-    margin: 0 auto 3rem auto;
+    margin: var(--default_padding) auto;
     flex: 0.2;
   }
 </style>
