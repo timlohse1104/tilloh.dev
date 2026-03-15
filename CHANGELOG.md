@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [hitstar] Clicking a game mode tab no longer auto-starts a round; the menu always stays visible after page load or tab switch, and only "New Game" triggers the game.
 - [hitstar] Album cover on the track card is now smaller on mobile viewports so all metadata (title, artist, album, year) fits within the card bounds without being clipped.
 - [hitstar] Spotify iFrame API player no longer throws PlaybackError after the 30-second preview ends; clicking Play or Replay reloads the track via `loadUri` and starts playback automatically.
 - [hitstar] Range mode NumberInput fields now correctly display the default value (2000) by overriding Carbon's oversized `padding-right` that was truncating the 4-digit year.

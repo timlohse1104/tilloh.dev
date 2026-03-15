@@ -82,10 +82,7 @@
       score = savedGameState.score;
       currentTrack = savedGameState.currentTrack;
       roundResults = savedGameState.roundResults;
-      if (currentTrack) {
-        isCardFlipped = false;
-        gameState = 'GUESSING';
-      }
+      isCardFlipped = false;
     }
   });
 
@@ -255,7 +252,7 @@
         title={$t('page.hitstar.menu.resumeInfo')}
         hideCloseButton
       />
-      <Button on:click={startGame} kind="secondary">{$t('page.hitstar.menu.startGame')}</Button>
+      <Button on:click={() => { gameState = 'GUESSING'; }} kind="secondary">{$t('page.hitstar.menu.startGame')}</Button>
     {:else}
       <Button on:click={startGame}>{$t('page.hitstar.menu.startGame')}</Button>
     {/if}
