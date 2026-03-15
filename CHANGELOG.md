@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [docs] Add `docs/` folder with structured feature and shared infrastructure documentation for AI context (20 files: 1 template, 10 feature docs, 9 shared docs).
 - [hitstar] Show current game mode (Classic / Range) as small grey label top-left, only visible during an active game (hidden in the main menu).
 
 ### Changed
