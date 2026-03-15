@@ -14,6 +14,9 @@ export interface HitstarRoundResult {
   track: SpotifyTrackDto;
   guessedYear: number;
   correct: boolean;
+  rangeFrom?: number;
+  rangeTo?: number;
+  pointsEarned?: number;
 }
 
 export interface HitstarBestRound {

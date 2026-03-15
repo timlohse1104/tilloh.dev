@@ -8,8 +8,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [hitstar] Show current game mode (Classic / Range) as small grey label top-left, only visible during an active game (hidden in the main menu).
+
+### Changed
+
+- [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
+- [hitstar] Spotify track search now uses a single random year (1955–2025) per request instead of a fixed range to improve year distribution across decades.
+- [hitstar] Add `genre:pop` filter to Spotify search query to increase the share of well-known tracks.
+
+- [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
+- [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
+- [hitstar] Multi-mode architecture with Carbon Tabs (horizontal, compact, centered, no dropdown on any viewport) with spacing below for mode selection on the Hitstar start page.
+- [hitstar] New "Range" game mode: set a 1–5 year range instead of guessing exactly; narrower ranges earn more points (max 50).
+- [hitstar] Replace Spotify iframe embed in guessing phase with Spotify iFrame API: hidden iframe controlled by custom Play/Pause and Replay buttons for a clean, maskless player UI.
+
+### Fixed
+
+- [hitstar] Clicking a game mode tab no longer auto-starts a round; the menu always stays visible after page load or tab switch, and only "New Game" triggers the game.
+- [hitstar] Album cover on the track card is now smaller on mobile viewports so all metadata (title, artist, album, year) fits within the card bounds without being clipped.
+- [hitstar] Spotify iFrame API player no longer throws PlaybackError after the 30-second preview ends; clicking Play or Replay reloads the track via `loadUri` and starts playback automatically.
+- [hitstar] Range mode NumberInput fields now correctly display the default value (2000) by overriding Carbon's oversized `padding-right` that was truncating the 4-digit year.
+- [hitstar] CSS selector for Range submit button narrowed from `:global(button)` to `:global(button.bx--btn)` to prevent accidentally resizing the NumberInput stepper buttons.
+
+### Changed
+
+- [hitstar] Refactored Hitstar into shell + separate mode components (HitstarClassic, HitstarRange) with shared sub-components (HitstarRoundTracker, HitstarGameTopBar, HitstarLoadingScreen, HitstarResultsScreen).
+- [hitstar] Refactored localStorage keys to mode-specific pattern (hitstar.classic.*, hitstar.range.*) with automatic migration of existing data.
+- [hitstar] Hide best-score tile in menu when no score has been recorded yet.
+- [hitstar] Replace static ProgressIndicator with custom icon step-cards (Headphones, Calendar, CheckmarkFilled, Repeat, Trophy) for the game tutorial.
 - [hitstar] New "Hitstar" music year guessing game: listen to a 30-second preview and guess the release year across 10 rounds.
-- [hitstar] Backend NX library `spotify` with iTunes Search API integration and random track endpoint (`GET /spotify/random-track`).
+- [hitstar] Renamed backend NX library `spotify` to `hitstar`; endpoint changed from `GET /spotify/random-track` to `GET /hitstar/random-track`.
 - [hitstar] Frontend route `/hitstar` with state machine (MENU → LOADING → GUESSING → REVEAL → RESULTS).
 - [hitstar] Audio preview plays automatically in GUESSING state via iTunes preview URL.
 - [hitstar] CSS 3D flip card animation on answer reveal, confetti for correct guesses, shake animation for wrong answers.

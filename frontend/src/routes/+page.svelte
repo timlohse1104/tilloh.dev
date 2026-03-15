@@ -2,7 +2,7 @@
   // 1. IMPORTS
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
   import Navigation from '$lib/components/shared/Navigation.svelte';
-  import { applicationRoutes } from '$lib/config/applications';
+  import { activeApplicationRoutes, applicationRoutes } from '$lib/config/applications';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
@@ -37,8 +37,8 @@
   <meta name={homeRoute.name[locale]} content="tilloh.dev" />
 </svelte:head>
 
-<section class="mt1">
-  <Navigation routes={Object.values($applicationRoutes)} />
+<section>
+  <Navigation routes={$activeApplicationRoutes} />
 
   {#if randomJokeToggle}
     <JokeOfTheDay />
@@ -54,7 +54,7 @@
     justify-content: center;
     align-items: center;
     max-width: 90vw;
-    margin: 0 auto 3rem auto;
+    margin: var(--default_padding) auto;
     flex: 0.2;
   }
 </style>

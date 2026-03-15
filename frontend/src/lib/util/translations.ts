@@ -16,6 +16,9 @@ interface Params {
   round: string;
   year: string;
   date: string;
+  fromYear: string;
+  toYear: string;
+  points: string;
 }
 
 const config: Config<Partial<Params>> = {

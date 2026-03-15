@@ -2,12 +2,28 @@ import { browser } from '$app/environment';
 import type { HitstarBestRound, HitstarGameState } from '$lib/types/spotify.dto';
 import { writable } from 'svelte/store';
 
-const hitstarBestRoundKey = 'hitstar.bestRound';
-const hitstarGameStateKey = 'hitstar.gameState';
+const classicBestRoundKey = 'hitstar.classic.bestRound';
+const classicGameStateKey = 'hitstar.classic.gameState';
+const rangeBestRoundKey = 'hitstar.range.bestRound';
+const rangeGameStateKey = 'hitstar.range.gameState';
 
-const getInitialBestRound = (): HitstarBestRound | null => {
+// Migration: alte Keys auf neue Keys
+if (browser) {
+  const oldBestRound = localStorage.getItem('hitstar.bestRound');
+  if (oldBestRound) {
+    localStorage.setItem(classicBestRoundKey, oldBestRound);
+    localStorage.removeItem('hitstar.bestRound');
+  }
+  const oldGameState = localStorage.getItem('hitstar.gameState');
+  if (oldGameState) {
+    localStorage.setItem(classicGameStateKey, oldGameState);
+    localStorage.removeItem('hitstar.gameState');
+  }
+}
+
+const getInitialBestRound = (key: string): HitstarBestRound | null => {
   if (!browser) return null;
-  const stored = localStorage.getItem(hitstarBestRoundKey);
+  const stored = localStorage.getItem(key);
   if (!stored) return null;
   try {
     return JSON.parse(stored) as HitstarBestRound;
@@ -16,9 +32,9 @@ const getInitialBestRound = (): HitstarBestRound | null => {
   }
 };
 
-const getInitialGameState = (): HitstarGameState | null => {
+const getInitialGameState = (key: string): HitstarGameState | null => {
   if (!browser) return null;
-  const stored = localStorage.getItem(hitstarGameStateKey);
+  const stored = localStorage.getItem(key);
   if (!stored) return null;
   try {
     return JSON.parse(stored) as HitstarGameState;
@@ -27,28 +43,52 @@ const getInitialGameState = (): HitstarGameState | null => {
   }
 };
 
-export const hitstarBestRoundStore = writable<HitstarBestRound | null>(
-  getInitialBestRound(),
+export const hitstarClassicBestRoundStore = writable<HitstarBestRound | null>(
+  getInitialBestRound(classicBestRoundKey),
 );
 
-export const hitstarGameStateStore = writable<HitstarGameState | null>(
-  getInitialGameState(),
+export const hitstarClassicGameStateStore = writable<HitstarGameState | null>(
+  getInitialGameState(classicGameStateKey),
+);
+
+export const hitstarRangeBestRoundStore = writable<HitstarBestRound | null>(
+  getInitialBestRound(rangeBestRoundKey),
+);
+
+export const hitstarRangeGameStateStore = writable<HitstarGameState | null>(
+  getInitialGameState(rangeGameStateKey),
 );
 
 if (browser) {
-  hitstarBestRoundStore.subscribe((val) => {
+  hitstarClassicBestRoundStore.subscribe((val) => {
     if (val === null) {
-      localStorage.removeItem(hitstarBestRoundKey);
+      localStorage.removeItem(classicBestRoundKey);
     } else {
-      localStorage.setItem(hitstarBestRoundKey, JSON.stringify(val));
+      localStorage.setItem(classicBestRoundKey, JSON.stringify(val));
     }
   });
 
-  hitstarGameStateStore.subscribe((val) => {
+  hitstarClassicGameStateStore.subscribe((val) => {
     if (val === null) {
-      localStorage.removeItem(hitstarGameStateKey);
+      localStorage.removeItem(classicGameStateKey);
     } else {
-      localStorage.setItem(hitstarGameStateKey, JSON.stringify(val));
+      localStorage.setItem(classicGameStateKey, JSON.stringify(val));
+    }
+  });
+
+  hitstarRangeBestRoundStore.subscribe((val) => {
+    if (val === null) {
+      localStorage.removeItem(rangeBestRoundKey);
+    } else {
+      localStorage.setItem(rangeBestRoundKey, JSON.stringify(val));
+    }
+  });
+
+  hitstarRangeGameStateStore.subscribe((val) => {
+    if (val === null) {
+      localStorage.removeItem(rangeGameStateKey);
+    } else {
+      localStorage.setItem(rangeGameStateKey, JSON.stringify(val));
     }
   });
 }

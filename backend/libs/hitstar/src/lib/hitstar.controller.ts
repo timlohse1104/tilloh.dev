@@ -6,12 +6,12 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { SpotifyService } from './spotify.service';
+import { HitstarService } from './hitstar.service';
 
-@ApiTags('spotify')
-@Controller('/spotify')
-export class SpotifyController {
-  constructor(private spotifyService: SpotifyService) {}
+@ApiTags('hitstar')
+@Controller('/hitstar')
+export class HitstarController {
+  constructor(private hitstarService: HitstarService) {}
 
   @Public()
   @ApiOkResponse({
@@ -21,6 +21,6 @@ export class SpotifyController {
   @ApiBadRequestResponse({ description: 'Bad or malformed request.' })
   @Get('/random-track')
   getRandomTrack() {
-    return this.spotifyService.getRandomTrack();
+    return this.hitstarService.getRandomTrack();
   }
 }
