@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
 - [hitstar] Spotify track search now uses a single random year (1955–2025) per request instead of a fixed range to improve year distribution across decades.
+- [hitstar] Add `genre:pop` filter to Spotify search query to increase the share of well-known tracks.
 
 - [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
