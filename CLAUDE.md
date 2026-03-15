@@ -68,6 +68,43 @@ Feature modules follow NX library pattern with `@backend/` path aliases:
 - `/lib/types/` - TypeScript definitions
 - `/lib/util/` - Helper functions
 
+## Feature Documentation
+
+Structured docs live in `docs/`. Use these as context when working on or extending a feature.
+
+**Template**: `docs/_template.md`
+
+### Features
+
+| Feature | Doc | Architecture Pattern | Has Backend |
+|---------|-----|---------------------|-------------|
+| Hitstar | [docs/features/hitstar.md](docs/features/hitstar.md) | Spotify API proxy, state machine, localStorage | Yes |
+| Memorandum | [docs/features/memorandum.md](docs/features/memorandum.md) | Keystore-backed bookmarks, per-user identifier | Yes |
+| Todo | [docs/features/todo.md](docs/features/todo.md) | 3-tier NX, shared lists, optimistic locking | Yes |
+| Jokes | [docs/features/jokes.md](docs/features/jokes.md) | MongoDB CRUD, nightly cron, external API | Yes |
+| Admin | [docs/features/admin.md](docs/features/admin.md) | Identity verify, 5 sub-routes, aggregator | Yes |
+| Food Scan | [docs/features/food-scan.md](docs/features/food-scan.md) | Stateless OCR proxy, file upload | Yes |
+| Settings | [docs/features/settings.md](docs/features/settings.md) | Frontend-only, localStorage stores | No |
+| Uno Sort | [docs/features/uno-sort.md](docs/features/uno-sort.md) | Frontend-only card sorting | No |
+| Catch-em-all | [docs/features/catch-em-all.md](docs/features/catch-em-all.md) | Stub/placeholder | No |
+| About | [docs/features/about.md](docs/features/about.md) | Static page, i18n only | No |
+
+### Shared Infrastructure
+
+| Topic | Doc |
+|-------|-----|
+| NX library scaffold | [docs/shared/nx-library-scaffold.md](docs/shared/nx-library-scaffold.md) |
+| Frontend route pattern | [docs/shared/route-page-pattern.md](docs/shared/route-page-pattern.md) |
+| Toggle system | [docs/shared/toggle-system.md](docs/shared/toggle-system.md) |
+| Auth guard (`@Public()`) | [docs/shared/auth-guard.md](docs/shared/auth-guard.md) |
+| Keystore persistence | [docs/shared/keystore-persistence.md](docs/shared/keystore-persistence.md) |
+| Identifiers | [docs/shared/identifiers.md](docs/shared/identifiers.md) |
+| i18n system | [docs/shared/i18n.md](docs/shared/i18n.md) |
+| Application routes | [docs/shared/application-routes.md](docs/shared/application-routes.md) |
+| localStorage stores | [docs/shared/stores.md](docs/shared/stores.md) |
+
+---
+
 ## Tech Stack
 
 **Backend**: NestJS 11, Fastify, MongoDB/Mongoose, Socket.io, Swagger/OpenAPI, Pino logging, Prometheus metrics
