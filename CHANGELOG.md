@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [memorandum] Ordner-Erstellung über FAB + Modal statt direkter Erstellung; FAB immer sichtbar; Zero-State öffnet ebenfalls das Modal.
+- [jokes] Inline-Witz-Formular durch FAB + Modal ersetzt; Seite zeigt nur noch den Zufallswitz-Bereich.
 - [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
 - [hitstar] Spotify track search now uses a single random year (1955–2025) per request instead of a fixed range to improve year distribution across decades.
 - [hitstar] Add `genre:pop` filter to Spotify search query to increase the share of well-known tracks.

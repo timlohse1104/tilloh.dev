@@ -118,11 +118,9 @@
       <BoxArea {searchQuery} />
     </div>
 
-    {#if $folderOverlayOptionsStore.showOverlay}
-      <FolderOverlay
-        bind:folderName={$folderOverlayOptionsStore.currentFolderName}
-      />
-    {/if}
+    <FolderOverlay
+      bind:open={$folderOverlayOptionsStore.showOverlay}
+    />
 
     {#if $linkOverlayOptionsStore.showOverlay}
       <LinkOverlay

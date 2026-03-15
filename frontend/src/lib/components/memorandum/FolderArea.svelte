@@ -1,8 +1,6 @@
 <script lang="ts">
   import Masonry from '$lib/components/shared/Masonry.svelte';
   import { defaultPreset } from '$lib/config/default-preset.ts';
-  import { FolderClass } from '$lib/util/memorandum/classes.js';
-  import { defaultColor } from '$lib/util/memorandum/constants.js';
   import { folderOrderFolder } from '$lib/util/stores/store-memorandum-folder-order';
   import {
     localPresetStore,
@@ -15,12 +13,14 @@
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import ConfirmOverlay from '../shared/ConfirmOverlay.svelte';
   import Folder from './Folder.svelte';
+  import FolderOverlay from './FolderOverlay.svelte';
   import Startup from './Startup.svelte';
 
   let { searchQuery } = $props();
 
   let confirmDeleteFolderOpenOverlay = $state(false);
   let confirmDeleteFolderAction = $state();
+  let createFolderModalOpen = $state(false);
 
   // Filter folders and links based on search query
   const filteredFolders = $derived(
@@ -32,21 +32,8 @@
     }),
   );
 
-  const createFolder = () => {
-    // svelte stores using html5 localstorage with stringified objects cannot be updated directly
-    // we need to create a copy and set the store again, so that the stores set method gets called
-    // that happens because there is no localstorage update function, only get, set, remove and clear
-    const currentPreset = structuredClone($localPresetStore);
-
-    currentPreset.Folders.push(
-      new FolderClass(
-        crypto.randomUUID(),
-        $t('page.memorandum.newFolderHeader'),
-        [],
-        defaultColor,
-      ),
-    );
-    $localPresetStore = currentPreset;
+  const openCreateFolderModal = () => {
+    createFolderModalOpen = true;
   };
 
   const loadPreset = () => {
@@ -115,19 +102,17 @@
         {/each}
       </section>
     {:else}
-      <Startup onNew={createFolder} onDefault={loadPreset} />
+      <Startup onNew={openCreateFolderModal} onDefault={loadPreset} />
     {/if}
 
-    {#if value.Folders.length > 0}
-      <Button
-        kind="primary"
-        iconDescription={$t('page.memorandum.startup.createEmptyFolder')}
-        icon={Add}
-        id="add_folder_button"
-        tooltipPosition="left"
-        on:click={createFolder}
-      />
-    {/if}
+    <Button
+      kind="primary"
+      iconDescription={$t('page.memorandum.startup.createEmptyFolder')}
+      icon={Add}
+      id="add_folder_button"
+      tooltipPosition="left"
+      on:click={openCreateFolderModal}
+    />
   {:catch error}
     <p>
       {$t('page.shared.somethingWentWrong', {
@@ -135,6 +120,8 @@
       })}
     </p>
   {/await}
+
+  <FolderOverlay bind:open={createFolderModalOpen} />
 
   <ConfirmOverlay
     bind:open={confirmDeleteFolderOpenOverlay}
