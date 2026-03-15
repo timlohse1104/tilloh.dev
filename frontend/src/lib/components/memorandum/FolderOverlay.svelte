@@ -1,9 +1,10 @@
 <script lang="ts">
   import { isEnter } from '$lib/util/helper.js';
-  import { RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
+  import { FolderClass, RGBBackgroundClass } from '$lib/util/memorandum/classes.js';
   import { defaultColor } from '$lib/util/memorandum/constants.js';
   import { localPresetStore } from '$lib/util/stores/store-memorandum-preset';
   import { folderOverlayOptionsStore } from '$lib/util/stores/stores-memorandum';
+  import { celebrate } from '$lib/util/stores/stores-global';
   import { initialized, t } from '$lib/util/translations';
   import Checkbox from 'carbon-components-svelte/src/Checkbox/Checkbox.svelte';
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
@@ -11,9 +12,10 @@
   import Slider from 'carbon-components-svelte/src/Slider/Slider.svelte';
   import TextInput from 'carbon-components-svelte/src/TextInput/TextInput.svelte';
   import Save from 'carbon-icons-svelte/lib/Save.svelte';
-  import { onMount } from 'svelte';
 
-  let { folderName = $bindable('') } = $props();
+  let { folderName = $bindable(''), open = $bindable(false) } = $props();
+
+  const type = $derived($folderOverlayOptionsStore.currentFolderId ? 'edit' : 'new');
 
   let customColorActive = $state(false);
   let r = $state(defaultColor.r);
@@ -35,25 +37,48 @@
     }
   });
 
-  onMount(() => {
-    if ($folderOverlayOptionsStore.currentFolderBackgroundColor) {
-      const persisted = $folderOverlayOptionsStore.currentFolderBackgroundColor;
-      r = persisted.r;
-      g = persisted.g;
-      b = persisted.b;
-      a = persisted.a;
-      customColorActive =
-        persisted.r !== defaultColor.r ||
-        persisted.g !== defaultColor.g ||
-        persisted.b !== defaultColor.b ||
-        persisted.a !== defaultColor.a;
+  $effect(() => {
+    if (open) {
+      if (type === 'edit') {
+        folderName = $folderOverlayOptionsStore.currentFolderName ?? '';
+        const persisted = $folderOverlayOptionsStore.currentFolderBackgroundColor;
+        if (persisted) {
+          r = persisted.r;
+          g = persisted.g;
+          b = persisted.b;
+          a = persisted.a;
+          customColorActive =
+            persisted.r !== defaultColor.r ||
+            persisted.g !== defaultColor.g ||
+            persisted.b !== defaultColor.b ||
+            persisted.a !== defaultColor.a;
+        }
+      } else {
+        folderName = $t('page.memorandum.newFolderHeader');
+        customColorActive = false;
+      }
     }
   });
 
   const closeOverlay = () => {
-    $folderOverlayOptionsStore.showOverlay = false;
+    open = false;
     $folderOverlayOptionsStore.currentFolderId = undefined;
   };
+
+  const createFolder = () => {
+    if (submittable) {
+      const currentPreset = structuredClone($localPresetStore);
+      const newFolder = new FolderClass(crypto.randomUUID(), folderName, [], defaultColor) as FolderClass & { customBackgroundColor?: { r: number; g: number; b: number; a: number } };
+      if (customColorActive) {
+        newFolder.customBackgroundColor = { r, g, b, a };
+      }
+      currentPreset.Folders.push(newFolder);
+      $localPresetStore = currentPreset;
+      celebrate();
+      closeOverlay();
+    }
+  };
+
   const editFolder = () => {
     if (submittable) {
       const currentPreset = structuredClone($localPresetStore);
@@ -70,6 +95,7 @@
       closeOverlay();
     }
   };
+
   const updateCustomColorFromInput = () => {
     const splitted = customColorInput.split(',');
     if (splitted.length === 4) {
@@ -82,12 +108,14 @@
 </script>
 
 <Modal
-  bind:open={$folderOverlayOptionsStore.showOverlay}
-  modalHeading={$t('page.memorandum.folder.editTitle', { folderName })}
+  bind:open
+  modalHeading={type === 'new'
+    ? $t('page.memorandum.folder.createTitle')
+    : $t('page.memorandum.folder.editTitle', { folderName })}
   primaryButtonText={$t('page.shared.save')}
   primaryButtonIcon={Save}
   secondaryButtonText={$t('page.shared.abort')}
-  on:click:button--primary={editFolder}
+  on:click:button--primary={type === 'new' ? createFolder : editFolder}
   on:click:button--secondary={closeOverlay}
   style="background-color:{customColor.getRGBA()}"
   hasScrollingContent
@@ -100,7 +128,7 @@
       autofocus
       class="mb1"
       on:keyup={(event) => {
-        if (isEnter(event)) editFolder();
+        if (isEnter(event)) type === 'new' ? createFolder() : editFolder();
       }}
     />
 

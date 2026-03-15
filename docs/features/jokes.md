@@ -99,6 +99,19 @@ Keys under `jokes.*` in translation files.
 
 ---
 
+## Frontend Components
+
+| Component | Description |
+|-----------|-------------|
+| `frontend/src/lib/components/jokes/Jokes.svelte` | Main page component — shows random joke area only |
+| `frontend/src/lib/components/jokes/CreateJokeOverlay.svelte` | Carbon Modal for creating a new joke (FAB-triggered) |
+
+### Create Joke Pattern
+
+Joke creation uses a FAB (fixed primary button, bottom-right) that opens a Carbon Modal (`CreateJokeOverlay.svelte`). The modal contains a `TextArea` for the joke text and a `Select` for language (`de`/`en`). On success: `celebrate()` + `InlineNotification` + auto-close after ~1.5 s. The inline form that was previously embedded directly on the page has been removed.
+
+---
+
 ## Key Implementation Notes
 
 - `persistDailyJoke()` sets `verified: true` on all auto-fetched jokes.

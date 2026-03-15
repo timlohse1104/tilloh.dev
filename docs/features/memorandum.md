@@ -91,6 +91,26 @@ Keys under `memorandum.*` in translation files.
 
 ---
 
+## Frontend Components
+
+| Component | Description |
+|-----------|-------------|
+| `frontend/src/lib/components/memorandum/FolderArea.svelte` | Main folder grid; FAB always visible |
+| `frontend/src/lib/components/memorandum/FolderOverlay.svelte` | Dual-mode Carbon Modal: **create** (FAB) and **edit** (context menu) |
+| `frontend/src/lib/components/memorandum/LinkOverlay.svelte` | Modal for creating/editing links |
+| `frontend/src/lib/components/memorandum/Startup.svelte` | Zero-state screen with "create folder" CTA |
+
+### Folder Create/Edit Pattern
+
+`FolderOverlay.svelte` handles both modes via `type = $derived(currentFolderId ? 'edit' : 'new')`:
+
+- **Create** (FAB in `FolderArea.svelte`): `bind:open={createFolderModalOpen}`, no `currentFolderId` → pre-fills default name, resets color sliders, pushes new `FolderClass` to `$localPresetStore`, calls `celebrate()`.
+- **Edit** (context menu in `Folder.svelte`): `bind:open={$folderOverlayOptionsStore.showOverlay}` in `+page.svelte`, `currentFolderId` is set → loads persisted name and background color.
+
+The FAB is **always visible** (not gated on `Folders.length > 0`). The zero-state screen also opens the create modal via its CTA button.
+
+---
+
 ## Key Implementation Notes
 
 - Memorandum has **no dedicated MongoDB schema** — all data lives in the shared Keystore collection.
