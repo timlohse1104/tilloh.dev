@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
+- [hitstar] Spotify track search now uses a single random year (1955–2025) per request instead of a fixed range to improve year distribution across decades.
 
 - [backend] Auto-seed toggles on application startup: missing toggles are created with default values from config; existing toggles are never overwritten.
 - [hitstar] Add animated step-card tutorial in the menu that loops through 5 game steps with icons and auto-highlights each card every 2 seconds.
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [hitstar] Album cover on the track card is now smaller on mobile viewports so all metadata (title, artist, album, year) fits within the card bounds without being clipped.
 - [hitstar] Spotify iFrame API player no longer throws PlaybackError after the 30-second preview ends; clicking Play or Replay reloads the track via `loadUri` and starts playback automatically.
 - [hitstar] Range mode NumberInput fields now correctly display the default value (2000) by overriding Carbon's oversized `padding-right` that was truncating the 4-digit year.
 - [hitstar] CSS selector for Range submit button narrowed from `:global(button)` to `:global(button.bx--btn)` to prevent accidentally resizing the NumberInput stepper buttons.

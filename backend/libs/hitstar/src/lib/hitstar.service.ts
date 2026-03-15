@@ -51,7 +51,7 @@ export class HitstarService {
     const maxAttempts = 10;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const offset = Math.floor(Math.random() * 950);
+      const offset = Math.floor(Math.random() * 100);
       const token = await this.getAccessToken();
 
       this.logger.log(
@@ -59,7 +59,8 @@ export class HitstarService {
       );
 
       try {
-        const searchUrl = `https://api.spotify.com/v1/search?q=*+year%3A1950-2025&type=track&market=DE&limit=10&offset=${offset}`;
+        const year = 1955 + Math.floor(Math.random() * (2025 - 1955 + 1));
+        const searchUrl = `https://api.spotify.com/v1/search?q=*+year%3A${year}&type=track&market=DE&limit=10&offset=${offset}`;
         this.logger.log(`Fetching URL: ${searchUrl}`);
         const response = await firstValueFrom(
           this.httpService.get(searchUrl, {

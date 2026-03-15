@@ -165,6 +165,12 @@
       font-size: 4rem;
     }
 
+    .album-cover {
+      width: min(90px, 28vw);
+      height: min(90px, 28vw);
+      margin-bottom: 0.25rem;
+    }
+
     .track-name {
       font-size: 0.85rem;
     }
