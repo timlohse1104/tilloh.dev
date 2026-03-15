@@ -20,9 +20,11 @@
 
 {#if $initialized}
   <div class="hitstar-container" class:game-active={gameActive}>
-    <p class="mode-label">
-      {selectedTab === 0 ? $t('page.hitstar.tabs.classic') : $t('page.hitstar.tabs.range')}
-    </p>
+    {#if gameActive}
+      <p class="mode-label">
+        {selectedTab === 0 ? $t('page.hitstar.tabs.classic') : $t('page.hitstar.tabs.range')}
+      </p>
+    {/if}
     <Tabs bind:selected={selectedTab}>
       <Tab label={$t('page.hitstar.tabs.classic')} />
       <Tab label={$t('page.hitstar.tabs.range')} />

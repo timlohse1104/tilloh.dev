@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- [hitstar] Show current game mode (Classic / Range) as small grey label top-left, always visible even when tabs are hidden during active game.
+- [hitstar] Show current game mode (Classic / Range) as small grey label top-left, only visible during an active game (hidden in the main menu).
 
 ### Changed
 
