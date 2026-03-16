@@ -14,6 +14,7 @@
     isConfettiVisibleStore,
   } from '$lib/util/stores/stores-global';
   import { confetti } from '@neoconfetti/svelte';
+  import '@fontsource/londrina-solid';
   import 'carbon-components-svelte/css/all.css';
   import './styles.css';
 

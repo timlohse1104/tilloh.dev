@@ -47,6 +47,7 @@
     "vitest": "^4.0.18"
   },
   "dependencies": {
+    "@fontsource/londrina-solid": "^5.2.7",
     "@mlc-ai/web-llm": "^0.2.79",
     "carbon-components-svelte": "^0.101.0",
     "carbon-icons-svelte": "^13.3.0",

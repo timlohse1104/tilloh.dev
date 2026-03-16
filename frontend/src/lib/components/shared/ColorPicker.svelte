@@ -709,14 +709,12 @@
   .text-label {
     position: relative;
     top: 0px;
-    font-family: sans-serif;
     font-size: small;
     color: #888;
   }
 
   .text {
     display: inline;
-    font-family: sans-serif;
     margin: 0;
     display: inline-block;
     font-size: 12px;

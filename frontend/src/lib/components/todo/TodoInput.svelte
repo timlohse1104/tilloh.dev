@@ -213,7 +213,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     font-size: 0.7rem;
-    font-family: monospace;
+    font-family: var(--font-mono);
     font-weight: 600;
     margin-right: 0.25rem;
   }
