@@ -36,7 +36,7 @@ code,
 pre,
 .bx--snippet,
 .bx--code-snippet__text {
-  font-family: var(--font-mono) !important;
+  font-family: var(--font-display) !important;
 }
 
 .background_gradient_dark {
@@ -93,7 +93,7 @@ h2 {
 
 pre {
   font-size: 16px;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   border-radius: 3px;
   padding: 0.5em;
   overflow-x: auto;
