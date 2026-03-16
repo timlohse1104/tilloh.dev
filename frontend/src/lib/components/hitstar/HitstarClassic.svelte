@@ -185,6 +185,9 @@
     <div class="step-cards">
       {#each STEPS as step, i}
         {@const StepIcon = step.icon}
+        {#if i > 0}
+          <span class="step-arrow">→</span>
+        {/if}
         <div class="step-card" class:active={i === currentStepIndex}>
           <StepIcon size={24} />
           <span class="step-label">{$t(`page.hitstar.menu.step${i + 1}`)}</span>
@@ -385,6 +388,14 @@
     justify-content: center;
   }
 
+  .step-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--cds-text-disabled);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
   .step-card {
     display: flex;
     flex-direction: column;
@@ -396,6 +407,8 @@
     background: var(--cds-layer-02, #393939);
     flex: 1;
     min-width: 0;
+    pointer-events: none;
+    cursor: default;
     transition:
       border-color 0.3s,
       background 0.3s,

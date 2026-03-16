@@ -1,6 +1,7 @@
 <script lang="ts">
   // 1. IMPORTS
   import { updateJoke } from '$lib/api/jokes.api';
+  import { formatDate } from '$lib/util/format';
   import {
     adminJokesStore,
     adminTokenStore,
@@ -76,8 +77,8 @@
           <div class="admin_list_item_content">
             <div>
               <p>
-                ✨{new Date(joke.created).toLocaleString('de-DE')}
-                📅{new Date(joke.updated).toLocaleString('de-DE')}
+                ✨{formatDate(joke.created)}
+                📅{formatDate(joke.updated)}
               </p>
               <p>
                 🆔{joke._id}

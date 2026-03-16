@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [frontend] Self-hosted Londrina Solid Font als globale Schriftart via Fontsource; Carbon CDN-Duplikat entfernt; CSS-Variablen `--font-display` und `--font-mono` eingeführt.
+- [frontend] `formatDate()` Hilfsfunktion in `src/lib/util/format.ts` für robuste Datumsformatierung (Fallback bei undefined/null/Invalid Date).
+
+### Fixed
+
+- [about] HTML-Entities (`&lpar;`, `&lcub;`, `&gt;` etc.) in Code-Blöcken durch echte Zeichen ersetzt — CodeSnippet rendert Plain-Text, Entities wurden wörtlich angezeigt.
+- [jokes] "Invalid Date" behoben: Joke-Karte wird nur angezeigt wenn `joke.created` ein valides Datum enthält; Locale-Tag von `'DE-de'` auf korrektes BCP 47 `'de-DE'` korrigiert.
+- [memorandum] Ordner-Spalten-Clipping im Fixed-Grid behoben: `gap: var(--default_padding)` auf `.content_area_fixed` gesetzt, horizontale Margins in `.link_box_fixed` entfernt.
+- [hitstar] Step-Chips im Menü als nicht-interaktiv gekennzeichnet (`pointer-events: none`, `cursor: default`); Pfeil-Separatoren (`→`) zwischen den Chips eingefügt.
 - [docs] Add `docs/` folder with structured feature and shared infrastructure documentation for AI context (20 files: 1 template, 10 feature docs, 9 shared docs).
 - [claude] Update commit-push skill to automatically detect and update affected docs before committing, with generic doc-to-source mapping that works across repositories.
 - [hitstar] Show current game mode (Classic / Range) as small grey label top-left, only visible during an active game (hidden in the main menu).
