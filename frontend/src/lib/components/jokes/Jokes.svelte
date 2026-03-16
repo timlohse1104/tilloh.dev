@@ -2,6 +2,7 @@
   // 1. IMPORTS
   import { getRandomJoke } from '$lib/api/jokes.api';
   import type { JokeDto } from '$lib/types/jokes.dto';
+  import { formatDate } from '$lib/util/format';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
@@ -30,10 +31,10 @@
     <h1>{$t('page.jokes.titleRandomJoke')}</h1>
     <p>{$t('page.jokes.descriptionRandomJoke')}</p>
 
-    {#if randomJoke}
+    {#if randomJoke?.created}
       <Tile class="random_joke mt2">
         <i>{randomJoke.text}</i>
-        <p>📅{new Date(randomJoke.created).toLocaleString('DE-de')}</p>
+        <p>📅{formatDate(randomJoke.created)}</p>
       </Tile>
     {/if}
 

@@ -17,11 +17,30 @@
   --color_bg_light_1: rgb(220, 220, 230);
   --color_bg_light_0: hsl(220, 50%, 60%);
   --color_bg_light_2: hsl(220, 0%, 100%);
+
+  --font-display:
+    'Londrina Solid', 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', Courier, monospace;
+  --letter-spacing: 0.05em;
 }
 
 body {
   margin: 0;
   overflow: hidden;
+  font-family: var(--font-display) !important;
+  letter-spacing: var(--letter-spacing);
+}
+
+[class*='bx--'] {
+  font-family: var(--font-display) !important;
+  letter-spacing: var(--letter-spacing);
+}
+
+code,
+pre,
+.bx--snippet,
+.bx--code-snippet__text {
+  font-family: var(--font-display) !important;
 }
 
 .background_gradient_dark {
@@ -78,7 +97,7 @@ h2 {
 
 pre {
   font-size: 16px;
-  font-family: var(--font_mono);
+  font-family: var(--font-display);
   border-radius: 3px;
   padding: 0.5em;
   overflow-x: auto;

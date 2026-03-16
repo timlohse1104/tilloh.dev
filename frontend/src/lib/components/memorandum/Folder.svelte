@@ -364,8 +364,7 @@
 
   .link_box_fixed {
     display: grid;
-    margin: 0 calc(var(--default_padding) / 2) var(--default_padding)
-      calc(var(--default_padding) / 2);
+    margin: 0 0 0 0;
     grid-template-rows: 2.5rem 250px;
     grid-template-areas:
       'header'

@@ -22,10 +22,16 @@
   const unoSortRoute = $derived($applicationRoutes['uno-sort']);
   const stackSize = $derived(unoSort?.getStackSize());
 
+  // 6. EFFECTS
+  $effect(() => {
+    if (handDivElement && stackSizeElement && handSizeElement && !unoSort) {
+      unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
+      unoSort.start(7);
+    }
+  });
+
   // 7. LIFECYCLE
   onMount(async () => {
-    unoSort = new UnoSort(handDivElement, stackSizeElement, handSizeElement);
-    unoSort.start(7);
     await setLocale($languageStore);
   });
 

@@ -298,7 +298,7 @@
     color: var(--cds-text-error);
     font-size: 0.875rem;
     margin: 0;
-    font-family: monospace;
+    font-family: var(--font-mono);
   }
 
   .edit_actions {
@@ -312,7 +312,7 @@
   }
 
   :global(.json_editor textarea) {
-    font-family: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     line-height: 1.5;
   }

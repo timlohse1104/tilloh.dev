@@ -147,6 +147,7 @@
     overflow-x: hidden;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: var(--default_padding);
 
     @media #{$wide} {
       grid-template-columns: repeat(5, 1fr);
