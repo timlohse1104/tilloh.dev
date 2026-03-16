@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [frontend] Self-hosted Londrina Solid Font als globale Schriftart via Fontsource; Carbon CDN-Duplikat entfernt; CSS-Variablen `--font-display` und `--font-mono` eingeführt.
 - [about] Code-Blöcke verwenden jetzt ebenfalls die Londrina Solid Display-Font statt der Monospace-Font.
+- [global] CSS-Variable `--letter-spacing: 0.05em` eingeführt und auf `body` sowie alle `bx--`-Elemente angewendet für bessere Lesbarkeit mit Londrina Solid.
 - [frontend] `formatDate()` Hilfsfunktion in `src/lib/util/format.ts` für robuste Datumsformatierung (Fallback bei undefined/null/Invalid Date).
 
 ### Fixed
