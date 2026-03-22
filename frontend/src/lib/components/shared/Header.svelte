@@ -4,6 +4,8 @@
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Cloud from 'carbon-icons-svelte/lib/Cloud.svelte';
+  import CloudOffline from 'carbon-icons-svelte/lib/CloudOffline.svelte';
   import GlobalMenu from './GlobalMenu.svelte';
 
   export let locale;
@@ -45,15 +47,12 @@
       <h2>
         <svelte:component this={currentPage?.icon} />
         {currentPage?.name?.[locale]}
-      </h2>
-
-      <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: green !important">🌐 Cloud</span>
+          <Cloud class="storage-icon storage-icon--cloud" />
         {:else}
-          <span style="color: red !important">📴 Lokal</span>
+          <CloudOffline class="storage-icon storage-icon--offline" />
         {/if}
-      </p>
+      </h2>
     </div>
 
     <GlobalMenu {locale} />
@@ -97,8 +96,18 @@
     justify-content: center;
   }
 
-  p {
-    font-size: 0.8em;
-    margin: 0 0 0 1rem;
+  :global(.storage-icon) {
+    vertical-align: middle;
+    margin-left: 0.4rem;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  :global(.storage-icon--cloud) {
+    color: #42be65;
+  }
+
+  :global(.storage-icon--offline) {
+    color: #fa4d56;
   }
 </style>

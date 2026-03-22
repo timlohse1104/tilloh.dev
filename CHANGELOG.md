@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [home] Replace Navigation grid on homepage with a time-based greeting component that addresses the current user by their identifier (morning/afternoon/evening/night, DE + EN).
 
+### Changed
+
+- [global] Replace emoji storage-state indicator (🌐/📴) in header with colored Carbon Cloud/CloudOffline icons displayed inline after the page title.
+
 ### Fixed
 
 - [global] Fix letter-spacing not applying to text elements: Carbon CSS explicitly sets `letter-spacing` via its own tokens on `p`, `h1`, etc., overriding the inherited `body` value. Added `body * { letter-spacing: var(--letter-spacing) !important }` to enforce the global spacing across all child elements.
