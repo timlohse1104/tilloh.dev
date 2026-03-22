@@ -744,6 +744,7 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
+    padding-left: calc(var(--default_padding) / 2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 </style>
