@@ -45,7 +45,7 @@ test.describe('Memorandum', () => {
     await nameInput.fill('E2E-Testordner');
     await authenticatedPage.waitForTimeout(200);
 
-    // Speichern
+    // Save
     await modal.locator('.bx--btn--primary').click();
 
     // Modal closes and folder appears

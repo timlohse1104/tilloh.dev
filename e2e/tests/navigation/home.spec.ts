@@ -4,7 +4,6 @@ import { FRONTEND_URL } from '../../helpers/constants';
 test.describe('Home-Seite und Navigation', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto(FRONTEND_URL);
-    await authenticatedPage.waitForLoadState('networkidle');
     // Wait for main to be visible (only rendered when authenticated)
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
