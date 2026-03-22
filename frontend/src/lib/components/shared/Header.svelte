@@ -79,6 +79,15 @@
     h2 {
       margin: 0;
       font-size: 2em;
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+
+      :global(svg:first-child) {
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+      }
 
       @media #{$phone} {
         font-size: 1.2em;
@@ -97,10 +106,9 @@
   }
 
   :global(.storage-icon) {
-    vertical-align: middle;
-    margin-left: 0.4rem;
-    width: 1rem;
-    height: 1rem;
+    width: 0.75em;
+    height: 0.75em;
+    flex-shrink: 0;
   }
 
   :global(.storage-icon--cloud) {
