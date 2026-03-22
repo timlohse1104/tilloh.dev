@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [e2e] E2E-Tests für Memorandum (5 Tests: Startup-Screen, Suchleiste, FAB-Modal, Ordner erstellen, Preset laden), Todo (5 Tests: Leer-Zustand, FAB, Menü-Modal, Liste erstellen, Todo hinzufügen) und Settings (5 Tests: Dashboard-Karten, Theme-Schalter, Sprachschalter, Sprache wechseln, Persistenz) hinzugefügt.
 - [e2e] Playwright E2E-Testinfrastruktur eingeführt: `/e2e/` Paket mit Chromium-Tests gegen echtes Backend (Port 61155, separate DB `tilloh-dev-e2e`); 6 Spec-Dateien (auth, navigation, about, uno-sort, jokes, admin); global setup/teardown für Testdaten; Auth-Bypass via localStorage-Injection; läuft ausschließlich lokal (kein CI).
 - [backend] `GET /v1/health/readyz` mit `@Public()` dekoriert, damit Playwright's webServer-Health-Check ohne Bearer-Token antwortet.
 - [frontend] Self-hosted Londrina Solid Font als globale Schriftart via Fontsource; Carbon CDN-Duplikat entfernt; CSS-Variablen `--font-display` und `--font-mono` eingeführt.
