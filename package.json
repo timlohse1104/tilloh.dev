@@ -6,7 +6,13 @@
     "postinstall": "cp git-hooks/* .git/hooks/ && chmod -R +x .git/hooks/",
     "dev-frontend": "cd frontend && nx dev",
     "dev-backend": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run dev-frontend\" \"npm run dev-backend\" "
+    "dev": "concurrently \"npm run dev-frontend\" \"npm run dev-backend\" ",
+    "e2e": "cd e2e && npm test",
+    "e2e:headed": "cd e2e && npm run test:headed",
+    "e2e:ui": "cd e2e && npm run test:ui",
+    "e2e:install": "cd e2e && npm install && npm run install-browsers",
+    "e2e:install:ci": "cd e2e && npm install && npm run install-browsers:ci",
+    "e2e:setup": "cp e2e/.env.test.example e2e/.env.test && echo 'Copied .env.test.example to .env.test – fill in your values!'"
   },
   "private": true,
   "devDependencies": {

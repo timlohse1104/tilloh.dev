@@ -43,3 +43,11 @@ testem.log
 Thumbs.db
 
 **/.nx/**
+
+# E2E test artifacts
+e2e/node_modules
+e2e/test-results
+e2e/playwright-report
+e2e/.test-state.json
+e2e/.env.test
+frontend/static/config/config.json

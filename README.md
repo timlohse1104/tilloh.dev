@@ -80,6 +80,54 @@ After starting all services contained in docker-compose file the first user must
 
 Use a tool like Postman or do a POST http://localhost:61154/v1/identifiers request the way you like. It is important to provide an Authrization: Bearer <ADMIN_IDENTIFIER> header in the request to authorize. After that you will get an identifier id that can be used for further usage in the application user interface login screen.
 
+## E2E Tests
+
+E2E tests run locally with [Playwright](https://playwright.dev/) against a real backend + MongoDB. Backend (port 61155) and frontend (port 5173) are started **automatically** — no manual startup required.
+
+### Setup (one-time)
+
+```bash
+# 1. Start MongoDB
+cd backend && npm run start:db
+
+# 2. Install E2E dependencies and Chromium
+npm run e2e:install
+
+# 3. Create and fill .env.test
+npm run e2e:setup
+# Open e2e/.env.test and set E2E_ADMIN_IDENTIFIER (= ADMIN_IDENTIFIER from backend/.env)
+```
+
+### Running tests
+
+```bash
+npm run e2e            # Headless (fast)
+npm run e2e:headed     # With visible browser
+npm run e2e:ui         # Playwright UI (interactive, with timeline and traces)
+```
+
+### Structure
+
+```
+e2e/
+  playwright.config.ts          # Config: Chromium, webServer, global setup/teardown
+  .env.test.example             # Template for local config (committed)
+  global-setup.ts               # Creates test identifier + seed joke in DB
+  global-teardown.ts            # Cleans up test data
+  fixtures/
+    authenticated.fixture.ts    # localStorage injection for auth bypass
+  helpers/
+    api.ts                      # HTTP helpers for setup/teardown
+    constants.ts                # URLs, identifiers
+  tests/
+    auth/login.spec.ts          # Login gate and login flow
+    navigation/home.spec.ts     # Header, nav grid, tile navigation
+    features/about.spec.ts      # Static content, i18n DE/EN
+    features/uno-sort.spec.ts   # Card drawing, reset (no backend)
+    features/jokes.spec.ts      # Random joke, FAB modal
+    features/admin.spec.ts      # Two-step auth, dashboard
+```
+
 ## Development
 
 Before committing changes it is necessary to fix all linting errors. After cloning this repository, `npm install` will automatically install a pre-commit hook that will run the linter before committing changes!

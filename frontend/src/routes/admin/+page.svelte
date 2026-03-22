@@ -39,6 +39,4 @@
   });
 </script>
 
-<section>
-  <Activities activities={getLatestActivities()} />
-</section>
+<Activities activities={getLatestActivities()} />

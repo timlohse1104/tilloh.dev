@@ -6,28 +6,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [global] Translate all German source code comments to English across e2e specs, frontend components, and utility files.
+
 ### Added
 
-- [frontend] Self-hosted Londrina Solid Font als globale Schriftart via Fontsource; Carbon CDN-Duplikat entfernt; CSS-Variablen `--font-display` und `--font-mono` eingeführt.
-- [about] Code-Blöcke verwenden jetzt ebenfalls die Londrina Solid Display-Font statt der Monospace-Font.
-- [global] CSS-Variable `--letter-spacing: 0.05em` eingeführt und auf `body` sowie alle `bx--`-Elemente angewendet für bessere Lesbarkeit mit Londrina Solid.
-- [frontend] `formatDate()` Hilfsfunktion in `src/lib/util/format.ts` für robuste Datumsformatierung (Fallback bei undefined/null/Invalid Date).
+- [e2e] Add E2E tests for Memorandum (5 tests: startup screen, search bar, FAB modal, create folder, load preset), Todo (5 tests: empty state, FAB, menu modal, create list, add todo) and Settings (5 tests: dashboard cards, theme switch, language switch, change language, persistence).
+- [e2e] Introduce Playwright E2E test infrastructure: `/e2e/` package with Chromium tests against real backend (port 61155, separate DB `tilloh-dev-e2e`); 6 spec files (auth, navigation, about, uno-sort, jokes, admin); global setup/teardown for test data; auth bypass via localStorage injection; runs locally only (no CI).
+- [backend] Decorate `GET /v1/health/readyz` with `@Public()` so Playwright's webServer health check responds without a Bearer token.
+- [frontend] Self-hosted Londrina Solid font as global typeface via Fontsource; removed Carbon CDN duplicate; introduced CSS variables `--font-display` and `--font-mono`.
+- [about] Code blocks now also use the Londrina Solid display font instead of the monospace font.
+- [global] Introduce CSS variable `--letter-spacing: 0.05em` applied to `body` and all `bx--` elements for better readability with Londrina Solid.
+- [frontend] Add `formatDate()` helper in `src/lib/util/format.ts` for robust date formatting (fallback for undefined/null/Invalid Date).
 
 ### Fixed
 
-- [about] HTML-Entities (`&lpar;`, `&lcub;`, `&gt;` etc.) in Code-Blöcken durch echte Zeichen ersetzt — CodeSnippet rendert Plain-Text, Entities wurden wörtlich angezeigt.
-- [jokes] "Invalid Date" behoben: Joke-Karte wird nur angezeigt wenn `joke.created` ein valides Datum enthält; Locale-Tag von `'DE-de'` auf korrektes BCP 47 `'de-DE'` korrigiert.
-- [memorandum] Ordner-Spalten-Clipping im Fixed-Grid behoben: `gap: var(--default_padding)` auf `.content_area_fixed` gesetzt, horizontale Margins in `.link_box_fixed` entfernt.
-- [hitstar] Step-Chips im Menü als nicht-interaktiv gekennzeichnet (`pointer-events: none`, `cursor: default`); Pfeil-Separatoren (`→`) zwischen den Chips eingefügt.
-- [uno-sort] UnoSort-Initialisierung von `onMount` in `$effect` verschoben, sodass DOM-Refs erst nach `$initialized` gesetzt werden und kein `Cannot set properties of undefined`-Fehler auftritt.
+- [about] Replace HTML entities (`&lpar;`, `&lcub;`, `&gt;` etc.) in code blocks with actual characters — CodeSnippet renders plain text, entities were displayed literally.
+- [jokes] Fix "Invalid Date": joke card is only shown when `joke.created` contains a valid date; correct locale tag from `'DE-de'` to BCP 47 `'de-DE'`.
+- [memorandum] Fix folder column clipping in fixed grid: set `gap: var(--default_padding)` on `.content_area_fixed`, remove horizontal margins from `.link_box_fixed`.
+- [hitstar] Mark step chips in menu as non-interactive (`pointer-events: none`, `cursor: default`); insert arrow separators (`→`) between chips.
+- [uno-sort] Move UnoSort initialization from `onMount` to `$effect` so DOM refs are set only after `$initialized`, preventing `Cannot set properties of undefined` error.
 - [docs] Add `docs/` folder with structured feature and shared infrastructure documentation for AI context (20 files: 1 template, 10 feature docs, 9 shared docs).
 - [claude] Update commit-push skill to automatically detect and update affected docs before committing, with generic doc-to-source mapping that works across repositories.
 - [hitstar] Show current game mode (Classic / Range) as small grey label top-left, only visible during an active game (hidden in the main menu).
 
 ### Changed
 
-- [memorandum] Ordner-Erstellung über FAB + Modal statt direkter Erstellung; FAB immer sichtbar; Zero-State öffnet ebenfalls das Modal.
-- [jokes] Inline-Witz-Formular durch FAB + Modal ersetzt; Seite zeigt nur noch den Zufallswitz-Bereich.
+- [memorandum] Folder creation via FAB + modal instead of direct creation; FAB always visible; zero state also opens the modal.
+- [jokes] Replace inline joke form with FAB + modal; page now shows only the random joke section.
 - [hitstar] Remove Spotify embed (full iframe) from the reveal phase; only round tracker, abort button, flipped track card and next-round button are shown after guessing.
 - [hitstar] Spotify track search now uses a single random year (1955–2025) per request instead of a fixed range to improve year distribution across decades.
 - [hitstar] Add `genre:pop` filter to Spotify search query to increase the share of well-known tracks.
@@ -75,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [global] Reduced GlobalMenu font sizes on mobile for better fit.
 - [hitstar] Redesigned GUESSING/REVEAL UI: question headline + small danger Exit icon button in top bar, round progress tracker (gray/green/red bars), year input and submit icon button inline, submit icon centered via flex override.
 - [global] Claude Code `/commit-push` Skill für automatisierten Commit-und-Push-Workflow.
-- [global] Post-Commit Hook erweitert mit Unicode-Gitmojis und zusätzlichen Keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).
+- [global] Extend post-commit hook with Unicode gitmojis and additional keywords (test, style, update, improve, move, breaking, access, database, responsive, animation, i18n, clean).
 - [frontend] Added `viewport-fit=cover` to enable iPhone safe-area support (Notch/Home-Indicator) across all pages.
 - [memorandum] Empty state redesigned as Carbon Tile cards with title, description, and CTA buttons.
 - [memorandum] FAB add-folder button is now `kind="primary"` and hidden in empty state.
@@ -113,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [home] Navigation tiles show icon-only on phone; `JokeOfTheDay` section is now prominently displayed with a Carbon Tile card.
-- [global] `GlobalMenu` footer shows GitHub/Stadtwerk buttons below "Entwickelt von..." text on phone as social buttons.
+- [global] `GlobalMenu` footer shows GitHub/Stadtwerk buttons below "Developed by..." text on phone as social buttons.
 
 ### Changed
 

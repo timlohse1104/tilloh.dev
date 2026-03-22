@@ -40,6 +40,31 @@ cd backend && nx run-many -t test    # Jest tests
 cd frontend && nx run-many -t test   # Vitest tests
 ```
 
+### E2E Tests (`/e2e/`)
+E2E tests run **locally only** (not in CI). They start backend (port 61155) and frontend (port 5173) automatically via Playwright `webServer`.
+
+**Prerequisites:**
+- MongoDB running locally (`cd backend && npm run start:db`)
+- `e2e/.env.test` exists (copy from `.env.test.example`)
+
+```bash
+npm run e2e:install    # One-time: npm install + download Chromium
+npm run e2e:setup      # One-time: copy .env.test.example → .env.test
+
+npm run e2e            # Run tests headless
+npm run e2e:headed     # Run tests with visible browser
+npm run e2e:ui         # Playwright UI (interactive mode)
+```
+
+**Configuration** (`e2e/.env.test`):
+- `E2E_ADMIN_IDENTIFIER` – must match `ADMIN_IDENTIFIER` in `backend/.env`
+- `E2E_MONGO_DB_URL` – separate database `tilloh-dev-e2e` (no conflict with dev data)
+- `E2E_BACKEND_URL` – port 61155 (no conflict with dev backend on 61154)
+
+**Auth strategy**: Tests inject the test identifier via `localStorage.setItem('identifier', id)` using `addInitScript()` before page load. This bypasses the GlobalLogin gate without UI interaction.
+
+**Global Setup/Teardown**: Before tests, a test identifier and a seed joke are created in the E2E database. After tests, they are cleaned up.
+
 ## Architecture
 
 ```
@@ -48,6 +73,7 @@ cd frontend && nx run-many -t test   # Vitest tests
 ├── backend/               # NestJS API (Fastify, Mongoose, Socket.io)
 │   ├── apps/tilloh-dev/   # Main application entry
 │   └── libs/              # Feature modules (NX libraries)
+├── e2e/                   # Playwright E2E tests (local only, Chromium)
 ├── docker-compose.yaml    # Docker orchestration
 └── git-hooks/             # Pre/post-commit automation
 ```
@@ -114,6 +140,16 @@ Structured docs live in `docs/`. Use these as context when working on or extendi
 **Tooling**: NX monorepo, TypeScript 5.8, ESLint, Prettier (singleQuote: true), Jest/Vitest
 
 ## Coding Best Practices
+
+### Language Policy
+All source code **must be in English only**. This applies to:
+- **Code**: Variable names, function names, class names, type names
+- **Comments**: Inline comments, JSDoc, block comments
+- **CHANGELOG entries**: All entries in `CHANGELOG.md`
+- **Commit messages**: Commit message text (excluding gitmoji)
+- **Test descriptions**: `test()` and `describe()` labels in spec files
+
+The only exceptions are i18n translation strings (`de.json` / `en.json`) and user-facing UI text managed through the i18n system.
 
 ### Frontend Organization
 - **API calls**: Always place in `/frontend/src/lib/api/`
