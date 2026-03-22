@@ -19,6 +19,7 @@ interface Params {
   fromYear: string;
   toYear: string;
   points: string;
+  username: string;
 }
 
 const config: Config<Partial<Params>> = {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { verifyId } from '$lib/api/admin.api';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
   import { backgroundStore } from '$lib/util/stores/store-background';
@@ -17,8 +18,22 @@
   import '@fontsource/londrina-solid';
   import 'carbon-components-svelte/css/all.css';
   import './styles.css';
+  import { onMount } from 'svelte';
 
   $: isVerified = $identifierStore ? true : false;
+
+  onMount(async () => {
+    if ($identifierStore) {
+      try {
+        const result = await verifyId($identifierStore, 'user');
+        if (!result?.isVerified) {
+          $identifierStore = '';
+        }
+      } catch {
+        $identifierStore = '';
+      }
+    }
+  });
   $: locale = $languageStore;
   $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
   $: theme = $themeStore;

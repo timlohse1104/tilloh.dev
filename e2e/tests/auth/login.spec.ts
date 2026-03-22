@@ -46,4 +46,19 @@ test.describe('Login-Gate', () => {
     await expect(notification).toBeVisible({ timeout: 10_000 });
     await expect(passwordInput).toBeVisible();
   });
+
+  test('ungültiger Identifier im localStorage zeigt Login-Gate', async ({ page }) => {
+    // Set an invalid identifier in localStorage before navigation
+    await page.goto(FRONTEND_URL);
+    await page.evaluate(() =>
+      localStorage.setItem('identifier', 'invalid-stale-identifier-xyz'),
+    );
+    await page.reload();
+
+    // Layout verifies on mount and clears invalid identifier → login gate appears
+    await expect(page.locator('input[type="password"]')).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.locator('main')).not.toBeVisible();
+  });
 });

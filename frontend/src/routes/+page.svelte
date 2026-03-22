@@ -1,8 +1,8 @@
 <script lang="ts">
   // 1. IMPORTS
+  import Greeting from '$lib/components/home/Greeting.svelte';
   import JokeOfTheDay from '$lib/components/home/JokeOfTheDay.svelte';
-  import Navigation from '$lib/components/shared/Navigation.svelte';
-  import { activeApplicationRoutes, applicationRoutes } from '$lib/config/applications';
+  import { applicationRoutes } from '$lib/config/applications';
   import { TogglesEnum } from '$lib/types/toggle.dto';
   import { languageStore } from '$lib/util/stores/store-language';
   import { getToggleValue } from '$lib/util/toggle';
@@ -38,7 +38,7 @@
 </svelte:head>
 
 <section>
-  <Navigation routes={$activeApplicationRoutes} />
+  <Greeting />
 
   {#if randomJokeToggle}
     <JokeOfTheDay />
