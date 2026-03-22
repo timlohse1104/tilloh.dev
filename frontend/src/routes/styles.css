@@ -21,19 +21,20 @@
   --font-display:
     'Londrina Solid', 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', Courier, monospace;
-  --letter-spacing: 0.05em;
+  --letter-spacing: 0.075em;
 }
 
 body {
   margin: 0;
   overflow: hidden;
   font-family: var(--font-display) !important;
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: var(--letter-spacing) !important;
 }
 
+body *,
 [class*='bx--'] {
   font-family: var(--font-display) !important;
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: var(--letter-spacing) !important;
 }
 
 code,
