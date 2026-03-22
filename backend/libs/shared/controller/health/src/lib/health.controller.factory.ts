@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '@backend/util';
 import {
   HealthCheckResult,
   HealthCheckService,
@@ -48,6 +49,7 @@ export function healthControllerFactory() {
       return metrics.replace(/\n$/, '');
     }
 
+    @Public()
     @Get('readyz')
     @ApiOkResponse({
       description: 'Successful response',

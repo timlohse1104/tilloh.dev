@@ -40,6 +40,31 @@ cd backend && nx run-many -t test    # Jest tests
 cd frontend && nx run-many -t test   # Vitest tests
 ```
 
+### E2E-Tests (`/e2e/`)
+E2E-Tests laufen **nur lokal** (nicht in CI). Sie starten Backend (Port 61155) und Frontend (Port 5173) automatisch via Playwright `webServer`.
+
+**Voraussetzungen:**
+- MongoDB läuft lokal (`cd backend && npm run start:db`)
+- `e2e/.env.test` existiert (aus `.env.test.example` kopieren)
+
+```bash
+npm run e2e:install    # Einmalig: npm install + Chromium herunterladen
+npm run e2e:setup      # Einmalig: .env.test.example → .env.test kopieren
+
+npm run e2e            # Tests headless ausführen
+npm run e2e:headed     # Tests mit sichtbarem Browser
+npm run e2e:ui         # Playwright UI (interaktiver Modus)
+```
+
+**Konfiguration** (`e2e/.env.test`):
+- `E2E_ADMIN_IDENTIFIER` – muss mit `ADMIN_IDENTIFIER` in `backend/.env` übereinstimmen
+- `E2E_MONGO_DB_URL` – separate Datenbank `tilloh-dev-e2e` (kein Konflikt mit Dev-Daten)
+- `E2E_BACKEND_URL` – Port 61155 (kein Konflikt mit Dev-Backend auf 61154)
+
+**Auth-Strategie**: Tests injizieren den Test-Identifier per `localStorage.setItem('identifier', id)` via `addInitScript()`, bevor die Seite lädt. Damit wird der GlobalLogin-Gate übersprungen ohne UI-Interaction.
+
+**Global Setup/Teardown**: Vor den Tests wird ein Test-Identifier und ein Seed-Witz in der E2E-Datenbank erstellt. Nach den Tests werden diese wieder gelöscht.
+
 ## Architecture
 
 ```

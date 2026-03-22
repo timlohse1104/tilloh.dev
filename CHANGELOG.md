@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [e2e] Playwright E2E-Testinfrastruktur eingeführt: `/e2e/` Paket mit Chromium-Tests gegen echtes Backend (Port 61155, separate DB `tilloh-dev-e2e`); 6 Spec-Dateien (auth, navigation, about, uno-sort, jokes, admin); global setup/teardown für Testdaten; Auth-Bypass via localStorage-Injection; läuft ausschließlich lokal (kein CI).
+- [backend] `GET /v1/health/readyz` mit `@Public()` dekoriert, damit Playwright's webServer-Health-Check ohne Bearer-Token antwortet.
 - [frontend] Self-hosted Londrina Solid Font als globale Schriftart via Fontsource; Carbon CDN-Duplikat entfernt; CSS-Variablen `--font-display` und `--font-mono` eingeführt.
 - [about] Code-Blöcke verwenden jetzt ebenfalls die Londrina Solid Display-Font statt der Monospace-Font.
 - [global] CSS-Variable `--letter-spacing: 0.05em` eingeführt und auf `body` sowie alle `bx--`-Elemente angewendet für bessere Lesbarkeit mit Londrina Solid.

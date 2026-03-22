@@ -80,6 +80,54 @@ After starting all services contained in docker-compose file the first user must
 
 Use a tool like Postman or do a POST http://localhost:61154/v1/identifiers request the way you like. It is important to provide an Authrization: Bearer <ADMIN_IDENTIFIER> header in the request to authorize. After that you will get an identifier id that can be used for further usage in the application user interface login screen.
 
+## E2E Tests
+
+E2E-Tests laufen lokal mit [Playwright](https://playwright.dev/) gegen echtes Backend + MongoDB. Sie starten Backend (Port 61155) und Frontend (Port 5173) **automatisch** – kein manuelles Starten nötig.
+
+### Setup (einmalig)
+
+```bash
+# 1. MongoDB starten
+cd backend && npm run start:db
+
+# 2. E2E-Dependencies und Chromium installieren
+npm run e2e:install
+
+# 3. .env.test anlegen und befüllen
+npm run e2e:setup
+# Öffne e2e/.env.test und trage E2E_ADMIN_IDENTIFIER (= ADMIN_IDENTIFIER aus backend/.env) ein
+```
+
+### Tests ausführen
+
+```bash
+npm run e2e            # Headless (schnell)
+npm run e2e:headed     # Mit sichtbarem Browser
+npm run e2e:ui         # Playwright UI (interaktiv, mit Timeline und Traces)
+```
+
+### Struktur
+
+```
+e2e/
+  playwright.config.ts          # Konfiguration: Chromium, webServer, global setup/teardown
+  .env.test.example             # Template für lokale Konfiguration (committed)
+  global-setup.ts               # Erstellt Test-Identifier + Seed-Witz in DB
+  global-teardown.ts            # Räumt Test-Daten auf
+  fixtures/
+    authenticated.fixture.ts    # localStorage-Injection für Auth-Bypass
+  helpers/
+    api.ts                      # HTTP-Helfer für Setup/Teardown
+    constants.ts                # URLs, Identifier
+  tests/
+    auth/login.spec.ts          # Login-Gate und Login-Flow
+    navigation/home.spec.ts     # Header, Nav-Grid, Tile-Navigation
+    features/about.spec.ts      # Statischer Content, i18n DE/EN
+    features/uno-sort.spec.ts   # Karten ziehen, Reset (kein Backend)
+    features/jokes.spec.ts      # Zufallswitz, FAB-Modal
+    features/admin.spec.ts      # 2-stufige Auth, Dashboard
+```
+
 ## Development
 
 Before committing changes it is necessary to fix all linting errors. After cloning this repository, `npm install` will automatically install a pre-commit hook that will run the linter before committing changes!
