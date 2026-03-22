@@ -61,7 +61,7 @@ export const createTestJoke = async (text: string): Promise<string> => {
       text,
       language: 'de',
       verified: true,
-      categories: [{ name: 'e2e', languague: 'de' }],
+      categories: [{ name: 'e2e', language: 'de' }],
     }),
   });
   if (!res.ok) {

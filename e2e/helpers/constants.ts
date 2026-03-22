@@ -12,3 +12,7 @@ export const ADMIN_IDENTIFIER =
 
 export const TEST_IDENTIFIER_NAME = 'e2e-test-user';
 export const TEST_STATE_FILE = path.resolve(__dirname, '../.test-state.json');
+export const FRONTEND_CONFIG_FILE = path.resolve(
+  __dirname,
+  '../../frontend/static/config/config.json',
+);

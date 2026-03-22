@@ -82,50 +82,50 @@ Use a tool like Postman or do a POST http://localhost:61154/v1/identifiers reque
 
 ## E2E Tests
 
-E2E-Tests laufen lokal mit [Playwright](https://playwright.dev/) gegen echtes Backend + MongoDB. Sie starten Backend (Port 61155) und Frontend (Port 5173) **automatisch** – kein manuelles Starten nötig.
+E2E tests run locally with [Playwright](https://playwright.dev/) against a real backend + MongoDB. Backend (port 61155) and frontend (port 5173) are started **automatically** — no manual startup required.
 
-### Setup (einmalig)
+### Setup (one-time)
 
 ```bash
-# 1. MongoDB starten
+# 1. Start MongoDB
 cd backend && npm run start:db
 
-# 2. E2E-Dependencies und Chromium installieren
+# 2. Install E2E dependencies and Chromium
 npm run e2e:install
 
-# 3. .env.test anlegen und befüllen
+# 3. Create and fill .env.test
 npm run e2e:setup
-# Öffne e2e/.env.test und trage E2E_ADMIN_IDENTIFIER (= ADMIN_IDENTIFIER aus backend/.env) ein
+# Open e2e/.env.test and set E2E_ADMIN_IDENTIFIER (= ADMIN_IDENTIFIER from backend/.env)
 ```
 
-### Tests ausführen
+### Running tests
 
 ```bash
-npm run e2e            # Headless (schnell)
-npm run e2e:headed     # Mit sichtbarem Browser
-npm run e2e:ui         # Playwright UI (interaktiv, mit Timeline und Traces)
+npm run e2e            # Headless (fast)
+npm run e2e:headed     # With visible browser
+npm run e2e:ui         # Playwright UI (interactive, with timeline and traces)
 ```
 
-### Struktur
+### Structure
 
 ```
 e2e/
-  playwright.config.ts          # Konfiguration: Chromium, webServer, global setup/teardown
-  .env.test.example             # Template für lokale Konfiguration (committed)
-  global-setup.ts               # Erstellt Test-Identifier + Seed-Witz in DB
-  global-teardown.ts            # Räumt Test-Daten auf
+  playwright.config.ts          # Config: Chromium, webServer, global setup/teardown
+  .env.test.example             # Template for local config (committed)
+  global-setup.ts               # Creates test identifier + seed joke in DB
+  global-teardown.ts            # Cleans up test data
   fixtures/
-    authenticated.fixture.ts    # localStorage-Injection für Auth-Bypass
+    authenticated.fixture.ts    # localStorage injection for auth bypass
   helpers/
-    api.ts                      # HTTP-Helfer für Setup/Teardown
-    constants.ts                # URLs, Identifier
+    api.ts                      # HTTP helpers for setup/teardown
+    constants.ts                # URLs, identifiers
   tests/
-    auth/login.spec.ts          # Login-Gate und Login-Flow
-    navigation/home.spec.ts     # Header, Nav-Grid, Tile-Navigation
-    features/about.spec.ts      # Statischer Content, i18n DE/EN
-    features/uno-sort.spec.ts   # Karten ziehen, Reset (kein Backend)
-    features/jokes.spec.ts      # Zufallswitz, FAB-Modal
-    features/admin.spec.ts      # 2-stufige Auth, Dashboard
+    auth/login.spec.ts          # Login gate and login flow
+    navigation/home.spec.ts     # Header, nav grid, tile navigation
+    features/about.spec.ts      # Static content, i18n DE/EN
+    features/uno-sort.spec.ts   # Card drawing, reset (no backend)
+    features/jokes.spec.ts      # Random joke, FAB modal
+    features/admin.spec.ts      # Two-step auth, dashboard
 ```
 
 ## Development

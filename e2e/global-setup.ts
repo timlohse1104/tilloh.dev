@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import {
   createTestIdentifier,
   createTestJoke,
@@ -7,15 +6,10 @@ import {
 } from './helpers/api';
 import {
   BACKEND_URL,
+  FRONTEND_CONFIG_FILE,
   TEST_IDENTIFIER_NAME,
   TEST_STATE_FILE,
 } from './helpers/constants';
-
-// Path to the frontend config fetched by the browser (overrides API URL)
-const FRONTEND_CONFIG_FILE = path.resolve(
-  __dirname,
-  '../frontend/static/config/config.json',
-);
 
 export default async function globalSetup() {
   // Point frontend at the E2E backend port

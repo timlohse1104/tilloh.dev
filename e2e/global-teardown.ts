@@ -1,12 +1,6 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import { deleteTestIdentifier, deleteTestJoke } from './helpers/api';
-import { TEST_STATE_FILE } from './helpers/constants';
-
-const FRONTEND_CONFIG_FILE = path.resolve(
-  __dirname,
-  '../frontend/static/config/config.json',
-);
+import { FRONTEND_CONFIG_FILE, TEST_STATE_FILE } from './helpers/constants';
 
 export default async function globalTeardown() {
   if (!fs.existsSync(TEST_STATE_FILE)) {
@@ -30,7 +24,7 @@ export default async function globalTeardown() {
   fs.unlinkSync(TEST_STATE_FILE);
   console.log('[E2E] Test state cleaned up.');
 
-  // Frontend-Config wieder entfernen
+  // Remove frontend config
   if (fs.existsSync(FRONTEND_CONFIG_FILE)) {
     fs.unlinkSync(FRONTEND_CONFIG_FILE);
     console.log('[E2E] Frontend config removed.');
