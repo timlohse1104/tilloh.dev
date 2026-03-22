@@ -5,7 +5,7 @@ test.describe('Home-Seite und Navigation', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto(FRONTEND_URL);
     await authenticatedPage.waitForLoadState('networkidle');
-    // Warte auf Carbon Header (immer sichtbar) und dann auf main (nur wenn auth)
+    // Wait for main to be visible (only rendered when authenticated)
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
@@ -14,7 +14,7 @@ test.describe('Home-Seite und Navigation', () => {
   test('zeigt Navigations-Grid mit mindestens einer Kachel', async ({
     authenticatedPage,
   }) => {
-    // Carbon ContentSwitcher rendert Buttons mit dieser Klasse
+    // Carbon ContentSwitcher renders buttons with this class
     const navButtons = authenticatedPage.locator('.bx--content-switcher-btn');
     await expect(navButtons.first()).toBeVisible({ timeout: 10_000 });
     const count = await navButtons.count();
@@ -22,7 +22,7 @@ test.describe('Home-Seite und Navigation', () => {
   });
 
   test('Header ist sichtbar', async ({ authenticatedPage }) => {
-    // Custom Header rendert <section> mit .header_box (kein Carbon .bx--header)
+    // Custom Header renders <section> with .header_box (not Carbon's .bx--header)
     const header = authenticatedPage.locator('.header_box');
     await expect(header).toBeVisible({ timeout: 10_000 });
   });
@@ -30,7 +30,7 @@ test.describe('Home-Seite und Navigation', () => {
   test('Klick auf About-Kachel navigiert zur /about Route', async ({
     authenticatedPage,
   }) => {
-    // About-Button in der ContentSwitcher Navigation finden
+    // Find the About button in the ContentSwitcher navigation
     const aboutButton = authenticatedPage
       .locator('.bx--content-switcher-btn')
       .filter({ hasText: /About/i });
@@ -41,7 +41,7 @@ test.describe('Home-Seite und Navigation', () => {
         timeout: 10_000,
       });
     } else {
-      // Fallback: mindestens ein Button ist vorhanden
+      // Fallback: at least one button is present
       const anyButton = authenticatedPage.locator('.bx--content-switcher-btn');
       await expect(anyButton.first()).toBeVisible({ timeout: 5_000 });
     }

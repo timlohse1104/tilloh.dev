@@ -87,7 +87,7 @@
 
 {#if trackId}
   {#if masked}
-    <!-- Wrapper hält position: fixed aufrecht — Spotify API kann nur das innere div verändern -->
+    <!-- Wrapper keeps position: fixed intact — Spotify API can only modify the inner div -->
     <div class="hidden-embed-wrapper">
       <div bind:this={embedEl}></div>
     </div>
@@ -124,8 +124,8 @@
 {/if}
 
 <style>
-  /* Wrapper ist opacity:0 — iframe bleibt in normalem Render-Kontext,
-     Chrome throttelt keinen Audio aus sichtbaren iframes */
+  /* Wrapper is opacity:0 — iframe stays in a normal render context,
+     Chrome does not throttle audio from visible iframes */
   .hidden-embed-wrapper {
     position: absolute;
     top: 0;

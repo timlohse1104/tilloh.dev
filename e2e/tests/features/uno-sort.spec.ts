@@ -7,7 +7,7 @@ test.describe('Uno Sort', () => {
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
-    // Warte bis UNO-Heading sichtbar ist (Locale initialisiert)
+    // Wait until UNO heading is visible (locale initialized)
     await expect(authenticatedPage.locator('h1')).toBeVisible({
       timeout: 15_000,
     });
@@ -51,14 +51,14 @@ test.describe('Uno Sort', () => {
   });
 
   test('Reset setzt auf 7 Startkarten zurück', async ({ authenticatedPage }) => {
-    // Erst Karte ziehen
+    // Draw a card first
     const drawButton = authenticatedPage
       .locator('button.bx--btn')
       .filter({ hasText: /Draw|Zieh/i });
     await drawButton.click();
     await authenticatedPage.waitForTimeout(500);
 
-    // Reset klicken – Button hat Text "Reset"
+    // Click Reset — button text is "Reset"
     const resetButton = authenticatedPage
       .locator('button.bx--btn')
       .filter({ hasText: /Reset/i });

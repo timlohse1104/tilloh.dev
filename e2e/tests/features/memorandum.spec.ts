@@ -7,7 +7,7 @@ test.describe('Memorandum', () => {
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
-    // FAB ist sichtbar sobald der Preset-Store geladen hat
+    // FAB is visible once the preset store has loaded
     await expect(authenticatedPage.locator('#add_folder_button')).toBeVisible({
       timeout: 15_000,
     });
@@ -39,7 +39,7 @@ test.describe('Memorandum', () => {
     const modal = authenticatedPage.locator('.bx--modal.is-visible');
     await expect(modal).toBeVisible({ timeout: 10_000 });
 
-    // Warten bis Carbon-Modal-Animation abgeschlossen ist und Input interaktiv ist
+    // Wait until Carbon modal animation is complete and input is interactive
     const nameInput = modal.locator('.bx--text-input').first();
     await expect(nameInput).toBeEditable({ timeout: 5_000 });
     await nameInput.fill('E2E-Testordner');
@@ -48,7 +48,7 @@ test.describe('Memorandum', () => {
     // Speichern
     await modal.locator('.bx--btn--primary').click();
 
-    // Modal schließt sich und Ordner erscheint
+    // Modal closes and folder appears
     await expect(modal).not.toBeVisible({ timeout: 5_000 });
     await expect(
       authenticatedPage.locator('.folder_title', { hasText: 'E2E-Testordner' }),
@@ -58,14 +58,14 @@ test.describe('Memorandum', () => {
   test('Standard-Preset laden zeigt Ordner-Raster', async ({
     authenticatedPage,
   }) => {
-    // Zweite Startup-Kachel hat den "Preset laden"-Button
+    // Second startup card has the "load preset" button
     const presetButton = authenticatedPage
       .locator('.startup_card')
       .nth(1)
       .locator('button');
     await presetButton.click();
 
-    // Nach dem Laden sollten Ordner-Titel erscheinen
+    // After loading, folder titles should appear
     const folderTitles = authenticatedPage.locator('.folder_title');
     await expect(folderTitles.first()).toBeVisible({ timeout: 10_000 });
     const count = await folderTitles.count();

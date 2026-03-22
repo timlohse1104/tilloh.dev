@@ -7,7 +7,7 @@ test.describe('Einstellungen', () => {
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
-    // Warte bis SettingsDashboard geladen hat
+    // Wait until SettingsDashboard has loaded
     await expect(
       authenticatedPage.locator('.admin_dashboard_card').first(),
     ).toBeVisible({ timeout: 15_000 });
@@ -19,24 +19,24 @@ test.describe('Einstellungen', () => {
   });
 
   test('Theme-Schalter ist sichtbar', async ({ authenticatedPage }) => {
-    // Seite hat genau 2 Toggles: Theme (0) und Language (1)
+    // Page has exactly 2 toggles: Theme (0) and Language (1)
     const toggles = authenticatedPage.locator('.bx--toggle-input__label');
     await expect(toggles.first()).toBeVisible({ timeout: 10_000 });
-    // ☀️ Emoji ist auf der Seite sichtbar (ThemeSwitch)
+    // ☀️ emoji is visible on the page (ThemeSwitch)
     await expect(authenticatedPage.locator('text=☀️')).toBeVisible({
       timeout: 10_000,
     });
   });
 
   test('Sprachschalter ist sichtbar', async ({ authenticatedPage }) => {
-    // DE und EN Flaggen-Emojis sind sichtbar (LanguageSwitch)
+    // DE and EN flag emojis are visible (LanguageSwitch)
     await expect(authenticatedPage.locator('text=🇩🇪')).toBeVisible({
       timeout: 10_000,
     });
     await expect(authenticatedPage.locator('text=🇬🇧')).toBeVisible({
       timeout: 10_000,
     });
-    // Sprach-Toggle ist der zweite Toggle auf der Seite
+    // Language toggle is the second toggle on the page
     const langToggle = authenticatedPage
       .locator('.bx--toggle-input__label')
       .nth(1);
@@ -46,7 +46,7 @@ test.describe('Einstellungen', () => {
   test('Sprachschalter wechselt Sprache auf Englisch', async ({
     authenticatedPage,
   }) => {
-    // Ausgangszustand explizit auf DE setzen (Default ist 'en')
+    // Explicitly set initial state to DE (default is 'en')
     await authenticatedPage.evaluate(() =>
       localStorage.setItem('language', 'de'),
     );
@@ -55,17 +55,17 @@ test.describe('Einstellungen', () => {
       authenticatedPage.locator('.admin_dashboard_card').first(),
     ).toBeVisible({ timeout: 15_000 });
 
-    // Sprach-Toggle ist der zweite Toggle (Theme ist erster)
+    // Language toggle is the second toggle (Theme is first)
     const langToggle = authenticatedPage
       .locator('.bx--toggle-input__label')
       .nth(1);
     await expect(langToggle).toBeVisible({ timeout: 5_000 });
 
-    // DE → EN schalten
+    // Switch DE → EN
     await langToggle.click();
     await authenticatedPage.waitForTimeout(300);
 
-    // localStorage muss 'en' enthalten
+    // localStorage must contain 'en'
     const lang = await authenticatedPage.evaluate(() =>
       localStorage.getItem('language'),
     );
@@ -75,7 +75,7 @@ test.describe('Einstellungen', () => {
   test('Sprachänderung bleibt nach Reload erhalten', async ({
     authenticatedPage,
   }) => {
-    // Sprache auf Englisch setzen
+    // Set language to English
     await authenticatedPage.evaluate(() =>
       localStorage.setItem('language', 'en'),
     );
@@ -84,7 +84,7 @@ test.describe('Einstellungen', () => {
       authenticatedPage.locator('.admin_dashboard_card').first(),
     ).toBeVisible({ timeout: 15_000 });
 
-    // localStorage-Wert bleibt erhalten
+    // localStorage value persists
     const lang = await authenticatedPage.evaluate(() =>
       localStorage.getItem('language'),
     );

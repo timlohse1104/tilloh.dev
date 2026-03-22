@@ -15,13 +15,13 @@ export class UnoSort {
     this.handSizeElement = handSizeElement;
   }
 
-  // Hand des Spielers
+  // Player's hand
   private hand: Array<Card> = [];
-  // Deck erstellen
+  // Deck
   private stack: Array<Card> = [];
 
   public start(cardAmount: number) {
-    // Stapel erzeugen und mischen
+    // Generate and shuffle the deck
     this.generateStack();
     console.log(
       '-Anzahl-------------------------------------------------------------'
@@ -31,25 +31,25 @@ export class UnoSort {
       '-Gemischt-----------------------------------------------------------'
     );
     console.log(this.stack);
-    // Anzahl Karten ziehen
+    // Draw the specified number of cards
     this.pickCards(cardAmount);
     console.log(
       '-Spielerhand-unsortiert---------------------------------------------'
     );
     console.log(this.hand);
-    // Hand sortieren
+    // Sort hand
     this.sortHand();
     console.log(
       '-Spielerhand-sortiert-----------------------------------------------'
     );
     console.log(this.hand);
-    // Visualisieren
+    // Render
     this.printHand();
     this.printStackSize();
   }
 
   private generateStack() {
-    // Stapelkonfiguration
+    // Deck configuration
     const config = {
       numberCards: [
         {
@@ -326,7 +326,7 @@ export class UnoSort {
         },
       ],
     };
-    // Nummerkarten erzeugen
+    // Generate number cards
     config.numberCards.forEach((numberCard) => {
       for (let i = 1; i <= numberCard.amount; i++) {
         this.stack.push(
@@ -338,7 +338,7 @@ export class UnoSort {
         );
       }
     });
-    // Aktionskarten erzeugen
+    // Generate action cards
     config.actionCards.forEach((actionCard) => {
       for (let i = 1; i <= actionCard.amount; i++) {
         this.stack.push(
@@ -350,7 +350,7 @@ export class UnoSort {
         );
       }
     });
-    // Spezial Aktionskarten erzeugen
+    // Generate special action cards
     config.specialActionCards.forEach((specialActionCard) => {
       for (let i = 1; i <= specialActionCard.amount; i++) {
         this.stack.push(
@@ -358,16 +358,16 @@ export class UnoSort {
         );
       }
     });
-    // Stapel mischen
+    // Shuffle deck
     this.stack.sort(() => {
       return 0.5 - Math.random();
     });
   }
 
   private pickCards(cardAmount: number) {
-    // Ziehe Anzahl der Karten vom Stapel und lege sie in die Hand des Spielers
+    // Draw the specified number of cards from the deck into the player's hand
     for (let i = 1; i <= cardAmount; i++) {
-      // Unnötig, da man bei Uni die Karten auch nicht zufällig aus der Mitte nimmt!
+      // Unnecessary, since in UNO cards are not drawn randomly from the middle!
       // const randomNumber = Math.floor(Math.random() * this.stack.length);
       // this.hand.push(this.stack.splice(randomNumber, 1)[0]);
       this.hand.push(this.stack.pop());

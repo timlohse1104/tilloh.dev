@@ -11,14 +11,14 @@ import {
   TEST_STATE_FILE,
 } from './helpers/constants';
 
-// Pfad zur Frontend-Config die vom Browser gefetcht wird (überschreibt API-URL)
+// Path to the frontend config fetched by the browser (overrides API URL)
 const FRONTEND_CONFIG_FILE = path.resolve(
   __dirname,
   '../frontend/static/config/config.json',
 );
 
 export default async function globalSetup() {
-  // Frontend auf E2E-Backend-Port zeigen lassen
+  // Point frontend at the E2E backend port
   fs.writeFileSync(
     FRONTEND_CONFIG_FILE,
     JSON.stringify({ backendUrl: BACKEND_URL }),
@@ -35,7 +35,7 @@ export default async function globalSetup() {
 
   console.log('[E2E] Creating seed joke...');
   const testJokeId = await createTestJoke(
-    'E2E-Testwitz: Warum können Programmierer nicht schlafen? Weil sie keine Loops mögen.',
+    'E2E test joke: Why can programmers never sleep? Because they have too many loops.',
   );
   console.log(`[E2E] Seed joke created: ${testJokeId}`);
 

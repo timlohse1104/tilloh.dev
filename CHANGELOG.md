@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [global] Translate all German source code comments to English across e2e specs, frontend components, and utility files.
+
 ### Added
 
 - [e2e] E2E-Tests für Memorandum (5 Tests: Startup-Screen, Suchleiste, FAB-Modal, Ordner erstellen, Preset laden), Todo (5 Tests: Leer-Zustand, FAB, Menü-Modal, Liste erstellen, Todo hinzufügen) und Settings (5 Tests: Dashboard-Karten, Theme-Schalter, Sprachschalter, Sprache wechseln, Persistenz) hinzugefügt.

@@ -7,7 +7,7 @@ const classicGameStateKey = 'hitstar.classic.gameState';
 const rangeBestRoundKey = 'hitstar.range.bestRound';
 const rangeGameStateKey = 'hitstar.range.gameState';
 
-// Migration: alte Keys auf neue Keys
+// Migration: old keys to new keys
 if (browser) {
   const oldBestRound = localStorage.getItem('hitstar.bestRound');
   if (oldBestRound) {

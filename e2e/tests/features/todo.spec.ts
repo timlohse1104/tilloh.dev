@@ -1,7 +1,7 @@
 import { expect, test } from '../../fixtures/authenticated.fixture';
 import { FRONTEND_URL } from '../../helpers/constants';
 
-// localStorage-Key des todoStore
+// localStorage key for the todoStore
 const TODO_STORE_KEY = 'todos';
 
 test.describe('Todo', () => {
@@ -10,7 +10,7 @@ test.describe('Todo', () => {
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
-    // FAB immer sichtbar sobald Todo-Seite geladen hat
+    // FAB always visible once the Todo page has loaded
     await expect(authenticatedPage.locator('#list_menu_button')).toBeVisible({
       timeout: 15_000,
     });
@@ -19,7 +19,7 @@ test.describe('Todo', () => {
   test('zeigt Leer-Zustand wenn keine Listen vorhanden', async ({
     authenticatedPage,
   }) => {
-    // Keine Listen → Leer-Zustand mit h1
+    // No lists → empty state with h1
     await expect(authenticatedPage.locator('main h1')).toBeVisible({
       timeout: 10_000,
     });
@@ -42,20 +42,20 @@ test.describe('Todo', () => {
   test('Neue Liste erstellen erscheint in der Ansicht', async ({
     authenticatedPage,
   }) => {
-    // Menü öffnen
+    // Open menu
     await authenticatedPage.locator('#list_menu_button').click();
     const menuModal = authenticatedPage.locator('.bx--modal.is-visible');
     await expect(menuModal).toBeVisible({ timeout: 10_000 });
 
-    // "Neue Liste erstellen" Button klicken
+    // Click the "create new list" button
     const createButton = menuModal
       .locator('button.bx--btn')
       .filter({ hasText: /Neu|New|Erstell/i });
     await createButton.first().click();
 
-    // Direkt auf .create_list_section warten (eindeutig für TodoListOverlay)
-    // Nicht via .bx--modal.is-visible scropen – vermeidet Verwechslung mit dem
-    // schließenden Side-Menu-Modal während der Carbon-Animation
+    // Wait directly on .create_list_section (unique to TodoListOverlay)
+    // Do not scope via .bx--modal.is-visible — avoids confusion with the
+    // closing side-menu modal during Carbon animation
     const nameInput = authenticatedPage
       .locator('.create_list_section .bx--text-input')
       .first();
@@ -64,13 +64,13 @@ test.describe('Todo', () => {
     await nameInput.fill('E2E-Testliste');
     await authenticatedPage.waitForTimeout(200);
 
-    // Speichern (primärer Button im sichtbaren Modal)
+    // Save (primary button in the visible modal)
     await authenticatedPage
       .locator('.bx--modal.is-visible .bx--btn--primary')
       .first()
       .click();
 
-    // Die TodoList-Komponente erscheint (Input-Sektion wird sichtbar)
+    // The TodoList component appears (input section becomes visible)
     await expect(authenticatedPage.locator('.input_section')).toBeVisible({
       timeout: 10_000,
     });
@@ -79,7 +79,7 @@ test.describe('Todo', () => {
   test('Todo zu bestehender Liste hinzufügen', async ({
     authenticatedPage,
   }) => {
-    // Liste per localStorage vor dem Seitenaufruf einrichten
+    // Set up a list via localStorage before page load
     await authenticatedPage.evaluate((key) => {
       const list = [
         {
@@ -95,26 +95,26 @@ test.describe('Todo', () => {
       localStorage.setItem(key, JSON.stringify(list));
     }, TODO_STORE_KEY);
 
-    // Seite neu laden damit Store die Daten übernimmt
+    // Reload page so the store picks up the data
     await authenticatedPage.reload();
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
 
-    // Input-Sektion ist sichtbar (Liste existiert → TodoList rendert)
-    // .bx--text-input statt input[type="text"] für zuverlässigere Selektierung
+    // Input section is visible (list exists → TodoList renders)
+    // Use .bx--text-input instead of input[type="text"] for more reliable selection
     const todoInput = authenticatedPage
       .locator('.input_section .bx--text-input')
       .first();
     await expect(todoInput).toBeVisible({ timeout: 15_000 });
     await expect(todoInput).toBeEditable({ timeout: 5_000 });
 
-    // Todo-Titel eingeben und mit Enter bestätigen
+    // Enter todo title and confirm with Enter
     await todoInput.fill('E2E-Aufgabe');
     await todoInput.press('Enter');
     await authenticatedPage.waitForTimeout(300);
 
-    // Todo erscheint in der Liste
+    // Todo appears in the list
     const todoEntry = authenticatedPage.locator('text=E2E-Aufgabe');
     await expect(todoEntry).toBeVisible({ timeout: 10_000 });
   });

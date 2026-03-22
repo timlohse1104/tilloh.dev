@@ -18,7 +18,7 @@ test.describe('About-Seite', () => {
   });
 
   test('zeigt Code-Snippets', async ({ authenticatedPage }) => {
-    // Beide Code-Snippets müssen vorhanden sein
+    // Both code snippets must be present
     const codeSnippets = authenticatedPage.locator('.bx--snippet--multi');
     await expect(codeSnippets).toHaveCount(2, { timeout: 10_000 });
   });
@@ -26,7 +26,7 @@ test.describe('About-Seite', () => {
   test('i18n: Sprach-Wechsel auf Englisch ändert Intro-Text', async ({
     authenticatedPage,
   }) => {
-    // Setze Sprache auf Englisch via localStorage
+    // Set language to English via localStorage
     await authenticatedPage.evaluate(() => {
       localStorage.setItem('language', 'en');
     });
@@ -36,9 +36,9 @@ test.describe('About-Seite', () => {
     });
     await authenticatedPage.waitForTimeout(1000);
 
-    // Auf Deutsch: "mein Name ist Tim"
-    // Auf Englisch: "my name is Tim" (oder ähnlich)
-    // Der Test prüft, dass sich der Intro-Text unterscheidet (page-content reagiert auf locale)
+    // In German: "mein Name ist Tim"
+    // In English: "my name is Tim" (or similar)
+    // The test verifies that the intro text changes (page-content reacts to locale)
     const section = authenticatedPage.locator('section p').first();
     await expect(section).toBeVisible({ timeout: 10_000 });
   });

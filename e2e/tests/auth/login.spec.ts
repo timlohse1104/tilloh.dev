@@ -4,16 +4,16 @@ import { FRONTEND_URL, TEST_STATE_FILE } from '../../helpers/constants';
 
 test.describe('Login-Gate', () => {
   test.beforeEach(async ({ page }) => {
-    // Kein auth fixture – wir testen den echten Login-Flow
+    // No auth fixture — testing the real login flow
     await page.goto(FRONTEND_URL);
-    // Warte auf Login-Gate (kein Identifier → Passwort-Feld erscheint)
+    // Wait for login gate (no identifier → password field appears)
     await expect(page.locator('input[type="password"]')).toBeVisible({
       timeout: 15_000,
     });
   });
 
   test('zeigt Login-Gate wenn kein Identifier gesetzt ist', async ({ page }) => {
-    // localStorage leer → identifierStore = '' → isVerified = false
+    // localStorage empty → identifierStore = '' → isVerified = false
     const passwordInput = page.locator('input[type="password"]');
     await expect(passwordInput).toBeVisible({ timeout: 10_000 });
   });
@@ -25,12 +25,12 @@ test.describe('Login-Gate', () => {
     const passwordInput = page.locator('input[type="password"]');
     await expect(passwordInput).toBeVisible({ timeout: 10_000 });
 
-    // fill() + kurze Pause damit Svelte bind:value updaten kann
+    // fill() + short pause to allow Svelte bind:value to update
     await passwordInput.fill(testIdentifierId);
     await page.waitForTimeout(300);
     await passwordInput.press('Enter');
 
-    // Nach erfolgreichem Login soll main sichtbar sein
+    // After successful login, main should be visible
     await expect(page.locator('main')).toBeVisible({ timeout: 15_000 });
     await expect(passwordInput).not.toBeVisible();
   });

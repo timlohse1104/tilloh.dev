@@ -7,14 +7,14 @@ test.describe('Jokes-Seite', () => {
     await expect(authenticatedPage.locator('main')).toBeVisible({
       timeout: 15_000,
     });
-    // Warte bis Jokes-Komponente geladen ist (nicht mehr "Locale initializing...")
+    // Wait until the Jokes component is loaded (no longer "Locale initializing...")
     await expect(authenticatedPage.locator('h1')).toBeVisible({
       timeout: 15_000,
     });
   });
 
   test('zeigt Zufallswitz-Karte', async ({ authenticatedPage }) => {
-    // Warte auf die Witz-Kachel (erscheint wenn randomJoke.created gesetzt)
+    // Wait for the joke tile (appears when randomJoke.created is set)
     const jokeTile = authenticatedPage.locator('.bx--tile');
     await expect(jokeTile).toBeVisible({ timeout: 15_000 });
   });
@@ -27,7 +27,7 @@ test.describe('Jokes-Seite', () => {
   });
 
   test('lädt neuen Witz bei Button-Klick', async ({ authenticatedPage }) => {
-    // Erst Witz-Kachel abwarten
+    // Wait for joke tile first
     const jokeTile = authenticatedPage.locator('.bx--tile i');
     await expect(jokeTile).toBeVisible({ timeout: 15_000 });
     const initialText = await jokeTile.textContent();
@@ -59,7 +59,7 @@ test.describe('Jokes-Seite', () => {
     const modal = authenticatedPage.locator('.bx--modal.is-visible');
     await expect(modal).toBeVisible({ timeout: 10_000 });
 
-    // Close-Button des Carbon Modals klicken
+    // Click the Carbon modal close button
     await authenticatedPage.locator('.bx--modal-close').click();
     await expect(modal).not.toBeVisible({ timeout: 5_000 });
   });

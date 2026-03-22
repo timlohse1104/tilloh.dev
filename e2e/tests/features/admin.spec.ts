@@ -9,14 +9,14 @@ const test = base.extend<{ adminPage: typeof base.prototype.authenticatedPage }>
       timeout: 15_000,
     });
 
-    // Admin-Login-Gate erscheint (eigenes isVerified im admin layout)
+    // Admin login gate appears (separate isVerified in admin layout)
     const passwordInput = authenticatedPage.locator('input[type="password"]');
     await expect(passwordInput).toBeVisible({ timeout: 10_000 });
     await passwordInput.fill(ADMIN_IDENTIFIER);
     await authenticatedPage.waitForTimeout(300);
     await passwordInput.press('Enter');
 
-    // Warte auf Dashboard
+    // Wait for dashboard
     await expect(authenticatedPage.locator('.admin_overview')).toBeVisible({
       timeout: 15_000,
     });
@@ -66,7 +66,7 @@ test.describe('Admin-Bereich', () => {
   test('Dashboard zeigt Navigation mit Admin-Sub-Routen', async ({
     adminPage,
   }) => {
-    // Carbon ContentSwitcher rendert .bx--content-switcher-btn Buttons
+    // Carbon ContentSwitcher renders .bx--content-switcher-btn buttons
     const navButtons = adminPage.locator('.bx--content-switcher-btn');
     await expect(navButtons.first()).toBeVisible({ timeout: 10_000 });
   });
