@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [todo] Replace raw mobile-edit button with Carbon ghost Button; edit button now always visible directly before delete button; add subtle dark row background with hover highlight; add `--default_padding` gap between edit and delete buttons.
 - [global] Translate all German source code comments to English across e2e specs, frontend components, and utility files.
 
 ### Added
