@@ -5,6 +5,7 @@
   import { displayCategory, normalizeCategory } from '$lib/util/helper';
   import { todoStore } from '$lib/util/stores/store-todo';
   import { initialized, t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import Category from 'carbon-icons-svelte/lib/Category.svelte';
   import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
@@ -453,32 +454,32 @@
             {list?.name || $t('page.todos.list.noEmoji')}
           </h2>
           <div class="view_toggle">
-            <button
-              class="view_btn"
-              class:active={!isCategoryView}
+            <Button
+              kind={isCategoryView ? 'ghost' : 'secondary'}
+              size="small"
+              icon={List}
+              iconDescription={$t('page.todos.view.classic')}
+              tooltipAlignment="end"
               onclick={() => (isCategoryView = false)}
-              title={$t('page.todos.view.classic')}
-              aria-label={$t('page.todos.view.classic')}
-            >
-              <List size={16} />
-            </button>
-            <button
-              class="view_btn"
-              class:active={isCategoryView}
+            />
+            <Button
+              kind={isCategoryView ? 'secondary' : 'ghost'}
+              size="small"
+              icon={Category}
+              iconDescription={$t('page.todos.view.byCategory')}
+              tooltipAlignment="end"
               onclick={() => (isCategoryView = true)}
-              title={$t('page.todos.view.byCategory')}
-              aria-label={$t('page.todos.view.byCategory')}
-            >
-              <Category size={16} />
-            </button>
-            <button
-              class="view_btn"
-              onclick={deleteCompletedTodos}
-              title={$t('page.todos.view.cleanupCompleted')}
+            />
+            <span class="view_divider"></span>
+            <Button
+              kind="danger"
+              size="small"
+              icon={Clean}
+              iconDescription={$t('page.todos.view.cleanupCompleted')}
+              tooltipAlignment="end"
               disabled={!list?.todos.some((todo) => todo.done)}
-            >
-              <Clean size={16} />
-            </button>
+              onclick={deleteCompletedTodos}
+            />
           </div>
           <button
             class="header_toggle_btn"
@@ -682,47 +683,19 @@
 
   .view_toggle {
     display: flex;
-    gap: 2px;
+    gap: var(--default_padding);
     margin-left: auto;
+    align-items: center;
 
     @media #{$phone} {
       margin-left: 0;
     }
   }
 
-  .view_btn {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-    padding: 0.25rem;
-    line-height: 0;
-    flex-shrink: 0;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
-
-    @media #{$phone} {
-      min-height: 44px;
-      min-width: 44px;
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    &.active {
-      background: rgba(255, 255, 255, 0.12);
-      color: rgba(255, 255, 255, 1);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
-
-    &:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+  .view_divider {
+    width: 1px;
+    height: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   .list_content {
