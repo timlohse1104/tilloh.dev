@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [global] Fix GlobalMenu showing apps with inactive toggles: `getToggleValue` was defaulting to `true` when a toggle key was missing or unreachable, causing all apps to appear. Changed default to `false` so apps are only shown when their toggle is explicitly enabled.
 - [global] Fix letter-spacing not applying to text elements: Carbon CSS explicitly sets `letter-spacing` via its own tokens on `p`, `h1`, etc., overriding the inherited `body` value. Added `body * { letter-spacing: var(--letter-spacing) !important }` to enforce the global spacing across all child elements.
 
 ### Changed
