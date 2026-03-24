@@ -14,7 +14,7 @@
     token = $bindable(''),
     isVerified = $bindable(false),
     isAdminLogin = false,
-    callback = async () => {}
+    callback = async () => {},
   } = $props();
 
   // 3. STATE
@@ -60,7 +60,8 @@
 <div class="verify_content">
   <div>
     <PasswordInput
-      placeholder={isAdminLogin ? 'Admin ID' : 'User ID'}
+      placeholder={isAdminLogin ? $t('page.shared.login.adminPlaceholder') : $t('page.shared.login.placeholder')}
+      showPasswordLabel={$t('page.shared.login.showPasswordLabel')}
       size="xl"
       bind:value={token}
       on:keyup={(event) => {
