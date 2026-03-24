@@ -224,6 +224,10 @@ button:focus:not(:focus-visible) {
 }
 
 /* Carbon Accordion Overrides - Admin Lists*/
+.bx--accordion__content {
+  padding-left: 0;
+  padding-right: 0;
+}
 .admin_list_item_headline {
   display: flex;
   align-items: center;
@@ -238,13 +242,11 @@ button:focus:not(:focus-visible) {
   padding-left: calc(var(--default_padding) / 2);
   padding-right: calc(var(--default_padding) / 2);
   width: 100%;
+  box-sizing: border-box;
 }
 .admin_list_button_group {
   display: flex;
   gap: 0.25rem;
-}
-.custom_accordion_content .bx--accordion__content {
-  padding-right: 0;
 }
 
 /* Carbon Drop Container Overrides*/
