@@ -51,3 +51,6 @@ e2e/playwright-report
 e2e/.test-state.json
 e2e/.env.test
 frontend/static/config/config.json
+
+# Playwright MCP
+.playwright-mcp

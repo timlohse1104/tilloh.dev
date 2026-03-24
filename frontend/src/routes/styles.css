@@ -21,19 +21,20 @@
   --font-display:
     'Londrina Solid', 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', Courier, monospace;
-  --letter-spacing: 0.05em;
+  --letter-spacing: 0.06em;
 }
 
 body {
   margin: 0;
   overflow: hidden;
   font-family: var(--font-display) !important;
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: var(--letter-spacing) !important;
 }
 
+body *,
 [class*='bx--'] {
   font-family: var(--font-display) !important;
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: var(--letter-spacing) !important;
 }
 
 code,
@@ -223,6 +224,10 @@ button:focus:not(:focus-visible) {
 }
 
 /* Carbon Accordion Overrides - Admin Lists*/
+.bx--accordion__content {
+  padding-left: 0;
+  padding-right: 0;
+}
 .admin_list_item_headline {
   display: flex;
   align-items: center;
@@ -237,13 +242,17 @@ button:focus:not(:focus-visible) {
   padding-left: calc(var(--default_padding) / 2);
   padding-right: calc(var(--default_padding) / 2);
   width: 100%;
+  box-sizing: border-box;
 }
 .admin_list_button_group {
   display: flex;
   gap: 0.25rem;
 }
-.custom_accordion_content .bx--accordion__content {
-  padding-right: 0;
+.admin_list_item_content p {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.1rem 0;
 }
 
 /* Carbon Drop Container Overrides*/

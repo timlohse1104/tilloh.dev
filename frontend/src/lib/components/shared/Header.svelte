@@ -4,6 +4,8 @@
   import { sharedIdentifierStore } from '$lib/util/stores/store-other';
   import { t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+  import Cloud from 'carbon-icons-svelte/lib/Cloud.svelte';
+  import CloudOffline from 'carbon-icons-svelte/lib/CloudOffline.svelte';
   import GlobalMenu from './GlobalMenu.svelte';
 
   export let locale;
@@ -45,15 +47,12 @@
       <h2>
         <svelte:component this={currentPage?.icon} />
         {currentPage?.name?.[locale]}
-      </h2>
-
-      <p>
         {#if $sharedIdentifierStore.id}
-          <span style="color: green !important">🌐 Cloud</span>
+          <Cloud class="storage-icon storage-icon--cloud" />
         {:else}
-          <span style="color: red !important">📴 Lokal</span>
+          <CloudOffline class="storage-icon storage-icon--offline" />
         {/if}
-      </p>
+      </h2>
     </div>
 
     <GlobalMenu {locale} />
@@ -80,6 +79,15 @@
     h2 {
       margin: 0;
       font-size: 2em;
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+
+      :global(svg:first-child) {
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+      }
 
       @media #{$phone} {
         font-size: 1.2em;
@@ -88,17 +96,24 @@
   }
 
   :global(.bx--btn.home_button) {
+    @include carbon-icon-button;
     padding: 0;
     margin: 0;
     height: 3rem;
     width: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  p {
-    font-size: 0.8em;
-    margin: 0 0 0 1rem;
+  :global(.storage-icon) {
+    width: 0.75em;
+    height: 0.75em;
+    flex-shrink: 0;
+  }
+
+  :global(.storage-icon--cloud) {
+    color: #42be65;
+  }
+
+  :global(.storage-icon--offline) {
+    color: #fa4d56;
   }
 </style>

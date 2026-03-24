@@ -6,8 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- [home] Replace Navigation grid on homepage with a time-based greeting component that addresses the current user by their identifier (morning/afternoon/evening/night, DE + EN).
+
 ### Changed
 
+- [global] Replace broken date/ID emojis with Carbon `EventSchedule` and `Identification` icons across admin and feature components (Identifiers, Toggles, LinkPresets, Activities, Jokes, JokeOfTheDay).
+- [global] Redesign login screen: add logo, `tilloh.dev` title, and tagline above the login input; left-align branding with the input field; compensate PNG transparent padding via negative margin.
+- [global] Hide header and redirect to home route when no valid identifier is set; login input is shown full-screen without navigation elements.
+- [global] Replace emoji storage-state indicator (🌐/📴) in header with colored Carbon Cloud/CloudOffline icons displayed inline after the page title.
+- [global] Increase header route icon size to `1em` (relative to h2 font-size) and align it using flexbox with `gap: 0.3em`.
+
+### Fixed
+
+- [global] Fix GlobalMenu showing apps with inactive toggles: `getToggleValue` was defaulting to `true` when a toggle key was missing or unreachable, causing all apps to appear. Changed default to `false` so apps are only shown when their toggle is explicitly enabled.
+- [global] Fix letter-spacing not applying to text elements: Carbon CSS explicitly sets `letter-spacing` via its own tokens on `p`, `h1`, etc., overriding the inherited `body` value. Added `body * { letter-spacing: var(--letter-spacing) !important }` to enforce the global spacing across all child elements.
+
+### Changed
+
+- [todo] Replace raw view-toggle buttons with Carbon Buttons (ghost/secondary/danger); add vertical divider between view toggles and cleanup button; replace raw mobile-edit button with Carbon ghost Button; edit button now always visible directly before delete button; add subtle dark row background with hover highlight; add `--default_padding` gap between edit and delete buttons; indent category headers by `--default_padding / 2`.
 - [global] Translate all German source code comments to English across e2e specs, frontend components, and utility files.
 
 ### Added

@@ -8,9 +8,9 @@ export const getToggleValue = async (key: string) => {
   });
   if (toggleRes.statusCode && toggleRes.statusCode !== 200) {
     console.warn(
-      `Could not retrieve toggle value for ${key}. Defaulting to true.`,
+      `Could not retrieve toggle value for ${key}. Defaulting to false.`,
     );
-    return true;
+    return false;
   }
   return toggleRes?.value === 'true';
 };

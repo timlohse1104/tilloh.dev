@@ -8,6 +8,7 @@
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
   import CloudDownload from 'carbon-icons-svelte/lib/CloudDownload.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
   import { onMount } from 'svelte';
   import CreateJokeOverlay from './CreateJokeOverlay.svelte';
 
@@ -34,7 +35,7 @@
     {#if randomJoke?.created}
       <Tile class="random_joke mt2">
         <i>{randomJoke.text}</i>
-        <p>📅{formatDate(randomJoke.created)}</p>
+        <p><EventSchedule />{formatDate(randomJoke.created)}</p>
       </Tile>
     {/if}
 
@@ -83,6 +84,12 @@
 
   :global(.random_joke) {
     padding: 2rem;
+  }
+
+  :global(.random_joke p) {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
   :global(#add_joke_button) {

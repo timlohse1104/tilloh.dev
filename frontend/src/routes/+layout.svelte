@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { browser } from '$app/environment';
+  import { goto } from '$app/navigation';
+  import { verifyId } from '$lib/api/admin.api';
   import GlobalLogin from '$lib/components/shared/GlobalLogin.svelte';
   import Header from '$lib/components/shared/Header.svelte';
   import { backgroundStore } from '$lib/util/stores/store-background';
@@ -17,10 +19,24 @@
   import '@fontsource/londrina-solid';
   import 'carbon-components-svelte/css/all.css';
   import './styles.css';
+  import { onMount } from 'svelte';
 
   $: isVerified = $identifierStore ? true : false;
+  $: if (!isVerified && browser) goto('/');
+
+  onMount(async () => {
+    if ($identifierStore) {
+      try {
+        const result = await verifyId($identifierStore, 'user');
+        if (!result?.isVerified) {
+          $identifierStore = '';
+        }
+      } catch {
+        $identifierStore = '';
+      }
+    }
+  });
   $: locale = $languageStore;
-  $: isAdminRoute = $page.url.pathname.replace('/', '') === 'admin';
   $: theme = $themeStore;
   $: document.documentElement.setAttribute('theme', theme);
   $: getAppClasses = `app background_${$backgroundStore}_${$themeStore === darkThemeValue ? 'dark' : 'light'}`;
@@ -45,11 +61,13 @@
     </div>
   {/if}
 
-  <Header {locale} />
+  {#if isVerified}
+    <Header {locale} />
+  {/if}
 
   {#if !isVerified}
     <div class="login_container">
-      <GlobalLogin {isVerified} isAdminLogin={isAdminRoute} />
+      <GlobalLogin {isVerified} />
     </div>
   {:else}
     <main>
@@ -103,8 +121,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
-    height: 80dvh;
+    height: 100vh;
+    height: 100dvh;
   }
 
   .confetti_container {

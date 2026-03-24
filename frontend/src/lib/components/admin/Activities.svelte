@@ -5,7 +5,9 @@
   import AccordionItem from 'carbon-components-svelte/src/Accordion/AccordionItem.svelte';
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
   import FaceActivated from 'carbon-icons-svelte/lib/FaceActivated.svelte';
+  import Identification from 'carbon-icons-svelte/lib/Identification.svelte';
   import Information from 'carbon-icons-svelte/lib/Information.svelte';
   import Link from 'carbon-icons-svelte/lib/Link.svelte';
   import User from 'carbon-icons-svelte/lib/User.svelte';
@@ -56,12 +58,8 @@
           </svelte:fragment>
           <div class="admin_list_item_content">
             <div>
-              <p>
-                📅{new Date(activity.updated).toLocaleString('de-DE')}
-              </p>
-              <p>
-                🆔{activity.id}
-              </p>
+              <p><EventSchedule />{new Date(activity.updated).toLocaleString('de-DE')}</p>
+              <p><Identification />{activity.id}</p>
             </div>
             <CopyButton
               text={activity.id}

@@ -12,7 +12,9 @@
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
   import FaceActivated from 'carbon-icons-svelte/lib/FaceActivated.svelte';
+  import Identification from 'carbon-icons-svelte/lib/Identification.svelte';
   import TaskApproved from 'carbon-icons-svelte/lib/TaskApproved.svelte';
   import ThumbsUp from 'carbon-icons-svelte/lib/ThumbsUp.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
@@ -76,13 +78,9 @@
           </svelte:fragment>
           <div class="admin_list_item_content">
             <div>
-              <p>
-                ✨{formatDate(joke.created)}
-                📅{formatDate(joke.updated)}
-              </p>
-              <p>
-                🆔{joke._id}
-              </p>
+              <p><EventSchedule />{formatDate(joke.created)}</p>
+              <p><EventSchedule />{formatDate(joke.updated)}</p>
+              <p><Identification />{joke._id}</p>
             </div>
             <div class="admin_list_button_group">
               {#if !joke.verified && joke.verified !== undefined}

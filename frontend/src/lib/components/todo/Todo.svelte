@@ -195,16 +195,21 @@
     </div>
   {/if}
   <div
+    class="actions"
     onclick={(e) => e.stopPropagation()}
     onkeydown={(e) => e.key === 'Enter' && e.stopPropagation()}
     role="button"
     tabindex="-1"
-    style="display: contents;"
   >
     {#if !isRenaming}
-      <button class="mobile-edit-btn" onclick={startEdit} title={$t('page.todos.editTodo')}>
-        <Edit size={16} />
-      </button>
+      <Button
+        kind="ghost"
+        size="small"
+        iconDescription={$t('page.todos.editTodo')}
+        tooltipAlignment="end"
+        icon={Edit}
+        onclick={startEdit}
+      />
     {/if}
     <Button
       kind="danger"
@@ -229,23 +234,17 @@
 <style lang="scss">
   section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-top: 0.5rem;
     gap: 0.5rem;
     padding: 0.5rem;
     border-radius: 4px;
     cursor: pointer;
-    transition:
-      background-color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-    background-color: transparent;
+    transition: background-color 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.2);
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.08);
-      transform: translateX(4px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -253,6 +252,14 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    gap: var(--default_padding);
   }
 
   .checkbox-wrapper :global(.bx--checkbox-wrapper) {
@@ -335,28 +342,6 @@
     font-family: var(--font-mono);
     font-weight: 600;
     margin-right: 0.25rem;
-  }
-
-  .mobile-edit-btn {
-    display: none;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    @media only screen and (max-width: 767px) {
-      display: flex;
-      min-height: 44px;
-      min-width: 44px;
-    }
   }
 
   .edit-container :global(.bx--btn--sm) {

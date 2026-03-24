@@ -5,6 +5,7 @@
   import { formatDate } from '$lib/util/format';
   import { initialized, t } from '$lib/util/translations';
   import Tile from 'carbon-components-svelte/src/Tile/Tile.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
   import { onMount } from 'svelte';
 
   // 2. PROPS
@@ -25,7 +26,7 @@
       <Tile style="padding:2rem;" class="joke_tile">
         <h3>{$t('page.home.jokeTitle')}</h3>
         <i>{joke.text}</i>
-        <p>📅{formatDate(joke.created)}</p>
+        <p><EventSchedule />{formatDate(joke.created)}</p>
       </Tile>
     {:else}
       <p>{$t('page.home.jokeLoading')}</p>
@@ -66,6 +67,9 @@
   }
 
   p {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     font-size: 0.75rem;
     margin-bottom: 0;
     margin-top: 0.75rem;

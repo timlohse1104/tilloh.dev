@@ -2,6 +2,12 @@ $phone: 'only screen and (max-width : 767px)';
 $tablet: 'only screen and (max-width : 1152px)';
 $wide: 'only screen and (min-width : 2200px)';
 
+@mixin carbon-icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @mixin mem_button {
   margin: 0;
   padding: 0;

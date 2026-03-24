@@ -12,7 +12,9 @@
   import CopyButton from 'carbon-components-svelte/src/CopyButton/CopyButton.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
   import FingerprintRecognition from 'carbon-icons-svelte/lib/FingerprintRecognition.svelte';
+  import Identification from 'carbon-icons-svelte/lib/Identification.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import InputWithButton from '../shared/custom-carbon-components/InputWithButton.svelte';
 
@@ -78,13 +80,9 @@
           </svelte:fragment>
           <div class="admin_list_item_content">
             <div>
-              <p>
-                ✨{new Date(identifier.created).toLocaleString('de-DE')}
-                📅{new Date(identifier.updated).toLocaleString('de-DE')}
-              </p>
-              <p>
-                🆔{identifier._id}
-              </p>
+              <p><EventSchedule />{new Date(identifier.created).toLocaleString('de-DE')}</p>
+              <p><EventSchedule />{new Date(identifier.updated).toLocaleString('de-DE')}</p>
+              <p><Identification />{identifier._id}</p>
             </div>
             <div class="admin_list_button_group">
               <CopyButton

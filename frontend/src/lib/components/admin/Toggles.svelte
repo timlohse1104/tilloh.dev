@@ -13,6 +13,8 @@
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import Toggle from 'carbon-components-svelte/src/Toggle/Toggle.svelte';
   import Add from 'carbon-icons-svelte/lib/Add.svelte';
+  import EventSchedule from 'carbon-icons-svelte/lib/EventSchedule.svelte';
+  import Identification from 'carbon-icons-svelte/lib/Identification.svelte';
   import RadioButtonChecked from 'carbon-icons-svelte/lib/RadioButtonChecked.svelte';
   import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
   import { fade } from 'svelte/transition';
@@ -111,13 +113,9 @@
           </svelte:fragment>
           <div class="admin_list_item_content">
             <div>
-              <p>
-                ✨{new Date(toggle.created).toLocaleString('de-DE')}
-                📅{new Date(toggle.updated).toLocaleString('de-DE')}
-              </p>
-              <p>
-                🆔{toggle._id}
-              </p>
+              <p><EventSchedule />{new Date(toggle.created).toLocaleString('de-DE')}</p>
+              <p><EventSchedule />{new Date(toggle.updated).toLocaleString('de-DE')}</p>
+              <p><Identification />{toggle._id}</p>
             </div>
             <div class="admin_list_button_group">
               <Toggle
