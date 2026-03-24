@@ -326,6 +326,7 @@
   "page.shared.button.github": "Open github page",
   "page.shared.button.stadtwerk": "Open stadtwerk page",
   "page.shared.button.settings": "Open settings",
+  "page.shared.login.tagline": "Your personal toolbox.",
   "page.shared.login.placeholder": "Login",
   "page.shared.login.adminPlaceholder": "Admin Login",
   "page.shared.login.showPasswordLabel": "Show password",
