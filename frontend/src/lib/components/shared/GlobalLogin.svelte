@@ -105,6 +105,19 @@
   .input_row {
     display: flex;
     align-items: stretch;
+    width: 40%;
+
+    @media #{$tablet} {
+      width: 60%;
+    }
+
+    @media #{$phone} {
+      width: 95%;
+    }
+  }
+
+  :global(.bx--text-input-wrapper) {
+    width: 100%;
   }
 
   :global(.bx--btn.login_button) {
