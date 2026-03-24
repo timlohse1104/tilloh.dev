@@ -248,6 +248,12 @@ button:focus:not(:focus-visible) {
   display: flex;
   gap: 0.25rem;
 }
+.admin_list_item_content p {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.1rem 0;
+}
 
 /* Carbon Drop Container Overrides*/
 .bx--file__drop-container {

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [global] Replace broken date/ID emojis with Carbon `EventSchedule` and `Identification` icons across admin and feature components (Identifiers, Toggles, LinkPresets, Activities, Jokes, JokeOfTheDay).
 - [global] Hide header and redirect to home route when no valid identifier is set; login input is shown full-screen without navigation elements.
 - [global] Replace emoji storage-state indicator (🌐/📴) in header with colored Carbon Cloud/CloudOffline icons displayed inline after the page title.
 - [global] Increase header route icon size to `1em` (relative to h2 font-size) and align it using flexbox with `gap: 0.3em`.
