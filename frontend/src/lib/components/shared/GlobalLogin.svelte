@@ -5,8 +5,10 @@
   import { identifierStore } from '$lib/util/stores/store-identifier';
   import { celebrate } from '$lib/util/stores/stores-global';
   import { t } from '$lib/util/translations';
+  import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
   import PasswordInput from 'carbon-components-svelte/src/TextInput/PasswordInput.svelte';
+  import Login from 'carbon-icons-svelte/lib/Login.svelte';
   import { fade } from 'svelte/transition';
 
   // 2. PROPS
@@ -58,7 +60,7 @@
 </script>
 
 <div class="verify_content">
-  <div>
+  <div class="input_row">
     <PasswordInput
       placeholder={isAdminLogin ? $t('page.shared.login.adminPlaceholder') : $t('page.shared.login.placeholder')}
       showPasswordLabel={$t('page.shared.login.showPasswordLabel')}
@@ -68,6 +70,7 @@
         if (isEnter(event)) verify();
       }}
     />
+    <Button kind="primary" icon={Login} iconDescription="Login" on:click={verify} class="login_button" />
   </div>
 </div>
 
@@ -95,5 +98,19 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+  }
+
+  .input_row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  :global(.bx--btn.login_button) {
+    min-height: unset;
+    height: 100%;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
