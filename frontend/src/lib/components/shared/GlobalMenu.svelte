@@ -94,24 +94,13 @@
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
-  :global(.bx--btn.global_menu) {
-    padding: 0;
-    margin: 0;
-    height: 3rem;
-    width: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+  :global(.bx--btn.global_menu),
   :global(.bx--btn.global_menu_footer_buttons) {
+    @include carbon-icon-button;
     padding: 0;
     margin: 0;
     height: 3rem;
     width: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   aside {

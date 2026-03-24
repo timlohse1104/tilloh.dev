@@ -91,6 +91,8 @@
 {/if}
 
 <style lang="scss">
+  @use '../../styles/variables.scss' as *;
+
   .verify_content {
     display: flex;
     flex-direction: column;
@@ -106,11 +108,9 @@
   }
 
   :global(.bx--btn.login_button) {
+    @include carbon-icon-button;
     min-height: unset;
     height: 100%;
     padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 </style>

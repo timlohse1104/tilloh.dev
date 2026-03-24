@@ -96,13 +96,11 @@
   }
 
   :global(.bx--btn.home_button) {
+    @include carbon-icon-button;
     padding: 0;
     margin: 0;
     height: 3rem;
     width: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   :global(.storage-icon) {
