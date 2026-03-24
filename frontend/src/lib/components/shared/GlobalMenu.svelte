@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { activeApplicationRoutes, utilityRoutes } from '$lib/config/applications';
+  import {
+    activeApplicationRoutes,
+    utilityRoutes,
+  } from '$lib/config/applications';
   import { initialized, t } from '$lib/util/translations';
   import Button from 'carbon-components-svelte/src/Button/Button.svelte';
   import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
@@ -62,29 +65,7 @@
     </ul>
 
     <footer>
-      <Button
-        kind="tertiary"
-        iconDescription={$t('page.shared.button.github')}
-        href="https://github.com/timlohse1104"
-        target="_blank"
-        class="global_menu_footer_buttons"
-      >
-        <img src={'/images/links/github-dark.svg'} alt="GitHub" />
-      </Button>
       <p>{$t('page.shared.madeByText')}</p>
-      <Button
-        kind="tertiary"
-        iconDescription={$t('page.shared.button.stadtwerk')}
-        href="https://stadtwerk.org"
-        target="_blank"
-        class="global_menu_footer_buttons"
-      >
-        <img
-          src={'/images/links/stadtwerk-logo.svg'}
-          style="height: 3em;"
-          alt="stadtwerk"
-        />
-      </Button>
     </footer>
   {:else}
     <section>Locale initializing...</section>
@@ -94,8 +75,7 @@
 <style lang="scss">
   @use '../../styles/variables.scss' as *;
 
-  :global(.bx--btn.global_menu),
-  :global(.bx--btn.global_menu_footer_buttons) {
+  :global(.bx--btn.global_menu) {
     @include carbon-icon-button;
     padding: 0;
     margin: 0;
@@ -212,36 +192,9 @@
   footer {
     position: fixed;
     bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
-    left: 0;
     width: 100%;
-    text-align: center;
     font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @media #{$phone} {
-      font-size: 0.7rem;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-    }
-
-    p {
-      margin: 0 2rem 0 2rem;
-
-      @media #{$phone} {
-        font-size: 0.7rem;
-        margin: 0;
-        width: 100%;
-        order: -1;
-      }
-    }
-
-    img {
-      width: 2em;
-      height: 2em;
-      object-fit: contain;
-    }
+    padding-left: calc(var(--default_padding) * 2);
   }
 
   @starting-style {

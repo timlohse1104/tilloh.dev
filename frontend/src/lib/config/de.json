@@ -26,7 +26,6 @@
   "page.home.greetingAnonNight0": "Nabend, so spät noch auf?",
   "page.home.greetingAnonNight1": "Schön, dass noch jemand wach ist, zu dieser späten Stunde!",
   "page.home.greetingAnonNight2": "Was treibt dich um diese Uhrzeit noch hierher?",
-
   "page.about.introduction": "mein Name ist Tim, Softwareentwickler aus Norddeutschland. Ich habe im Finanzamt gearbeitet, ein duales Studium im Vertrieb abgebrochen und wahre Leidenschaft in der Programmierung, speziell in der Web- / Infrastruktur-Entwicklung bei @otto und @stadtwerk.",
   "page.about.weirdJsText1": "Ich probiere gerne neue und verrückte Dinge aus <a href=\"https://github.com/timlohse1104/js-implicit-type-coercion/blob/main/tc-compiler/compiler.js\">wie das</a>",
   "page.about.weirdJsText2": "oder <a href=\"https://github.com/timlohse1104/adventofcode/blob/main/2022/07/solution.js\">wie das</a>",
@@ -303,7 +302,7 @@
   "page.admin.activities.created": "erstellt",
   "page.admin.activities.updated": "aktualisiert",
   "page.shared.burgerMenuTitle": "Anwendungen",
-  "page.shared.madeByText": "Entwickelt von Tilloh mit 💙",
+  "page.shared.madeByText": "Mit 💙 von Tilloh entwickelt!",
   "page.shared.toggledSiteHeadline": "Diese Anwendung wurde vorübergehend deaktiviert.",
   "page.shared.toggledSiteTryAgainText": "Versuche es später erneut. ¯\\_(ツ)_/¯",
   "page.shared.toggledSiteBackButtonText": "Zurück zur Startseite",
